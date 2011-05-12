@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+		<f:view>
+			<f:loadBundle basename="bundle.admin" var="messages" />
+
+			<h:form id="profileForm">
+				
+				<h2><h:outputText value="#{messages.title_profiles}" /></h2>
+
+
+				<rich:dataTable id="profiles_datatable_id" columns="6"
+					value="#{profileMB.workitems}" var="record">
+					<f:facet name="caption">
+						<h:outputText value="#{messages.sub_title_all}" />
+					</f:facet>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="#{messages.name}" />
+						</f:facet>	
+						<h:graphicImage value="/layout/icons/unlocked.gif"
+							rendered="#{record.item['$processid'] ge 210}" />
+						<h:graphicImage value="/layout/icons/locked.gif"
+							rendered="#{record.item['$processid'] lt 210}" />					
+						<h:commandLink actionListener="#{profileMB.doEdit}"
+							action="admin_profile">
+							<h:outputText value="#{record.item['txtName']} " />
+						</h:commandLink>
+					</rich:column>
+				
+
+					<rich:column width="110">
+						<f:facet name="header">
+							<h:outputText value="#{global.created}" />
+						</f:facet>
+							<h:outputText value="#{record.item['$created']}">
+							<f:convertDateTime type="both" dateStyle="short"
+								pattern="dd.MM.yy HH:mm:ss" />
+						</h:outputText>
+					</rich:column>
+
+					<rich:column width="110">
+						<f:facet name="header">
+							<h:outputText value="#{messages.lastlogin}" />
+						</f:facet>
+						<h:outputText value="#{record.item['datLastLogin']}">
+							<f:convertDateTime type="both" dateStyle="short"
+								pattern="dd.MM.yy HH:mm:ss" />
+						</h:outputText>
+						<h:outputText rendered="#{record.item['numLoginCount'] gt 0}" value=" (#{record.item['numLoginCount']})" />
+					</rich:column>
+
+				
+					
+				
+
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="#{messages.status}" />
+						</f:facet>
+						<h:outputText value="#{record.item['txtWorkflowStatus']}" />
+					</rich:column>
+
+
+					
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value=" " />
+						</f:facet>
+						<h:graphicImage url="/layout/img/flag_#{record.item['txtLocale']}.gif"
+								alt="#{record.item['txtLocale']}"
+								style="border:0px;vertical-align: text-top;"></h:graphicImage>
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="#{messages.email}" />
+						</f:facet>
+						<h:outputText value="#{record.item['txtEmail']} " />
+					</rich:column>
+
+				
+
+				</rich:dataTable>
+
+				<h:commandButton actionListener="#{profileMB.doLoadPrev}"
+					disabled="#{profileMB.row==0}" value="#{global.prev}">
+				</h:commandButton>
+
+				<h:commandButton actionListener="#{profileMB.doLoadNext}"
+					disabled="#{profileMB.endOfList}" value="#{global.next}">
+				</h:commandButton>
+
+
+
+
+
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

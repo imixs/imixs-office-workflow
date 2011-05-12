@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+	<h:form>
+		<rich:panel styleClass="sywapp-commandbox" rendered="#{loginMB.authenticated}">
+			<f:facet name="header">
+						<h:outputText value="#{global.dashbord}" />
+					</f:facet>
+			<ul>
+			
+				<li style="margin-bottom:10px;">
+						<h:commandLink actionListener="#{searchMB.doClear}"
+								action="notes">
+								<h:outputText value="Home" />
+							</h:commandLink>
+				</li>
+				
+				
+				
+				
+				<li><h:commandLink action="open_worklist"
+					actionListener="#{worklistMB.doSwitchToWorklistByOwner}">
+					<h:outputText value="#{global.open_worklist_by_owner}" />
+				</h:commandLink></li>
+
+				<li><h:commandLink action="open_worklist"
+					actionListener="#{worklistMB.doSwitchToWorklistByCreator}">
+					<h:outputText value="#{global.open_worklist_by_creator}" />
+				</h:commandLink></li>
+
+				<li><a4j:commandLink id="searchlist" actionListener="#{searchMB.doClear}"
+					action="open_searchlist"	value="#{global.search}">
+					</a4j:commandLink>
+					
+				
+					
+					
+					<!-- init searchMB with dummy EL condition #{searchMB.item['txtWorkflowGroup']} -->
+					</li>
+				<li><h:commandLink action="open_my_settings"
+					value="#{global.open_my_settings}">
+				</h:commandLink></li>
+			</ul>
+		</rich:panel>
+	</h:form>
+</ui:composition>
+
+

@@ -1,0 +1,127 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<f:view>
+		<h:form>
+			<ul>
+				
+
+				<!-- Different for signed in and anoymous users -->
+				<c:choose>
+					<!--  Singed in user -->
+					<c:when test="#{loginMB.authenticated}">
+						<li style="margin-bottom:10px;">
+							<h:commandLink actionListener="#{searchMB.doClear}"
+								action="notes">
+								<h:outputText value="Home" />
+							</h:commandLink>
+						</li>
+				
+					
+						<li>
+							<b><h:outputText
+								value="#{global.signed_in}: #{myProfileMB.item['txtName']}" /></b>
+						</li>
+						<li>
+							<a
+								href="#{facesContext.externalContext.requestContextPath}/logout.jsp">
+							<h:outputText value="#{global.sign_out}" /></a>
+						</li>
+					</c:when>
+					
+					
+					<c:otherwise>
+						<li><a
+								href="#{facesContext.externalContext.requestContextPath}/">Home</a>
+						</li>					
+					</c:otherwise>
+					
+				</c:choose>
+			
+				<li><a
+					href="http://www.office-workflow.de"><h:outputText value="#{global.about}"/></a>
+				</li>
+				
+				<li><a
+					href="http://www.imixs.com"><h:outputText value="Imixs.com"/></a>
+				</li>
+				
+				<!-- Different for signed in and anoymous users -->
+				<c:choose>
+					<!--  Singed in user -->
+					<c:when test="#{loginMB.authenticated}">
+						<li><h:commandLink action="open_my_settings">
+							<h:graphicImage url="/layout/img/flag_#{loginMB.locale}.gif"
+								alt="#{global.swich_language}"
+								style="border:0px;vertical-align: text-top;margin-right:0.5em"></h:graphicImage>
+						</h:commandLink></li>
+
+					</c:when>
+					<!-- Ananymous User -->
+					<c:otherwise>
+						<li><a4j:commandLink id="change_language_link">
+							<h:graphicImage url="/layout/img/flag_#{loginMB.locale}.gif"
+								alt="#{global.swich_language}"
+								style="border:0px;vertical-align: text-top;margin-right:0.5em"></h:graphicImage>
+						</a4j:commandLink> <rich:componentControl for="language_panel"
+							attachTo="change_language_link" operation="show" event="onclick" />
+						</li>
+					</c:otherwise>
+				</c:choose>
+				
+				
+			</ul>
+		</h:form>
+
+		<rich:modalPanel id="language_panel" width="500" height="150">
+
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputText value="#{global.swich_language}"></h:outputText>
+				</h:panelGroup>
+			</f:facet>
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/layout/img/close.png"
+						style="cursor:pointer" id="hidelink" />
+					<rich:componentControl for="language_panel" attachTo="hidelink"
+						operation="hide" event="onclick" />
+				</h:panelGroup>
+			</f:facet>
+
+			<a4j:form ajaxSubmit="true" reRender="currentlang">
+
+
+				<h:outputText value="#{global.swich_language_help2}"></h:outputText>
+				<br />
+				<br />
+				<h:outputText value="#{global.swich_language_help1}: "></h:outputText>
+				<h:selectOneMenu id="locale_id" layout="pageDirection"
+					value="#{loginMB.anonymouslocale}">
+					<f:selectItems value="#{loginMB.localeSelection}" />
+				</h:selectOneMenu>
+				<br />
+				<br />
+				<a href="#" onclick="#{rich:component('language_panel')}.hide()">
+				<h:outputText value="#{global.cancel}" /></a>
+
+				<rich:spacer width="24px" />
+				<a4j:commandLink actionListener="#{loginMB.doChangeLanguage}"
+				action="home">
+					<h:outputText value="#{global.ok}" />
+				</a4j:commandLink>
+			</a4j:form>
+
+		</rich:modalPanel>
+
+
+	</f:view>
+
+</ui:composition>
+
+

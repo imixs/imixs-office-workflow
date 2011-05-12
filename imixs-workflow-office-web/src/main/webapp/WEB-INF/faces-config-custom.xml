@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+	version="1.2">
+
+	<!-- Custom Faces Config file -->
+
+
+	
+	<managed-bean>
+		<managed-bean-name>contactMB</managed-bean-name>
+		<managed-bean-class>
+			org.imixs.sywapps.web.contact.ContactMB
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+	
+	
+	<managed-bean>
+		<managed-bean-name>searchMB</managed-bean-name>
+		<managed-bean-class>
+			org.imixs.sywapps.web.office.SearchMB
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+		
+	<managed-bean>
+		<managed-bean-name>projectWizzardMB</managed-bean-name>
+		<managed-bean-class>
+			org.imixs.sywapps.web.project.ProjectWizzardMB
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+	
+	<managed-bean>
+		<managed-bean-name>commentMB</managed-bean-name>
+		<managed-bean-class>
+			org.imixs.sywapps.web.office.CommentMB
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+	
+	
+	<managed-bean>
+		<managed-bean-name>modelManagerMB</managed-bean-name>
+		<managed-bean-class>
+			org.imixs.sywapps.web.admin.ModelManagerMB
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+	
+	
+	<navigation-rule>
+	
+		<navigation-case>
+			<from-outcome>contact_ok</from-outcome>
+			<to-view-id>/contact_ok.xhtml
+			</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>wizzard</from-outcome>
+			<to-view-id>/pages/welcome.xhtml
+			</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>open_searchlist</from-outcome>
+			<to-view-id>/pages/workitems/searchlist.xhtml
+			</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<!-- *** Administration *** -->
+		<navigation-case>
+			<from-outcome>admin_profilelist</from-outcome>
+			<to-view-id>/pages/admin/profilelist.xhtml
+			</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>admin_profile</from-outcome>
+			<to-view-id>/pages/admin/profile.xhtml
+			</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>admin_config</from-outcome>
+			<to-view-id>/pages/admin/config.xhtml
+			</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>admin_projectlist</from-outcome>
+			<to-view-id>/pages/admin/projectlist.xhtml
+			</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>admin_project</from-outcome>
+			<to-view-id>/pages/admin/project.xhtml
+			</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		
+		<navigation-case>
+			<from-outcome>admin_model</from-outcome>
+			<to-view-id>/pages/admin/modellist.xhtml
+			</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		
+	</navigation-rule>
+</faces-config>

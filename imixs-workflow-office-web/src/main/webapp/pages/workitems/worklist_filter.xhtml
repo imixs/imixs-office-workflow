@@ -1,0 +1,49 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" id="worklist_searchfilter_id">
+
+
+			<!-- *** Search Filter *** -->
+			<a4j:outputPanel id="worklist_search_panel" layout="block" styleClass="sywapp-viewentry">
+				<h:outputText value="#{projectMB.item['txtdescription']}" />
+				
+
+
+				<dl>
+					
+					<dd><h:outputLabel value="#{global.filter}: "/>
+					<h:selectOneMenu id="group_filter"
+						value="#{searchMB.item['txtWorkflowGroup']}">
+						<f:selectItem itemLabel="#{messages.search_all}" itemValue="-" />
+							<f:selectItems value="#{modelMB.workflowGroups}"/>
+						<a4j:support event="onchange" reRender="worklist_id,process_filter"
+							actionListener="#{searchMB.doSearch}"
+							 />
+					</h:selectOneMenu>
+					
+					
+					<h:outputLabel value="#{global.status}: "/>
+					
+					<h:selectOneMenu id="process_filter"
+						value="#{searchMB.item['txtProcessID']}">
+						<f:selectItem itemLabel="#{messages.search_all}" itemValue="-" />
+						
+							<f:selectItems value="#{searchMB.processListByGroup}"/>
+						<a4j:support event="onchange" reRender="worklist_id"
+							actionListener="#{searchMB.doSearch}" />
+					</h:selectOneMenu>
+					
+					
+					
+					</dd>
+				</dl>
+			
+
+			</a4j:outputPanel>
+		
+
+</f:subview>

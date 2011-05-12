@@ -1,0 +1,53 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" id="sub_comment_form">
+
+
+
+	<dl>
+
+		<!-- ### Kommentar ### -->
+		<dt><h:outputLabel value="#{form_messages.sub_comment_01_comment}" /></dt>
+		
+		<dd><h:inputTextarea value="#{workitemMB.item['txtComment']}" style="width: 500px; height: 50px" /></dd>
+
+
+		<dt><h:outputLabel value="#{form_messages.sub_comment_01_history}" /></dt>
+		<dd>
+			
+			
+		    <!-- Dummy for init commentMB  #{commentMB} -->
+		    
+		    
+	    	<rich:dataTable style="width:500px;" id="comment_datatable_id" columns="3"
+					value="#{commentMB.log}" rows="5"
+					var="comment">
+					<rich:column width="100px" >
+						<h:outputText value="#{comment.item['datcomment']}" >
+						<f:convertDateTime type="both" dateStyle="medium" />
+						</h:outputText>
+					</rich:column>
+					<rich:column width="50px">
+						<h:outputText value="#{comment.item['nameditor']}" />
+					</rich:column>
+					<rich:column width="150">
+						<h:outputText value="#{comment.item['txtcomment']}" />
+					</rich:column>												
+			</rich:dataTable>						
+		   <rich:datascroller  for="comment_datatable_id"
+				rendered="#{!empty commentMB.log}" />
+			
+			
+			
+		
+		</dd>
+	</dl>
+
+
+
+</f:subview>
+

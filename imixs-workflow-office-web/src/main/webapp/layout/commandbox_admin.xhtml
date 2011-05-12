@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:form>
+
+		<rich:panel styleClass="sywapp-commandbox">
+			<f:facet name="header">
+				<h:outputText value="#{global.administration}" />
+			</f:facet>
+		
+			<ul>
+				<li><h:commandLink value="#{global.admin_config}"
+						 action="admin_config">
+				</h:commandLink></li>
+
+				<li><h:commandLink
+					
+					action="admin_projectlist" 
+					value="#{global.admin_projectlist}">
+				</h:commandLink></li>
+				
+				<li><h:commandLink
+					actionListener="#{profileMB.doSwitchToWorklistAll}"
+					action="admin_profilelist" 
+					value="#{global.admin_profiles}">
+				</h:commandLink></li>
+				
+				
+				<li><h:commandLink
+					action="admin_model" 
+					value="#{global.admin_model}">
+				</h:commandLink></li>
+				
+				
+				<li>
+					<h:commandLink
+						actionListener="#{systemSetupMB.doSetup}"
+						action="show_systeminit" 
+						value="Initialize System">
+					</h:commandLink>
+				</li>
+			
+			</ul>
+
+
+
+
+		</rich:panel>
+	</h:form>
+</ui:composition>
+
+

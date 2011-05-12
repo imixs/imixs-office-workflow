@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+
+	<ui:define name="commandbox">
+		<h:form id="commandform">
+			<rich:panel styleClass="sywapp-commandbox">
+				<f:facet name="header">
+						<h:outputText value="#{projectMB.item['txtname']}: #{workitemMB.item['txtworkflowgroup']}" />
+				</f:facet>
+			
+				<ul>
+						<li style="margin-bottom:10px;">
+						
+							<h:commandLink actionListener="#{searchMB.doClear}"
+								action="notes">
+								<h:outputText value="Home" />
+							</h:commandLink>
+							
+						
+						</li>
+				
+					
+						
+					<li><h:commandLink action="open_worklist">
+						<h:outputText value="#{global.open_worklist_all}" />
+					</h:commandLink></li>
+				</ul>
+			</rich:panel>
+		</h:form>
+	</ui:define>
+
+
+	<ui:define name="content">
+		<!-- Documentinfo: $UniqueID= #{workitemMB.item['$uniqueid']}-->
+
+		<f:view>
+			<f:loadBundle basename="bundle.workitem" var="messages" />
+
+
+			<h:form id="workitem_form">
+				<div class="sywapp-form sywapp-workitem"><!-- *** Header **** -->
+				<div class="sywapp-form-header sywapp-workitem-header"><ui:include
+					src="/pages/workitems/workitem_header.xhtml" /> <!-- ########## Error ########## -->
+				<ui:include src="/pages/error_message.xhtml" /></div>
+
+
+				<!-- *** Form *** -->
+				<div class="sywapp-form-body sywapp-workitem-body"><ui:include
+					src="/pages/workitems/forms/#{workitemMB.editor}.xhtml" /></div>
+
+				<!-- *** Footer **** -->
+				<div class="sywapp-form-footer sywapp-workitem-footer"><!-- *** Workflow (Author) **** -->
+				<rich:panel>
+					<f:facet name="header">
+						<h:outputText value="#{global.workflow}" />
+					</f:facet>
+					<ui:repeat value="#{workitemMB.activities}" var="activity">
+						<h:commandButton action="#{workitemMB.getWorkflowResult}"
+							actionListener="#{workitemMB.doProcess}"
+							value="#{activity.item['txtname']}">
+							<f:param name="id" value="#{activity.item['numactivityid']}" />
+						</h:commandButton>
+					</ui:repeat>
+					
+					<!-- *** Close  *** -->
+					<h:commandButton immediate="true" action="open_worklist" value="#{global.close}" />
+				</rich:panel> 
+				
+				</div>
+				</div>
+
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>
+

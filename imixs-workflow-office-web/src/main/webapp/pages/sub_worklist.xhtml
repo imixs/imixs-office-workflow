@@ -1,0 +1,73 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" id="sub_notes_worklist">
+
+	<!-- ##### Project Notes ######### -->
+	<a4j:outputPanel layout="block" styleClass="sywapp-view-body">
+
+		<rich:panel style="min-height:230px;">
+			<f:facet name="header">
+			<a4j:outputPanel layout="block" >
+				<div align="right" style="float:right;">
+						<a4j:commandLink actionListener="#{searchMB.doClear}" title="#{global.refresh}"
+								 reRender="list_id">
+								<h:graphicImage url="/layout/icons/Update2_16.png"></h:graphicImage>
+						</a4j:commandLink>
+				</div>
+				
+				<h:outputText value="#{global.open_worklist_by_owner}" />
+				
+				
+			</a4j:outputPanel>
+			</f:facet>
+
+			<a4j:outputPanel id="list_id">
+			
+				<div style="float: right;">
+					<a4j:outputPanel
+						style="margin-right:10px;">
+						<h:outputText rendered="#{searchMB.worklistRow == 0}"
+							value="#{global.prev}" />
+						<a4j:commandLink reRender="list_id"
+							actionListener="#{searchMB.doWorklistLoadPrev}"
+							rendered="#{searchMB.worklistRow gt 0}" value="#{global.prev}" />
+					</a4j:outputPanel> <h:outputText rendered="#{searchMB.endOfWorklist}"
+						value="#{global.next}" /> <a4j:commandLink reRender="list_id"
+						actionListener="#{searchMB.doWorklistLoadNext}"
+						rendered="#{!searchMB.endOfWorklist}" value="#{global.next}" />
+				</div>
+				<div style="clear:right;"/>
+				<!-- **** Workitems ***** -->
+				<rich:dataList var="workitem" value="#{searchMB.worklist}"
+					rowClasses="sywapp-viewentry sywapp-portletentry">
+
+					<ui:include src="sub_workitemdetail.xhtml">
+						<ui:param name="workitem" value="#{workitem}" />
+					</ui:include>
+				</rich:dataList>
+
+
+				<div style="float: right;">
+					<a4j:outputPanel
+						style="margin-right:10px;">
+						<h:outputText rendered="#{searchMB.worklistRow == 0}"
+							value="#{global.prev}" />
+						<a4j:commandLink reRender="list_id"
+							actionListener="#{searchMB.doWorklistLoadPrev}"
+							rendered="#{searchMB.worklistRow gt 0}" value="#{global.prev}" />
+					</a4j:outputPanel> <h:outputText rendered="#{searchMB.endOfWorklist}"
+						value="#{global.next}" /> <a4j:commandLink reRender="list_id"
+						actionListener="#{searchMB.doWorklistLoadNext}"
+						rendered="#{!searchMB.endOfWorklist}" value="#{global.next}" />
+				</div>
+				<div style="clear:right;" />
+			</a4j:outputPanel>
+		</rich:panel>
+
+	</a4j:outputPanel>
+
+</f:subview>
+

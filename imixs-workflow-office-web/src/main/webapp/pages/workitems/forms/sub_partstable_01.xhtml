@@ -1,0 +1,189 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" id="sub_partstable_form">
+
+	
+	<rich:dataTable id="child_datatable_artikel_ID" columns="8"
+		value="#{workitemMB.childs}" var="child">
+		
+	
+		 
+		<rich:column>
+			<f:facet name="header">
+				<h:outputText value="#{form_messages.sub_partstable_01_quantity}" />
+			</f:facet>
+			<h:outputText value="#{child.item['_quantity']}">
+				
+			</h:outputText>
+		</rich:column>
+
+		<rich:column sortBy="#{child.item['_name']}" sortable="true"
+			sortExpression="#{child.item['_name']}">
+			<f:facet name="header">
+				<h:outputText value="#{form_messages.sub_partstable_01_name}" />
+			</f:facet>
+			<h:outputText value="#{child.item['_name']}" />
+		</rich:column>
+
+
+		<rich:column sortBy="#{child.item['_price']}"
+			sortable="true"
+			sortExpression="#{child.item['_price']}">
+			<f:facet name="header">
+				<h:outputText value="#{form_messages.sub_partstable_01_price}" />
+			</f:facet>
+			<h:outputText value="#{child.item['_price']} " />
+		</rich:column>
+	
+
+		<rich:column sortBy="#{child.item['txtworkflowstatus']}"
+			sortable="true" sortExpression="#{child.item['txtworkflowstatus']}">
+			<f:facet name="header">
+				<h:outputText value="Status" />
+			</f:facet>
+			<h:outputText value="#{child.item['txtworkflowstatus']}" />
+		</rich:column>
+
+		
+
+		 <rich:column>
+                <f:facet name="header">
+                    #{global.action}
+                </f:facet>
+                    <a4j:commandLink id="editlink"
+                    	actionListener="#{workitemMB.doEditChild}"
+                     	oncomplete="#{rich:component('editPanel')}.show()"
+                    	reRender="editPanel_innen" value="#{global.edit}">
+                    </a4j:commandLink>
+                    <rich:toolTip for="editlink" value="#{global.edit}" />
+                    
+                    <br />
+                    <a4j:commandLink id="delete_button_id"
+						reRender="deletePanel"
+						actionListener="#{workitemMB.doEditChild}"
+						oncomplete="#{rich:component('deletePanel')}.show()"
+						value="#{global.delete}">
+					</a4j:commandLink>
+                    <rich:toolTip for="delete_button_id" value="#{global.delete}" />
+                </rich:column>
+
+
+	</rich:dataTable>
+	
+	<!-- *** new part *** -->
+	<a4j:outputPanel rendered="#{workitemMB.item['$isAuthor']}"
+		id="new_part_ID" layout="block">
+	<!-- *** Sub Process List *** -->
+		<ui:repeat value="#{projectlistMB.subProcessList[workitemMB.item['$uniqueid']]}" var="process">
+			<a4j:commandButton ajaxSingle="false" reRender="editPanel_innen"
+			 actionListener="#{workitemMB.doCreateChildWorkitem}"
+				 oncomplete="#{rich:component('editPanel')}.show()"
+				value="#{process.item['txtName']}">
+				<f:param name="id"
+					value="#{process.item['$modelversion']}|#{process.item['numprocessid']}" />
+					
+			</a4j:commandButton>
+			
+		</ui:repeat>
+		
+	</a4j:outputPanel>
+
+
+	 <rich:modalPanel domElementAttachment="form"  id="editPanel" autosized="true" width="450">
+        <f:facet name="header">
+            <h:outputText value="Edit Current Item" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="/layout/icons/close.gif" id="hidelink"
+                    styleClass="hidelink" />
+                <rich:componentControl for="editPanel" attachTo="hidelink"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        
+        
+        <rich:panel id="editPanel_innen">
+       
+            <rich:messages style="color:red;"></rich:messages>
+                    <h:panelGrid columns="2">
+                        <h:outputText value="#{form_messages.sub_partstable_01_quantity}" />
+                        <h:inputText value="#{workitemMB.child.item['_quantity']}" />
+                        <h:outputText value="#{form_messages.sub_partstable_01_name}" />
+                        <h:inputText value="#{workitemMB.child.item['_name']}" />
+                        <h:outputText value="#{form_messages.sub_partstable_01_price}" />
+                        <h:inputText value="#{workitemMB.child.item['_price']}"
+                            label="Price" immediate="true" />
+                            
+                    </h:panelGrid>
+                    <rich:message showSummary="true" showDetail="false" for="price" />
+               
+               <!-- *** Workflow Actions **** -->
+				<ui:repeat var="activitychild"
+					value="#{workitemMB.childActivities}">
+					<a4j:commandButton actionListener="#{workitemMB.doProcessChild}"
+						reRender="child_datatable_artikel_ID"
+						value="#{activitychild.item['txtname']}"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) Richfaces.hideModalPanel('editPanel');">
+						<f:param name="id"
+							value="#{activitychild.item['numactivityid']}" />
+					</a4j:commandButton>
+				</ui:repeat>
+				<a4j:commandButton styleClass="button" value="#{global.close}" 
+					onclick="#{rich:component('editPanel')}.hide();return false;" />
+            
+            
+       </rich:panel>
+    </rich:modalPanel>
+    
+    
+    
+    <rich:modalPanel id="deletePanel" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Delete this item from list?"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="/layout/icons/close.gif"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        	 <h:outputText value="#{workitemMB.child.item['_name']}" />
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="50%">
+                        <a4j:commandButton value="Yes"
+                            ajaxSingle="true" actionListener="#{workitemMB.doDeleteChild}"
+                            oncomplete="#{rich:component('deletePanel')}.hide();"
+                            reRender="child_datatable_artikel_ID" /></td>
+                        <td align="center" width="50%"><a4j:commandButton
+                            value="Cancel"
+                            onclick="#{rich:component('deletePanel')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+       
+    </rich:modalPanel>
+    <a4j:status onstart="#{rich:component('wait')}.show()"
+        onstop="#{rich:component('wait')}.hide()" />
+    <rich:modalPanel id="wait" autosized="true" width="200" height="120"
+        moveable="false" resizeable="false">
+        <f:facet name="header">
+            <h:outputText value="Processing" />
+        </f:facet>
+        <h:outputText value="Wait Please..." />
+    </rich:modalPanel>
+    <rich:messages></rich:messages>
+
+
+</f:subview>
+

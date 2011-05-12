@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:form>
+		<rich:panel styleClass="sywapp-projecttree" rendered="#{loginMB.authenticated}">
+			<f:facet name="header">
+				<h:outputText value="#{global.projecttree}" />
+			</f:facet>
+			<rich:tree ajaxKeys="#{null}" value="#{projectlistMB.projectTree}"
+				var="node" switchType="ajax"
+				nodeFace="#{node.item['project_node_type']}">
+
+
+				<!-- #### Root Node ##### -->
+				<rich:treeNode type="0" >
+					<h:commandLink actionListener="#{searchMB.doSwitchToProject}"
+						action="open_worklist">
+						<h:outputText value="#{node.item['txtname']}" />
+					</h:commandLink>
+				</rich:treeNode>
+
+				<!-- #### SubProject Node ##### -->
+				<rich:treeNode type="1">
+					<h:commandLink actionListener="#{searchMB.doSwitchToProject}"
+						action="open_worklist">
+						<h:outputText value="#{node.item['txtProjectname']}" />
+					</h:commandLink>
+				</rich:treeNode>
+			</rich:tree>
+		</rich:panel>
+
+	</h:form>
+</ui:composition>
+
+
