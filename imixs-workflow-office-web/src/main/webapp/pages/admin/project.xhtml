@@ -17,8 +17,12 @@
 
 			<h:form id="project_form_id">
 			<div class="sywapp-form sywapp-project">
-				<h2><h:outputText value="#{messages.title_edit_project}" /></h2>
-
+			
+			<div class="sywapp-form-header">
+				<h2><h:outputText value="#{projectMB.item['txtProjectname']}: " rendered="#{! empty projectMB.item['txtProjectname']}" />
+				
+				<h:outputText value="#{messages.title_edit_project}" /></h2>
+			</div>
 				<!-- ########## Error ########## -->
 				<ui:include src="/pages/error_message.xhtml" />
 

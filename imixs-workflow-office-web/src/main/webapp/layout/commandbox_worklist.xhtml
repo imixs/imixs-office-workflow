@@ -14,23 +14,15 @@
 						<h:outputText value="#{projectMB.item['txtname']}" />
 					</f:facet>
 				
-					<ul>
-						<li style="margin-bottom:10px;">
-						
-							<h:commandLink actionListener="#{searchMB.doClear}"
-								action="notes">
-								<h:outputText value="Home" />
-							</h:commandLink>
-							
-						
-						</li>
 					
-
-
 				
-				
-						<!-- *** Process List (only for members) *** -->
-						<a4j:outputPanel rendered="#{projectMB.member}">
+					<!-- *** Process List (only for members) *** -->
+					<a4j:outputPanel rendered="#{projectMB.member}">
+						
+					
+						
+						
+							<ul>
 							<ui:repeat
 								value="#{projectlistMB.processList[projectMB.item['$uniqueid']]}"
 								var="process">
@@ -53,6 +45,8 @@
 								<h:outputText value="#{messages.send_note}" />
 								</a4j:commandLink>
 							</li>
+							
+							</ul>
 						</a4j:outputPanel>
 
 						
@@ -62,7 +56,7 @@
 
 
 
-					</ul>
+					
 				</rich:panel>
 			</h:form>
 </ui:composition>

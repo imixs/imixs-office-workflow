@@ -5,11 +5,11 @@
     <environments>
       <environment name="environment.servertyp">
         <itemcollection>
-          <item name="type">
-            <value>WorkflowEnvironmentEntity</value>
-          </item>
           <item name="sync_type">
             <value>REST Service</value>
+          </item>
+          <item name="type">
+            <value>WorkflowEnvironmentEntity</value>
           </item>
           <item name="txtname">
             <value>environment.servertyp</value>
@@ -25,14 +25,14 @@
             <value>Termin | datDueDate</value>
           </item>
           <item name="txtplugins">
-            <value>org.imixs.sywapps.util.SywappTeamPlugin</value>
+            <value>org.imixs.marty.util.SywappTeamPlugin</value>
             <value>org.imixs.workflow.plugins.AccessPlugin</value>
             <value>org.imixs.workflow.plugins.OwnerPlugin</value>
             <value>org.imixs.workflow.plugins.HistoryPlugin</value>
             <value>org.imixs.workflow.plugins.ResultPlugin</value>
             <value>org.imixs.workflow.plugins.LogPlugin</value>
-            <value>org.imixs.sywapps.util.SywappMailPlugin</value>
-            <value>org.imixs.sywapps.util.SywappApplicationPlugin</value>
+            <value>org.imixs.marty.util.SywappApplicationPlugin</value>
+            <value>org.imixs.marty.util.LucenePlugin</value>
           </item>
           <item name="$modelversion">
             <value>debug-de-0.0.1</value>
@@ -85,23 +85,23 @@
           <item name="rcp.form.featurerequest">
             <value/>
           </item>
-          <item name="rcp.form.[projectmanagement]">
+          <item name="rcp.form.changerequest">
             <value/>
           </item>
-          <item name="rcp.form.changerequest">
+          <item name="rcp.form.[projectmanagement]">
             <value/>
           </item>
           <item name="type">
             <value>WorkflowEnvironmentEntity</value>
           </item>
-          <item name="rcp.form.problemreport">
-            <value/>
+          <item name="txtname">
+            <value>environment.ixrcp</value>
           </item>
           <item name="rcp.form.[newissue]">
             <value/>
           </item>
-          <item name="txtname">
-            <value>environment.ixrcp</value>
+          <item name="rcp.form.problemreport">
+            <value/>
           </item>
           <item name="$modelversion">
             <value>debug-de-0.0.1</value>
@@ -216,11 +216,11 @@
           <item name="numprocessid" type="number">
             <value>1000</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
-          </item>
           <item name="numnextid" type="number">
             <value>1000</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtname">
             <value>Speichern</value>
@@ -297,11 +297,11 @@
           <item name="numprocessid" type="number">
             <value>1000</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
-          </item>
           <item name="numnextid" type="number">
             <value>1010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtname">
             <value>Weiterleiten</value>
@@ -417,11 +417,11 @@
           <item name="numprocessid" type="number">
             <value>1005</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
-          </item>
           <item name="numnextid" type="number">
             <value>1005</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtname">
             <value>Speichern</value>
@@ -498,11 +498,11 @@
           <item name="numprocessid" type="number">
             <value>1005</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
-          </item>
           <item name="numnextid" type="number">
             <value>1010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtname">
             <value>Weiterleiten</value>
@@ -534,17 +534,14 @@
         <item name="txtworkflowsummary">
           <value>&lt;field&gt;txtsubject&lt;/field&gt;</value>
         </item>
-        <item name="txtimageurl">
-          <value>http://www.shareyourwork.org/icons/vwicn015.png</value>
-        </item>
         <item name="numprocessid" type="number">
           <value>1010</value>
         </item>
+        <item name="txtimageurl">
+          <value>http://www.shareyourwork.org/icons/vwicn015.png</value>
+        </item>
         <item name="type">
           <value>ProcessEntity</value>
-        </item>
-        <item name="txtworkflowgroup">
-          <value>Debug</value>
         </item>
         <item name="txtworkflowabstract">
           <value>&lt;field&gt;txtdescription&lt;/field&gt;&lt;br /&gt;&lt;br /&gt;&#13;
@@ -554,6 +551,9 @@
 &lt;/tbody&gt;&lt;/table&gt;&#13;
 &lt;hr&gt;&#13;
 &lt;field&gt;htmldocumentation&lt;/field&gt;</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Debug</value>
         </item>
         <item name="txtname">
           <value>Offen</value>
@@ -625,11 +625,11 @@
           <item name="numprocessid" type="number">
             <value>1010</value>
           </item>
-          <item name="numnextid" type="number">
-            <value>1010</value>
-          </item>
           <item name="txtnextprocesstree">
             <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1010</value>
           </item>
           <item name="txtname">
             <value>Speichern</value>
@@ -722,14 +722,14 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1010</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="numnextid" type="number">
             <value>1020</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
           </item>
           <item name="txtname">
             <value>Übernehmen</value>
@@ -823,15 +823,15 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1010</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCreator</value>
-            <value>namProjectAssist</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="numnextid" type="number">
             <value>1005</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namCreator</value>
+            <value>namProjectAssist</value>
           </item>
           <item name="txtname">
             <value>Rückfrage</value>
@@ -933,11 +933,11 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1010</value>
           </item>
-          <item name="numnextid" type="number">
-            <value>1011</value>
-          </item>
           <item name="txtnextprocesstree">
             <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1011</value>
           </item>
           <item name="txtname">
             <value>Eskalation</value>
@@ -959,14 +959,17 @@ http://www.shareyourwork.org/syw/</value>
         <item name="txtworkflowsummary">
           <value>&lt;field&gt;txtsubject&lt;/field&gt;</value>
         </item>
-        <item name="txtimageurl">
-          <value>http://www.shareyourwork.org/icons/vwicn017.png</value>
-        </item>
         <item name="numprocessid" type="number">
           <value>1011</value>
         </item>
+        <item name="txtimageurl">
+          <value>http://www.shareyourwork.org/icons/vwicn017.png</value>
+        </item>
         <item name="type">
           <value>ProcessEntity</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Debug</value>
         </item>
         <item name="txtworkflowabstract">
           <value>&lt;field&gt;txtdescription&lt;/field&gt;&lt;br /&gt;&lt;br /&gt;&#13;
@@ -976,9 +979,6 @@ http://www.shareyourwork.org/syw/</value>
 &lt;/tbody&gt;&lt;/table&gt;&#13;
 &lt;hr&gt;&#13;
 &lt;field&gt;htmldocumentation&lt;/field&gt;</value>
-        </item>
-        <item name="txtworkflowgroup">
-          <value>Debug</value>
         </item>
         <item name="txtname">
           <value>Offen - Eskalation</value>
@@ -1050,11 +1050,11 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1011</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
-          </item>
           <item name="numnextid" type="number">
             <value>1011</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtname">
             <value>Speichern</value>
@@ -1157,14 +1157,14 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1011</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="numnextid" type="number">
             <value>1020</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
           </item>
           <item name="txtname">
             <value>Übernehmen</value>
@@ -1266,11 +1266,11 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1011</value>
           </item>
-          <item name="numnextid" type="number">
-            <value>1011</value>
-          </item>
           <item name="txtnextprocesstree">
             <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1011</value>
           </item>
           <item name="txtname">
             <value>Eskalation</value>
@@ -1292,14 +1292,17 @@ http://www.shareyourwork.org/syw/</value>
         <item name="txtworkflowsummary">
           <value>&lt;field&gt;txtsubject&lt;/field&gt;</value>
         </item>
-        <item name="txtimageurl">
-          <value>http://www.shareyourwork.org/icons/vwicn032.png</value>
-        </item>
         <item name="numprocessid" type="number">
           <value>1020</value>
         </item>
+        <item name="txtimageurl">
+          <value>http://www.shareyourwork.org/icons/vwicn032.png</value>
+        </item>
         <item name="type">
           <value>ProcessEntity</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Debug</value>
         </item>
         <item name="txtworkflowabstract">
           <value>&lt;b&gt;Owner:&lt;/b&gt; &lt;field&gt;dspnamowner&lt;/field&gt;&lt;br /&gt;&#13;
@@ -1310,9 +1313,6 @@ http://www.shareyourwork.org/syw/</value>
 &lt;/tbody&gt;&lt;/table&gt;&#13;
 &lt;hr&gt;&#13;
 &lt;field&gt;htmldocumentation&lt;/field&gt;</value>
-        </item>
-        <item name="txtworkflowgroup">
-          <value>Debug</value>
         </item>
         <item name="txtname">
           <value>In Bearbeitung</value>
@@ -1372,11 +1372,11 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1020</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
-          </item>
           <item name="numnextid" type="number">
             <value>1020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtname">
             <value>Speichern</value>
@@ -1468,11 +1468,11 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1020</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
-          </item>
           <item name="numnextid" type="number">
             <value>1030</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtname">
             <value>Unterbrechen</value>
@@ -1553,15 +1553,15 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1020</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCreator</value>
-            <value>namProjectAssist</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="numnextid" type="number">
             <value>1005</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namCreator</value>
+            <value>namProjectAssist</value>
           </item>
           <item name="txtname">
             <value>Rückfrage</value>
@@ -1644,14 +1644,14 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1020</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namProjectManager</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="numnextid" type="number">
             <value>1050</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namProjectManager</value>
           </item>
           <item name="txtname">
             <value>Weiterleiten zur Prüfung</value>
@@ -1683,17 +1683,14 @@ http://www.shareyourwork.org/syw/</value>
         <item name="txtworkflowsummary">
           <value>&lt;field&gt;txtsubject&lt;/field&gt;</value>
         </item>
-        <item name="txtimageurl">
-          <value>http://www.shareyourwork.org/icons/vwicn013.png</value>
-        </item>
         <item name="numprocessid" type="number">
           <value>1030</value>
         </item>
+        <item name="txtimageurl">
+          <value>http://www.shareyourwork.org/icons/vwicn013.png</value>
+        </item>
         <item name="type">
           <value>ProcessEntity</value>
-        </item>
-        <item name="txtworkflowgroup">
-          <value>Debug</value>
         </item>
         <item name="txtworkflowabstract">
           <value>&lt;b&gt;Owner:&lt;/b&gt; &lt;field&gt;dspnamowner&lt;/field&gt;&lt;br /&gt;&#13;
@@ -1704,6 +1701,9 @@ http://www.shareyourwork.org/syw/</value>
 &lt;/tbody&gt;&lt;/table&gt;&#13;
 &lt;hr&gt;&#13;
 &lt;field&gt;htmldocumentation&lt;/field&gt;</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Debug</value>
         </item>
         <item name="txtname">
           <value>Unterbrochen</value>
@@ -1906,17 +1906,17 @@ http://www.shareyourwork.org/syw/</value>
           <item name="keylogdateformat">
             <value>2</value>
           </item>
-          <item name="numprocessid" type="number">
-            <value>1030</value>
-          </item>
           <item name="keytimecomparefield">
             <value>datDueDate</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="numprocessid" type="number">
+            <value>1030</value>
           </item>
           <item name="numnextid" type="number">
             <value>1020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtname">
             <value>Termin erreicht</value>
@@ -1938,14 +1938,17 @@ http://www.shareyourwork.org/syw/</value>
         <item name="txtworkflowsummary">
           <value>&lt;field&gt;txtsubject&lt;/field&gt;</value>
         </item>
-        <item name="txtimageurl">
-          <value>http://www.shareyourwork.org/icons/vwicn035.png</value>
-        </item>
         <item name="numprocessid" type="number">
           <value>1050</value>
         </item>
+        <item name="txtimageurl">
+          <value>http://www.shareyourwork.org/icons/vwicn035.png</value>
+        </item>
         <item name="type">
           <value>ProcessEntity</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Debug</value>
         </item>
         <item name="txtworkflowabstract">
           <value>&lt;field&gt;txtdescription&lt;/field&gt;&lt;br /&gt;&lt;br /&gt;&#13;
@@ -1956,9 +1959,6 @@ http://www.shareyourwork.org/syw/</value>
 &lt;/tbody&gt;&lt;/table&gt;&#13;
 &lt;hr&gt;&#13;
 &lt;field&gt;htmldocumentation&lt;/field&gt;</value>
-        </item>
-        <item name="txtworkflowgroup">
-          <value>Debug</value>
         </item>
         <item name="txtname">
           <value>In Prüfung</value>
@@ -2023,11 +2023,11 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1050</value>
           </item>
-          <item name="numnextid" type="number">
-            <value>1090</value>
-          </item>
           <item name="txtnextprocesstree">
             <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1090</value>
           </item>
           <item name="txtname">
             <value>Abschließen</value>
@@ -2104,11 +2104,11 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1050</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
-          </item>
           <item name="numnextid" type="number">
             <value>1010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtname">
             <value>Ablehnen</value>
@@ -2140,17 +2140,14 @@ http://www.shareyourwork.org/syw/</value>
         <item name="txtworkflowsummary">
           <value>&lt;field&gt;txtsubject&lt;/field&gt;</value>
         </item>
-        <item name="txtimageurl">
-          <value>http://www.shareyourwork.org/icons/vwicn029.png</value>
-        </item>
         <item name="numprocessid" type="number">
           <value>1090</value>
         </item>
+        <item name="txtimageurl">
+          <value>http://www.shareyourwork.org/icons/vwicn029.png</value>
+        </item>
         <item name="type">
           <value>ProcessEntity</value>
-        </item>
-        <item name="txtworkflowgroup">
-          <value>Debug</value>
         </item>
         <item name="txtworkflowabstract">
           <value>&lt;field&gt;txtdescription&lt;/field&gt;&lt;br /&gt;&lt;br /&gt;&#13;
@@ -2160,6 +2157,9 @@ http://www.shareyourwork.org/syw/</value>
 &lt;/tbody&gt;&lt;/table&gt;&#13;
 &lt;hr&gt;&#13;
 &lt;field&gt;htmldocumentation&lt;/field&gt;</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Debug</value>
         </item>
         <item name="txtname">
           <value>Erledigt</value>
@@ -2221,11 +2221,11 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1090</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
-          </item>
           <item name="numnextid" type="number">
             <value>1010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtname">
             <value>Bearbeitung fortsetzen</value>
@@ -2301,20 +2301,20 @@ http://www.shareyourwork.org/syw/</value>
           <item name="keyaccessmode">
             <value>1</value>
           </item>
-          <item name="numnextid" type="number">
-            <value>1100</value>
-          </item>
           <item name="rtfdescription">
             <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1100</value>
           </item>
           <item name="type">
             <value>ActivityEntity</value>
           </item>
-          <item name="numactivityid" type="number">
-            <value>10</value>
-          </item>
           <item name="txtname">
             <value>Speichern</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -2375,20 +2375,20 @@ http://www.shareyourwork.org/syw/</value>
           <item name="keyaccessmode">
             <value>1</value>
           </item>
-          <item name="numnextid" type="number">
-            <value>1110</value>
-          </item>
           <item name="rtfdescription">
             <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1110</value>
           </item>
           <item name="type">
             <value>ActivityEntity</value>
           </item>
-          <item name="numactivityid" type="number">
-            <value>10</value>
-          </item>
           <item name="txtname">
             <value>Speichern</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>

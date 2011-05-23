@@ -1,19 +1,20 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>imixs-office-workflow</artifactId>
-    <groupId>com.imixs.workflow</groupId>
-    <version>1.0.0-SNAPSHOT</version>
-  </parent>
-  <groupId>com.imixs.workflow</groupId>
-  <artifactId>imixs-office-workflow-ear</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-  <packaging>ear</packaging>
-  <name>Imixs Office Workflow EAR</name>
-  
-  
-  <description> </description>
-  <build>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>imixs-office-workflow</artifactId>
+		<groupId>com.imixs.workflow</groupId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<groupId>com.imixs.workflow</groupId>
+	<artifactId>imixs-office-workflow-ear</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>ear</packaging>
+	<name>Imixs Office Workflow EAR</name>
+
+
+	<description> </description>
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -36,13 +37,9 @@
 							<artifactId>imixs-workflow-rest</artifactId>
 							<contextRoot>/office-rest</contextRoot>
 						</webModule>
-						<!-- Admin Client 
-						<webModule>
-							<groupId>org.imixs.workflow</groupId>
-							<artifactId>imixs-workflow-adminclient</artifactId>
-							<contextRoot>/office-admin</contextRoot>
-						</webModule>
-						-->
+						<!-- Admin Client <webModule> <groupId>org.imixs.workflow</groupId> 
+							<artifactId>imixs-workflow-adminclient</artifactId> <contextRoot>/office-admin</contextRoot> 
+							</webModule> -->
 
 						<ejbModule>
 							<groupId>com.imixs.workflow</groupId>
@@ -69,11 +66,15 @@
 							<groupId>org.imixs.workflow</groupId>
 							<artifactId>imixs-workflow-jee-impl </artifactId>
 						</JarModule>
-						
+
 						<JarModule>
 							<groupId>org.imixs.marty</groupId>
 							<artifactId>imixs-marty-ejb</artifactId>
 						</JarModule>
+
+
+						
+
 					</modules>
 				</configuration>
 			</plugin>
@@ -108,20 +109,15 @@
 			<artifactId>imixs-workflow-rest</artifactId>
 			<type>war</type>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>org.imixs.workflow</groupId>
-			<artifactId>imixs-workflow-adminclient</artifactId>
-			<type>war</type>
-		</dependency>
-		 -->
+		<!-- <dependency> <groupId>org.imixs.workflow</groupId> <artifactId>imixs-workflow-adminclient</artifactId> 
+			<type>war</type> </dependency> -->
 		<!-- ShareYourWork -->
 		<dependency>
 			<groupId>org.imixs.marty</groupId>
 			<artifactId>imixs-marty-ejb</artifactId>
 			<type>jar</type>
 		</dependency>
-		
+
 		<!-- Imixs Office -->
 		<dependency>
 			<groupId>com.imixs.workflow</groupId>
@@ -137,12 +133,16 @@
 			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
+		<!-- <dependency> <groupId>com.sun.jersey</groupId> <artifactId>jersey-server</artifactId> 
+			<version>1.3</version> </dependency> -->
+			
+			
 		<!-- 
-		<dependency> 
-                 <groupId>com.sun.jersey</groupId>
-                 <artifactId>jersey-server</artifactId> 
-                 <version>1.3</version>
-       	</dependency>
- 		-->
-	</dependencies>  
+		<dependency>
+			   <groupId>org.apache.lucene</groupId>
+    			<artifactId>lucene-core</artifactId>
+    			
+		</dependency>
+		 -->
+	</dependencies>
 </project>

@@ -9,33 +9,14 @@
 
 
 	<ui:define name="commandbox">
-		<h:form id="commandform">
-			<rich:panel styleClass="sywapp-commandbox">
-				<f:facet name="header">
-						<h:outputText value="#{projectMB.item['txtname']}: #{workitemMB.item['txtworkflowgroup']}" />
-				</f:facet>
-			
-				<ul>
-						<li style="margin-bottom:10px;">
-						
-							<h:commandLink actionListener="#{searchMB.doClear}"
-								action="notes">
-								<h:outputText value="Home" />
-							</h:commandLink>
-							
-						
-						</li>
-				
-					
-						
-					<li><h:commandLink action="open_worklist">
-						<h:outputText value="#{global.open_worklist_all}" />
-					</h:commandLink></li>
-				</ul>
-			</rich:panel>
-		</h:form>
-	</ui:define>
+		<ui:include src="/layout/commandbox.xhtml" />
+		
 
+		<c:if test="#{! empty projectMB.item['txtname']}">
+			<ui:include src="/layout/commandbox_worklist.xhtml" />
+		</c:if>
+
+	</ui:define>
 
 	<ui:define name="content">
 		<!-- Documentinfo: $UniqueID= #{workitemMB.item['$uniqueid']}-->
