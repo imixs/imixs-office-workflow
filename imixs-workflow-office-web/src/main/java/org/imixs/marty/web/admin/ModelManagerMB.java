@@ -31,7 +31,7 @@ public class ModelManagerMB {
 	private final String DEPRECATED_NO_VERSION = "DEPRECATED-NO-VERSION";
 	private String currentModelVersion;
 	private int maxAttachments = 10;
-	private SystemSetupMB systemSetupMB=null;
+	private SystemSetupMB systemSetupMB = null;
 
 	/**
 	 * This method register the bean as an workitemListener
@@ -42,7 +42,7 @@ public class ModelManagerMB {
 	}
 
 	/**
-	 * adds a uploaded file into the blobBean
+	 * adds a uploaded file. Imports the entities form a xml file into the database
 	 * 
 	 * @param event
 	 * @throws Exception
@@ -54,53 +54,27 @@ public class ModelManagerMB {
 		// filesUploaded.add(item.getFileName());
 
 		try {
-			this.getSystemSetupBean().importXmlModelFile(item.getData());
-		
+			this.getSystemSetupBean().importXmlEntityData(item.getData());
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-	
-	
-	
-	
-	
 
+	/**
+	 * This method returns a list of available models. The model descriptions
+	 * are provided in Map Objects. The method is called by the page
+	 * /page/admin/modellist.xhtml
+	 * 
+	 * @return
+	 */
 	public ArrayList<Map> getModels() {
 		ArrayList models = new ArrayList<Map>();
 		if (entityService != null) {
-/*
-			try {
-			String filePath = "debug-model.xml";
-			  // InputStream inputStream = new FileInputStream(filePath);
 
-			 InputStream inputStream = ModelManagerMB.class.getClassLoader().getResourceAsStream(filePath);
-			 //byte[] bytes = IOUtils.toByteArray(inputStream);
-			 
-			 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			 int next;
-			
-				next = inputStream.read();
-			
-			 while (next > -1) {
-			   bos.write(next);
-			   next = inputStream.read();
-			 }
-			 bos.flush();
-			 byte[] result = bos.toByteArray();
-			 
-			 
-			 importXMLFile(result);
-				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			*/
-			
-			
+			// select all Models versions - identified by the
+			// environment.profile entity included in each model
 			String modelQuery = "SELECT process FROM Entity AS process"
 					+ " JOIN process.textItems as t"
 					+ " JOIN process.textItems as n"
@@ -131,7 +105,7 @@ public class ModelManagerMB {
 	}
 
 	/**
-	 * This Method Selects the current model
+	 * This Method select the model from the ui
 	 * 
 	 * @return
 	 * @throws Exception
@@ -201,8 +175,7 @@ public class ModelManagerMB {
 		}
 
 	}
-	
-	
+
 	private SystemSetupMB getSystemSetupBean() {
 		if (systemSetupMB == null)
 			systemSetupMB = (SystemSetupMB) FacesContext
