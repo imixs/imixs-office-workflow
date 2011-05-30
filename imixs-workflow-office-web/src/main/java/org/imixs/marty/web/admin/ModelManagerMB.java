@@ -11,6 +11,7 @@ import javax.faces.component.UIData;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import org.imixs.marty.web.project.ProjectlistMB;
 import org.imixs.marty.web.util.SystemSetupMB;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.jee.ejb.EntityService;
@@ -32,6 +33,7 @@ public class ModelManagerMB {
 	private String currentModelVersion;
 	private int maxAttachments = 10;
 	private SystemSetupMB systemSetupMB = null;
+	private ProjectlistMB projectlistMB = null;
 
 	/**
 	 * This method register the bean as an workitemListener
@@ -42,20 +44,20 @@ public class ModelManagerMB {
 	}
 
 	/**
-	 * adds a uploaded file. Imports the entities form a xml file into the database
+	 * adds a uploaded file. Imports the entities form a xml file into the
+	 * database
 	 * 
 	 * @param event
 	 * @throws Exception
 	 */
 	public void listener(UploadEvent event) throws Exception {
 		UploadItem item = event.getUploadItem();
-
-		System.out.println(" starting xml model file upload");
-		// filesUploaded.add(item.getFileName());
-
 		try {
+			System.out
+					.println("ModelManagerMB - starting xml model file upload");
 			this.getSystemSetupBean().importXmlEntityData(item.getData());
-
+			// reset start process list
+			getProjectlistBean().resetProcessList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -174,6 +176,9 @@ public class ModelManagerMB {
 			}
 		}
 
+		// reset start list
+		getProjectlistBean().resetProcessList();
+
 	}
 
 	private SystemSetupMB getSystemSetupBean() {
@@ -186,6 +191,18 @@ public class ModelManagerMB {
 							null, "systemSetupMB");
 
 		return systemSetupMB;
+	}
+
+	private ProjectlistMB getProjectlistBean() {
+		if (projectlistMB == null)
+			projectlistMB = (ProjectlistMB) FacesContext
+					.getCurrentInstance()
+					.getApplication()
+					.getELResolver()
+					.getValue(FacesContext.getCurrentInstance().getELContext(),
+							null, "projectlistMB");
+
+		return projectlistMB;
 	}
 
 }

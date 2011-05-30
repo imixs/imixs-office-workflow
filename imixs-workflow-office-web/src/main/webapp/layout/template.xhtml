@@ -73,14 +73,15 @@
 	</ui:insert></div>
 
 	<c:if test="#{loginMB.authenticated}">
-		<c:if test="#{myProfileMB.item['$processid'] lt '210'}">
-			<ui:include src="/verifyprofile.xhtml" />
-		</c:if>
-		
 		<c:if test="#{! systemSetupMB.setupOk}">
-		
 			<ui:include src="/systemsetup.xhtml" />
 		</c:if>
+		
+		
+		<c:if test="#{systemSetupMB.setupOk and myProfileMB.item['$processid'] lt '210'}">
+			<ui:include src="/verifyprofile.xhtml" />
+		</c:if>
+
 	</c:if>
 	
 	

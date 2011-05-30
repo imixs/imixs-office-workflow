@@ -22,10 +22,11 @@
 			
 				<h3><h:outputText value="#{project.item['txtName']}" /></h3>
 				<h:outputText value="#{project.item['txtdescription']}" />
-
-
+  
+<div class="xxsywapp-processlist">
 				<!-- *** Process List *** -->
-				<ul style="margin:0 0 0 16px;list-style:square outside none;padding:0;">
+				<ul style="margin:0 0 0 16px;list-style:square outside none;padding:0;"
+				 >
 					<ui:repeat
 						value="#{projectlistMB.processList[project.item['$uniqueid']]}"
 						var="process">
@@ -42,7 +43,7 @@
 						</a4j:outputPanel></li>
 					</ui:repeat>
 				</ul>
-				
+				</div>
 				</div>
 			</ui:repeat>
 
