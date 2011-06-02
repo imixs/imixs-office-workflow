@@ -23,16 +23,15 @@
 				<h3><h:outputText value="#{project.item['txtName']}" /></h3>
 				<h:outputText value="#{project.item['txtdescription']}" />
   
-<div class="xxsywapp-processlist">
+			<div class="sywapp-processlist">
 				<!-- *** Process List *** -->
-				<ul style="margin:0 0 0 16px;list-style:square outside none;padding:0;"
-				 >
+				<ul>
 					<ui:repeat
 						value="#{projectlistMB.processList[project.item['$uniqueid']]}"
 						var="process">
 						<li><h:commandLink action="open_workitem"
 							actionListener="#{workitemMB.doCreateWorkitem}"
-							value="#{process.item['txtworkflowgroup']}">
+							value="#{process.item['txtworkflowgroup']} »">
 							<f:param name="id"
 								value="#{process.item['$modelversion']}|#{process.item['numprocessid']}" />
 							<f:param name="project"
