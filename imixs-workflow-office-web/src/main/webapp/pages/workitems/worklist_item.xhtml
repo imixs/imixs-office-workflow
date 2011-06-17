@@ -59,6 +59,15 @@
 								value="#{workitem.item['txtworkflowgroup']}: " />
 							<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
 							
+							<!-- display owner -->
+							<a4j:outputPanel rendered="#{! empty workitem.item['namowner']}">
+								<h:outputText style="font-weight: bold; margin-left:16px;"
+								value="#{global.owner}: " />								
+								<ui:repeat value="#{workitem.itemList['namowner']}" var="name">
+									<h:outputText value="#{name} " />
+								</ui:repeat>
+							</a4j:outputPanel>
+							
 							<!-- display Project name -->
 							<a4j:outputPanel rendered="#{empty projectMB.item['txtname']}">
 								<br />
