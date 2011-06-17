@@ -9,9 +9,12 @@
 	<!-- *** Image *** -->
 	<a4j:outputPanel layout="block"
 		rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
-		style="float:left;height:30px;margin-right:2px;margin-left:2px;margin-bottom:0px;">
-		<img src="#{workitem.item['txtWorkflowImageURL']}"
-			style="max-height: 24px; margin: 4px;" />
+		style="float:left;height:34px;margin-right:2px;margin-left:2px;margin-bottom:0px;">
+		<h:commandLink actionListener="#{worklistMB.doEdit}"
+				action="open_workitem">
+			<img src="#{workitem.item['txtWorkflowImageURL']}"
+				style="max-height: 24px; margin: 4px;" />
+		</h:commandLink>
 	</a4j:outputPanel>
 
 	<!-- *** Standard Info *** -->
@@ -33,12 +36,10 @@
 		
 		<!-- *** reader modus -->
 		<a4j:outputPanel rendered="#{! workitem.item['$isAuthor']}">
-
 				<h:outputText value="#{workitem.item['$modified']}">
 					<f:convertDateTime timeZone="#{global.timeZone}"
 								pattern="#{global.dateTimePattern}" />
 				</h:outputText>
-			
 			<h:outputText value="#{workitem.item['txtWorkflowSummary']}" />
 			
 		</a4j:outputPanel>
@@ -47,10 +48,20 @@
 
 	
 
-	<h:outputText style="font-weight: bold;"
-		value="#{workitem.item['txtworkflowgroup']}: " />
-	<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
-	<h:outputText value=" (#{workitem.item['txtProjectName']})" />
+		<h:outputText style="font-weight: bold;"
+			value="#{workitem.item['txtworkflowgroup']}: " />
+		<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
+		<h:outputText value=" (#{workitem.item['txtProjectName']})" />
+		
+		<!-- display owner -->
+		<a4j:outputPanel rendered="#{! empty workitem.item['namowner']}">
+			<br />
+			<h:outputText style="font-weight: bold; mxargin-left:16px;"
+			value="#{global.owner}: " />								
+			<ui:repeat value="#{workitem.itemList['namowner']}" var="name">
+				<h:outputText value="#{name}, " />
+			</ui:repeat>
+		</a4j:outputPanel>
 
 	</a4j:outputPanel>
 
