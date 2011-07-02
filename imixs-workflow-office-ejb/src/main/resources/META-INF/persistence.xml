@@ -7,8 +7,8 @@
         <!-- eclipselink -->
         <persistence-unit name="org.imixs.workflow.jee.jpa" transaction-type="JTA">     
                 <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>    
-                <jta-data-source>jdbc/imixs_office</jta-data-source>
-                <jar-file>imixs-workflow-jee-2.1.3.jar</jar-file>
+                <jta-data-source>jdbc/imixs_office3</jta-data-source>
+                <jar-file>imixs-workflow-engine-3.0.0-SNAPSHOT.jar</jar-file>
                 <properties>
                         <property name="eclipselink.ddl-generation"
                                 value="create-tables" />
@@ -16,19 +16,6 @@
                 </properties>                           
         </persistence-unit>     
 
-	<!-- JEE5
 	
-	
-	<persistence-unit name="org.imixs.workflow.jee.jpa">
-		<jta-data-source>jdbc/imixs_office</jta-data-source>
-		<properties>
-			<property name="toplink.ddl-generation"
-				value="create-tables" />
-		</properties>
-		<jar-file>imixs-workflow-jee-2.1.3.jar</jar-file>
-	</persistence-unit>
-	
-	
-	 -->
 
 </persistence>

@@ -7,8 +7,8 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich" id="workitem_header_id">
 
-	<h2><h:outputText value="#{workitemMB.item['txtprojectname']}: " />
-	<h:outputText value="#{workitemMB.item['txtworkflowgroup']}" /></h2>
+	<h2><h:outputText value="#{workitemMB.workitem.item['txtprojectname']}: " />
+	<h:outputText value="#{workitemMB.workitem.item['txtworkflowgroup']}" /></h2>
 
 	<!-- Workitem Info Header -->
 	<a4j:outputPanel styleClass="sywapp-viewentry" id="issue_header_id"
@@ -17,18 +17,18 @@
 
 		<!-- background:#ECF3F8;border-top:1px solid #58AAD5;border-bottom:none;color:#404047; -->
 		<!-- *** Sequence Number *** 
-				<a4j:outputPanel layout="block"  rendered="#{!empty workitemMB.item['txtsubject']}"
+				<a4j:outputPanel layout="block"  rendered="#{!empty workitemMB.workitem.item['txtsubject']}"
 					style="float:left;height:34px;border-right:1px solid silver;margin-right:5px;margin-left:2px;margin-bottom:0px;">
-					<h:outputText value="#{workitemMB.item['numSequenceNummer']}"
+					<h:outputText value="#{workitemMB.workitem.item['numSequenceNummer']}"
 						style="font-size:24px;font-weight:bold;margin-right:5px;" />
 				</a4j:outputPanel>
 				-->
 
 		<!-- *** Image *** -->
 		<a4j:outputPanel layout="block"
-			rendered="#{!empty workitemMB.item['txtWorkflowImageURL']}"
+			rendered="#{!empty workitemMB.workitem.item['txtWorkflowImageURL']}"
 			style="float:left;height:48px;margin-right:2px;margin-left:2px;margin-bottom:0px;">
-			<img src="#{workitemMB.item['txtWorkflowImageURL']}"
+			<img src="#{workitemMB.workitem.item['txtWorkflowImageURL']}"
 				style="max-height:24px; margin:4px;" />
 		</a4j:outputPanel>
 
@@ -36,18 +36,18 @@
 		<!-- *** Standard Info *** -->
 		<a4j:outputPanel layout="block" style="" >
 			<h:outputText style="font-size:14px; font-weight:bold;"
-				rendered="#{empty workitemMB.item['txtWorkflowSummary']}"
-				value="#{workitemMB.item['txtWorkflowStatus']}" />
+				rendered="#{empty workitemMB.workitem.item['txtWorkflowSummary']}"
+				value="#{workitemMB.workitem.item['txtWorkflowStatus']}" />
 
 			<h:outputText style="font-size:14px; font-weight:bold;"
-				rendered="#{!empty workitemMB.item['txtWorkflowSummary']}"
-				value="#{workitemMB.item['txtWorkflowSummary']}" />
+				rendered="#{!empty workitemMB.workitem.item['txtWorkflowSummary']}"
+				value="#{workitemMB.workitem.item['txtWorkflowSummary']}" />
 			<br />
 			
 			<h:outputText style="font-weight: bold;" value="#{global.status}:"/>
 			
 			<h:outputText style=""
-				value=" #{workitemMB.item['txtworkflowstatus']}" />
+				value=" #{workitemMB.workitem.item['txtworkflowstatus']}" />
 				
 				
 			<a4j:commandLink rendered="#{! workitemMB.newWorkitem}" value="[#{messages.history}]" style="margin-left:10px;xfont-size:11px;"
@@ -62,21 +62,21 @@
 			
 			
 			<a4j:outputPanel layout="block" style="border-top: 1px solid silver;"
-				rendered="#{workitemMB.item['a4j:showHistory']}" >
+				rendered="#{workitemMB.workitem.item['a4j:showHistory']}" >
 				<h:outputText value="#{global.created}: " />
-				<h:outputText value="#{workitemMB.item['$created']}">
+				<h:outputText value="#{workitemMB.workitem.item['$created']}">
 					<f:convertDateTime type="both" dateStyle="medium" />
 				</h:outputText>
 				<h:outputText
-					value=" #{global.by} #{nameLookupMB.userName[workitemMB.item['namCreator']]}" />
+					value=" #{global.by} #{nameLookupMB.userName[workitemMB.workitem.item['namCreator']]}" />
 
 				<br />
 				<h:outputText value="#{global.modified}: " />
-				<h:outputText value="#{workitemMB.item['$modified']}">
+				<h:outputText value="#{workitemMB.workitem.item['$modified']}">
 					<f:convertDateTime type="both" dateStyle="medium" />
 				</h:outputText>
 				<h:outputText
-					value=" #{global.by} #{nameLookupMB.userName[workitemMB.item['namCurrentEditor']]}" />
+					value=" #{global.by} #{nameLookupMB.userName[workitemMB.workitem.item['namCurrentEditor']]}" />
 
 				<!--  Workitem Version History -->
 				<a4j:outputPanel layout="block" 
@@ -113,7 +113,7 @@
 					<!-- open -->
 					<rich:column>
 						<a4j:commandLink value="#{global.open}" 
-							rendered="#{version.item['$uniqueid'] ne workitemMB.item['$uniqueid']}"
+							rendered="#{version.item['$uniqueid'] ne workitemMB.workitem.item['$uniqueid']}"
 							id="open_version_link_id"
 							actionListener="#{worklistMB.doEdit}"
 								action="open_workitem">
@@ -127,7 +127,7 @@
 
 				<h3><h:outputText value="#{messages.change_history}" /></h3>
 				<ui:repeat
-					value="#{workitemMB.itemListArray['txtworkflowhistorylog']}"
+					value="#{workitemMB.workitem.itemListArray['txtworkflowhistorylog']}"
 					var="log">
 					<h:outputText value="#{log}" />
 					<br />

@@ -11,7 +11,7 @@
 		<h:form>
 				<rich:panel styleClass="sywapp-commandbox">
 					<f:facet name="header">
-						<h:outputText value="#{projectMB.item['txtname']}" />
+						<h:outputText value="#{projectMB.workitem.item['txtname']}" />
 					</f:facet>
 				
 					
@@ -24,7 +24,7 @@
 						
 							<ul>
 							<ui:repeat
-								value="#{projectlistMB.processList[projectMB.item['$uniqueid']]}"
+								value="#{projectlistMB.processList[projectMB.workitem.item['$uniqueid']]}"
 								var="process">
 								<li><h:commandLink action="open_workitem"
 									actionListener="#{workitemMB.doCreateWorkitem}"

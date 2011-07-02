@@ -9,7 +9,7 @@
 
 			<!-- *** Search Filter *** -->
 			<a4j:outputPanel id="worklist_search_panel" layout="block" styleClass="sywapp-viewentry">
-				<h:outputText value="#{projectMB.item['txtdescription']}" />
+				<h:outputText value="#{projectMB.workitem.item['txtdescription']}" />
 				
 
 
@@ -17,7 +17,7 @@
 					
 					<dd><h:outputLabel value="#{global.filter}: "/>
 					<h:selectOneMenu id="group_filter"
-						value="#{searchMB.item['txtWorkflowGroup']}">
+						value="#{searchMB.searchFilter.item['txtWorkflowGroup']}">
 						<f:selectItem itemLabel="#{messages.search_all}" itemValue="-" />
 							<f:selectItems value="#{modelMB.workflowGroups}"/>
 						<a4j:support event="onchange" reRender="worklist_id,process_filter"
@@ -29,7 +29,7 @@
 					<h:outputLabel value="#{global.status}: "/>
 					
 					<h:selectOneMenu id="process_filter"
-						value="#{searchMB.item['txtProcessID']}">
+						value="#{searchMB.searchFilter.item['txtProcessID']}">
 						<f:selectItem itemLabel="#{messages.search_all}" itemValue="-" />
 						
 							<f:selectItems value="#{searchMB.processListByGroup}"/>

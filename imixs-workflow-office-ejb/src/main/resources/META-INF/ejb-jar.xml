@@ -6,8 +6,8 @@
 	<enterprise-beans>
 		<!--Imixs JEE EJBs -->
 		<session>
-			<ejb-name>EntityServiceBean</ejb-name>
-			<ejb-class>org.imixs.workflow.jee.ejb.EntityServiceBean</ejb-class>
+			<ejb-name>EntityService</ejb-name>
+			<ejb-class>org.imixs.workflow.jee.ejb.EntityService</ejb-class>
 			<session-type>Stateless</session-type>
 			<env-entry>
                 <description>Additional Reader Field for Workflow Model</description>
@@ -19,13 +19,8 @@
 		
 		
 		<session>
-			<ejb-name>ModelServiceBean</ejb-name>
-			<ejb-class>org.imixs.workflow.jee.ejb.ModelServiceBean</ejb-class>
-			<session-type>Stateless</session-type>
-		</session>
-		<session>
-			<ejb-name>WorkflowServiceBean</ejb-name>
-			<ejb-class>org.imixs.workflow.jee.ejb.WorkflowServiceBean</ejb-class>
+			<ejb-name>WorkflowService</ejb-name>
+			<ejb-class>org.imixs.workflow.jee.ejb.WorkflowService</ejb-class>
 			<session-type>Stateless</session-type>
 			<!--  Mail Configuration -->
 			<env-entry>
@@ -35,11 +30,6 @@
 				<env-entry-value>mail/org.imixs.workflow.jee.mailsession</env-entry-value>
 			</env-entry>
 			<!-- Plugin Service EJBs -->
-			<ejb-ref>
-                    <ejb-ref-name>ejb/EntityServiceBean</ejb-ref-name>
-                    <ejb-ref-type>Session</ejb-ref-type>
-                    <remote>org.imixs.workflow.jee.ejb.EntityService</remote>
-            </ejb-ref>
 			<ejb-ref>
                     <ejb-ref-name>ejb/ProfileServiceBean</ejb-ref-name>
                     <ejb-ref-type>Session</ejb-ref-type>
@@ -72,48 +62,9 @@
 
 		</session>
 		
-		<!-- #### Scheduled Workflow EJBs -->
-		<session>
-			<ejb-name>WorkflowSchedulerBean</ejb-name>
-			<ejb-class>
-				org.imixs.workflow.jee.ejb.WorkflowSchedulerBean</ejb-class>
-			<session-type>Stateless</session-type>
-		</session>
 		
 		
-		<session>
-			<ejb-name>ReportServiceBean</ejb-name>
-			<ejb-class>org.imixs.workflow.jee.ejb.ReportServiceBean</ejb-class>
-			<session-type>Stateless</session-type>
-		</session>
-
 		
-
-
-		<!-- #### Project specific EJBs -->
-		<session>
-			<ejb-name>ProjectServiceBean</ejb-name>
-			<ejb-class>org.imixs.marty.business.ProjectServiceBean</ejb-class>
-			<session-type>Stateless</session-type>
-		</session>
-
-		<session>
-			<ejb-name>ProfileServiceBean</ejb-name>
-			<ejb-class>org.imixs.marty.business.ProfileServiceBean</ejb-class>
-			<session-type>Stateless</session-type>
-		</session>
-
-		<session>
-			<ejb-name>ConfigServiceBean</ejb-name>
-			<ejb-class>org.imixs.marty.business.ConfigServiceBean</ejb-class>
-			<session-type>Stateless</session-type>
-		</session>
-
-		<session>
-			<ejb-name>WorkitemServiceBean</ejb-name>
-			<ejb-class>org.imixs.marty.business.WorkitemServiceBean</ejb-class>
-			<session-type>Stateless</session-type>
-		</session>
 
 	
 	</enterprise-beans>

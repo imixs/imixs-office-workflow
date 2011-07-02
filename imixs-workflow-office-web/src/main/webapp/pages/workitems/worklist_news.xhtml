@@ -10,7 +10,7 @@
 			<!-- *** Project News *** -->
 				<a4j:outputPanel id="infoBlockNews" layout="block" >
 					<a4j:outputPanel layout="block"
-						rendered="#{empty projectNotesMB.item['txtSubject'] and projectNotesMB.item['type'] eq 'note'}"
+						rendered="#{empty projectNotesMB.workitem.item['txtSubject'] and projectNotesMB.workitem.item['type'] eq 'note'}"
 						styleClass="xsywapp-viewentry-details">
 							
 						<dl>
@@ -18,14 +18,14 @@
 							
 						
 							<h:inputTextarea required="false" style="width:400px; height:70px;"
-							value="#{projectNotesMB.item['txtSubject']}" id="name_id">
+							value="#{projectNotesMB.workitem.item['txtSubject']}" id="name_id">
 							</h:inputTextarea>
 							<br />		
 							<h:outputLabel for="newsname_id" value="Link: " style="font-weight:bold;"/>
 						
 						
 							<h:inputText required="false" 
-							value="#{projectNotesMB.item['txtURL']}" >
+							value="#{projectNotesMB.workitem.item['txtURL']}" >
 							</h:inputText>
 									
 							<br />

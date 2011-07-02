@@ -15,7 +15,7 @@
 			value="#{form_messages.sub_dispatch_01_help}" /></dd>
 
 		<dd><h:selectOneMenu style="width:20em;"
-			value="#{workitemMB.item['$uniqueidRef']}">
+			value="#{workitemMB.workitem.item['$uniqueidRef']}">
 			<c:forEach items="#{projectMB.projectSiblings}" var="project">
 				<f:selectItem itemLabel="#{project.item['txtName']}"
 					itemValue="#{project.item['$UniqueID']}">

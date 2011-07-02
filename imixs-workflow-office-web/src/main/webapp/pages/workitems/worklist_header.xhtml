@@ -20,12 +20,12 @@
 
 
 	<c:choose>
-		<c:when test="#{empty projectMB.item['txtname']}">
+		<c:when test="#{empty projectMB.workitem.item['txtname']}">
 			<!-- *** No Project selected *** -->
 			<h1><h:outputText value="#{worklistMB.viewTitle}" /></h1>
 		</c:when>
 		<c:otherwise>
-			<h1><h:outputText value="#{projectMB.item['txtname']} " /></h1>
+			<h1><h:outputText value="#{projectMB.workitem.item['txtname']} " /></h1>
 		</c:otherwise>
 	</c:choose>
 	<ui:include src="/pages/workitems/worklist_filter.xhtml" />

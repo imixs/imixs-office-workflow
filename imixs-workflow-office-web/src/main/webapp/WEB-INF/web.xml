@@ -105,7 +105,7 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	
-	<!-- Rest Service -->
+	<!-- Rest Service 
 	<servlet>
 		<servlet-name>Jersey Web Application</servlet-name>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
@@ -115,12 +115,14 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
+
 
 	<servlet-mapping>
 		<servlet-name>Jersey Web Application</servlet-name>
 		<url-pattern>/RestService/*</url-pattern>
 	</servlet-mapping>
-	
+	-->
 
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
@@ -129,6 +131,7 @@
 
 
         <!-- EJB Refs necessary for GF 1.2 and GF 3 if @session annotation is left -->
+        <!-- 
         <ejb-local-ref>
                 <ejb-ref-name>org.imixs.workflow.jee.ejb.EntityService</ejb-ref-name>
                 <ejb-ref-type>Session</ejb-ref-type>
@@ -153,7 +156,7 @@
                 <local-home/>
                 <local>org.imixs.workflow.jee.ejb.ReportService</local>
         </ejb-local-ref>
-
+ -->
 
 	<!-- Error handling -->
 	<error-page>
@@ -179,14 +182,14 @@
 	
 	
 
- 	<!--  Login Modul - Browser-Login 
+ 	<!--  Login Modul - Browser-Login -->
 	<login-config>
 		<auth-method>BASIC</auth-method>
 		<realm-name>imixsrealm</realm-name>
 	</login-config>
-	-->
+	
 
-	<!--  Login Modul - Formular-Login -->
+	<!--  Login Modul - Formular-Login 
 	<login-config>
 		<auth-method>FORM</auth-method>
 		<realm-name>imixsrealm</realm-name>
@@ -195,7 +198,7 @@
 			<form-error-page>/loginerror.jsf</form-error-page>
 		</form-login-config>
 	</login-config>
-	
+	-->
 	
 	
 	<security-constraint>

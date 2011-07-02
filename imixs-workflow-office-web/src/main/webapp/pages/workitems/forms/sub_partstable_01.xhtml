@@ -75,10 +75,10 @@
 	</rich:dataTable>
 	
 	<!-- *** new part *** -->
-	<a4j:outputPanel rendered="#{workitemMB.item['$isAuthor']}"
+	<a4j:outputPanel rendered="#{workitemMB.workitem.item['$isAuthor']}"
 		id="new_part_ID" layout="block">
 	<!-- *** Sub Process List *** -->
-		<ui:repeat value="#{projectlistMB.subProcessList[workitemMB.item['$uniqueid']]}" var="process">
+		<ui:repeat value="#{projectlistMB.subProcessList[workitemMB.workitem.item['$uniqueid']]}" var="process">
 			<a4j:commandButton ajaxSingle="false" reRender="editPanel_innen"
 			 actionListener="#{workitemMB.doCreateChildWorkitem}"
 				 oncomplete="#{rich:component('editPanel')}.show()"

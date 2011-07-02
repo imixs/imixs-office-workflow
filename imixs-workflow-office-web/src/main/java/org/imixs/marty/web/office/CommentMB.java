@@ -14,7 +14,6 @@ import javax.faces.context.FacesContext;
 import org.imixs.marty.web.workitem.WorkitemListener;
 import org.imixs.marty.web.workitem.WorkitemMB;
 import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.util.ItemCollectionAdapter;
 
 /**
  * This bean provides a comment function to history comments entered by a user
@@ -96,14 +95,14 @@ public class CommentMB implements WorkitemListener {
 		}
 	}
 
-	public ArrayList<ItemCollectionAdapter> getLog() {
-		ArrayList<ItemCollectionAdapter> commentList = new ArrayList<ItemCollectionAdapter>();
+	public ArrayList<ItemCollection> getLog() {
+		ArrayList<ItemCollection> commentList = new ArrayList<ItemCollection>();
 		if (workitem!=null) {
 		try {
 			Vector<Map> vCommentList = workitem.getItemValue("txtCommentLog");
 			for (Map aworkitem : vCommentList) {
 				ItemCollection aComment=new ItemCollection(aworkitem);
-				commentList.add(new ItemCollectionAdapter(aComment));
+				commentList.add((aComment));
 			}
 		} catch (Exception e) {
 			// unable to copy comment

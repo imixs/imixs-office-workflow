@@ -12,7 +12,7 @@
 			<f:loadBundle basename="bundle.admin" var="messages" />
 
 			<h:form id="profile_form_id">
-				<h2><h:outputText value="#{messages.title_profile}: #{profileMB.item['txtWorkflowStatus']}" /></h2>
+				<h2><h:outputText value="#{messages.title_profile}: #{profileMB.workitem.item['txtWorkflowStatus']}" /></h2>
 
 				<!-- ########## Error ########## -->
 				<ui:include src="/pages/error_message.xhtml" />
@@ -26,7 +26,7 @@
 						<rich:panel>
 							
 							<f:facet name="header">							
-								<h:outputLabel value="#{messages.userid}: #{profileMB.item['txtName']}"/>
+								<h:outputLabel value="#{messages.userid}: #{profileMB.workitem.item['txtName']}"/>
 							</f:facet>
 							
 							
@@ -35,7 +35,7 @@
 								<dt><h:outputLabel value="#{messages.comments}">
 								</h:outputLabel></dt>
 								<dd><h:inputTextarea required="false"
-									value="#{profileMB.item['txtComments']}" id="description_id"
+									value="#{profileMB.workitem.item['txtComments']}" id="description_id"
 									style="height: 7em; width: 95%">
 								</h:inputTextarea></dd>
 							</dl>
@@ -46,22 +46,22 @@
 								</f:facet>
 								<div style="margin-left:10px;">
 								<h:outputText value="#{global.created}: " />
-								<h:outputText value="#{profileMB.item['$created']}">
+								<h:outputText value="#{profileMB.workitem.item['$created']}">
 									<f:convertDateTime type="both" dateStyle="medium" />
 								</h:outputText>
 								<h:outputText
-									value=" #{global.by} #{nameLookupMB.userName[profileMB.item['namCreator']]}" />
+									value=" #{global.by} #{nameLookupMB.userName[profileMB.workitem.item['namCreator']]}" />
 								<br />
 								<h:outputText value="#{global.modified}: " />
-								<h:outputText value="#{profileMB.item['$modified']}">
+								<h:outputText value="#{profileMB.workitem.item['$modified']}">
 									<f:convertDateTime type="both" dateStyle="medium" />
 								</h:outputText>
 								<h:outputText
-									value=" #{global.by} #{nameLookupMB.userName[profileMB.item['namCurrentEditor']]}" />
+									value=" #{global.by} #{nameLookupMB.userName[profileMB.workitem.item['namCurrentEditor']]}" />
 										
 								<hr />
 								<ui:repeat
-									value="#{profileMB.itemListArray['txtworkflowhistorylog']}"
+									value="#{profileMB.workitem.itemListArray['txtworkflowhistorylog']}"
 									var="log">
 									
 									<h:outputText value="#{log}" />
@@ -80,7 +80,7 @@
 					<rich:tab label="#{messages.sub_title_general}" rendered="false">
 						<rich:panel>
 							<f:facet name="header">							
-								<h:outputLabel value="#{messages.sub_title_account}: #{profileMB.item['txtName']}"
+								<h:outputLabel value="#{messages.sub_title_account}: #{profileMB.workitem.item['txtName']}"
 								  />
 							</f:facet>
 							<dl>
@@ -90,7 +90,7 @@
 										showSummary="true" showDetail="false" />
 								</h:outputLabel></dt>
 								<dd><h:inputText style="width: 20em;" required="true"
-									value="#{profileMB.item['txtFirstName']}" id="firstname_id">
+									value="#{profileMB.workitem.item['txtFirstName']}" id="firstname_id">
 								</h:inputText></dd>
 
 
@@ -100,7 +100,7 @@
 										showSummary="true" showDetail="false" />
 								</h:outputLabel></dt>
 								<dd><h:inputText style="width: 20em;" required="true"
-									value="#{profileMB.item['txtLastName']}" id="lastname_id">
+									value="#{profileMB.workitem.item['txtLastName']}" id="lastname_id">
 								</h:inputText></dd>
 
 
@@ -109,7 +109,7 @@
 									value="#{messages.displayname}">
 								</h:outputLabel></dt>
 								<dd><h:inputText style="width: 20em;" required="true"
-									value="#{profileMB.item['txtUserName']}" id="displayname_id">
+									value="#{profileMB.workitem.item['txtUserName']}" id="displayname_id">
 								</h:inputText> <rich:spacer width="8" /> <h:outputText
 									value="#{messages.displayname_help}" /> <br />
 
@@ -125,7 +125,7 @@
 										showDetail="false" />
 								</h:outputLabel></dt>
 								<dd><h:inputText style="width: 20em;" required="true"
-									value="#{profileMB.item['txtEmail']}" id="email_id">
+									value="#{profileMB.workitem.item['txtEmail']}" id="email_id">
 								</h:inputText></dd>
 
 
@@ -135,7 +135,7 @@
 										showSummary="true" showDetail="false" />
 								</h:outputLabel></dt>
 								<dd><h:inputText style="width: 20em;" required="false"
-									value="#{profileMB.item['txtPhone1']}" id="phone1_id">
+									value="#{profileMB.workitem.item['txtPhone1']}" id="phone1_id">
 								</h:inputText></dd>
 
 
@@ -145,7 +145,7 @@
 										showSummary="true" showDetail="false" />
 								</h:outputLabel></dt>
 								<dd><h:inputText style="width: 20em;" required="false"
-									value="#{profileMB.item['txtPhone2']}" id="phone2_id">
+									value="#{profileMB.workitem.item['txtPhone2']}" id="phone2_id">
 								</h:inputText></dd>
 
 
@@ -157,7 +157,7 @@
 										showSummary="true" showDetail="false" />
 								</h:outputLabel></dt>
 								<dd><h:inputText style="width: 20em;" required="false"
-									value="#{profileMB.item['txtCompany']}" id="company_id">
+									value="#{profileMB.workitem.item['txtCompany']}" id="company_id">
 								</h:inputText></dd>
 
 
@@ -167,7 +167,7 @@
 										showSummary="true" showDetail="false" />
 								</h:outputLabel></dt>
 								<dd><h:inputText style="width: 20em;" required="false"
-									value="#{profileMB.item['txtaddress']}" id="address_id">
+									value="#{profileMB.workitem.item['txtaddress']}" id="address_id">
 								</h:inputText></dd>
 
 
@@ -178,9 +178,9 @@
 										showDetail="false" />
 								</h:outputLabel></dt>
 								<dd><h:inputText style="width:4em;" required="false"
-									value="#{profileMB.item['txtzip']}" id="zip_id">
+									value="#{profileMB.workitem.item['txtzip']}" id="zip_id">
 								</h:inputText> <rich:spacer width="8" /> <h:inputText style="width:15em;"
-									required="false" value="#{profileMB.item['txtcity']}">
+									required="false" value="#{profileMB.workitem.item['txtcity']}">
 								</h:inputText></dd>
 
 
@@ -191,7 +191,7 @@
 										showSummary="true" showDetail="false" />
 								</h:outputLabel></dt>
 								<dd><h:inputText style="width: 20em;" required="false"
-									value="#{profileMB.item['txtcountry']}" id="country_id">
+									value="#{profileMB.workitem.item['txtcountry']}" id="country_id">
 								</h:inputText></dd>
 
 
@@ -201,7 +201,7 @@
 										showDetail="false" />
 								</h:outputLabel></dt>
 								<dd><h:inputText style="width: 20em;" required="false"
-									value="#{profileMB.item['txtstate']}" id="state_id">
+									value="#{profileMB.workitem.item['txtstate']}" id="state_id">
 								</h:inputText></dd>
 
 
@@ -253,7 +253,7 @@
 						</h:panelGroup>
 					</f:facet>
 					
-					<h:outputText value="Profile: #{profileMB.item['txtName']}"></h:outputText>
+					<h:outputText value="Profile: #{profileMB.workitem.item['txtName']}"></h:outputText>
 					<br />
 					<h:outputText value="#{global.delete_help1}"></h:outputText>
 					<br />

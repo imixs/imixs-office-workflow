@@ -20,7 +20,6 @@ import org.imixs.marty.web.workitem.WorkitemMB;
 import org.imixs.marty.web.workitem.WorklistMB;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.jee.ejb.ModelService;
-import org.imixs.workflow.util.ItemCollectionAdapter;
 
 /**
  * The minuteMB is a helper backing bean which holds the status of single minute
@@ -45,12 +44,11 @@ public class SearchMB implements WorkitemListener {
 	private WorkitemMB workitemMB = null;
 	private WorklistMB worklistMB = null;
 	private ProjectMB projectMB = null;
-	private ItemCollectionAdapter searchFilterAdapter;
 	private ItemCollection searchFilter;
 
 	private ArrayList<SelectItem> processSelection = null;
-	private ArrayList<ItemCollectionAdapter> worklist = null;
-	private ArrayList<ItemCollectionAdapter> updatelist = null;
+	private ArrayList<ItemCollection> worklist = null;
+	private ArrayList<ItemCollection> updatelist = null;
 
 	private int updatelistRow = 0;
 	private boolean endOfUpdatelist = false;
@@ -74,7 +72,7 @@ public class SearchMB implements WorkitemListener {
 		this.getWorkitemBean().addWorkitemListener(this);
 
 		searchFilter = new ItemCollection();
-		searchFilterAdapter = new ItemCollectionAdapter(searchFilter);
+		
 		// now try to initialize the current workitem state
 		onWorkitemChanged(this.getWorkitemBean().getWorkitem());
 
@@ -119,7 +117,7 @@ public class SearchMB implements WorkitemListener {
 		// reset search filter settings and current project setting
 		this.doClear(event);
 
-		ItemCollectionAdapter currentSelection = null;
+		ItemCollection currentSelection = null;
 		// suche selektierte Zeile....
 		UIComponent component = event.getComponent();
 
@@ -129,11 +127,11 @@ public class SearchMB implements WorkitemListener {
 			if (!(parent instanceof UIData))
 				continue;
 			// get current project from row
-			currentSelection = (ItemCollectionAdapter) ((UIData) parent)
+			currentSelection = (ItemCollection) ((UIData) parent)
 					.getRowData();
 
 			this.getWorkListBean().doSwitchToWorklistSearch(event);
-			getProjectBean().setWorkitem(currentSelection.getItemCollection());
+			getProjectBean().setWorkitem(currentSelection);
 			break;
 		}
 
@@ -257,8 +255,7 @@ public class SearchMB implements WorkitemListener {
 		getProjectBean().setWorkitem(null);
 		// reset filter settings
 		searchFilter = new ItemCollection();
-		searchFilterAdapter = new ItemCollectionAdapter(searchFilter);
-
+	
 		this.getWorkListBean().doSwitchToWorklistSearch(event);
 		this.getWorkListBean().setSearchQuery(null);
 		updatelist = null;
@@ -322,16 +319,16 @@ public class SearchMB implements WorkitemListener {
 
 	}
 
-	public List<ItemCollectionAdapter> getWorklist() {
+	public List<ItemCollection> getWorklist() { 
 		Collection<ItemCollection> col = null;
 		if (worklist == null) {
-			worklist = new ArrayList<ItemCollectionAdapter>();
+			worklist = new ArrayList<ItemCollection>();
 			col = workitemService.findWorkitemsByOwner(null, null, worklistRow,
 					count, WorkitemService.SORT_BY_MODIFIED,
 					WorkitemService.SORT_ORDER_DESC);
 
 			for (ItemCollection aworkitem : col) {
-				worklist.add(new ItemCollectionAdapter(aworkitem));
+				worklist.add((aworkitem));
 			}
 
 			endOfWorklist = col.size() < count;
@@ -344,16 +341,16 @@ public class SearchMB implements WorkitemListener {
 	 * 
 	 * @return
 	 */
-	public List<ItemCollectionAdapter> getAuthorlist() {
+	public List<ItemCollection> getAuthorlist() {
 		Collection<ItemCollection> col = null;
 		if (updatelist == null) {
-			updatelist = new ArrayList<ItemCollectionAdapter>();
+			updatelist = new ArrayList<ItemCollection>();
 			col = workitemService.findWorkitemsByAuthor(null, null,
 					updatelistRow, count, WorkitemService.SORT_BY_MODIFIED,
 					WorkitemService.SORT_ORDER_DESC);
 
 			for (ItemCollection aworkitem : col) {
-				updatelist.add(new ItemCollectionAdapter(aworkitem));
+				updatelist.add((aworkitem));
 			}
 
 			endOfUpdatelist = col.size() < count;
@@ -366,16 +363,16 @@ public class SearchMB implements WorkitemListener {
 	 * 
 	 * @return
 	 */
-	public List<ItemCollectionAdapter> getReaderlist() {
+	public List<ItemCollection> getReaderlist() {
 		Collection<ItemCollection> col = null;
 		if (updatelist == null) {
-			updatelist = new ArrayList<ItemCollectionAdapter>();
+			updatelist = new ArrayList<ItemCollection>();
 			col = workitemService.findAllWorkitems(null, null,
 					updatelistRow, count, WorkitemService.SORT_BY_MODIFIED,
 					WorkitemService.SORT_ORDER_DESC);
 
 			for (ItemCollection aworkitem : col) {
-				updatelist.add(new ItemCollectionAdapter(aworkitem));
+				updatelist.add((aworkitem));
 			}
 
 			endOfUpdatelist = col.size() < count;
@@ -388,16 +385,16 @@ public class SearchMB implements WorkitemListener {
 	 * 
 	 * @return
 	 */
-	public List<ItemCollectionAdapter> getCreatorlist() {
+	public List<ItemCollection> getCreatorlist() {
 		Collection<ItemCollection> col = null;
 		if (updatelist == null) {
-			updatelist = new ArrayList<ItemCollectionAdapter>();
+			updatelist = new ArrayList<ItemCollection>();
 			col = workitemService.findWorkitemsByCreator(null, null,
 					updatelistRow, count, WorkitemService.SORT_BY_MODIFIED,
 					WorkitemService.SORT_ORDER_DESC);
 
 			for (ItemCollection aworkitem : col) {
-				updatelist.add(new ItemCollectionAdapter(aworkitem));
+				updatelist.add((aworkitem));
 			}
 
 			endOfUpdatelist = col.size() < count;
@@ -449,22 +446,7 @@ public class SearchMB implements WorkitemListener {
 		return endOfWorklist;
 	}
 
-	public Map getItem() throws Exception {
-		// getWorkitem();
-		return searchFilterAdapter.getItem();
-	}
-
-	public Map getItemList() throws Exception {
-		// getWorkitem();
-		return searchFilterAdapter.getItemList();
-	}
-
-	public Map getItemListArray() throws Exception {
-		// getWorkitem();
-
-		return searchFilterAdapter.getItemListArray();
-	}
-
+	
 	public void onWorkitemChanged(ItemCollection arg0) {
 
 	}

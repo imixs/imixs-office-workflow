@@ -13,7 +13,7 @@
 		<!-- ### Projektnummer ### -->
 		<dt><h:outputLabel value="#{form_messages.sub_project_projectnumber}" /></dt>
 
-		<dd><h:inputText value="#{workitemMB.item['_projectnumber']}"
+		<dd><h:inputText value="#{workitemMB.workitem.item['_projectnumber']}"
 			id="projectnumber_id" required="false" /> <h:message
 			style="color: red" for="projectnumber_id" showSummary="true"
 			showDetail="false" /></dd>
@@ -21,13 +21,13 @@
 
 		<!-- ### Datum ### -->
 		<dt><h:outputLabel value="#{form_messages.sub_project_date}" /></dt>
-		<dd><rich:calendar value="#{workitemMB.item['datDueDate']}"
+		<dd><rich:calendar value="#{workitemMB.workitem.item['datDueDate']}"
 			style="width:140px;" /></dd>
 
 		<!-- ### Kunde ### -->
 		<dt><h:outputLabel value="#{form_messages.sub_project_projectname}" /></dt>
 
-		<dd><h:inputText value="#{workitemMB.item['_projectname']}"
+		<dd><h:inputText value="#{workitemMB.workitem.item['_projectname']}"
 			required="false" /></dd>
 
 

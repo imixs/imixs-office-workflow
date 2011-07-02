@@ -9,7 +9,7 @@
 
 	<ui:define name="content">
 
-		<!-- Documentinfo: $UniqueID= #{projectMB.item['$uniqueid']}-->
+		<!-- Documentinfo: $UniqueID= #{projectMB.workitem.item['$uniqueid']}-->
 		<f:view>
 			<f:loadBundle basename="bundle.project" var="messages" />
 			<rich:dragIndicator id="indicator" />
@@ -19,7 +19,7 @@
 			<div class="sywapp-form sywapp-project">
 			
 			<div class="sywapp-form-header">
-				<h2><h:outputText value="#{projectMB.item['txtProjectname']}: " rendered="#{! empty projectMB.item['txtProjectname']}" />
+				<h2><h:outputText value="#{projectMB.workitem.item['txtProjectname']}: " rendered="#{! empty projectMB.workitem.item['txtProjectname']}" />
 				
 				<h:outputText value="#{messages.title_edit_project}" /></h2>
 			</div>
@@ -40,10 +40,10 @@
 										showDetail="false" />
 								</h:outputLabel></dt>
 								<dd><h:outputText
-									rendered="#{! empty projectMB.item['txtParentname']}"
-									value="#{projectMB.item['txtParentname']}." /> <h:inputText
+									rendered="#{! empty projectMB.workitem.item['txtParentname']}"
+									value="#{projectMB.workitem.item['txtParentname']}." /> <h:inputText
 									style="width: 20em;" required="true"
-									value="#{projectMB.item['txtProjectname']}" id="name_id">
+									value="#{projectMB.workitem.item['txtProjectname']}" id="name_id">
 								</h:inputText></dd>
 
 								<dt><h:outputLabel for="description_id"
@@ -53,7 +53,7 @@
 								</h:outputLabel></dt>
 
 								<dd><h:inputTextarea required="false"
-									value="#{projectMB.item['txtdescription']}" id="description_id"
+									value="#{projectMB.workitem.item['txtdescription']}" id="description_id"
 									style="height: 5em; width: 95%">
 								</h:inputTextarea></dd>
 
@@ -85,7 +85,7 @@
 											<br />
 											
 											<rich:dataTable id="owner_datatable_id" columns="2"
-												value="#{projectMB.itemListArray['namowner']}" rows="5"
+												value="#{projectMB.workitem.itemListArray['namowner']}" rows="5"
 												var="record">
 												<rich:column sortBy="#{nameLookupMB.userName[record]}"
 													sortOrder="ASCENDING">
@@ -104,7 +104,7 @@
 												</rich:column>
 											</rich:dataTable>
 											<rich:datascroller align="left" for="owner_datatable_id"
-											rendered="#{!empty projectMB.itemListArray['namowner']}" />
+											rendered="#{!empty projectMB.workitem.itemListArray['namowner']}" />
 										</h:panelGroup>
 
 
@@ -137,7 +137,7 @@
 										<br />
 										
 										<rich:dataTable id="manager_datatable_id" columns="2"
-											value="#{projectMB.itemListArray['nammanager']}" rows="5"
+											value="#{projectMB.workitem.itemListArray['nammanager']}" rows="5"
 											var="record">
 											<rich:column sortBy="#{nameLookupMB.userName[record]}"
 												sortOrder="ASCENDING">
@@ -156,7 +156,7 @@
 											</rich:column>
 										</rich:dataTable>
 										<rich:datascroller align="left" for="manager_datatable_id"
-											rendered="#{!empty projectMB.itemListArray['nammanager']}" />
+											rendered="#{!empty projectMB.workitem.itemListArray['nammanager']}" />
 									</h:panelGroup>
 
 									<h:panelGroup id="manager_error_message_id">
@@ -183,7 +183,7 @@
 										<br />
 
 										<rich:dataTable id="team_datatable_id" columns="2"
-											value="#{projectMB.itemListArray['namteam']}" rows="5"
+											value="#{projectMB.workitem.itemListArray['namteam']}" rows="5"
 											var="record">
 											<rich:column sortBy="#{nameLookupMB.userName[record]}"
 												sortOrder="ASCENDING">
@@ -202,7 +202,7 @@
 											</rich:column>
 										</rich:dataTable>
 										<rich:datascroller align="left" for="team_datatable_id"
-											rendered="#{!empty projectMB.itemListArray['namteam']}" />
+											rendered="#{!empty projectMB.workitem.itemListArray['namteam']}" />
 									</h:panelGroup>
 									<h:panelGroup id="team_error_message_id">
 										<h:message id="nameError" style="color: red"
@@ -228,7 +228,7 @@
 										<br />
 										
 										<rich:dataTable id="assist_datatable_id" columns="2"
-											value="#{projectMB.itemListArray['namassist']}" rows="5"
+											value="#{projectMB.workitem.itemListArray['namassist']}" rows="5"
 											var="record">
 											<rich:column sortBy="#{nameLookupMB.userName[record]}"
 												sortOrder="ASCENDING">
@@ -247,7 +247,7 @@
 											</rich:column>
 										</rich:dataTable>
 										<rich:datascroller align="left" for="assist_datatable_id"
-											rendered="#{!empty projectMB.itemListArray['namassist']}" />
+											rendered="#{!empty projectMB.workitem.itemListArray['namassist']}" />
 									</h:panelGroup>
 
 									<h:panelGroup id="assist_error_message_id">
@@ -303,12 +303,12 @@
 					</f:facet>
 
 					<h:outputText
-						value="#{global.modified}: #{projectMB.item['$modified']}">
+						value="#{global.modified}: #{projectMB.workitem.item['$modified']}">
 						<f:convertDateTime type="both" dateStyle="short"
 							pattern="dd.MMM.yy HH:mm:ss" />
 					</h:outputText>
 					<h:outputText
-						value=" #{global.by} #{nameLookupMB.userName[projectMB.item['namCurrentEditor']]}" />
+						value=" #{global.by} #{nameLookupMB.userName[projectMB.workitem.item['namCurrentEditor']]}" />
 					<br />
 					<br />
 					<ui:repeat value="#{projectMB.activities}" var="activity">
@@ -352,7 +352,7 @@
 						</h:panelGroup>
 					</f:facet>
 					
-					<h:outputText value="#{projectMB.item['txtName']}"></h:outputText>
+					<h:outputText value="#{projectMB.workitem.item['txtName']}"></h:outputText>
 					<br />
 					<h:outputText value="#{global.delete_help1}"></h:outputText>
 					<br />

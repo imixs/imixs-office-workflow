@@ -32,7 +32,7 @@
 
 
 			<rich:dropDownMenu
-				rendered="#{loginMB.authenticated and !empty projectMB.item['txtname']}">
+				rendered="#{loginMB.authenticated and !empty projectMB.workitem.item['txtname']}">
 				<f:facet name="label">
 					<h:outputText value="#{global.my_work}" />
 				</f:facet>
@@ -57,21 +57,21 @@
 
 				<rich:menuItem submitMode="server"
 					value="#{global.open_worklist_all}"
-					rendered="#{!empty projectMB.item['txtname']}"
+					rendered="#{!empty projectMB.workitem.item['txtname']}"
 					actionListener="#{worklistMB.doSwitchToWorklistAll}"
 					action="open_worklist">
 				</rich:menuItem>
 
 				<rich:menuItem submitMode="server"
 					value="#{global.open_worklist_archive}"
-					rendered="#{!empty projectMB.item['txtname']}"
+					rendered="#{!empty projectMB.workitem.item['txtname']}"
 					actionListener="#{worklistMB.doSwitchToWorklistArchive}"
 					action="open_worklist">
 				</rich:menuItem>
 
 				<rich:menuItem submitMode="server"
 					value="#{global.open_worklist_deletions}"
-					rendered="#{!empty projectMB.item['txtname']}"
+					rendered="#{!empty projectMB.workitem.item['txtname']}"
 					actionListener="#{worklistMB.doSwitchToWorklistDeletions}"
 					action="open_worklist">
 				</rich:menuItem>
