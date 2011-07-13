@@ -7,43 +7,62 @@
 	xmlns:rich="http://richfaces.org/rich" id="worklist_searchfilter_id">
 
 
-			<!-- *** Search Filter *** -->
-			<a4j:outputPanel id="worklist_search_panel" layout="block" styleClass="sywapp-viewentry">
-				<h:outputText value="#{projectMB.workitem.item['txtdescription']}" />
+	<!-- *** Filter *** -->
+
+	<a4j:outputPanel id="worklist_filter_panel" layout="block"
+		styleClass="sywapp-viewentry">
+		<h3>
+			<h:outputText value="#{global.filter}: " />
+		</h3>
+
+		<dl>
+
+			<dd>
+
+
+				
+				
+				<h:selectOneMenu id="view_filter" value="#{worklistMB.queryType}">
+					<f:selectItem itemLabel="#{messages.title_worklist_all}"
+						itemValue="3" />
+					<f:selectItem itemLabel="#{messages.title_worklist_by_author}"
+						itemValue="2" />
+					<f:selectItem itemLabel="#{messages.title_worklist_by_owner}"
+						itemValue="0" />
+					<f:selectItem itemLabel="#{messages.title_worklist_by_creator}"
+						itemValue="1" />
+					<f:selectItem itemLabel="#{messages.title_worklist_archive}"
+						itemValue="4" />
+					<f:selectItem itemLabel="#{messages.title_worklist_deletions}"
+						itemValue="7" />
+					<a4j:support event="onchange"
+						reRender="group_filter,worklist_id" />
+				</h:selectOneMenu>
 				
 
-
-				<dl>
-					
-					<dd><h:outputLabel value="#{global.filter}: "/>
+				
 					<h:selectOneMenu id="group_filter"
-						value="#{searchMB.searchFilter.item['txtWorkflowGroup']}">
+						value="#{worklistMB.workflowGroupFilter}">
 						<f:selectItem itemLabel="#{messages.search_all}" itemValue="-" />
-							<f:selectItems value="#{modelMB.workflowGroups}"/>
-						<a4j:support event="onchange" reRender="worklist_id,process_filter"
-							actionListener="#{searchMB.doSearch}"
-							 />
+						<f:selectItems value="#{modelMB.workflowGroups}" />
+						<a4j:support event="onchange"
+							reRender="process_filter,worklist_id" />
 					</h:selectOneMenu>
-					
-					
-					<h:outputLabel value="#{global.status}: "/>
-					
-					<h:selectOneMenu id="process_filter"
-						value="#{searchMB.searchFilter.item['txtProcessID']}">
-						<f:selectItem itemLabel="#{messages.search_all}" itemValue="-" />
-						
-							<f:selectItems value="#{searchMB.processListByGroup}"/>
-						<a4j:support event="onchange" reRender="worklist_id"
-							actionListener="#{searchMB.doSearch}" />
-					</h:selectOneMenu>
-					
-					
-					
-					</dd>
-				</dl>
-			
 
-			</a4j:outputPanel>
+
+					<h:outputLabel value="#{global.status}: " />
+
+					<h:selectOneMenu id="process_filter"
+						value="#{worklistMB.processFilter}">
+						<f:selectItem itemLabel="#{messages.search_all}" itemValue="0" />
+						<f:selectItems value="#{worklistMB.processFilterSelection}" />
+						<a4j:support event="onchange" reRender="worklist_filter_panel,worklist_id" />
+					</h:selectOneMenu>
+				
+			</dd>
+		</dl>
 		
+	</a4j:outputPanel>
+
 
 </f:subview>

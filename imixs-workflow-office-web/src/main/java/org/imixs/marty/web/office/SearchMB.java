@@ -112,6 +112,8 @@ public class SearchMB implements WorkitemListener {
 	 * @return
 	 * @throws Exception
 	 */
+	
+	/*
 	public void doSwitchToProject(ActionEvent event) throws Exception {
 
 		// reset search filter settings and current project setting
@@ -139,6 +141,7 @@ public class SearchMB implements WorkitemListener {
 		this.doSearch(event);
 
 	}
+	*/
 
 	/**
 	 * This Method resets the search result and build a new JPQL Statement
@@ -319,6 +322,7 @@ public class SearchMB implements WorkitemListener {
 
 	}
 
+	/*
 	public List<ItemCollection> getWorklist() { 
 		Collection<ItemCollection> col = null;
 		if (worklist == null) {
@@ -334,13 +338,14 @@ public class SearchMB implements WorkitemListener {
 			endOfWorklist = col.size() < count;
 		}
 		return worklist;
-	}
+	}*/
 
 	/**
 	 * returns a list of recently updated workitems editable by the author
 	 * 
 	 * @return
 	 */
+	/*
 	public List<ItemCollection> getAuthorlist() {
 		Collection<ItemCollection> col = null;
 		if (updatelist == null) {
@@ -357,12 +362,14 @@ public class SearchMB implements WorkitemListener {
 		}
 		return updatelist;
 	}
+	*/
 	
 	/**
 	 * returns a list of all recently updated workitems 
 	 * 
 	 * @return
 	 */
+	/*
 	public List<ItemCollection> getReaderlist() {
 		Collection<ItemCollection> col = null;
 		if (updatelist == null) {
@@ -379,12 +386,13 @@ public class SearchMB implements WorkitemListener {
 		}
 		return updatelist;
 	}
-
+*/
 	/**
 	 * returns a list of recently updated workitems created by the current editor
 	 * 
 	 * @return
 	 */
+	/*
 	public List<ItemCollection> getCreatorlist() {
 		Collection<ItemCollection> col = null;
 		if (updatelist == null) {
@@ -401,11 +409,12 @@ public class SearchMB implements WorkitemListener {
 		}
 		return updatelist;
 	}
-	
+	*/
 	
 	/**
 	 * Navigation
 	 */
+	/*
 	public void doUpdatelistLoadNext(ActionEvent event) {
 		updatelistRow = updatelistRow + count;
 		updatelist = null;
@@ -445,7 +454,7 @@ public class SearchMB implements WorkitemListener {
 	public boolean isEndOfWorklist() {
 		return endOfWorklist;
 	}
-
+*/
 	
 	public void onWorkitemChanged(ItemCollection arg0) {
 

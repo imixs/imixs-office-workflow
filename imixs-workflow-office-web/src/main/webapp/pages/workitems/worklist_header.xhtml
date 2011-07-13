@@ -11,25 +11,73 @@
 	<!-- *******************
      The Worklist header supports two modes; 
        - project selected 
-            project name and a filter box is displayed
+            project name  displayed in header
        - no project selected
-            a search box is displayed
+            the view type ist displayed in header
 
 
  -->
 
 
-	<c:choose>
-		<c:when test="#{empty projectMB.workitem.item['txtname']}">
+	<rich:panel>
+		<f:facet name="header">
+
 			<!-- *** No Project selected *** -->
-			<h1><h:outputText value="#{worklistMB.viewTitle}" /></h1>
-		</c:when>
-		<c:otherwise>
-			<h1><h:outputText value="#{projectMB.workitem.item['txtname']} " /></h1>
-		</c:otherwise>
-	</c:choose>
-	<ui:include src="/pages/workitems/worklist_filter.xhtml" />
-	
-	<ui:include src="/pages/workitems/worklist_news.xhtml" />
+			<h:outputText rendered="#{empty projectMB.workitem.item['txtname']}"
+				value="#{worklistMB.viewTitle}" />
+			<h:outputText
+				rendered="#{! empty projectMB.workitem.item['txtname']}"
+				value="#{projectMB.workitem.item['txtname']}" />
+
+
+		</f:facet>
+
+		<a4j:outputPanel layout="block" styleClass="sywapp-viewentry">
+			<p>
+				<h:outputText value="#{projectMB.workitem.item['txtdescription']}" />
+			</p>
+
+
+			<rich:panel>
+				<h3>
+					<h:outputText value="#{global.start_new_process}" />
+				</h3>
+
+				<!-- *** Process List *** -->
+
+				<ui:repeat
+					value="#{projectlistMB.processList[projectMB.workitem.item['$uniqueid']]}"
+					var="process">
+
+					<div class="sywapp-processlist" style="float: left; width: 200px;">
+						<ul>
+							<li><h:commandLink action="open_workitem"
+									actionListener="#{workitemMB.doCreateWorkitem}"
+									value="#{process.item['txtworkflowgroup']} »">
+									<f:param name="id"
+										value="#{process.item['$modelversion']}|#{process.item['numprocessid']}" />
+									<f:param name="project" value="#{project.item['$uniqueid']}" />
+								</h:commandLink> <a4j:outputPanel layout="block">
+									<h:outputText value="#{process.item['rtfdescription']}"
+										escape="false" />
+								</a4j:outputPanel>
+							</li>
+						</ul>
+
+					</div>
+				</ui:repeat>
+				<div style="clear: left" />
+
+			</rich:panel>
+		</a4j:outputPanel>
+
+
+
+
+		<ui:include src="/pages/workitems/worklist_filter.xhtml" />
+		<!-- -->
+		<ui:include src="/pages/workitems/worklist_news.xhtml" />
+	 
+	</rich:panel>
 
 </f:subview>
