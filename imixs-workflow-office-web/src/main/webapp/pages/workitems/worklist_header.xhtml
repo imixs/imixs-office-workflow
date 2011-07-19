@@ -22,14 +22,14 @@
 	<rich:panel>
 		<f:facet name="header">
 
-			<!-- *** No Project selected *** -->
-			<h:outputText rendered="#{empty projectMB.workitem.item['txtname']}"
-				value="#{worklistMB.viewTitle}" />
-			<h:outputText
-				rendered="#{! empty projectMB.workitem.item['txtname']}"
-				value="#{projectMB.workitem.item['txtname']}" />
+			<h:panelGroup id="worklist_title">
+				<h:outputText rendered="#{empty projectMB.workitem.item['txtname']}"
+					value="#{worklistMB.viewTitle}" />
+				<h:outputText
+					rendered="#{! empty projectMB.workitem.item['txtname']}"
+					value="#{projectMB.workitem.item['txtname']}" />
 
-
+			</h:panelGroup>
 		</f:facet>
 
 		<a4j:outputPanel layout="block" styleClass="sywapp-viewentry">
@@ -38,7 +38,7 @@
 			</p>
 
 
-			<rich:panel>
+			<rich:panel rendered="#{! empty projectlistMB.processList[projectMB.workitem.item['$uniqueid']]}">
 				<h3>
 					<h:outputText value="#{global.start_new_process}" />
 				</h3>

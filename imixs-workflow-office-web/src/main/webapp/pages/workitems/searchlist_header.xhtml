@@ -8,31 +8,30 @@
 
 
 	<rich:dragIndicator id="indicator" />
-	
 
 
-			<h1><h:outputText value="#{global.search}" /></h1>
-			<!-- *** Search Filter *** -->
-			
-			<a4j:outputPanel id="worklist_search_panel" layout="block" styleClass="sywapp-viewentry">
-				
-				
+	<rich:panel>
+		<f:facet name="header">
+
+			<h:outputText value="#{global.search}" />
+		</f:facet>
+
+		<a4j:outputPanel id="worklist_search_panel" layout="block"
+			styleClass="sywapp-viewentry">
+			<dl>
+
+				<dd>
+
+					<h:inputText value="#{searchMB.searchFilter.item['txtSearch']}"></h:inputText>
+					<h:commandButton actionListener="#{searchMB.doSearch}"
+						value="#{global.search}">
+					</h:commandButton>
 
 
-				<dl>
-					
-					<dd>
-					
-						<h:inputText value="#{searchMB.searchFilter.item['txtSearch']}"></h:inputText>
-						<h:commandButton actionListener="#{searchMB.doSearch}"
-							value="#{global.search}">
-						</h:commandButton>
-					
-					
-					</dd>
-				</dl>
-			
+				</dd>
+			</dl>
 
-			</a4j:outputPanel>
 
+		</a4j:outputPanel>
+	</rich:panel>
 </f:subview>
