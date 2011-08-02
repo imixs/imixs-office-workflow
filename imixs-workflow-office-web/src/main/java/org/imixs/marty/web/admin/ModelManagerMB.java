@@ -12,7 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.imixs.marty.web.project.ProjectlistMB;
-import org.imixs.marty.web.util.SystemSetupMB;
+import org.imixs.marty.web.util.SetupMB;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.jee.ejb.EntityService;
 import org.richfaces.event.UploadEvent;
@@ -32,7 +32,7 @@ public class ModelManagerMB {
 	private final String DEPRECATED_NO_VERSION = "DEPRECATED-NO-VERSION";
 	private String currentModelVersion;
 	private int maxAttachments = 10;
-	private SystemSetupMB systemSetupMB = null;
+	private SetupMB setupMB = null;
 	private ProjectlistMB projectlistMB = null;
 
 	/**
@@ -55,7 +55,7 @@ public class ModelManagerMB {
 		try {
 			System.out
 					.println("ModelManagerMB - starting xml model file upload");
-			this.getSystemSetupBean().importXmlEntityData(item.getData());
+			this.getSetupBean().importXmlEntityData(item.getData());
 			// reset start process list
 			getProjectlistBean().resetProcessList();
 		} catch (Exception e) {
@@ -181,16 +181,16 @@ public class ModelManagerMB {
 
 	}
 
-	private SystemSetupMB getSystemSetupBean() {
-		if (systemSetupMB == null)
-			systemSetupMB = (SystemSetupMB) FacesContext
+	private SetupMB getSetupBean() {
+		if (setupMB == null)
+			setupMB = (SetupMB) FacesContext
 					.getCurrentInstance()
 					.getApplication()
 					.getELResolver()
 					.getValue(FacesContext.getCurrentInstance().getELContext(),
-							null, "systemSetupMB");
+							null, "setupMB");
 
-		return systemSetupMB;
+		return setupMB;
 	}
 
 	private ProjectlistMB getProjectlistBean() {
