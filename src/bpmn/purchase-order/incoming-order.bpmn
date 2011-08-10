@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:BpmnDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:bpmn="http://stp.eclipse.org/bpmn" xmi:id="_r6xOwb9XEeCSkL-1JBgLRw" iD="_r6xOwL9XEeCSkL-1JBgLRw">
+  <pools xmi:type="bpmn:Pool" xmi:id="_r7RlEb9XEeCSkL-1JBgLRw" iD="_r7RlEL9XEeCSkL-1JBgLRw" name="Incomming Order">
+    <vertices xmi:type="bpmn:Activity" xmi:id="_r7SMIb9XEeCSkL-1JBgLRw" iD="_r7SMIL9XEeCSkL-1JBgLRw" outgoingEdges="_3bA-0b9XEeCSkL-1JBgLRw" incomingEdges="_0Lnqob9XEeCSkL-1JBgLRw" name="verivy Order" lanes="_tc9aQb9XEeCSkL-1JBgLRw" activityType="Task"/>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_wbBG0b9XEeCSkL-1JBgLRw" iD="_wbBG0L9XEeCSkL-1JBgLRw" outgoingEdges="_0Lnqob9XEeCSkL-1JBgLRw" name="new Order" lanes="_tc9aQb9XEeCSkL-1JBgLRw" activityType="EventStartEmpty"/>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_3GUhMb9XEeCSkL-1JBgLRw" iD="_3GUhML9XEeCSkL-1JBgLRw" outgoingEdges="_5Wxg4b9XEeCSkL-1JBgLRw __J59Ib9XEeCSkL-1JBgLRw" incomingEdges="_3bA-0b9XEeCSkL-1JBgLRw" name="amount of order" lanes="_tc9aQb9XEeCSkL-1JBgLRw" activityType="GatewayDataBasedExclusive"/>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_4TsTQb9XEeCSkL-1JBgLRw" iD="_4TsTQL9XEeCSkL-1JBgLRw" outgoingEdges="_-EemIb9XEeCSkL-1JBgLRw" incomingEdges="_5Wxg4b9XEeCSkL-1JBgLRw" name="credit check" lanes="_t_0Psb9XEeCSkL-1JBgLRw _tzN-Ib9XEeCSkL-1JBgLRw"/>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_4h0O0b9XEeCSkL-1JBgLRw" iD="_4h0O0L9XEeCSkL-1JBgLRw" outgoingEdges="_gg-Pgb9YEeCSkL-1JBgLRw" incomingEdges="_-EemIb9XEeCSkL-1JBgLRw __J59Ib9XEeCSkL-1JBgLRw" name="place production&#xA; order" lanes="_tzN-Ib9XEeCSkL-1JBgLRw"/>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_W5Cr8b9YEeCSkL-1JBgLRw" iD="_W5Cr8L9YEeCSkL-1JBgLRw" outgoingEdges="_g-B-8b9YEeCSkL-1JBgLRw" incomingEdges="_gg-Pgb9YEeCSkL-1JBgLRw" name="prepare shipment" lanes="_tc9aQb9XEeCSkL-1JBgLRw"/>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_iyK2Eb9YEeCSkL-1JBgLRw" iD="_iyK2EL9YEeCSkL-1JBgLRw" incomingEdges="_g-B-8b9YEeCSkL-1JBgLRw" name="start invoice process" lanes="_tc9aQb9XEeCSkL-1JBgLRw" activityType="EventEndLink"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_0Lnqob9XEeCSkL-1JBgLRw" iD="_0LnqoL9XEeCSkL-1JBgLRw"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_3bA-0b9XEeCSkL-1JBgLRw" iD="_3bA-0L9XEeCSkL-1JBgLRw"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_5Wxg4b9XEeCSkL-1JBgLRw" iD="_5Wxg4L9XEeCSkL-1JBgLRw" name="amount >=25 T€"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_-EemIb9XEeCSkL-1JBgLRw" iD="_-EemIL9XEeCSkL-1JBgLRw"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="__J59Ib9XEeCSkL-1JBgLRw" iD="__J59IL9XEeCSkL-1JBgLRw" name="amount &lt;25 T€"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_gg-Pgb9YEeCSkL-1JBgLRw" iD="_gg-PgL9YEeCSkL-1JBgLRw"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_g-B-8b9YEeCSkL-1JBgLRw" iD="_g-B-8L9YEeCSkL-1JBgLRw"/>
+    <lanes xmi:type="bpmn:Lane" xmi:id="_tc9aQb9XEeCSkL-1JBgLRw" iD="_tc9aQL9XEeCSkL-1JBgLRw" name="Sales Team" activities="_r7SMIb9XEeCSkL-1JBgLRw _wbBG0b9XEeCSkL-1JBgLRw _3GUhMb9XEeCSkL-1JBgLRw _W5Cr8b9YEeCSkL-1JBgLRw _iyK2Eb9YEeCSkL-1JBgLRw"/>
+    <lanes xmi:type="bpmn:Lane" xmi:id="_tzN-Ib9XEeCSkL-1JBgLRw" iD="_tzN-IL9XEeCSkL-1JBgLRw" name="production" activities="_4h0O0b9XEeCSkL-1JBgLRw _4TsTQb9XEeCSkL-1JBgLRw"/>
+    <lanes xmi:type="bpmn:Lane" xmi:id="_t_0Psb9XEeCSkL-1JBgLRw" iD="_t_0PsL9XEeCSkL-1JBgLRw" name="financial controlling" activities="_4TsTQb9XEeCSkL-1JBgLRw"/>
+  </pools>
+</bpmn:BpmnDiagram>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:BpmnDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:bpmn="http://stp.eclipse.org/bpmn" xmi:id="_lHbY8fZEEd-Rbp3iuO8tFg" iD="_lHbY8PZEEd-Rbp3iuO8tFg">
+  <pools xmi:type="bpmn:Pool" xmi:id="_lL5pQfZEEd-Rbp3iuO8tFg" iD="_lL5pQPZEEd-Rbp3iuO8tFg" name="Purchase Order">
+    <vertices xmi:type="bpmn:Activity" xmi:id="_lL5pQ_ZEEd-Rbp3iuO8tFg" iD="_lL5pQvZEEd-Rbp3iuO8tFg" outgoingEdges="_Fta-8fyAEd-hzKJPvg9Yew" incomingEdges="_OgmEEfZGEd-Rbp3iuO8tFg" name="Starts purchase request workflow" lanes="_VNv4kfZGEd-Rbp3iuO8tFg _ZDD8QfZREd-Rbp3iuO8tFg" activityType="Task"/>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_MOHEEfZGEd-Rbp3iuO8tFg" iD="_MOHEEPZGEd-Rbp3iuO8tFg" outgoingEdges="_OgmEEfZGEd-Rbp3iuO8tFg" name="new purchase order" lanes="_VNv4kfZGEd-Rbp3iuO8tFg _ZDD8QfZREd-Rbp3iuO8tFg" activityType="EventStartLink"/>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_rwqq4fZREd-Rbp3iuO8tFg" iD="_rwqq4PZREd-Rbp3iuO8tFg" outgoingEdges="_UWiGQfZSEd-Rbp3iuO8tFg _8Fssob9UEeCSkL-1JBgLRw" incomingEdges="_4hBsAb9UEeCSkL-1JBgLRw" name="Amount of Purchase" lanes="_ZDD8QfZREd-Rbp3iuO8tFg _xIfF0fyAEd-hzKJPvg9Yew" activityType="GatewayDataBasedExclusive"/>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_69kS4fZREd-Rbp3iuO8tFg" iD="_69kS4PZREd-Rbp3iuO8tFg" outgoingEdges="_4hBsAb9UEeCSkL-1JBgLRw" incomingEdges="_Fta-8fyAEd-hzKJPvg9Yew" name="Approves Ammount" lanes="_ZDD8QfZREd-Rbp3iuO8tFg" activityType="Task"/>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_bz0XMfZSEd-Rbp3iuO8tFg" iD="_bz0XMPZSEd-Rbp3iuO8tFg" incomingEdges="_CiL5kfyiEd-hzKJPvg9Yew" name="Purchase Order" lanes="_7un7EfyhEd-hzKJPvg9Yew" activityType="EventEndLink"/>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_6L18sfyAEd-hzKJPvg9Yew" iD="_6L18sPyAEd-hzKJPvg9Yew" outgoingEdges="_Bmbb8fyiEd-hzKJPvg9Yew" incomingEdges="_UWiGQfZSEd-Rbp3iuO8tFg" name="Financial approval" lanes="_xIfF0fyAEd-hzKJPvg9Yew"/>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_BmSSAfyiEd-hzKJPvg9Yew" iD="_BmSSAPyiEd-hzKJPvg9Yew" outgoingEdges="_CiL5kfyiEd-hzKJPvg9Yew" incomingEdges="_8Fssob9UEeCSkL-1JBgLRw _qPPL8b9VEeCSkL-1JBgLRw" name="Place Order" lanes="_7un7EfyhEd-hzKJPvg9Yew" activityType="Task"/>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_m2fHcb9VEeCSkL-1JBgLRw" iD="_m2fHcL9VEeCSkL-1JBgLRw" outgoingEdges="_ps1pgb9VEeCSkL-1JBgLRw _qPPL8b9VEeCSkL-1JBgLRw" incomingEdges="_Bmbb8fyiEd-hzKJPvg9Yew" lanes="_xIfF0fyAEd-hzKJPvg9Yew" activityType="GatewayDataBasedExclusive"/>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_pstGob9VEeCSkL-1JBgLRw" iD="_pstGoL9VEeCSkL-1JBgLRw" incomingEdges="_ps1pgb9VEeCSkL-1JBgLRw" name="cancel Order" lanes="_VNv4kfZGEd-Rbp3iuO8tFg" activityType="EventEndEmpty"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_OgmEEfZGEd-Rbp3iuO8tFg" iD="_OgmEEPZGEd-Rbp3iuO8tFg"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_UWiGQfZSEd-Rbp3iuO8tFg" iD="_UWiGQPZSEd-Rbp3iuO8tFg" name="Appoval  &#xD;&#xA;>= 25 teur"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_Fta-8fyAEd-hzKJPvg9Yew" iD="_Fta-8PyAEd-hzKJPvg9Yew"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_Bmbb8fyiEd-hzKJPvg9Yew" iD="_Bmbb8PyiEd-hzKJPvg9Yew"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_CiL5kfyiEd-hzKJPvg9Yew" iD="_CiL5kPyiEd-hzKJPvg9Yew"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_4hBsAb9UEeCSkL-1JBgLRw" iD="_4hBsAL9UEeCSkL-1JBgLRw"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_8Fssob9UEeCSkL-1JBgLRw" iD="_8FssoL9UEeCSkL-1JBgLRw" name="Approval &lt; 25 teur"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_ps1pgb9VEeCSkL-1JBgLRw" iD="_ps1pgL9VEeCSkL-1JBgLRw" name="reject"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_qPPL8b9VEeCSkL-1JBgLRw" iD="_qPPL8L9VEeCSkL-1JBgLRw" name="accept"/>
+    <lanes xmi:type="bpmn:Lane" xmi:id="_VNv4kfZGEd-Rbp3iuO8tFg" iD="_VNv4kPZGEd-Rbp3iuO8tFg" name="Requester" activities="_MOHEEfZGEd-Rbp3iuO8tFg _lL5pQ_ZEEd-Rbp3iuO8tFg _pstGob9VEeCSkL-1JBgLRw"/>
+    <lanes xmi:type="bpmn:Lane" xmi:id="_ZDD8QfZREd-Rbp3iuO8tFg" iD="_ZDD8QPZREd-Rbp3iuO8tFg" name="Technical Approver" activities="_69kS4fZREd-Rbp3iuO8tFg _rwqq4fZREd-Rbp3iuO8tFg _MOHEEfZGEd-Rbp3iuO8tFg _lL5pQ_ZEEd-Rbp3iuO8tFg"/>
+    <lanes xmi:type="bpmn:Lane" xmi:id="_xIfF0fyAEd-hzKJPvg9Yew" iD="_xIfF0PyAEd-hzKJPvg9Yew" name="Financial Controlling" activities="_6L18sfyAEd-hzKJPvg9Yew _m2fHcb9VEeCSkL-1JBgLRw _rwqq4fZREd-Rbp3iuO8tFg"/>
+    <lanes xmi:type="bpmn:Lane" xmi:id="_7un7EfyhEd-hzKJPvg9Yew" iD="_7un7EPyhEd-hzKJPvg9Yew" name="Purchasing Dep." activities="_BmSSAfyiEd-hzKJPvg9Yew _bz0XMfZSEd-Rbp3iuO8tFg"/>
+  </pools>
+</bpmn:BpmnDiagram>
