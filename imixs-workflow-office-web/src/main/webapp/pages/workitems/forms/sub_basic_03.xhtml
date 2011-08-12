@@ -1,0 +1,57 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" id="sub_basic_form">
+
+
+
+	<dl>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_absender}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_subject']}" /></dd>
+
+		<dt><h:outputLabel value="#{form_messages.sub_basic_rechnungsdatum}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_invoicedate']}" /></dd>
+		
+		<dt><h:outputLabel value="#{form_messages.sub_basic_rechnungsnr}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_invoicenumber']}" /></dd>
+		
+		<dt><h:outputLabel value="#{form_messages.sub_basic_kundennr}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_customernumber']}" /></dd>
+	
+	</dl>
+	
+	<dl>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_anschrift}" /></dt>
+		<dd><h:inputTextarea value="#{workitemMB.workitem.item['_description']}" style="height:5em;width:50%" /></dd>
+		
+	</dl>
+
+	
+	<dl>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_bankverbindung}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_bankdata']}" /></dd>
+
+		<dt><h:outputLabel value="#{form_messages.sub_basic_blz}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_bankcode']}" /></dd>
+		
+		<dt><h:outputLabel value="#{form_messages.sub_basic_kto}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_codenumber']}" /></dd>
+		
+		<dt><h:outputLabel value="#{form_messages.sub_basic_steuerid}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_vatid']}" /></dd>
+	</dl>
+
+	<dl>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_summe}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_amount']}" /></dd>
+
+		<dt><h:outputLabel value="#{form_messages.sub_basic_mwst}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_tax']}" /></dd>
+	</dl>
+
+
+</f:subview>
+
