@@ -8,7 +8,7 @@
 
 
 
-	<dl>
+	<dl class="columns-2">
 		<dt><h:outputLabel value="#{form_messages.sub_basic_absender}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_subject']}" /></dd>
 
@@ -23,14 +23,14 @@
 	
 	</dl>
 	
-	<dl>
+	<dl class="columns-1">
 		<dt><h:outputLabel value="#{form_messages.sub_basic_anschrift}" /></dt>
-		<dd><h:inputTextarea value="#{workitemMB.workitem.item['_description']}" style="height:5em;width:50%" /></dd>
+		<dd><h:inputTextarea value="#{workitemMB.workitem.item['_description']}" style="height:5em;width:536px" /></dd>
 		
 	</dl>
 
 	
-	<dl>
+	<dl class="columns-2">
 		<dt><h:outputLabel value="#{form_messages.sub_basic_bankverbindung}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_bankdata']}" /></dd>
 
@@ -42,15 +42,15 @@
 		
 		<dt><h:outputLabel value="#{form_messages.sub_basic_steuerid}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_vatid']}" /></dd>
-	</dl>
+	
 
-	<dl>
 		<dt><h:outputLabel value="#{form_messages.sub_basic_summe}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_amount']}" /></dd>
 
 		<dt><h:outputLabel value="#{form_messages.sub_basic_mwst}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_tax']}" /></dd>
 	</dl>
+	<div style="clear:left;" />
 
 
 </f:subview>
