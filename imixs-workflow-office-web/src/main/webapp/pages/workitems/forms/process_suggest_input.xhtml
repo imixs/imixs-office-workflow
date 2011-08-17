@@ -11,21 +11,26 @@
 		style="min-height:38px;width: 470px;float:left;">
 
 		<a4j:outputPanel layout="block" rendered="#{! empty item_value}">
-
-			<h:outputText
-				value="#{processLookupMB.processData[item_value].item['$modified']}">
-				<f:convertDateTime timeZone="#{global.timeZone}"
-					pattern="#{global.dateTimePatternShort}" />
-			</h:outputText>
-			<h:outputText
-				value=": #{processLookupMB.processData[item_value].item['txtWorkflowSummary']}"
-				rendered="#{!empty processLookupMB.processData[item_value].item['txtWorkflowSummary']}" />
-
+			<h:commandLink actionListener="#{workitemLookupMB.doSwitchToWorkitem}"
+				action="open_workitem">
+				<h:outputText
+					value="#{workitemLookupMB.processData[item_value].item['$modified']}">
+					<f:convertDateTime timeZone="#{global.timeZone}"
+						pattern="#{global.dateTimePatternShort}" />
+				</h:outputText>
+				<h:outputText
+					value=": #{workitemLookupMB.processData[item_value].item['txtWorkflowSummary']}"
+					rendered="#{!empty workitemLookupMB.processData[item_value].item['txtWorkflowSummary']}" />
+			
+					<f:param name="id" value="#{item_value}" />
+							
+			
+			</h:commandLink>
 			<br />
 			<h:outputText style="font-weight: bold;"
-				value="#{processLookupMB.processData[item_value].item['txtworkflowgroup']}: " />
+				value="#{workitemLookupMB.processData[item_value].item['txtworkflowgroup']}: " />
 			<h:outputText
-				value="#{processLookupMB.processData[item_value].item['txtworkflowstatus']}" />
+				value="#{workitemLookupMB.processData[item_value].item['txtworkflowstatus']}" />
 
 
 		</a4j:outputPanel>
@@ -84,7 +89,7 @@
 						<rich:suggestionbox  for="suggestbox_user_input1" minChars="3"
 							fetchValue="" nothingLabel="No entry found"
 							usingSuggestObjects="true"
-							suggestionAction="#{processLookupMB.suggestProcess}"
+							suggestionAction="#{workitemLookupMB.suggestProcess}"
 							var="suggest" width="300">
 							
 								
@@ -96,7 +101,6 @@
 
 								<h:outputText value=": #{suggest.item['txtWorkflowSummary']}"
 									rendered="#{!empty suggest.item['txtWorkflowSummary']}" />
-
 								<br />
 								<h:outputText style="font-weight: bold;"
 									value="#{suggest.item['txtworkflowgroup']}: " />
