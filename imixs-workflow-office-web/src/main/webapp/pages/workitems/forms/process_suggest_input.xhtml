@@ -8,7 +8,7 @@
 
 
 	<a4j:outputPanel layout="block" id="workitem_block"
-		style="min-height:38px;width: 370px;float:left;">
+		style="min-height:38px;width: 470px;float:left;">
 
 		<a4j:outputPanel layout="block" rendered="#{! empty item_value}">
 
@@ -35,21 +35,37 @@
 
 			
 			
-			<rich:togglePanel style="width:19em;" switchType="ajax" 
+			<rich:togglePanel  switchType="ajax" 
 				id="suggest_process_id" 
 				xxstateOrder="#{(empty item_value)?'edit_mode':'closed_mode,edit_mode'}"
 				stateOrder="closed_mode,edit_mode">
 
 				<f:facet name="closed_mode">
            			<!-- closed --> 
+           			<a4j:outputPanel>
+						<rich:toggleControl for="suggest_process_id">
+			                #{global.search}
+			            </rich:toggleControl>
+			            
+			            
+			            
+			            <a4j:commandLink style="margin-left:15px;" value="#{global.remove}"
+							reRender="workitem_block,#{rerender_id}"
+							 rendered="#{! empty item_value}">
+							<f:setPropertyActionListener value="" target="#{item_value}" />
+						</a4j:commandLink>
+					</a4j:outputPanel>
      			</f:facet>
 
 				<f:facet name="edit_mode">
 
 					<a4j:outputPanel>
+						
+						
+						
 						<!-- ##########  Box with input field for workitem search ################ -->
-						<a4j:outputPanel layout="block">
-							<h:inputText id="suggestbox_user_input1" />
+						<a4j:outputPanel layout="block" style="float:left;">
+							<h:inputText id="suggestbox_user_input1" style="width:100px;"/>
 							<a4j:status for="suggestbox_region1">
 								<f:facet name="start">
 									<h:graphicImage value="/layout/icons/ajax-loader.gif" />
@@ -65,7 +81,7 @@
 
 						<!-- ##########  Suggestbox for Usersuche ################ -->
 					
-						<rich:suggestionbox for="suggestbox_user_input1" minChars="2"
+						<rich:suggestionbox  for="suggestbox_user_input1" minChars="3"
 							fetchValue="" nothingLabel="No entry found"
 							usingSuggestObjects="true"
 							suggestionAction="#{processLookupMB.suggestProcess}"
@@ -88,33 +104,31 @@
 
 							</h:column>
 
-							<a4j:support event="onselect"
+							<a4j:support 
+							event="onselect"
 								reRender="workitem_block,#{rerender_id}">
 								<f:setPropertyActionListener
 									value="#{suggest.item['$uniqueid']}" target="#{item_value}" />
 							</a4j:support>
+							
+							
 						
 						</rich:suggestionbox>
 						
+						
+						<rich:toggleControl for="suggest_process_id">
+			              <h:outputText style="margin-left:10px;" value="#{global.close}" />
+			            </rich:toggleControl>
 					</a4j:outputPanel>
+					
+				
 				</f:facet>
 
 
 
 			</rich:togglePanel>
 			
-			
-			<rich:toggleControl for="suggest_process_id">
-                #{global.search}
-            </rich:toggleControl>
-            
-            
-            
-            <a4j:commandLink style="margin-left:15px;" value="#{global.remove}"
-				reRender="workitem_block,#{rerender_id}"
-				 rendered="#{! empty item_value}">
-				<f:setPropertyActionListener value="" target="#{item_value}" />
-			</a4j:commandLink>
+		
 			
 		</a4j:region>
 
