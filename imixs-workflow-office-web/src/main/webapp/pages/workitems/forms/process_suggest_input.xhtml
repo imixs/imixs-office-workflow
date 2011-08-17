@@ -1,0 +1,128 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+
+
+	<a4j:outputPanel layout="block" id="workitem_block"
+		style="min-height:38px;width: 370px;float:left;">
+
+		<a4j:outputPanel layout="block" rendered="#{! empty item_value}">
+
+			<h:outputText
+				value="#{processLookupMB.processData[item_value].item['$modified']}">
+				<f:convertDateTime timeZone="#{global.timeZone}"
+					pattern="#{global.dateTimePatternShort}" />
+			</h:outputText>
+			<h:outputText
+				value=": #{processLookupMB.processData[item_value].item['txtWorkflowSummary']}"
+				rendered="#{!empty processLookupMB.processData[item_value].item['txtWorkflowSummary']}" />
+
+			<br />
+			<h:outputText style="font-weight: bold;"
+				value="#{processLookupMB.processData[item_value].item['txtworkflowgroup']}: " />
+			<h:outputText
+				value="#{processLookupMB.processData[item_value].item['txtworkflowstatus']}" />
+
+
+		</a4j:outputPanel>
+
+		<a4j:region id="suggestbox_region1">
+
+
+			
+			
+			<rich:togglePanel style="width:19em;" switchType="ajax" 
+				id="suggest_process_id" 
+				xxstateOrder="#{(empty item_value)?'edit_mode':'closed_mode,edit_mode'}"
+				stateOrder="closed_mode,edit_mode">
+
+				<f:facet name="closed_mode">
+           			<!-- closed --> 
+     			</f:facet>
+
+				<f:facet name="edit_mode">
+
+					<a4j:outputPanel>
+						<!-- ##########  Box with input field for workitem search ################ -->
+						<a4j:outputPanel layout="block">
+							<h:inputText id="suggestbox_user_input1" />
+							<a4j:status for="suggestbox_region1">
+								<f:facet name="start">
+									<h:graphicImage value="/layout/icons/ajax-loader.gif" />
+								</f:facet>
+							</a4j:status>
+						</a4j:outputPanel>
+
+						<!-- ##########  Tooltip ################ -->
+						<rich:toolTip for="suggestbox_user_input1" layout="block"
+							followMouse="true">
+							<h:outputText value="#{tooltip}" />
+						</rich:toolTip>
+
+						<!-- ##########  Suggestbox for Usersuche ################ -->
+					
+						<rich:suggestionbox for="suggestbox_user_input1" minChars="2"
+							fetchValue="" nothingLabel="No entry found"
+							usingSuggestObjects="true"
+							suggestionAction="#{processLookupMB.suggestProcess}"
+							var="suggest" width="300">
+							
+								
+							<h:column>
+								<h:outputText value="#{suggest.item['$modified']}">
+									<f:convertDateTime timeZone="#{global.timeZone}"
+										pattern="#{global.dateTimePatternShort}" />
+								</h:outputText>
+
+								<h:outputText value=": #{suggest.item['txtWorkflowSummary']}"
+									rendered="#{!empty suggest.item['txtWorkflowSummary']}" />
+
+								<br />
+								<h:outputText style="font-weight: bold;"
+									value="#{suggest.item['txtworkflowgroup']}: " />
+								<h:outputText value="#{suggest.item['txtworkflowstatus']}" />
+
+							</h:column>
+
+							<a4j:support event="onselect"
+								reRender="workitem_block,#{rerender_id}">
+								<f:setPropertyActionListener
+									value="#{suggest.item['$uniqueid']}" target="#{item_value}" />
+							</a4j:support>
+						
+						</rich:suggestionbox>
+						
+					</a4j:outputPanel>
+				</f:facet>
+
+
+
+			</rich:togglePanel>
+			
+			
+			<rich:toggleControl for="suggest_process_id">
+                #{global.search}
+            </rich:toggleControl>
+            
+            
+            
+            <a4j:commandLink style="margin-left:15px;" value="#{global.remove}"
+				reRender="workitem_block,#{rerender_id}"
+				 rendered="#{! empty item_value}">
+				<f:setPropertyActionListener value="" target="#{item_value}" />
+			</a4j:commandLink>
+			
+		</a4j:region>
+
+
+		<h:inputHidden value="#{item_value}" required="#{item_required}" />
+
+
+	</a4j:outputPanel>
+	<div style="clear: left;" />
+
+</f:subview>
