@@ -32,7 +32,29 @@
 	type="text/css" />
 
 
-
+<!-- Redirection when user clicks on browser history back.... -->
+<script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/layout/js/rsh/rsh.js"></script>
+<script type="text/javascript">
+// see http://code.google.com/p/reallysimplehistory/
+window.dhtmlHistory.create({
+        toJSON: function(o) {
+                return Object.toJSON(o);
+        }
+        , fromJSON: function(s) {
+                return s.evalJSON();
+        }
+});
+var workitemBackListener = function(newLocation, historyData) {
+        //do something;
+    var idurl="#{facesContext.externalContext.requestContextPath}/index.jsf?workitem=#{workitemMB.workitem.item['$Uniqueid']}";
+	//alert(idurl);
+	document.location.href=idurl;
+}
+window.onload = function() {
+        dhtmlHistory.initialize();
+        dhtmlHistory.addListener(workitemBackListener);
+};
+</script>
 </head>
 
 
