@@ -9,7 +9,6 @@
 
 	<a4j:outputPanel layout="block" id="workitem_block"
 		style="min-height:38px;width: 470px;float:left;">
-
 		<a4j:outputPanel layout="block" rendered="#{! empty item_value}">
 			<h:commandLink actionListener="#{workitemLookupMB.doSwitchToWorkitem}"
 				action="open_workitem">
@@ -35,14 +34,13 @@
 
 		</a4j:outputPanel>
 
-		<a4j:region id="suggestbox_region1">
+		<a4j:region id="suggestbox_region1" rendered="#{! readonly}">
 
 
 			
 			
-			<rich:togglePanel  switchType="ajax" 
+			<rich:togglePanel switchType="client" 
 				id="suggest_process_id" 
-				xxstateOrder="#{(empty item_value)?'edit_mode':'closed_mode,edit_mode'}"
 				stateOrder="closed_mode,edit_mode">
 
 				<f:facet name="closed_mode">
