@@ -1,0 +1,139 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" id="sub_basic_form">
+
+
+
+	<dl class="columns-2">
+		<dt><h:outputLabel value="Prozess Suche:" /></dt>
+		<dd>
+		
+		
+			<a4j:region id="suggestbox_region1">
+				<!-- ##########  search box ################ -->
+				<a4j:outputPanel layout="block">
+					<h:inputText id="suggestbox_user_input1" />
+
+					
+					<a4j:status for="suggestbox_region1">
+						<f:facet name="start">
+							<h:graphicImage value="/layout/img/ajax-loader.gif" />
+						</f:facet>
+					</a4j:status>
+				</a4j:outputPanel>
+
+			
+
+				<!-- ##########  Suggestbox for process search ################ -->
+				<rich:suggestionbox for="suggestbox_user_input1" minChars="2"
+					fetchValue="" nothingLabel="No entry found"
+					usingSuggestObjects="true"
+					suggestionAction="#{processLookupMB.suggestProcess}" var="suggest"
+					width="300">
+					<h:column>
+					
+					<h:outputText value="#{suggest.item['$modified']}">
+					<f:convertDateTime timeZone="#{global.timeZone}" 
+								pattern="#{global.dateTimePatternShort}" />
+				</h:outputText>
+				
+					<h:outputText value=": #{suggest.item['txtWorkflowSummary']}"
+						rendered="#{!empty suggest.item['txtWorkflowSummary']}" />
+				
+					
+						
+									<br />
+									<h:outputText style="font-weight: bold;"
+								value="#{suggest.item['txtworkflowgroup']}: " />
+							<h:outputText value="#{suggest.item['txtworkflowstatus']}" />
+							
+					</h:column>
+					
+					<a4j:support event="onselect" reRender="ldap_block,#{rerender_id}">
+						<f:setPropertyActionListener value="#{suggest.item['$UniqueID']}"
+							target="#{workitemMB.workitem.item['_processRef1']}" />
+					</a4j:support>
+
+				</rich:suggestionbox>
+			
+			</a4j:region>
+		
+		
+		
+		
+		
+		</dd>
+
+	</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<dl class="columns-2">
+		<dt><h:outputLabel value="#{form_messages.sub_basic_absender}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_subject']}" /></dd>
+
+		<dt><h:outputLabel value="#{form_messages.sub_basic_rechnungsdatum}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_invoicedate']}" /></dd>
+		
+		<dt><h:outputLabel value="#{form_messages.sub_basic_rechnungsnr}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_invoicenumber']}" /></dd>
+		
+		<dt><h:outputLabel value="#{form_messages.sub_basic_kundennr}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_customernumber']}" /></dd>
+	
+	</dl>
+	
+	<dl class="columns-1">
+		<dt><h:outputLabel value="#{form_messages.sub_basic_anschrift}" /></dt>
+		<dd><h:inputTextarea value="#{workitemMB.workitem.item['_description']}" style="height:5em;width:536px" /></dd>
+		
+	</dl>
+
+	
+	<dl class="columns-2">
+		<dt><h:outputLabel value="#{form_messages.sub_basic_bankverbindung}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_bankdata']}" /></dd>
+
+		<dt><h:outputLabel value="#{form_messages.sub_basic_blz}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_bankcode']}" /></dd>
+		
+		<dt><h:outputLabel value="#{form_messages.sub_basic_kto}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_codenumber']}" /></dd>
+		
+		<dt><h:outputLabel value="#{form_messages.sub_basic_steuerid}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_vatid']}" /></dd>
+	
+
+		<dt><h:outputLabel value="#{form_messages.sub_basic_summe}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_amount']}" /></dd>
+
+		<dt><h:outputLabel value="#{form_messages.sub_basic_mwst}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_tax']}" /></dd>
+	</dl>
+	<div style="clear:left;" />
+
+
+</f:subview>
+
