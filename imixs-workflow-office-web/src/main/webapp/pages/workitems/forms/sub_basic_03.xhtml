@@ -8,6 +8,22 @@
 
 
 
+	<dl class="columns-1">
+		<dt><h:outputLabel value="#{form_messages.sub_basic_auftrag}" /></dt>
+		<dd>
+			<ui:include src="/pages/workitems/forms/process_suggest_input.xhtml">
+						<ui:param name="item_value" value="#{workitemMB.workitem.item['_processRef1']}" />
+						<ui:param name="item_label" value="Prozess Auswahl" />
+						<ui:param name="tooltip" value="Suchen Sie einen anderen Prozess" />
+					</ui:include>		
+		</dd>
+	</dl>
+
+
+
+
+
+
 	<dl class="columns-2">
 		<dt><h:outputLabel value="#{form_messages.sub_basic_absender}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_subject']}" /></dd>

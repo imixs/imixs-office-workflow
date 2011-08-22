@@ -8,7 +8,7 @@
 
 
 	<a4j:outputPanel layout="block" id="workitem_block"
-		style="min-height:38px;width: 470px;float:left;">
+		style="min-height:18px;width: 470px;float:left;">
 		<a4j:outputPanel layout="block" rendered="#{! empty item_value}">
 			<h:commandLink actionListener="#{workitemLookupMB.doSwitchToWorkitem}"
 				action="open_workitem">
@@ -30,7 +30,6 @@
 				value="#{workitemLookupMB.processData[item_value].item['txtworkflowgroup']}: " />
 			<h:outputText
 				value="#{workitemLookupMB.processData[item_value].item['txtworkflowstatus']}" />
-
 
 		</a4j:outputPanel>
 
@@ -136,7 +135,7 @@
 
 
 		<h:inputHidden value="#{item_value}" required="#{item_required}" />
-
+	
 
 	</a4j:outputPanel>
 	<div style="clear: left;" />
