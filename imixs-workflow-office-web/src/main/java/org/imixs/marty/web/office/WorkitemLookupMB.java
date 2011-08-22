@@ -313,64 +313,49 @@ public class WorkitemLookupMB  implements WorkitemListener {
 		}
 	}
 
-	@Override
 	public void onWorkitemCreated(ItemCollection e) {
 	}
 
-	@Override
 	public void onWorkitemChanged(ItemCollection e) {
 	}
 
-	@Override
 	public void onWorkitemProcess(ItemCollection e) {
 	}
 
-	@Override
 	public void onWorkitemProcessCompleted(ItemCollection e) {
 		cache.clear();
 	}
 
-	@Override
 	public void onWorkitemDelete(ItemCollection e) {
 	}
 
-	@Override
 	public void onWorkitemDeleteCompleted() {
 	}
 
-	@Override
 	public void onWorkitemSoftDelete(ItemCollection e) {
 	}
 
-	@Override
 	public void onWorkitemSoftDeleteCompleted(ItemCollection e) {
 	}
 
-	@Override
 	public void onChildProcess(ItemCollection e) {
 	}
 
-	@Override
 	public void onChildProcessCompleted(ItemCollection e) {
 	}
 
-	@Override
 	public void onChildCreated(ItemCollection e) {
 	}
 
-	@Override
 	public void onChildDelete(ItemCollection e) {
 	}
 
-	@Override
 	public void onChildDeleteCompleted() {
 	}
 
-	@Override
 	public void onChildSoftDelete(ItemCollection e) {
 	}
 
-	@Override
 	public void onChildSoftDeleteCompleted(ItemCollection e) {
 	}
 
