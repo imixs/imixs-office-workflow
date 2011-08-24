@@ -1,0 +1,5386 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Imixs IX XML Model  -  www.imixs.com-->
+<model>
+  <configuration>
+    <environments>
+      <environment name="environment.servertyp">
+        <itemcollection>
+          <item name="type">
+            <value>WorkflowEnvironmentEntity</value>
+          </item>
+          <item name="sync_type">
+            <value>REST Service</value>
+          </item>
+          <item name="txtname">
+            <value>environment.servertyp</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+        </itemcollection>
+      </environment>
+      <environment name="environment.profile">
+        <itemcollection>
+          <item name="txttimefieldmapping">
+            <value>Termin | datDueDate</value>
+          </item>
+          <item name="txtplugins">
+            <value>org.imixs.marty.util.SywappTeamPlugin</value>
+            <value>org.imixs.workflow.plugins.AccessPlugin</value>
+            <value>org.imixs.workflow.plugins.OwnerPlugin</value>
+            <value>org.imixs.workflow.plugins.HistoryPlugin</value>
+            <value>org.imixs.workflow.plugins.ResultPlugin</value>
+            <value>org.imixs.workflow.plugins.LogPlugin</value>
+            <value>org.imixs.marty.util.SywappMailPlugin</value>
+            <value>org.imixs.marty.util.SywappApplicationPlugin</value>
+            <value>org.imixs.workflow.plugins.jee.extended.LucenePlugin</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="txtworkflowmodelversion">
+            <value>office-de-0.0.2</value>
+          </item>
+          <item name="keydebuglevel">
+            <value>2</value>
+          </item>
+          <item name="txtfieldmapping">
+            <value>Creator | namCreator</value>
+            <value>CurrentEditor | namCurrentEditor</value>
+            <value>Owner | namowner</value>
+            <value>ProjektVerantwortliche| namProjectOwner</value>
+            <value>Projektleiter | namProjectManager</value>
+            <value>ProjektTeam | namProjectTeam</value>
+            <value>Projekt Assistenz | namProjectAssist</value>
+          </item>
+          <item name="type">
+            <value>WorkflowEnvironmentEntity</value>
+          </item>
+          <item name="txtname">
+            <value>environment.profile</value>
+          </item>
+          <item name="txtworkflowmodelid">
+            <value>none</value>
+          </item>
+        </itemcollection>
+      </environment>
+      <environment name="environment.ixsametime">
+        <itemcollection>
+          <item name="type">
+            <value>WorkflowEnvironmentEntity</value>
+          </item>
+          <item name="txtname">
+            <value>environment.ixsametime</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+        </itemcollection>
+      </environment>
+      <environment name="environment.ixrcp">
+        <itemcollection>
+          <item name="rcp.form.featurerequest">
+            <value/>
+          </item>
+          <item name="rcp.form.[projectmanagement]">
+            <value/>
+          </item>
+          <item name="rcp.form.changerequest">
+            <value/>
+          </item>
+          <item name="type">
+            <value>WorkflowEnvironmentEntity</value>
+          </item>
+          <item name="rcp.form.problemreport">
+            <value/>
+          </item>
+          <item name="rcp.form.[newissue]">
+            <value/>
+          </item>
+          <item name="txtname">
+            <value>environment.ixrcp</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+        </itemcollection>
+      </environment>
+      <environment name="environment.webservice">
+        <itemcollection>
+          <item name="type">
+            <value>WorkflowEnvironmentEntity</value>
+          </item>
+          <item name="txtname">
+            <value>environment.webservice</value>
+          </item>
+          <item name="service_location">
+            <value>http://localhost:8080/office-rest/model</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+        </itemcollection>
+      </environment>
+    </environments>
+  </configuration>
+  <processgroup name="Auftrag">
+    <processentity id="7000" name="Neuanlage">
+      <itemcollection>
+        <item name="numprocessid" type="number">
+          <value>7000</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Auftrag</value>
+        </item>
+        <item name="txtname">
+          <value>Neuanlage</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="7000">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>7000</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>7000</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>7000</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="numversionactivityid">
+            <value/>
+          </item>
+          <item name="rtfresultlog">
+            <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Angebot erstellt" nextid="7010">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>7010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>7000</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>7010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Angebot erstellt</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="numversionactivityid">
+            <value/>
+          </item>
+          <item name="rtfresultlog">
+            <value>Angebot erstellt von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="7010" name="Angeboten">
+      <itemcollection>
+        <item name="numprocessid" type="number">
+          <value>7010</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Auftrag</value>
+        </item>
+        <item name="txtname">
+          <value>Angeboten</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="7010">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>7010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>7010</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>7010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="numversionactivityid">
+            <value/>
+          </item>
+          <item name="rtfresultlog">
+            <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Zusage erhalten" nextid="7020">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>7020</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>7010</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>7020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Zusage erhalten</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="numversionactivityid">
+            <value/>
+          </item>
+          <item name="rtfresultlog">
+            <value>&lt;field&gt;dspnamcurrenteditor&lt;/field&gt; hat die Zusage erhalten.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="7020" name="Zugesagt">
+      <itemcollection>
+        <item name="numprocessid" type="number">
+          <value>7020</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Auftrag</value>
+        </item>
+        <item name="txtname">
+          <value>Zugesagt</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="7020">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>7020</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>7020</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>7020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="numversionactivityid">
+            <value/>
+          </item>
+          <item name="rtfresultlog">
+            <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Bestellung erhalten" nextid="7030">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>7030</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>7020</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>7030</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Bestellung erhalten</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="numversionactivityid">
+            <value/>
+          </item>
+          <item name="rtfresultlog">
+            <value>&lt;field&gt;dspnamcurrenteditor&lt;/field&gt; hat die Bestellung erhalten.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="7030" name="Bestellt">
+      <itemcollection>
+        <item name="numprocessid" type="number">
+          <value>7030</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Auftrag</value>
+        </item>
+        <item name="txtname">
+          <value>Bestellt</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="7030">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>7030</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>7030</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>7030</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="numversionactivityid">
+            <value/>
+          </item>
+          <item name="rtfresultlog">
+            <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Auftrag erfüllt" nextid="7040">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>7040</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>7030</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>7040</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Auftrag erfüllt</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="numversionactivityid">
+            <value/>
+          </item>
+          <item name="rtfresultlog">
+            <value>Auftrag erfüllt von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="7040" name="Abgeschlossen">
+      <itemcollection>
+        <item name="numprocessid" type="number">
+          <value>7040</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Auftrag</value>
+        </item>
+        <item name="txtname">
+          <value>Abgeschlossen</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="7040">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>7040</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>7040</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>7040</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="numversionactivityid">
+            <value/>
+          </item>
+          <item name="rtfresultlog">
+            <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+  </processgroup>
+  <processgroup name="Bestellung">
+    <processentity id="4000" name="neue Bestellung">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_02</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>4000</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Bestellung von Materialien zur Auftragsabwicklung</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>neue Bestellung</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Bestellung</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn015.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="4000">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Zwischenspeichern</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>4000</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>4000</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>4000</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="txtactivityresult">
+            <value>open_workitem</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Aktualisiert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Absenden" nextid="4010">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Bestellung aufgeben</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>4010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectTeam</value>
+            <value>namProjectManager</value>
+            <value>namProjectOwner</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>4000</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>4010</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Absenden</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Bestellung aufgegeben von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="4010" name="Bestellt">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_dispatch_01|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>4010</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Wareneingang bestätigen und an Buchhaltung zur Bezahlung weiterleiten</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>Bestellt</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Bestellung</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn019.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="4010">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Zwischenspeichern</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>4010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCreator</value>
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>4010</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>4020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>open_workitem</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Aktualisiert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Lieferung bestätigen" nextid="4020">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Wareneingang bestätigen und an Buchhaltung zur Bezahlung weiterleiten</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>4020</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectTeam</value>
+            <value>namProjectManager</value>
+            <value>namProjectOwner</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>4010</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>4020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>project=Buchhaltung
+view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Lieferung bestätigen</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Wareneingang bestätigt von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="4020" name="Geliefert">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>4020</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Eingangsrechnung buchen und weiterleiten an Einkauf.</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>Geliefert</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Bestellung</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn033.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="4020">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>4020</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>4020</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>3030</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Aktualisiert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Rechnung bezahlt" nextid="4031">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Rechnungsbetrag bezahlt</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>4031</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>4020</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>4031</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>project=Einkauf&#13;
+view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Rechnung bezahlt</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Bestellung bezahlt von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="4031" name="Bezahlt">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>4031</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Vorgang abgeschlossen</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>Bezahlt</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Bestellung</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn029.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="4031">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>1</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>4031</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>4031</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>3020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>open_workitem</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+  </processgroup>
+  <processgroup name="Bestellung~Artikel">
+    <processentity id="4500" name="Artikel hinzufügen">
+      <itemcollection>
+        <item name="numprocessid" type="number">
+          <value>4500</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Bestellung~Artikel</value>
+        </item>
+        <item name="txtname">
+          <value>Artikel hinzufügen</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="4510">
+        <itemcollection>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>4510</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectAssist</value>
+            <value>namProjectTeam</value>
+            <value>namProjectManager</value>
+            <value>namProjectOwner</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>4500</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>4510</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyaddreadfields">
+            <value>namCreator</value>
+            <value>namCurrentEditor</value>
+            <value>namowner</value>
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+            <value>namProjectAssist</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="4510" name="Offen">
+      <itemcollection>
+        <item name="numprocessid" type="number">
+          <value>4510</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Bestellung~Artikel</value>
+        </item>
+        <item name="txtname">
+          <value>Offen</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="4510">
+        <itemcollection>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>4510</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+            <value>namProjectAssist</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>4510</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>4510</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyaddreadfields">
+            <value>namProjectAssist</value>
+            <value>namProjectTeam</value>
+            <value>namProjectManager</value>
+            <value>namProjectOwner</value>
+            <value>namowner</value>
+            <value>namCreator</value>
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+  </processgroup>
+  <processgroup name="Interner Auftrag">
+    <processentity id="3000" name="In Erstellung">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_02|sub_dispatch_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>3000</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Interner Auftrag zur Vorgangsbearbeitung</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>In Erstellung</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Interner Auftrag</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn015.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="3000">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>3000</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>3000</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>3000</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Aktualisiert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Weiterleiten" nextid="3010">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Auftrag an Team aus Laufweg weiterleiten</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>3010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectTeam</value>
+            <value>namProjectManager</value>
+            <value>namProjectOwner</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>3000</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>3010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Weiterleiten</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Interner Antrag erstellt von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="3010" name="Offen">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_dispatch_01|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>3010</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Auftrag zur Bearbeitung übernehmen oder an anderes Team weiterleiten</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>Offen</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Interner Auftrag</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn013.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="3010">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>1</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>3010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>3010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>3010</value>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Aktualisiert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Übernehmen" nextid="3020">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Aufgabe in eigene Aufgabenliste übernehmen</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>3020</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+            <value>namProjectOwner</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>3010</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>3020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Übernehmen</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Zur Bearbeitung übernommen von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="30" name="Weiterleiten" nextid="3010">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Auftrag an Team aus Laufweg weiterleiten</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>3010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectTeam</value>
+            <value>namProjectManager</value>
+            <value>namProjectOwner</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>30</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>3010</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>3010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Weiterleiten</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Weitergeleitet an &lt;field&gt;txtprojectname&lt;/field&gt; von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="3020" name="In Bearbeitung">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_dispatch_01|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>3020</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Aufgabe erledigen oder an anderes Team weiterleiten</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>In Bearbeitung</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Interner Auftrag</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn036.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="3020">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>1</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>3020</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>3020</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>3020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>open_workitem</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Aktualisiert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Erledigt" nextid="3030">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="txtmailsubject">
+            <value/>
+          </item>
+          <item name="keyaccessmode">
+            <value>1</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>3030</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="rtfmailbody">
+            <value/>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>3020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>3030</value>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Erledigt</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Erledigt von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="30" name="Weiterleiten" nextid="3010">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Auftrag an Team aus Laufweg weiterleiten</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>3010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectTeam</value>
+            <value>namProjectManager</value>
+            <value>namProjectOwner</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>30</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>3020</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>3010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Weiterleiten</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Weitergeleitet an &lt;field&gt;txtprojectname&lt;/field&gt; von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="3030" name="Erledigt">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_dispatch_01|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>3030</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Vorgang abgeschlossen</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>Erledigt</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Interner Auftrag</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn029.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="3030">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>3030</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>3030</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>3030</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Aktualisiert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+  </processgroup>
+  <processgroup name="Interner Auftrag~Artikel">
+    <processentity id="3500" name="Artikel hinzufügen">
+      <itemcollection>
+        <item name="numprocessid" type="number">
+          <value>3500</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Interner Auftrag~Artikel</value>
+        </item>
+        <item name="txtname">
+          <value>Artikel hinzufügen</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="3510">
+        <itemcollection>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>3510</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectTeam</value>
+            <value>namProjectManager</value>
+            <value>namProjectOwner</value>
+            <value>namProjectAssist</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>3500</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>3510</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyaddreadfields">
+            <value>namCreator</value>
+            <value>namCurrentEditor</value>
+            <value>namowner</value>
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+            <value>namProjectAssist</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="3510" name="Offen">
+      <itemcollection>
+        <item name="numprocessid" type="number">
+          <value>3510</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Interner Auftrag~Artikel</value>
+        </item>
+        <item name="txtname">
+          <value>Offen</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="3510">
+        <itemcollection>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>3510</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectAssist</value>
+            <value>namProjectTeam</value>
+            <value>namProjectManager</value>
+            <value>namProjectOwner</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>3510</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>3510</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyaddreadfields">
+            <value>namProjectAssist</value>
+            <value>namProjectTeam</value>
+            <value>namProjectManager</value>
+            <value>namProjectOwner</value>
+            <value>namowner</value>
+            <value>namCurrentEditor</value>
+            <value>namCreator</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+  </processgroup>
+  <processgroup name="Projekt">
+    <processentity id="6000" name="Planung">
+      <itemcollection>
+        <item name="numprocessid" type="number">
+          <value>6000</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Projekt</value>
+        </item>
+        <item name="txtname">
+          <value>Planung</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="6000">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>6000</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>6000</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>6000</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="numversionactivityid">
+            <value/>
+          </item>
+          <item name="rtfresultlog">
+            <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Planung abgeschlossen" nextid="6010">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>6010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>6000</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>6010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Planung abgeschlossen</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="numversionactivityid">
+            <value/>
+          </item>
+          <item name="rtfresultlog">
+            <value>Planung abgeschlossen von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="6010" name="Realisierung">
+      <itemcollection>
+        <item name="numprocessid" type="number">
+          <value>6010</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Projekt</value>
+        </item>
+        <item name="txtname">
+          <value>Realisierung</value>
+        </item>
+        <item name="rtfdescription">
+          <value/>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="6010">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>6010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>6010</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>6010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="numversionactivityid">
+            <value/>
+          </item>
+          <item name="rtfresultlog">
+            <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Produktiv genommen" nextid="6020">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>6020</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>6010</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>6020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Produktiv genommen</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="numversionactivityid">
+            <value/>
+          </item>
+          <item name="rtfresultlog">
+            <value>Produktiv genommen von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="6020" name="Service">
+      <itemcollection>
+        <item name="numprocessid" type="number">
+          <value>6020</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Projekt</value>
+        </item>
+        <item name="txtname">
+          <value>Service</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="6020">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>6020</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>6020</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>6020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="numversionactivityid">
+            <value/>
+          </item>
+          <item name="rtfresultlog">
+            <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+  </processgroup>
+  <processgroup name="Rechnung">
+    <processentity id="1000" name="Neue Rechnung">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_02|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>1000</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Erfassung einer neuen Ausgangsrechnung</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>Neue Rechnung</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Rechnung</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn045.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="1000">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Zwischenspeichern</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>1000</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCreator</value>
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>1000</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1000</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Erstellt von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Anweisen" nextid="1010">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Rechnung zum Versand an Buchhaltung weiterleiten</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>1010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectTeam</value>
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>1000</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1010</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
+          </item>
+          <item name="txtactivityresult">
+            <value>project=Buchhaltung
+view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Anweisen</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Ans Team weitergeleitet von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="1005" name="In Rückfrage">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>1005</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Rechnungsdetails mit Vertrieb klären</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>In Rückfrage</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Rechnung</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn048.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="1005">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Zwischenspeichern</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="txtmailsubject">
+            <value/>
+          </item>
+          <item name="keyaccessmode">
+            <value>1</value>
+          </item>
+          <item name="keyaddreadfieldsbackup">
+            <value>namProjectAssist</value>
+            <value>namProjectManager</value>
+            <value>namowner</value>
+            <value>namCreator</value>
+            <value>namCurrentEditor</value>
+            <value>namProjectOwner</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="keyaddwritefieldsbackup">
+            <value>namProjectOwner</value>
+            <value>namProjectAssist</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>1005</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="rtfmailbody">
+            <value/>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>1005</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1005</value>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Aktualisiert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Erneut anweisen" nextid="1010">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>1010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectTeam</value>
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>1005</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1010</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Erneut anweisen</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Ans Team weitergeleitet von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="1010" name="in Prüfung">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>1010</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Buchhaltung prüft und versendet Rechnung</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>in Prüfung</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Rechnung</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn050.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="1010">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Zwischenspeichern</value>
+          </item>
+          <item name="numactivitydelay">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="txtmailsubject">
+            <value/>
+          </item>
+          <item name="keyaccessmode">
+            <value>1</value>
+          </item>
+          <item name="keyaddreadfieldsbackup">
+            <value>namProjectManager</value>
+            <value>namProjectAssist</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="keyaddwritefieldsbackup">
+            <value>namProjectTeam</value>
+            <value>namProjectOwner</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>1010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="rtfmailbody">
+            <value/>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="txtscheduledview">
+            <value/>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>1010</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Aktualisiert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Versendet" nextid="1020">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Rechnung wurde an Kunde versendet</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="txtmailsubject">
+            <value>&lt;field&gt;txtprojectName&lt;/field&gt;: Aufgabe wird von mir bearbeitet</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>1020</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="rtfmailbody">
+            <value>Hallo,&#13;
+&#13;
+&lt;field&gt;dspnamcurrenteditor&lt;/field&gt; hat in ShareYourWork die folgende Aufgabe übernommen:&#13;
+&#13;
+Projekt: &lt;field&gt;txtprojectName&lt;/field&gt;&#13;
+&lt;field&gt;txtWorkflowSummary&lt;/field&gt;&#13;
+&#13;
+http://www.shareyourwork.org/syw/</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>1010</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Versendet</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Zur Bearbeitung übernommen von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="30" name="Rückfrage" nextid="1005">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Angaben unvollständig bitte um Korrektur</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="txtmailsubject">
+            <value>&lt;field&gt;txtprojectName&lt;/field&gt;: Es gibt eine Rückfrage zu &lt;field&gt;txtsubject&lt;/field&gt;</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>1005</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="rtfmailbody">
+            <value>Hallo,&#13;
+&#13;
+folgende Aufgabe ist in ShareYourWork nicht klar:&#13;
+&#13;
+Projekt: &lt;field&gt;txtprojectName&lt;/field&gt;&#13;
+&lt;field&gt;txtWorkflowSummary&lt;/field&gt;&#13;
+&#13;
+http://www.shareyourwork.org/syw/</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>30</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>1010</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1005</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Rückfrage</value>
+          </item>
+          <item name="keyaddreadfields">
+            <value>namParentProjectOwner</value>
+            <value>namSubProjectOwner</value>
+            <value>namParentProjectTeam</value>
+            <value>namSubProjectTeam</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Rückfrage gestellt an &lt;field&gt;dspnamCreator&lt;/field&gt; von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="1020" name="Offen">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>1020</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Buchhaltung bestätigt Zahlungseingang und leitet an Vertrieb weiter.</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>Offen</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Rechnung</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn047.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="1020">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>1</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>1020</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>1020</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Aktualisiert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Bezahlt" nextid="1090">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Zahlungseingang bestätigen</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="txtmailsubject">
+            <value>&lt;field&gt;txtprojectName&lt;/field&gt;: Bearbeitung der Aufgabe &lt;field&gt;txtsubject&lt;/field&gt; wird unterbrochen</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>1090</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="rtfmailbody">
+            <value>Hallo,&#13;
+&#13;
+ich kann an der Aufgabe erst wieder am &lt;field&gt;datDueDate&lt;/field&gt; arbeiten.&#13;
+&#13;
+Projekt: &lt;field&gt;txtprojectName&lt;/field&gt;&#13;
+&lt;field&gt;txtWorkflowSummary&lt;/field&gt;&#13;
+&#13;
+http://www.shareyourwork.org/syw/</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>1020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1090</value>
+          </item>
+          <item name="txtactivityresult">
+            <value>project=Vertrieb
+view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Bezahlt</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Unterbrochen von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="1090" name="Erledigt">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>1090</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Vorgang abgeschlossen</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>Erledigt</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Rechnung</value>
+        </item>
+        <item name="txtimageurl">
+          <value>http://www.shareyourwork.org/icons/vwicn051.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="1090">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>1</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>1090</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>1090</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1000</value>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Aktualisiert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+  </processgroup>
+  <processgroup name="Rechnung~Artikel">
+    <processentity id="1500" name="Artikel hinzufügen">
+      <itemcollection>
+        <item name="numprocessid" type="number">
+          <value>1500</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Rechnung~Artikel</value>
+        </item>
+        <item name="txtname">
+          <value>Artikel hinzufügen</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="4530">
+        <itemcollection>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>4530</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectTeam</value>
+            <value>namProjectManager</value>
+            <value>namProjectOwner</value>
+            <value>namProjectAssist</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>1500</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>3510</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyaddreadfields">
+            <value>namCreator</value>
+            <value>namCurrentEditor</value>
+            <value>namowner</value>
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+            <value>namProjectAssist</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="1510" name="Offen">
+      <itemcollection>
+        <item name="numprocessid" type="number">
+          <value>1510</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Rechnung~Artikel</value>
+        </item>
+        <item name="txtname">
+          <value>Offen</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="1510">
+        <itemcollection>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>1510</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectAssist</value>
+            <value>namProjectTeam</value>
+            <value>namProjectManager</value>
+            <value>namProjectOwner</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>1510</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>3510</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyaddreadfields">
+            <value>namProjectAssist</value>
+            <value>namProjectTeam</value>
+            <value>namProjectManager</value>
+            <value>namProjectOwner</value>
+            <value>namowner</value>
+            <value>namCurrentEditor</value>
+            <value>namCreator</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+  </processgroup>
+  <processgroup name="Rechnungseingang">
+    <processentity id="5000" name="Rechnung erhalten">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_03|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>5000</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Prüfung von Eingangsrechnungen</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>Rechnung erhalten</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Rechnungseingang</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn036.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="5000">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="txtmailsubject">
+            <value/>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>5000</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="rtfmailbody">
+            <value/>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCreator</value>
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>5000</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>5000</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Freigabe einholen" nextid="5010">
+        <itemcollection>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>5010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>5000</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>5010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Freigabe einholen</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="30" name="Anweisen" nextid="5020">
+        <itemcollection>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>5020</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>30</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>5000</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>5020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Anweisen</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="5010" name="Warten auf Freigabe">
+      <itemcollection>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_03|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>5010</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Rechnungseingang</value>
+        </item>
+        <item name="txtname">
+          <value>Warten auf Freigabe</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="5010">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>5010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCreator</value>
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>5010</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>5010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Freigeben" nextid="5020">
+        <itemcollection>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>5020</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>5010</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>5020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Freigeben</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="5020" name="Warten auf Bezahlung">
+      <itemcollection>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_basic_03|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>5020</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Rechnungseingang</value>
+        </item>
+        <item name="txtname">
+          <value>Warten auf Bezahlung</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="5020">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>5020</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCreator</value>
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>5020</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>5020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Überwiesen" nextid="5030">
+        <itemcollection>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>5030</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>5020</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>5030</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Überwiesen</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="5030" name="Rechnung bezahlt">
+      <itemcollection>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_basic_03|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>5030</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Rechnungseingang</value>
+        </item>
+        <item name="txtname">
+          <value>Rechnung bezahlt</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="5030">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>5030</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCreator</value>
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>5030</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>5030</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+  </processgroup>
+  <processgroup name="ToDo">
+    <processentity id="2000" name="neues ToDo">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_01|sub_dispatch_01|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>2000</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Erfassung einer neuen Teamaufgabe</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>neues ToDo</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>ToDo</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn054.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="2000">
+        <itemcollection>
+          <item name="rtfdescription">
+            <value>Zwischenspeichern</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>2000</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namCreator</value>
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>2000</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>2000</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Verteilen" nextid="2010">
+        <itemcollection>
+          <item name="keylogtimeformat">
+            <value>2</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Aufgabe an Team aus Laufweg senden</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>2010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectTeam</value>
+            <value>namProjectAssist</value>
+            <value>namProjectManager</value>
+            <value>namProjectOwner</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="keylogdateformat">
+            <value>2</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>2000</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>2010</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Verteilen</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="rtfresultlog">
+            <value>Weitergeleitet an &lt;field&gt;txtprojectname&lt;/field&gt; von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="2010" name="Offen">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_01|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>2010</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Aufgabe zur Bearbeitung übernehmen</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>Offen</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>ToDo</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn053.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="2010">
+        <itemcollection>
+          <item name="rtfdescription">
+            <value>Zwischenspeichern</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>1</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>2010</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>2010</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>2010</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value/>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Übernehmen" nextid="2020">
+        <itemcollection>
+          <item name="rtfdescription">
+            <value>Aufgabe in eigene Aufgabenliste übernehmen</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>2020</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
+            <value>namProjectAssist</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>2010</value>
+          </item>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>2020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Übernehmen</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="2020" name="In Bearbeitung">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_01|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>2020</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Aufgabe bearbeiten und abschließen</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>In Bearbeitung</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>ToDo</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn056.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="2020">
+        <itemcollection>
+          <item name="numnextprocessid" type="number">
+            <value>2020</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>2020</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>1</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Zwischenspeichern</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>2020</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+      <activityentity id="20" name="Erledigt" nextid="2030">
+        <itemcollection>
+          <item name="rtfdescription">
+            <value>Bearbeitung abschließen</value>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>0</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>2030</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="keyaddwritefields">
+            <value>namProjectAssist</value>
+            <value>namProjectTeam</value>
+            <value>namProjectManager</value>
+            <value>namProjectOwner</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>20</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>2020</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>2030</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value>view=notes</value>
+          </item>
+          <item name="txtname">
+            <value>Erledigt</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>0</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+    <processentity id="2030" name="Erledigt">
+      <itemcollection>
+        <item name="$modelversion">
+          <value>office-de-0.0.1</value>
+        </item>
+        <item name="txteditorid">
+          <value>form_panel#sub_processlist|sub_basic_01|sub_comment_01</value>
+        </item>
+        <item name="numprocessid" type="number">
+          <value>2030</value>
+        </item>
+        <item name="rtfdescription">
+          <value>Vorgang abgeschlossen</value>
+        </item>
+        <item name="txtworkflowabstract">
+          <value>&lt;field&gt;_description&lt;/field&gt;</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
+        <item name="txtname">
+          <value>Erledigt</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>ToDo</value>
+        </item>
+        <item name="txtimageurl">
+          <value>/office/layout/icons/vwicn055.png</value>
+        </item>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
+      </itemcollection>
+      <activityentity id="10" name="Speichern" nextid="2030">
+        <itemcollection>
+          <item name="rtfdescription">
+            <value/>
+          </item>
+          <item name="keyarchive">
+            <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
+          <item name="keyaccessmode">
+            <value>1</value>
+          </item>
+          <item name="numnextprocessid" type="number">
+            <value>2030</value>
+          </item>
+          <item name="keyscheduledactivity">
+            <value>0</value>
+          </item>
+          <item name="keyversion">
+            <value>0</value>
+          </item>
+          <item name="numnextactivityid" type="number">
+            <value>0</value>
+          </item>
+          <item name="keyfollowup">
+            <value>2</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.1</value>
+          </item>
+          <item name="keypublicresult">
+            <value>1</value>
+          </item>
+          <item name="numactivityid" type="number">
+            <value>10</value>
+          </item>
+          <item name="numprocessid" type="number">
+            <value>2030</value>
+          </item>
+          <item name="numnextid" type="number">
+            <value>2030</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
+          </item>
+          <item name="txtactivityresult">
+            <value/>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
+          </item>
+          <item name="keyownershipmode">
+            <value>1</value>
+          </item>
+        </itemcollection>
+      </activityentity>
+    </processentity>
+  </processgroup>
+</model>
