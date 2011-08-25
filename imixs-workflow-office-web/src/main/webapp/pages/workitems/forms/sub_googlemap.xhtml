@@ -1,0 +1,60 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" id="sub_googlemap_form">
+
+		
+<!-- see licence: http://www.legal-media.de/?p=37 -->
+
+<!--  Achtung - script http://maps.googleapis.com/maps/api/js?sensor=false muss in Hauptseite geladen werden -->
+<script type="text/javascript"> 
+
+function initialize() {
+	var geocoder = new google.maps.Geocoder();
+
+	// berechne Geodaten....
+	var latlngLocal;
+	//var address="Nordendstr. 2, 80799 München, , ";
+	var address="#{workitemMB.workitem.item['_address']}, #{workitemMB.workitem.item['_zip']} #{workitemMB.workitem.item['_city']}, #{workitemMB.workitem.item['_state']}, #{workitemMB.workitem.item['_country']}";
+       geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          var latlngLocal=results[0].geometry.location;
+          // aktualisere Karte...
+          map.setCenter(results[0].geometry.location);
+          map.setZoom(15);
+          // setze marker
+          var marker = new google.maps.Marker({
+              map: map, 
+            position: results[0].geometry.location
+          }
+         );
+         } else {
+          alert("Geocode was not successful for the following reason: " + status);
+        }
+      });
+
+	// erzeuge Karten Objekt mit default Location
+    var latlng = new google.maps.LatLng(48.1522577, 11.57598429999996);
+    var myOptions = {
+      zoom: 3,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"),
+        myOptions);
+  }
+
+	// onLoad init...
+    initialize();
+
+</script> 
+
+  
+ <div id="map_canvas" style="width:100%; height:300px"></div>
+				
+
+</f:subview>
+

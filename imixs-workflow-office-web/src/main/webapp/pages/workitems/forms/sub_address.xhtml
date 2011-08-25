@@ -1,0 +1,50 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" id="sub_basic_address">
+
+
+	<!-- Customer Form -->
+
+
+	
+
+	<dl class="columns-2">
+		
+			<!-- ### Strasse ### -->
+		<dt><h:outputLabel value="#{form_messages.sub_basic_address}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_address']}" /> </dd>
+		
+		<!-- ### Ort ### -->
+		<dt><h:outputLabel value="#{form_messages.sub_basic_city}" /></dt>
+		<dd><h:inputText style="width:30px; margin-right:10px;" value="#{workitemMB.workitem.item['_zip']}" /> <h:inputText value="#{workitemMB.workitem.item['_city']}" /> </dd>
+		
+		<!-- ### Land ### -->
+		<dt><h:outputLabel value="#{form_messages.sub_basic_country}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_country']}" /> </dd>
+		
+		<!-- ### Telefon ### -->
+		<dt><h:outputLabel value="#{form_messages.sub_basic_phone}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_phone']}" /> </dd>
+				
+		<!-- ### Internet ### -->
+		<dt><h:outputLabel value="#{form_messages.sub_basic_internet}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_Internet']}" /> </dd>	
+				
+	<!-- ### Contact ### -->
+		<dt><h:outputLabel value="#{form_messages.sub_basic_contact}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_contact']}" /> </dd>	
+		
+	
+	</dl>
+	
+	
+	
+	<div style="clear:left;" />
+
+
+</f:subview>
+

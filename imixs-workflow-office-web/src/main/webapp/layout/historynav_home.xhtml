@@ -33,6 +33,8 @@
 								action="open_workitem">
 
 								<h:outputText value="#{workitem.item['txtworkflowsummary']}" />
+																<h:outputText rendered="#{empty workitem.item['txtworkflowsummary']}" value=" - no title -" />
+								
 								<f:param name="id" value="#{workitem.item['$uniqueID']}" />
 							</h:commandLink>
 						</div>

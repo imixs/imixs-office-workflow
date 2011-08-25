@@ -7,13 +7,15 @@
 	xmlns:rich="http://richfaces.org/rich" id="sub_basic_form">
 
 
+	<!-- Invoice Form -->
+
 
 	<dl class="columns-1">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_order}" /></dt>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_contract}" /></dt>
 		<dd>
 			<ui:include src="/pages/workitems/forms/process_suggest_input.xhtml">
-						<ui:param name="item_value" value="#{workitemMB.workitem.item['_processRef1']}" />
-						<ui:param name="tooltip" value="Suchen Sie einen anderen Prozess" />
+						<ui:param name="item_value" value="#{workitemMB.workitem.item['_contract']}" />
+						<ui:param name="tooltip" value="#{form_messages.sub_basic_contract_help}" />
 					</ui:include>		
 		</dd>
 	</dl>
@@ -40,31 +42,11 @@
 	
 	<dl class="columns-1">
 		<dt><h:outputLabel value="#{form_messages.sub_basic_address}" /></dt>
-		<dd><h:inputTextarea value="#{workitemMB.workitem.item['_description']}" style="height:5em;width:536px" /></dd>
+		<dd><h:inputTextarea value="#{workitemMB.workitem.item['_address']}" style="height:5em;width:536px" /></dd>
 		
 	</dl>
 
 	
-	<dl class="columns-2">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_bankdata}" /></dt>
-		<dd><h:inputText value="#{workitemMB.workitem.item['_bankdata']}" /></dd>
-
-		<dt><h:outputLabel value="#{form_messages.sub_basic_bankcode}" /></dt>
-		<dd><h:inputText value="#{workitemMB.workitem.item['_bankcode']}" /></dd>
-		
-		<dt><h:outputLabel value="#{form_messages.sub_basic_codenumber}" /></dt>
-		<dd><h:inputText value="#{workitemMB.workitem.item['_codenumber']}" /></dd>
-		
-		<dt><h:outputLabel value="#{form_messages.sub_basic_vatid}" /></dt>
-		<dd><h:inputText value="#{workitemMB.workitem.item['_vatid']}" /></dd>
-	
-
-		<dt><h:outputLabel value="#{form_messages.sub_basic_amount}" /></dt>
-		<dd><h:inputText value="#{workitemMB.workitem.item['_amount']}" /></dd>
-
-		<dt><h:outputLabel value="#{form_messages.sub_basic_tax}" /></dt>
-		<dd><h:inputText value="#{workitemMB.workitem.item['_tax']}" /></dd>
-	</dl>
 	<div style="clear:left;" />
 
 
