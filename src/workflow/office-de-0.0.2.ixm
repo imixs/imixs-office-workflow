@@ -5,17 +5,17 @@
     <environments>
       <environment name="environment.servertyp">
         <itemcollection>
-          <item name="type">
-            <value>WorkflowEnvironmentEntity</value>
-          </item>
           <item name="sync_type">
             <value>REST Service</value>
+          </item>
+          <item name="type">
+            <value>WorkflowEnvironmentEntity</value>
           </item>
           <item name="txtname">
             <value>environment.servertyp</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
         </itemcollection>
       </environment>
@@ -36,7 +36,7 @@
             <value>org.imixs.workflow.plugins.jee.extended.LucenePlugin</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="txtworkflowmodelversion">
             <value>office-de-0.0.2</value>
@@ -73,7 +73,7 @@
             <value>environment.ixsametime</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
         </itemcollection>
       </environment>
@@ -82,26 +82,26 @@
           <item name="rcp.form.featurerequest">
             <value/>
           </item>
-          <item name="rcp.form.[projectmanagement]">
+          <item name="rcp.form.changerequest">
             <value/>
           </item>
-          <item name="rcp.form.changerequest">
+          <item name="rcp.form.[projectmanagement]">
             <value/>
           </item>
           <item name="type">
             <value>WorkflowEnvironmentEntity</value>
           </item>
-          <item name="rcp.form.problemreport">
-            <value/>
+          <item name="txtname">
+            <value>environment.ixrcp</value>
           </item>
           <item name="rcp.form.[newissue]">
             <value/>
           </item>
-          <item name="txtname">
-            <value>environment.ixrcp</value>
+          <item name="rcp.form.problemreport">
+            <value/>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
         </itemcollection>
       </environment>
@@ -117,7 +117,7 @@
             <value>http://localhost:8080/office-rest/model</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
         </itemcollection>
       </environment>
@@ -126,14 +126,23 @@
   <processgroup name="Auftrag">
     <processentity id="7000" name="Neuanlage">
       <itemcollection>
+        <item name="txteditorid">
+          <value>form_tab#sub_basic_03</value>
+        </item>
         <item name="numprocessid" type="number">
           <value>7000</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
         </item>
         <item name="txtworkflowgroup">
           <value>Auftrag</value>
         </item>
         <item name="txtname">
           <value>Neuanlage</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="7000">
@@ -147,6 +156,9 @@
           <item name="keyarchive">
             <value>0</value>
           </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
           <item name="keyaccessmode">
             <value>0</value>
           </item>
@@ -156,14 +168,17 @@
           <item name="keyscheduledactivity">
             <value>0</value>
           </item>
-          <item name="keyaddwritefields">
-            <value>namCurrentEditor</value>
-          </item>
           <item name="keyversion">
             <value>0</value>
           </item>
+          <item name="keyaddwritefields">
+            <value>namCurrentEditor</value>
+          </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -217,6 +232,9 @@
           <item name="keyarchive">
             <value>0</value>
           </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
           <item name="keyaccessmode">
             <value>0</value>
           </item>
@@ -236,6 +254,9 @@
           </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -281,11 +302,17 @@
         <item name="numprocessid" type="number">
           <value>7010</value>
         </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
         <item name="txtworkflowgroup">
           <value>Auftrag</value>
         </item>
         <item name="txtname">
           <value>Angeboten</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="7010">
@@ -298,6 +325,9 @@
           </item>
           <item name="keyarchive">
             <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
           </item>
           <item name="keyaccessmode">
             <value>0</value>
@@ -316,6 +346,9 @@
           </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -369,6 +402,9 @@
           <item name="keyarchive">
             <value>0</value>
           </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
           <item name="keyaccessmode">
             <value>0</value>
           </item>
@@ -388,6 +424,9 @@
           </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -433,11 +472,17 @@
         <item name="numprocessid" type="number">
           <value>7020</value>
         </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
         <item name="txtworkflowgroup">
           <value>Auftrag</value>
         </item>
         <item name="txtname">
           <value>Zugesagt</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="7020">
@@ -450,6 +495,9 @@
           </item>
           <item name="keyarchive">
             <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
           </item>
           <item name="keyaccessmode">
             <value>0</value>
@@ -468,6 +516,9 @@
           </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -521,6 +572,9 @@
           <item name="keyarchive">
             <value>0</value>
           </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
           <item name="keyaccessmode">
             <value>0</value>
           </item>
@@ -540,6 +594,9 @@
           </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -585,11 +642,17 @@
         <item name="numprocessid" type="number">
           <value>7030</value>
         </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
         <item name="txtworkflowgroup">
           <value>Auftrag</value>
         </item>
         <item name="txtname">
           <value>Bestellt</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="7030">
@@ -602,6 +665,9 @@
           </item>
           <item name="keyarchive">
             <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
           </item>
           <item name="keyaccessmode">
             <value>0</value>
@@ -620,6 +686,9 @@
           </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -673,6 +742,9 @@
           <item name="keyarchive">
             <value>0</value>
           </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
           <item name="keyaccessmode">
             <value>0</value>
           </item>
@@ -692,6 +764,9 @@
           </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -737,11 +812,17 @@
         <item name="numprocessid" type="number">
           <value>7040</value>
         </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
         <item name="txtworkflowgroup">
           <value>Auftrag</value>
         </item>
         <item name="txtname">
           <value>Abgeschlossen</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="7040">
@@ -754,6 +835,9 @@
           </item>
           <item name="keyarchive">
             <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
           </item>
           <item name="keyaccessmode">
             <value>0</value>
@@ -772,6 +856,9 @@
           </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -820,7 +907,7 @@
     <processentity id="4000" name="neue Bestellung">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_02</value>
@@ -886,7 +973,7 @@
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -900,14 +987,14 @@
           <item name="numprocessid" type="number">
             <value>4000</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
           </item>
           <item name="numnextid" type="number">
             <value>4000</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtactivityresult">
             <value>open_workitem</value>
@@ -961,7 +1048,7 @@
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -975,14 +1062,14 @@
           <item name="numprocessid" type="number">
             <value>4000</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
           </item>
           <item name="numnextid" type="number">
             <value>4010</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namProjectTeam</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -1002,7 +1089,7 @@
     <processentity id="4010" name="Bestellt">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_dispatch_01|sub_comment_01</value>
@@ -1069,7 +1156,7 @@
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -1083,11 +1170,11 @@
           <item name="numprocessid" type="number">
             <value>4010</value>
           </item>
-          <item name="numnextid" type="number">
-            <value>4020</value>
-          </item>
           <item name="txtnextprocesstree">
             <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>4020</value>
           </item>
           <item name="txtactivityresult">
             <value>open_workitem</value>
@@ -1141,7 +1228,7 @@
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -1155,14 +1242,14 @@
           <item name="numprocessid" type="number">
             <value>4010</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namProjectTeam</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="numnextid" type="number">
             <value>4020</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
           </item>
           <item name="txtactivityresult">
             <value>project=Buchhaltung
@@ -1183,7 +1270,7 @@ view=notes</value>
     <processentity id="4020" name="Geliefert">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_comment_01</value>
@@ -1246,7 +1333,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -1315,7 +1402,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -1329,11 +1416,11 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>4020</value>
           </item>
-          <item name="numnextid" type="number">
-            <value>4031</value>
-          </item>
           <item name="txtnextprocesstree">
             <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>4031</value>
           </item>
           <item name="txtactivityresult">
             <value>project=Einkauf&#13;
@@ -1354,7 +1441,7 @@ view=notes</value>
     <processentity id="4031" name="Bezahlt">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_comment_01</value>
@@ -1417,7 +1504,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -1469,7 +1556,7 @@ view=notes</value>
           <value>Artikel hinzufügen</value>
         </item>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="4510">
@@ -1508,7 +1595,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -1558,7 +1645,7 @@ view=notes</value>
           <value>Offen</value>
         </item>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="4510">
@@ -1597,7 +1684,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -1637,7 +1724,7 @@ view=notes</value>
     <processentity id="3000" name="In Erstellung">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_02|sub_dispatch_01</value>
@@ -1703,7 +1790,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -1717,14 +1804,14 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>3000</value>
           </item>
-          <item name="numnextid" type="number">
-            <value>3000</value>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
           </item>
           <item name="txtnextprocesstree">
             <value/>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
+          <item name="numnextid" type="number">
+            <value>3000</value>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -1778,7 +1865,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -1792,14 +1879,14 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>3000</value>
           </item>
-          <item name="numnextid" type="number">
-            <value>3010</value>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
           </item>
           <item name="txtnextprocesstree">
             <value/>
           </item>
-          <item name="keyownershipfields">
-            <value>namProjectTeam</value>
+          <item name="numnextid" type="number">
+            <value>3010</value>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -1819,7 +1906,7 @@ view=notes</value>
     <processentity id="3010" name="Offen">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_dispatch_01|sub_comment_01</value>
@@ -1882,7 +1969,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -1896,14 +1983,14 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>3010</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="numnextid" type="number">
+            <value>3010</value>
           </item>
           <item name="keyownershipfields">
             <value>namProjectTeam</value>
           </item>
-          <item name="numnextid" type="number">
-            <value>3010</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -1957,7 +2044,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -1971,14 +2058,14 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>3010</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="numnextid" type="number">
             <value>3020</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -2032,7 +2119,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -2046,14 +2133,14 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>3010</value>
           </item>
-          <item name="numnextid" type="number">
-            <value>3010</value>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
           </item>
           <item name="txtnextprocesstree">
             <value/>
           </item>
-          <item name="keyownershipfields">
-            <value>namProjectTeam</value>
+          <item name="numnextid" type="number">
+            <value>3010</value>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -2073,7 +2160,7 @@ view=notes</value>
     <processentity id="3020" name="In Bearbeitung">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_dispatch_01|sub_comment_01</value>
@@ -2136,7 +2223,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -2209,7 +2296,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -2223,11 +2310,11 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>3020</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
-          </item>
           <item name="numnextid" type="number">
             <value>3030</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -2281,7 +2368,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -2295,14 +2382,14 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>3020</value>
           </item>
-          <item name="numnextid" type="number">
-            <value>3010</value>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
           </item>
           <item name="txtnextprocesstree">
             <value/>
           </item>
-          <item name="keyownershipfields">
-            <value>namProjectTeam</value>
+          <item name="numnextid" type="number">
+            <value>3010</value>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -2322,7 +2409,7 @@ view=notes</value>
     <processentity id="3030" name="Erledigt">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_dispatch_01|sub_comment_01</value>
@@ -2385,7 +2472,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -2434,7 +2521,7 @@ view=notes</value>
           <value>Artikel hinzufügen</value>
         </item>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="3510">
@@ -2473,7 +2560,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -2523,7 +2610,7 @@ view=notes</value>
           <value>Offen</value>
         </item>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="3510">
@@ -2562,7 +2649,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -2601,14 +2688,23 @@ view=notes</value>
   <processgroup name="Projekt">
     <processentity id="6000" name="Planung">
       <itemcollection>
+        <item name="txteditorid">
+          <value>form_tab#sub_basic_03</value>
+        </item>
         <item name="numprocessid" type="number">
           <value>6000</value>
+        </item>
+        <item name="type">
+          <value>ProcessEntity</value>
         </item>
         <item name="txtworkflowgroup">
           <value>Projekt</value>
         </item>
         <item name="txtname">
           <value>Planung</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="6000">
@@ -2621,6 +2717,9 @@ view=notes</value>
           </item>
           <item name="keyarchive">
             <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
           </item>
           <item name="keyaccessmode">
             <value>0</value>
@@ -2639,6 +2738,9 @@ view=notes</value>
           </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -2692,6 +2794,9 @@ view=notes</value>
           <item name="keyarchive">
             <value>0</value>
           </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
           <item name="keyaccessmode">
             <value>0</value>
           </item>
@@ -2711,6 +2816,9 @@ view=notes</value>
           </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -2756,6 +2864,9 @@ view=notes</value>
         <item name="numprocessid" type="number">
           <value>6010</value>
         </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
         <item name="txtworkflowgroup">
           <value>Projekt</value>
         </item>
@@ -2764,6 +2875,9 @@ view=notes</value>
         </item>
         <item name="rtfdescription">
           <value/>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="6010">
@@ -2776,6 +2890,9 @@ view=notes</value>
           </item>
           <item name="keyarchive">
             <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
           </item>
           <item name="keyaccessmode">
             <value>0</value>
@@ -2794,6 +2911,9 @@ view=notes</value>
           </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -2847,6 +2967,9 @@ view=notes</value>
           <item name="keyarchive">
             <value>0</value>
           </item>
+          <item name="type">
+            <value>ActivityEntity</value>
+          </item>
           <item name="keyaccessmode">
             <value>0</value>
           </item>
@@ -2866,6 +2989,9 @@ view=notes</value>
           </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -2911,11 +3037,17 @@ view=notes</value>
         <item name="numprocessid" type="number">
           <value>6020</value>
         </item>
+        <item name="type">
+          <value>ProcessEntity</value>
+        </item>
         <item name="txtworkflowgroup">
           <value>Projekt</value>
         </item>
         <item name="txtname">
           <value>Service</value>
+        </item>
+        <item name="$modelversion">
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="6020">
@@ -2928,6 +3060,9 @@ view=notes</value>
           </item>
           <item name="keyarchive">
             <value>0</value>
+          </item>
+          <item name="type">
+            <value>ActivityEntity</value>
           </item>
           <item name="keyaccessmode">
             <value>0</value>
@@ -2946,6 +3081,9 @@ view=notes</value>
           </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
+          </item>
+          <item name="$modelversion">
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -2994,7 +3132,7 @@ view=notes</value>
     <processentity id="1000" name="Neue Rechnung">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_02|sub_comment_01</value>
@@ -3061,7 +3199,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -3075,14 +3213,14 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>1000</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
           </item>
           <item name="numnextid" type="number">
             <value>1000</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -3136,7 +3274,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -3150,14 +3288,14 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>1000</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
           </item>
           <item name="numnextid" type="number">
             <value>1010</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namProjectTeam</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtactivityresult">
             <value>project=Buchhaltung
@@ -3178,7 +3316,7 @@ view=notes</value>
     <processentity id="1005" name="In Rückfrage">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_comment_01</value>
@@ -3260,7 +3398,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -3274,11 +3412,11 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>1005</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
-          </item>
           <item name="numnextid" type="number">
             <value>1005</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -3332,7 +3470,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -3346,14 +3484,14 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>1005</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
           </item>
           <item name="numnextid" type="number">
             <value>1010</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namProjectTeam</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -3373,7 +3511,7 @@ view=notes</value>
     <processentity id="1010" name="in Prüfung">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_comment_01</value>
@@ -3454,7 +3592,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -3471,11 +3609,11 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>1010</value>
           </item>
-          <item name="numnextid" type="number">
-            <value>1010</value>
-          </item>
           <item name="txtnextprocesstree">
             <value/>
+          </item>
+          <item name="numnextid" type="number">
+            <value>1010</value>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -3542,7 +3680,7 @@ http://www.shareyourwork.org/syw/</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -3556,14 +3694,14 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1010</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="numnextid" type="number">
             <value>1020</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -3630,7 +3768,7 @@ http://www.shareyourwork.org/syw/</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -3644,14 +3782,14 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1010</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namProjectTeam</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="numnextid" type="number">
             <value>1005</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -3677,7 +3815,7 @@ http://www.shareyourwork.org/syw/</value>
     <processentity id="1020" name="Offen">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_comment_01</value>
@@ -3740,7 +3878,7 @@ http://www.shareyourwork.org/syw/</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -3825,7 +3963,7 @@ http://www.shareyourwork.org/syw/</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -3839,11 +3977,11 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1020</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
-          </item>
           <item name="numnextid" type="number">
             <value>1090</value>
+          </item>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtactivityresult">
             <value>project=Vertrieb
@@ -3864,7 +4002,7 @@ view=notes</value>
     <processentity id="1090" name="Erledigt">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_02|sub_partstable_01|sub_comment_01</value>
@@ -3927,7 +4065,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -3941,14 +4079,14 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>1090</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="numnextid" type="number">
+            <value>1000</value>
           </item>
           <item name="keyownershipfields">
             <value>namProjectTeam</value>
           </item>
-          <item name="numnextid" type="number">
-            <value>1000</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -3982,7 +4120,7 @@ view=notes</value>
           <value>Artikel hinzufügen</value>
         </item>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="4530">
@@ -4021,7 +4159,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -4071,7 +4209,7 @@ view=notes</value>
           <value>Offen</value>
         </item>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="1510">
@@ -4110,7 +4248,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -4150,7 +4288,7 @@ view=notes</value>
     <processentity id="5000" name="Rechnung erhalten">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_03|sub_comment_01</value>
@@ -4220,7 +4358,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -4234,14 +4372,14 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>5000</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="numnextid" type="number">
             <value>5000</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -4292,7 +4430,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -4355,7 +4493,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -4405,7 +4543,7 @@ view=notes</value>
           <value>Warten auf Freigabe</value>
         </item>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="5010">
@@ -4445,7 +4583,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -4459,14 +4597,14 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>5010</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="numnextid" type="number">
             <value>5010</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -4517,7 +4655,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -4567,7 +4705,7 @@ view=notes</value>
           <value>Warten auf Bezahlung</value>
         </item>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="5020">
@@ -4607,7 +4745,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -4621,14 +4759,14 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>5020</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="numnextid" type="number">
             <value>5020</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -4679,7 +4817,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -4729,7 +4867,7 @@ view=notes</value>
           <value>Rechnung bezahlt</value>
         </item>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="5030">
@@ -4769,7 +4907,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -4783,14 +4921,14 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>5030</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="numnextid" type="number">
             <value>5030</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namCurrentEditor</value>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -4812,7 +4950,7 @@ view=notes</value>
     <processentity id="2000" name="neues ToDo">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_01|sub_dispatch_01|sub_comment_01</value>
@@ -4876,7 +5014,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -4940,7 +5078,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -4954,14 +5092,14 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>2000</value>
           </item>
-          <item name="txtnextprocesstree">
-            <value/>
+          <item name="keyownershipfields">
+            <value>namProjectTeam</value>
           </item>
           <item name="numnextid" type="number">
             <value>2010</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namProjectTeam</value>
+          <item name="txtnextprocesstree">
+            <value/>
           </item>
           <item name="txtactivityresult">
             <value>view=notes</value>
@@ -4981,7 +5119,7 @@ view=notes</value>
     <processentity id="2010" name="Offen">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_01|sub_comment_01</value>
@@ -5041,7 +5179,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -5105,7 +5243,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -5140,7 +5278,7 @@ view=notes</value>
     <processentity id="2020" name="In Bearbeitung">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_01|sub_comment_01</value>
@@ -5182,7 +5320,7 @@ view=notes</value>
             <value>0</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keyscheduledactivity">
             <value>0</value>
@@ -5199,20 +5337,20 @@ view=notes</value>
           <item name="keyaccessmode">
             <value>1</value>
           </item>
-          <item name="rtfdescription">
-            <value>Zwischenspeichern</value>
-          </item>
           <item name="numnextid" type="number">
             <value>2020</value>
+          </item>
+          <item name="rtfdescription">
+            <value>Zwischenspeichern</value>
           </item>
           <item name="type">
             <value>ActivityEntity</value>
           </item>
-          <item name="txtname">
-            <value>Speichern</value>
-          </item>
           <item name="numactivityid" type="number">
             <value>10</value>
+          </item>
+          <item name="txtname">
+            <value>Speichern</value>
           </item>
           <item name="keyfollowup">
             <value>2</value>
@@ -5261,7 +5399,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>
@@ -5293,7 +5431,7 @@ view=notes</value>
     <processentity id="2030" name="Erledigt">
       <itemcollection>
         <item name="$modelversion">
-          <value>office-de-0.0.1</value>
+          <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
           <value>form_panel#sub_processlist|sub_basic_01|sub_comment_01</value>
@@ -5353,7 +5491,7 @@ view=notes</value>
             <value>2</value>
           </item>
           <item name="$modelversion">
-            <value>office-de-0.0.1</value>
+            <value>office-de-0.0.2</value>
           </item>
           <item name="keypublicresult">
             <value>1</value>

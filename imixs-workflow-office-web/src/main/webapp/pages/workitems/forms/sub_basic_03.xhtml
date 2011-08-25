@@ -9,11 +9,10 @@
 
 
 	<dl class="columns-1">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_auftrag}" /></dt>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_order}" /></dt>
 		<dd>
 			<ui:include src="/pages/workitems/forms/process_suggest_input.xhtml">
 						<ui:param name="item_value" value="#{workitemMB.workitem.item['_processRef1']}" />
-						<ui:param name="item_label" value="Prozess Auswahl" />
 						<ui:param name="tooltip" value="Suchen Sie einen anderen Prozess" />
 					</ui:include>		
 		</dd>
@@ -25,45 +24,45 @@
 
 
 	<dl class="columns-2">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_absender}" /></dt>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_sender}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_subject']}" /></dd>
 
-		<dt><h:outputLabel value="#{form_messages.sub_basic_rechnungsdatum}" /></dt>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_invoicedate}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_invoicedate']}" /></dd>
 		
-		<dt><h:outputLabel value="#{form_messages.sub_basic_rechnungsnr}" /></dt>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_invoicenumber}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_invoicenumber']}" /></dd>
 		
-		<dt><h:outputLabel value="#{form_messages.sub_basic_kundennr}" /></dt>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_customernumber}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_customernumber']}" /></dd>
 	
 	</dl>
 	
 	<dl class="columns-1">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_anschrift}" /></dt>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_address}" /></dt>
 		<dd><h:inputTextarea value="#{workitemMB.workitem.item['_description']}" style="height:5em;width:536px" /></dd>
 		
 	</dl>
 
 	
 	<dl class="columns-2">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_bankverbindung}" /></dt>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_bankdata}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_bankdata']}" /></dd>
 
-		<dt><h:outputLabel value="#{form_messages.sub_basic_blz}" /></dt>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_bankcode}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_bankcode']}" /></dd>
 		
-		<dt><h:outputLabel value="#{form_messages.sub_basic_kto}" /></dt>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_codenumber}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_codenumber']}" /></dd>
 		
-		<dt><h:outputLabel value="#{form_messages.sub_basic_steuerid}" /></dt>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_vatid}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_vatid']}" /></dd>
 	
 
-		<dt><h:outputLabel value="#{form_messages.sub_basic_summe}" /></dt>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_amount}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_amount']}" /></dd>
 
-		<dt><h:outputLabel value="#{form_messages.sub_basic_mwst}" /></dt>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_tax}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_tax']}" /></dd>
 	</dl>
 	<div style="clear:left;" />
