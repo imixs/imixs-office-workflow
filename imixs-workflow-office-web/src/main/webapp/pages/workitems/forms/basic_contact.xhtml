@@ -12,17 +12,20 @@
 
 
 
-
-	<dl class="columns-2">
+	<dl class="columns-1">
 		<dt>
 			<h:outputLabel value="#{profile_messages.company}">
 			</h:outputLabel>
 		</dt>
 		<dd>
-			<h:inputText style="width: 20em;" required="false"
+			<h:inputText style="width: 100%;" required="false"
 				value="#{workitemMB.workitem.item['_Subject']}" id="company_id">
 			</h:inputText>
 		</dd>
+</dl>
+
+	<dl class="columns-2">
+		
 
 		<dt>
 			<h:outputLabel value="#{profile_messages.firstname}">
@@ -59,6 +62,17 @@
 
 
 		<dt>
+			<h:outputLabel value="#{profile_messages.phone2}">
+			</h:outputLabel>
+		</dt>
+		<dd>
+			<h:inputText 
+				value="#{workitemMB.workitem.item['_Phone2']}" id="phone2_id">
+			</h:inputText>
+		</dd>
+		
+
+		<dt>
 			<h:outputLabel value="#{profile_messages.email}">
 			</h:outputLabel>
 		</dt>
@@ -68,16 +82,10 @@
 			</h:inputText>
 		</dd>
 
-
-		<dt>
-			<h:outputLabel value="#{profile_messages.phone2}">
-			</h:outputLabel>
-		</dt>
-		<dd>
-			<h:inputText 
-				value="#{workitemMB.workitem.item['_Phone2']}" id="phone2_id">
-			</h:inputText>
-		</dd>
+<!-- ### Internet ### -->
+		<dt><h:outputLabel value="#{form_messages.sub_basic_internet}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_Internet']}" /> </dd>	
+			
 
 
 
