@@ -26,14 +26,14 @@
 
 
 	<dl class="columns-2">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_sender}" /></dt>
-		<dd><h:inputText value="#{workitemMB.workitem.item['_subject']}" /></dd>
-
-		<dt><h:outputLabel value="#{form_messages.sub_basic_invoicedate}" /></dt>
-		<dd><h:inputText value="#{workitemMB.workitem.item['_invoicedate']}" /></dd>
-		
 		<dt><h:outputLabel value="#{form_messages.sub_basic_invoicenumber}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_invoicenumber']}" /></dd>
+		
+		<dt><h:outputLabel value="#{form_messages.sub_basic_invoicedate}" /></dt>
+		<dd>
+			<rich:calendar value="#{workitemMB.workitem.item['_invoicedate']}" />
+		</dd>
+		
 		
 		<dt><h:outputLabel value="#{form_messages.sub_basic_customernumber}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_customernumber']}" /></dd>
@@ -41,8 +41,8 @@
 	</dl>
 	
 	<dl class="columns-1">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_address}" /></dt>
-		<dd><h:inputTextarea value="#{workitemMB.workitem.item['_address']}" style="height:5em;width:536px" /></dd>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_description}" /></dt>
+		<dd><h:inputTextarea value="#{workitemMB.workitem.item['_description']}" style="height:5em;width:536px" /></dd>
 		
 	</dl>
 
