@@ -7,26 +7,24 @@
 	xmlns:rich="http://richfaces.org/rich"
 	template="/layout/template.xhtml">
 
+
+
 	<ui:define name="content">
+
 		<h:form id="logoutform">
-		
 			<div class="sywapp-form sywapp-workitem">
 				<div class="sywapp-form-body sywapp-workitem-body">
 					<rich:panel>
 						<f:facet name="header">
-							<h:outputLabel value="#{global.logout_title}" />
+							<h:outputLabel value="#{global.login_error}" />
 						</f:facet>
-						<br />
-						<h:outputLabel value="#{global.logout_help}" />
-
-						<br />
-						<br />
-						<br />
-						<h:commandButton value="#{global.login}" action="home" />
+						<p>
+							<h:outputText value="#{global.login_error_help}" />
+						</p>
+						<h:commandButton value="#{global.prev}" action="notes" />
 					</rich:panel>
 				</div>
 			</div>
 		</h:form>
-
 	</ui:define>
 </ui:composition>

@@ -10,22 +10,39 @@
 	<ui:define name="content">
 		<form method="post"
 			action="#{facesContext.externalContext.requestContextPath}/j_security_check">
+			<div class="sywapp-form sywapp-workitem">
+				<div class="sywapp-form-body sywapp-workitem-body">
+					<rich:panel>
+						<f:facet name="header">
+							<h:outputLabel value="#{global.login_title}" />
+						</f:facet>
 
-		<rich:panel>
-			<f:facet name="header">
-				<h:outputLabel value="#{global.login_title}" />
-    	    </f:facet>
-			<h:panelGrid columns="2">
 
-				<h:outputLabel value="#{global.username}:" />
-				<h:inputText id="j_username" />
+						<dl class="columns-1">
 
-				<h:outputLabel value="#{global.password}:" />
-				<h:inputSecret id="j_password" />
 
-			</h:panelGrid>
-			<input type="submit" value="#{global.login}" />
-		</rich:panel></form>
+							<dt>
+
+								<h:outputLabel value="#{global.username}:" />
+							</dt>
+							<dd>
+								<h:inputText id="j_username" />
+							</dd>
+							<dt>
+								<h:outputLabel value="#{global.password}:" />
+							</dt>
+							<dd>
+								<h:inputSecret id="j_password" />
+
+							</dd>
+						</dl>
+						<div style="clear:left;" />
+						<input type="submit" value="#{global.login}" />
+					</rich:panel>
+
+				</div>
+			</div>
+		</form>
 
 	</ui:define>
 </ui:composition>
