@@ -12,6 +12,10 @@
 
 	
 	<rich:panel>
+		<ui:include src="/pages/workitems/forms/sub_processlist.xhtml" />
+	</rich:panel>
+	
+	<rich:panel>
 		<rich:tabPanel switchType="ajax">
 			<c:forEach items="#{workitemMB.editorSections}" var="section">
 				<rich:tab label="#{section.name}">
