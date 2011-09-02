@@ -7,12 +7,9 @@
 	xmlns:rich="http://richfaces.org/rich" id="tab_form">
 
 	<f:loadBundle basename="bundle.forms" var="form_messages" />
-	<!-- Google Map API laden -->
-	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script> 
 
-	
 	<rich:panel>
-		<rich:tabPanel switchType="ajax">
+		<rich:tabPanel switchType="client">
 			<c:forEach items="#{workitemMB.editorSections}" var="section">
 				<rich:tab label="#{section.name}">
 								<ui:include src="/pages/workitems/forms/#{section.url}.xhtml" />
@@ -21,17 +18,7 @@
 		</rich:tabPanel>
 
 	</rich:panel>
-	
-	
-	<rich:panel>
-		<rich:tabPanel switchType="ajax">
-		<rich:tab label="Kommentar">
-			<ui:include src="/pages/workitems/forms/sub_comment.xhtml" />
-		</rich:tab>
-		<rich:tab label="Dateianhänge">
-			<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
-		</rich:tab>
-	</rich:tabPanel>
-</rich:panel>
+
+
 </f:subview>
 
