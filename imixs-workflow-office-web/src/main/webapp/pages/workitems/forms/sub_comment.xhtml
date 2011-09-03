@@ -25,10 +25,11 @@
 		    
 	    	<rich:dataTable style="" id="comment_datatable_id" columns="3"
 					value="#{commentMB.log}" rows="5"
-					var="comment">
+					var="comment"> 
 					<rich:column width="100px" >
 						<h:outputText value="#{comment.item['datcomment']}" >
-						<f:convertDateTime type="both" dateStyle="medium" />
+						<f:convertDateTime timeZone="#{global.timeZone}"
+						pattern="#{global.dateTimePatternShort}" />
 						</h:outputText>
 					</rich:column>
 					<rich:column width="50px">
