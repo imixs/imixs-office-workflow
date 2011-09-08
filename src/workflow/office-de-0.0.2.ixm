@@ -151,7 +151,7 @@
           <value>/office/layout/icons/vwicn058.png</value>
         </item>
         <item name="txtworkflowsummary">
-          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+          <value>&lt;field&gt;_subject&lt;/field&gt; &lt;field&gt;_firstname&lt;/field&gt; &lt;field&gt;_lastname&lt;/field&gt; &lt;field&gt;_department&lt;/field&gt;</value>
         </item>
       </itemcollection>
       <activityentity id="10" name="Speichern" nextid="9000">
@@ -286,7 +286,7 @@
             <value/>
           </item>
           <item name="txtactivityresult">
-            <value>view=notes</value>
+            <value>view=open_workitem</value>
           </item>
           <item name="txtname">
             <value>Lieferantendaten</value>
@@ -303,7 +303,7 @@
     <processentity id="9100" name="Lieferant">
       <itemcollection>
         <item name="txtworkflowsummary">
-          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+          <value>&lt;field&gt;_subject&lt;/field&gt; &lt;field&gt;_firstname&lt;/field&gt; &lt;field&gt;_lastname&lt;/field&gt; &lt;field&gt;_department&lt;/field&gt;</value>
         </item>
         <item name="txteditorid">
           <value>form_tab#basic_contact|sub_bankdata|sub_address|sub_googlemap</value>
@@ -481,7 +481,7 @@
           <value>office-de-0.0.2</value>
         </item>
         <item name="txteditorid">
-          <value>form_tab#basic_contract|sub_agreement</value>
+          <value>form_tab#basic_contract|sub_agreement|sub_documentation</value>
         </item>
         <item name="numprocessid" type="number">
           <value>7000</value>
@@ -1490,6 +1490,9 @@
     </processentity>
     <processentity id="8010" name="Bestandskunde">
       <itemcollection>
+        <item name="txtworkflowsummary">
+          <value>&lt;field&gt;_subject&lt;/field&gt;</value>
+        </item>
         <item name="txtimageurl">
           <value>/office/layout/icons/vwicn058.png</value>
         </item>
@@ -1637,6 +1640,9 @@
           </item>
           <item name="keyaddwritefields">
             <value>namCurrentEditor</value>
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
           </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
@@ -1664,9 +1670,6 @@
           </item>
           <item name="numnextid" type="number">
             <value>6000</value>
-          </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
           </item>
           <item name="txtactivityresult">
             <value>view=open_workitem</value>
@@ -1756,7 +1759,7 @@
             <value>Planung abgeschlossen</value>
           </item>
           <item name="keyownershipmode">
-            <value>1</value>
+            <value>0</value>
           </item>
           <item name="numversionactivityid">
             <value/>
@@ -1811,6 +1814,9 @@
           <item name="keyaccessmode">
             <value>0</value>
           </item>
+          <item name="keyaddwritefieldsbackup">
+            <value>namCurrentEditor</value>
+          </item>
           <item name="numnextprocessid" type="number">
             <value>6010</value>
           </item>
@@ -1822,6 +1828,9 @@
           </item>
           <item name="keyaddwritefields">
             <value>namCurrentEditor</value>
+            <value>namProjectOwner</value>
+            <value>namProjectManager</value>
+            <value>namProjectTeam</value>
           </item>
           <item name="numnextactivityid" type="number">
             <value>0</value>
@@ -1849,9 +1858,6 @@
           </item>
           <item name="numnextid" type="number">
             <value>6010</value>
-          </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
           </item>
           <item name="txtactivityresult">
             <value>view=open_workitem</value>
@@ -2035,9 +2041,6 @@
           <item name="numnextid" type="number">
             <value>6020</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
-          </item>
           <item name="txtactivityresult">
             <value>view=open_workitem</value>
           </item>
@@ -2045,7 +2048,7 @@
             <value>Speichern</value>
           </item>
           <item name="keyownershipmode">
-            <value>0</value>
+            <value>1</value>
           </item>
           <item name="numversionactivityid">
             <value/>
@@ -2353,9 +2356,6 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>1010</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
-          </item>
           <item name="numnextid" type="number">
             <value>1010</value>
           </item>
@@ -2369,7 +2369,7 @@ view=notes</value>
             <value>Speichern</value>
           </item>
           <item name="keyownershipmode">
-            <value>0</value>
+            <value>1</value>
           </item>
           <item name="rtfresultlog">
             <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
@@ -2440,9 +2440,6 @@ http://www.shareyourwork.org/syw/</value>
           </item>
           <item name="numprocessid" type="number">
             <value>1010</value>
-          </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
           </item>
           <item name="numnextid" type="number">
             <value>1020</value>
@@ -2528,9 +2525,6 @@ http://www.shareyourwork.org/syw/</value>
           </item>
           <item name="numprocessid" type="number">
             <value>1010</value>
-          </item>
-          <item name="keyownershipfields">
-            <value>namProjectTeam</value>
           </item>
           <item name="numnextid" type="number">
             <value>1000</value>
@@ -2667,9 +2661,6 @@ http://www.shareyourwork.org/syw/</value>
           <item name="numprocessid" type="number">
             <value>1020</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
-          </item>
           <item name="numnextid" type="number">
             <value>1020</value>
           </item>
@@ -2683,7 +2674,7 @@ http://www.shareyourwork.org/syw/</value>
             <value>Speichern</value>
           </item>
           <item name="keyownershipmode">
-            <value>0</value>
+            <value>1</value>
           </item>
           <item name="rtfresultlog">
             <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
@@ -2965,9 +2956,6 @@ view=notes</value>
           <item name="numnextid" type="number">
             <value>1030</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
-          </item>
           <item name="txtnextprocesstree">
             <value/>
           </item>
@@ -2978,7 +2966,7 @@ view=notes</value>
             <value>Speichern</value>
           </item>
           <item name="keyownershipmode">
-            <value>0</value>
+            <value>1</value>
           </item>
           <item name="rtfresultlog">
             <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
@@ -3259,9 +3247,6 @@ view=notes</value>
           </item>
           <item name="numnextid" type="number">
             <value>1040</value>
-          </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
           </item>
           <item name="txtnextprocesstree">
             <value/>
@@ -3554,9 +3539,6 @@ view=notes</value>
           </item>
           <item name="numnextid" type="number">
             <value>1050</value>
-          </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
           </item>
           <item name="txtnextprocesstree">
             <value/>
@@ -3858,9 +3840,6 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>5000</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
-          </item>
           <item name="numnextid" type="number">
             <value>5000</value>
           </item>
@@ -3874,7 +3853,7 @@ view=notes</value>
             <value>Speichern</value>
           </item>
           <item name="keyownershipmode">
-            <value>0</value>
+            <value>1</value>
           </item>
           <item name="rtfresultlog">
             <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
@@ -3933,6 +3912,9 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>5000</value>
           </item>
+          <item name="keyownershipfields">
+            <value>namProjectOwner</value>
+          </item>
           <item name="numnextid" type="number">
             <value>5010</value>
           </item>
@@ -3946,7 +3928,7 @@ view=notes</value>
             <value>Freigabe einholen</value>
           </item>
           <item name="keyownershipmode">
-            <value>1</value>
+            <value>0</value>
           </item>
           <item name="rtfresultlog">
             <value>&lt;field&gt;dspnamcurrenteditor&lt;/field&gt; möchte eine Überprüfung der Rechnung.</value>
@@ -4238,9 +4220,6 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>5010</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
-          </item>
           <item name="numnextid" type="number">
             <value>5010</value>
           </item>
@@ -4254,7 +4233,7 @@ view=notes</value>
             <value>Speichern</value>
           </item>
           <item name="keyownershipmode">
-            <value>0</value>
+            <value>1</value>
           </item>
           <item name="rtfresultlog">
             <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
@@ -4326,7 +4305,7 @@ view=notes</value>
             <value>Freigeben</value>
           </item>
           <item name="keyownershipmode">
-            <value>1</value>
+            <value>0</value>
           </item>
           <item name="rtfresultlog">
             <value>&lt;field&gt;dspnamcurrenteditor&lt;/field&gt; hat Rechnung geprüft, Betrag überweisen.</value>
@@ -4398,7 +4377,7 @@ view=notes</value>
             <value>Stornieren</value>
           </item>
           <item name="keyownershipmode">
-            <value>1</value>
+            <value>0</value>
           </item>
           <item name="rtfresultlog">
             <value>&lt;field&gt;dspnamcurrenteditor&lt;/field&gt; hat Rechnung geprüft, ist unberechtigt.</value>
@@ -4484,9 +4463,6 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>5020</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
-          </item>
           <item name="numnextid" type="number">
             <value>5020</value>
           </item>
@@ -4500,7 +4476,7 @@ view=notes</value>
             <value>Speichern</value>
           </item>
           <item name="keyownershipmode">
-            <value>0</value>
+            <value>1</value>
           </item>
           <item name="rtfresultlog">
             <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
@@ -4661,9 +4637,6 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>5030</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
-          </item>
           <item name="numnextid" type="number">
             <value>5030</value>
           </item>
@@ -4677,7 +4650,7 @@ view=notes</value>
             <value>Speichern</value>
           </item>
           <item name="keyownershipmode">
-            <value>0</value>
+            <value>1</value>
           </item>
           <item name="rtfresultlog">
             <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
@@ -4832,9 +4805,6 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>5080</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
-          </item>
           <item name="numnextid" type="number">
             <value>5080</value>
           </item>
@@ -4848,7 +4818,7 @@ view=notes</value>
             <value>Speichern</value>
           </item>
           <item name="keyownershipmode">
-            <value>0</value>
+            <value>1</value>
           </item>
           <item name="rtfresultlog">
             <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
@@ -4934,9 +4904,6 @@ view=notes</value>
           <item name="numprocessid" type="number">
             <value>5090</value>
           </item>
-          <item name="keyownershipfields">
-            <value>namCurrentEditor</value>
-          </item>
           <item name="numnextid" type="number">
             <value>5030</value>
           </item>
@@ -4950,7 +4917,7 @@ view=notes</value>
             <value>Speichern</value>
           </item>
           <item name="keyownershipmode">
-            <value>0</value>
+            <value>1</value>
           </item>
           <item name="rtfresultlog">
             <value>Gespeichert von &lt;field&gt;dspnamcurrenteditor&lt;/field&gt;.</value>
@@ -5532,6 +5499,21 @@ view=notes</value>
           </item>
         </itemcollection>
       </activityentity>
+    </processentity>
+  </processgroup>
+  <processgroup name="Vertrag">
+    <processentity id="4000" name="Neuer Vertrag">
+      <itemcollection>
+        <item name="numprocessid" type="number">
+          <value>4000</value>
+        </item>
+        <item name="txtworkflowgroup">
+          <value>Vertrag</value>
+        </item>
+        <item name="txtname">
+          <value>Neuer Vertrag</value>
+        </item>
+      </itemcollection>
     </processentity>
   </processgroup>
 </model>
