@@ -51,25 +51,41 @@
 		</dd>
 
 		<dt>
-			<h:outputLabel value="#{profile_messages.phone1}">
+			<h:outputLabel value="#{form_messages.sub_basic_phone1}">
 			</h:outputLabel>
 		</dt>
 		<dd>
 			<h:inputText 
-				value="#{workitemMB.workitem.item['_Phone1']}" id="phone1_id">
+				value="#{workitemMB.workitem.item['_Phone1']}" >
 			</h:inputText>
 		</dd>
 
 
 		<dt>
-			<h:outputLabel value="#{profile_messages.phone2}">
+			<h:outputLabel value="#{form_messages.sub_basic_phone2}">
 			</h:outputLabel>
 		</dt>
 		<dd>
 			<h:inputText 
-				value="#{workitemMB.workitem.item['_Phone2']}" id="phone2_id">
+				value="#{workitemMB.workitem.item['_Phone2']}" >
 			</h:inputText>
 		</dd>
+		
+			<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_phone3}">
+			</h:outputLabel>
+		</dt>
+		<dd>
+			<h:inputText 
+				value="#{workitemMB.workitem.item['_Phone3']}" >
+			</h:inputText>
+		</dd>
+		
+		
+
+		<dt><h:outputLabel value="#{form_messages.sub_basic_department}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_department']}" /> </dd>	
+		
 		
 
 		<dt>
@@ -88,13 +104,18 @@
 			
 
 
+	
 
 
 
 
 	</dl>
 
-
+<dl class="columns-1">
+		<dt><h:outputLabel value="#{form_messages.sub_basic_other}" /></dt>
+		<dd><h:inputTextarea value="#{workitemMB.workitem.item['_description']}" style="height:5em;width:536px" /></dd>
+		
+	</dl>
 
 
 </f:subview>
