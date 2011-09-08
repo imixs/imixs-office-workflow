@@ -18,7 +18,7 @@
 
 				<!-- #### Root Node ##### -->
 				<rich:treeNode type="0" >
-					<h:commandLink actionListener="#{worklistMB.doSwitchToProjectWorklistByOwner}"
+					<h:commandLink actionListener="#{projectlistMB.doSwitchToProject}"
 						action="open_worklist">
 						<h:outputText value="#{node.item['txtname']}" />
 					</h:commandLink>
@@ -26,7 +26,7 @@
 
 				<!-- #### SubProject Node ##### -->
 				<rich:treeNode type="1">
-					<h:commandLink actionListener="#{worklistMB.doSwitchToProjectWorklistByOwner}"
+					<h:commandLink actionListener="#{projectlistMB.doSwitchToProject}"
 						action="open_worklist">
 						<h:outputText value="#{node.item['txtProjectname']}" />
 					</h:commandLink>
