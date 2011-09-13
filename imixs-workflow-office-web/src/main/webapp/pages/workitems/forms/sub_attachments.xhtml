@@ -6,49 +6,50 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich" id="sub_attachments_from">
 
-<div style="float: left; min-width: 350px;"><rich:fileUpload
-					listWidth="345px;" fileUploadListener="#{fileUploadBean.listener}"
-					listHeight="100px"
-					maxFilesQuantity="#{fileUploadBean.uploadsAvailable}" id="upload"
-					immediateUpload="#{fileUploadBean.autoUpload}" allowFlash="false">
-					<a4j:support event="onclear">
-						<a4j:actionparam name="fname" noEscape="true"
-							value="(event.memo.entry)?event.memo.entry.fileName:'' "
-							assignTo="#{fileUploadBean.fileName}"
-							actionListener="#{fileUploadBean.clearUploadData}" />
-					</a4j:support>
+	<div style="float: left; min-width: 350px;">
+		<rich:fileUpload listWidth="345px;"
+			fileUploadListener="#{fileUploadBean.listener}" listHeight="100px"
+			maxFilesQuantity="#{fileUploadBean.uploadsAvailable}" id="upload"
+			immediateUpload="#{fileUploadBean.autoUpload}" allowFlash="false">
+			<a4j:support event="onclear">
+				<a4j:actionparam name="fname" noEscape="true"
+					value="(event.memo.entry)?event.memo.entry.fileName:'' "
+					assignTo="#{fileUploadBean.fileName}"
+					actionListener="#{fileUploadBean.clearUploadData}" />
+			</a4j:support>
 
-				</rich:fileUpload></div>
+		</rich:fileUpload>
+	</div>
 
-				<a4j:outputPanel id="attachment_info_id" layout="block"
-					style="float: left; min-width: 350px;margin-left:20px;">
-					<h:dataTable id="attachmentlist_id" var="attachment"
-						styleClass="data" rowClasses="bals, even" style="min-width:360px;"
-						value="#{workitemBlobMB.files}">
-						<h:column style="border:0">
-							<f:facet name="header">
-								<h:outputText value="File Name" />
-							</f:facet>
-							<h:outputText escape="false" value="&lt;a target='_balnk' href='" />
-							<h:outputText escape="false"
-								value="#{facesContext.externalContext.requestContextPath}/RestService/workflow/workitem/#{workitemBlobMB.workitem.item['$uniqueID']}/file/#{attachment}" />
-							<h:outputText escape="false" value="'&gt;#{attachment}&lt;/a&gt;" />
-						</h:column>
-						<!--  delete  -->
-						<h:column style="border:0;width:50px;">
-							<f:facet name="header">
-								<h:outputText value="#{global.action}" />
-							</f:facet>
-							<a4j:commandLink reRender="attachmentlist_id,upload"
-								title="#{global.delete}"
-								actionListener="#{workitemMB.doDeleteFile}"
-								style="text-decoration:none;">
-								<h:graphicImage border="0"
-									url="http://www.shareyourwork.org/icons/icon004.png" />
-								<f:param name="filename" value="#{attachment}" />
-							</a4j:commandLink>
-						</h:column>
-					</h:dataTable>
-				</a4j:outputPanel>
+	<a4j:outputPanel id="attachment_info_id" layout="block"
+		style="float: left; min-width: 350px;margin-left:20px;">
+		<h:dataTable id="attachmentlist_id" var="attachment" styleClass="data"
+			rowClasses="bals, even" style="min-width:360px;"
+			value="#{fileUploadBean.files}">
+			<h:column style="border:0">
+				<f:facet name="header">
+					<h:outputText value="File Name" />
+				</f:facet>
+				<h:outputText escape="false" value="&lt;a target='_balnk' href='" />
+				<h:outputText escape="false"
+					value="#{facesContext.externalContext.requestContextPath}/RestService/workflow/workitem/#{workitemBlobMB.workitem.item['$uniqueID']}/file/#{attachment}" />
+				<h:outputText escape="false" value="'&gt;#{attachment}&lt;/a&gt;" />
+			</h:column>
+			<!--  delete  -->
+			<h:column style="border:0;width:50px;">
+				<f:facet name="header">
+					<h:outputText value="#{global.action}" />
+				</f:facet>
+				<a4j:commandLink reRender="attachmentlist_id,upload"
+					title="#{global.delete}"
+					actionListener="#{fileUploadBean.doDeleteFile}"
+					style="text-decoration:none;">
+					<h:graphicImage border="0"
+						url="http://www.shareyourwork.org/icons/icon004.png" />
+					<f:param name="filename" value="#{attachment}" />
+				</a4j:commandLink>
+			</h:column>
+		</h:dataTable>
+	</a4j:outputPanel>
 
 </f:subview>
