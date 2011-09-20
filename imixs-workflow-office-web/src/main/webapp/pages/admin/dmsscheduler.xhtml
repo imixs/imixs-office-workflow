@@ -1,0 +1,200 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content"> 
+
+		<f:view>
+			<f:loadBundle basename="bundle.dms" var="dms_messages" />
+
+
+			<h:form id="scheduler_form_id">
+				<div class="sywapp-form">
+
+					<div class="sywapp-form-header">
+						<h2>
+							<h:outputText value="#{dms_messages.admin_dms_title}" />
+						</h2>
+						<rich:panel>
+							<dl>
+								<dt>
+									<h:outputText
+										value="#{dms_messages.admin_timer}: #{dmsMB.configuration.item['txtName']}" />
+								</dt>
+								<dd></dd>
+							</dl>
+						</rich:panel>
+					</div>
+
+					<!-- ########## Error ########## -->
+					<ui:include src="/pages/error_message.xhtml" />
+
+					<div class="sywapp-form-body sywapp-project-body">
+						<!-- **** General info ***** -->
+						<rich:panel>
+							<f:facet name="header">
+								<h:outputText value="#{dms_messages.admin_timer_configuration}" />
+							</f:facet>
+
+							<dl class="columns-2">
+
+								<dt>#{dms_messages.admin_start}:</dt>
+								<dd>
+									<rich:calendar id="startdate" datePattern="d.M.yy HH:mm"
+										showApplyButton="true"
+										value="#{dmsMB.configuration.item['datstart']}">
+									</rich:calendar>
+								</dd>
+
+								<dt>#{dms_messages.admin_stop}:</dt>
+
+								<dd>
+									<rich:calendar id="stopdate" datePattern="d.M.yy HH:mm"
+										showApplyButton="true"
+										value="#{dmsMB.configuration.item['datstop']}">
+									</rich:calendar>
+								</dd>
+
+							</dl>
+							<dl class="columns-1">
+								<dt>#{dms_messages.admin_run_every}:</dt>
+								<dd>
+									<h:inputText value="#{dmsMB.configuration.item['hours']}"
+										style="width:40px;" />
+									hour(s)
+									<h:inputText value="#{dmsMB.configuration.item['minutes']}"
+										style="width:40px;" />
+									minutes
+								</dd>
+
+
+
+								<dt>#{dms_messages.admin_directories}:</dt>
+								<dd>
+									<h:inputTextarea converter="imixs.VectorConverter"
+										style="height:5em;width:536px"
+										value="#{dmsMB.configuration.itemList['_filepath']}" />
+
+
+
+								</dd>
+							</dl>
+
+							<div style="clear: left;" />
+
+						</rich:panel>
+
+
+
+
+						<!-- **** Status ***** -->
+
+						<rich:panel>
+							<f:facet name="header">
+								<h:outputText
+									value="Status: #{dmsMB.configuration.item['statusMessage']}" />
+							</f:facet>
+							<dl>
+								<dt>
+									<h:outputText value="ID: " />
+									<h:outputText
+										value="#{dmsMB.configuration.item['$UniqueID']}" />
+
+									<h:outputText
+										rendered="#{!empty dmsMB.configuration.item['nextTimeout']}"
+										value=" (running)" />
+
+
+								</dt>
+
+
+								<dt>
+									<h:outputText value="Interval: " />
+									<h:outputText
+										value="#{dmsMB.configuration.item['numInterval']} ms" />
+								</dt>
+
+
+
+
+								<dt>
+									<h:outputText value="Next Timeout: " />
+									<h:outputText
+										value="#{dmsMB.configuration.item['nextTimeout']}"
+										rendered="#{! empty dmsMB.configuration.item['nextTimeout']}">
+										<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+											pattern="#{global.dateTimePattern}" />
+
+
+									</h:outputText>
+								</dt>
+
+								<dt>
+									<h:outputText value="TimeRemaining: " />
+									<h:outputText
+										rendered="#{! empty dmsMB.configuration.item['timeRemaining']}"
+										value="&lt; #{dmsMB.configuration.item['timeRemaining']} ms" />
+
+								</dt>
+							</dl>
+						</rich:panel>
+					</div>
+
+					<div class="sywapp-form-footer sywapp-project-footer">
+
+						<a4j:outputPanel styleClass="sywapp-viewentry" layout="block"
+							style="">
+
+							<h:outputLabel value="#{global.modified}: " />
+							<h:outputText
+								value="#{dmsMB.configuration.item['$modified']} ">
+								<f:convertDateTime timeZone="CEST" type="both"
+									dateStyle="medium" />
+							</h:outputText>
+							<h:outputText
+								value=" #{global.by} #{dmsMB.configuration.item['namcurrenteditor']}" />
+
+							<br />
+						</a4j:outputPanel>
+
+						<h:commandButton actionListener="#{dmsMB.doSaveConfiguration}"
+							value="Save">
+						</h:commandButton>
+
+						<h:commandButton actionListener="#{dmsMB.doStartScheduler}"
+							value="start">
+						</h:commandButton>
+						<h:commandButton actionListener="#{dmsMB.doStopScheduler}"
+							value="stop">
+						</h:commandButton>
+						<h:commandButton actionListener="#{dmsMB.doRestartScheduler}"
+							value="restart">
+						</h:commandButton>
+
+
+
+
+						<h:commandButton value="#{global.close}"
+							action="home" />
+
+
+
+
+					</div>
+				</div>
+
+
+
+
+			</h:form>
+		</f:view>
+	</ui:define>
+
+
+
+</ui:composition>

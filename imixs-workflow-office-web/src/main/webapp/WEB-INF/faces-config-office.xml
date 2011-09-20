@@ -106,6 +106,17 @@
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	
+	<managed-bean>
+		<managed-bean-name>dmsMB</managed-bean-name>
+		<managed-bean-class>
+			org.imixs.marty.web.util.DmsMB
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+	
+	
+	
 	<navigation-rule>
 	
 		<navigation-case>
@@ -165,6 +176,20 @@
 		<navigation-case>
 			<from-outcome>admin_model</from-outcome>
 			<to-view-id>/pages/admin/modellist.xhtml
+			</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<!-- DMS -->
+		<navigation-case>
+			<from-outcome>admin_dmsscheduler</from-outcome>
+			<to-view-id>/pages/admin/dmsscheduler.xhtml
+			</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>admin_dmsassign</from-outcome>
+			<to-view-id>/pages/workitems/forms/dms_assignprocess.xhtml
 			</to-view-id>
 			<redirect/>
 		</navigation-case>
