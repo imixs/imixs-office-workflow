@@ -45,10 +45,10 @@
 							<h:outputText value="#{global.modified} #{global.by}" />
 						</f:facet>
 						<h:outputText value="#{record.item['$modified']}">
-							<f:convertDateTime type="both" dateStyle="short"
-								pattern="dd.MM.yy HH:mm:ss" />
+							<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+											pattern="#{global.dateTimePattern}" />
 						</h:outputText>
-						<h:outputText value="#{record.item['namcurrentEditor']}" />
+						<h:outputText value=" #{record.item['namcurrentEditor']}" />
 					</rich:column>
 					
 					

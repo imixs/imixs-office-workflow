@@ -42,8 +42,8 @@
 							<h:outputText value="#{global.created}" />
 						</f:facet>
 							<h:outputText value="#{record.item['$created']}">
-							<f:convertDateTime type="both" dateStyle="short"
-								pattern="dd.MM.yy HH:mm:ss" />
+							<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+											pattern="#{global.dateTimePattern}" />
 						</h:outputText>
 					</rich:column>
 
@@ -52,8 +52,8 @@
 							<h:outputText value="#{messages.lastlogin}" />
 						</f:facet>
 						<h:outputText value="#{record.item['datLastLogin']}">
-							<f:convertDateTime type="both" dateStyle="short"
-								pattern="dd.MM.yy HH:mm:ss" />
+							<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+											pattern="#{global.dateTimePattern}" />
 						</h:outputText>
 						<h:outputText rendered="#{record.item['numLoginCount'] gt 0}" value=" (#{record.item['numLoginCount']})" />
 					</rich:column>

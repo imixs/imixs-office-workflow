@@ -41,7 +41,8 @@
 									<h:outputText value="#{workitem.item['$modified']}"
 										rendered="#{empty workitem.item['txtWorkflowSummary']}"
 										styleClass="sywapp-viewentry-header">
-										<f:convertDateTime type="both" dateStyle="long" />
+										<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+											pattern="#{global.dateTimePattern}" />
 									</h:outputText>
 								</h:commandLink>
 							</a4j:outputPanel>
@@ -51,7 +52,8 @@
 								<h:outputText value="#{workitem.item['$modified']}"
 									rendered="#{empty workitem.item['txtWorkflowSummary']}"
 									styleClass="sywapp-viewentry-header">
-									<f:convertDateTime type="both" dateStyle="medium" />
+									<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+											pattern="#{global.dateTimePattern}" />
 								</h:outputText>
 							</a4j:outputPanel>
 							<br />
@@ -111,13 +113,15 @@
 								</a4j:commandLink></h3>
 								<p><h:outputText value="#{global.created}: " /> <h:outputText
 									value="#{workitem.item['$created']}">
-									<f:convertDateTime type="both" dateStyle="medium" />
+									<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+											pattern="#{global.dateTimePattern}" />
 								</h:outputText> <h:outputText
 									value=" #{global.by} #{nameLookupMB.userName[workitem.item['namcreator']]}" />
 								<br />
 								<h:outputText value="#{global.modified}: " /> <h:outputText
 									value="#{workitem.item['$modified']}">
-									<f:convertDateTime type="both" dateStyle="medium" />
+									<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+											pattern="#{global.dateTimePattern}" />
 								</h:outputText> <h:outputText
 									value=" #{global.by} #{nameLookupMB.userName[workitem.item['namcurrenteditor']]}" /></p>
 								<ui:repeat

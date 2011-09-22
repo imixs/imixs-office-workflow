@@ -25,7 +25,8 @@
 					style="margin-left:0px;" rowClasses="sywapp-newsentry">
 
 					<h:outputText value="#{mynote.item['$created']}">
-						<f:convertDateTime type="both" dateStyle="medium" />
+						<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+											pattern="#{global.dateTimePattern}" />
 					</h:outputText>
 					<br />
 					<h:outputText value=" #{global.by}: " />

@@ -43,8 +43,8 @@
 										<h:outputText value="last update" />
 									</f:facet>
 									<h:outputText value="#{entity['$created']}">
-										<f:convertDateTime type="both" dateStyle="short"
-											pattern="dd.MM.yy HH:mm:ss" />
+										<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+											pattern="#{global.dateTimePattern}" />
 									</h:outputText>
 
 

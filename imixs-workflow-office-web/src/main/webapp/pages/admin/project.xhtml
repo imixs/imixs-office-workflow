@@ -304,8 +304,8 @@
 
 					<h:outputText
 						value="#{global.modified}: #{projectMB.workitem.item['$modified']}">
-						<f:convertDateTime type="both" dateStyle="short"
-							pattern="dd.MMM.yy HH:mm:ss" />
+						<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+											pattern="#{global.dateTimePattern}" />
 					</h:outputText>
 					<h:outputText
 						value=" #{global.by} #{nameLookupMB.userName[projectMB.workitem.item['namCurrentEditor']]}" />

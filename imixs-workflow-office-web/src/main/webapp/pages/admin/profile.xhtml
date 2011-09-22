@@ -47,14 +47,16 @@
 								<div style="margin-left:10px;">
 								<h:outputText value="#{global.created}: " />
 								<h:outputText value="#{profileMB.workitem.item['$created']}">
-									<f:convertDateTime type="both" dateStyle="medium" />
+									<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+											pattern="#{global.dateTimePattern}" />
 								</h:outputText>
 								<h:outputText
 									value=" #{global.by} #{nameLookupMB.userName[profileMB.workitem.item['namCreator']]}" />
 								<br />
 								<h:outputText value="#{global.modified}: " />
 								<h:outputText value="#{profileMB.workitem.item['$modified']}">
-									<f:convertDateTime type="both" dateStyle="medium" />
+									<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+											pattern="#{global.dateTimePattern}" />
 								</h:outputText>
 								<h:outputText
 									value=" #{global.by} #{nameLookupMB.userName[profileMB.workitem.item['namCurrentEditor']]}" />
