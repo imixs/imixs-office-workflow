@@ -8,9 +8,9 @@
 	template="/layout/template.xhtml">
 
 
-	<!-- History Nav -->  
+	<!-- History Nav -->
 	<ui:define name="historynav">
-			<ui:include src="/layout/historynav_home.xhtml" />
+		<ui:include src="/layout/historynav_home.xhtml" />
 	</ui:define>
 
 
@@ -25,62 +25,48 @@
 						<h2><h:outputText value="#{messages.title_notes}" /></h2>
 					</div>
 				-->
-				
+
 					<div class="sywapp-view">
-						<ui:include
-							src="/pages/sub_startprocess.xhtml" />
-							
-						
+						<ui:include src="/pages/sub_startprocess.xhtml" />
+
+
 						<div>
 							<!--  Box 1 -->
-							<div style="margin: 0; padding: 0; border: 0; float: left;width:50%">
-								<div style="margin-right:5px;">
-								
-								<!-- -->
-									<ui:include
-										src="/pages/sub_worklist.xhtml" />
-										 
+							<div
+								style="margin: 0; padding: 0; border: 0; float: left; width: 50%">
+								<div style="margin-right: 5px;">
+
+									<!-- -->
+									<ui:include src="/pages/sub_worklist.xhtml" />
+
 								</div>
 							</div>
-			
+
 							<!--  Box 2 -->
-							<div style="margin: 0; padding: 0; border: 0; float: left;width:49.9%;">
-								<div style="margin-left:5px;">
-								<!-- -->
-								<ui:include
-									src="/pages/sub_updatelist.xhtml" />
-									 
+							<div
+								style="margin: 0; padding: 0; border: 0; float: left; width: 49.9%;">
+								<div style="margin-left: 5px;">
+									<!-- -->
+									<ui:include src="/pages/sub_updatelist.xhtml" />
+
 								</div>
 							</div>
 							<div style="clear: left;" />
 						</div>
-						
-						
-						
-						<div>
-							<!--  Box 3 -->
-							<div style="margin: 0; padding: 0; border: 0; float: left;width:50%">
-								<div style="margin-right:5px;">
-								
-								<!-- -->
-									 <ui:include
-										src="/pages/sub_dmslist.xhtml" />
-										
-								</div>
-							</div>
-						</div>
-		
-						
-						
-						<!-- 
-						<ui:include src="/pages/sub_invitations.xhtml" /> 
-						
-						<ui:include	src="/pages/sub_projectnotes.xhtml" /> 
-						
-						<ui:include	src="/pages/sub_news.xhtml" />
-						 -->
-					</div>
 
+
+						<div>
+							<!--  DmsList only visible if dmsScheduler is stared -->
+							<a4j:outputPanel
+								rendered="#{dmsMB.configuration.item['_enabled']}"
+								layout="block"  style="margin: 0; padding: 0; border: 0; float: left;width:50%">
+
+								<div style="margin-right: 5px;">
+									<ui:include src="/pages/sub_dmslist.xhtml" />
+								</div>
+							</a4j:outputPanel>
+						</div>
+					</div>
 				</div>
 			</h:form>
 		</f:view>
