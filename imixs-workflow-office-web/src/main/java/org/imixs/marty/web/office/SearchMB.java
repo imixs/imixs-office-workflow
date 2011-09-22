@@ -52,9 +52,6 @@ public class SearchMB  {
 	/* Model Service */
 	@EJB
 	EntityService entityService;
-
-	//@EJB
-	//WorkitemService workitemService;
 	
 	// Workflow Manager
 	@EJB
@@ -66,9 +63,6 @@ public class SearchMB  {
 	 */
 	@PostConstruct
 	public void init() {
-		// register this Bean as a workitemListener to the current WorktieMB
-		//this.getWorkitemBean().addWorkitemListener(this);
-
 		// initialize searchfilter
 		doResetSearchFilter(null);
 	}
@@ -191,12 +185,6 @@ public class SearchMB  {
 
 	public void doResetSearchFilter(ActionEvent event) {
 		searchFilter = new ItemCollection();
-		try {
-			
-		} catch (Exception e) {
-
-		}
-		
 		doSearch(event);
 	}
 
@@ -226,9 +214,10 @@ public class SearchMB  {
 
 		// find all workitems
 		long ltime = System.currentTimeMillis();
-		String sQuery = "SELECT entity FROM Entity entity WHERE entity.type IN ('workitem') ";
+		//String sQuery = "SELECT entity FROM Entity entity WHERE entity.type IN ('workitem') ";
+		String sQuery = "SELECT entity FROM Entity entity ";
 
-		System.out.println(" UpdateFulltextIndex starting....");
+		logger.info(" UpdateFulltextIndex starting....");
 
 		while (hasMoreData) {
 			// read a junk....
@@ -239,7 +228,7 @@ public class SearchMB  {
 				hasMoreData = false;
 			startpos = startpos + col.size();
 			totalcount = totalcount + col.size();
-			System.out.println(" UpdateFulltextIndex - read " + totalcount
+			logger.info(" UpdateFulltextIndex - read " + totalcount
 					+ " workitems....");
 
 			icount = icount + col.size();
@@ -247,80 +236,12 @@ public class SearchMB  {
 			LucenePlugin.addWorklist(col);
 
 		}
-		System.out.println(" UpdateFulltextIndex finished - " + icount
+		logger.info(" UpdateFulltextIndex finished - " + icount
 				+ " workitems updated in "
 				+ (System.currentTimeMillis() - ltime) + " ms");
 
 	}
 	
 	
-	/*
-	public void onWorkitemChanged(ItemCollection arg0) {
-
-	}
-
-	public void onWorkitemProcess(ItemCollection e) {
-
-	}
-
-	public void onChildProcess(ItemCollection arg0) {
-		// nothing
-	}
-
-	public void onChildCreated(ItemCollection arg0) {
-		// nothing
-
-	}
-
-	public void onChildProcessCompleted(ItemCollection arg0) {
-		// nothing
-	}
-
-	public void onWorkitemCreated(ItemCollection arg0) {
-		// nothing
-	}
-
-	public void onWorkitemProcessCompleted(ItemCollection arg0) {
-		this.doSearch(null);
-	}
-
-	public void onChildDelete(ItemCollection e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void onChildDeleteCompleted() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void onChildSoftDelete(ItemCollection e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void onChildSoftDeleteCompleted(ItemCollection e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void onWorkitemDelete(ItemCollection e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void onWorkitemDeleteCompleted() {
-		this.doSearch(null);
-	}
-
-	public void onWorkitemSoftDelete(ItemCollection e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void onWorkitemSoftDeleteCompleted(ItemCollection e) {
-		// TODO Auto-generated method stub
-
-	}
-*/
+	
 }
