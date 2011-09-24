@@ -6,56 +6,56 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich" id="sub_processlist_form">
 
-	
+
 
 
 	<div class="model-box">
-		
+
 		<div class="model-start"></div>
 		<div class="model-line"></div>
 		<ui:repeat value="#{workitemMB.processList}" var="process">
 
 
-<a4j:outputPanel>
-			<a4j:outputPanel layout="block" styleClass="model-entity completed"
-				rendered="#{(process.item['numprocessid']) lt (workitemMB.workitem.item['$processid']) }">
+			<a4j:outputPanel layout="block" styleClass="model-entity-box">
+				<a4j:outputPanel layout="block" styleClass="model-entity completed"
+					rendered="#{(process.item['numprocessid']) lt (workitemMB.workitem.item['$processid']) }">
 
-				<h:outputText value="#{process.item['txtName']}" />
+					<h:outputText value="#{process.item['txtName']}" />
+				</a4j:outputPanel>
+
+
+
+				<a4j:outputPanel layout="block" styleClass="model-entity active"
+					rendered="#{(process.item['numprocessid']) eq (workitemMB.workitem.item['$processid'])}">
+
+					<h:outputText value="#{process.item['txtName']}" />
+				</a4j:outputPanel>
+
+
+				<a4j:outputPanel layout="block" styleClass="model-entity"
+					rendered="#{(process.item['numprocessid']) gt (workitemMB.workitem.item['$processid'])}">
+
+					<h:outputText value="#{process.item['txtName']}" />
+				</a4j:outputPanel>
+
+
+				<rich:toolTip rendered="#{! empty process.item['rtfdescription']}"
+					style="max-width:200px;" layout="block">
+					<span>#{process.item['rtfdescription']}</span>
+				</rich:toolTip>
+
 			</a4j:outputPanel>
-			
-		
-
-			<a4j:outputPanel layout="block" styleClass="model-entity active"
-				rendered="#{(process.item['numprocessid']) eq (workitemMB.workitem.item['$processid'])}">
-
-				<h:outputText value="#{process.item['txtName']}" />
-			</a4j:outputPanel>
-
-
-			<a4j:outputPanel layout="block" styleClass="model-entity"
-				rendered="#{(process.item['numprocessid']) gt (workitemMB.workitem.item['$processid'])}">
-
-				<h:outputText value="#{process.item['txtName']}" />
-			</a4j:outputPanel>
-			
-			
-			<rich:toolTip rendered="#{! empty process.item['rtfdescription']}" 
-			style="max-width:200px;" layout="block">
-							    	  <span>#{process.item['rtfdescription']}</span>
-						           </rich:toolTip>
-		
-		</a4j:outputPanel>
 
 
 
 			<div class="model-line"></div>
 		</ui:repeat>
 		<div class="model-end"></div>
-		
-		<div style="clear:left"/>
+
+		<div style="clear: left" />
 	</div>
 
-	
+
 
 </f:subview>
 
