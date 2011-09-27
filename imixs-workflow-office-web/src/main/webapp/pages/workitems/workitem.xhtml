@@ -52,7 +52,7 @@
 					
 					<ui:repeat value="#{workitemMB.activities}" var="activity">
 							<a4j:outputPanel>
-								<h:commandButton action="#{workitemMB.getWorkflowResult}"
+								<h:commandButton action="#{workitemMB.workitem.item['action']}"
 									actionListener="#{workitemMB.doProcess}"
 									value="#{activity.item['txtname']}">
 									<f:param name="id" value="#{activity.item['numactivityid']}" />
