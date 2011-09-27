@@ -49,10 +49,12 @@
 						<h:outputText value="#{global.workflow}" />
 					</f:facet>
 					
-					
+
+					 
 					<ui:repeat value="#{workitemMB.activities}" var="activity">
 							<a4j:outputPanel>
-								<h:commandButton action="#{workitemMB.workitem.item['action']}"
+								<h:commandButton 
+								action="#{workitemMB.getAction}"
 									actionListener="#{workitemMB.doProcess}"
 									value="#{activity.item['txtname']}">
 									<f:param name="id" value="#{activity.item['numactivityid']}" />
