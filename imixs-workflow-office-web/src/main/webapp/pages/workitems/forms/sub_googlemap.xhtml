@@ -6,55 +6,59 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich" id="sub_googlemap_form">
 
-		
-<!-- see licence: http://www.legal-media.de/?p=37 -->
 
-<!--  Achtung - script http://maps.googleapis.com/maps/api/js?sensor=false muss in Hauptseite geladen werden -->
-<script type="text/javascript"> 
+	<!-- see licence: http://www.legal-media.de/?p=37 -->
 
-function initialize() {
-	var geocoder = new google.maps.Geocoder();
 
-	// berechne Geodaten....
-	var latlngLocal;
-	//var address="Nordendstr. 2, 80799 München, , ";
-	var address="#{workitemMB.workitem.item['_address']}, #{workitemMB.workitem.item['_zip']} #{workitemMB.workitem.item['_city']}, #{workitemMB.workitem.item['_state']}, #{workitemMB.workitem.item['_country']}";
-       geocoder.geocode( { 'address': address}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          var latlngLocal=results[0].geometry.location;
-          // aktualisere Karte...
-          map.setCenter(results[0].geometry.location);
-          map.setZoom(15);
-          // setze marker
-          var marker = new google.maps.Marker({
-              map: map, 
-            position: results[0].geometry.location
-          }
-         );
-         } else {
-          //alert("Geocode was not successful for the following reason: " + status);
-        }
-      });
+	<div id="map_canvas" style="width: 100%; height: 300px">
 
-	// erzeuge Karten Objekt mit default Location
-    var latlng = new google.maps.LatLng(48.1522577, 11.57598429999996);
-    var myOptions = {
-      zoom: 3,
-      center: latlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map(document.getElementById("map_canvas"),
-        myOptions);
-  }
 
-	// onLoad init...
-    initialize();
+		<iframe id="googlefrm" width="100%" height="300" frameborder="0"
+			scrolling="no" marginheight="0" marginwidth="0"
+			src="http://maps.google.de/"></iframe>
 
-</script> 
 
-  
- <div id="map_canvas" style="width:100%; height:300px"></div>
-				
+
+		<script>
+			function changeFrame() {
+				var street = "#{supplierMB.workitem.item['_address']}";
+				street = street.replace(" ", "+");
+				//street=escape(street);
+
+				var city = "#{supplierMB.workitem.item['_city']}";
+				city = city.replace(" ", "+");
+				//city=escape(city);
+
+				var state = "#{supplierMB.workitem.item['_state']}";
+				state = state.replace(" ", "+");
+				//state=escape(state);
+
+				var country = "#{supplierMB.workitem.item['_country']}";
+				country = country.replace(" ", "+");
+				//country=escape(country);
+
+				var address = street
+						+ ",+#{supplierMB.workitem.item['_zip']},+" + city
+						+ ",+" + country;
+
+				var surl = "http://maps.google.de/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q="
+						+ address + "&amp;output=embed";
+
+				//alert(address);
+
+				var oIframe = document.getElementById('googlefrm');
+				var oDoc = (oIframe.contentWindow || oIframe.contentDocument);
+				if (oDoc.document)
+					oDoc = oDoc.document;
+				oDoc.location.href = surl;
+				return true;
+			}
+
+			changeFrame();
+		</script>
+
+	</div>
+
 
 </f:subview>
 
