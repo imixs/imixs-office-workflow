@@ -53,17 +53,22 @@
 		
 		<dt style="clear:left;"><h:outputLabel value="#{form_messages.sub_basic_amount}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_amount']}" /></dd>
-
+<!-- 
 		<dt><h:outputLabel value="#{form_messages.sub_basic_tax}" /></dt>
 		<dd><h:inputText value="#{workitemMB.workitem.item['_tax']}" /></dd>
+ -->
+ 		<dt><h:outputLabel value="#{form_messages.sub_basic_brutto}" /></dt>
+		<dd><h:inputText value="#{workitemMB.workitem.item['_amount_brutto']}" /></dd>
 	
 	</dl>
+
 	
 	<dl class="columns-1">
 		<dt><h:outputLabel value="#{form_messages.sub_basic_description}" /></dt>
 		<dd><h:inputTextarea value="#{workitemMB.workitem.item['_description']}" style="height:5em;width:536px" /></dd>
 		
 	</dl>
+
 
 	
 	<div style="clear:left;" />
