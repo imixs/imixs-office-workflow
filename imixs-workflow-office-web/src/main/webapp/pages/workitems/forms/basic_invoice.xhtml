@@ -11,16 +11,41 @@
 
 
 	<dl class="columns-1">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_subject}" /></dt>
-		<dd><h:inputText style="width:500px;"  value="#{workitemMB.workitem.item['_subject']}" /></dd>
-		
-		<dt><h:outputLabel value="#{form_messages.sub_basic_reference}" /></dt>
+		<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_subject}" />
+		</dt>
+		<dd>
+			<h:inputText style="width:500px;"
+				value="#{workitemMB.workitem.item['_subject']}" />
+		</dd>
+	</dl>
+
+	<dl class="columns-2">
+		<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_reference}" />
+		</dt>
 		<dd>
 			<ui:include src="/pages/workitems/forms/process_suggest_input.xhtml">
-						<ui:param name="item_value" value="#{workitemMB.workitem.item['_contract_ref']}" />
-						<ui:param name="tooltip" value="#{form_messages.sub_basic_contract_help}" />
-					</ui:include>		
+				<ui:param name="item_value"
+					value="#{workitemMB.workitem.item['_contract_ref']}" />
+				<ui:param name="tooltip"
+					value="#{form_messages.sub_basic_contract_help}" />
+			</ui:include>
 		</dd>
+
+		<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_contact}" />
+		</dt>
+		<dd>
+			<ui:include src="/pages/workitems/forms/process_suggest_input.xhtml">
+				<ui:param name="item_value"
+					value="#{workitemMB.workitem.item['_contact_ref']}" />
+				<ui:param name="tooltip"
+					value="#{form_messages.sub_basic_contact_help}" />
+			</ui:include>
+		</dd>
+
+
 	</dl>
 
 
@@ -29,49 +54,71 @@
 
 
 	<dl class="columns-2">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_invoicenumber}" /></dt>
-		<dd><h:inputText value="#{workitemMB.workitem.item['_invoicenumber']}" /></dd>
-		
-		<dt><h:outputLabel value="#{form_messages.sub_basic_invoicedate}" /></dt>
+		<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_invoicenumber}" />
+		</dt>
+		<dd>
+			<h:inputText value="#{workitemMB.workitem.item['_invoicenumber']}" />
+		</dd>
+
+		<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_invoicedate}" />
+		</dt>
 		<dd>
 			<rich:calendar value="#{workitemMB.workitem.item['_invoicedate']}" />
 		</dd>
-		
-		
-		<dt><h:outputLabel value="#{form_messages.sub_basic_customernumber}" /></dt>
-		<dd><h:inputText value="#{workitemMB.workitem.item['_customernumber']}" /></dd>
-				
-		<dt><h:outputLabel value="#{form_messages.sub_basic_contact}" /></dt>
+
+
+		<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_customernumber}" />
+		</dt>
 		<dd>
-			<ui:include src="/pages/workitems/forms/process_suggest_input.xhtml">
-						<ui:param name="item_value" value="#{workitemMB.workitem.item['_contact_ref']}" />
-						<ui:param name="tooltip" value="#{form_messages.sub_basic_contact_help}" />
-					</ui:include>		
-		</dd> 
-		
-		
-		
-		<dt style="clear:left;"><h:outputLabel value="#{form_messages.sub_basic_amount}" /></dt>
-		<dd><h:inputText value="#{workitemMB.workitem.item['_amount']}" /></dd>
-<!-- 
-		<dt><h:outputLabel value="#{form_messages.sub_basic_tax}" /></dt>
-		<dd><h:inputText value="#{workitemMB.workitem.item['_tax']}" /></dd>
- -->
- 		<dt><h:outputLabel value="#{form_messages.sub_basic_brutto}" /></dt>
-		<dd><h:inputText value="#{workitemMB.workitem.item['_amount_brutto']}" /></dd>
-	
+			<h:inputText value="#{workitemMB.workitem.item['_customernumber']}" />
+		</dd>
+
+
+
+		<dt style="clear: left;">
+			<h:outputLabel value="#{form_messages.sub_basic_amount}" />
+		</dt>
+		<dd>
+			<h:inputText value="#{workitemMB.workitem.item['_amount']}">
+				<f:convertNumber minFractionDigits="2" locale="de" />
+			</h:inputText>
+		</dd>
+
+		<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_tax}" />
+		</dt>
+		<dd>
+			<h:inputText value="#{workitemMB.workitem.item['_tax']}" />
+		</dd>
+
+		<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_amount_brutto}" />
+		</dt>
+		<dd>
+			<h:inputText value="#{workitemMB.workitem.item['_amount_brutto']}" >
+				<f:convertNumber minFractionDigits="2" locale="de" /></h:inputText>
+		</dd>
+
 	</dl>
 
-	
+
 	<dl class="columns-1">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_description}" /></dt>
-		<dd><h:inputTextarea value="#{workitemMB.workitem.item['_description']}" style="height:5em;width:536px" /></dd>
-		
+		<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_description}" />
+		</dt>
+		<dd>
+			<h:inputTextarea value="#{workitemMB.workitem.item['_description']}"
+				style="height:5em;width:536px" />
+		</dd>
+
 	</dl>
 
 
-	
-	<div style="clear:left;" />
+
+	<div style="clear: left;" />
 
 
 </f:subview>
