@@ -1,0 +1,27 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" id="contact_sub_form">
+
+
+	<f:loadBundle basename="bundle.profile" var="profile_messages" />
+	<f:loadBundle basename="bundle.contact" var="contact_messages" />
+
+
+	<!-- 
+	#{workitemMB.workitem.item['$ModelVersion']}|#{workitemMB.workitem.item['$processID']}
+	-->
+
+	<!-- the following code computes the txtworktow abstract from the current modelversion and processid  -->
+	<p>
+		<h:outputText escape="false"
+			value="#{modelMB.processEntity[workitemMB.workitem.item['$ModelVersion'].concat('|').concat(workitemMB.workitem.item['$processID'])].item['txtWorkflowAbstract']}">
+		</h:outputText>
+
+	</p>
+
+</f:subview>
+
