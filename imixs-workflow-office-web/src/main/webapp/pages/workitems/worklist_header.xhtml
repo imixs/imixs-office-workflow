@@ -38,46 +38,84 @@
 			</p>
 
 
-			<rich:panel rendered="#{! empty projectlistMB.processList[projectMB.workitem.item['$uniqueid']]}">
-				<h3>
-					<h:outputText value="#{global.start_new_process}" />
-				</h3>
 
-				<!-- *** Process List *** -->
 
-				<ui:repeat
-					value="#{projectlistMB.processList[projectMB.workitem.item['$uniqueid']]}"
-					var="process">
 
-					<div class="sywapp-processlist" style="float: left; width: 200px;">
-						<ul>
-							<li><h:commandLink action="open_workitem"
-									actionListener="#{workitemMB.doCreateWorkitem}"
-									value="#{process.item['txtworkflowgroup']} »">
-									<f:param name="id"
-										value="#{process.item['$modelversion']}|#{process.item['numprocessid']}" />
-									<f:param name="project" value="#{project.item['$uniqueid']}" />
-								</h:commandLink> <a4j:outputPanel layout="block">
-									<h:outputText value="#{process.item['rtfdescription']}"
-										escape="false" />
-								</a4j:outputPanel>
-							</li>
-						</ul>
 
-					</div>
-				</ui:repeat>
-				<div style="clear: left" />
-
-			</rich:panel>
-		</a4j:outputPanel>
-
+			
 
 
 
 		<ui:include src="/pages/workitems/worklist_filter.xhtml" />
 		<!-- -->
 		<ui:include src="/pages/workitems/worklist_news.xhtml" />
-	 
+		
+		
+		
+		
+		<rich:panel
+				rendered="#{! empty projectlistMB.processList[projectMB.workitem.item['$uniqueid']]}">
+
+
+
+				<rich:toggleControl for="suggest_process_id">
+
+					<h3>
+						<h:outputText value="#{global.start_new_process} »" />
+					</h3>
+
+				</rich:toggleControl>
+
+				<rich:togglePanel switchType="client" id="suggest_process_id"
+					stateOrder="processview_closed,processview_open">
+					<f:facet name="processview_closed">
+						<a4j:outputPanel>
+							<!-- closed -->
+						</a4j:outputPanel>
+					</f:facet>
+
+					<f:facet name="processview_open">
+						<!-- open -->
+						<a4j:outputPanel layout="block">
+
+
+
+							<!-- *** Process List *** -->
+
+							<ui:repeat
+								value="#{projectlistMB.processList[projectMB.workitem.item['$uniqueid']]}"
+								var="process">
+
+								<div class="sywapp-processlist"
+									style="float: left; width: 200px;">
+									<ul>
+										<li><h:commandLink action="open_workitem"
+												actionListener="#{workitemMB.doCreateWorkitem}"
+												value="#{process.item['txtworkflowgroup']} »">
+												<f:param name="id"
+													value="#{process.item['$modelversion']}|#{process.item['numprocessid']}" />
+												<f:param name="project" value="#{project.item['$uniqueid']}" />
+											</h:commandLink> <a4j:outputPanel layout="block">
+												<h:outputText value="#{process.item['rtfdescription']}"
+													escape="false" />
+											</a4j:outputPanel></li>
+									</ul>
+
+								</div>
+							</ui:repeat>
+							<div style="clear: left" />
+
+
+						</a4j:outputPanel>
+					</f:facet>
+				</rich:togglePanel>
+
+
+
+			</rich:panel>
+		</a4j:outputPanel>
+		
+
 	</rich:panel>
 
 </f:subview>

@@ -12,17 +12,12 @@
 	<a4j:outputPanel id="worklist_filter_panel" layout="block"
 		styleClass="sywapp-viewentry">
 		<h3>
-			<h:outputText value="#{global.filter}: " />
+			<h:outputLabel value="#{global.view}: " />
 		</h3>
 
 		<dl>
-
 			<dd>
-
-
-				
-				
-				<h:selectOneMenu id="view_filter" value="#{worklistMB.queryType}">
+				<h:selectOneRadio id="view_filter" value="#{worklistMB.queryType}">
 					<f:selectItem itemLabel="#{messages.title_worklist_all}"
 						itemValue="3" />
 					<f:selectItem itemLabel="#{messages.title_worklist_by_author}"
@@ -35,34 +30,38 @@
 						itemValue="4" />
 					<f:selectItem itemLabel="#{messages.title_worklist_deletions}"
 						itemValue="7" />
-					<a4j:support event="onchange" actionListener="#{worklistMB.doReset}"
+					<a4j:support event="onchange"
+						actionListener="#{worklistMB.doReset}"
 						reRender="group_filter,worklist_id,worklist_title" />
+				</h:selectOneRadio>
+				</dd>
+			</dl>
+			<h3>
+				<h:outputLabel value="#{global.businessprocess}: " /></h3>
+				<dl>
+			<dd>
+				<h:selectOneMenu id="group_filter"
+					value="#{worklistMB.workflowGroupFilter}">
+					<f:selectItem itemLabel="#{messages.search_all}" itemValue="-" />
+					<f:selectItems value="#{modelMB.workflowGroups}" />
+					<a4j:support event="onchange"
+						actionListener="#{worklistMB.doReset}"
+						reRender="process_filter,worklist_id" />
 				</h:selectOneMenu>
-				
 
-				
-					<h:selectOneMenu id="group_filter"
-						value="#{worklistMB.workflowGroupFilter}">
-						<f:selectItem itemLabel="#{messages.search_all}" itemValue="-" />
-						<f:selectItems value="#{modelMB.workflowGroups}" />
-						<a4j:support event="onchange" actionListener="#{worklistMB.doReset}"
-							reRender="process_filter,worklist_id" />
-					</h:selectOneMenu>
-
-
-					<h:outputLabel value="#{global.status}: " />
-
-					<h:selectOneMenu id="process_filter"
-						value="#{worklistMB.processFilter}">
-						<f:selectItem itemLabel="#{messages.search_all}" itemValue="0" />
-						<f:selectItems value="#{worklistMB.processFilterSelection}" />
-						<a4j:support event="onchange" actionListener="#{worklistMB.doReset}" 
+				<h:outputLabel value="#{global.status}: " />
+				<h:selectOneMenu id="process_filter"
+					value="#{worklistMB.processFilter}">
+					<f:selectItem itemLabel="#{messages.search_all}" itemValue="0" />
+					<f:selectItems value="#{worklistMB.processFilterSelection}" />
+					<a4j:support event="onchange"
+						actionListener="#{worklistMB.doReset}"
 						reRender="worklist_filter_panel,worklist_id" />
-					</h:selectOneMenu>
-				
+				</h:selectOneMenu>
+
 			</dd>
 		</dl>
-		
+
 	</a4j:outputPanel>
 
 
