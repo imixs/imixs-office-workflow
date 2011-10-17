@@ -28,13 +28,42 @@
 
 	
 	<managed-bean>
-		<managed-bean-name>workitemLookupMB</managed-bean-name>
+		<managed-bean-name>workitemReferenceMB</managed-bean-name>
 		<managed-bean-class>
-			org.imixs.marty.web.office.WorkitemLookupMB
+			org.imixs.marty.web.office.WorkitemReferenceMB
 		</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 
+
+	
+	<managed-bean>
+		<managed-bean-name>customerLookupMB</managed-bean-name>
+		<managed-bean-class>
+			org.imixs.marty.web.office.WorkitemReferenceMB
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<!-- Filter -->
+		<managed-property>
+			<property-name>filter</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>8...</value>
+		</managed-property>
+		
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>projectLookupMB</managed-bean-name>
+		<managed-bean-class>
+			org.imixs.marty.web.office.WorkitemReferenceMB
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<!-- Filter -->
+		<managed-property>
+			<property-name>filter</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>6...</value>
+		</managed-property>
+	</managed-bean>
 		
 	<managed-bean>
 		<managed-bean-name>projectWizzardMB</managed-bean-name>

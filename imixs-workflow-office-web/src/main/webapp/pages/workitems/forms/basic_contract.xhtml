@@ -18,18 +18,19 @@
 	<dl class="columns-2">
 		<dt><h:outputLabel value="#{form_messages.sub_basic_project}" /></dt>
 		<dd>
-			<ui:include src="/pages/workitems/forms/process_suggest_input.xhtml">
-						<ui:param name="item_value" value="#{workitemMB.workitem.item['_project']}" />
-						<ui:param name="tooltip" value="#{form_messages.sub_basic_project_help}" />
-					</ui:include>		
+				<ui:include src="/pages/workitems/forms/suggest_reference.xhtml">
+					<ui:param name="tooltip" value="#{form_messages.sub_basic_customer_help}" />
+					<ui:param name="handler" value="#{projectLookupMB}" />
+			</ui:include>		
 		</dd> 
 		
 		<dt><h:outputLabel value="#{form_messages.sub_basic_customer}" /></dt>
-		<dd   >
-			<ui:include src="/pages/workitems/forms/process_suggest_input.xhtml">
-						<ui:param name="item_value" value="#{workitemMB.workitem.item['_customer']}" />
-						<ui:param name="tooltip" value="#{form_messages.sub_basic_customer_help}" />
-					</ui:include>		
+		<dd>
+			<ui:include src="/pages/workitems/forms/suggest_reference.xhtml">
+					<ui:param name="tooltip" value="#{form_messages.sub_basic_customer_help}" />
+					<ui:param name="handler" value="#{customerLookupMB}" />
+					
+			</ui:include>		
 		</dd> 
 		
 		

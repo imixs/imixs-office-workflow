@@ -1,4 +1,4 @@
-package org.imixs.marty.web.office;
+package org.imixs.marty.web.office.deprecated;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ import org.imixs.workflow.plugins.jee.extended.LucenePlugin;
 /**
  * This ManagedBean supports Process lookups.
  * 
+ * 
  * This in an example how to bind this feature into a form:
  * 
  * <code>
@@ -42,7 +43,7 @@ import org.imixs.workflow.plugins.jee.extended.LucenePlugin;
  * @author rsoika
  * 
  */
-public class WorkitemLookupMB  implements WorkitemListener {
+public class WorkitemLookupMB implements WorkitemListener {
 
 	private static Logger logger = Logger.getLogger("org.imixs.workflow");
 
@@ -50,20 +51,21 @@ public class WorkitemLookupMB  implements WorkitemListener {
 	@EJB
 	org.imixs.workflow.jee.ejb.WorkflowService workflowService;
 
-	private ProcessDataAdapter processDataAdapter = null;
+//	private ProcessDataAdapter processDataAdapter = null;
 	final int MAX_CACHE_SIZE = 10;
 	private Cache cache; // cache holds workitems
 	private WorkitemMB workitemMB = null;
-	
-	
+	private String filter; // defines a regex process filter 
+	private List<ItemCollection> references=null;;
+
 	public WorkitemLookupMB() {
 		super();
 
 		cache = new Cache(MAX_CACHE_SIZE);
-		processDataAdapter = new ProcessDataAdapter();
+	//	processDataAdapter = new ProcessDataAdapter();
 
 	}
-	
+
 	/**
 	 * This method register the bean as an workitemListener
 	 */
@@ -72,7 +74,6 @@ public class WorkitemLookupMB  implements WorkitemListener {
 		// register this Bean as a workitemListener to the current WorktieMB
 		this.getWorkitemBean().addWorkitemListener(this);
 	}
-
 
 	/**
 	 * Diese Methode ist wird als suggestionAction für eine rich:suggestionbox
@@ -107,6 +108,7 @@ public class WorkitemLookupMB  implements WorkitemListener {
 				sSearchTerm += " (*" + searchphrase.toLowerCase() + "*)";
 
 			}
+			
 			workitems = LucenePlugin.search(sSearchTerm, workflowService);
 
 		} catch (Exception e) {
@@ -118,6 +120,142 @@ public class WorkitemLookupMB  implements WorkitemListener {
 
 	}
 
+	public String getFilter() {
+		return filter;
+	}
+
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
+
+	/**
+	 * This methods adds a new process reference to the property
+	 * 'processReference'
+	 * 
+	 * This method is used by the richfaces suggest widget 
+	 */
+	public void setNewProcessReference(String aRef) {
+		try {
+			// get current list
+			Vector list = getWorkitemBean().getWorkitem().getItemValue(
+					"processReference");
+			// clear empty entry if set
+			if (list.size()==1 && "".equals(list.elementAt(0)))
+				list.remove(0);
+			
+			if (list.indexOf(aRef) == -1) {
+				list.add(aRef);
+	
+				getWorkitemBean().getWorkitem().replaceItemValue(
+						"processReference", list);
+	
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * This methods adds a new process reference to the property
+	 * 'processReference'. The reference is expected in the param 'id'
+	 */
+	public void doAddReference(ActionEvent event) throws Exception {
+		// get Process ID out from the ActionEvent Object....
+		List children = event.getComponent().getChildren();
+		String processEntityIdentifier = "";
+	
+		for (int i = 0; i < children.size(); i++) {
+			if (children.get(i) instanceof UIParameter) {
+				UIParameter currentParam = (UIParameter) children.get(i);
+				if (currentParam.getName().equals("id")
+						&& currentParam.getValue() != null) {
+					processEntityIdentifier = (String) currentParam.getValue();
+					break;
+				}
+				
+				
+			}
+		}
+		if ("".equals(processEntityIdentifier))
+			return;
+		
+		
+		try {
+			// get current list
+			Vector list = getWorkitemBean().getWorkitem().getItemValue(
+					"processReference");
+			// clear empty entry if set
+			if (list.size()==1 && "".equals(list.elementAt(0)))
+				list.remove(0);
+			
+			if (list.indexOf(processEntityIdentifier) == -1) {
+				list.add(processEntityIdentifier);
+
+				getWorkitemBean().getWorkitem().replaceItemValue(
+						"processReference", list);
+
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	
+	/**
+	 * This method deletes a reference from the property processReference.
+	 * The reference is expected in the param 'id'
+	 * @param event
+	 * @throws Exception
+	 */
+	public void doRemoveReference(ActionEvent event) throws Exception {
+		// get Process ID out from the ActionEvent Object....
+		List children = event.getComponent().getChildren();
+		String processEntityIdentifier = "";
+	
+		for (int i = 0; i < children.size(); i++) {
+			if (children.get(i) instanceof UIParameter) {
+				UIParameter currentParam = (UIParameter) children.get(i);
+				if (currentParam.getName().equals("id")
+						&& currentParam.getValue() != null) {
+					processEntityIdentifier = (String) currentParam.getValue();
+					break;
+				}
+				
+				
+			}
+		}
+		
+		// remove the reference
+		if (!"".equals(processEntityIdentifier)) {
+			try {
+				// get current list
+				Vector list = getWorkitemBean().getWorkitem().getItemValue(
+						"processReference");
+				// clear empty entry if set
+				if (list.size()==1 && "".equals(list.elementAt(0)))
+					list.remove(0);
+				
+				list.remove(processEntityIdentifier);
+					
+				getWorkitemBean().getWorkitem().replaceItemValue(
+							"processReference", list);
+
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
+
+
+
+	
+	
 	/**
 	 * This method uses the Map Interface as a return value to allow the
 	 * parameterized access to process reference.
@@ -131,10 +269,62 @@ public class WorkitemLookupMB  implements WorkitemListener {
 	 * 
 	 * @return
 	 */
+	/*
 	public Map getProcessData() {
 		return processDataAdapter;
 
 	}
+	*/
+	
+	/**
+	 * returns a ItemCollection list of References
+	 * @return
+	 * @throws NamingException
+	 */
+	public List<ItemCollection> getReferences() throws NamingException {
+		
+		if (references!=null)
+			return references;
+		
+		
+		references = new ArrayList<ItemCollection>();
+		
+		// lookup the references...
+		Vector<String> list = getWorkitemBean().getWorkitem().getItemValue(
+				"processReference");
+		// empty list?
+		
+		if (list.size()==0 || (list.size()==1 && "".equals(list.elementAt(0))))
+			return references;
+		
+		String sQuery="select entity from Entity where entity.id IN (";
+		for (String aID: list) {
+			sQuery+="'"+aID + "',";
+		}
+		// cut last ,
+		sQuery=sQuery.substring(0,sQuery.length()-1);
+		sQuery+=")";
+
+		Collection<ItemCollection> col=null;
+		try {
+			col = workflowService.getEntityService().findAllEntities(sQuery, 0,-1);
+			for (ItemCollection itemcol:col) {
+				references.add(itemcol);
+			}
+		} catch (Exception e) {
+		
+			e.printStackTrace();
+		}
+		
+		
+		
+
+		return references;
+	}
+
+	
+	
+	
 
 	/**
 	 * This method returns the workitem to a $unqiueID. The method uses the
@@ -151,14 +341,14 @@ public class WorkitemLookupMB  implements WorkitemListener {
 			// lookup workitem
 			try {
 				workitem = workflowService.getWorkItem(aUID);
-			
-			if (workitem == null)
-				// no workitem found - create empty workitem
-				workitem = new ItemCollection();
-			else
-				// put data in cache
-				cache.put(aUID, workitem);
-			
+
+				if (workitem == null)
+					// no workitem found - create empty workitem
+					workitem = new ItemCollection();
+				else
+					// put data in cache
+					cache.put(aUID, workitem);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -168,10 +358,9 @@ public class WorkitemLookupMB  implements WorkitemListener {
 		return workitem;
 	}
 
-	
 	/**
-	 * selects the workitem to the corresponding process.
-	 * A parameter 'id' with the $uniqueid is expected
+	 * selects the workitem to the corresponding process. A parameter 'id' with
+	 * the $uniqueid is expected
 	 * 
 	 * @param event
 	 * @return
@@ -187,34 +376,30 @@ public class WorkitemLookupMB  implements WorkitemListener {
 				UIParameter currentParam = (UIParameter) children.get(i);
 				if (currentParam.getName().equals("id")
 						&& currentParam.getValue() != null) {
-					aID = currentParam.getValue()
-							.toString();
+					aID = currentParam.getValue().toString();
 					break;
 				}
 			}
 		}
-		
-		if (aID!=null) {
-			ItemCollection itemCol=workflowService.getWorkItem(aID);
+
+		if (aID != null) {
+			ItemCollection itemCol = workflowService.getWorkItem(aID);
 			getWorkitemBean().setWorkitem(itemCol);
 		}
-		
+
 	}
-	
-	
-	
-	
-	
+
 	public WorkitemMB getWorkitemBean() {
 		if (workitemMB == null)
-			workitemMB = (WorkitemMB) FacesContext.getCurrentInstance()
-					.getApplication().getELResolver().getValue(
-							FacesContext.getCurrentInstance().getELContext(),
+			workitemMB = (WorkitemMB) FacesContext
+					.getCurrentInstance()
+					.getApplication()
+					.getELResolver()
+					.getValue(FacesContext.getCurrentInstance().getELContext(),
 							null, "workitemMB");
 		return workitemMB;
 	}
-	
-	
+
 	/**
 	 * This class helps to addapt the behavior of a processDataLookup to a
 	 * MapObject The Class overwrites the get Method and calls
@@ -228,9 +413,10 @@ public class WorkitemLookupMB  implements WorkitemListener {
 	 * @author rsoika
 	 * 
 	 */
-	class ProcessDataAdapter implements Map {
+	
+	class XXXProcessDataAdapter implements Map {
 
-		public ProcessDataAdapter() {
+		public XXXProcessDataAdapter() {
 
 		}
 
