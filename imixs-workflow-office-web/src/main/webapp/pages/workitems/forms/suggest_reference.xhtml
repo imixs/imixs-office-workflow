@@ -96,17 +96,21 @@
 							suggestionAction="#{handler.suggestProcess}"
 							var="suggest" width="300">
 							<h:column>
+								
+
+								<h:outputText style="font-weight: bold;" value="#{suggest.item['txtWorkflowSummary']}"
+									rendered="#{!empty suggest.item['txtWorkflowSummary']}" />
+									
+								
+								<br />
+								<h:outputText 
+									value="#{suggest.item['txtworkflowgroup']}: " />
+								<h:outputText value="#{suggest.item['txtworkflowstatus']} " />
+								
 								<h:outputText value="#{suggest.item['$modified']}">
 									<f:convertDateTime timeZone="#{global.timeZone}"
 										pattern="#{global.dateTimePatternShort}" />
 								</h:outputText>
-
-								<h:outputText value=": #{suggest.item['txtWorkflowSummary']}"
-									rendered="#{!empty suggest.item['txtWorkflowSummary']}" />
-								<br />
-								<h:outputText style="font-weight: bold;"
-									value="#{suggest.item['txtworkflowgroup']}: " />
-								<h:outputText value="#{suggest.item['txtworkflowstatus']}" />
 
 							</h:column>
 

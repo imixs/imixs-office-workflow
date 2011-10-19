@@ -36,9 +36,13 @@
 	</managed-bean>
 
 
+
+
 	
+	
+	<!-- Contact Lookup - 9000 -->
 	<managed-bean>
-		<managed-bean-name>customerLookupMB</managed-bean-name>
+		<managed-bean-name>contactLookupMB</managed-bean-name>
 		<managed-bean-class>
 			org.imixs.marty.web.office.WorkitemReferenceMB
 		</managed-bean-class>
@@ -47,10 +51,11 @@
 		<managed-property>
 			<property-name>filter</property-name>
 			<property-class>java.lang.String</property-class>
-			<value>8...</value>
+			<value>9...</value>
 		</managed-property>
-		
 	</managed-bean>
+	
+	<!-- Project Lookup - 6000 -->
 	<managed-bean>
 		<managed-bean-name>projectLookupMB</managed-bean-name>
 		<managed-bean-class>
@@ -64,6 +69,70 @@
 			<value>6...</value>
 		</managed-property>
 	</managed-bean>
+		
+	<!-- Contract Lookup - 4000 -->
+	<managed-bean>
+		<managed-bean-name>contractLookupMB</managed-bean-name>
+		<managed-bean-class>
+			org.imixs.marty.web.office.WorkitemReferenceMB
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<!-- Filter -->
+		<managed-property>
+			<property-name>filter</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>4...</value>
+		</managed-property>
+	</managed-bean>
+	
+	<!-- Order Lookup - 7000 -->
+	<managed-bean>
+		<managed-bean-name>orderLookupMB</managed-bean-name>
+		<managed-bean-class>
+			org.imixs.marty.web.office.WorkitemReferenceMB
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<!-- Filter -->
+		<managed-property>
+			<property-name>filter</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>7...</value>
+		</managed-property>
+	</managed-bean>
+		
+		
+	<!-- outgoing invoice Lookup - 1000 -->
+	<managed-bean>
+		<managed-bean-name>outgoingInvoiceLookupMB</managed-bean-name>
+		<managed-bean-class>
+			org.imixs.marty.web.office.WorkitemReferenceMB
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<!-- Filter -->
+		<managed-property>
+			<property-name>filter</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>1...</value>
+		</managed-property>
+	</managed-bean>	
+	
+	
+		
+	<!-- incomming invoice Lookup - 5000 -->
+	<managed-bean>
+		<managed-bean-name>incommingInvoiceLookupMB</managed-bean-name>
+		<managed-bean-class>
+			org.imixs.marty.web.office.WorkitemReferenceMB
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<!-- Filter -->
+		<managed-property>
+			<property-name>filter</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>5...</value>
+		</managed-property>
+	</managed-bean>	
+		
 		
 	<managed-bean>
 		<managed-bean-name>projectWizzardMB</managed-bean-name>

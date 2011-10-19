@@ -16,7 +16,13 @@
 
 
 	<dl class="columns-2">
-		
+		<dt><h:outputLabel value="#{form_messages.sub_basic_project}" /></dt>
+		<dd>
+				<ui:include src="/pages/workitems/forms/suggest_reference.xhtml">
+					<ui:param name="tooltip" value="#{form_messages.sub_basic_lookup_help}" />
+					<ui:param name="handler" value="#{projectLookupMB}" />
+			</ui:include>		
+		</dd> 
 		
 		<dt><h:outputLabel value="#{form_messages.sub_basic_contact}" /></dt>
 		<dd>

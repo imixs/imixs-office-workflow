@@ -15,11 +15,11 @@
 </dl>
 
 	<dl class="columns-1">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_customer}" /></dt>
+		<dt><h:outputLabel value="#{form_messages.sub_basic_contact}" /></dt>
 		<dd>
 		<ui:include src="/pages/workitems/forms/suggest_reference.xhtml">
-					<ui:param name="tooltip" value="#{form_messages.sub_basic_customer_help}" />
-					<ui:param name="handler" value="#{customerLookupMB}" />
+					<ui:param name="tooltip" value="#{form_messages.sub_basic_lookup_help}" />
+					<ui:param name="handler" value="#{contactLookupMB}" />
 					
 			</ui:include>	
 		</dd> 
@@ -45,9 +45,12 @@
 	<dl class="columns-1">
 		<dt><h:outputLabel value="#{form_messages.sub_basic_order}" /></dt>
 		<dd>
+		
+		
+			
 				<ui:include src="/pages/workitems/forms/suggest_reference.xhtml">
-					<ui:param name="tooltip" value="#{form_messages.sub_basic_customer_help}" />
-					<ui:param name="handler" value="#{workitemReferenceMB}" />
+					<ui:param name="tooltip" value="#{form_messages.sub_basic_lookup_help}" />
+					<ui:param name="handler" value="#{orderLookupMB}" />
 			</ui:include>		
 		</dd>
 	</dl>
