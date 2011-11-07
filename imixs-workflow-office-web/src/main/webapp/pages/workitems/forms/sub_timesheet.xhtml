@@ -7,29 +7,34 @@
 	xmlns:rich="http://richfaces.org/rich" id="sub_timesheet_form">
 
 
-	<rich:dataTable id="child_datatable_ID" columns="8"
-		value="#{workitemMB.childs}" var="child">
-
-
+	<rich:dataTable id="child_datatable_ID" columns="8" rows="5"
+		value="#{workitemMB.childs}" var="child"
+		styleClass="sywapp-subform-table">
 
 		<rich:column>
 			<f:facet name="header">
-				<h:outputText value="#{form_messages.sub_partstable_01_quantity}" />
+				<h:outputText value="#{form_messages.sub_timesheet_date}" />
 			</f:facet>
-			<h:outputText value="#{child.item['_duration']}">
-
+			<h:outputText value="#{child.item['_date']}">
+				<f:convertDateTime timeZone="#{global.timeZone}"
+					pattern="#{global.datePattern}" />
 			</h:outputText>
+		</rich:column>
+
+		<rich:column>
+			<f:facet name="header">
+				<h:outputText value="#{form_messages.sub_timesheet_duration}" />
+			</f:facet>
+			<h:outputText value="#{child.item['_duration']}" />
 		</rich:column>
 
 		<rich:column sortBy="#{child.item['_subject']}" sortable="true"
 			sortExpression="#{child.item['_subject']}">
 			<f:facet name="header">
-				<h:outputText value="#{form_messages.sub_partstable_01_name}" />
+				<h:outputText value="#{form_messages.sub_timesheet_subject}" />
 			</f:facet>
 			<h:outputText value="#{child.item['_subject']}" />
 		</rich:column>
-
-
 
 
 		<rich:column sortBy="#{child.item['txtworkflowstatus']}"
@@ -60,24 +65,16 @@
 
 			</rich:toggleControl>
 
-
-
-
-
 		</rich:column>
 
 
 	</rich:dataTable>
-
+	<rich:datascroller for="child_datatable_ID" />
 
 
 	<!-- Editor  -->
-
-
-
-
-
-	<rich:togglePanel switchType="client" id="suggest_process_id"
+	<rich:togglePanel switchType="ajax" id="suggest_process_id"
+		validatorMessage="Error"
 		stateOrder="time_editor_closed,time_editor_open">
 		<f:facet name="time_editor_closed">
 			<a4j:outputPanel>
@@ -94,39 +91,52 @@
 		</f:facet>
 
 
-		<!-- Editor -->
+		<!-- Editor Panel -->
 		<f:facet name="time_editor_open">
 
-			<a4j:outputPanel id="time_editor_panel_id" layout="block">
+			<a4j:outputPanel id="time_editor_panel_id" layout="block"
+				styleClass="sywapp-subform-body">
+
+				<h:panelGrid columns="6" cellspacing="5 0">
+					<h:outputText value="#{form_messages.sub_timesheet_date}: " />
+					<rich:calendar value="#{workitemMB.child.item['_date']}" />
+					<h:outputText value="#{form_messages.sub_timesheet_duration}: " />
+
+					<h:inputText id="ln" value="#{workitemMB.child.item['_duration']}"
+						required="true" style="width:30px;" converter="javax.faces.Integer">
+						<f:validateLongRange minimum="1" />
+						
+					</h:inputText>
 
 
-				Datum:<rich:calendar value="#{workitemMB.child.item['_date']}" />
-				Dauer:<h:inputText value="#{workitemMB.child.item['_duration']}"
-					rendered="true" />
-				Betreff:<h:inputText value="#{workitemMB.child.item['_subject']}" />
-
+					<h:outputText value="#{form_messages.sub_timesheet_subject}: " />
+					<h:inputText value="#{workitemMB.child.item['_subject']}"
+						style="width:380px;" />
+				</h:panelGrid>
+				<rich:message style="color:red;" for="ln" />
 				<br />
-				<rich:toggleControl for="suggest_process_id">
-					<!-- *** Workflow Actions **** -->
-					<ui:repeat value="#{workitemMB.childActivities}"
-						var="activitychild">
 
+				<!-- *** Workflow Actions **** -->
+				<ui:repeat value="#{workitemMB.childActivities}" var="activitychild">
 
+					<rich:toggleControl for="suggest_process_id"
+						switchToState="time_editor_closed">
 						<a4j:commandButton actionListener="#{workitemMB.doProcessChild}"
 							reRender="child_datatable_ID"
 							value="#{activitychild.item['txtname']}">
 							<f:param name="id" value="#{activitychild.item['numactivityid']}" />
 						</a4j:commandButton>
-					</ui:repeat>
+					</rich:toggleControl>
+				</ui:repeat>
 
 
-					<a4j:commandButton reRender="child_datatable_ID"
-						value="#{global.close}">
+				<rich:toggleControl for="suggest_process_id" immediate="true"
+					switchToState="time_editor_closed">
+					<a4j:commandButton value="#{global.close}" immediate="true">
 
 					</a4j:commandButton>
 
 				</rich:toggleControl>
-
 
 			</a4j:outputPanel>
 		</f:facet>
