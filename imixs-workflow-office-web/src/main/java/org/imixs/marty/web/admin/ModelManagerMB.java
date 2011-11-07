@@ -19,7 +19,8 @@ import org.richfaces.event.UploadEvent;
 import org.richfaces.model.UploadItem;
 
 /**
- * This bean
+ * This Backingbean provides methods to upload model files from the UI. 
+ * The bean also supports the deletion of models.
  * 
  * @author rsoika
  */

@@ -1,0 +1,147 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" id="sub_timesheet_form">
+
+
+	<rich:dataTable id="child_datatable_ID" columns="8"
+		value="#{workitemMB.childs}" var="child">
+
+
+
+		<rich:column>
+			<f:facet name="header">
+				<h:outputText value="#{form_messages.sub_partstable_01_quantity}" />
+			</f:facet>
+			<h:outputText value="#{child.item['_duration']}">
+
+			</h:outputText>
+		</rich:column>
+
+		<rich:column sortBy="#{child.item['_subject']}" sortable="true"
+			sortExpression="#{child.item['_subject']}">
+			<f:facet name="header">
+				<h:outputText value="#{form_messages.sub_partstable_01_name}" />
+			</f:facet>
+			<h:outputText value="#{child.item['_subject']}" />
+		</rich:column>
+
+
+
+
+		<rich:column sortBy="#{child.item['txtworkflowstatus']}"
+			sortable="true" sortExpression="#{child.item['txtworkflowstatus']}">
+			<f:facet name="header">
+				<h:outputText value="Status" />
+			</f:facet>
+			<h:outputText value="#{child.item['txtworkflowstatus']}" />
+		</rich:column>
+
+
+
+		<rich:column>
+			<f:facet name="header">
+                    #{global.action}
+                </f:facet>
+
+
+			<rich:toggleControl for="suggest_process_id"
+				switchToState="time_editor_open">
+
+				<a4j:commandButton image="/layout/icons/Edit_16.png"
+					actionListener="#{timeSheetMB.doEdit}"
+					reRender="time_editor_panel_id" value="#{global.edit}"
+					id="edit_button_id" />
+				<rich:toolTip for="edit_button_id" value="#{global.edit}" />
+
+
+			</rich:toggleControl>
+
+
+
+
+
+		</rich:column>
+
+
+	</rich:dataTable>
+
+
+
+	<!-- Editor  -->
+
+
+
+
+
+	<rich:togglePanel switchType="client" id="suggest_process_id"
+		stateOrder="time_editor_closed,time_editor_open">
+		<f:facet name="time_editor_closed">
+			<a4j:outputPanel>
+				<rich:toggleControl for="suggest_process_id"
+					reRender="time_editor_panel_id">
+					<a4j:commandButton actionListener="#{timeSheetMB.doCreate}"
+						reRender="time_editor_panel_id" value="#{global.add}">
+						<f:param name="id"
+							value="#{workitemMB.workitem.item['$modelversion']}|6100" />
+					</a4j:commandButton>
+
+				</rich:toggleControl>
+			</a4j:outputPanel>
+		</f:facet>
+
+
+		<!-- Editor -->
+		<f:facet name="time_editor_open">
+
+			<a4j:outputPanel id="time_editor_panel_id" layout="block">
+
+
+				Datum:<rich:calendar value="#{workitemMB.child.item['_date']}" />
+				Dauer:<h:inputText value="#{workitemMB.child.item['_duration']}"
+					rendered="true" />
+				Betreff:<h:inputText value="#{workitemMB.child.item['_subject']}" />
+
+				<br />
+				<rich:toggleControl for="suggest_process_id">
+					<!-- *** Workflow Actions **** -->
+					<ui:repeat value="#{workitemMB.childActivities}"
+						var="activitychild">
+
+
+						<a4j:commandButton actionListener="#{workitemMB.doProcessChild}"
+							reRender="child_datatable_ID"
+							value="#{activitychild.item['txtname']}">
+							<f:param name="id" value="#{activitychild.item['numactivityid']}" />
+						</a4j:commandButton>
+					</ui:repeat>
+
+
+					<a4j:commandButton reRender="child_datatable_ID"
+						value="#{global.close}">
+
+					</a4j:commandButton>
+
+				</rich:toggleControl>
+
+
+			</a4j:outputPanel>
+		</f:facet>
+	</rich:togglePanel>
+
+
+
+
+
+
+
+
+
+
+
+
+</f:subview>
+
