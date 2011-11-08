@@ -8,7 +8,7 @@
 
 
 	<rich:dataTable id="child_datatable_ID" columns="8" rows="5"
-		value="#{workitemMB.childs}" var="child"
+		value="#{workitemMB.childs}" var="child" sortMode="multi"
 		styleClass="sywapp-subform-table">
 
 		<rich:column>
@@ -35,6 +35,14 @@
 			</f:facet>
 			<h:outputText value="#{child.item['_subject']}" />
 		</rich:column>
+		
+		<rich:column sortable="true" sortBy="#{child.item['_category']}"
+		 sortExpression="#{child.item['_category']}">
+			<f:facet name="header"> 
+				<h:outputText value="#{form_messages.sub_timesheet_category}" />
+			</f:facet>
+			<h:outputText value="#{child.item['_category']}" />
+		</rich:column>
 
 
 		<rich:column sortBy="#{child.item['txtworkflowstatus']}"
@@ -52,18 +60,26 @@
                     #{global.action}
                 </f:facet>
 
-
+			<!-- Edit Action -->
 			<rich:toggleControl for="suggest_process_id"
-				switchToState="time_editor_open">
-
+				id="edit_button_id_control" switchToState="time_editor_open">
 				<a4j:commandButton image="/layout/icons/Edit_16.png"
 					actionListener="#{timeSheetMB.doEdit}"
 					reRender="time_editor_panel_id" value="#{global.edit}"
 					id="edit_button_id" />
-				<rich:toolTip for="edit_button_id" value="#{global.edit}" />
-
-
 			</rich:toggleControl>
+			<rich:toolTip for="edit_button_id_control" value="#{global.edit}" />
+
+			<!-- Delete Action -->
+			<a4j:commandButton image="/layout/icons/Delete_16.png"
+				style="margin-left:10px;" actionListener="#{timeSheetMB.doEdit}"
+				oncomplete="#{rich:component('deletePanel')}.show()"
+				reRender="deletePanel" value="#{global.delete}"
+				id="delete_button_id" />
+			<rich:toolTip for="delete_button_id" value="#{global.delete}" />
+
+
+
 
 		</rich:column>
 
@@ -76,10 +92,12 @@
 	<rich:togglePanel switchType="ajax" id="suggest_process_id"
 		validatorMessage="Error"
 		stateOrder="time_editor_closed,time_editor_open">
+
+		<!-- Editor Panel closed -->
 		<f:facet name="time_editor_closed">
 			<a4j:outputPanel>
 				<rich:toggleControl for="suggest_process_id"
-					reRender="time_editor_panel_id">
+					switchToState="time_editor_open" reRender="time_editor_panel_id">
 					<a4j:commandButton actionListener="#{timeSheetMB.doCreate}"
 						reRender="time_editor_panel_id" value="#{global.add}">
 						<f:param name="id"
@@ -91,27 +109,31 @@
 		</f:facet>
 
 
-		<!-- Editor Panel -->
+		<!-- Editor Panel open -->
 		<f:facet name="time_editor_open">
 
 			<a4j:outputPanel id="time_editor_panel_id" layout="block"
 				styleClass="sywapp-subform-body">
 
-				<h:panelGrid columns="6" cellspacing="5 0">
+				<h:panelGrid columns="8" cellspacing="5 0">
 					<h:outputText value="#{form_messages.sub_timesheet_date}: " />
 					<rich:calendar value="#{workitemMB.child.item['_date']}" />
 					<h:outputText value="#{form_messages.sub_timesheet_duration}: " />
 
 					<h:inputText id="ln" value="#{workitemMB.child.item['_duration']}"
-						required="true" style="width:30px;" converter="javax.faces.Integer">
-						<f:validateLongRange minimum="1" />
-						
+						required="false" style="width:30px;">
+
+
 					</h:inputText>
 
 
 					<h:outputText value="#{form_messages.sub_timesheet_subject}: " />
 					<h:inputText value="#{workitemMB.child.item['_subject']}"
 						style="width:380px;" />
+						
+					<h:outputText value="#{form_messages.sub_timesheet_category}: " />
+					<h:inputText value="#{workitemMB.child.item['_category']}"
+						style="width:100px;" />
 				</h:panelGrid>
 				<rich:message style="color:red;" for="ln" />
 				<br />
@@ -130,9 +152,9 @@
 				</ui:repeat>
 
 
-				<rich:toggleControl for="suggest_process_id" immediate="true"
+				<rich:toggleControl for="suggest_process_id"
 					switchToState="time_editor_closed">
-					<a4j:commandButton value="#{global.close}" immediate="true">
+					<a4j:commandButton value="#{global.close}">
 
 					</a4j:commandButton>
 
@@ -147,8 +169,42 @@
 
 
 
+	<!-- Delete Dialog -->
+	<rich:modalPanel id="deletePanel" autosized="true" width="200">
+		<f:facet name="header">
+			<h:outputText value="#{form_messages.sub_timesheet_delete_help}"
+				style="padding-right:15px;" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/layout/icons/close.gif"
+					styleClass="hidelink" id="hidelink2" />
+				<rich:componentControl for="deletePanel" attachTo="hidelink2"
+					operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+		<h:outputText value="#{workitemMB.child.item['_date']}">
+			<f:convertDateTime timeZone="#{global.timeZone}"
+				pattern="#{global.datePattern}" />
+		</h:outputText>
+		<h:outputText value=" :  #{workitemMB.child.item['_subject']}" />
+		<table style="width: 100%">
+			<tbody>
+				<tr>
+					<td align="center" width="50%"><a4j:commandButton
+							value="#{global.yes}" ajaxSingle="true"
+							actionListener="#{workitemMB.doDeleteChild}"
+							oncomplete="#{rich:component('deletePanel')}.hide();"
+							reRender="child_datatable_ID" /></td>
+					<td align="center" width="50%"><a4j:commandButton
+							value="#{global.no}"
+							onclick="#{rich:component('deletePanel')}.hide();return false;" />
+					</td>
+				</tr>
+			</tbody>
+		</table>
 
-
+	</rich:modalPanel>
 
 
 
