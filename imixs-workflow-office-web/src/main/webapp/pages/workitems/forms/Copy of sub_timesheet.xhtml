@@ -62,22 +62,24 @@
 
 			<!-- Edit Action -->
 			<rich:toggleControl for="suggest_process_id"
-				actionListener="#{timeSheetMB.doEdit}"
-				reRender="time_editor_panel_id" id="edit_button_id_control"
-				switchToState="time_editor_open">
-				<h:commandButton image="/layout/icons/Edit_16.png"
-					value="#{global.edit}" id="edit_button_id" alt="#{global.edit}" />
+				id="edit_button_id_control" switchToState="time_editor_open">
+				<a4j:commandButton image="/layout/icons/Edit_16.png"
+					actionListener="#{timeSheetMB.doEdit}"
+					reRender="time_editor_panel_id" value="#{global.edit}"
+					id="edit_button_id" />
 			</rich:toggleControl>
+			<rich:toolTip for="edit_button_id_control" value="#{global.edit}" />
 
 			<!-- Delete Action -->
-			<rich:toggleControl for="suggest_process_id"
-				actionListener="#{timeSheetMB.doEdit}" id="delete_button_id"
+			<a4j:commandButton image="/layout/icons/Delete_16.png"
+				style="margin-left:10px;" actionListener="#{timeSheetMB.doEdit}"
 				oncomplete="#{rich:component('deletePanel')}.show()"
-				reRender="deletePanel" switchToState="time_editor_closed">
-				<h:commandButton image="/layout/icons/Delete_16.png"
-					style="margin-left:10px;" />
-				<rich:toolTip for="delete_button_id" value="#{global.delete}" />
-			</rich:toggleControl>
+				reRender="deletePanel" value="#{global.delete}"
+				id="delete_button_id" />
+			<rich:toolTip for="delete_button_id" value="#{global.delete}" />
+
+
+
 
 		</rich:column>
 
@@ -113,42 +115,53 @@
 			<a4j:outputPanel id="time_editor_panel_id" layout="block"
 				styleClass="sywapp-subform-body">
 
-				<div style="float: left; width: 300px;">
-					<h:panelGrid columns="2">
-						<h:outputText value="#{form_messages.sub_timesheet_date}: " />
-						<rich:calendar value="#{workitemMB.child.item['_date']}" />
-						<h:outputText value="#{form_messages.sub_timesheet_duration}: " />
-						<h:inputText id="ln" value="#{workitemMB.child.item['_duration']}"
-							required="false" style="width:30px;">
-						</h:inputText>
-						<h:outputText value="#{form_messages.sub_timesheet_category}: " />
-						<h:inputText value="#{workitemMB.child.item['_category']}"
-							style="width:70px;" />
-					</h:panelGrid>
-				</div>
-				<div style="">
-					<h:panelGrid columns="1">
-						<h:outputText value="#{form_messages.sub_timesheet_subject}: " />
+				<a4j:outputPanel style="float:left; width:300px;">
+					<dl class="columns-1">
+						<dt>
+							<h:outputText value="#{form_messages.sub_timesheet_date}: " />
+						</dt>
+						<dd>
+							<rich:calendar value="#{workitemMB.child.item['_date']}" />
+						</dd>
+						<dt>
+							<h:outputText value="#{form_messages.sub_timesheet_duration}: " />
+						</dt>
 
-						<h:inputTextarea value="#{workitemMB.child.item['_subject']}"
-							style="height:4em;width:350px" />
-					</h:panelGrid>
-				</div>
-				<div style="clear: left;" />
-				<h:panelGrid columns="1">
-					<h:panelGroup>
-						<h:outputText style="font-weight:bold;"
-							value="#{messages.change_history}:" />
-						<ui:repeat
-							value="#{workitemMB.child.itemListArray['txtworkflowhistorylog']}"
-							var="log">
-							<h:outputText value="#{log}" />
-							<br />
-						</ui:repeat>
-					</h:panelGroup>
-				</h:panelGrid>
+						<dd>
+							<h:inputText id="ln"
+								value="#{workitemMB.child.item['_duration']}" required="false"
+								style="width:30px;">
 
 
+							</h:inputText>
+						</dd>
+
+
+						<dt>
+							<h:outputText value="#{form_messages.sub_timesheet_category}: " />
+						</dt>
+						<dd>
+							<h:inputText value="#{workitemMB.child.item['_category']}"
+								style="width:70px;" />
+						</dd>
+					</dl>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel style="float:left; width:200px;">
+					<dl>
+						<dt>
+
+							<h:outputText value="#{form_messages.sub_timesheet_subject}: " />
+						</dt>
+						<dl>
+							<h:inputText value="#{workitemMB.child.item['_subject']}"
+								style="width:280px;" />
+
+						</dl>
+					</dl>
+				</a4j:outputPanel>
+				<div style="clear:left;" />
+				<rich:message style="color:red;" for="ln" />
 				<br />
 
 				<!-- *** Workflow Actions **** -->

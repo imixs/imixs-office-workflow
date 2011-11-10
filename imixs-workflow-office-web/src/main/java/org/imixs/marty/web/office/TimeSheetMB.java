@@ -24,7 +24,7 @@ import org.imixs.workflow.ItemCollection;
  */
 public class TimeSheetMB implements WorkitemListener {
 	private WorkitemMB workitemMB = null;
-	private ItemCollection workitem=null;
+	//private ItemCollection workitem=null;
 
 	/**
 	 * This method register the bean as an workitemListener
@@ -75,7 +75,7 @@ public class TimeSheetMB implements WorkitemListener {
 
 	public void onWorkitemChanged(ItemCollection arg0) {
 		// set default date
-		workitem=arg0;
+	//	workitem=arg0;
 	}
 
 	/**
