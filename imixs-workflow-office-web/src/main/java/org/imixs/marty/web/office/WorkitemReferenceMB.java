@@ -1,3 +1,25 @@
+/*******************************************************************************
+ *  Imixs Workflow Technology
+ *  Copyright (C) 2011 Imixs Software Solutions GmbH,  
+ *  http://www.imixs.com
+ *  
+ *  This program is free software; you can redistribute it and/or 
+ *  modify it under the terms of the GNU General Public License 
+ *  as published by the Free Software Foundation; either version 2 
+ *  of the License, or (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful, 
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+ *  General Public License for more details.
+ *  
+ *  You can receive a copy of the GNU General Public
+ *  License at http://www.gnu.org/licenses/gpl.html
+ *  
+ *  Contributors:  
+ *  	Imixs Software Solutions GmbH - Ralph Soika
+ *  
+ *******************************************************************************/
 package org.imixs.marty.web.office;
 
 import java.sql.SQLException;
@@ -25,17 +47,41 @@ import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.plugins.jee.extended.LucenePlugin;
 
 /**
- * This ManagedBean supports Process lookups.
+ * This ManagedBean supports Process lookups. The Method setNewProcessReference
+ * adds a new process reference which will be stored into the property
+ * 'txtworkitemref'
  * 
+ * The property 'filter' defines a regex to filter specific processids to be
+ * lookuped by the method suggestProcess()
  * 
- * This in an example how to bind this feature into a form:
+ * The following example shows how to integrate the bean into a jsf page for a
+ * process lookup
  * 
  * <code>
-       <ui:include src="/pages/workitems/forms/process_suggest_input.xhtml">
-			<ui:param name="item_value" value="#{workitemMB.workitem.item['_processRef1']}" />
-			<ui:param name="item_label" value="Prozess Auswahl" />
-			<ui:param name="tooltip" value="Suchen Sie einen anderen Prozess" />
-		</ui:include>	
+     	<ui:include src="/pages/workitems/forms/suggest_reference.xhtml">
+					<ui:param name="tooltip" value="#{form_messages.sub_basic_lookup_help}" />
+					<ui:param name="handler" value="#{contactLookupMB}" />
+		</ui:include>		
+ * </code>
+ * 
+ * The WorkitemReferenceMB can be configured to filter specific process ids
+ * throgh the faces-config.xml. See the following example:
+ * 
+ * <code>
+   <!-- Contract Lookup - 4000 -->
+	<managed-bean>
+		<managed-bean-name>contractLookupMB</managed-bean-name>
+		<managed-bean-class>
+			org.imixs.marty.web.office.WorkitemReferenceMB
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<!-- Filter -->
+		<managed-property>
+			<property-name>filter</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>4...</value>
+		</managed-property>
+	</managed-bean>
  * </code>
  * 
  * @see process_suggest_input.xhtml
@@ -45,6 +91,8 @@ import org.imixs.workflow.plugins.jee.extended.LucenePlugin;
  */
 public class WorkitemReferenceMB implements WorkitemListener {
 
+	public static String FIELD_NAME = "txtworkitemref";
+
 	private static Logger logger = Logger.getLogger("org.imixs.workflow");
 
 	// Workflow Manager
@@ -53,7 +101,8 @@ public class WorkitemReferenceMB implements WorkitemListener {
 
 	private WorkitemMB workitemMB = null;
 	private String filter; // defines a regex process filter
-	private List<ItemCollection> references = null;;
+	private List<ItemCollection> referencesTo = null; // outgoing references
+	private List<ItemCollection> referencesFrom = null; // incomming references
 
 	public WorkitemReferenceMB() {
 		super();
@@ -69,8 +118,8 @@ public class WorkitemReferenceMB implements WorkitemListener {
 	}
 
 	/**
-	 * Diese Methode ist wird als suggestionAction für eine rich:suggestionbox
-	 * verwendet, um User-Daten via LDAP zu suchen.
+	 * Diese Methode wird als suggestionAction für eine rich:suggestionbox
+	 * verwendet, um Daten zu suchen.
 	 * 
 	 * Dazu wird der Parameter event ausgewertet
 	 * 
@@ -97,12 +146,12 @@ public class WorkitemReferenceMB implements WorkitemListener {
 
 			String sSearchTerm = "";
 
-			if (filter!=null && !"".equals(filter)) {
-				String sNewFilter=filter;
-				
-				sNewFilter=sNewFilter.replace(".", "?");
-				sSearchTerm="($processid:"+sNewFilter+") AND ";
-				
+			if (filter != null && !"".equals(filter)) {
+				String sNewFilter = filter;
+
+				sNewFilter = sNewFilter.replace(".", "?");
+				sSearchTerm = "($processid:" + sNewFilter + ") AND ";
+
 			}
 			if (!"".equals(searchphrase)) {
 				sSearchTerm += " (*" + searchphrase.toLowerCase() + "*)";
@@ -139,7 +188,7 @@ public class WorkitemReferenceMB implements WorkitemListener {
 		try {
 			// get current list
 			Vector list = getWorkitemBean().getWorkitem().getItemValue(
-					"processReference");
+					FIELD_NAME);
 			// clear empty entry if set
 			if (list.size() == 1 && "".equals(list.elementAt(0)))
 				list.remove(0);
@@ -147,9 +196,9 @@ public class WorkitemReferenceMB implements WorkitemListener {
 			if (list.indexOf(aRef) == -1) {
 				list.add(aRef);
 
-				getWorkitemBean().getWorkitem().replaceItemValue(
-						"processReference", list);
-				references = null;
+				getWorkitemBean().getWorkitem().replaceItemValue(FIELD_NAME,
+						list);
+				referencesTo = null;
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -159,7 +208,7 @@ public class WorkitemReferenceMB implements WorkitemListener {
 
 	/**
 	 * This methods adds a new process reference to the property
-	 * 'processReference'. The reference is expected in the param 'id'
+	 * 'txtWorkitemRef'. The reference is expected in the param 'id'
 	 */
 	public void doAddReference(ActionEvent event) throws Exception {
 		// get Process ID out from the ActionEvent Object....
@@ -184,7 +233,7 @@ public class WorkitemReferenceMB implements WorkitemListener {
 	}
 
 	/**
-	 * This method deletes a reference from the property processReference. The
+	 * This method deletes a reference from the property txtWorkitemRef. The
 	 * reference is expected in the param 'id'
 	 * 
 	 * @param event
@@ -212,19 +261,18 @@ public class WorkitemReferenceMB implements WorkitemListener {
 			try {
 				// get current list
 				Vector list = getWorkitemBean().getWorkitem().getItemValue(
-						"processReference");
+						FIELD_NAME);
 				// clear empty entry if set
 				if (list.size() == 1 && "".equals(list.elementAt(0)))
 					list.remove(0);
 
 				list.remove(processEntityIdentifier);
 
-				getWorkitemBean().getWorkitem().replaceItemValue(
-						"processReference", list);
-				references = null;
+				getWorkitemBean().getWorkitem().replaceItemValue(FIELD_NAME,
+						list);
+				referencesTo = null;
 
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -233,48 +281,30 @@ public class WorkitemReferenceMB implements WorkitemListener {
 	}
 
 	/**
-	 * This method uses the Map Interface as a return value to allow the
-	 * parameterized access to process reference.
-	 * 
-	 * 
-	 * in a jsf page using a expression language like this:
-	 * 
-	 * #{processLookupMB.item[accountname]}
-	 * 
-	 * @see The inner class ProcessDataAdapter
-	 * 
-	 * @return
-	 */
-	/*
-	 * public Map getProcessData() { return processDataAdapter;
-	 * 
-	 * }
-	 */
-
-	/**
-	 * returns a ItemCollection list of References. if the filter is set the
-	 * processID will be tested for the filter regex
+	 * returns a ItemCollection list of References stored in the current
+	 * workitem (outgoing references). If the filter is set the processID will
+	 * be tested for the filter regex
 	 * 
 	 * @return
 	 * @throws NamingException
 	 */
-	public List<ItemCollection> getReferences() throws NamingException {
+	public List<ItemCollection> getReferences() {
 
-		if (references != null)
-			return references;
+		if (referencesTo != null)
+			return referencesTo;
 
-		references = new ArrayList<ItemCollection>();
+		referencesTo = new ArrayList<ItemCollection>();
 
 		long lTime = System.currentTimeMillis();
 
 		// lookup the references...
 		Vector<String> list = getWorkitemBean().getWorkitem().getItemValue(
-				"processReference");
+				FIELD_NAME);
 		// empty list?
 
 		if (list.size() == 0
 				|| (list.size() == 1 && "".equals(list.elementAt(0))))
-			return references;
+			return referencesTo;
 
 		String sQuery = "select entity from Entity entity where entity.id IN (";
 		for (String aID : list) {
@@ -289,24 +319,86 @@ public class WorkitemReferenceMB implements WorkitemListener {
 			col = workflowService.getEntityService().findAllEntities(sQuery, 0,
 					-1);
 			for (ItemCollection itemcol : col) {
-				
-				if (filter!=null && !"".equals(filter)) {
-					String sProcessID=""+itemcol.getItemValueInteger("$ProcessID");
-					if (! sProcessID.matches(filter))
+
+				if (filter != null && !"".equals(filter)) {
+					String sProcessID = ""
+							+ itemcol.getItemValueInteger("$ProcessID");
+					if (!sProcessID.matches(filter))
 						continue;
 				}
-				
-				references.add(itemcol);
+
+				referencesTo.add(itemcol);
 			}
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
 
-		System.out.println("  Referece Lookup:  "
+		logger.fine("  WorkitemRef Lookup:  "
 				+ (System.currentTimeMillis() - lTime) + " ms");
 
-		return references;
+		return referencesTo;
+	}
+
+	/**
+	 * returns a ItemCollection list of all workitems holding a reference to the
+	 * current workitem. If the filter is set the processID will be tested for
+	 * the filter regex
+	 * 
+	 * 
+	 * @return
+	 * @throws NamingException
+	 */
+	public List<ItemCollection> getIncommingReferences() throws NamingException {
+		if (referencesFrom != null)
+			return referencesFrom;
+
+		referencesFrom = new ArrayList<ItemCollection>();
+
+		long lTime = System.currentTimeMillis();
+
+		String uniqueid = getWorkitemBean().getWorkitem().getItemValueString(
+				"$uniqueid");
+
+		// return an empty list if still no $uniqueid is defined for the current
+		// workitem
+		if ("".equals(uniqueid))
+			return referencesFrom;
+
+		// select all references.....
+		String sQuery = "SELECT workitem FROM Entity AS workitem"
+				+ " JOIN workitem.textItems AS rnr"
+				+ " WHERE workitem.type = 'workitem' "
+				+ " AND rnr.itemName = '" + FIELD_NAME + "'"
+				+ " AND rnr.itemValue='" + uniqueid + "'"
+				+ " ORDER BY workitem.created DESC";
+
+		logger.fine("  Incomming Referece Lookup - query:  " + sQuery);
+		Collection<ItemCollection> col = null;
+		try {
+			col = workflowService.getEntityService().findAllEntities(sQuery, 0,
+					-1);
+			for (ItemCollection itemcol : col) {
+
+				if (filter != null && !"".equals(filter)) {
+					String sProcessID = ""
+							+ itemcol.getItemValueInteger("$ProcessID");
+					if (!sProcessID.matches(filter))
+						continue;
+				}
+
+				referencesFrom.add(itemcol);
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		logger.fine("  Incomming Referece Lookup:  "
+				+ (System.currentTimeMillis() - lTime) + " ms");
+
+		return referencesFrom;
+
 	}
 
 	/**
@@ -355,14 +447,16 @@ public class WorkitemReferenceMB implements WorkitemListener {
 	}
 
 	public void onWorkitemChanged(ItemCollection e) {
-		references = null;
+		referencesTo = null;
+		referencesFrom = null;
 	}
 
 	public void onWorkitemProcess(ItemCollection e) {
 	}
 
 	public void onWorkitemProcessCompleted(ItemCollection e) {
-		references = null;
+		referencesTo = null;
+		referencesFrom = null;
 	}
 
 	public void onWorkitemDelete(ItemCollection e) {
