@@ -7,7 +7,7 @@
 	xmlns:rich="http://richfaces.org/rich" id="basic_invoice">
 
 
-	<!-- Invoice Form -->
+	<!-- Invoice Out Form -->
 
 
 	<dl class="columns-1">
@@ -21,6 +21,20 @@
 	</dl>
 
 	<dl class="columns-2">
+	
+	<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_order}" />
+		</dt>
+		<dd>
+			<ui:include src="/pages/workitems/forms/suggest_reference.xhtml">
+					<ui:param name="tooltip" value="#{form_messages.sub_basic_lookup_help}" />
+					<ui:param name="handler" value="#{orderLookupMB}" />
+					
+			</ui:include>	
+		</dd>
+	
+	
+	
 		<dt>
 			<h:outputLabel value="#{form_messages.sub_basic_project}" />
 		</dt>
@@ -34,16 +48,7 @@
 			
 		</dd>
 
-		<dt>
-			<h:outputLabel value="#{form_messages.sub_basic_contact}" />
-		</dt>
-		<dd>
-			<ui:include src="/pages/workitems/forms/suggest_reference.xhtml">
-					<ui:param name="tooltip" value="#{form_messages.sub_basic_lookup_help}" />
-					<ui:param name="handler" value="#{contactLookupMB}" />
-					
-			</ui:include>	
-		</dd>
+		
 
 
 	</dl>
@@ -76,7 +81,16 @@
 			<h:inputText value="#{workitemMB.workitem.item['_customernumber']}" />
 		</dd>
 
-
+		<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_contact}" />
+		</dt>
+		<dd>
+			<ui:include src="/pages/workitems/forms/suggest_reference.xhtml">
+					<ui:param name="tooltip" value="#{form_messages.sub_basic_lookup_help}" />
+					<ui:param name="handler" value="#{contactLookupMB}" />
+					
+			</ui:include>	
+		</dd>
 
 		<dt style="clear: left;">
 			<h:outputLabel value="#{form_messages.sub_basic_amount}" />

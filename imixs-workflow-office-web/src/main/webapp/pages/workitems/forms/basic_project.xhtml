@@ -7,59 +7,77 @@
 	xmlns:rich="http://richfaces.org/rich" id="sub_basic_project">
 
 	<!-- Project Form -->
-		<!-- Contract Form -->
+	<!-- Contract Form -->
 	<dl class="columns-1">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_subject}" /></dt>
-		<dd><h:inputText style="width:500px;"  value="#{workitemMB.workitem.item['_subject']}" /></dd>
-		
-</dl>
-
-	<dl class="columns-1">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_contact}" /></dt>
+		<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_subject}" />
+		</dt>
 		<dd>
-		<ui:include src="/pages/workitems/forms/suggest_reference.xhtml">
-					<ui:param name="tooltip" value="#{form_messages.sub_basic_lookup_help}" />
-					<ui:param name="handler" value="#{contactLookupMB}" />
-					
-			</ui:include>	
-		</dd> 
-	</dl>
+			<h:inputText style="width:500px;"
+				value="#{workitemMB.workitem.item['_subject']}" />
+		</dd>
 
-
-	<dl class="columns-2">
-		
-		<dt><h:outputLabel value="#{form_messages.sub_basic_projectnumber}" /></dt>
-		<dd><h:inputText value="#{workitemMB.workitem.item['_projectnumber']}" /></dd>
-		
-		
-	
 	</dl>
-	
-	<dl class="columns-1">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_description}" /></dt>
-		<dd><h:inputTextarea value="#{workitemMB.workitem.item['_description']}" style="height:5em;width:536px" /></dd>
-		
-	</dl>
-
 
 	<dl class="columns-1">
-		<dt><h:outputLabel value="#{form_messages.sub_basic_order}" /></dt>
+		<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_contact}" />
+		</dt>
 		<dd>
-		
-		
-			
-				<ui:include src="/pages/workitems/forms/suggest_reference.xhtml">
-					<ui:param name="tooltip" value="#{form_messages.sub_basic_lookup_help}" />
-					<ui:param name="handler" value="#{orderLookupMB}" />
-			</ui:include>		
+			<ui:include src="/pages/workitems/forms/suggest_reference.xhtml">
+				<ui:param name="tooltip"
+					value="#{form_messages.sub_basic_lookup_help}" />
+				<ui:param name="handler" value="#{contactLookupMB}" />
+
+			</ui:include>
 		</dd>
 	</dl>
 
 
+	<dl class="columns-2">
+
+		<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_projectnumber}" />
+		</dt>
+		<dd>
+			<h:inputText value="#{workitemMB.workitem.item['_projectnumber']}" />
+		</dd>
 
 
-	
-	<div style="clear:left;" />
+
+	</dl>
+
+	<dl class="columns-1">
+		<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_description}" />
+		</dt>
+		<dd>
+			<h:inputTextarea value="#{workitemMB.workitem.item['_description']}"
+				style="height:5em;width:536px" />
+		</dd>
+
+	</dl>
+
+	<!-- Order Reference -->
+	<a4j:outputPanel rendered="false">
+	<dl class="columns-1">
+		<dt>
+			<h:outputLabel value="#{form_messages.sub_basic_order}" />
+		</dt>
+		<dd>
+			<ui:include src="/pages/workitems/forms/suggest_reference.xhtml">
+				<ui:param name="tooltip"
+					value="#{form_messages.sub_basic_lookup_help}" />
+				<ui:param name="handler" value="#{orderLookupMB}" />
+			</ui:include>
+		</dd>
+	</dl>
+	</a4j:outputPanel>
+
+
+
+
+	<div style="clear: left;" />
 
 
 </f:subview>
