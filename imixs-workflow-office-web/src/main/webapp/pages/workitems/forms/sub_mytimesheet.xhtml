@@ -6,85 +6,85 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich" id="sub_mytimesheet_form">
 
+	<a4j:outputPanel id="child_datatable_area">
+		<rich:dataTable id="child_datatable_ID" columns="8" rows="5"
+			value="#{timeSheetMB.myTimeSheet}" var="child" sortMode="multi"
+			styleClass="sywapp-subform-table">
 
-	<rich:dataTable id="child_datatable_ID" columns="8" rows="5"
-		value="#{workitemMB.childs}" var="child" sortMode="multi"
-		styleClass="sywapp-subform-table">
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="#{form_messages.sub_timesheet_date}" />
+				</f:facet>
+				<h:outputText value="#{child.item['datdate']}">
+					<f:convertDateTime timeZone="#{global.timeZone}"
+						pattern="#{global.datePattern}" />
+				</h:outputText>
+			</rich:column>
 
-		<rich:column>
-			<f:facet name="header">
-				<h:outputText value="#{form_messages.sub_timesheet_date}" />
-			</f:facet>
-			<h:outputText value="#{child.item['_date']}">
-				<f:convertDateTime timeZone="#{global.timeZone}"
-					pattern="#{global.datePattern}" />
-			</h:outputText>
-		</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="#{form_messages.sub_timesheet_duration}" />
+				</f:facet>
+				<h:outputText value="#{child.item['_duration']}" />
+			</rich:column>
 
-		<rich:column>
-			<f:facet name="header">
-				<h:outputText value="#{form_messages.sub_timesheet_duration}" />
-			</f:facet>
-			<h:outputText value="#{child.item['_duration']}" />
-		</rich:column>
+			<rich:column sortBy="#{child.item['_subject']}" sortable="true"
+				sortExpression="#{child.item['_subject']}">
+				<f:facet name="header">
+					<h:outputText value="#{form_messages.sub_timesheet_subject}" />
+				</f:facet>
+				<h:outputText value="#{child.item['_subject']}" />
+			</rich:column>
 
-		<rich:column sortBy="#{child.item['_subject']}" sortable="true"
-			sortExpression="#{child.item['_subject']}">
-			<f:facet name="header">
-				<h:outputText value="#{form_messages.sub_timesheet_subject}" />
-			</f:facet>
-			<h:outputText value="#{child.item['_subject']}" />
-		</rich:column>
-
-		<rich:column sortable="true" sortBy="#{child.item['_category']}"
-			sortExpression="#{child.item['_category']}">
-			<f:facet name="header">
-				<h:outputText value="#{form_messages.sub_timesheet_category}" />
-			</f:facet>
-			<h:outputText value="#{child.item['_category']}" />
-		</rich:column>
-
-
-		<rich:column sortBy="#{child.item['txtworkflowstatus']}"
-			sortable="true" sortExpression="#{child.item['txtworkflowstatus']}">
-			<f:facet name="header">
-				<h:outputText value="Status" />
-			</f:facet>
-			<h:outputText value="#{child.item['txtworkflowstatus']}" />
-		</rich:column>
+			<rich:column sortable="true" sortBy="#{child.item['_category']}"
+				sortExpression="#{child.item['_category']}">
+				<f:facet name="header">
+					<h:outputText value="#{form_messages.sub_timesheet_category}" />
+				</f:facet>
+				<h:outputText value="#{child.item['_category']}" />
+			</rich:column>
 
 
+			<rich:column sortBy="#{child.item['txtworkflowstatus']}"
+				sortable="true" sortExpression="#{child.item['txtworkflowstatus']}">
+				<f:facet name="header">
+					<h:outputText value="Status" />
+				</f:facet>
+				<h:outputText value="#{child.item['txtworkflowstatus']}" />
+			</rich:column>
 
-		<rich:column>
-			<f:facet name="header">
+
+
+			<rich:column>
+				<f:facet name="header">
                     #{global.action}
                 </f:facet>
 
-			<!-- Edit Action -->
-			<rich:toggleControl for="suggest_process_id"
-				actionListener="#{timeSheetMB.doEdit}"
-				reRender="time_editor_panel_id" id="edit_button_id_control"
-				switchToState="time_editor_open">
-				<h:commandButton image="/layout/icons/Edit_16.png"
-					value="#{global.edit}" id="edit_button_id" alt="#{global.edit}" />
-			</rich:toggleControl>
+				<!-- Edit Action -->
+				<rich:toggleControl for="suggest_process_id"
+					actionListener="#{timeSheetMB.doEdit}"
+					reRender="time_editor_panel_id" id="edit_button_id_control"
+					switchToState="time_editor_open">
+					<h:commandButton image="/layout/icons/Edit_16.png"
+						value="#{global.edit}" id="edit_button_id" alt="#{global.edit}" />
+				</rich:toggleControl>
 
-			<!-- Delete Action -->
-			<rich:toggleControl for="suggest_process_id"
-				actionListener="#{timeSheetMB.doEdit}" id="delete_button_id"
-				oncomplete="#{rich:component('deletePanel')}.show()"
-				reRender="deletePanel" switchToState="time_editor_closed">
-				<h:commandButton image="/layout/icons/Delete_16.png"
-					style="margin-left:10px;" />
-				<rich:toolTip for="delete_button_id" value="#{global.delete}" />
-			</rich:toggleControl>
+				<!-- Delete Action -->
+				<rich:toggleControl for="suggest_process_id"
+					actionListener="#{timeSheetMB.doEdit}" id="delete_button_id"
+					oncomplete="#{rich:component('deletePanel')}.show()"
+					reRender="deletePanel" switchToState="time_editor_closed">
+					<h:commandButton image="/layout/icons/Delete_16.png"
+						style="margin-left:10px;" />
+					<rich:toolTip for="delete_button_id" value="#{global.delete}" />
+				</rich:toggleControl>
 
-		</rich:column>
+			</rich:column>
 
 
-	</rich:dataTable>
-	<rich:datascroller for="child_datatable_ID" />
-
+		</rich:dataTable>
+		<rich:datascroller for="child_datatable_ID" />
+	</a4j:outputPanel>
 
 	<!-- Editor  -->
 	<rich:togglePanel switchType="ajax" id="suggest_process_id"
@@ -116,7 +116,7 @@
 				<div style="float: left; width: 300px;">
 					<h:panelGrid columns="2">
 						<h:outputText value="#{form_messages.sub_timesheet_date}: " />
-						<rich:calendar value="#{workitemMB.child.item['_date']}" />
+						<rich:calendar value="#{workitemMB.child.item['datdate']}" />
 						<h:outputText value="#{form_messages.sub_timesheet_duration}: " />
 						<h:inputText id="ln" value="#{workitemMB.child.item['_duration']}"
 							required="false" style="width:30px;">
@@ -157,7 +157,7 @@
 					<rich:toggleControl for="suggest_process_id"
 						switchToState="time_editor_closed">
 						<a4j:commandButton actionListener="#{workitemMB.doProcessChild}"
-							reRender="child_datatable_ID"
+							reRender="child_datatable_area"
 							value="#{activitychild.item['txtname']}">
 							<f:param name="id" value="#{activitychild.item['numactivityid']}" />
 						</a4j:commandButton>
@@ -196,7 +196,7 @@
 					operation="hide" event="onclick" />
 			</h:panelGroup>
 		</f:facet>
-		<h:outputText value="#{workitemMB.child.item['_date']}">
+		<h:outputText value="#{workitemMB.child.item['datdate']}">
 			<f:convertDateTime timeZone="#{global.timeZone}"
 				pattern="#{global.datePattern}" />
 		</h:outputText>
@@ -208,7 +208,7 @@
 							value="#{global.yes}" ajaxSingle="true"
 							actionListener="#{workitemMB.doDeleteChild}"
 							oncomplete="#{rich:component('deletePanel')}.hide();"
-							reRender="child_datatable_ID" /></td>
+							reRender="child_datatable_area" /></td>
 					<td align="center" width="50%"><a4j:commandButton
 							value="#{global.no}"
 							onclick="#{rich:component('deletePanel')}.hide();return false;" />

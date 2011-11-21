@@ -1,12 +1,13 @@
 package org.imixs.marty.web.office;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -34,6 +35,9 @@ public class TimeSheetMB implements WorkitemListener {
 	private ItemCollection filter = null; // search filter
 	private ArrayList<SelectItem> processSelection = null;
 
+	private List<ItemCollection> myTimeSheet = null;
+	private List<ItemCollection> filterTimeSheet = null;
+
 	private static Logger logger = Logger.getLogger("org.imixs.workflow");
 
 	/**
@@ -44,6 +48,11 @@ public class TimeSheetMB implements WorkitemListener {
 		// register this Bean as a workitemListener to the current WorktieMB
 		this.getWorkitemBean().addWorkitemListener(this);
 	}
+
+	
+	
+	
+
 
 	/**
 	 * creates a new child with default values
@@ -60,9 +69,91 @@ public class TimeSheetMB implements WorkitemListener {
 	public void doEdit(ActionEvent event) throws Exception {
 		this.getWorkitemBean().doEditChild(event);
 	}
-	
+
 	public void doReset(ActionEvent event) throws Exception {
-		
+		myTimeSheet = null;
+		filterTimeSheet = null;
+	}
+
+	/**
+	 * creates test data....
+	 * 
+	 * @param event
+	 * @throws Exception
+	 */
+	public void doSimulate(ActionEvent event) throws Exception {
+		int totalcount=0;
+		// read projects to get refs
+		String sQuery = "SELECT DISTINCT wi FROM Entity AS wi ";
+		sQuery += " JOIN wi.textItems as tref ";
+		sQuery += " WHERE wi.type = 'workitem' ";
+		sQuery += " AND tref.itemName = 'txtworkflowgroup' and tref.itemValue = 'Projekt' ";
+
+		Collection<ItemCollection> col = this.getWorkitemBean()
+				.getEntityService().findAllEntities(sQuery, 0, -1);
+
+		logger.info(col.size() + " Projects found");
+
+		for (ItemCollection aworkitem : col) {
+			String sIDRef=aworkitem.getItemValueString("$uniqueid");
+			// generate 3 Demo Entries
+			for (int i = 0; i < 500; i++) {
+
+				// create test data
+				Random r = new Random();
+				int iUser = r.nextInt(4);
+				String sUser = null;
+
+				switch (iUser) {
+
+				case 1:
+					sUser = "Ronny";
+					break;
+				case 2:
+					sUser = "Anna";
+					break;
+				case 3:
+					sUser = "Eddy";
+					break;
+
+				default:
+					sUser = "rsoika";
+					break;
+				}
+
+				// create random date
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(2011, r.nextInt(11), r.nextInt(30));
+
+				// now create the test dataItemcollection
+				ItemCollection itemColDemo = new ItemCollection();
+				itemColDemo.replaceItemValue("type", "childworkitem");
+				itemColDemo.replaceItemValue("$UniqueIDRef", sIDRef);
+				
+				
+				itemColDemo.replaceItemValue(
+						"$modelversion",
+						this.getWorkitemBean().getWorkitem()
+								.getItemValue("$modelversion"));
+
+				itemColDemo.replaceItemValue("$processid", 6100);
+				itemColDemo.replaceItemValue("$activityid", 10);
+				itemColDemo.replaceItemValue("_duration",
+						(r.nextInt(6) + 1) * 10);
+				itemColDemo.replaceItemValue("datdate", calendar.getTime());
+				itemColDemo.replaceItemValue("namcreator", sUser);
+				itemColDemo.replaceItemValue("_subject", sUser + "'s job...");
+				itemColDemo.replaceItemValue("_category", "C" + r.nextInt(4));
+
+				// process demo data....
+				this.getWorkitemBean().getWorkflowService()
+						.processWorkItem(itemColDemo);
+				
+				
+				totalcount++;
+				logger.info(" ************ " + totalcount + " workitems process ************");
+			}
+		}
 	}
 
 	/**
@@ -73,16 +164,16 @@ public class TimeSheetMB implements WorkitemListener {
 	public ItemCollection getFilter() {
 		if (filter == null) {
 			filter = new ItemCollection();
-			
+
 			// set date
 			try {
-				filter.replaceItemValue("datfrom",new Date());
-				filter.replaceItemValue("datto",new Date());
-						} catch (Exception e) {
-				
+				filter.replaceItemValue("datfrom", new Date());
+				filter.replaceItemValue("datto", new Date());
+			} catch (Exception e) {
+
 				e.printStackTrace();
 			}
-			
+
 		}
 		return filter;
 	}
@@ -111,15 +202,13 @@ public class TimeSheetMB implements WorkitemListener {
 
 		try {
 			// find first process entity
-			
+
 			ItemCollection startProcess;
 			// current model Version
-			String sModelVersion= this
-					.getWorkitemBean().getWorkitem().getItemValueString("$modelversion");
-			startProcess = this
-					.getWorkitemBean()
-					.getModelService()
-					.getProcessEntityByVersion(6100,sModelVersion);
+			String sModelVersion = this.getWorkitemBean().getWorkitem()
+					.getItemValueString("$modelversion");
+			startProcess = this.getWorkitemBean().getModelService()
+					.getProcessEntityByVersion(6100, sModelVersion);
 
 			if (startProcess == null) {
 				logger.warning("TimeSheetMB unable to find start ProcessEntity - ID=6100 !");
@@ -131,18 +220,175 @@ public class TimeSheetMB implements WorkitemListener {
 			List<ItemCollection> processList = this
 					.getWorkitemBean()
 					.getModelService()
-					.getAllProcessEntitiesByGroupByVersion(sWorkflowGroup,sModelVersion);
+					.getAllProcessEntitiesByGroupByVersion(sWorkflowGroup,
+							sModelVersion);
 			for (ItemCollection process : processList) {
 				processSelection.add(new SelectItem(process
 						.getItemValueInteger("numprocessid"), process
 						.getItemValueString("txtname")));
-				
+
 			}
 		} catch (Exception e) {
 			logger.severe("TimeSheetMB unable - error computing process list");
 			e.printStackTrace();
 		}
 		return processSelection;
+
+	}
+
+	/**
+	 * retuns a List with all timesheet entries for the current user
+	 * 
+	 * @return
+	 */
+	public List<ItemCollection> getMyTimeSheet() {
+		if (myTimeSheet == null)
+			loadMyTimeSheet();
+		return myTimeSheet;
+	}
+
+	/**
+	 * retuns a List with all timesheet entries filtered by the filter setting
+	 * 
+	 * @return
+	 */
+	public List<ItemCollection> getFilterTimeSheet() {
+		if (filterTimeSheet == null)
+			loadFilterTimeSheet();
+		return filterTimeSheet;
+	}
+
+	/**
+	 * this method loads the child workitems to the current workitem
+	 * 
+	 * @see org.imixs.WorkitemService.business.WorkitemServiceBean
+	 */
+	private void loadMyTimeSheet() {
+		myTimeSheet = new ArrayList<ItemCollection>();
+
+		try {
+
+			String sRefUniqueID = this.getWorkitemBean().getWorkitem()
+					.getItemValueString("$uniqueid");
+			if ("".equals(sRefUniqueID))
+				return;
+
+			FacesContext context = FacesContext.getCurrentInstance();
+			ExternalContext externalContext = context.getExternalContext();
+			String sUser = externalContext.getUserPrincipal().getName();
+
+			// construct query
+			String sQuery = "SELECT DISTINCT wi FROM Entity AS wi ";
+			sQuery += " JOIN wi.textItems as tref ";
+			sQuery += " JOIN wi.integerItems as tp ";
+			sQuery += " JOIN wi.textItems as tc ";
+			sQuery += " JOIN wi.calendarItems as td ";
+
+			// restrict type depending of a supporte ref id
+			sQuery += " WHERE wi.type = 'childworkitem' ";
+
+			sQuery += " AND tref.itemName = '$uniqueidref' and tref.itemValue = '"
+					+ sRefUniqueID + "' ";
+
+			sQuery += " AND tc.itemName = 'namcreator' and tc.itemValue = '"
+					+ sUser + "' ";
+			// Process ID
+			sQuery += " AND tp.itemName = '$processid' AND tp.itemValue >=6100 AND tp.itemValue<=6999";
+
+			sQuery += " AND td.itemName = 'datdate' ";
+
+			sQuery += " ORDER BY td.itemValue DESC";
+
+			logger.info("TimeSheetMB loadMyTimeSheet - query=" + sQuery);
+			Collection<ItemCollection> col = this.getWorkitemBean()
+					.getEntityService().findAllEntities(sQuery, 0, -1);
+
+			for (ItemCollection aworkitem : col) {
+				myTimeSheet.add((aworkitem));
+			}
+		} catch (Exception ee) {
+			myTimeSheet = null;
+			ee.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * this method loads the child workitems to the current workitem
+	 * 
+	 * @see org.imixs.WorkitemService.business.WorkitemServiceBean
+	 */
+	private void loadFilterTimeSheet() {
+		filterTimeSheet = new ArrayList<ItemCollection>();
+
+		try {
+
+			String sRefUniqueID = this.getWorkitemBean().getWorkitem()
+					.getItemValueString("$uniqueid");
+			if ("".equals(sRefUniqueID))
+				return;
+
+			String sUser = filter.getItemValueString("namCreator");
+
+			Date datFrom = filter.getItemValueDate("datFrom"); // format
+																// '2008-09-15'
+			Date datTo = filter.getItemValueDate("datTo");
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+			int iProcessID = filter.getItemValueInteger("$processid");
+
+			// construct query
+			String sQuery = "SELECT DISTINCT wi FROM Entity AS wi ";
+			sQuery += " JOIN wi.textItems as tref ";
+
+			if (iProcessID > 0)
+				sQuery += " JOIN wi.integerItems as tp ";
+
+			if (!"".equals(sUser))
+				sQuery += " JOIN wi.textItems as tc ";
+
+			if (datFrom != null || datTo != null)
+				sQuery += " JOIN wi.calendarItems as td ";
+
+			// restrict type depending of a supporte ref id
+			sQuery += " WHERE wi.type = 'childworkitem' ";
+
+			sQuery += " AND tref.itemName = '$uniqueidref' and tref.itemValue = '"
+					+ sRefUniqueID + "' ";
+
+			if (!"".equals(sUser))
+				sQuery += " AND tc.itemName = 'namcreator' and tc.itemValue = '"
+						+ sUser + "' ";
+			// Process ID
+			if (iProcessID > 0)
+				sQuery += " AND tp.itemName = '$processid' AND tp.itemValue ="
+						+ iProcessID;
+
+			sQuery += " AND td.itemName = 'datdate' ";
+
+			if (datFrom != null)
+
+				sQuery += " AND td.itemValue >= '" + formatter.format(datFrom)
+						+ "' ";
+
+			if (datTo != null)
+				// format '2008-09-15'
+				sQuery += " AND td.itemValue <= '" + formatter.format(datTo)
+						+ "' ";
+
+			sQuery += " ORDER BY td.itemValue DESC";
+
+			logger.info("TimeSheetMB loadFilterTimeSheet - query=" + sQuery);
+			Collection<ItemCollection> col = this.getWorkitemBean()
+					.getEntityService().findAllEntities(sQuery, 0, -1);
+
+			for (ItemCollection aworkitem : col) {
+				filterTimeSheet.add((aworkitem));
+			}
+		} catch (Exception ee) {
+			filterTimeSheet = null;
+			ee.printStackTrace();
+		}
 
 	}
 
@@ -163,8 +409,8 @@ public class TimeSheetMB implements WorkitemListener {
 	}
 
 	public void onWorkitemChanged(ItemCollection arg0) {
-		// set default date
-		// workitem=arg0;
+		// reset timesheet
+		myTimeSheet = null;
 	}
 
 	/**
@@ -180,18 +426,15 @@ public class TimeSheetMB implements WorkitemListener {
 	}
 
 	public void onChildCreated(ItemCollection arg0) {
-		// nothing
-
 		try {
-			arg0.replaceItemValue("_date", new Date());
+			arg0.replaceItemValue("datdate", new Date());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public void onChildProcessCompleted(ItemCollection arg0) {
-		// nothing
+		myTimeSheet = null;
 	}
 
 	public void onWorkitemCreated(ItemCollection arg0) {
@@ -207,7 +450,7 @@ public class TimeSheetMB implements WorkitemListener {
 	}
 
 	public void onChildDeleteCompleted() {
-		// nothing
+		myTimeSheet = null;
 	}
 
 	public void onChildSoftDelete(ItemCollection e) {
@@ -215,7 +458,7 @@ public class TimeSheetMB implements WorkitemListener {
 	}
 
 	public void onChildSoftDeleteCompleted(ItemCollection e) {
-		// nothing
+		myTimeSheet = null;
 	}
 
 	public void onWorkitemDelete(ItemCollection e) {

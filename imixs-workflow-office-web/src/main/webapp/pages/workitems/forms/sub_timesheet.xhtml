@@ -36,23 +36,30 @@
 		
 		
 		<dt><h:outputLabel value="#{global.to}" /></dt>
-		<dd><rich:calendar value="#{timeSheetMB.filter.item['datto']}"></rich:calendar> </dd>
+		<dd><rich:calendar value="#{timeSheetMB.filter.item['datto']}" enableManualInput="true" ></rich:calendar> </dd>
 	
 	</dl>
 	<div style="clear:left;" />
+	<a4j:commandButton value="#{global.search}" actionListener="#{timeSheetMB.doReset}" reRender="child_datatable_area"/>
+	
+	
+	<a4j:commandButton value="Simulate" actionListener="#{timeSheetMB.doSimulate}" reRender="child_datatable_area"/>
+	
+	
 	</rich:panel>
 	
 	
 	<!--  Result -->
+	<a4j:outputPanel id="child_datatable_area"  >
 	<rich:dataTable id="child_datatable_ID" columns="8" rows="5"
-		value="#{workitemMB.childs}" var="child" sortMode="multi"
+		value="#{timeSheetMB.filterTimeSheet}" var="child" sortMode="multi"
 		styleClass="sywapp-subform-table">
 
 		<rich:column>
 			<f:facet name="header">
 				<h:outputText value="#{form_messages.sub_timesheet_date}" />
 			</f:facet>
-			<h:outputText value="#{child.item['_date']}">
+			<h:outputText value="#{child.item['datdate']}">
 				<f:convertDateTime timeZone="#{global.timeZone}"
 					pattern="#{global.datePattern}" />
 			</h:outputText>
@@ -121,7 +128,7 @@
 
 	</rich:dataTable>
 	<rich:datascroller for="child_datatable_ID" />
-
+	</a4j:outputPanel>
 
 	<!-- Editor  -->
 	<rich:togglePanel switchType="ajax" id="suggest_process_id"
@@ -153,7 +160,7 @@
 				<div style="float: left; width: 300px;">
 					<h:panelGrid columns="2">
 						<h:outputText value="#{form_messages.sub_timesheet_date}: " />
-						<rich:calendar value="#{workitemMB.child.item['_date']}" />
+						<rich:calendar value="#{workitemMB.child.item['datdate']}" />
 						<h:outputText value="#{form_messages.sub_timesheet_duration}: " />
 						<h:inputText id="ln" value="#{workitemMB.child.item['_duration']}"
 							required="false" style="width:30px;">
@@ -194,7 +201,7 @@
 					<rich:toggleControl for="suggest_process_id"
 						switchToState="time_editor_closed">
 						<a4j:commandButton actionListener="#{workitemMB.doProcessChild}"
-							reRender="child_datatable_ID"
+							reRender="child_datatable_area"
 							value="#{activitychild.item['txtname']}">
 							<f:param name="id" value="#{activitychild.item['numactivityid']}" />
 						</a4j:commandButton>
@@ -233,7 +240,7 @@
 					operation="hide" event="onclick" />
 			</h:panelGroup>
 		</f:facet>
-		<h:outputText value="#{workitemMB.child.item['_date']}">
+		<h:outputText value="#{workitemMB.child.item['datdate']}">
 			<f:convertDateTime timeZone="#{global.timeZone}"
 				pattern="#{global.datePattern}" />
 		</h:outputText>
@@ -245,7 +252,7 @@
 							value="#{global.yes}" ajaxSingle="true"
 							actionListener="#{workitemMB.doDeleteChild}"
 							oncomplete="#{rich:component('deletePanel')}.hide();"
-							reRender="child_datatable_ID" /></td>
+							reRender="child_datatable_area" /></td>
 					<td align="center" width="50%"><a4j:commandButton
 							value="#{global.no}"
 							onclick="#{rich:component('deletePanel')}.hide();return false;" />
