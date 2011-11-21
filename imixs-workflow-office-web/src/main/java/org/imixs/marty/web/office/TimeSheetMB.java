@@ -1,3 +1,26 @@
+/*******************************************************************************
+ *  Imixs Workflow Technology
+ *  Copyright (C) 2011 Imixs Software Solutions GmbH,  
+ *  http://www.imixs.com
+ *  
+ *  This program is free software; you can redistribute it and/or 
+ *  modify it under the terms of the GNU General Public License 
+ *  as published by the Free Software Foundation; either version 2 
+ *  of the License, or (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful, 
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+ *  General Public License for more details.
+ *  
+ *  You can receive a copy of the GNU General Public
+ *  License at http://www.gnu.org/licenses/gpl.html
+ *  
+ *  Contributors:  
+ *  	Imixs Software Solutions GmbH - initial API and implementation
+ *  	Ralph Soika
+ *  
+ *******************************************************************************/
 package org.imixs.marty.web.office;
 
 import java.text.DateFormat;
@@ -371,11 +394,16 @@ public class TimeSheetMB implements WorkitemListener {
 				sQuery += " AND td.itemValue >= '" + formatter.format(datFrom)
 						+ "' ";
 
-			if (datTo != null)
+			if (datTo != null) {
 				// format '2008-09-15'
-				sQuery += " AND td.itemValue <= '" + formatter.format(datTo)
+				// we need to adjust the day for 1 because time is set to 0:00:00 per default
+				Calendar calTo = Calendar.getInstance();
+				calTo.setTime(datTo);
+				calTo.add(Calendar.DAY_OF_MONTH,1);
+				sQuery += " AND td.itemValue < '" + formatter.format(calTo.getTime())
 						+ "' ";
-
+			}
+			
 			sQuery += " ORDER BY td.itemValue DESC";
 
 			logger.info("TimeSheetMB loadFilterTimeSheet - query=" + sQuery);

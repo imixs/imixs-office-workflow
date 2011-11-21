@@ -1,14 +1,30 @@
+/*******************************************************************************
+ *  Imixs Workflow Technology
+ *  Copyright (C) 2003, 2008 Imixs Software Solutions GmbH,  
+ *  http://www.imixs.com
+ *  
+ *  This program is free software; you can redistribute it and/or 
+ *  modify it under the terms of the GNU General Public License 
+ *  as published by the Free Software Foundation; either version 2 
+ *  of the License, or (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful, 
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+ *  General Public License for more details.
+ *  
+ *  You can receive a copy of the GNU General Public
+ *  License at http://www.gnu.org/licenses/gpl.html
+ *  
+ *  Contributors:  
+ *  	Imixs Software Solutions GmbH - initial API and implementation
+ *  	Ralph Soika
+ *  
+ *******************************************************************************/
 package org.imixs.marty.web.office;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -16,13 +32,10 @@ import javax.ejb.EJB;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.naming.NamingException;
-import javax.naming.directory.DirContext;
 
 import org.imixs.marty.web.workitem.WorkitemListener;
 import org.imixs.marty.web.workitem.WorkitemMB;
 import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.plugins.jee.extended.LucenePlugin;
 
 /**
  * This ManagedBean supports Histoy navigation over workitems the user has
