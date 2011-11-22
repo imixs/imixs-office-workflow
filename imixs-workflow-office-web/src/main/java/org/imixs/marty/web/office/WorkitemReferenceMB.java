@@ -25,12 +25,10 @@ package org.imixs.marty.web.office;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Vector;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -41,6 +39,7 @@ import javax.faces.event.ActionEvent;
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 
+import org.imixs.marty.util.Cache;
 import org.imixs.marty.web.workitem.WorkitemListener;
 import org.imixs.marty.web.workitem.WorkitemMB;
 import org.imixs.workflow.ItemCollection;
@@ -104,6 +103,8 @@ public class WorkitemReferenceMB implements WorkitemListener {
 	private List<ItemCollection> referencesTo = null; // outgoing references
 	private List<ItemCollection> referencesFrom = null; // incomming references
 
+	private WorkItemAdapter workItemAdapter=null;
+	
 	public WorkitemReferenceMB() {
 		super();
 	}
@@ -432,7 +433,7 @@ public class WorkitemReferenceMB implements WorkitemListener {
 
 	}
 
-	public WorkitemMB getWorkitemBean() {
+	private WorkitemMB getWorkitemBean() {
 		if (workitemMB == null)
 			workitemMB = (WorkitemMB) FacesContext
 					.getCurrentInstance()
@@ -441,6 +442,26 @@ public class WorkitemReferenceMB implements WorkitemListener {
 					.getValue(FacesContext.getCurrentInstance().getELContext(),
 							null, "workitemMB");
 		return workitemMB;
+	}
+
+	/**
+	 * This method uses the Map Interface as a returnvalue to allow the
+	 * parameterized access to a woritem references.
+	 * 
+	 * 
+	 * in a jsf page using a expression language like this:
+	 * 
+	 * #{workitemReferenceMB.referencesFor[$uniqueid]}
+	 * 
+	 * @see The inner class UserNameAdapter
+	 * 
+	 * @return
+	 */
+	public Map getReferencesFor() {
+		if (workItemAdapter==null)
+			workItemAdapter=new WorkItemAdapter();
+		return workItemAdapter;
+
 	}
 
 	public void onWorkitemCreated(ItemCollection e) {
@@ -490,6 +511,146 @@ public class WorkitemReferenceMB implements WorkitemListener {
 	}
 
 	public void onChildSoftDeleteCompleted(ItemCollection e) {
+	}
+
+	/**
+	 * This class helps to addapt the behavior of a workitemLookup to a
+	 * MapObject The Class overwrites the get Method and returns a collection of
+	 * workitems
+	 * 
+	 * in a jsf page using a expression language like this:
+	 * 
+	 * #{woritemReferenceMB.workitem['.......']}
+	 * 
+	 * 
+	 * @author rsoika
+	 * 
+	 */
+	class WorkItemAdapter implements Map {
+		final int MAX_CACHE_SIZE = 20;
+		private Cache cache;
+		public WorkItemAdapter() {
+			cache = new Cache(MAX_CACHE_SIZE);
+		}
+
+		/**
+		 * returns a colection of ItemCollection for all refreences to the
+		 * requested workitem
+		 */
+		@SuppressWarnings("unchecked")
+		public Object get(Object key) {
+			
+			
+			
+			List<ItemCollection> aworkitemRefList =null;
+			// test if allredy cached....
+			aworkitemRefList=(List<ItemCollection>) cache.get(key);
+			if (aworkitemRefList!=null) {
+				logger.fine(" workitemAdapter Lookup allready cached");
+				return aworkitemRefList;
+			}
+			
+			aworkitemRefList=new ArrayList<ItemCollection>();
+
+			// test if UniqueID is allready listed
+			ItemCollection aworkitem=null;
+			try {
+				aworkitem = workflowService.getWorkItem(key
+						.toString());
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			if (aworkitem==null)
+				return aworkitemRefList;
+			// lookup the references for this workItem...
+			Vector<String> list = aworkitem.getItemValue(FIELD_NAME);
+			// empty list?
+
+			if (list.size() == 0
+					|| (list.size() == 1 && "".equals(list.elementAt(0))))
+				return aworkitemRefList;
+			long lTime = System.currentTimeMillis();
+			String sQuery = "select entity from Entity entity where entity.id IN (";
+			for (String aID : list) {
+				sQuery += "'" + aID + "',";
+			}
+			// cut last ,
+			sQuery = sQuery.substring(0, sQuery.length() - 1);
+			sQuery += ")";
+
+			Collection<ItemCollection> col = null;
+			try {
+				col = workflowService.getEntityService().findAllEntities(
+						sQuery, 0, -1);
+				for (ItemCollection itemcol : col) {
+
+					if (filter != null && !"".equals(filter)) {
+						String sProcessID = ""
+								+ itemcol.getItemValueInteger("$ProcessID");
+						if (!sProcessID.matches(filter))
+							continue;
+					}
+
+					aworkitemRefList.add(itemcol);
+				}
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			// now put the list into the cache....
+			cache.put(key, aworkitemRefList);
+			logger.info("  WorkitemRef Lookup:  "
+					+ (System.currentTimeMillis() - lTime) + " ms");
+			
+			return aworkitemRefList;
+
+		}
+
+		public Object put(Object key, Object value) {
+			return null;
+		}
+
+		/* ############### Default methods ################# */
+
+		public void clear() {
+		}
+
+		public boolean containsKey(Object key) {
+			return false;
+		}
+
+		public boolean containsValue(Object value) {
+			return false;
+		}
+
+		public Set entrySet() {
+			return null;
+		}
+
+		public boolean isEmpty() {
+			return false;
+		}
+
+		public Set keySet() {
+			return null;
+		}
+
+		public void putAll(Map m) {
+		}
+
+		public Object remove(Object key) {
+			return null;
+		}
+
+		public int size() {
+			return 0;
+		}
+
+		public Collection values() {
+			return null;
+		}
+
 	}
 
 }

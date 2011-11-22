@@ -18,7 +18,7 @@
 	</a4j:outputPanel>
 
 	<!-- *** Standard Info *** -->
-	<a4j:outputPanel layout="block" style="">
+	<a4j:outputPanel layout="block" style="" id="standard_infoblock_id">
 		
 		<!-- *** author modus -->
 		<a4j:outputPanel rendered="#{workitem.item['$isAuthor']}">
@@ -43,6 +43,8 @@
 			<h:outputText value="#{workitem.item['txtWorkflowSummary']}" />
 			
 		</a4j:outputPanel>
+		
+		
 		<br />
 
 
@@ -64,6 +66,56 @@
 		</a4j:outputPanel>
 
 	</a4j:outputPanel>
+	
+	
+	<!-- Tooltip - Details -->
+	<rich:toolTip for="standard_infoblock_id" showDelay="1000" >
+	
+	
+	<!-- Workflow Abstract -->
+				<div class="sywapp-html">
+					<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
+						escape="false" />
+				</div>
+				<!-- References -->
+				<a4j:outputPanel layout="block"
+					rendered="#{! empty workitemReferenceMB.referencesFor[workitem.item['$uniqueid']]}"
+					style="margin-bottom:5px;">
+					<h3>
+						<h:outputText value="#{global.references}" />
+					</h3>
+					<ui:repeat
+						value="#{workitemReferenceMB.referencesFor[workitem.item['$uniqueid']]}"
+						var="workitem">
+
+						<a4j:outputPanel layout="block"
+							xstyle="border-bottom: 1px solid silver;margin-bottom:5px;padding-bottom:5px;">
+							<h:commandLink
+								actionListener="#{workitemReferenceMB.doSwitchToWorkitem}"
+								action="open_workitem">
+								<h:outputText value="#{workitem.item['txtWorkflowSummary']}"
+									rendered="#{!empty workitem.item['txtWorkflowSummary']}" />
+								<f:param name="id" value="#{workitem.item['$uniqueid']}" />
+							</h:commandLink>
+							<br />
+							<h:outputText style="font-weight: normal;"
+								value="#{workitem.item['txtworkflowgroup']}: " />
+							<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
+
+						</a4j:outputPanel>
+
+					</ui:repeat>
+				</a4j:outputPanel>
+	
+	
+	</rich:toolTip>
+
+
+
+
+
+
+
 
 	<!-- clear floating problem from sidebar in ff and chrome.  -->
 	<div style="clear: left;" />
