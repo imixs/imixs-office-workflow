@@ -57,13 +57,27 @@
 				</h:outputText>
 			</a4j:outputPanel>
 			<br />
+			
+			<!-- Status -->
 			<h:outputText style="font-weight: bold;"
 				value="#{workitem.item['txtworkflowgroup']}: " />
 			<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
+			
+			<!-- modified -->
+			<br />
+			<h:outputText style="font-weight: bold;"
+			value="#{global.modified}: " />
+			<h:outputText value="#{workitem.item['$modified']}"
+				 style="font-weight: normal;" >
+					<f:convertDateTime timeZone="#{global.timeZone}" 
+								pattern="#{global.dateTimePatternShort}" />
+			</h:outputText>
 
 			<!-- display owner -->
+			<br />
 			<a4j:outputPanel rendered="#{! empty workitem.item['namowner']}">
-				<h:outputText style="font-weight: bold; margin-left:16px;"
+			
+				<h:outputText style="font-weight: bold;"
 					value="#{global.owner}: " />
 				<ui:repeat value="#{workitem.itemList['namowner']}" var="name">
 					<h:outputText value="#{name} " />

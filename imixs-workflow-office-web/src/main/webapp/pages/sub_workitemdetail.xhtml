@@ -9,7 +9,7 @@
 	<!-- *** Image *** -->
 	<a4j:outputPanel layout="block"
 		rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
-		style="float:left;height:34px;margin-right:2px;margin-left:2px;margin-bottom:0px;">
+		style="float:left;height:50px;margin-right:2px;margin-left:2px;margin-bottom:0px;">
 		<h:commandLink actionListener="#{worklistMB.doEdit}"
 				action="open_workitem">
 			<img src="#{workitem.item['txtWorkflowImageURL']}"
@@ -24,12 +24,7 @@
 		<a4j:outputPanel rendered="#{workitem.item['$isAuthor']}">
 			<h:commandLink actionListener="#{worklistMB.doEdit}"
 				action="open_workitem">
-				<h:outputText value="#{workitem.item['$modified']}">
-					<f:convertDateTime timeZone="#{global.timeZone}" 
-								pattern="#{global.dateTimePatternShort}" />
-				</h:outputText>
-				
-				<h:outputText value=": #{workitem.item['txtWorkflowSummary']}" />
+				<h:outputText style="font-weight: bold;" value="#{workitem.item['txtWorkflowSummary']}" />
 				
 			</h:commandLink>
 		</a4j:outputPanel>
@@ -46,14 +41,23 @@
 		
 		
 		<br />
-
-
-	
-
+		<!-- Status -->
 		<h:outputText style="font-weight: bold;"
 			value="#{workitem.item['txtworkflowgroup']}: " />
 		<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
 		<h:outputText value=" (#{workitem.item['txtProjectName']})" />
+		
+		<!-- Modified -->
+		<br />
+		<a4j:outputPanel >
+		<h:outputText style="font-weight: bold;"
+			value="#{global.modified}: " />
+			<h:outputText value="#{workitem.item['$modified']}"
+				 style="font-weight: normal;" >
+					<f:convertDateTime timeZone="#{global.timeZone}" 
+								pattern="#{global.dateTimePatternShort}" />
+		</h:outputText>
+		</a4j:outputPanel>
 		
 		<!-- display owner -->
 		<a4j:outputPanel rendered="#{! empty workitem.item['namowner']}">
@@ -64,7 +68,8 @@
 				<h:outputText value="#{name}, " />
 			</ui:repeat>
 		</a4j:outputPanel>
-
+		
+		
 	</a4j:outputPanel>
 	
 	
