@@ -19,13 +19,24 @@
 					<f:convertDateTime timeZone="#{global.timeZone}"
 						pattern="#{global.datePattern}" />
 				</h:outputText>
+				<f:facet name="footer"></f:facet>
+
 			</rich:column>
 
-			<rich:column>
+			<rich:column >
 				<f:facet name="header">
 					<h:outputText value="#{form_messages.sub_timesheet_duration}" />
 				</f:facet>
-				<h:outputText value="#{child.item['_duration']}" />
+				<h:outputText value="#{child.item['_duration']}">
+					<f:convertNumber minFractionDigits="2" locale="#{loginMB.locale}" />
+				</h:outputText>
+
+				<f:facet name="footer">
+					<h:outputText
+						value="#{timeSheetMB.myTimeSheetSummary.item['_duration']}">
+						<f:convertNumber minFractionDigits="2" locale="#{loginMB.locale}" />
+					</h:outputText>
+				</f:facet>
 			</rich:column>
 
 			<rich:column sortBy="#{child.item['_subject']}" sortable="true"
@@ -83,6 +94,10 @@
 
 
 		</rich:dataTable>
+
+
+
+
 		<rich:datascroller for="child_datatable_ID" />
 	</a4j:outputPanel>
 
@@ -120,7 +135,9 @@
 						<h:outputText value="#{form_messages.sub_timesheet_duration}: " />
 						<h:inputText id="ln" value="#{workitemMB.child.item['_duration']}"
 							required="false" style="width:30px;">
+							<f:convertNumber minFractionDigits="2" locale="de" />
 						</h:inputText>
+
 						<h:outputText value="#{form_messages.sub_timesheet_category}: " />
 						<h:inputText value="#{workitemMB.child.item['_category']}"
 							style="width:70px;" />
@@ -206,7 +223,7 @@
 				<tr>
 					<td align="center" width="50%"><a4j:commandButton
 							value="#{global.yes}" ajaxSingle="true"
-							actionListener="#{workitemMB.doDeleteChild}"
+							actionListener="#{workitemMB.doSoftDeleteChild}"
 							oncomplete="#{rich:component('deletePanel')}.hide();"
 							reRender="child_datatable_area" /></td>
 					<td align="center" width="50%"><a4j:commandButton

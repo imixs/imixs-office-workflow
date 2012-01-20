@@ -117,7 +117,16 @@
 					<f:facet name="header">
 						<h:outputText value="#{form_messages.sub_timesheet_duration}" />
 					</f:facet>
-					<h:outputText value="#{child.item['_duration']}" />
+					<h:outputText value="#{child.item['_duration']}">
+						<f:convertNumber minFractionDigits="2" locale="#{loginMB.locale}" />
+					</h:outputText>
+
+					<f:facet name="footer">
+						<h:outputText
+							value="#{timeSheetMB.filterTimeSheetSummary.item['_duration']}">
+							<f:convertNumber minFractionDigits="2" locale="#{loginMB.locale}" />
+						</h:outputText>
+					</f:facet>
 				</rich:column>
 
 				<rich:column sortable="true" sortBy="#{child.item['_category']}"
@@ -205,6 +214,7 @@
 							<h:inputText id="ln"
 								value="#{workitemMB.child.item['_duration']}" required="false"
 								style="width:30px;">
+									<f:convertNumber minFractionDigits="2" locale="de" />
 							</h:inputText>
 							<h:outputText value="#{form_messages.sub_timesheet_category}: " />
 							<h:inputText value="#{workitemMB.child.item['_category']}"
@@ -293,7 +303,7 @@
 					<tr>
 						<td align="center" width="50%"><a4j:commandButton
 								value="#{global.yes}" ajaxSingle="true"
-								actionListener="#{workitemMB.doDeleteChild}"
+								actionListener="#{workitemMB.doSoftDeleteChild}"
 								oncomplete="#{rich:component('deletePanel')}.hide();"
 								reRender="child_datatable_area" /></td>
 						<td align="center" width="50%"><a4j:commandButton

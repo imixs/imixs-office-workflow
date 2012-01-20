@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Vector;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -51,6 +52,9 @@ import org.imixs.workflow.ItemCollection;
  * The bean supports only workitems in the 61xxx range - this is currently
  * hard-coded! (see method getProcessFitlerSelection)
  * 
+ * The property myTimeSheetSummary holds an itemCollection with the summary for
+ * all attributes with number values
+ * 
  * @author rsoika
  */
 public class TimeSheetMB implements WorkitemListener {
@@ -59,6 +63,8 @@ public class TimeSheetMB implements WorkitemListener {
 	private ArrayList<SelectItem> processSelection = null;
 
 	private List<ItemCollection> myTimeSheet = null;
+	private ItemCollection myTimeSheetSummary = null;
+	private ItemCollection filterTimeSheetSummary = null;
 	private List<ItemCollection> filterTimeSheet = null;
 
 	private static Logger logger = Logger.getLogger("org.imixs.workflow");
@@ -71,11 +77,6 @@ public class TimeSheetMB implements WorkitemListener {
 		// register this Bean as a workitemListener to the current WorktieMB
 		this.getWorkitemBean().addWorkitemListener(this);
 	}
-
-	
-	
-	
-
 
 	/**
 	 * creates a new child with default values
@@ -105,7 +106,7 @@ public class TimeSheetMB implements WorkitemListener {
 	 * @throws Exception
 	 */
 	public void doSimulate(ActionEvent event) throws Exception {
-		int totalcount=0;
+		int totalcount = 0;
 		// read projects to get refs
 		String sQuery = "SELECT DISTINCT wi FROM Entity AS wi ";
 		sQuery += " JOIN wi.textItems as tref ";
@@ -118,7 +119,7 @@ public class TimeSheetMB implements WorkitemListener {
 		logger.info(col.size() + " Projects found");
 
 		for (ItemCollection aworkitem : col) {
-			String sIDRef=aworkitem.getItemValueString("$uniqueid");
+			String sIDRef = aworkitem.getItemValueString("$uniqueid");
 			// generate 3 Demo Entries
 			for (int i = 0; i < 500; i++) {
 
@@ -152,8 +153,7 @@ public class TimeSheetMB implements WorkitemListener {
 				ItemCollection itemColDemo = new ItemCollection();
 				itemColDemo.replaceItemValue("type", "childworkitem");
 				itemColDemo.replaceItemValue("$UniqueIDRef", sIDRef);
-				
-				
+
 				itemColDemo.replaceItemValue(
 						"$modelversion",
 						this.getWorkitemBean().getWorkitem()
@@ -171,10 +171,10 @@ public class TimeSheetMB implements WorkitemListener {
 				// process demo data....
 				this.getWorkitemBean().getWorkflowService()
 						.processWorkItem(itemColDemo);
-				
-				
+
 				totalcount++;
-				logger.info(" ************ " + totalcount + " workitems process ************");
+				logger.info(" ************ " + totalcount
+						+ " workitems process ************");
 			}
 		}
 	}
@@ -271,6 +271,18 @@ public class TimeSheetMB implements WorkitemListener {
 	}
 
 	/**
+	 * Returns the myTimeSheetSummary Itemcollection. The values are computed
+	 * during the method call loadMyTimeSheet()
+	 * 
+	 * @return
+	 */
+	public ItemCollection getMyTimeSheetSummary() {
+		if (myTimeSheetSummary == null)
+			myTimeSheetSummary = new ItemCollection();
+		return myTimeSheetSummary;
+	}
+
+	/**
 	 * retuns a List with all timesheet entries filtered by the filter setting
 	 * 
 	 * @return
@@ -282,13 +294,29 @@ public class TimeSheetMB implements WorkitemListener {
 	}
 
 	/**
-	 * this method loads the child workitems to the current workitem
+	 * Returns the myTimeSheetSummary Itemcollection. The values are computed
+	 * during the method call loadMyTimeSheet()
+	 * 
+	 * @return
+	 */
+	public ItemCollection getFilterTimeSheetSummary() {
+		if (filterTimeSheetSummary == null)
+			filterTimeSheetSummary = new ItemCollection();
+		return filterTimeSheetSummary;
+	}
+
+	/**
+	 * this method loads the child workitems to the current workitem.
+	 * 
+	 * In Addition the method creates the ItemCollection myTimeSheetSummary.
+	 * This itemColletion contains the summary of all attributes which are
+	 * number values.
 	 * 
 	 * @see org.imixs.WorkitemService.business.WorkitemServiceBean
 	 */
 	private void loadMyTimeSheet() {
 		myTimeSheet = new ArrayList<ItemCollection>();
-
+		myTimeSheetSummary = new ItemCollection();
 		try {
 
 			String sRefUniqueID = this.getWorkitemBean().getWorkitem()
@@ -322,12 +350,13 @@ public class TimeSheetMB implements WorkitemListener {
 
 			sQuery += " ORDER BY td.itemValue DESC";
 
-			logger.info("TimeSheetMB loadMyTimeSheet - query=" + sQuery);
+			logger.fine("TimeSheetMB loadMyTimeSheet - query=" + sQuery);
 			Collection<ItemCollection> col = this.getWorkitemBean()
 					.getEntityService().findAllEntities(sQuery, 0, -1);
 
 			for (ItemCollection aworkitem : col) {
 				myTimeSheet.add((aworkitem));
+				computeSummaryOfNumberValues(aworkitem,myTimeSheetSummary);
 			}
 		} catch (Exception ee) {
 			myTimeSheet = null;
@@ -343,8 +372,11 @@ public class TimeSheetMB implements WorkitemListener {
 	 */
 	private void loadFilterTimeSheet() {
 		filterTimeSheet = new ArrayList<ItemCollection>();
+		filterTimeSheetSummary = new ItemCollection();
 
 		try {
+			if (filter == null)
+				return;
 
 			String sRefUniqueID = this.getWorkitemBean().getWorkitem()
 					.getItemValueString("$uniqueid");
@@ -396,28 +428,75 @@ public class TimeSheetMB implements WorkitemListener {
 
 			if (datTo != null) {
 				// format '2008-09-15'
-				// we need to adjust the day for 1 because time is set to 0:00:00 per default
+				// we need to adjust the day for 1 because time is set to
+				// 0:00:00 per default
 				Calendar calTo = Calendar.getInstance();
 				calTo.setTime(datTo);
-				calTo.add(Calendar.DAY_OF_MONTH,1);
-				sQuery += " AND td.itemValue < '" + formatter.format(calTo.getTime())
-						+ "' ";
+				calTo.add(Calendar.DAY_OF_MONTH, 1);
+				sQuery += " AND td.itemValue < '"
+						+ formatter.format(calTo.getTime()) + "' ";
 			}
-			
+
 			sQuery += " ORDER BY td.itemValue DESC";
 
-			logger.info("TimeSheetMB loadFilterTimeSheet - query=" + sQuery);
+			logger.fine("TimeSheetMB loadFilterTimeSheet - query=" + sQuery);
 			Collection<ItemCollection> col = this.getWorkitemBean()
 					.getEntityService().findAllEntities(sQuery, 0, -1);
 
 			for (ItemCollection aworkitem : col) {
 				filterTimeSheet.add((aworkitem));
+				computeSummaryOfNumberValues(aworkitem,filterTimeSheetSummary);
 			}
 		} catch (Exception ee) {
 			filterTimeSheet = null;
 			ee.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * This method updates the ItemCollection summaryWorkitem with the number
+	 * veralues of the provided workitem. So the summaryWorkitem contains the
+	 * summary of all attributes which are number values.
+	 * 
+	 * 
+	 * @param aworkitem
+	 * @param summaryWorkitem
+	 */
+	private void computeSummaryOfNumberValues(ItemCollection aworkitem,
+			ItemCollection summaryWorkitem) {
+		// test if attributes can be summaries into the
+		// myTimeSheetSummary.
+		// iterate over all items
+		for (Object key : aworkitem.getAllItems().keySet()) {
+			// test the object type
+			try {
+				Vector v = aworkitem.getItemValue(key.toString());
+				if (v.size() > 0) {
+					Object o = v.firstElement();
+					// test if the object value is a number....
+					Double ff = 0.0;
+					try {
+						ff = Double.valueOf(o.toString());
+					} catch (NumberFormatException def) {
+						// not a number
+					}
+					if (ff != 0) {
+						logger.fine("compute summary " + ff);
+						double dSummary = summaryWorkitem
+								.getItemValueDouble(key.toString());
+						for (Object d : v) {
+							dSummary += Double.valueOf(d.toString());
+						}
+						summaryWorkitem.replaceItemValue(key.toString(),
+								dSummary);
+					}
+				}
+	
+			} catch (Exception e) {
+				logger.warning("error computing Summary: " + e.getMessage());
+			}
+		}
 	}
 
 	/**
@@ -463,6 +542,7 @@ public class TimeSheetMB implements WorkitemListener {
 
 	public void onChildProcessCompleted(ItemCollection arg0) {
 		myTimeSheet = null;
+		filterTimeSheet=null;
 	}
 
 	public void onWorkitemCreated(ItemCollection arg0) {
