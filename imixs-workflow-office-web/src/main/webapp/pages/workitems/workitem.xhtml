@@ -43,34 +43,8 @@
 					src="/pages/workitems/forms/#{workitemMB.editor}.xhtml" /></div>
 
 				<!-- *** Footer **** -->
-				<div class="sywapp-form-footer sywapp-workitem-footer"><!-- *** Workflow (Author) **** -->
-				<rich:panel>
-					<f:facet name="header">
-						<h:outputText value="#{global.workflow}" />
-					</f:facet>
-					
-
-					 
-					<ui:repeat value="#{workitemMB.activities}" var="activity">
-							<a4j:outputPanel>
-								<h:commandButton 
-								action="#{workitemMB.getAction}"
-									actionListener="#{workitemMB.doProcess}"
-									value="#{activity.item['txtname']}">
-									<f:param name="id" value="#{activity.item['numactivityid']}" />
-								</h:commandButton>
-								<rich:toolTip rendered="#{! empty activity.item['rtfdescription']}" style="max-width:400px;" layout="block">
-							    	       <span>#{activity.item['rtfdescription']}</span>
-						           </rich:toolTip>
-							</a4j:outputPanel>
-					</ui:repeat>					
-					
-					
-					<!-- *** Close  *** -->
-					<h:commandButton immediate="true" action="home" value="#{global.close}" />
-				</rich:panel> 
+				<ui:include src="/pages/workitems/workitem_footer.xhtml" />
 				
-				</div>
 				</div>
 
 			</h:form>
