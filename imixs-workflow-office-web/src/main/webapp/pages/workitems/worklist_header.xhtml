@@ -7,56 +7,44 @@
 	xmlns:rich="http://richfaces.org/rich" id="worklist_header_id">
 
 
-	<rich:dragIndicator id="indicator" />
-	<!-- *******************
-     The Worklist header supports two modes; 
-       - project selected 
-            project name  displayed in header
-       - no project selected
-            the view type ist displayed in header
-
-
- -->
-
 
 	<rich:panel>
 		<f:facet name="header">
 
 			<h:panelGroup id="worklist_title">
-				<h:outputText rendered="#{empty projectMB.workitem.item['txtname']}"
-					value="#{worklistMB.viewTitle}" />
+
+				<!-- Project Name -->
 				<h:outputText
 					rendered="#{! empty projectMB.workitem.item['txtname']}"
 					value="#{projectMB.workitem.item['txtname']}" />
 
+				<!-- Workflow Group -->
+				<h:outputText
+					rendered="#{! empty worklistMB.workflowGroupFilterName and ! empty  projectMB.workitem.item['txtname']}"
+					value=" » " />
+				<h:outputText
+					rendered="#{! empty worklistMB.workflowGroupFilterName}"
+					value="#{worklistMB.workflowGroupFilterName}" />
+
+				<!-- View Title -->
+				<h:outputText value=" » " rendered="#{! empty worklistMB.workflowGroupFilterName or ! empty  projectMB.workitem.item['txtname']}"/>
+				
+				<h:outputText value="#{worklistMB.viewTitle}" />
+				
+				
 			</h:panelGroup>
 		</f:facet>
 
 		<a4j:outputPanel layout="block" styleClass="sywapp-viewentry">
-			<p>
-				<h:outputText value="#{projectMB.workitem.item['txtdescription']}" />
-			</p>
-
-
-
-
-
-
-			
-
-
-
-		<ui:include src="/pages/workitems/worklist_filter.xhtml" />
-		<!-- -->
-		<ui:include src="/pages/workitems/worklist_news.xhtml" />
 		
-		
-		
-		
-		<rich:panel
+
+			<ui:include src="/pages/workitems/worklist_filter.xhtml" />
+			<!-- -->
+			<ui:include src="/pages/workitems/worklist_news.xhtml" />
+
+
+			<rich:panel style="margin:10px 4px;"
 				rendered="#{! empty projectlistMB.processList[projectMB.workitem.item['$uniqueid']]}">
-
-
 
 				<rich:toggleControl for="suggest_process_id">
 
@@ -77,8 +65,6 @@
 					<f:facet name="processview_open">
 						<!-- open -->
 						<a4j:outputPanel layout="block">
-
-
 
 							<!-- *** Process List *** -->
 
@@ -114,7 +100,7 @@
 
 			</rich:panel>
 		</a4j:outputPanel>
-		
+
 
 	</rich:panel>
 

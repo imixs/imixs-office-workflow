@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+	<!-- 
+		The ProcessTree is an ui element providing navigation through process lists.
+		The navigation contains a project navigation, a workflow-group navigation
+		and a search field
+	
+	
+	 -->
+	<h:form>
+		<rich:panel styleClass="sywapp-projecttree"
+			rendered="#{loginMB.authenticated}">
+			
+			<!-- *** Workfow Groups *** -->
+			
+			<f:facet name="header">
+				<h:outputText value="#{global.processtree}" />
+			</f:facet>
+			<rich:tree ajaxKeys="#{null}" value="#{modelMB.workflowGroupTree}"
+				var="node" switchType="ajax">
+
+
+				<!-- #### Root Node ##### -->
+				<rich:treeNode >
+					<h:commandLink actionListener="#{worklistMB.doSwitchToWorklistByWorkflowGroup}"
+						action="open_worklist">
+						<h:outputText value="#{node.item['txtWorkflowGroup']}" />
+					</h:commandLink>
+				</rich:treeNode>
+
+			
+			</rich:tree>
+			
+			
+			<!-- *** Project Tree *** -->
+			
+			<div class="rich-panel-header ">#{global.projecttree}</div>
+			<rich:tree ajaxKeys="#{null}" value="#{projectlistMB.projectTree}"
+				var="node" switchType="ajax"
+				nodeFace="#{node.item['project_node_type']}">
+
+
+				<!-- #### Root Node ##### -->
+				<rich:treeNode type="0">
+					<h:commandLink actionListener="#{projectlistMB.doSwitchToProject}"
+						action="open_worklist">
+						<h:outputText value="#{node.item['txtname']}" />
+					</h:commandLink>
+				</rich:treeNode>
+
+				<!-- #### SubProject Node ##### -->
+				<rich:treeNode type="1">
+					<h:commandLink actionListener="#{projectlistMB.doSwitchToProject}"
+						action="open_worklist">
+						<h:outputText value="#{node.item['txtProjectname']}" />
+					</h:commandLink>
+				</rich:treeNode>
+			</rich:tree>
+
+
+
+
+
+			<h:inputText value="#{searchMB.searchFilter.item['txtSearch']}"
+				onfocus="this.value='';" style="width:100px;margin-left:5px;" />
+			<h:commandButton actionListener="#{searchMB.doSearch}"
+				action="open_searchlist" value="#{global.search}">
+			</h:commandButton>
+		</rich:panel>
+
+
+	</h:form>
+</ui:composition>
+
+

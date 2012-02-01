@@ -13,10 +13,11 @@
 	<rich:panel>
 		<f:facet name="header">
 
-			<h:outputText value="#{global.search}" />
+			<h:outputText value="#{global.searchresult}: #{searchMB.searchFilter.item['txtSearch']}" />
 		</f:facet>
 
 		<a4j:outputPanel id="worklist_search_panel" layout="block"
+		    rendered="false"
 			styleClass="sywapp-viewentry">
 			<dl>
 
