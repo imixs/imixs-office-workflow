@@ -74,9 +74,9 @@
 			</h:outputText>
 
 			<!-- display owner -->
-			<br />
-			<a4j:outputPanel rendered="#{! empty workitem.item['namowner']}">
 			
+			<a4j:outputPanel rendered="#{! empty workitem.item['namowner']}">
+			<br />
 				<h:outputText style="font-weight: bold;"
 					value="#{global.owner}: " />
 				<ui:repeat value="#{workitem.itemList['namowner']}" var="name">
