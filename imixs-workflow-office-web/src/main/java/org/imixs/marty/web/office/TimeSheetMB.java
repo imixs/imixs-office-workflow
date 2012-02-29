@@ -437,7 +437,7 @@ public class TimeSheetMB implements WorkitemListener {
 						+ formatter.format(calTo.getTime()) + "' ";
 			}
 
-			sQuery += " ORDER BY td.itemValue DESC";
+			sQuery += " ORDER BY td.itemValue ASC";
 
 			logger.fine("TimeSheetMB loadFilterTimeSheet - query=" + sQuery);
 			Collection<ItemCollection> col = this.getWorkitemBean()
