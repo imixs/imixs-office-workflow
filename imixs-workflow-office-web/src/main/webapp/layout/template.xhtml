@@ -118,12 +118,6 @@ window.onload = function() {
 		<c:if test="#{! setupMB.setupOk}">
 			<ui:include src="/systemsetup.xhtml" />
 		</c:if>
-		
-		
-		<c:if test="#{setupMB.setupOk and myProfileMB.workitem.item['$processid'] lt '210'}">
-			<ui:include src="/verifyprofile.xhtml" />
-		</c:if>
-
 	</c:if>
 	
 	
