@@ -48,8 +48,10 @@ public class LDAPGroupInterceptor {
 				|| "load".equals(sMethod)) {
  
 			logger.fine("Intercept Method: " + sMethod);
+			
+			String sUserID=ejbCtx.getCallerPrincipal().getName();
 
-			String[] sGroups = lookupService.fetchGroups("rsoika");
+			String[] sGroups = lookupService.fetchGroups(sUserID);
  
 			ctx.getContextData().put(EntityService.USER_GROUP_LIST, sGroups);
 			logger.fine("User Rolles are : " + sGroups);

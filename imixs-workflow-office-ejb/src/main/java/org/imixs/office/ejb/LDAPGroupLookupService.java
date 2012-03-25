@@ -42,6 +42,8 @@ public class LDAPGroupLookupService {
 	private Properties configurationProperties = null;
 
 	int MAX_CACHE_SIZE = 30;
+	long expiresTime = 0;
+	long lastReset=0;
 	private Cache cache = null; // cache holds userdata
 
 	private DirContext ldapCtx = null;
@@ -56,21 +58,17 @@ public class LDAPGroupLookupService {
 
 	@PostConstruct
 	void init() {
-
 		try {
 			// load confiugration entity
-			configurationProperties = loadProperties();
+			loadProperties();
 
-			// determine the cache size....
-			int iCacheSize = Integer.valueOf(configurationProperties
-					.getProperty("CacheSize"));
-			if (iCacheSize <= 0)
-				iCacheSize = MAX_CACHE_SIZE;
+			// skip if no configuration
+			if (configurationProperties == null)
+				return;
 
-			// initialize cache
-			cache = new Cache(iCacheSize);
+			resetCache();
 
-			// initalize ldap...
+			// initialize ldapCtx...
 			ldapCtx = getDirContext();
 		} catch (Exception e) {
 			logger.severe("Unable to initalize LDAPGroupLookupService");
@@ -80,14 +78,31 @@ public class LDAPGroupLookupService {
 	}
 
 	/**
-	 * lookups the singel attribute for a given uid
-	 * 
-	 * 
-	 * member=CN=Ralph Soika,O=IMIXS
-	 * 
-	 * mail=ralph.soika@imixs.com
-	 * 
-	 * uid=rsoika
+	 * resets the ldap cache object
+	 */
+	public void resetCache() {
+		// determine the cache size....
+		int iCacheSize = Integer.valueOf(configurationProperties
+				.getProperty("CacheSize"));
+		if (iCacheSize <= 0)
+			iCacheSize = MAX_CACHE_SIZE;
+
+		// initialize cache
+		cache = new Cache(iCacheSize);
+
+		// read expires time...
+		try {
+			String sExpires = configurationProperties
+					.getProperty("CacheExpires");
+			expiresTime = Long.valueOf(sExpires);
+		} catch (NumberFormatException nfe) {
+			expiresTime = 0;
+		}
+
+	}
+
+	/**
+	 * lookups the single attribute for a given uid
 	 * 
 	 * 
 	 * @param aQnummer
@@ -148,13 +163,6 @@ public class LDAPGroupLookupService {
 	/**
 	 * returns the dn for a given remote user
 	 * 
-	 * member=CN=Ralph Soika,O=IMIXS
-	 * 
-	 * mail=ralph.soika@imixs.com
-	 * 
-	 * uid=rsoika
-	 * 
-	 * 
 	 * @param aQnummer
 	 * @return
 	 * @throws NamingException
@@ -201,8 +209,7 @@ public class LDAPGroupLookupService {
 	/**
 	 * returns all groups where the remote user is member of
 	 * 
-	 * member=CN=Ralph Soika,O=IMIXS
-	 * 
+	 * The method checks the expires time and rest the cache if the cache time is expired
 	 * 
 	 * @param aQnummer
 	 * @return
@@ -215,6 +222,17 @@ public class LDAPGroupLookupService {
 
 		if (ldapCtx == null)
 			return null;
+		
+		
+		// test if cache is expired
+		if (expiresTime>0) {
+			Long now=System.currentTimeMillis();
+			if ((now-lastReset) > expiresTime) {
+				resetCache();
+				lastReset=now;
+				logger.info("LDAP Cache expired!");
+			}
+		}
 
 		// test cache...
 		groupArrayList = (String[]) cache.get(aUID + "-GROUPS");
@@ -281,6 +299,14 @@ public class LDAPGroupLookupService {
 	 */
 	private DirContext getDirContext() throws NamingException {
 		String ldapJndiName = null;
+
+		// test if configuration is available
+		if (configurationProperties == null) {
+			ldapCtx = null;
+			return ldapCtx;
+		}
+
+		// try to load dirContext...
 		if (ldapCtx == null) {
 			Context initCtx;
 			try {
@@ -309,14 +335,14 @@ public class LDAPGroupLookupService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static Properties loadProperties() throws Exception {
+	public void loadProperties() throws Exception {
 		// try loading imixs-search properties
-		Properties prop = new Properties();
+		configurationProperties = new Properties();
 		try {
 
 			FileInputStream fis = new FileInputStream(
 					"imixs-office-ldap.properties");
-			prop.load(fis);
+			configurationProperties.load(fis);
 			fis.close();
 
 			// prop.load(Thread.currentThread().getContextClassLoader()
@@ -324,9 +350,8 @@ public class LDAPGroupLookupService {
 		} catch (Exception ep) {
 			// no properties found
 			logger.severe("imixs-ldap.properties not found");
-			throw ep;
+			configurationProperties = null;
 		}
-		return prop;
 	}
 
 	/**
