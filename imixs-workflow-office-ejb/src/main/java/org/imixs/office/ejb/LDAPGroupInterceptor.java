@@ -45,7 +45,7 @@ public class LDAPGroupInterceptor {
 		// test method name
 		String sMethod = ctx.getMethod().getName();
 		if ("findAllEntities".equals(sMethod) || "save".equals(sMethod)
-				|| "load".equals(sMethod)) {
+				|| "load".equals(sMethod) || "getUserNameList".equals(sMethod)  ) {
  
 			logger.fine("Intercept Method: " + sMethod);
 			
