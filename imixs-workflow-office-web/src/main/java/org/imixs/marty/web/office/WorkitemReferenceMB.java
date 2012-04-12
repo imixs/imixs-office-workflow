@@ -103,8 +103,8 @@ public class WorkitemReferenceMB implements WorkitemListener {
 	private List<ItemCollection> referencesTo = null; // outgoing references
 	private List<ItemCollection> referencesFrom = null; // incomming references
 
-	private WorkItemAdapter workItemAdapter=null;
-	
+	private WorkItemAdapter workItemAdapter = null;
+
 	public WorkitemReferenceMB() {
 		super();
 	}
@@ -307,7 +307,8 @@ public class WorkitemReferenceMB implements WorkitemListener {
 				|| (list.size() == 1 && "".equals(list.elementAt(0))))
 			return referencesTo;
 
-		String sQuery = "select entity from Entity entity where entity.id IN (";
+		String sQuery = "SELECT entity FROM Entity entity "
+				+ " WHERE entity.type = 'workitem' AND entity.id IN (";
 		for (String aID : list) {
 			sQuery += "'" + aID + "',";
 		}
@@ -458,8 +459,8 @@ public class WorkitemReferenceMB implements WorkitemListener {
 	 * @return
 	 */
 	public Map getReferencesFor() {
-		if (workItemAdapter==null)
-			workItemAdapter=new WorkItemAdapter();
+		if (workItemAdapter == null)
+			workItemAdapter = new WorkItemAdapter();
 		return workItemAdapter;
 
 	}
@@ -529,6 +530,7 @@ public class WorkitemReferenceMB implements WorkitemListener {
 	class WorkItemAdapter implements Map {
 		final int MAX_CACHE_SIZE = 20;
 		private Cache cache;
+
 		public WorkItemAdapter() {
 			cache = new Cache(MAX_CACHE_SIZE);
 		}
@@ -539,28 +541,25 @@ public class WorkitemReferenceMB implements WorkitemListener {
 		 */
 		@SuppressWarnings("unchecked")
 		public Object get(Object key) {
-			
-			
-			
-			List<ItemCollection> aworkitemRefList =null;
+
+			List<ItemCollection> aworkitemRefList = null;
 			// test if allredy cached....
-			aworkitemRefList=(List<ItemCollection>) cache.get(key);
-			if (aworkitemRefList!=null) {
+			aworkitemRefList = (List<ItemCollection>) cache.get(key);
+			if (aworkitemRefList != null) {
 				logger.fine(" workitemAdapter Lookup allready cached");
 				return aworkitemRefList;
 			}
-			
-			aworkitemRefList=new ArrayList<ItemCollection>();
+
+			aworkitemRefList = new ArrayList<ItemCollection>();
 
 			// test if UniqueID is allready listed
-			ItemCollection aworkitem=null;
+			ItemCollection aworkitem = null;
 			try {
-				aworkitem = workflowService.getWorkItem(key
-						.toString());
+				aworkitem = workflowService.getWorkItem(key.toString());
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			if (aworkitem==null)
+			if (aworkitem == null)
 				return aworkitemRefList;
 			// lookup the references for this workItem...
 			Vector<String> list = aworkitem.getItemValue(FIELD_NAME);
@@ -602,7 +601,7 @@ public class WorkitemReferenceMB implements WorkitemListener {
 			cache.put(key, aworkitemRefList);
 			logger.info("  WorkitemRef Lookup:  "
 					+ (System.currentTimeMillis() - lTime) + " ms");
-			
+
 			return aworkitemRefList;
 
 		}

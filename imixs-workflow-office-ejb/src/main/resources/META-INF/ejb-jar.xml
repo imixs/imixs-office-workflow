@@ -5,10 +5,13 @@
 	version="3.0">
 	<enterprise-beans>
 		<!--Imixs JEE EJBs -->
+		
+		<!--  
 		<session>
 			<ejb-name>EntityService</ejb-name>
 			<ejb-class>org.imixs.workflow.jee.ejb.EntityService</ejb-class>
 			<session-type>Stateless</session-type>
+			
 			<env-entry>
                 <description>Additional Reader Field for Workflow Model</description>
                 <env-entry-name>READ_ACCESS_FIELDS</env-entry-name>
@@ -16,7 +19,7 @@
                 <env-entry-value>namreaders</env-entry-value>
             </env-entry> 
 		</session>
-		
+		-->
 		
 		<session>
 			<ejb-name>WorkflowService</ejb-name>
@@ -31,25 +34,21 @@
 			</env-entry>
 			<!-- Plugin Service EJBs -->
 			<ejb-ref>
-                    <ejb-ref-name>ejb/ProfileServiceBean</ejb-ref-name>
+                    <ejb-ref-name>ejb/ProfileService</ejb-ref-name>
                     <ejb-ref-type>Session</ejb-ref-type>
-                    <remote>org.imixs.marty.business.ProfileService</remote>
+                    <remote>org.imixs.marty.ejb.ProfileService</remote>
             </ejb-ref>
 			<ejb-ref>
-                    <ejb-ref-name>ejb/ProjectServiceBean</ejb-ref-name>
+                    <ejb-ref-name>ejb/ProjectService</ejb-ref-name>
                     <ejb-ref-type>Session</ejb-ref-type>
-                    <remote>org.imixs.marty.business.ProjectService</remote>
+                    <remote>org.imixs.marty.ejb.ProjectService</remote>
             </ejb-ref>
              <ejb-ref>
-                    <ejb-ref-name>ejb/SequenceServiceBean</ejb-ref-name>
+                    <ejb-ref-name>ejb/SequenceService</ejb-ref-name>
                     <ejb-ref-type>Session</ejb-ref-type>
-                    <remote>org.imixs.marty.business.SequenceService</remote>
+                    <remote>org.imixs.marty.ejb.SequenceService</remote>
             </ejb-ref>
-            <ejb-ref>
-                    <ejb-ref-name>ejb/InvitationServiceBean</ejb-ref-name>
-                    <ejb-ref-type>Session</ejb-ref-type>
-                    <remote>org.imixs.marty.business.InvitationService</remote>
-            </ejb-ref>
+           
             
 			<!-- Mail rsource -->
 			<resource-ref>
