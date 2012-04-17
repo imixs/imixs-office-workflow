@@ -6,13 +6,16 @@
 	xmlns:rich="http://richfaces.org/rich" id="sub_startprocess">
 
 	<!-- ##### Project Notes ######### -->
-	<a4j:outputPanel layout="block" styleClass="sywapp-view-header">
+	<a4j:outputPanel layout="block" styleClass="sywapp-view-body">
 
 		<rich:panel>
 			<f:facet name="header">
 				<h:outputText value="#{global.start_new_process}" />
 			</f:facet>
-
+			
+			<p>
+			<h:outputText value="#{global.start_new_process_help}" />
+			</p>
 
 			<!-- *** Start Project List *** -->
 
@@ -23,7 +26,7 @@
 				<h3><h:outputText value="#{project.item['txtName']}" /></h3>
 				<h:outputText value="#{project.item['txtdescription']}" />
   
-			<div class="sywapp-processlist">
+				<div class="sywapp-processlist">
 				<!-- *** Process List *** -->
 				<ul>
 					<ui:repeat

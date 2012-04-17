@@ -22,6 +22,16 @@
 					</div>
 				</li>
 
+				<li class="">
+					<div class="h-nav-link">
+						<h:commandLink immediate="true" action="startprocess">
+							<h:outputText value="#{global.new}..." />
+						</h:commandLink>
+
+					</div>
+				</li>
+
+
 
 				<ui:repeat value="#{workitemHistoryMB.workitems}" var="workitem">
 
@@ -33,14 +43,16 @@
 								action="open_workitem">
 
 								<h:outputText value="#{workitem.item['txtworkflowsummary']}" />
-																<h:outputText rendered="#{empty workitem.item['txtworkflowsummary']}" value=" - no title -" />
-								
+								<h:outputText
+									rendered="#{empty workitem.item['txtworkflowsummary']}"
+									value=" - no title -" />
+
 								<f:param name="id" value="#{workitem.item['$uniqueID']}" />
 							</h:commandLink>
 						</div>
 						<div class="h-nav-close">
 							<h:commandLink
-								actionListener="#{workitemHistoryMB.doRemoveWorkitem}" >
+								actionListener="#{workitemHistoryMB.doRemoveWorkitem}">
 								<h:graphicImage url="/layout/icons/close2.png" />
 								<f:param name="id" value="#{workitem.item['$uniqueID']}" />
 							</h:commandLink>
