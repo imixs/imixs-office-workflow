@@ -471,9 +471,9 @@ public class TimeSheetMB implements WorkitemListener {
 		for (Object key : aworkitem.getAllItems().keySet()) {
 			// test the object type
 			try {
-				Vector v = aworkitem.getItemValue(key.toString());
+				List v = aworkitem.getItemValue(key.toString());
 				if (v.size() > 0) {
-					Object o = v.firstElement();
+					Object o = v.get(0);
 					// test if the object value is a number....
 					Double ff = 0.0;
 					try {

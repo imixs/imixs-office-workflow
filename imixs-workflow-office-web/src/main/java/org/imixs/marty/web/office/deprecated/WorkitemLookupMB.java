@@ -137,10 +137,10 @@ public class WorkitemLookupMB implements WorkitemListener {
 	public void setNewProcessReference(String aRef) {
 		try {
 			// get current list
-			Vector list = getWorkitemBean().getWorkitem().getItemValue(
+			List list = getWorkitemBean().getWorkitem().getItemValue(
 					"processReference");
 			// clear empty entry if set
-			if (list.size()==1 && "".equals(list.elementAt(0)))
+			if (list.size()==1 && "".equals(list.get(0)))
 				list.remove(0);
 			
 			if (list.indexOf(aRef) == -1) {
@@ -183,10 +183,10 @@ public class WorkitemLookupMB implements WorkitemListener {
 		
 		try {
 			// get current list
-			Vector list = getWorkitemBean().getWorkitem().getItemValue(
+			List list = getWorkitemBean().getWorkitem().getItemValue(
 					"processReference");
 			// clear empty entry if set
-			if (list.size()==1 && "".equals(list.elementAt(0)))
+			if (list.size()==1 && "".equals(list.get(0)))
 				list.remove(0);
 			
 			if (list.indexOf(processEntityIdentifier) == -1) {
@@ -231,10 +231,10 @@ public class WorkitemLookupMB implements WorkitemListener {
 		if (!"".equals(processEntityIdentifier)) {
 			try {
 				// get current list
-				Vector list = getWorkitemBean().getWorkitem().getItemValue(
+				List list = getWorkitemBean().getWorkitem().getItemValue(
 						"processReference");
 				// clear empty entry if set
-				if (list.size()==1 && "".equals(list.elementAt(0)))
+				if (list.size()==1 && "".equals(list.get(0)))
 					list.remove(0);
 				
 				list.remove(processEntityIdentifier);
@@ -290,11 +290,11 @@ public class WorkitemLookupMB implements WorkitemListener {
 		references = new ArrayList<ItemCollection>();
 		
 		// lookup the references...
-		Vector<String> list = getWorkitemBean().getWorkitem().getItemValue(
+		List<String> list = getWorkitemBean().getWorkitem().getItemValue(
 				"processReference");
 		// empty list?
 		
-		if (list.size()==0 || (list.size()==1 && "".equals(list.elementAt(0))))
+		if (list.size()==0 || (list.size()==1 && "".equals(list.get(0))))
 			return references;
 		
 		String sQuery="select entity from Entity where entity.id IN (";
@@ -306,7 +306,7 @@ public class WorkitemLookupMB implements WorkitemListener {
 		sQuery+=")";
 
 		Collection<ItemCollection> col=null;
-		try {
+		try {  
 			col = workflowService.getEntityService().findAllEntities(sQuery, 0,-1);
 			for (ItemCollection itemcol:col) {
 				references.add(itemcol);

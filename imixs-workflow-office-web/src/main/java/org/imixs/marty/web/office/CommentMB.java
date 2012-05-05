@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
@@ -94,7 +94,7 @@ public class CommentMB implements WorkitemListener {
 		try {
 			String sComment = workitem.getItemValueString("txtComment");
 			if (!"".equals(sComment)) {
-				Vector vCommentList = workitem.getItemValue("txtCommentLog");
+				List vCommentList = workitem.getItemValue("txtCommentLog");
 				Map log = new HashMap();
 
 				// create new Comment data
@@ -122,7 +122,7 @@ public class CommentMB implements WorkitemListener {
 		ArrayList<ItemCollection> commentList = new ArrayList<ItemCollection>();
 		if (workitem!=null) {
 		try {
-			Vector<Map> vCommentList = workitem.getItemValue("txtCommentLog");
+			List<Map> vCommentList = workitem.getItemValue("txtCommentLog");
 			for (Map aworkitem : vCommentList) {
 				ItemCollection aComment=new ItemCollection(aworkitem);
 				commentList.add((aComment));

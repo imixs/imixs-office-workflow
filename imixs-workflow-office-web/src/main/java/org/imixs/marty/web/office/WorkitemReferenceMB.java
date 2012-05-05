@@ -188,10 +188,10 @@ public class WorkitemReferenceMB implements WorkitemListener {
 	public void setNewProcessReference(String aRef) {
 		try {
 			// get current list
-			Vector list = getWorkitemBean().getWorkitem().getItemValue(
+			List list = getWorkitemBean().getWorkitem().getItemValue(
 					FIELD_NAME);
 			// clear empty entry if set
-			if (list.size() == 1 && "".equals(list.elementAt(0)))
+			if (list.size() == 1 && "".equals(list.get(0)))
 				list.remove(0);
 
 			if (list.indexOf(aRef) == -1) {
@@ -261,10 +261,10 @@ public class WorkitemReferenceMB implements WorkitemListener {
 		if (!"".equals(processEntityIdentifier)) {
 			try {
 				// get current list
-				Vector list = getWorkitemBean().getWorkitem().getItemValue(
+				List list = getWorkitemBean().getWorkitem().getItemValue(
 						FIELD_NAME);
 				// clear empty entry if set
-				if (list.size() == 1 && "".equals(list.elementAt(0)))
+				if (list.size() == 1 && "".equals(list.get(0)))
 					list.remove(0);
 
 				list.remove(processEntityIdentifier);
@@ -299,12 +299,12 @@ public class WorkitemReferenceMB implements WorkitemListener {
 		long lTime = System.currentTimeMillis();
 
 		// lookup the references...
-		Vector<String> list = getWorkitemBean().getWorkitem().getItemValue(
+		List<String> list = getWorkitemBean().getWorkitem().getItemValue(
 				FIELD_NAME);
 		// empty list?
 
 		if (list.size() == 0
-				|| (list.size() == 1 && "".equals(list.elementAt(0))))
+				|| (list.size() == 1 && "".equals(list.get(0))))
 			return referencesTo;
 
 		String sQuery = "SELECT entity FROM Entity entity "
@@ -562,11 +562,11 @@ public class WorkitemReferenceMB implements WorkitemListener {
 			if (aworkitem == null)
 				return aworkitemRefList;
 			// lookup the references for this workItem...
-			Vector<String> list = aworkitem.getItemValue(FIELD_NAME);
+			List<String> list = aworkitem.getItemValue(FIELD_NAME);
 			// empty list?
 
 			if (list.size() == 0
-					|| (list.size() == 1 && "".equals(list.elementAt(0))))
+					|| (list.size() == 1 && "".equals(list.get(0))))
 				return aworkitemRefList;
 			long lTime = System.currentTimeMillis();
 			String sQuery = "select entity from Entity entity where entity.id IN (";
