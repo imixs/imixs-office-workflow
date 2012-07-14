@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>imixs-office-workflow</artifactId>
 		<groupId>com.imixs.workflow</groupId>
-		<version>1.1.1-RC-2</version>
+		<version>1.1.1-RC-3</version>
 	</parent>
 	<artifactId>imixs-office-workflow-ejb</artifactId>
 	<packaging>ejb</packaging>
@@ -15,12 +15,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ejb-plugin</artifactId>
+				<version>2.3</version>
 				<configuration>
 					<ejbVersion>3.0</ejbVersion>
 					<archive>
 						<!-- add the EJB module imixs-workflow-jee-impl -->
 						<manifestEntries>
-							<Class-Path>imixs-workflow-engine-3.0.2.jar imixs-workflow-core-3.0.2.jar imixs-marty-ejb-1.1.1-RC-3.jar lucene-core-3.1.0.jar</Class-Path>
+							<Class-Path>imixs-workflow-engine-3.0.2.jar imixs-workflow-core-3.0.2.jar imixs-marty-ejb-1.1.1-FINAL.jar lucene-core-3.1.0.jar</Class-Path>
 						</manifestEntries>
 					</archive>
 				</configuration>

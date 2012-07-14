@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.imixs.workflow</groupId>
 	<artifactId>imixs-office-workflow</artifactId>
-	<version>1.1.1-RC-2</version>
+	<version>1.1.1-RC-3</version>
 	<packaging>pom</packaging>
 	<name>Imixs Office Workflow</name>
 	<description>The Imixs Workflow Office Suite </description>
@@ -13,11 +13,14 @@
 		<module>imixs-workflow-office-ear</module>
 		<module>imixs-office-workflow-rest</module>
 	</modules>
-
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 	<build>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -78,18 +81,18 @@
 			<dependency>
 				<groupId>org.imixs.marty</groupId>
 				<artifactId>imixs-marty-util</artifactId>
-				<version>1.1.1-RC-3</version>
+				<version>1.1.1-FINAL</version>
 			</dependency>
 			<dependency>
 				<groupId>org.imixs.marty</groupId>
 				<artifactId>imixs-marty-ejb</artifactId>
-				<version>1.1.1-RC-3</version>
+				<version>1.1.1-FINAL</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.imixs.marty</groupId>
 				<artifactId>imixs-marty-web</artifactId>
-				<version>1.1.1-RC-3</version>
+				<version>1.1.1-FINAL</version>
 				<type>war</type>
 			</dependency>
 			
