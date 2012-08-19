@@ -12,7 +12,10 @@
 			<f:loadBundle basename="bundle.admin" var="messages" />
 
 			<h:form id="profile_form_id">
-				<h2><h:outputText value="#{messages.title_profile}: #{profileMB.workitem.item['txtWorkflowStatus']}" /></h2>
+				<h2>
+					<h:outputText
+						value="#{messages.title_profile}: #{profileMB.workitem.item['txtWorkflowStatus']}" />
+				</h2>
 
 				<!-- ########## Error ########## -->
 				<ui:include src="/pages/error_message.xhtml" />
@@ -24,53 +27,93 @@
 
 						<!-- **** Workflow ***** -->
 						<rich:panel>
-							
-							<f:facet name="header">							
-								<h:outputLabel value="#{messages.userid}: #{profileMB.workitem.item['txtName']}"/>
+
+							<f:facet name="header">
+								<h:outputLabel
+									value="#{messages.userid}: #{profileMB.workitem.item['txtName']}" />
 							</f:facet>
+
+
+							<!-- Enable local database security? -->
+							<c:if test="#{setupMB.workitem.item['keyEnableUserDB']}">
+								<dl>
+									<dt>
+										<h:outputLabel value="#{messages.userid}" />
+									</dt>
+									<dd>
+										<h:inputText required="false"
+											value="#{profileMB.workitem.item['txtName']}" />
+									</dd>
+
+									<dt>
+										<h:outputLabel value="#{messages.password}" />
+									</dt>
+									<dd>
+										<h:inputSecret redisplay="true" required="false"
+											value="#{profileMB.workitem.item['txtPassword']}" />
+									</dd>
+
+									<dt>
+										<h:outputLabel value="#{messages.groups}"/>
+									</dt>
+									<dd>
+										<h:selectManyCheckbox
+											value="#{profileMB.workitem.itemListArray['txtGroups']}">
+											<c:forEach items="#{setupMB.workitem.itemList['usergroups']}"
+												var="group">
+												<f:selectItem itemLabel="#{group}" itemValue="#{group}"></f:selectItem>
+											</c:forEach>
+										</h:selectManyCheckbox>
+
+									</dd>
+								</dl>
+							</c:if>
 							
 							
-				
 							<dl>
-								<dt><h:outputLabel value="#{messages.comments}">
-								</h:outputLabel></dt>
-								<dd><h:inputTextarea required="false"
-									value="#{profileMB.workitem.item['txtComments']}" id="description_id"
-									style="height: 7em; width: 95%">
-								</h:inputTextarea></dd>
+								<dt>
+									<h:outputLabel value="#{messages.comments}">
+									</h:outputLabel>
+								</dt>
+								<dd>
+									<h:inputTextarea required="false"
+										value="#{profileMB.workitem.item['txtComments']}"
+										id="description_id" style="height: 7em; width: 95%">
+									</h:inputTextarea>
+								</dd>
 							</dl>
 
-							<rich:panel >
-								<f:facet name="header">			
-								<h:outputText value="#{messages.history}" />
+							<rich:panel>
+								<f:facet name="header">
+									<h:outputText value="#{messages.history}" />
 								</f:facet>
-								<div style="margin-left:10px;">
-								<h:outputText value="#{global.created}: " />
-								<h:outputText value="#{profileMB.workitem.item['$created']}">
-									<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+								<div style="margin-left: 10px;">
+									<h:outputText value="#{global.created}: " />
+									<h:outputText value="#{profileMB.workitem.item['$created']}">
+										<f:convertDateTime timeZone="#{global.timeZone}" type="both"
 											pattern="#{global.dateTimePattern}" />
-								</h:outputText>
-								<h:outputText
-									value=" #{global.by} #{nameLookupMB.userName[profileMB.workitem.item['namCreator']]}" />
-								<br />
-								<h:outputText value="#{global.modified}: " />
-								<h:outputText value="#{profileMB.workitem.item['$modified']}">
-									<f:convertDateTime timeZone="#{global.timeZone}" type="both"
-											pattern="#{global.dateTimePattern}" />
-								</h:outputText>
-								<h:outputText
-									value=" #{global.by} #{nameLookupMB.userName[profileMB.workitem.item['namCurrentEditor']]}" />
-										
-								<hr />
-								<ui:repeat
-									value="#{profileMB.workitem.itemListArray['txtworkflowhistorylog']}"
-									var="log">
-									
-									<h:outputText value="#{log}" />
+									</h:outputText>
+									<h:outputText
+										value=" #{global.by} #{nameLookupMB.userName[profileMB.workitem.item['namCreator']]}" />
 									<br />
-								</ui:repeat>
+									<h:outputText value="#{global.modified}: " />
+									<h:outputText value="#{profileMB.workitem.item['$modified']}">
+										<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+											pattern="#{global.dateTimePattern}" />
+									</h:outputText>
+									<h:outputText
+										value=" #{global.by} #{nameLookupMB.userName[profileMB.workitem.item['namCurrentEditor']]}" />
+
+									<hr />
+									<ui:repeat
+										value="#{profileMB.workitem.itemListArray['txtworkflowhistorylog']}"
+										var="log">
+
+										<h:outputText value="#{log}" />
+										<br />
+									</ui:repeat>
 								</div>
-								
+
 							</rich:panel>
 
 
@@ -81,33 +124,44 @@
 					<!-- **** General info ***** -->
 					<rich:tab label="#{messages.sub_title_general}" rendered="true">
 						<rich:panel>
-							<f:facet name="header">							
-								<h:outputLabel value="#{messages.sub_title_account}: #{profileMB.workitem.item['txtName']}"
-								  />
+							<f:facet name="header">
+								<h:outputLabel
+									value="#{messages.sub_title_account}: #{profileMB.workitem.item['txtName']}" />
 							</f:facet>
 							<dl>
-								<dt><h:outputLabel for="displayname_id"
-									value="#{messages.displayname}">
-								</h:outputLabel></dt>
-								<dd><h:inputText style="width: 20em;" required="true"
-									value="#{profileMB.workitem.item['txtUserName']}" id="displayname_id">
-								</h:inputText> <rich:spacer width="8" /> <h:outputText
-									value="#{messages.displayname_help}" /> <br />
+								<dt>
+									<h:outputLabel for="displayname_id"
+										value="#{messages.displayname}">
+									</h:outputLabel>
+								</dt>
+								<dd>
+									<h:inputText style="width: 20em;" required="true"
+										value="#{profileMB.workitem.item['txtUserName']}"
+										id="displayname_id">
+									</h:inputText>
+									<rich:spacer width="8" />
+									<h:outputText value="#{messages.displayname_help}" />
+									<br />
 
 
-								<h:message for="displayname_id" style="color: red"
-									showSummary="true" showDetail="true">
+									<h:message for="displayname_id" style="color: red"
+										showSummary="true" showDetail="true">
 
-								</h:message></dd>
+									</h:message>
+								</dd>
 
 
-								<dt><h:outputLabel for="email_id" value="#{messages.email}">
-									<h:message style="color: red" for="email_id" showSummary="true"
-										showDetail="false" />
-								</h:outputLabel></dt>
-								<dd><h:inputText style="width: 20em;" required="true"
-									value="#{profileMB.workitem.item['txtEmail']}" id="email_id">
-								</h:inputText></dd>
+								<dt>
+									<h:outputLabel for="email_id" value="#{messages.email}">
+										<h:message style="color: red" for="email_id"
+											showSummary="true" showDetail="false" />
+									</h:outputLabel>
+								</dt>
+								<dd>
+									<h:inputText style="width: 20em;" required="true"
+										value="#{profileMB.workitem.item['txtEmail']}" id="email_id">
+									</h:inputText>
+								</dd>
 
 
 							</dl>
@@ -124,25 +178,25 @@
 						<f:param name="id" value="#{activity.item['numactivityid']}" />
 					</h:commandButton>
 				</ui:repeat>
-				
-				
-				
-					
-				
-				<!-- Delete Profile -->					
+
+
+
+
+
+				<!-- Delete Profile -->
 				<a4j:commandButton value="#{global.delete}" id="delete_button">
 				</a4j:commandButton>
 				<rich:componentControl for="submit_panel" attachTo="delete_button"
-				operation="show" event="onclick" />
-						
-					
-				
-				
-				
-				
-				
+					operation="show" event="onclick" />
+
+
+
+
+
+
+
 				<!--  Confirm Delete -->
-				
+
 				<rich:modalPanel id="submit_panel" width="390" height="150">
 					<f:facet name="header">
 						<h:panelGroup>
@@ -157,25 +211,28 @@
 								operation="hide" event="onclick" />
 						</h:panelGroup>
 					</f:facet>
-					
-					<h:outputText value="Profile: #{profileMB.workitem.item['txtName']}"></h:outputText>
+
+					<h:outputText
+						value="Profile: #{profileMB.workitem.item['txtName']}"></h:outputText>
 					<br />
 					<h:outputText value="#{global.delete_help1}"></h:outputText>
 					<br />
 					<br />
 					<a href="#" onclick="#{rich:component('submit_panel')}.hide()">
-					<h:outputText value="#{global.cancel}"/></a>
-					
-					<rich:spacer width="24px"/>
+						<h:outputText value="#{global.cancel}" />
+					</a>
+
+					<rich:spacer width="24px" />
 					<h:commandLink value="#{global.continue}"
 						action="admin_profilelist"
 						actionListener="#{profileMB.doDeleteProfile}" />
 				</rich:modalPanel>
-				
-				
-				
-				<h:commandButton value="#{global.close}"  immediate="true" action="admin_profilelist" />
-				
+
+
+
+				<h:commandButton value="#{global.close}" immediate="true"
+					action="admin_profilelist" />
+
 			</h:form>
 		</f:view>
 	</ui:define>
