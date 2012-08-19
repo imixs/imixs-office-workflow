@@ -12,8 +12,10 @@
 			<f:loadBundle basename="bundle.admin" var="messages" />
 
 			<h:form id="profileForm">
-				
-				<h2><h:outputText value="#{messages.title_profiles}" /></h2>
+
+				<h2>
+					<h:outputText value="#{messages.title_profiles}" />
+				</h2>
 
 
 				<rich:dataTable id="profiles_datatable_id" columns="6"
@@ -21,29 +23,29 @@
 					<f:facet name="caption">
 						<h:outputText value="#{messages.sub_title_all}" />
 					</f:facet>
-					
+
 					<rich:column>
 						<f:facet name="header">
 							<h:outputText value="#{messages.name}" />
-						</f:facet>	
+						</f:facet>
 						<h:graphicImage value="/layout/icons/unlocked.gif"
 							rendered="#{record.item['$processid'] ge 210}" />
 						<h:graphicImage value="/layout/icons/locked.gif"
-							rendered="#{record.item['$processid'] lt 210}" />					
+							rendered="#{record.item['$processid'] lt 210}" />
 						<h:commandLink actionListener="#{profileMB.doEdit}"
 							action="admin_profile">
 							<h:outputText value="#{record.item['txtName']} " />
 						</h:commandLink>
 					</rich:column>
-				
+
 
 					<rich:column width="110">
 						<f:facet name="header">
 							<h:outputText value="#{global.created}" />
 						</f:facet>
-							<h:outputText value="#{record.item['$created']}">
+						<h:outputText value="#{record.item['$created']}">
 							<f:convertDateTime timeZone="#{global.timeZone}" type="both"
-											pattern="#{global.dateTimePattern}" />
+								pattern="#{global.dateTimePattern}" />
 						</h:outputText>
 					</rich:column>
 
@@ -53,14 +55,15 @@
 						</f:facet>
 						<h:outputText value="#{record.item['datLastLogin']}">
 							<f:convertDateTime timeZone="#{global.timeZone}" type="both"
-											pattern="#{global.dateTimePattern}" />
+								pattern="#{global.dateTimePattern}" />
 						</h:outputText>
-						<h:outputText rendered="#{record.item['numLoginCount'] gt 0}" value=" (#{record.item['numLoginCount']})" />
+						<h:outputText rendered="#{record.item['numLoginCount'] gt 0}"
+							value=" (#{record.item['numLoginCount']})" />
 					</rich:column>
 
-				
-					
-				
+
+
+
 
 					<rich:column>
 						<f:facet name="header">
@@ -70,17 +73,18 @@
 					</rich:column>
 
 
-					
-					
+
+
 					<rich:column>
 						<f:facet name="header">
 							<h:outputText value=" " />
 						</f:facet>
-						<h:graphicImage url="/layout/icons/flag_#{record.item['txtLocale']}.gif"
-								alt="#{record.item['txtLocale']}"
-								style="border:0px;vertical-align: text-top;"></h:graphicImage>
+						<h:graphicImage rendered="#{! empty record.item['txtLocale']}"
+							url="/layout/icons/flag_#{record.item['txtLocale']}.gif"
+							alt="#{record.item['txtLocale']}"
+							style="border:0px;vertical-align: text-top;"></h:graphicImage>
 					</rich:column>
-					
+
 					<rich:column>
 						<f:facet name="header">
 							<h:outputText value="#{messages.email}" />
@@ -88,7 +92,7 @@
 						<h:outputText value="#{record.item['txtEmail']} " />
 					</rich:column>
 
-				
+
 
 				</rich:dataTable>
 
@@ -102,6 +106,16 @@
 
 
 
+				<h:commandButton value="create Profile" rendered="#{setupMB.workitem.item['keyEnableUserDB']}"
+					actionListener="#{profileMB.doReset}" action="admin_profile">
+
+					<f:setPropertyActionListener
+						target="#{profileMB.workitem.item['$processid']}" value="210" />
+					<f:setPropertyActionListener
+						target="#{profileMB.workitem.item['$modelversion']}"
+						value="#{myProfileMB.workitem.item['$modelversion']}" />
+
+				</h:commandButton>
 
 
 			</h:form>
