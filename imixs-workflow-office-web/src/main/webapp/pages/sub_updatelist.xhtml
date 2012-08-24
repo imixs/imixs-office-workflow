@@ -32,19 +32,14 @@
 			<a4j:outputPanel id="list_id">
 			
 				<div style="float: right;">
-					<a4j:outputPanel style="margin-right:10px;">
-						<h:outputText rendered="#{portletUpdatelistMB.row == 0}"
-							value="#{global.prev}" />
-						<a4j:commandLink reRender="list_id"
-							actionListener="#{portletUpdatelistMB.doLoadPrev}"
-							rendered="#{portletUpdatelistMB.row gt 0}" value="#{global.prev}" />
-					</a4j:outputPanel>
-	
-					<h:outputText rendered="#{portletUpdatelistMB.endOfList}"
-						value="#{global.next}" />
-					<a4j:commandLink reRender="list_id"
-						actionListener="#{portletUpdatelistMB.doLoadNext}"
-						rendered="#{!portletUpdatelistMB.endOfList}" value="#{global.next}" />
+					<span style="margin-right:10px;">						
+						<a4j:commandLink reRender="list_id" id="link_prev"
+							actionListener="#{portletWorklistMB.doLoadPrev}"
+							disabled="#{portletWorklistMB.row == 0}" value="#{global.prev}" />
+					</span> 
+					<a4j:commandLink reRender="list_id" id="link_next"
+						actionListener="#{portletWorklistMB.doLoadNext}"
+						disabled="#{portletWorklistMB.endOfList}" value="#{global.next}" />
 				</div>
 				<div style="clear:right;"/>
 				<!-- **** Workitems ***** -->
@@ -56,23 +51,7 @@
 					</ui:include>
 				</rich:dataList>
 
-				<!-- navigation -->
-				<div style="float: right;">
-					<a4j:outputPanel style="margin-right:10px;">
-						<h:outputText rendered="#{portletUpdatelistMB.row == 0}"
-							value="#{global.prev}" />
-						<a4j:commandLink reRender="list_id"
-							actionListener="#{portletUpdatelistMB.doLoadPrev}"
-							rendered="#{portletUpdatelistMB.row gt 0}" value="#{global.prev}" />
-					</a4j:outputPanel>
-	
-					<h:outputText rendered="#{portletUpdatelistMB.endOfList}"
-						value="#{global.next}" />
-					<a4j:commandLink reRender="list_id"
-						actionListener="#{portletUpdatelistMB.doLoadNext}"
-						rendered="#{!portletUpdatelistMB.endOfList}" value="#{global.next}" />
-				</div>
-				<div style="clear:right;" />
+				
 			</a4j:outputPanel>
 		</rich:panel>
 

@@ -69,23 +69,7 @@
 					</h:commandLink>
 				</rich:dataList>
 
-				<!-- navigation -->
-				<div style="float: right;">
-					<a4j:outputPanel style="margin-right:10px;">
-						<h:outputText rendered="#{dmsMB.row == 0}"
-							value="#{global.prev}" />
-						<a4j:commandLink reRender="list_id"
-							actionListener="#{dmsMB.doLoadPrev}"
-							rendered="#{dmsMB.row gt 0}" value="#{global.prev}" />
-					</a4j:outputPanel>
-	
-					<h:outputText rendered="#{dmsMB.endOfList}"
-						value="#{global.next}" />
-					<a4j:commandLink reRender="list_id"
-						actionListener="#{dmsMB.doLoadNext}"
-						rendered="#{!dmsMB.endOfList}" value="#{global.next}" />
-				</div>
-				<div style="clear:right;" />
+				
 			</a4j:outputPanel>
 		</rich:panel>
 

@@ -27,17 +27,14 @@
 			<a4j:outputPanel id="list_id">
 			
 				<div style="float: right;">
-					<a4j:outputPanel
-						style="margin-right:10px;">
-						<h:outputText rendered="#{portletWorklistMB.row == 0}"
-							value="#{global.prev}" />
-						<a4j:commandLink reRender="list_id"
+					<span style="margin-right:10px;">						
+						<a4j:commandLink reRender="list_id" id="link_prev"
 							actionListener="#{portletWorklistMB.doLoadPrev}"
-							rendered="#{portletWorklistMB.row gt 0}" value="#{global.prev}" />
-					</a4j:outputPanel> <h:outputText rendered="#{portletWorklistMB.endOfList}"
-						value="#{global.next}" /> <a4j:commandLink reRender="list_id"
+							disabled="#{portletWorklistMB.row == 0}" value="#{global.prev}" />
+					</span> 
+					<a4j:commandLink reRender="list_id" id="link_next"
 						actionListener="#{portletWorklistMB.doLoadNext}"
-						rendered="#{!portletWorklistMB.endOfList}" value="#{global.next}" />
+						disabled="#{portletWorklistMB.endOfList}" value="#{global.next}" />
 				</div>
 				<div style="clear:right;"/>
 				<!-- **** Workitems ***** -->
@@ -48,22 +45,7 @@
 						<ui:param name="workitem" value="#{workitem}" />
 					</ui:include>
 				</rich:dataList>
-
-
-				<div style="float: right;">
-					<a4j:outputPanel
-						style="margin-right:10px;">
-						<h:outputText rendered="#{portletWorklistMB.row == 0}"
-							value="#{global.prev}" />
-						<a4j:commandLink reRender="list_id"
-							actionListener="#{portletWorklistMB.doLoadPrev}"
-							rendered="#{portletWorklistMB.row gt 0}" value="#{global.prev}" />
-					</a4j:outputPanel> <h:outputText rendered="#{portletWorklistMB.endOfList}"
-						value="#{global.next}" /> <a4j:commandLink reRender="list_id"
-						actionListener="#{portletWorklistMB.doLoadNext}"
-						rendered="#{!portletWorklistMB.endOfList}" value="#{global.next}" />
-				</div>
-				<div style="clear:right;" />
+				
 			</a4j:outputPanel>
 		</rich:panel>
 
