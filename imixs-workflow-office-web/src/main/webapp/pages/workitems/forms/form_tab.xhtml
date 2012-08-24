@@ -9,7 +9,7 @@
 	<f:loadBundle basename="bundle.forms" var="form_messages" />
 	
 	<rich:panel>
-		<rich:tabPanel switchType="ajax">
+		<rich:tabPanel switchType="ajax" immediate="true">
 			<c:forEach items="#{workitemMB.editorSections}" var="section">
 				<rich:tab label="#{section.name}">
 								<ui:include src="/pages/workitems/forms/#{section.url}.xhtml" />
@@ -21,7 +21,7 @@
 	
 	
 	<rich:panel>
-		<rich:tabPanel switchType="ajax">
+		<rich:tabPanel switchType="ajax" immediate="true" >
 		<rich:tab label="Kommentar">
 			<ui:include src="/pages/workitems/forms/sub_comment.xhtml" />
 		</rich:tab>

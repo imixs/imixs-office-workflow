@@ -24,7 +24,7 @@
 		<a4j:outputPanel rendered="#{workitem.item['$isAuthor']}">
 			<h:commandLink actionListener="#{worklistMB.doEdit}"
 				action="open_workitem">
-				<h:outputText style="font-weight: bold;" value="#{workitem.item['txtWorkflowSummary']}" />
+				<h:outputText style="font-weight: bold;" escape="false" value="#{workitem.item['txtWorkflowSummary']}" />
 				
 			</h:commandLink>
 		</a4j:outputPanel>
@@ -35,7 +35,7 @@
 					<f:convertDateTime timeZone="#{global.timeZone}"
 								pattern="#{global.dateTimePattern}" />
 				</h:outputText>
-			<h:outputText value="#{workitem.item['txtWorkflowSummary']}" />
+			<h:outputText escape="false" value="#{workitem.item['txtWorkflowSummary']}" />
 			
 		</a4j:outputPanel>
 		
