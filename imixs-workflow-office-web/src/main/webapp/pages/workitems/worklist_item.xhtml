@@ -36,7 +36,7 @@
 				</rich:dragSupport>
 				<h:commandLink actionListener="#{worklistMB.doEdit}"
 					action="open_workitem">
-					<h:outputText value="#{workitem.item['txtWorkflowSummary']}"
+					<h:outputText value="#{workitem.item['txtWorkflowSummary']}"  escape="false" 
 						styleClass="sywapp-viewentry-header" />
 					<h:outputText value="#{workitem.item['$modified']}"
 						rendered="#{empty workitem.item['txtWorkflowSummary']}"
@@ -47,10 +47,10 @@
 				</h:commandLink>
 			</a4j:outputPanel>
 			<a4j:outputPanel rendered="#{! workitem.item['$isAuthor']}">
-				<h:outputText value="#{workitem.item['txtWorkflowSummary']}"
+				<h:outputText value="#{workitem.item['txtWorkflowSummary']}"  escape="false" 
 					styleClass="sywapp-viewentry-header" />
 				<h:outputText value="#{workitem.item['$modified']}"
-					rendered="#{empty workitem.item['txtWorkflowSummary']}"
+					rendered="#{empty workitem.item['txtWorkflowSummary']}"  escape="false" 
 					styleClass="sywapp-viewentry-header">
 					<f:convertDateTime timeZone="#{global.timeZone}" type="both"
 						pattern="#{global.dateTimePattern}" />
@@ -134,7 +134,7 @@
 							<h:commandLink
 								actionListener="#{workitemReferenceMB.doSwitchToWorkitem}"
 								action="open_workitem">
-								<h:outputText value="#{workitem.item['txtWorkflowSummary']}"
+								<h:outputText value="#{workitem.item['txtWorkflowSummary']}"  escape="false" 
 									rendered="#{!empty workitem.item['txtWorkflowSummary']}" />
 								<f:param name="id" value="#{workitem.item['$uniqueid']}" />
 							</h:commandLink>

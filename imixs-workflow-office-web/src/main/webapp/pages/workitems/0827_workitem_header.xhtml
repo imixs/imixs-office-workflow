@@ -53,42 +53,40 @@
 
 
 			<a4j:commandLink rendered="#{! workitemMB.newWorkitem}"
-				value="[#{messages.history}]" style="margin-left:10px;"
-				reRender="infoBlock2" actionListener="#{workitemMB.doToggleHistory}">
+				value="[#{messages.history}]"
+				style="margin-left:10px;" reRender="infoBlock2"
+				actionListener="#{workitemMB.doToggleHistory}">
 			</a4j:commandLink>
-
-
+			
+			
 			<rich:toggleControl for="suggest_process_id">
-				<h:outputText style="margin-left:10px;"
-					value="[#{messages.progress}]" />
+			              <h:outputText style="margin-left:10px;" value="[#{messages.progress}]" />
 			</rich:toggleControl>
 
 
 		</a4j:outputPanel>
 
 
-		<!-- Process View -->
-		<rich:togglePanel switchType="client" id="suggest_process_id"
-			stateOrder="processview_closed,processview_open">
-			<f:facet name="processview_closed">
-				<a4j:outputPanel>
-					<!-- closed -->
-				</a4j:outputPanel>
-			</f:facet>
-
-			<f:facet name="processview_open">
+<!-- Process View -->
+			<rich:togglePanel switchType="client" id="suggest_process_id"
+				stateOrder="processview_closed,processview_open">
+				<f:facet name="processview_closed">
+					<a4j:outputPanel><!-- closed --></a4j:outputPanel>
+				</f:facet>
+							
+				<f:facet name="processview_open">
 				<!-- open -->
-				<a4j:outputPanel layout="block"
-					styleClass="sywapp-viewentry-details"
-					style="border-top: 1px solid silver;">
-					<ui:include src="/pages/workitems/processmap.xhtml" />
+				<a4j:outputPanel layout="block" 
+				styleClass="sywapp-viewentry-details"
+				 style="border-top: 1px solid silver;">
+				<ui:include src="/pages/workitems/processmap.xhtml" />
 				</a4j:outputPanel>
-			</f:facet>
-		</rich:togglePanel>
+				</f:facet>
+			</rich:togglePanel>
+	
 
 
-
-		<!-- History View -->
+<!-- History View -->
 		<a4j:outputPanel id="infoBlock2" layout="block"
 			styleClass="sywapp-viewentry-details">
 
@@ -96,8 +94,7 @@
 				rendered="#{workitemMB.workitem.item['a4j:showHistory']}">
 				<h:outputText value="#{global.created}: " />
 				<h:outputText value="#{workitemMB.workitem.item['$created']}">
-					<f:convertDateTime timeZone="#{global.timeZone}"
-						pattern="#{global.dateTimePattern}" />
+					<f:convertDateTime type="both" dateStyle="medium" />
 				</h:outputText>
 				<h:outputText
 					value=" #{global.by} #{nameLookupMB.userName[workitemMB.workitem.item['namCreator']]}" />
@@ -105,11 +102,56 @@
 				<br />
 				<h:outputText value="#{global.modified}: " />
 				<h:outputText value="#{workitemMB.workitem.item['$modified']}">
-					<f:convertDateTime timeZone="#{global.timeZone}"
-						pattern="#{global.dateTimePattern}" />
+					<f:convertDateTime type="both" dateStyle="medium" />
 				</h:outputText>
 				<h:outputText
 					value=" #{global.by} #{nameLookupMB.userName[workitemMB.workitem.item['namCurrentEditor']]}" />
+
+				<!--  Workitem Version History -->
+				<a4j:outputPanel layout="block"
+					rendered="#{fn:length(workitemMB.versions) gt 1}">
+					<h3>
+						<h:outputText value="#{messages.version_history}" />
+					</h3>
+
+					<rich:dataTable id="minute_versionlist_id" columns="4"
+						value="#{workitemMB.versions}" rows="5" var="version">
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="#{messages.workitem}" />
+							</f:facet>
+							<h:outputText escape="false"  value="#{version.item['txtWorkflowSummary']}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="#{global.modified}" />
+							</f:facet>
+							<h:outputText value="#{version.item['$modified']}">
+								<f:convertDateTime timeZone="#{global.timeZone}"
+									pattern="#{global.dateTimePattern}" />
+
+							</h:outputText>
+							<h:outputText
+								value=" #{global.by} #{nameLookupMB.userName[version.item['namCurrentEditor']]}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="#{global.status}" />
+							</f:facet>
+							<h:outputText value="#{version.item['txtWorkflowStatus']}" />
+						</rich:column>
+						<!-- open -->
+						<rich:column>
+							<a4j:commandLink value="#{global.open}"
+								rendered="#{version.item['$uniqueid'] ne workitemMB.workitem.item['$uniqueid']}"
+								id="open_version_link_id" actionListener="#{worklistMB.doEdit}"
+								action="open_workitem">
+							</a4j:commandLink>
+						</rich:column>
+					</rich:dataTable>
+					<rich:datascroller align="left" for="minute_versionlist_id" />
+				</a4j:outputPanel>
 
 
 
@@ -122,47 +164,10 @@
 					<h:outputText value="#{log}" />
 					<br />
 				</ui:repeat>
-
-				<!--  Workitem Version History -->
-				<a4j:outputPanel layout="block"
-					rendered="#{fn:length(workitemMB.versions) gt 1}">
-					<h3>
-						<h:outputText value="#{messages.version_history}" />
-					</h3>
-
-					<rich:dataTable id="minute_versionlist_id" columns="3"
-						style="background:transparent;" value="#{workitemMB.versions}"
-						rows="3" var="version">
-
-						<rich:column>
-							<h:outputText value="#{version.item['$modified']}">
-								<f:convertDateTime timeZone="#{global.timeZone}"
-									pattern="#{global.dateTimePattern}" />
-							</h:outputText>
-						</rich:column>
-
-						<rich:column>
-							<h:outputText
-								value="#{nameLookupMB.userName[version.item['namCurrentEditor']]}" />
-						</rich:column>
-
-						<rich:column>
-							<h:outputText value="#{version.item['txtWorkflowStatus']}" />
-						</rich:column>
-
-						<!-- open -->
-						<rich:column>
-							<a4j:commandLink value="#{global.open}"
-								rendered="#{version.item['$uniqueid'] ne workitemMB.workitem.item['$uniqueid']}"
-								id="open_version_link_id" actionListener="#{worklistMB.doEdit}"
-								action="open_workitem">
-							</a4j:commandLink>
-						</rich:column>
-					</rich:dataTable>
-					<rich:datascroller align="left" for="minute_versionlist_id" />
-				</a4j:outputPanel>
 			</a4j:outputPanel>
 		</a4j:outputPanel>
+
+
 
 	</a4j:outputPanel>
 

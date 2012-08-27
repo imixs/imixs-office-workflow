@@ -46,7 +46,7 @@
 					actionListener="#{workitemReferenceMB.doSwitchToWorkitem}"
 					action="open_workitem">
 
-					<h:outputText value="#{workitem.item['txtWorkflowSummary']}"
+					<h:outputText value="#{workitem.item['txtWorkflowSummary']}"  escape="false" 
 						rendered="#{!empty workitem.item['txtWorkflowSummary']}" />
 
 					<f:param name="id" value="#{workitem.item['$uniqueid']}" />

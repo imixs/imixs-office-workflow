@@ -28,7 +28,7 @@
 						action="open_workitem">
 						
 						<h:outputText
-							value="#{workitem.item['txtWorkflowSummary']}"
+							value="#{workitem.item['txtWorkflowSummary']}"  escape="false" 
 							rendered="#{!empty workitem.item['txtWorkflowSummary']}" />
 
 						<f:param name="id" value="#{workitem.item['$uniqueid']}" />
@@ -98,7 +98,7 @@
 							<h:column>
 								
 
-								<h:outputText style="font-weight: bold;" value="#{suggest.item['txtWorkflowSummary']}"
+								<h:outputText style="font-weight: bold;" value="#{suggest.item['txtWorkflowSummary']}"  escape="false" 
 									rendered="#{!empty suggest.item['txtWorkflowSummary']}" />
 									
 								

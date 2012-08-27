@@ -37,7 +37,7 @@
 										actionListener="#{workitemHistoryMB.doSwitchToWorkitem}"
 										action="open_workitem">
 
-										<h:outputText value="#{workitem.item['txtworkflowsummary']}" />
+										<h:outputText  escape="false"  value="#{workitem.item['txtworkflowsummary']}" />
 										<h:outputText
 											rendered="#{empty workitem.item['txtworkflowsummary']}"
 											value=" - no title -" />
