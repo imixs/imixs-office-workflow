@@ -65,7 +65,10 @@
 
 			<!-- *** Close  *** -->
 			<h:commandButton immediate="true" action="home"
-				value="#{global.close}" />
+				value="#{global.close}"				
+				actionListener="#{workitemHistoryMB.doRemoveWorkitem}">								
+				<f:param name="id" value="#{workitemMB.workitem.item['$uniqueID']}" />
+			</h:commandButton>		
 		</rich:panel>
 
 

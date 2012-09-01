@@ -57,6 +57,7 @@ public class WorkitemHistoryMB implements WorkitemListener {
 	private WorkitemMB workitemMB = null;
 	private List<ItemCollection> workitems = null;
 	private String lastRemoveActionResult = null;
+	private String lastRemovedWorkitem = null;
 
 	public WorkitemHistoryMB() {
 		super();
@@ -167,14 +168,14 @@ public class WorkitemHistoryMB implements WorkitemListener {
 	/**
 	 * this action method returns the action 'home' if the current workitem is
 	 * closed. Otherwise the method returns 'open_workitem' The method is used
-	 * in conjunction with doRemoveWorkitem.
-	 * This action method is only used by the page historynav_workitem.xhtml!
+	 * in conjunction with doRemoveWorkitem. This action method is only used by
+	 * the page historynav_workitem.xhtml!
 	 * 
 	 * @param event
 	 * @return
 	 * @throws Exception
 	 */
-	public String getRemoveWorkitemAction() {		        
+	public String getRemoveWorkitemAction() {
 		return lastRemoveActionResult;
 
 	}
@@ -213,12 +214,16 @@ public class WorkitemHistoryMB implements WorkitemListener {
 		}
 		// now add this new workitem in a short version to the history
 		try {
-			ItemCollection newItemCol = new ItemCollection();
-			newItemCol.replaceItemValue("$Uniqueid", sID);
-			newItemCol.replaceItemValue("txtWorkflowSummary",
-					aworkitem.getItemValue("txtWorkflowSummary"));
+			if (!sID.equals(lastRemovedWorkitem)) {
+				ItemCollection newItemCol = new ItemCollection();
+				newItemCol.replaceItemValue("$Uniqueid", sID);
+				newItemCol.replaceItemValue("txtWorkflowSummary",
+						aworkitem.getItemValue("txtWorkflowSummary"));
 
-			workitems.add(newItemCol);
+				workitems.add(newItemCol);
+				logger.fine("add workitem from history: " + sID);
+			}
+			lastRemovedWorkitem=null;
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -228,7 +233,28 @@ public class WorkitemHistoryMB implements WorkitemListener {
 	public void onWorkitemProcess(ItemCollection e) {
 	}
 
-	public void onWorkitemProcessCompleted(ItemCollection e) {
+	/**
+	 * removes the workitem if the action is not 'open_workitem'
+	 */
+	public void onWorkitemProcessCompleted(ItemCollection workitem) {
+		String sAction = this.getWorkitemBean().getAction();
+
+		logger.fine("ACTION=" + this.getWorkitemBean().getAction());
+		if (!"open_workitem".equals(sAction)) {
+			String aID = workitem.getItemValueString("$UniqueID");
+			lastRemovedWorkitem = aID;
+			// try to find the workItem in the history list
+			for (ItemCollection historyWorkitem : workitems) {
+				String sHistoryUnqiueID = historyWorkitem
+						.getItemValueString("$Uniqueid");
+				if (sHistoryUnqiueID.equals(aID)) {
+					logger.fine("remove workitem from history: " + aID);
+					// Found! - remove it and return..
+					workitems.remove(historyWorkitem);					
+					break;
+				}
+			}
+		}
 
 	}
 
