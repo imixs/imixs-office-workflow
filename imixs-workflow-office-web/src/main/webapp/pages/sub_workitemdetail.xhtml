@@ -10,11 +10,15 @@
 	<a4j:outputPanel layout="block"
 		rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
 		style="float:left;height:50px;margin-right:2px;margin-left:2px;margin-bottom:0px;">
-		<h:commandLink actionListener="#{worklistMB.doEdit}"
+		<h:commandLink actionListener="#{worklistMB.doEdit}" rendered="#{workitem.item['$isAuthor']}"
 				action="open_workitem">
 			<img src="#{workitem.item['txtWorkflowImageURL']}"
 				style="max-height: 24px; margin: 4px;" />
 		</h:commandLink>
+		<h:panelGroup rendered="#{! workitem.item['$isAuthor']}">
+			<img src="#{workitem.item['txtWorkflowImageURL']}" 
+				style="max-height: 24px; margin: 4px;" />
+		</h:panelGroup>
 	</a4j:outputPanel>
 
 	<!-- *** Standard Info *** -->
