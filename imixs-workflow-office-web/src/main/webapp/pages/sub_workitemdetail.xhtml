@@ -35,11 +35,13 @@
 		
 		<!-- *** reader modus -->
 		<a4j:outputPanel rendered="#{! workitem.item['$isAuthor']}">
-				<h:outputText value="#{workitem.item['$modified']}">
+				<h:outputText value="#{workitem.item['$modified']}"
+				style="font-weight: bold;"
+				 rendered="#{empty workitem.item['txtWorkflowSummary']}">
 					<f:convertDateTime timeZone="#{global.timeZone}"
 								pattern="#{global.dateTimePattern}" />
 				</h:outputText>
-			<h:outputText escape="false" value="#{workitem.item['txtWorkflowSummary']}" />
+			<h:outputText escape="false" style="font-weight: bold;" value="#{workitem.item['txtWorkflowSummary']}" />
 			
 		</a4j:outputPanel>
 		
