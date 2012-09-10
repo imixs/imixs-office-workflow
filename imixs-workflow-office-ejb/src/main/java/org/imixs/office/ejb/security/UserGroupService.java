@@ -147,7 +147,10 @@ public class UserGroupService {
 			try {
 				entityService.save(profile);
 			} catch (AccessDeniedException e) {
-				throw new RuntimeException(e);
+				logger.warning("UserGroupService - unable to initialize default admin account");
+				logger.severe(e.getMessage());
+				//throw new RuntimeException(e);
+				return;
 			}
 			this.updateUser(profile);
 			
