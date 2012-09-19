@@ -422,7 +422,9 @@ public class DmsMB extends FileUploadBean {
 
 			e.printStackTrace();
 		}
-
+		
+		// if the report plugin has added a new file we need to update the metadata
+		updateDmsMetaData(aworkitem);
 	}
 
 	/**
