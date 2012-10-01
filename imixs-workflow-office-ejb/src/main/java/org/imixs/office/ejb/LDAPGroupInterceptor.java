@@ -45,16 +45,22 @@ public class LDAPGroupInterceptor {
 		// test method name
 		String sMethod = ctx.getMethod().getName();
 		if ("findAllEntities".equals(sMethod) || "save".equals(sMethod)
-				|| "load".equals(sMethod) || "getUserNameList".equals(sMethod)  ) {
- 
-			logger.fine("Intercept Method: " + sMethod);
-			
-			String sUserID=ejbCtx.getCallerPrincipal().getName();
+				|| "load".equals(sMethod) || "getUserNameList".equals(sMethod)) {
+
+			logger.fine("LDAP Interceptor Method: " + sMethod);
+
+			String sUserID = ejbCtx.getCallerPrincipal().getName();
 
 			String[] sGroups = lookupService.fetchGroups(sUserID);
- 
+
 			ctx.getContextData().put(EntityService.USER_GROUP_LIST, sGroups);
-			logger.fine("User Rolles are : " + sGroups);
+
+			if (logger.getLevel().intValue() <= java.util.logging.Level.FINE.intValue()) {
+				String groupListe = "";
+				for (String aGroup : sGroups)
+					groupListe += aGroup + " ";
+				logger.fine("LDAP UserGroups: " + groupListe);
+			}
 		}
 
 		return ctx.proceed();
