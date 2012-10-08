@@ -23,7 +23,7 @@ import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 
 /**
- * This singelto ejb provides a cache to lookup ldap user informations
+ * This singelton ejb provides a cache to lookup ldap user informations
  * 
  * The bean reads its configuration from the environment configuration entity
  * The following proerties are expected:
