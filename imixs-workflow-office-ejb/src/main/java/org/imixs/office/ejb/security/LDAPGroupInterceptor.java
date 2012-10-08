@@ -1,4 +1,4 @@
-package org.imixs.office.ejb;
+package org.imixs.office.ejb.security;
 
 import java.util.logging.Logger;
 
@@ -23,7 +23,7 @@ import org.imixs.workflow.jee.ejb.EntityService;
 public class LDAPGroupInterceptor {
 
 	@EJB
-	org.imixs.office.ejb.LDAPGroupLookupService lookupService;
+	LDAPGroupLookupService lookupService;
 
 	@Resource
 	SessionContext ejbCtx;
@@ -42,24 +42,30 @@ public class LDAPGroupInterceptor {
 	@AroundInvoke
 	public Object intercept(InvocationContext ctx) throws Exception {
 
-		// test method name
-		String sMethod = ctx.getMethod().getName();
-		if ("findAllEntities".equals(sMethod) || "save".equals(sMethod)
-				|| "load".equals(sMethod) || "getUserNameList".equals(sMethod)) {
+		// test if ldap lookup service is available
+		if (lookupService.isEnabled()) {
+			// test method name
+			String sMethod = ctx.getMethod().getName();
+			if ("findAllEntities".equals(sMethod) || "save".equals(sMethod)
+					|| "load".equals(sMethod)
+					|| "getUserNameList".equals(sMethod)) {
 
-			logger.fine("LDAP Interceptor Method: " + sMethod);
+				logger.fine("LDAP Interceptor Method: " + sMethod);
 
-			String sUserID = ejbCtx.getCallerPrincipal().getName();
+				String sUserID = ejbCtx.getCallerPrincipal().getName();
 
-			String[] sGroups = lookupService.fetchGroups(sUserID);
+				String[] sGroups = lookupService.fetchGroups(sUserID);
 
-			ctx.getContextData().put(EntityService.USER_GROUP_LIST, sGroups);
+				ctx.getContextData()
+						.put(EntityService.USER_GROUP_LIST, sGroups);
 
-			if (logger.getLevel().intValue() <= java.util.logging.Level.FINE.intValue()) {
-				String groupListe = "";
-				for (String aGroup : sGroups)
-					groupListe += aGroup + " ";
-				logger.fine("LDAP UserGroups: " + groupListe);
+				if (logger.getLevel().intValue() <= java.util.logging.Level.FINE
+						.intValue()) {
+					String groupListe = "";
+					for (String aGroup : sGroups)
+						groupListe += aGroup + " ";
+					logger.fine("LDAP UserGroups: " + groupListe);
+				}
 			}
 		}
 

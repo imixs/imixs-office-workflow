@@ -1,6 +1,7 @@
-package org.imixs.office.ejb;
+package org.imixs.office.ejb.security;
 
 import java.io.FileInputStream;
+import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -21,6 +22,7 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
+import javax.naming.ldap.InitialLdapContext;
 
 /**
  * This singelton ejb provides a cache to lookup ldap user informations
@@ -75,6 +77,10 @@ public class LDAPGroupLookupService {
 			ldapCtx = null;
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean isEnabled() {
+		return ldapCtx!=null;
 	}
 
 	/**
@@ -292,14 +298,16 @@ public class LDAPGroupLookupService {
 	}
 
 	/**
-	 * This method lookups the ldap context either from a Jndi name 'LdapJndiName' (DisableJndi=false)
-	 * or manually if DisableJndi=true. 
-	 * If a manually ldap context should be setup then the following properties need to be spezified:
+	 * This method lookups the ldap context either from a Jndi name
+	 * 'LdapJndiName' (DisableJndi=false) or manually if DisableJndi=true. If a
+	 * manually ldap context should be setup then the following properties need
+	 * to be spezified:
 	 * 
 	 * 
 	 * @return
 	 * @throws NamingException
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private DirContext getDirContext() throws NamingException {
 		String ldapJndiName = null;
 
@@ -314,20 +322,43 @@ public class LDAPGroupLookupService {
 			Context initCtx;
 			try {
 				initCtx = new InitialContext();
-				
+
 				// test if manually ldap context should be build
-				String sDisabled=configurationProperties
-				.getProperty("DisableJndi");
-				if ("true".equals(sDisabled..))
+				String sDisabled = configurationProperties
+						.getProperty("DisableJndi");
+				if (sDisabled != null && "true".equals(sDisabled.toLowerCase())) {
+					logger.info("LDAPGroupLookupService setup LDAP Ctx manually.....");
+					Hashtable env = new Hashtable();
+					env.put("java.naming.factory.initial",
+							configurationProperties.getProperty(
+									"java.naming.factory.initial",
+									"com.sun.jndi.ldap.LdapCtxFactory"));
+					env.put("java.naming.security.authentication",
+							configurationProperties.getProperty(
+									"java.naming.security.authentication",
+									"simple"));
+					env.put("java.naming.security.principal",
+							configurationProperties
+									.getProperty("java.naming.security.principal"));
+					env.put("java.naming.security.credentials",
+							configurationProperties
+									.getProperty("java.naming.security.credentials"));
+					env.put("java.naming.provider.url", configurationProperties
+							.getProperty("java.naming.provider.url"));
 
-				// read ldap_jndiName from configuration
-				ldapJndiName = configurationProperties
-						.getProperty("LdapJndiName");
+					ldapCtx = new InitialLdapContext(env, null);
+					logger.info("Get DirContext Manually successful! ");
 
-				if ("".equals(ldapJndiName))
-					ldapJndiName = "org.imixs.office.ldap";
-
-				ldapCtx = (DirContext) initCtx.lookup(ldapJndiName);
+				} else {
+					// read GlassFish ldap_jndiName from configuration
+					ldapJndiName = configurationProperties
+							.getProperty("LdapJndiName");
+					if ("".equals(ldapJndiName))
+						ldapJndiName = "org.imixs.office.ldap";
+					logger.info("LDAPGroupLookupService setup LDAP Ctx from pool '"
+							+ ldapJndiName + "' .....");
+					ldapCtx = (DirContext) initCtx.lookup(ldapJndiName);
+				}
 			} catch (NamingException e) {
 				logger.severe("Unable to open ldap context: " + ldapJndiName);
 				throw e;
