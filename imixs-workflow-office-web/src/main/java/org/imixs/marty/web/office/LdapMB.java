@@ -30,8 +30,7 @@ package org.imixs.marty.web.office;
 import javax.ejb.EJB;
 import javax.faces.event.ActionEvent;
 
-import org.imixs.office.ejb.LDAPGroupLookupService;
-import org.imixs.workflow.ItemCollection;
+import org.imixs.office.ejb.security.LDAPGroupLookupService;
 
 /**
  * This backingBean supports namelookups to translate a technical user account
