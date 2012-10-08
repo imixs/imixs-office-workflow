@@ -43,7 +43,7 @@ public class LDAPGroupLookupService {
 
 	int MAX_CACHE_SIZE = 30;
 	long expiresTime = 0;
-	long lastReset=0;
+	long lastReset = 0;
 	private Cache cache = null; // cache holds userdata
 
 	private DirContext ldapCtx = null;
@@ -209,7 +209,8 @@ public class LDAPGroupLookupService {
 	/**
 	 * returns all groups where the remote user is member of
 	 * 
-	 * The method checks the expires time and rest the cache if the cache time is expired
+	 * The method checks the expires time and rest the cache if the cache time
+	 * is expired
 	 * 
 	 * @param aQnummer
 	 * @return
@@ -222,14 +223,13 @@ public class LDAPGroupLookupService {
 
 		if (ldapCtx == null)
 			return null;
-		
-		
+
 		// test if cache is expired
-		if (expiresTime>0) {
-			Long now=System.currentTimeMillis();
-			if ((now-lastReset) > expiresTime) {
+		if (expiresTime > 0) {
+			Long now = System.currentTimeMillis();
+			if ((now - lastReset) > expiresTime) {
 				resetCache();
-				lastReset=now;
+				lastReset = now;
 				logger.info("LDAP Cache expired!");
 			}
 		}
@@ -292,7 +292,10 @@ public class LDAPGroupLookupService {
 	}
 
 	/**
-	 * ermittelnt den Directory context com.bmw.directory.gd
+	 * This method lookups the ldap context either from a Jndi name 'LdapJndiName' (DisableJndi=false)
+	 * or manually if DisableJndi=true. 
+	 * If a manually ldap context should be setup then the following properties need to be spezified:
+	 * 
 	 * 
 	 * @return
 	 * @throws NamingException
@@ -311,6 +314,11 @@ public class LDAPGroupLookupService {
 			Context initCtx;
 			try {
 				initCtx = new InitialContext();
+				
+				// test if manually ldap context should be build
+				String sDisabled=configurationProperties
+				.getProperty("DisableJndi");
+				if ("true".equals(sDisabled..))
 
 				// read ldap_jndiName from configuration
 				ldapJndiName = configurationProperties
@@ -331,6 +339,9 @@ public class LDAPGroupLookupService {
 
 	/**
 	 * loads a imixs-ldap.property file
+	 * 
+	 * (located at domains/domain1/config/imixs-office-ldap.properties)
+	 * 
 	 * 
 	 * @return
 	 * @throws Exception
