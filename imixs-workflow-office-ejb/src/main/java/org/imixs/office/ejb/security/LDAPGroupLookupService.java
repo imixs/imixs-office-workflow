@@ -47,6 +47,9 @@ public class LDAPGroupLookupService {
 	long expiresTime = 0;
 	long lastReset = 0;
 	private Cache cache = null; // cache holds userdata
+	private String dnSearchFilter=null;
+	private String groupSearchFilter=null;
+	
 
 	private DirContext ldapCtx = null;
 
@@ -84,12 +87,14 @@ public class LDAPGroupLookupService {
 	}
 
 	/**
-	 * resets the ldap cache object
+	 * resets the ldap cache object and reads the config params....
+	 * 
+	 * 
 	 */
 	public void resetCache() {
 		// determine the cache size....
 		int iCacheSize = Integer.valueOf(configurationProperties
-				.getProperty("CacheSize"));
+				.getProperty("cache-size"));
 		if (iCacheSize <= 0)
 			iCacheSize = MAX_CACHE_SIZE;
 
@@ -99,7 +104,12 @@ public class LDAPGroupLookupService {
 		// read expires time...
 		try {
 			String sExpires = configurationProperties
-					.getProperty("CacheExpires");
+					.getProperty("cache-expires");
+			
+			
+			
+			dnSearchFilter=configurationProperties.getProperty("dn-search-filter", "(uid=%u)");
+			groupSearchFilter=configurationProperties.getProperty("group-search-filter", "(member=%d)");
 			expiresTime = Long.valueOf(sExpires);
 		} catch (NumberFormatException nfe) {
 			expiresTime = 0;
@@ -135,10 +145,11 @@ public class LDAPGroupLookupService {
 		SearchControls ctls = new SearchControls();
 		ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 		ctls.setReturningAttributes(returnedAtts);
-		String searchfilter = "";
-		searchfilter = "(uid=" + aUID + ")";
+		
 
-		NamingEnumeration answer = getDirContext().search("", searchfilter,
+		String searchFilter=dnSearchFilter.replace("%u", aUID);
+		logger.fine("LDAP search:" + searchFilter);
+		NamingEnumeration answer = getDirContext().search("", searchFilter,
 				ctls);
 
 		if (answer.hasMore()) {
@@ -191,10 +202,10 @@ public class LDAPGroupLookupService {
 		SearchControls ctls = new SearchControls();
 		ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 		ctls.setReturningAttributes(returnedAtts);
-		String searchfilter = "";
-		searchfilter = "(uid=" + aUID + ")";
-
-		NamingEnumeration answer = getDirContext().search("", searchfilter,
+		
+		String searchFilter=dnSearchFilter.replace("%u", aUID);
+		logger.fine("LDAP search:" + searchFilter);
+		NamingEnumeration answer = getDirContext().search("", searchFilter,
 				ctls);
 
 		if (answer.hasMore()) {
@@ -248,7 +259,7 @@ public class LDAPGroupLookupService {
 		vGroupList = new Vector<String>();
 
 		String groupNamePraefix = configurationProperties
-				.getProperty("GroupNamePraefix");
+				.getProperty("group-name-praefix");
 
 		sDN = fetchDN(aUID);
 
@@ -259,10 +270,12 @@ public class LDAPGroupLookupService {
 		SearchControls ctls = new SearchControls();
 		ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 		ctls.setReturningAttributes(returnedAtts);
-		String searchfilter = "";
-		searchfilter = "(member=" + sDN + ")";
-
-		NamingEnumeration answer = getDirContext().search("", searchfilter,
+		
+		
+		String searchFilter=groupSearchFilter.replace("%d", sDN);
+		logger.fine("LDAP search:" + searchFilter);
+	
+		NamingEnumeration answer = getDirContext().search("", searchFilter,
 				ctls);
 
 		while (answer.hasMore()) {
@@ -325,7 +338,7 @@ public class LDAPGroupLookupService {
 
 				// test if manually ldap context should be build
 				String sDisabled = configurationProperties
-						.getProperty("DisableJndi");
+						.getProperty("disable-jndi");
 				if (sDisabled != null && "true".equals(sDisabled.toLowerCase())) {
 					logger.info("LDAPGroupLookupService setup LDAP Ctx manually.....");
 					Hashtable env = new Hashtable();
@@ -352,7 +365,7 @@ public class LDAPGroupLookupService {
 				} else {
 					// read GlassFish ldap_jndiName from configuration
 					ldapJndiName = configurationProperties
-							.getProperty("LdapJndiName");
+							.getProperty("ldap-jndi-name");
 					if ("".equals(ldapJndiName))
 						ldapJndiName = "org.imixs.office.ldap";
 					logger.info("LDAPGroupLookupService setup LDAP Ctx from pool '"
