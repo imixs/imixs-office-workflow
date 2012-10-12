@@ -47,9 +47,9 @@ public class LDAPGroupLookupService {
 	long expiresTime = 0;
 	long lastReset = 0;
 	private Cache cache = null; // cache holds userdata
-	private String dnSearchFilter=null;
-	private String groupSearchFilter=null;
-	
+	private String dnSearchFilter = null;
+	private String groupSearchFilter = null;
+	private String searchContext = null;
 
 	private DirContext ldapCtx = null;
 
@@ -81,9 +81,9 @@ public class LDAPGroupLookupService {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public boolean isEnabled() {
-		return ldapCtx!=null;
+		return ldapCtx != null;
 	}
 
 	/**
@@ -93,23 +93,32 @@ public class LDAPGroupLookupService {
 	 */
 	public void resetCache() {
 		// determine the cache size....
-		int iCacheSize = Integer.valueOf(configurationProperties
+		logger.fine("LDAP resetCache - reinitializing settings....");
+		int iCacheSize=MAX_CACHE_SIZE;
+		try {
+			iCacheSize = Integer.valueOf(configurationProperties
 				.getProperty("cache-size"));
+		} catch (NumberFormatException nfe) {
+			iCacheSize=MAX_CACHE_SIZE;
+		}
 		if (iCacheSize <= 0)
 			iCacheSize = MAX_CACHE_SIZE;
 
 		// initialize cache
 		cache = new Cache(iCacheSize);
 
+		searchContext = configurationProperties.getProperty("search-context",
+				"");
+		dnSearchFilter = configurationProperties.getProperty(
+				"dn-search-filter", "(uid=%u)");
+		groupSearchFilter = configurationProperties.getProperty(
+				"group-search-filter", "(member=%d)");
+
 		// read expires time...
 		try {
+			expiresTime = 0;
 			String sExpires = configurationProperties
 					.getProperty("cache-expires");
-			
-			
-			
-			dnSearchFilter=configurationProperties.getProperty("dn-search-filter", "(uid=%u)");
-			groupSearchFilter=configurationProperties.getProperty("group-search-filter", "(member=%d)");
 			expiresTime = Long.valueOf(sExpires);
 		} catch (NumberFormatException nfe) {
 			expiresTime = 0;
@@ -138,18 +147,17 @@ public class LDAPGroupLookupService {
 			return sAttriubteValue;
 
 		// try to lookup....
-		logger.info("LDAP fetch attribute: " + sAttriubteName + " for " + aUID);
+		logger.fine("LDAP fetch attribute: " + sAttriubteName + " for " + aUID);
 
 		String returnedAtts[] = { sAttriubteName };
 
 		SearchControls ctls = new SearchControls();
 		ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 		ctls.setReturningAttributes(returnedAtts);
-		
 
-		String searchFilter=dnSearchFilter.replace("%u", aUID);
+		String searchFilter = dnSearchFilter.replace("%u", aUID);
 		logger.fine("LDAP search:" + searchFilter);
-		NamingEnumeration answer = getDirContext().search("", searchFilter,
+		NamingEnumeration answer = getDirContext().search(searchContext, searchFilter,
 				ctls);
 
 		if (answer.hasMore()) {
@@ -163,7 +171,7 @@ public class LDAPGroupLookupService {
 
 			if (attr != null) {
 				sAttriubteValue = (String) attr.get(0);
-				logger.info("LDAP fetch attribute= " + sAttriubteValue);
+				logger.fine("LDAP fetch attribute= " + sAttriubteValue);
 			}
 		}
 
@@ -195,23 +203,23 @@ public class LDAPGroupLookupService {
 		if (sDN != null)
 			return sDN;
 
-		logger.info("LDAP fetchDN: " + aUID);
+		logger.fine("LDAP fetchDN: " + aUID);
 
 		String returnedAtts[] = { "mail" };
 
 		SearchControls ctls = new SearchControls();
 		ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 		ctls.setReturningAttributes(returnedAtts);
-		
-		String searchFilter=dnSearchFilter.replace("%u", aUID);
+
+		String searchFilter = dnSearchFilter.replace("%u", aUID);
 		logger.fine("LDAP search:" + searchFilter);
-		NamingEnumeration answer = getDirContext().search("", searchFilter,
+		NamingEnumeration answer = getDirContext().search(searchContext, searchFilter,
 				ctls);
 
 		if (answer.hasMore()) {
 			SearchResult entry = (SearchResult) answer.next();
 			sDN = entry.getName();
-			logger.info("LDAP fetchDN= " + sDN);
+			logger.fine("LDAP fetchDN= " + sDN);
 		}
 
 		if (sDN == null)
@@ -247,7 +255,7 @@ public class LDAPGroupLookupService {
 			if ((now - lastReset) > expiresTime) {
 				resetCache();
 				lastReset = now;
-				logger.info("LDAP Cache expired!");
+				logger.fine("LDAP Cache expired!");
 			}
 		}
 
@@ -263,19 +271,18 @@ public class LDAPGroupLookupService {
 
 		sDN = fetchDN(aUID);
 
-		logger.info("LDAP fetchGroups for: " + sDN);
+		logger.fine("LDAP fetchGroups for: " + sDN);
 
 		String returnedAtts[] = { "cn" };
 
 		SearchControls ctls = new SearchControls();
 		ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 		ctls.setReturningAttributes(returnedAtts);
-		
-		
-		String searchFilter=groupSearchFilter.replace("%d", sDN);
+
+		String searchFilter = groupSearchFilter.replace("%d", sDN);
 		logger.fine("LDAP search:" + searchFilter);
-	
-		NamingEnumeration answer = getDirContext().search("", searchFilter,
+
+		NamingEnumeration answer = getDirContext().search(searchContext, searchFilter,
 				ctls);
 
 		while (answer.hasMore()) {
@@ -298,7 +305,7 @@ public class LDAPGroupLookupService {
 					&& !sGroupName.startsWith(groupNamePraefix))
 				continue;
 
-			logger.info("LDAP found Group= " + sGroupName);
+			logger.fine("LDAP found Group= " + sGroupName);
 			vGroupList.add(sGroupName);
 		}
 
