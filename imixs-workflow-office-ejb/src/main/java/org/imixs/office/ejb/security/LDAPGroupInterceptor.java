@@ -23,7 +23,7 @@ import org.imixs.workflow.jee.ejb.EntityService;
 public class LDAPGroupInterceptor {
 
 	@EJB
-	LDAPGroupLookupService lookupService;
+	LDAPLookupService lookupService;
 
 	@Resource
 	SessionContext ejbCtx;
