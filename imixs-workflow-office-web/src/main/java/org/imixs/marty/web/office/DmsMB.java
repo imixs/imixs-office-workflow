@@ -27,7 +27,7 @@
 
 package org.imixs.marty.web.office;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -422,8 +422,9 @@ public class DmsMB extends FileUploadBean {
 
 			e.printStackTrace();
 		}
-		
-		// if the report plugin has added a new file we need to update the metadata
+
+		// if the report plugin has added a new file we need to update the
+		// metadata
 		updateDmsMetaData(aworkitem);
 	}
 
@@ -449,13 +450,29 @@ public class DmsMB extends FileUploadBean {
 
 		}
 
-		// test if dms property still exists - if not create a new one
-		if (!getWorkitemBean().getWorkitem().hasItem("dms")) {
-			doLazyLoading();
-			// create the dms property....
-			updateDmsMetaData(aworkitem);
-		}
-
+		
+		
+		/*
+		 * 19.10.2012
+		 * Durch das Report Plugin kann der Fall eintreten das ein Attachment (report) erzeugt
+		 * wurde, dieses am BlobWorkitem angehangen wurde, aber die DMS Info / Darstellung nicht
+		 * aktualisiert wurde.
+		 * 
+		 * Es wird nun immer wen ein WOrktiem angefasst wird die DMS Information aktualisert.
+		 * Diese Information wird dabe aber nicht! in die Datenbank zurückgeschrieben.
+		 * 
+		 * 
+		 * Dies ist zwar inperformant aber dafür korret.
+		 * Nachteil: würde man die daten exportieren fehlt evtl. die DMS information
+		 * 
+		 * 
+		 * 
+		 * 
+		 */
+		doLazyLoading();
+		updateDmsMetaData(aworkitem);
+	
+	
 		// reset the file upload list
 		resetFileUpload();
 	}
@@ -497,8 +514,7 @@ public class DmsMB extends FileUploadBean {
 		doLazyLoading();
 
 		// get the $file map from the Blob Workitem....
-		List vFiles = getWorkitemBlobBean().getWorkitem().getItemValue(
-				"$file");
+		List vFiles = getWorkitemBlobBean().getWorkitem().getItemValue("$file");
 		if (vFiles != null && vFiles.size() > 0)
 			fileMapBlob = (HashMap) vFiles.get(0);
 		else
@@ -575,10 +591,12 @@ public class DmsMB extends FileUploadBean {
 			List<Map> vDMS = aworkitem.getItemValue("dms");
 			for (Map aMetadata : vDMS) {
 				// test for property url....
-				ItemCollection itemCol =new ItemCollection (aMetadata);
-				String sTestURL=itemCol.getItemValueString("url");
-				if (!"".equals(sTestURL))
+				ItemCollection itemCol = new ItemCollection(aMetadata);
+				String sTestURL = itemCol.getItemValueString("url");
+				if (!"".equals(sTestURL)) {
 					vDMSnew.add(aMetadata);
+					
+				}
 			}
 
 			// now we test if for each file entry a dms meta data entry still
@@ -592,6 +610,7 @@ public class DmsMB extends FileUploadBean {
 					// update the $ref....
 					itemCol.replaceItemValue("$uniqueidRef", sUnidRef);
 					vDMSnew.add(itemCol.getAllItems());
+					
 
 				} else {
 					// no meta data exists.... create a new meta object
@@ -605,16 +624,36 @@ public class DmsMB extends FileUploadBean {
 
 					// Important! do only store the Map not the ItemCollection!!
 					vDMSnew.add(aMetadata.getAllItems());
+					
 				}
 
 			}
+			
 			// update dms property....
 			aworkitem.replaceItemValue("dms", vDMSnew);
+			
+			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * this method returns a list of files meta data
 	 * 
