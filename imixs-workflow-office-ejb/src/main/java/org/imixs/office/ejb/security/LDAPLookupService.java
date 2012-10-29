@@ -20,7 +20,6 @@ import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
-import javax.naming.ldap.Control;
 import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 
@@ -41,7 +40,7 @@ import javax.naming.ldap.LdapContext;
 @Local
 public class LDAPLookupService {
 
-	// private ItemCollection configItemCollection = null;
+	private boolean enabled=false;
 	private Properties configurationProperties = null;
 
 	private String dnSearchFilter = null;
@@ -71,6 +70,7 @@ public class LDAPLookupService {
 			if (configurationProperties == null)
 				return;
 
+			// initialize ldap connection
 			reset();
 
 		} catch (Exception e) {
@@ -81,7 +81,7 @@ public class LDAPLookupService {
 	}
 
 	public boolean isEnabled() {
-		return getDirContext() != null;
+		return enabled;
 	}
 
 	/**
@@ -100,6 +100,16 @@ public class LDAPLookupService {
 		groupSearchFilter = configurationProperties.getProperty(
 				"group-search-filter", "(member=%d)");
 
+		// re-initialize context
+		if (ldapCtx!=null) {
+			try {
+				ldapCtx.close();
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
+			ldapCtx=null;
+		}
+		enabled=(getDirContext()!=null);
 	}
 
 	/**
@@ -113,14 +123,14 @@ public class LDAPLookupService {
 	public String fetchAttribute(String aUID, String sAttriubteName) {
 		String sAttriubteValue = null;
 
-		if (getDirContext() == null)
-			return sAttriubteValue;
-
 		// test cache...
 		sAttriubteValue = (String) ldapCache.get(aUID + "-" + sAttriubteName);
 		if (sAttriubteValue != null)
 			return sAttriubteValue;
 
+		if (getDirContext() == null)
+			return sAttriubteValue;
+		
 		try {
 			// try to lookup....
 			logger.fine("LDAP fetch attribute: " + sAttriubteName + " for "
@@ -177,14 +187,14 @@ public class LDAPLookupService {
 	 */
 	public String fetchDN(String aUID) {
 		String sDN = null;
-
-		if (getDirContext() == null)
-			return aUID;
-
+	
 		// test cache...
 		sDN = (String) ldapCache.get(aUID + "-DN");
 		if (sDN != null)
 			return sDN;
+		
+		if (getDirContext() == null)
+			return aUID;
 
 		try {
 			logger.fine("LDAP fetchDN: " + aUID);
@@ -234,10 +244,7 @@ public class LDAPLookupService {
 		String sDN = null;
 		Vector<String> vGroupList = null;
 		String[] groupArrayList = null;
-
-		if (getDirContext() == null)
-			return null;
-
+	
 		// test cache...
 		groupArrayList = (String[]) ldapCache.get(aUID + "-GROUPS");
 		if (groupArrayList != null) {
@@ -246,6 +253,10 @@ public class LDAPLookupService {
 
 			return groupArrayList;
 		}
+		
+		if (getDirContext() == null)
+			return null;
+
 
 		try {
 			vGroupList = new Vector<String>();
