@@ -20,6 +20,7 @@ import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
+import javax.naming.ldap.Control;
 import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 
@@ -354,8 +355,20 @@ public class LDAPLookupService {
 	private LdapContext getDirContext() {
 		String ldapJndiName = null;
 
-		if (ldapCtx != null)
-			return ldapCtx;
+		if (ldapCtx != null) {
+			logger.finest("GetDirContext - ldapCtx still exists - try to reconnect...");
+			try {
+				// force a reconnect....
+				ldapCtx.reconnect(null);
+				logger.finest("reconnect successfull");
+				return ldapCtx;
+			} catch (NamingException e) {
+				logger.severe("Unable to reconnect ldapContext");
+				e.printStackTrace();
+				ldapCtx=null;
+			}
+			
+		}
 
 		// test if configuration is available
 		if (configurationProperties == null) {
