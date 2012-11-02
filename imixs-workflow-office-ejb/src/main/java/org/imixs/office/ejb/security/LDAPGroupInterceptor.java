@@ -54,7 +54,7 @@ public class LDAPGroupInterceptor {
 
 				String sUserID = ejbCtx.getCallerPrincipal().getName();
 
-				String[] sGroups = lookupService.fetchGroups(sUserID);
+				String[] sGroups = lookupService.findGroups(sUserID);
 
 				ctx.getContextData()
 						.put(EntityService.USER_GROUP_LIST, sGroups);

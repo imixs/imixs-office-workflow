@@ -52,7 +52,7 @@ public class LDAPCache {
 			loadProperties();
 			resetCache();
 		} catch (Exception e) {
-			logger.severe("Unable to initalize LDAPCache");
+			logger.severe("LDAPCache unable to initalize LDAPCache");
 			e.printStackTrace();
 		}
 	}
@@ -64,7 +64,7 @@ public class LDAPCache {
 	 */
 	public void resetCache() {
 		// determine the cache size....
-		logger.fine("LDAP resetCache - reinitializing settings....");
+		logger.fine("LDAPCache resetCache - initalizing settings....");
 		int iCacheSize = DEFAULT_CACHE_SIZE;
 		try {
 			iCacheSize = Integer.valueOf(configurationProperties
@@ -89,6 +89,9 @@ public class LDAPCache {
 		}
 		if (expiresTime <= 0)
 			expiresTime = DEFAULT_EXPIRES_TIME;
+		
+		
+		lastReset = System.currentTimeMillis();
 
 	}
 
@@ -97,12 +100,10 @@ public class LDAPCache {
 		if (expiresTime > 0) {
 			Long now = System.currentTimeMillis();
 			if ((now - lastReset) > expiresTime) {
-				resetCache();
-				lastReset = now;
-				logger.fine("LDAP Cache expired!");
+				logger.fine("LDAPCache Cache expired!");
+				resetCache();				
 			}
 		}
-
 		return cache.get(key);
 	}
 
@@ -129,7 +130,7 @@ public class LDAPCache {
 			fis.close();
 		} catch (Exception ep) {
 			// no properties found
-			logger.severe("imixs-ldap.properties not found");
+			logger.severe("LDAPCache imixs-ldap.properties not found");
 			configurationProperties = null;
 		}
 	}
