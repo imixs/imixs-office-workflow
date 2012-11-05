@@ -28,6 +28,7 @@
 package org.imixs.marty.web.office;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,6 +43,7 @@ import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.component.UIParameter;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -72,6 +74,7 @@ public class DmsMB extends FileUploadBean {
 
 	private ItemCollection configItemCollection = null;
 	private ItemCollection dmsItemCollection = null;
+	private String link=null;
 	private ArrayList<ItemCollection> workitems = null;
 	private int count = 10;
 	private int row = 0;
@@ -136,6 +139,19 @@ public class DmsMB extends FileUploadBean {
 	 */
 	public ItemCollection getWorkitem() {
 		return this.dmsItemCollection;
+	}
+
+	
+	/**
+	 * Link property to add a link 
+	 * @return
+	 */
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 
 	/**
@@ -450,29 +466,22 @@ public class DmsMB extends FileUploadBean {
 
 		}
 
-		
-		
 		/*
-		 * 19.10.2012
-		 * Durch das Report Plugin kann der Fall eintreten das ein Attachment (report) erzeugt
-		 * wurde, dieses am BlobWorkitem angehangen wurde, aber die DMS Info / Darstellung nicht
-		 * aktualisiert wurde.
+		 * 19.10.2012 Durch das Report Plugin kann der Fall eintreten das ein
+		 * Attachment (report) erzeugt wurde, dieses am BlobWorkitem angehangen
+		 * wurde, aber die DMS Info / Darstellung nicht aktualisiert wurde.
 		 * 
-		 * Es wird nun immer wen ein WOrktiem angefasst wird die DMS Information aktualisert.
-		 * Diese Information wird dabe aber nicht! in die Datenbank zurückgeschrieben.
-		 * 
-		 * 
-		 * Dies ist zwar inperformant aber dafür korret.
-		 * Nachteil: würde man die daten exportieren fehlt evtl. die DMS information
+		 * Es wird nun immer wen ein WOrktiem angefasst wird die DMS Information
+		 * aktualisert. Diese Information wird dabe aber nicht! in die Datenbank
+		 * zurückgeschrieben.
 		 * 
 		 * 
-		 * 
-		 * 
+		 * Dies ist zwar inperformant aber dafür korret. Nachteil: würde man die
+		 * daten exportieren fehlt evtl. die DMS information
 		 */
 		doLazyLoading();
 		updateDmsMetaData(aworkitem);
-	
-	
+
 		// reset the file upload list
 		resetFileUpload();
 	}
@@ -595,7 +604,7 @@ public class DmsMB extends FileUploadBean {
 				String sTestURL = itemCol.getItemValueString("url");
 				if (!"".equals(sTestURL)) {
 					vDMSnew.add(aMetadata);
-					
+
 				}
 			}
 
@@ -610,7 +619,6 @@ public class DmsMB extends FileUploadBean {
 					// update the $ref....
 					itemCol.replaceItemValue("$uniqueidRef", sUnidRef);
 					vDMSnew.add(itemCol.getAllItems());
-					
 
 				} else {
 					// no meta data exists.... create a new meta object
@@ -624,36 +632,19 @@ public class DmsMB extends FileUploadBean {
 
 					// Important! do only store the Map not the ItemCollection!!
 					vDMSnew.add(aMetadata.getAllItems());
-					
+
 				}
 
 			}
-			
+
 			// update dms property....
 			aworkitem.replaceItemValue("dms", vDMSnew);
-			
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * this method returns a list of files meta data
 	 * 
@@ -738,6 +729,50 @@ public class DmsMB extends FileUploadBean {
 		} catch (Exception e) {
 
 			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * This Method adds a new Link (url) into the DMS list A Parameter with the
+	 * name 'url' is expected
+	 * 
+	 * @param event
+	 */
+	public void doAddLink(ActionEvent event) {
+		String sLink=getLink();
+		
+		if (sLink!= null && !"".equals(sLink)) {
+			
+		
+			// test for protocoll
+			if (!sLink.contains("://"))
+				sLink="http://"+ sLink;
+			
+			FacesContext context = FacesContext.getCurrentInstance();
+			ExternalContext externalContext = context.getExternalContext();
+			String remoteUser = externalContext.getRemoteUser();
+			
+
+			List<Map> vDMS = this.getWorkitemBean().getWorkitem()
+					.getItemValue("dms");
+			// add new property url....
+			ItemCollection itemCol = new ItemCollection();
+			itemCol.replaceItemValue("url",sLink);
+			
+			
+			itemCol.replaceItemValue("$created",new Date());
+			itemCol.replaceItemValue("$modified",new Date());
+			itemCol.replaceItemValue("namCreator", remoteUser);
+
+
+			itemCol.replaceItemValue("txtName", getLink());
+			vDMS.add(itemCol.getAllItems());
+
+			this.getWorkitemBean().getWorkitem().replaceItemValue("dms", vDMS);
+			
+			setLink("");
+
 		}
 
 	}
