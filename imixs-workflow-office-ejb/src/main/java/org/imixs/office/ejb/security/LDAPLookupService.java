@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Vector;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -74,7 +75,6 @@ public class LDAPLookupService {
 
 			// initialize ldap connection
 			reset();
-			
 
 		} catch (Exception e) {
 			logger.severe("Unable to initalize LDAPGroupLookupService");
@@ -109,12 +109,14 @@ public class LDAPLookupService {
 		userAttributes = sAttributes.split(",");
 
 		// test if ldap is enabled...
-		LdapContext ldapCtx = getDirContext();
+		LdapContext ldapCtx = null;
 		try {
+			ldapCtx = getDirContext();
 			enabled = (ldapCtx != null);
 		} finally {
 			try {
-				ldapCtx.close();
+				if (ldapCtx != null)
+					ldapCtx.close();
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}
@@ -144,7 +146,7 @@ public class LDAPLookupService {
 			return fetchUser(aUID, ldapCtx);
 		} finally {
 			if (ldapCtx != null)
-				try {
+				try {												
 					ldapCtx.close();
 				} catch (NamingException e) {
 					e.printStackTrace();
@@ -172,7 +174,17 @@ public class LDAPLookupService {
 		try {
 			logger.fine("LDAP find user groups for: " + aUID);
 			ldapCtx = getDirContext();
-			return fetchGroups(aUID, ldapCtx);
+			String[] groups= fetchGroups(aUID, ldapCtx);
+			if (logger.getLevel().intValue() <= java.util.logging.Level.FINE
+					.intValue()) {
+				String groupListe = "";
+				for (String aGroup : groups)
+					groupListe += aGroup + " ";
+				logger.fine("LDAP groups found for " + aUID + "=" + groupListe);
+			}
+			
+			return groups;
+			
 		} finally {
 			if (ldapCtx != null)
 				try {
@@ -198,6 +210,7 @@ public class LDAPLookupService {
 		if (!enabled)
 			return new ItemCollection();
 
+		NamingEnumeration<SearchResult> answer = null;
 		try {
 
 			SearchControls ctls = new SearchControls();
@@ -206,8 +219,7 @@ public class LDAPLookupService {
 
 			String searchFilter = dnSearchFilter.replace("%u", aUID);
 			logger.finest("LDAP search:" + searchFilter);
-			NamingEnumeration<SearchResult> answer = ldapCtx.search(
-					searchContext, searchFilter, ctls);
+			answer = ldapCtx.search(searchContext, searchFilter, ctls);
 
 			if (answer.hasMore()) {
 				SearchResult entry = (SearchResult) answer.next();
@@ -250,6 +262,14 @@ public class LDAPLookupService {
 			if (logger.getLevel().intValue() <= java.util.logging.Level.FINEST
 					.intValue())
 				e.printStackTrace();
+		} finally {
+			if (answer != null)
+				try {
+					answer.close();
+				} catch (NamingException e) {
+
+					e.printStackTrace();
+				}
 		}
 		return user;
 	}
@@ -272,6 +292,7 @@ public class LDAPLookupService {
 		if (!enabled)
 			return null;
 
+		NamingEnumeration<SearchResult> answer = null;
 		try {
 
 			vGroupList = new Vector<String>();
@@ -294,8 +315,7 @@ public class LDAPLookupService {
 			String searchFilter = groupSearchFilter.replace("%d", sDN);
 			logger.finest("LDAP search:" + searchFilter);
 
-			NamingEnumeration<SearchResult> answer = ldapCtx.search(
-					searchContext, searchFilter, ctls);
+			answer = ldapCtx.search(searchContext, searchFilter, ctls);
 
 			while (answer.hasMore()) {
 				SearchResult entry = (SearchResult) answer.next();
@@ -337,6 +357,14 @@ public class LDAPLookupService {
 			if (logger.getLevel().intValue() <= java.util.logging.Level.FINEST
 					.intValue())
 				e.printStackTrace();
+		} finally {
+			if (answer != null)
+				try {
+					answer.close();
+				} catch (NamingException e) {
+
+					e.printStackTrace();
+				}
 		}
 		return groupArrayList;
 	}
@@ -361,6 +389,7 @@ public class LDAPLookupService {
 		if (!enabled)
 			return sAttriubteValue;
 
+		NamingEnumeration<SearchResult> answer = null;
 		try {
 
 			// try to lookup....
@@ -375,8 +404,7 @@ public class LDAPLookupService {
 
 			String searchFilter = dnSearchFilter.replace("%u", aUID);
 			logger.finest("LDAP search:" + searchFilter);
-			NamingEnumeration<SearchResult> answer = ldapCtx.search(
-					searchContext, searchFilter, ctls);
+			answer = ldapCtx.search(searchContext, searchFilter, ctls);
 
 			if (answer.hasMore()) {
 
@@ -405,6 +433,15 @@ public class LDAPLookupService {
 			if (logger.getLevel().intValue() <= java.util.logging.Level.FINEST
 					.intValue())
 				e.printStackTrace();
+		} finally {
+			if (answer != null)
+				try {
+					answer.close();
+				} catch (NamingException e) {
+
+					e.printStackTrace();
+				}
+
 		}
 		return sAttriubteValue;
 	}
@@ -498,6 +535,7 @@ public class LDAPLookupService {
 				logger.finest("LDAPGroupLookupService lookup LDAP Ctx from pool '"
 						+ ldapJndiName + "' .....");
 				ldapCtx = (LdapContext) initCtx.lookup(ldapJndiName);
+
 			}
 
 			logger.fine("LDAPGroupLookupService Context initialized");
