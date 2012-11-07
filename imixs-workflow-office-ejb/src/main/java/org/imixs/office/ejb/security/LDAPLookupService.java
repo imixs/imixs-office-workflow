@@ -4,14 +4,11 @@ import java.io.FileInputStream;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Vector;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Local;
-import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -51,12 +48,6 @@ public class LDAPLookupService {
 	private String searchContext = null;
 	private String[] userAttributes = null;
 
-	@Resource
-	SessionContext ejbCtx;
-
-	@EJB
-	org.imixs.workflow.jee.ejb.EntityService entityService;
-
 	@EJB
 	LDAPCache ldapCache;
 
@@ -65,7 +56,7 @@ public class LDAPLookupService {
 	@PostConstruct
 	void init() {
 		try {
-			logger.info("LDAPLookupService init");
+			logger.info("LDAPLookupService @PostConstruct - init");
 			// load confiugration entity
 			loadProperties();
 
@@ -115,8 +106,10 @@ public class LDAPLookupService {
 			enabled = (ldapCtx != null);
 		} finally {
 			try {
-				if (ldapCtx != null)
+				if (ldapCtx != null) {
 					ldapCtx.close();
+					ldapCtx=null;
+				}
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}
@@ -148,6 +141,7 @@ public class LDAPLookupService {
 			if (ldapCtx != null)
 				try {												
 					ldapCtx.close();
+					ldapCtx=null;
 				} catch (NamingException e) {
 					e.printStackTrace();
 				}
@@ -189,6 +183,7 @@ public class LDAPLookupService {
 			if (ldapCtx != null)
 				try {
 					ldapCtx.close();
+					ldapCtx=null;
 				} catch (NamingException e) {
 					e.printStackTrace();
 				}
@@ -266,6 +261,7 @@ public class LDAPLookupService {
 			if (answer != null)
 				try {
 					answer.close();
+					answer=null;
 				} catch (NamingException e) {
 
 					e.printStackTrace();
@@ -361,6 +357,7 @@ public class LDAPLookupService {
 			if (answer != null)
 				try {
 					answer.close();
+					answer=null;
 				} catch (NamingException e) {
 
 					e.printStackTrace();
@@ -504,7 +501,7 @@ public class LDAPLookupService {
 			String sDisabled = configurationProperties
 					.getProperty("disable-jndi");
 			if (sDisabled != null && "true".equals(sDisabled.toLowerCase())) {
-				logger.finest("LDAPGroupLookupService setup LDAP Ctx manually.....");
+				logger.fine("LDAPGroupLookupService lookup LDAP Ctx manually.....");
 				Hashtable env = new Hashtable();
 				env.put("java.naming.factory.initial", configurationProperties
 						.getProperty("java.naming.factory.initial",
@@ -522,7 +519,7 @@ public class LDAPLookupService {
 								.getProperty("java.naming.security.credentials"));
 				env.put("java.naming.provider.url", configurationProperties
 						.getProperty("java.naming.provider.url"));
-
+								
 				ldapCtx = new InitialLdapContext(env, null);
 				logger.finest("Get DirContext Manually successful! ");
 
@@ -532,7 +529,7 @@ public class LDAPLookupService {
 						.getProperty("ldap-jndi-name");
 				if ("".equals(ldapJndiName))
 					ldapJndiName = "org.imixs.office.ldap";
-				logger.finest("LDAPGroupLookupService lookup LDAP Ctx from pool '"
+				logger.fine("LDAPGroupLookupService lookup LDAP Ctx from pool '"
 						+ ldapJndiName + "' .....");
 				ldapCtx = (LdapContext) initCtx.lookup(ldapJndiName);
 
@@ -542,7 +539,7 @@ public class LDAPLookupService {
 
 		} catch (NamingException e) {
 			logger.severe("Unable to open ldap context: " + ldapJndiName);
-			if (logger.getLevel().intValue() <= java.util.logging.Level.FINEST
+			if (logger.getLevel().intValue() <= java.util.logging.Level.FINE
 					.intValue())
 				e.printStackTrace();
 		}
