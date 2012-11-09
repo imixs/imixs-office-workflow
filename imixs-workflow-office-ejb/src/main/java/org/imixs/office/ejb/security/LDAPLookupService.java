@@ -1,6 +1,7 @@
 package org.imixs.office.ejb.security;
 
 import java.io.FileInputStream;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Vector;
@@ -503,6 +504,25 @@ public class LDAPLookupService {
 			if (sDisabled != null && "true".equals(sDisabled.toLowerCase())) {
 				logger.fine("LDAPGroupLookupService lookup LDAP Ctx manually.....");
 				Hashtable env = new Hashtable();
+				
+				
+				// scann all properties starting with 'java.naming'
+				Enumeration<Object> keys=configurationProperties.keys();
+				while (keys.hasMoreElements()) {
+					String sKey=keys.nextElement().toString();
+					if (sKey.startsWith("java.naming")) {
+						env.put(sKey,
+								configurationProperties
+										.getProperty(sKey));
+						logger.fine("Set key: " + sKey +" with value: " + configurationProperties
+										.getProperty(sKey));
+					}
+					
+				}
+				
+				
+				// set default params...
+				
 				env.put("java.naming.factory.initial", configurationProperties
 						.getProperty("java.naming.factory.initial",
 								"com.sun.jndi.ldap.LdapCtxFactory"));
@@ -511,6 +531,8 @@ public class LDAPLookupService {
 								.getProperty(
 										"java.naming.security.authentication",
 										"simple"));
+				
+				/*
 				env.put("java.naming.security.principal",
 						configurationProperties
 								.getProperty("java.naming.security.principal"));
@@ -519,6 +541,7 @@ public class LDAPLookupService {
 								.getProperty("java.naming.security.credentials"));
 				env.put("java.naming.provider.url", configurationProperties
 						.getProperty("java.naming.provider.url"));
+					*/
 								
 				ldapCtx = new InitialLdapContext(env, null);
 				logger.finest("Get DirContext Manually successful! ");
