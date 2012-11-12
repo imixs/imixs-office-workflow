@@ -8,11 +8,12 @@
 
 
 
-	<a4j:outputPanel rendered="#{! empty dmsMB.fileList}"
+	<a4j:outputPanel 
 		id="attachment_info_id" layout="block" style="width: 655px;">
 
-
-		<rich:dataList id="attachmentlist_id" var="attachment"
+		<a4j:outputPanel id="attachmentlist_id">
+				
+		<rich:dataList var="attachment"
 			value="#{dmsMB.fileList}" rowClasses="sywapp-viewentry ">
 
 
@@ -20,12 +21,8 @@
 			<!-- *** Image *** -->
 			<a4j:outputPanel layout="block"
 				style="float:left;height:34px;margin-right:2px;margin-left:2px;margin-bottom:0px;">
-
 				<h:graphicImage url="/layout/icons/icon048.png"
 					style="border:0px;vertical-align: text-top;margin-right:0.5em"></h:graphicImage>
-
-
-
 
 			</a4j:outputPanel>
 
@@ -132,7 +129,7 @@
 
 
 		</rich:dataList>
-
+		</a4j:outputPanel>
 
 
 
