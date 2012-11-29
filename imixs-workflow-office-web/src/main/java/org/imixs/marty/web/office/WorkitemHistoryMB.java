@@ -219,7 +219,19 @@ public class WorkitemHistoryMB implements WorkitemListener {
 				newItemCol.replaceItemValue("$Uniqueid", sID);
 				newItemCol.replaceItemValue("txtWorkflowSummary",
 						aworkitem.getItemValue("txtWorkflowSummary"));
-
+				newItemCol.replaceItemValue("txtWorkflowStatus",
+						aworkitem.getItemValue("txtWorkflowStatus"));
+				
+				newItemCol.replaceItemValue("txtworkflowgroup",
+						aworkitem.getItemValue("txtworkflowgroup"));
+				
+				
+				
+				newItemCol.replaceItemValue("$created",
+						aworkitem.getItemValue("$created"));
+				newItemCol.replaceItemValue("$modified",
+						aworkitem.getItemValue("$modified"));
+			
 				workitems.add(newItemCol);
 				logger.fine("add workitem from history: " + sID);
 			}

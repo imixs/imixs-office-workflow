@@ -366,6 +366,21 @@ public class DmsMB extends FileUploadBean {
 			removeMetadata(sFileName);
 
 	}
+	
+	
+	
+	/**
+	 *  Save the BlobWorkitem content. Used for file uploads only
+	 */
+	
+	public void doSave(ActionEvent event) throws Exception {
+		ItemCollection workitem=getWorkitemBean().getWorkitem();
+		onWorkitemProcess(workitem);
+		
+		onWorkitemProcessCompleted(workitem);
+	}
+	
+	
 
 	/**
 	 * This method updates the property dms from the current BlobWorkitem. The
