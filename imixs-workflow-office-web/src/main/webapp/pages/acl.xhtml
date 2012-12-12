@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+		<f:view>
+
+			<h:form id="news_form_id">
+				<div class="sywapp-form">
+					<div class="sywapp-form-body">
+						<rich:panel>
+							<f:facet name="header">
+								<h:outputText value="ACL Info" />
+							</f:facet>
+
+							<dl class="columns-2">
+								<dt>User:</dt>
+								<dd><ul>
+									<h:outputText value="#{loginMB.userPrincipal}" />
+									</ul>
+								</dd>
+
+								<dt>Roles:</dt>
+								<dd>
+									<ul>
+										<c:forEach var="role" items="#{loginMB.userRoles}">
+											<li><h:outputText value="#{role}" /></li>
+										</c:forEach>
+									</ul>
+								</dd>
+							</dl>
+							<div style="clear: left" />
+						</rich:panel>
+					</div>
+				</div>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

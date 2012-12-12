@@ -33,13 +33,14 @@
 				</ui:repeat>
 
 				<!-- *** Archive  *** -->
-				<h:commandButton action="home" rendered="#{!workitemMB.newWorkitem}"
-					actionListener="#{workitemMB.doMoveIntoArchive}"
+				<h:commandButton action="home" rendered="#{!workitemMB.newWorkitem and IsUserInRole['org.imixs.ACCESSLEVEL.MANAGERACCESS']}"
+					actionListener="#{workitemMB.doMoveIntoArchive}"  immediate="true" 
 					value="#{global.archive}">
 				</h:commandButton>
 
 				<!-- *** Soft Delete  *** -->
-				<a4j:commandButton value="#{global.delete}" id="delete_button">
+				<a4j:commandButton value="#{global.delete}" id="delete_button"  immediate="true" 
+				rendered="#{IsUserInRole['org.imixs.ACCESSLEVEL.MANAGERACCESS']}">
 				</a4j:commandButton>
 				<rich:componentControl for="delete_panel" attachTo="delete_button"
 					operation="show" event="onclick" />
@@ -48,7 +49,7 @@
 
 			<!-- *** Restore Soft Delete  *** -->
 			<c:if test="#{workitemMB.workitem.item['type'] eq 'workitemdeleted'}">
-				<h:commandButton action="home"
+				<h:commandButton action="home" rendered="#{IsUserInRole['org.imixs.ACCESSLEVEL.MANAGERACCESS']}"
 					actionListener="#{workitemMB.doRestoreFromDeletions}"
 					value="#{global.restore}">
 				</h:commandButton>
@@ -56,7 +57,7 @@
 
 			<!-- *** Restore Archive  *** -->
 			<c:if test="#{workitemMB.workitem.item['type'] eq 'workitemarchive'}">
-				<h:commandButton action="home"
+				<h:commandButton action="home" rendered="#{IsUserInRole['org.imixs.ACCESSLEVEL.MANAGERACCESS']}"
 					actionListener="#{workitemMB.doRestoreFromArchive}"
 					value="#{global.restore}">
 				</h:commandButton>
