@@ -59,8 +59,7 @@ public class LDAPGroupInterceptor {
 				ctx.getContextData()
 						.put(EntityService.USER_GROUP_LIST, sGroups);
 
-				if (logger.getLevel().intValue() <= java.util.logging.Level.FINEST
-						.intValue()) {
+				if (logger.isLoggable(java.util.logging.Level.FINEST)) {
 					String groupListe = "";
 					for (String aGroup : sGroups)
 						groupListe += aGroup + " ";
