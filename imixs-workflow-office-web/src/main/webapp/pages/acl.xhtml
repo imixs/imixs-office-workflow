@@ -19,13 +19,22 @@
 							</f:facet>
 
 							<dl class="columns-2">
-								<dt>User:</dt>
+								<dt>UserID:</dt>
 								<dd><ul>
 									<h:outputText value="#{loginMB.userPrincipal}" />
 									</ul>
 								</dd>
 
 								<dt>Roles:</dt>
+								<dd>
+									<ul>
+										<c:forEach var="role" items="#{loginMB.userRoles}">
+											<li><h:outputText value="#{role}" /></li>
+										</c:forEach>
+									</ul>
+								</dd>
+								
+								<dt>UserNameList:</dt>
 								<dd>
 									<ul>
 										<c:forEach var="role" items="#{loginMB.userRoles}">
