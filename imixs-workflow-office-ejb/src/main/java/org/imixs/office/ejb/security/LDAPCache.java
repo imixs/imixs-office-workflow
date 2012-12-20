@@ -106,6 +106,14 @@ public class LDAPCache {
 		}
 		return cache.get(key);
 	}
+	
+	/** 
+	 * returns true if the key is contained in the cache.
+	 * 
+	 */
+	public boolean contains(String key) {
+		return cache.containsKey(key);
+	}
 
 	public void put(String key, Object value) {
 		cache.put(key, value);

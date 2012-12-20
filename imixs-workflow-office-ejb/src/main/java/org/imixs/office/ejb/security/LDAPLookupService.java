@@ -109,7 +109,7 @@ public class LDAPLookupService {
 			try {
 				if (ldapCtx != null) {
 					ldapCtx.close();
-					ldapCtx=null;
+					ldapCtx = null;
 				}
 			} catch (NamingException e) {
 				e.printStackTrace();
@@ -119,43 +119,48 @@ public class LDAPLookupService {
 	}
 
 	/**
-	 * returns the default attributes for a given user
+	 * Returns the default attributes for a given user. If no user was found in
+	 * LDAP the method returns null.
 	 * 
 	 * @param aUID
 	 *            - user id
-	 * @return ItemCollection containing the user attributes
+	 * @return ItemCollection containing the user attributes or null if no
+	 *         attributes where found.
 	 */
 	public ItemCollection findUser(String aUID) {
 
-		ItemCollection user = (ItemCollection) ldapCache.get(aUID);
-		if (user != null)
-			return user;
+		// also null objects can be returned here (if no ldap attributes exist)
+		if (ldapCache.contains(aUID))
+			return (ItemCollection) ldapCache.get(aUID);
 
 		// start lookup
 		LdapContext ldapCtx = null;
 		try {
 			logger.fine("LDAP find user: " + aUID);
-
 			ldapCtx = getDirContext();
-			return fetchUser(aUID, ldapCtx);
+			ItemCollection user = fetchUser(aUID, ldapCtx);
+			// cache user attributes (also null will be set if no entry was
+			// found!)
+			ldapCache.put(aUID, user);
+			return user;
+
 		} finally {
 			if (ldapCtx != null)
-				try {												
+				try {
 					ldapCtx.close();
-					ldapCtx=null;
+					ldapCtx = null;
 				} catch (NamingException e) {
 					e.printStackTrace();
 				}
-			
-			
+
 		}
-		
-	
 
 	}
 
 	/**
-	 * returns all groups for a given UID
+	 * Returns a string array containing all group names for a given UID. If no
+	 * groups exist or the uid was not found the method returns an empty string
+	 * array!.
 	 * 
 	 * 
 	 * @param aUID
@@ -164,30 +169,35 @@ public class LDAPLookupService {
 	 */
 	public String[] findGroups(String aUID) {
 		// test cache...
-		String[] groupArrayList = (String[]) ldapCache.get(aUID + "-GROUPS");
-		if (groupArrayList != null) {
-			return groupArrayList;
+		String[] groups = (String[]) ldapCache.get(aUID + "-GROUPS");
+		if (groups != null) {
+			return groups;
 		}
 
 		LdapContext ldapCtx = null;
 		try {
 			logger.fine("LDAP find user groups for: " + aUID);
 			ldapCtx = getDirContext();
-			String[] groups= fetchGroups(aUID, ldapCtx);
+			groups = fetchGroups(aUID, ldapCtx);
+			if (groups == null)
+				groups = new String[0];
 			if (logger.isLoggable(java.util.logging.Level.FINE)) {
-				String groupListe = "";
+				String groupList = "";
 				for (String aGroup : groups)
-					groupListe += aGroup + " ";
-				logger.fine("LDAP groups found for " + aUID + "=" + groupListe);
+					groupList += "'" + aGroup + "' ";
+				logger.fine("LDAP groups found for " + aUID + "=" + groupList);
 			}
-			
+
+			// cache Group list
+			ldapCache.put(aUID + "-GROUPS", groups);
+
 			return groups;
-			
+
 		} finally {
 			if (ldapCtx != null)
 				try {
 					ldapCtx.close();
-					ldapCtx=null;
+					ldapCtx = null;
 				} catch (NamingException e) {
 					e.printStackTrace();
 				}
@@ -196,22 +206,26 @@ public class LDAPLookupService {
 	}
 
 	/**
-	 * returns the default attributes for a given user
+	 * returns the default attributes for a given user in an ItemCollection. If
+	 * ldap service is disabled or the user was not found then the method
+	 * returns null.
 	 * 
 	 * @param aUID
 	 *            - user id
-	 * @return ItemCollection containing the user attributes
+	 * @return ItemCollection - containing the user attributes or null if no
+	 *         entry was found
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private ItemCollection fetchUser(String aUID, LdapContext ldapCtx) {
 		ItemCollection user = null;
 		String sDN = null;
-		if (!enabled)
-			return new ItemCollection();
+		if (!enabled) {
+			return null;
+		}
 
 		NamingEnumeration<SearchResult> answer = null;
 		try {
-
+			user = new ItemCollection();
 			SearchControls ctls = new SearchControls();
 			ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 			ctls.setReturningAttributes(userAttributes);
@@ -219,13 +233,14 @@ public class LDAPLookupService {
 			String searchFilter = dnSearchFilter.replace("%u", aUID);
 			logger.finest("LDAP search:" + searchFilter);
 			answer = ldapCtx.search(searchContext, searchFilter, ctls);
+			if (answer == null)
+				return null;
 
 			if (answer.hasMore()) {
 				SearchResult entry = (SearchResult) answer.next();
 				sDN = entry.getName();
 				logger.finest("LDAP DN= " + sDN);
 
-				user = new ItemCollection();
 				Attributes attributes = entry.getAttributes();
 				// fetch all attributes
 				for (String itemName : userAttributes) {
@@ -248,25 +263,23 @@ public class LDAPLookupService {
 			if (sDN == null) {
 				// empty user entry
 				sDN = aUID;
-
-				user = new ItemCollection();
-
 				user.replaceItemValue("dn", sDN);
 			}
 
-			// cache DN
-			ldapCache.put(aUID, user);
 		} catch (NamingException e) {
+			// return null
+			user = null;
 			logger.warning("Unable to fetch DN for: " + aUID);
+			logger.warning(e.getMessage());
 			if (logger.isLoggable(java.util.logging.Level.FINEST))
 				e.printStackTrace();
+
 		} finally {
 			if (answer != null)
 				try {
 					answer.close();
-					answer=null;
+					answer = null;
 				} catch (NamingException e) {
-
 					e.printStackTrace();
 				}
 		}
@@ -274,14 +287,12 @@ public class LDAPLookupService {
 	}
 
 	/**
-	 * returns all groups where the remote user is member of
+	 * Returns a string array containing all group names for a given uid. If not
+	 * groups are found or the uid did not exist the method returns null.
 	 * 
-	 * The method checks the expires time and rest the cache if the cache time
-	 * is expired
-	 * 
-	 * @param aQnummer
-	 * @return
-	 * @throws NamingException
+	 * @param aUID
+	 *            - user id
+	 * @return array list of user groups or null if no entry was found
 	 */
 	private String[] fetchGroups(String aUID, LdapContext ldapCtx) {
 		String sDN = null;
@@ -300,6 +311,9 @@ public class LDAPLookupService {
 					.getProperty("group-name-praefix");
 
 			ItemCollection user = fetchUser(aUID, ldapCtx);
+			// return null if user was not found
+			if (user == null)
+				return null;
 
 			sDN = user.getItemValueString("dn");
 
@@ -315,6 +329,8 @@ public class LDAPLookupService {
 			logger.finest("LDAP search:" + searchFilter);
 
 			answer = ldapCtx.search(searchContext, searchFilter, ctls);
+			if (answer == null)
+				return null;
 
 			while (answer.hasMore()) {
 				SearchResult entry = (SearchResult) answer.next();
@@ -346,12 +362,11 @@ public class LDAPLookupService {
 
 			groupArrayList = new String[vGroupList.size()];
 			vGroupList.toArray(groupArrayList);
-			// cache DN
-			ldapCache.put(aUID + "-GROUPS", groupArrayList);
 
 			logger.finest("LDAP put groups into cache for '" + aUID + "'");
 
 		} catch (NamingException e) {
+			groupArrayList=null;
 			logger.warning("Unable to fetch groups for: " + aUID);
 			if (logger.isLoggable(java.util.logging.Level.FINEST))
 				e.printStackTrace();
@@ -359,7 +374,7 @@ public class LDAPLookupService {
 			if (answer != null)
 				try {
 					answer.close();
-					answer=null;
+					answer = null;
 				} catch (NamingException e) {
 
 					e.printStackTrace();
@@ -504,25 +519,21 @@ public class LDAPLookupService {
 			if (sDisabled != null && "true".equals(sDisabled.toLowerCase())) {
 				logger.fine("LDAPGroupLookupService lookup LDAP Ctx manually.....");
 				Hashtable env = new Hashtable();
-				
-				
+
 				// scann all properties starting with 'java.naming'
-				Enumeration<Object> keys=configurationProperties.keys();
+				Enumeration<Object> keys = configurationProperties.keys();
 				while (keys.hasMoreElements()) {
-					String sKey=keys.nextElement().toString();
+					String sKey = keys.nextElement().toString();
 					if (sKey.startsWith("java.naming")) {
-						env.put(sKey,
-								configurationProperties
-										.getProperty(sKey));
-						logger.fine("Set key: " + sKey +" with value: " + configurationProperties
-										.getProperty(sKey));
+						env.put(sKey, configurationProperties.getProperty(sKey));
+						logger.fine("Set key: " + sKey + " with value: "
+								+ configurationProperties.getProperty(sKey));
 					}
-					
+
 				}
-				
-				
+
 				// set default params...
-				
+
 				env.put("java.naming.factory.initial", configurationProperties
 						.getProperty("java.naming.factory.initial",
 								"com.sun.jndi.ldap.LdapCtxFactory"));
@@ -531,18 +542,18 @@ public class LDAPLookupService {
 								.getProperty(
 										"java.naming.security.authentication",
 										"simple"));
-				
+
 				/*
-				env.put("java.naming.security.principal",
-						configurationProperties
-								.getProperty("java.naming.security.principal"));
-				env.put("java.naming.security.credentials",
-						configurationProperties
-								.getProperty("java.naming.security.credentials"));
-				env.put("java.naming.provider.url", configurationProperties
-						.getProperty("java.naming.provider.url"));
-					*/
-								
+				 * env.put("java.naming.security.principal",
+				 * configurationProperties
+				 * .getProperty("java.naming.security.principal"));
+				 * env.put("java.naming.security.credentials",
+				 * configurationProperties
+				 * .getProperty("java.naming.security.credentials"));
+				 * env.put("java.naming.provider.url", configurationProperties
+				 * .getProperty("java.naming.provider.url"));
+				 */
+
 				ldapCtx = new InitialLdapContext(env, null);
 				logger.finest("Get DirContext Manually successful! ");
 
@@ -561,7 +572,7 @@ public class LDAPLookupService {
 			logger.fine("LDAPGroupLookupService Context initialized");
 
 		} catch (NamingException e) {
-			logger.severe("Unable to open ldap context: " + ldapJndiName);			
+			logger.severe("Unable to open ldap context: " + ldapJndiName);
 			if (logger.isLoggable(java.util.logging.Level.FINE))
 				e.printStackTrace();
 		}

@@ -50,7 +50,7 @@ public class LDAPGroupInterceptor {
 					|| "load".equals(sMethod)
 					|| "getUserNameList".equals(sMethod)) {
 
-				logger.finest("LDAP Interceptor Method: " + sMethod);
+				logger.finest("LDAPGroupInterceptor Method=" + sMethod);
 
 				String sUserID = ejbCtx.getCallerPrincipal().getName();
 
@@ -62,8 +62,8 @@ public class LDAPGroupInterceptor {
 				if (logger.isLoggable(java.util.logging.Level.FINEST)) {
 					String groupListe = "";
 					for (String aGroup : sGroups)
-						groupListe += aGroup + " ";
-					logger.finest("LDAP resolved UserGroups: " + groupListe);
+						groupListe += "'"+aGroup + "' ";
+					logger.finest("LDAPGroupInterceptor resolved UserGroups for '" + sUserID + "' = " + groupListe);
 				}
 			}
 		}
