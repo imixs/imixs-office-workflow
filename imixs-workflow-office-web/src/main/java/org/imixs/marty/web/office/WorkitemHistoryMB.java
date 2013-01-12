@@ -36,6 +36,7 @@ import javax.faces.event.ActionEvent;
 import org.imixs.marty.web.workitem.WorkitemListener;
 import org.imixs.marty.web.workitem.WorkitemMB;
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.jee.ejb.EntityService;
 
 /**
  * This ManagedBean supports Histoy navigation over workitems the user has
@@ -138,6 +139,21 @@ public class WorkitemHistoryMB implements WorkitemListener {
 				}
 			}
 		}
+
+		doRemoveWorkitem(aID);
+	}
+	
+	
+	/**
+	 * this method removes the workitem from the history list A parameter 'id'
+	 * with the $uniqueid is expected
+	 * 
+	 * @param event
+	 * @return
+	 * @throws Exception
+	 */
+	public void doRemoveWorkitem(String aID) throws Exception {
+		
 
 		// try to find the woritem in the history list
 		if (aID != null) {
@@ -276,10 +292,22 @@ public class WorkitemHistoryMB implements WorkitemListener {
 	public void onWorkitemDeleteCompleted() {
 	}
 
+	/**
+	 * remove workitem from history
+	 */
 	public void onWorkitemSoftDelete(ItemCollection e) {
+		try {
+			this.doRemoveWorkitem(e.getItemValueString(EntityService.UNIQUEID));
+		} catch (Exception e1) {
+			logger.info("onWorkitemSoftDelete: Unable to remove workitem from history");
+			e1.printStackTrace();
+		}
 	}
 
+	
 	public void onWorkitemSoftDeleteCompleted(ItemCollection e) {
+		
+		
 	}
 
 	public void onChildProcess(ItemCollection e) {
