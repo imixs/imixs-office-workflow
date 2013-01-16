@@ -28,7 +28,7 @@
 
 		<!-- *** Standard Info *** -->
 		<a4j:outputPanel layout="block" style="float:left;">
-			<a4j:outputPanel rendered="#{workitem.item['$isAuthor']}">
+			<a4j:outputPanel>
 				<rich:dragSupport dragIndicator=":indicator" dragType="workitem"
 					dragValue="#{workitem.item['$uniqueid']}">
 					<rich:dndParam name="label"
@@ -46,16 +46,7 @@
 					</h:outputText>
 				</h:commandLink>
 			</a4j:outputPanel>
-			<a4j:outputPanel rendered="#{! workitem.item['$isAuthor']}">
-				<h:outputText value="#{workitem.item['txtWorkflowSummary']}"  escape="false" 
-					styleClass="sywapp-viewentry-header" />
-				<h:outputText value="#{workitem.item['$modified']}"
-					rendered="#{empty workitem.item['txtWorkflowSummary']}"  escape="false" 
-					styleClass="sywapp-viewentry-header">
-					<f:convertDateTime timeZone="#{global.timeZone}" type="both"
-						pattern="#{global.dateTimePattern}" />
-				</h:outputText>
-			</a4j:outputPanel>
+			
 			<br />
 			
 			<!-- Status -->
@@ -206,7 +197,7 @@
 			</a4j:commandLink></li>
 
 
-		<li><h:commandLink rendered="#{workitem.item['$isAuthor']}"
+		<li><h:commandLink
 				actionListener="#{worklistMB.doEdit}" action="open_workitem">
 				<h:outputText value="#{messages.open_workitem}" />
 			</h:commandLink></li>

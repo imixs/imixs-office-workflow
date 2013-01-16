@@ -153,8 +153,9 @@ public class WorkitemHistoryMB implements WorkitemListener {
 	 * @throws Exception
 	 */
 	public void doRemoveWorkitem(String aID) throws Exception {
+		// init workitem aray if still null
+		getWorkitems();
 		
-
 		// try to find the woritem in the history list
 		if (aID != null) {
 			// test if still stored?
@@ -220,6 +221,9 @@ public class WorkitemHistoryMB implements WorkitemListener {
 		if ("".equals(sID))
 			return;
 
+		// init workitem aray if still null
+		getWorkitems();
+				
 		// test if still stored?
 		for (ItemCollection historyWorkitem : workitems) {
 			String sHistoryUnqiueID = historyWorkitem
@@ -267,6 +271,9 @@ public class WorkitemHistoryMB implements WorkitemListener {
 	public void onWorkitemProcessCompleted(ItemCollection workitem) {
 		String sAction = this.getWorkitemBean().getAction();
 
+		// init workitem aray if still null
+		getWorkitems();
+				
 		logger.fine("ACTION=" + this.getWorkitemBean().getAction());
 		if (!"open_workitem".equals(sAction)) {
 			String aID = workitem.getItemValueString("$UniqueID");

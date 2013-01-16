@@ -24,8 +24,8 @@
 	<!-- *** Standard Info *** -->
 	<a4j:outputPanel layout="block" style="" id="standard_infoblock_id">
 
-		<!-- *** author modus -->
-		<a4j:outputPanel rendered="#{workitem.item['$isAuthor']}">
+		
+		<a4j:outputPanel>
 			<h:commandLink actionListener="#{worklistMB.doEdit}"
 				action="open_workitem">
 
@@ -46,24 +46,7 @@
 			</h:commandLink>
 		</a4j:outputPanel>
 
-		<!-- *** reader modus -->
-		<a4j:outputPanel rendered="#{! workitem.item['$isAuthor']}">
 		
-			<h:panelGroup
-					rendered="#{empty workitem.item['txtWorkflowSummary']}">
-					<h:outputText value="#{workitem.item['$modified']}"
-						style="font-weight: bold;">
-						<f:convertDateTime timeZone="#{global.timeZone}"
-							pattern="#{global.dateTimePattern}" />
-					</h:outputText> 
-					<h:outputText value=" #{workitem.item['_subject']}"
-						style="font-weight: bold;"/>
-			</h:panelGroup>
-							
-			<h:outputText escape="false" style="font-weight: bold;"
-				value="#{workitem.item['txtWorkflowSummary']}" />
-
-		</a4j:outputPanel>
 
 
 		<br />

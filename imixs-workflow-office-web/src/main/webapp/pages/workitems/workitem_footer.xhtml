@@ -14,55 +14,57 @@
 				<h:outputText value="#{global.workflow}" />
 			</f:facet>
 
-			<c:if
-				test="#{workitemMB.workitem.item['type'] eq 'workitem' or workitemMB.newWorkitem}">
+			
+			<c:choose>
+				<c:when
+					test="#{workitemMB.workitem.item['$isAuthor'] or workitemMB.newWorkitem}">
 
-				<ui:repeat value="#{workitemMB.activities}" var="activity">
-					<a4j:outputPanel>
-						<h:commandButton action="#{workitemMB.getAction}"
-							actionListener="#{workitemMB.doProcess}"
-							value="#{activity.item['txtname']}">
-							<f:param name="id" value="#{activity.item['numactivityid']}" />
+
+					<ui:repeat value="#{workitemMB.activities}" var="activity">
+						<a4j:outputPanel>
+							<h:commandButton action="#{workitemMB.getAction}"
+								onclick="getEditorPlainText();"
+								actionListener="#{workitemMB.doProcess}"
+								value="#{activity.item['txtname']}">
+								<f:param name="id" value="#{activity.item['numactivityid']}" />
+							</h:commandButton>
+							<rich:toolTip
+								rendered="#{! empty activity.item['rtfdescription']}"
+								style="max-width:400px;" layout="block">
+								<span>#{activity.item['rtfdescription']}</span>
+							</rich:toolTip>
+						</a4j:outputPanel>
+					</ui:repeat>
+
+					<a4j:outputPanel
+						rendered="#{IsUserInRole['org.imixs.ACCESSLEVEL.MANAGERACCESS']}">
+						<!-- *** Soft Delete  *** -->
+						<a4j:commandButton
+							rendered="#{workitemMB.workitem.item['type'] eq 'workitem'}"
+							value="#{global.delete}" id="delete_button" />
+						<rich:componentControl for="delete_panel" attachTo="delete_button"
+							operation="show" event="onclick" />
+
+						<!-- *** Restore Soft Delete  *** -->
+						<h:commandButton
+							rendered="#{workitemMB.workitem.item['type'] eq 'workitemdeleted'}"
+							action="home"
+							actionListener="#{workitemMB.doRestoreFromDeletions}"
+							value="#{global.restore}">
 						</h:commandButton>
-						<rich:toolTip
-							rendered="#{! empty activity.item['rtfdescription']}"
-							style="max-width:400px;" layout="block">
-							<span>#{activity.item['rtfdescription']}</span>
-						</rich:toolTip>
+
 					</a4j:outputPanel>
-				</ui:repeat>
+				</c:when>
 
-				<!-- *** Archive  *** -->
-				<h:commandButton action="home" rendered="#{!workitemMB.newWorkitem and IsUserInRole['org.imixs.ACCESSLEVEL.MANAGERACCESS']}"
-					actionListener="#{workitemMB.doMoveIntoArchive}"  immediate="true" 
-					value="#{global.archive}">
-				</h:commandButton>
+				<c:otherwise>
+					<!-- jQuery code to disabel all input elements in read modus -->
+					<script type="text/javascript">
 
-				<!-- *** Soft Delete  *** -->
-				<a4j:commandButton value="#{global.delete}" id="delete_button"  immediate="true" 
-				rendered="#{IsUserInRole['org.imixs.ACCESSLEVEL.MANAGERACCESS']}">
-				</a4j:commandButton>
-				<rich:componentControl for="delete_panel" attachTo="delete_button"
-					operation="show" event="onclick" />
-
-			</c:if>
-
-			<!-- *** Restore Soft Delete  *** -->
-			<c:if test="#{workitemMB.workitem.item['type'] eq 'workitemdeleted'}">
-				<h:commandButton action="home" rendered="#{IsUserInRole['org.imixs.ACCESSLEVEL.MANAGERACCESS']}"
-					actionListener="#{workitemMB.doRestoreFromDeletions}"
-					value="#{global.restore}">
-				</h:commandButton>
-			</c:if>
-
-			<!-- *** Restore Archive  *** -->
-			<c:if test="#{workitemMB.workitem.item['type'] eq 'workitemarchive'}">
-				<h:commandButton action="home" rendered="#{IsUserInRole['org.imixs.ACCESSLEVEL.MANAGERACCESS']}"
-					actionListener="#{workitemMB.doRestoreFromArchive}"
-					value="#{global.restore}">
-				</h:commandButton>
-			</c:if>
-
+						jQuery(".sywapp-form-body :input").attr("disabled", true);
+					
+					</script>
+				</c:otherwise>
+			</c:choose>
 
 			<!-- *** Close  *** -->
 			<h:commandButton immediate="true" action="home"
