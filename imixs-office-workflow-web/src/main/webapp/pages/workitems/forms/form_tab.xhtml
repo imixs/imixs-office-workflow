@@ -1,0 +1,51 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="form_tab">
+
+
+	<div>
+		<div class="imixs-tabs">
+			<ul>
+				<c:forEach items="#{workflowController.editorSections}"
+					var="section">
+					<li><a href="#tab-#{section.url}">#{section.name}</a></li>
+				</c:forEach>
+			</ul>
+
+			<c:forEach items="#{workflowController.editorSections}" var="section">
+				<div id="tab-#{section.url}">
+					<ui:include src="/pages/workitems/forms/#{section.url}.xhtml">
+						<ui:param name="workitem" value="#{workflowController.workitem}" />
+					</ui:include>
+				</div>
+			</c:forEach>
+
+		</div>
+
+		<!-- Standard Tab Section -->
+		<div class="imixs-tabs" style="margin-top: 10px;">
+			<ul>
+				<li><a href="#tab-comments">#{message.comments}</a></li>
+				<li><a href="#tab-documents">#{message.documents}</a></li>
+				<li><a href="#tab-references">#{message.references}</a></li>
+			</ul>
+			<div id="tab-comments">
+				<ui:include src="/pages/workitems/forms/sub_comment.xhtml" />
+			</div>
+			<div id="tab-documents">
+				<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
+			</div>
+			<div id="tab-references">
+				<ui:include src="/pages/workitems/forms/sub_reference.xhtml" />
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+</f:subview>
+

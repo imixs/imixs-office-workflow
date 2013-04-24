@@ -1,0 +1,71 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="worklist_header_id">
+
+	<ui:param name="process"
+		value="#{processController.getEntityById(searchController.searchFilter.item['txtprocessRef'])}" />
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		// This method layouts the filter section with jquery ui design  
+		function layoutFilterPanel(data) {
+			if (data.status === 'success') {
+				// select with wildcard operator
+				$('.imixs-footer,.imixs-header').imixsLayout();
+			}
+		}
+
+		/*]]>*/
+	</script>
+
+	<h:panelGroup id="worklist_filter_panel">
+
+		<div style="float: left">
+			<h1>
+				<!-- Project Name -->
+				<h:outputText value="#{process.item['txtName']}" />
+
+				<h:outputText rendered="#{empty process.item['txtName']}"
+					value="#{message.search}" />
+
+			</h1>
+		</div>
+		<div style="float: right">
+		
+			<h:selectManyCheckbox id="view_filter"
+				value="#{searchController.searchFilter.itemListArray['type']}">
+				<f:selectItem itemLabel="#{message['worklist.in_progress']}"
+					itemValue="workitem" />
+				<f:selectItem itemLabel="#{message['worklist.archive']}"
+					itemValue="workitemarchive" />
+				<!-- 
+				<f:selectItem itemLabel="#{message['worklist.deletions']}"
+					itemValue="workitemdeleted" />
+				 -->
+				<f:ajax event="change" listener="#{searchController.doRefresh}"
+					render="@form" onevent="layoutFilterPanel" />
+			</h:selectManyCheckbox>
+
+		</div>
+
+		<div style="clear: both;" />
+
+
+		<!-- show filter section only in core process selection -->
+		<c:if test="#{!empty process.item['txtName']}">
+			<ui:include src="/pages/workitems/worklist_filter.xhtml" />
+		</c:if>
+
+		<ui:include src="/pages/workitems/worklist_search.xhtml" />
+
+		<h:commandButton value="#{message.search}"
+			actionListener="#{searchController.doRefresh}" />
+
+
+	</h:panelGroup>
+
+
+</f:subview>

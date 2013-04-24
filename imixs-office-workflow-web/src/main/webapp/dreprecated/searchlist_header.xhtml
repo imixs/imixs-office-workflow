@@ -1,0 +1,46 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" id="worklist_search">
+
+
+	<!-- *** Search *** -->
+
+	<h:panelGroup id="worklist_filter_panel" layout="block"
+		styleClass="sywapp-viewentry">
+
+
+
+		<dl style="clear: left;" class="columns-1">
+
+			<dt>#{message.serachphrase}</dt>
+			<dd>
+ 
+				<h:inputText
+					value="#{worklistController.searchFilter.item['txtSearch']}"
+					style="width:500px;"></h:inputText>
+				<br />
+				<h:commandButton actionListener="#{worklistController.doReset}"
+					value="#{message.search}">
+				</h:commandButton>
+
+				<h:commandButton value="#{message.reset}"
+					actionListener="#{worklistController.doResetFilter}" />
+
+			</dd>
+		</dl>
+
+
+
+
+		<div style="clear: left;" />
+
+
+
+
+
+	</h:panelGroup>
+</f:subview>

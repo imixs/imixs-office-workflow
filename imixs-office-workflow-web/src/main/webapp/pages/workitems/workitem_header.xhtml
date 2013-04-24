@@ -1,0 +1,93 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="workitem_header_id">
+
+	<h1>
+		<h:outputText rendered="#{! empty workflowController.workitem.item['txtprocessname']}"
+			value="#{workflowController.workitem.item['txtprocessname']}: " />
+		<h:outputText
+			value="#{workflowController.workitem.item['txtworkflowgroup']}" />
+	</h1>
+
+	<!-- Workitem Info Header -->
+	<div>
+
+		<!-- *** Image *** -->
+		<h:panelGroup
+			rendered="#{!empty workflowController.workitem.item['txtWorkflowImageURL']}"
+			style="float:left;margin-right:2px;margin-left:2px;margin-bottom:0px;">
+			<img src="#{workflowController.workitem.item['txtWorkflowImageURL']}"
+				style="max-height: 24px; margin: 4px;" />
+		</h:panelGroup>
+
+
+		<!-- *** Standard Info *** -->
+		<h:panelGroup>
+			<h:outputText style="font-size:14px; font-weight:bold;"
+				escape="false"
+				rendered="#{empty workflowController.workitem.item['txtWorkflowSummary']}"
+				value="#{message.new}" />
+
+			<h:outputText style="font-size:14px; font-weight:bold;"
+				escape="false"
+				rendered="#{!empty workflowController.workitem.item['txtWorkflowSummary']}"
+				value="#{workflowController.workitem.item['txtWorkflowSummary']}" />
+			<br />
+
+			<h:outputText style="font-weight: bold;" value="#{message.status}:" />
+
+			<h:outputText style=""
+				value=" #{workflowController.workitem.item['txtworkflowstatus']}" />
+
+			<h:panelGroup rendered="#{! workflowController.newWorkitem}"
+				style="cursor:pointer;">
+				<a onclick="$('#history-panel').toggle();"
+					style="margin-left: 10px;">[#{message.history}]</a>
+			</h:panelGroup>
+
+
+			<h:panelGroup rendered="#{! workflowController.newWorkitem}"
+				style="cursor:pointer;">
+				<a onclick="$('#process-panel').toggle();"
+					style="margin-left: 10px;">[#{message.progress}]</a>
+			</h:panelGroup>
+
+			<div style="clear: left;" />
+			<!-- Workflow History -->
+			<div id="history-panel" style="border-top: 1px solid silver;">
+				<ui:include src="/pages/workitems/workitem_history.xhtml" />
+			</div>
+			<!-- Process Map -->
+			<div id="process-panel" style="border-top: 1px solid silver;">
+				<ui:include src="/pages/workitems/workitem_processmap.xhtml">
+					<ui:param name="workflowgroup"
+						value="#{workflowController.workitem.item['txtWorkflowGroup']}" />
+					<ui:param name="modelversion"
+						value="#{workflowController.workitem.item['$modelVersion']}" />
+					<ui:param name="processid"
+						value="#{workflowController.workitem.item['$ProcessID']}" />
+				</ui:include>
+			</div>
+
+
+		</h:panelGroup>
+
+
+
+
+
+
+	</div>
+
+
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		$('#history-panel').hide();
+		$('#process-panel').hide();
+
+		/*]]>*/
+	</script>
+</f:subview>

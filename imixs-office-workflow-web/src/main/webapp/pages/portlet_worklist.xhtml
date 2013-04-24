@@ -1,0 +1,61 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<!-- ##### Portlet View  ######### 
+	
+	    Usage: 
+	    
+	    ... ui:include src="portlet_worklist.xhtml"
+					ui:param name="worklist" value="#{viewController}" /
+		/ui:include 
+	
+	-->
+
+	<div class="imixs-portlet">
+		<div class="imixs-header">
+
+			<div align="right" style="float: right;">
+				<h:commandLink actionListener="#{view.doReset}"
+					title="#{message.refresh}">
+					<h:graphicImage url="/layout/icons/Update2_16.png"></h:graphicImage>
+					<f:ajax render="portlet_worklist_body" />
+				</h:commandLink>
+			</div>
+
+			<h:outputText value="#{message[view.view]}" />
+		</div>
+
+		<h:panelGroup id="portlet_worklist_body">
+
+			<!-- **** Workitems ***** -->
+			<ui:repeat var="workitem" value="#{view.workitems}">
+				<ui:include src="portlet_worklist_viewentry.xhtml">
+					<ui:param name="workitem" value="#{workitem}" />
+				</ui:include>
+
+			</ui:repeat>
+			<!-- navigation -->
+			<h:panelGroup layout="block" id="portlet_worklist_nav"
+				style="float: right;">
+				<span style="margin-right: 10px;"> <h:commandLink
+						actionListener="#{view.doLoadPrev}" disabled="#{view.row == 0}"
+						value="#{message.prev}">
+						<f:ajax render="portlet_worklist_body" />
+					</h:commandLink>
+				</span>
+				<h:commandLink actionListener="#{view.doLoadNext}"
+					disabled="#{view.endOfList}" value="#{message.next}">
+					<f:ajax render="portlet_worklist_body"></f:ajax>
+				</h:commandLink>
+			</h:panelGroup>
+
+			<div style="clear: right;" />
+		</h:panelGroup>
+
+
+	</div>
+
+</f:subview>
+

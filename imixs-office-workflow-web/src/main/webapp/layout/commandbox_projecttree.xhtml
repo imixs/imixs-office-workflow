@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+	<!-- 
+		The ProcessTree is an ui element providing navigation through all projects in his 
+		hirarchy 
+	 
+	 -->
+
+	<c:if test="#{loginController.authenticated}">
+		<h:form>
+
+			<h:panelGroup layout="block" styleClass="imixs-commandbox">
+				<!-- *** Project Tree *** -->
+				<h1>#{message['nav.projecttree']}</h1>
+				<ul>
+					<ui:repeat value="#{processController.projectList}" var="project">
+						<li><h:commandLink action="/pages/workitems/worklist"
+								immediate="true" actionListener="#{worklistController.doResetFilter}">
+								<h:outputText value="#{project.item['txtName']}" />
+
+								<f:setPropertyActionListener
+									target="#{worklistController.queryFilter.item['$uniqueidRef']}"
+									value="#{project.item['$Uniqueid']}" />
+								<f:setPropertyActionListener
+									target="#{worklistController.queryFilter.item['txtName']}"
+									value="#{project.item['txtName']}" />
+							</h:commandLink></li>
+
+					</ui:repeat>
+				</ul>
+
+			</h:panelGroup>
+
+
+		</h:form>
+	</c:if>
+</ui:composition>
+
+

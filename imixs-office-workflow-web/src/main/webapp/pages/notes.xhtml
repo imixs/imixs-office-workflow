@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/layout/template.xhtml">
+
+
+	<!-- History Nav 
+	<ui:define name="historynav">
+		<ui:include src="/layout/historynav_home.xhtml" />
+	</ui:define>
+-->
+ 
+	<ui:define name="content">
+		<f:view>
+			
+			<h:form id="news_form">
+				<div class="sywapp-view sywapp-worklist">
+					
+					<div >
+					
+				
+						<div>
+							<!--  Box 1 -->
+							<div
+								style="margin: 0; padding: 0; border: 0; float: left; width: 50%">
+								<div style="margin-right: 5px;">
+
+									<!-- -->
+									<ui:include src="/pages/portlet_worklist.xhtml" >
+										<ui:param name="view" value="#{portletWorklistTasks}" />
+									</ui:include>
+ 
+								</div>
+							</div>
+
+							<!--  Box 2 -->
+							<div
+								style="margin: 0; padding: 0; border: 0; float: left; width: 49.9%;">
+								<div style="margin-left: 5px;">
+										<ui:include src="/pages/sub_startprocess.xhtml" />
+
+									
+
+								</div>
+							</div>
+							<div style="clear: left;" />
+						</div>
+
+
+						<div>
+							<!--  DmsList only visible if dmsScheduler is stared 
+							<a4j:outputPanel
+								rendered="# { dmsMB.configuration.item['_enabled']}"
+								layout="block"  style="margin: 0; padding: 0; border: 0; float: left;width:50%">
+
+								<div style="margin-right: 5px;">
+								
+									
+								</div>
+							</a4j:outputPanel>
+							-->
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+
+</ui:composition>
+

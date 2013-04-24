@@ -1,0 +1,204 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+
+	<div>
+
+
+		<!-- *** Sequence Number *** 
+					<a4j:outputPanel layout="block"
+						style="float:left;height:34px;border-right:1px solid silver;margin-right:5px;margin-left:2px;margin-bottom:10px;">
+						<h:outputText value="#{workitem.item['numSequenceNumber']}"
+							style="font-size:30px;font-weight:bold;margin-right:5px;" />
+					</a4j:outputPanel>
+					-->
+
+		<!-- *** Image *** -->
+
+		<h:panelGroup layout="block"
+			rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
+			style="float:left;height:30px;margin-right:2px;margin-left:2px;margin-bottom:0px;">
+			<img src="#{workitem.item['txtWorkflowImageURL']}"
+				style="max-height: 24px; margin: 4px;" />
+		</h:panelGroup>
+
+		<!-- *** Standard Info *** -->
+		<h:panelGroup layout="block" style="float:left;">
+			<h:panelGroup rendered="#{workitem.item['$isAuthor']}">
+
+
+		<h:commandLink 
+				action="#{workflowController.load(workitem.item['$uniqueid'],'/pages/workitems/workitem')}">
+					<h:outputText value="#{workitem.item['txtWorkflowSummary']}"
+						styleClass="sywapp-viewentry-header" />
+					<h:outputText value="#{workitem.item['$modified']}"
+						rendered="#{empty workitem.item['txtWorkflowSummary']}"
+						styleClass="sywapp-viewentry-header">
+						<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+							pattern="#{global.dateTimePattern}" />
+					</h:outputText>
+				</h:commandLink>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{! workitem.item['$isAuthor']}">
+				<h:outputText value="#{workitem.item['txtWorkflowSummary']}"
+					styleClass="sywapp-viewentry-header" />
+				<h:outputText value="#{workitem.item['$modified']}"
+					rendered="#{empty workitem.item['txtWorkflowSummary']}"
+					styleClass="sywapp-viewentry-header">
+					<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+						pattern="#{global.dateTimePattern}" />
+				</h:outputText>
+			</h:panelGroup>
+			<br />
+
+			<!-- Status -->
+			<h:outputText style="font-weight: bold;"
+				value="#{workitem.item['txtworkflowgroup']}: " />
+			<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
+
+			<!-- modified -->
+			<br />
+			<h:outputText style="font-weight: bold;" value="#{global.modified}: " />
+			<h:outputText value="#{workitem.item['$modified']}"
+				style="font-weight: normal;">
+				<f:convertDateTime timeZone="#{global.timeZone}"
+					pattern="#{global.dateTimePatternShort}" />
+			</h:outputText>
+
+			<!-- display owner -->
+
+			<h:panelGroup rendered="#{! empty workitem.item['namowner']}">
+				<br />
+				<h:outputText style="font-weight: bold;" value="#{global.owner}: " />
+				<ui:repeat value="#{workitem.itemList['namowner']}" var="name">
+					<h:outputText value="#{name} " />
+				</ui:repeat>
+			</h:panelGroup>
+
+			<!-- display Project name -->
+			<h:panelGroup rendered="#{empty projectMB.workitem.item['txtname']}">
+				<br />
+				<h:outputText style="font-weight: bold;"
+					value="#{messages.project}: " />
+				<h:outputText value="#{workitem.item['txtProjectName']}" />
+			</h:panelGroup>
+
+
+
+		</h:panelGroup>
+
+		<!-- clear floating problem from sidebar in ff and chrome.  -->
+		<div style="clear: left;" />
+
+		<!-- Details -->
+		<h:panelGroup id="infoBlock1" layout="block">
+			<h:panelGroup layout="block"
+				rendered="#{workitem.item['a4j:showDetails']}"
+				styleClass="sywapp-viewentry-details">
+				<h3>
+					<h:outputText value="#{messages.details}" />
+					<h:commandLink reRender="infoBlock1,togle_details_command_id"
+						
+						value="#{global.close}"
+						style="font-size:10px; font-weight:normal;margin-left:10px;text-transform:uppercase;">
+					</h:commandLink>
+				</h3>
+				<!-- Workflow Abstract -->
+				<div class="sywapp-html">
+					<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
+						escape="false" />
+				</div>
+				<!-- References -->
+				<h:panelGroup layout="block"
+					rendered="#{! empty workitemReferenceMB.referencesFor[workitem.item['$uniqueid']]}"
+					style="margin-bottom:5px;">
+					<h3>
+						<h:outputText value="#{messages.references}" />
+					</h3>
+					<ui:repeat
+						value="#{workitemReferenceMB.referencesFor[workitem.item['$uniqueid']]}"
+						var="workitem">
+
+						<h:panelGroup layout="block">
+							<h:commandLink
+								actionListener="#{workitemReferenceMB.doSwitchToWorkitem}"
+								action="open_workitem">
+								<h:outputText value="#{workitem.item['txtWorkflowSummary']}"
+									rendered="#{!empty workitem.item['txtWorkflowSummary']}" />
+								<f:param name="id" value="#{workitem.item['$uniqueid']}" />
+							</h:commandLink>
+							<br />
+							<h:outputText style="font-weight: normal;"
+								value="#{workitem.item['txtworkflowgroup']}: " />
+							<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
+
+						</h:panelGroup>
+
+					</ui:repeat>
+				</h:panelGroup>
+
+			</h:panelGroup>
+		</h:panelGroup>
+
+		<!-- History -->
+		<h:panelGroup id="infoBlock2" layout="block">
+			<h:panelGroup layout="block"
+				rendered="#{workitem.item['a4j:showHistory']}"
+				styleClass="sywapp-viewentry-details">
+				<h3>
+					<h:outputText value="#{messages.history}" />
+					<h:commandLink reRender="infoBlock2,togle_history_command_id"
+						value="#{global.close}"
+						style="font-size:10px; font-weight:normal;margin-left:10px;text-transform:uppercase;"
+						>
+					</h:commandLink>
+				</h3>
+				<p>
+					<h:outputText value="#{global.created}: " />
+					<h:outputText value="#{workitem.item['$created']}">
+						<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+							pattern="#{global.dateTimePattern}" />
+					</h:outputText>
+					<h:outputText
+						value=" #{global.by} #{nameLookupMB.userName[workitem.item['namcreator']]}" />
+					<br />
+					<h:outputText value="#{global.modified}: " />
+					<h:outputText value="#{workitem.item['$modified']}">
+						<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+							pattern="#{global.dateTimePattern}" />
+					</h:outputText>
+					<h:outputText
+						value=" #{global.by} #{nameLookupMB.userName[workitem.item['namcurrenteditor']]}" />
+				</p>
+				<ui:repeat
+					value="#{workitem.itemListArray['txtworkflowhistorylog']}"
+					var="log">
+					<h:outputText value="#{log}" />
+					<br />
+				</ui:repeat>
+			</h:panelGroup>
+		</h:panelGroup>
+	</div>
+	<ul class="sywapp-viewentry-nav">
+
+		<li><h:commandLink id="togle_details_command_id"
+				value="#{message.details}"
+				reRender="infoBlock1,togle_details_command_id"
+				>
+			</h:commandLink></li>
+
+
+		<li><h:commandLink id="togle_history_command_id"
+				value="#{message.history}"
+				reRender="infoBlock2,togle_history_command_id"
+				>
+			</h:commandLink></li>
+
+
+		
+
+	</ul>
+</f:subview>

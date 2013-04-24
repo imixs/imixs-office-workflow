@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<f:view>
+		<h:form>
+			<ul>
+				<!-- Different for signed in and anoymous users -->
+				<c:choose>
+					<!--  Singed in user -->
+					<c:when test="#{loginController.authenticated}">
+						<li style="margin-bottom: 10px;"><h:commandLink
+								actionListener="#{workflowController.reset}" immediate="true"
+								action="index.xhtml">
+								<h:outputText value="#{message['nav.home']}" />
+							</h:commandLink></li>
+
+
+						<li><b><h:outputText
+									value="#{message.signed_in}: #{userController.workitem.item['txtName']}" /></b>
+						</li>
+
+						<li><h:commandLink action="open_my_settings"
+								value="#{message['nav.my_settings']}">
+							</h:commandLink></li>
+						<li><h:commandLink action="/logout.xhtml"
+								actionListener="#{loginController.doLogout}">
+								<h:outputText value="#{message['nav.logout']}" />
+							</h:commandLink></li>
+					</c:when>
+
+
+					<c:otherwise>
+						<li><a
+							href="#{facesContext.externalContext.requestContextPath}/">#{message['nav.home']}</a>
+						</li>
+					</c:otherwise>
+
+				</c:choose>
+
+				<li><a href="http://www.office-workflow.de"><h:outputText
+							value="#{message['nav.about']}" /></a></li>
+
+				<li><a href="http://www.imixs.com"><h:outputText
+							value="Imixs.com" /></a></li>
+
+				
+
+
+			</ul>
+		</h:form>
+
+
+	</f:view>
+
+</ui:composition>
+
+

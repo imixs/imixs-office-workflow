@@ -1,0 +1,60 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="workitem_footer_id">
+
+
+	<!-- *** Workflow (Author) **** -->
+
+	<h1>#{message.workflow}</h1>
+
+	<c:choose>
+		<c:when
+			test="#{workflowController.workitem.item['$isAuthor'] or workflowController.newWorkitem}">
+			<h:panelGroup
+				rendered="#{workflowController.workitem.item['type'] ne 'workitemdeleted'}">
+				<i:imixsWorkflowActions workflowController="#{workflowController}" />
+			</h:panelGroup>
+			<!-- Delete/Restore -->
+			<h:panelGroup
+				rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
+				<!-- *** Soft Delete  *** -->
+				<h:commandButton action="home" immediate="true"
+				    onclick="if (!confirm('#{message.help_delete}')) return false;"
+					rendered="#{workflowController.workitem.item['type'] eq 'workitem'}"
+					actionListener="#{workflowController.doSoftDeleteWorkitem}"
+					value="#{message.delete}">
+				</h:commandButton>
+				<!-- *** Restore Soft Delete  *** -->
+				<h:commandButton immediate="true"
+					rendered="#{workflowController.workitem.item['type'] eq 'workitemdeleted'}"
+					actionListener="#{workflowController.doRestoreFromDeletions}"
+					value="#{message.restore}">
+				</h:commandButton>
+			</h:panelGroup>
+
+		</c:when>
+
+		<!-- ReadOnly Modus -->
+		<c:otherwise>
+			<!-- jQuery code to disable all input elements in read modus -->
+			<script type="text/javascript">
+				/*<![CDATA[*/
+				jQuery(".imixs-body :input").attr("disabled", true);
+				/*]]>*/
+			</script>
+		</c:otherwise>
+
+	</c:choose>
+
+
+	<!-- *** Close  *** -->
+	<h:commandButton immediate="true" action="home"
+		value="#{message.close}"
+		actionListener="#{historyController.closeCurrentWorkitem}">
+	</h:commandButton>
+
+
+</f:subview>

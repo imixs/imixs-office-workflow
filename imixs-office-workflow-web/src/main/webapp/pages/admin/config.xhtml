@@ -1,0 +1,149 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+		<f:view>
+
+			<h:form id="news_form_id">
+
+				<!-- ########## Error ########## -->
+				<ui:include src="/pages/error_message.xhtml" />
+
+				<div class="imixs-form">
+					<div class="imixs-header">
+						<h1>#{message['config.title']}</h1>
+
+					</div>
+
+					<div class="imixs-body">
+						<h1>#{message['config.views']}</h1>
+						<!-- **** Worklist / View  info ***** -->
+
+
+						<div class="imixs-form-section-2">
+							<dl>
+								<dt>#{message['config.defaultworklistview']}</dt>
+								<dd>
+									<h:selectOneMenu required="true"
+										value="#{setupController.workitem.item['defaultworklistview']}">
+										<f:selectItem itemValue="0" itemLabel="BY_OWNER" />
+										<f:selectItem itemValue="1" itemLabel="BY_CREATOR" />
+										<f:selectItem itemValue="2" itemLabel="BY_AUTHOR" />
+										<f:selectItem itemValue="3" itemLabel="ALL" />
+										<f:selectItem itemValue="4" itemLabel="ARCHIVE" />
+										<f:selectItem itemValue="5" itemLabel="SEARCH" />
+										<f:selectItem itemValue="7" itemLabel="DELETIONS" />
+									</h:selectOneMenu>
+
+								</dd>
+							</dl>
+							<dl>
+								<dt>#{message['config.maxviewentriesperpage']}</dt>
+								<dd>
+									<h:inputText style="width: 5em;" required="true"
+										value="#{setupController.workitem.item['maxviewentriesperpage']}">
+									</h:inputText>
+								</dd>
+							</dl>
+							<dl>
+								<dt>#{message['config.sortorder']}</dt>
+								<dd>
+									<h:selectOneMenu required="true"
+										value="#{setupController.workitem.item['sortorder']}">
+										<f:selectItem itemValue="0" itemLabel="Descanding" />
+										<f:selectItem itemValue="1" itemLabel="Ascending" />
+
+
+									</h:selectOneMenu>
+								</dd>
+							</dl>
+							<dl>
+								<dt>#{message['config.sortby']}</dt>
+								<dd>
+									<h:selectOneMenu required="true"
+										value="#{setupController.workitem.item['sortby']}">
+										<f:selectItem itemValue="0" itemLabel="created" />
+										<f:selectItem itemValue="1" itemLabel="modified" />
+									</h:selectOneMenu>
+								</dd>
+							</dl>
+						</div>
+					</div>
+
+
+					<!-- **** General Workflow info ***** -->
+					<div class="imixs-body">
+						<h1>#{message['config.workflow']}</h1>
+
+						<div class="imixs-form-section-2">
+							<dl>
+								<dt>#{message['config.sequencenumbers']}</dt>
+								<dd>
+									<h:inputTextarea required="false"
+										converter="org.imixs.VectorConverter"
+										style="height: 8em; width: 16em;"
+										value="#{setupController.workitem.itemList['sequencenumbers']}">
+									</h:inputTextarea>
+								</dd>
+
+							</dl>
+						</div>
+					</div>
+
+
+					<!-- **** UserDB configuration ***** -->
+					<div class="imixs-body">
+						<h1>#{message['config.security']}</h1>
+						<div class="imixs-form-section-2">
+							<dl>
+								<dt>
+									<h:selectBooleanCheckbox
+										value="#{setupController.workitem.item['keyEnableUserDB']}" />
+									<h:outputLabel
+										value="#{message['config.enable_database_realm']}" />
+								</dt>
+								<dd></dd>
+							</dl>
+							<dl>
+								<dt>#{message['config.usergroups']}</dt>
+								<dd>
+									<h:inputTextarea required="false"
+										converter="org.imixs.VectorConverter"
+										style="height: 8em; width: 16em;"
+										value="#{setupController.workitem.itemList['usergroups']}">
+									</h:inputTextarea>
+								</dd>
+							</dl>
+						</div>
+					</div>
+
+
+					<div class="imixs-body">
+						<h1>#{message['config.additionalproperties']}</h1>
+						<h:inputTextarea required="false"
+							converter="org.imixs.VectorConverter"
+							style="height: 8em; width: 100%;"
+							value="#{setupController.workitem.itemList['properties']}">
+						</h:inputTextarea>
+					</div>
+
+					<div class="imixs-footer">
+						<!-- **** save ***** -->
+						<h:commandButton action="/pages/notes"
+							actionListener="#{setupController.save()}"
+							value="#{message.save}" />
+						<h:commandButton value="#{message.close}" action="home" />
+					</div>
+				</div>
+
+			</h:form>
+		</f:view>
+	</ui:define>
+
+
+
+</ui:composition>
+

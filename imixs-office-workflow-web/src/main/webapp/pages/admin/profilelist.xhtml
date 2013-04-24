@@ -1,0 +1,159 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+		<script type="text/javascript">
+		/*<![CDATA[*/
+
+			function updateTable(e) { 
+    				if(e.status == 'success') { 
+			        	$('.imixsdatatable').layoutImixsTable()
+			    	} 
+			}
+		/*]]>*/	
+		</script>
+		<f:view>
+
+			<h:form>
+				<div class="imixs-view">
+					<!-- *** Header **** -->
+					<div class="imixs-header">
+						<h1>#{message['profile.view']}</h1>
+					</div>
+					<div class="imixs-body">
+
+						<h:dataTable id="view_body" styleClass="imixsdatatable"
+							value="#{profileViewController.workitems}" var="record">
+
+							<h:column>
+								<f:facet name="header">
+									<h:panelGroup>
+										<h:panelGroup styleClass="ui-icon ui-icon-triangle-1-s"
+											style="float: left;"
+											rendered="#{profileViewController.view == 'worklist.name.asc'}" />
+										<h:commandLink value="#{message.name}">
+											<f:setPropertyActionListener
+												target="#{profileViewController.view}"
+												value="worklist.name.asc" />
+											<f:ajax render="view_body" onevent="updateTable" />
+										</h:commandLink>
+									</h:panelGroup>
+
+								</f:facet>
+
+
+
+
+								<h:graphicImage value="/layout/icons/unlocked.gif"
+									rendered="#{record.item['$processid'] ge 210}" />
+								<h:graphicImage value="/layout/icons/locked.gif"
+									rendered="#{record.item['$processid'] lt 210}" />
+
+								<h:commandLink
+									action="#{workflowController.load(record.item['$uniqueid'],'profile')}">
+									<h:outputText value="#{record.item['txtName']} " />
+								</h:commandLink>
+
+							</h:column>
+
+
+							<h:column width="110">
+								<f:facet name="header">
+
+									<h:panelGroup>
+										<h:panelGroup styleClass="ui-icon ui-icon-triangle-1-s"
+											style="float: left;"
+											rendered="#{profileViewController.view == 'worklist.created.desc'}" />
+										<h:commandLink value="#{message.created}">
+											<f:setPropertyActionListener
+												target="#{profileViewController.view}"
+												value="worklist.created.desc" />
+											<f:ajax render="view_body" onevent="updateTable" />
+
+										</h:commandLink>
+									</h:panelGroup>
+
+								</f:facet>
+								<h:outputText value="#{record.item['$created']}">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="#{message.dateTimePattern}" />
+								</h:outputText>
+							</h:column>
+
+							<h:column width="110">
+								<f:facet name="header">#{message['profile.lastlogin']}</f:facet>
+								<h:outputText value="#{record.item['datLastLogin']}">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="#{message.dateTimePattern}" />
+								</h:outputText>
+								<h:outputText rendered="#{record.item['numLoginCount'] gt 0}"
+									value=" (#{record.item['numLoginCount']})" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">#{message.status}</f:facet>
+								<h:outputText value="#{record.item['txtWorkflowStatus']}" />
+							</h:column>
+
+
+							<h:column>
+								<f:facet name="header">
+								</f:facet>
+								<h:graphicImage rendered="#{! empty record.item['txtLocale']}"
+									url="/layout/icons/flag_#{record.item['txtLocale']}.gif"
+									alt="#{record.item['txtLocale']}"
+									style="border:0px;vertical-align: text-top;"></h:graphicImage>
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">#{message['profile.email']}</f:facet>
+								<h:outputText value="#{record.item['txtEmail']} " />
+							</h:column>
+
+
+
+						</h:dataTable>
+					</div>
+					<div class="imixs-footer">
+						<h:commandButton
+							actionListener="#{profileViewController.doLoadPrev}"
+							disabled="#{profileViewController.row==0}"
+							value="#{message.prev}">
+						</h:commandButton>
+
+						<h:commandButton
+							actionListener="#{profileViewController.doLoadNext}"
+							disabled="#{profileViewController.endOfList}"
+							value="#{message.next}">
+						</h:commandButton>
+						
+						<h:commandButton value="#{message.add}"
+						rendered="#{setupController.workitem.item['keyEnableUserDB']}"
+							action="/pages/admin/profile"
+							actionListener="#{workflowController.create}">
+							<f:setPropertyActionListener
+								target="#{workflowController.workitem.item['$modelVersion']}"
+								value="#{modelController.systemModelVersion}" />
+							<f:setPropertyActionListener
+								target="#{workflowController.workitem.item['$ProcessID']}"
+								value="210" />
+							<f:setPropertyActionListener
+								target="#{workflowController.workitem.item['type']}"
+								value="profile" />
+
+						</h:commandButton>
+				
+
+					</div>
+				</div>
+
+
+
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

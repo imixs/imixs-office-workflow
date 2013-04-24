@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
+	version="2.1">
+
+	<managed-bean>
+		<managed-bean-name>portletWorklistTasks</managed-bean-name>
+		<managed-bean-class>org.imixs.workflow.jee.faces.workitem.WorklistController</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>maxResult</property-name>
+			<property-class>int</property-class>
+			<value>5</value>
+		</managed-property>
+		<managed-property>
+			<property-name>sortOrder</property-name>
+			<property-class>int</property-class>
+			<!-- SORT_ORDER_MODIFIED_DESC -->
+			<value>2</value>
+		</managed-property>
+		<managed-property>
+			<property-name>view</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>worklist.owner</value>
+		</managed-property>
+
+
+	</managed-bean>
+
+
+
+	<managed-bean>
+		<managed-bean-name>spaceViewController</managed-bean-name>
+		<managed-bean-class>org.imixs.workflow.jee.faces.workitem.ViewController</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>maxResult</property-name>
+			<property-class>int</property-class>
+			<value>30</value>
+		</managed-property>
+		<managed-property>
+			<property-name>type</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>space</value>
+		</managed-property>
+		<managed-property>
+			<property-name>view</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>worklist.name.asc</value>
+		</managed-property>
+	</managed-bean>
+	
+	
+	<managed-bean>
+		<managed-bean-name>processViewController</managed-bean-name>
+		<managed-bean-class>org.imixs.workflow.jee.faces.workitem.ViewController</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>maxResult</property-name>
+			<property-class>int</property-class>
+			<value>30</value>
+		</managed-property>
+		<managed-property>
+			<property-name>type</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>process</value>
+		</managed-property>
+		<managed-property>
+			<property-name>view</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>worklist.name.asc</value>
+		</managed-property>
+	</managed-bean>
+	
+
+
+	<managed-bean>
+		<managed-bean-name>profileController</managed-bean-name>
+		<managed-bean-class>org.imixs.workflow.jee.faces.workitem.WorkflowController</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>type</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>profile</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>profileViewController</managed-bean-name>
+		<managed-bean-class>org.imixs.workflow.jee.faces.workitem.ViewController</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>maxResult</property-name>
+			<property-class>int</property-class>
+			<value>30</value>
+		</managed-property>
+		<managed-property>
+			<property-name>type</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>profile</value>
+		</managed-property>
+		<managed-property>
+			<property-name>view</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>worklist.name.asc</value>
+		</managed-property>
+
+
+	</managed-bean>
+
+
+	<!-- Default navigation rules -->
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/pages/notes.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>notes</from-outcome>
+			<to-view-id>/pages/notes.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+
+</faces-config>

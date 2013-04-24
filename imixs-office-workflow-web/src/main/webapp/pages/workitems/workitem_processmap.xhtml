@@ -1,0 +1,46 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="sub_processlist_form">
+
+	<div class="model-box">
+
+		<div class="model-start"></div>
+		<div class="model-line"></div>
+		<ui:repeat
+			value="#{modelController.getAllProcessEntitiesByGroup(workflowgroup,modelversion)}"
+			var="processEntity">
+
+			<h:panelGroup layout="block" styleClass="model-entity-box">
+				<h:panelGroup layout="block" styleClass="model-entity completed"
+					rendered="#{(processEntity.item['numprocessid']) lt processid }">
+					<h:outputText value="#{processEntity.item['txtName']}" />
+				</h:panelGroup>
+
+				<h:panelGroup layout="block" styleClass="model-entity active"
+					rendered="#{(processEntity.item['numprocessid']) eq processid}">
+					<h:outputText value="#{processEntity.item['txtName']}" />
+				</h:panelGroup>
+
+				<h:panelGroup layout="block" styleClass="model-entity"
+					rendered="#{(processEntity.item['numprocessid']) gt processid}">
+					<h:outputText value="#{processEntity.item['txtName']}" />
+				</h:panelGroup>
+
+
+
+			</h:panelGroup>
+
+
+
+			<div class="model-line"></div>
+		</ui:repeat>
+		<div class="model-end"></div>
+
+		<div style="clear: left" />
+	</div>
+
+
+
+</f:subview>
+

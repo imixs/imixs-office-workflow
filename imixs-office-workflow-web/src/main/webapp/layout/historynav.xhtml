@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<c:if test="#{loginController.authenticated}">
+
+		<!-- History Nav -->
+		<div id="imixs-historynav">
+			<h:form>
+				<ul>
+					<li class="#{(empty historyController.currentId) ? 'active' : ''}">
+						<div class="h-nav-link">
+							<h:commandLink action="home" actionListener="#{workflowController.reset}">Home
+							</h:commandLink>
+						</div>
+						
+					</li>
+
+					<ui:repeat value="#{historyController.workitems}" var="workitem">
+						<li
+							class="#{(historyController.currentId eq workitem.item['$uniqueID']) ? 'active' : ''}">
+							<div class="h-nav-link">
+								<h:commandLink
+									action="#{workflowController.load(workitem.item['$uniqueid'],'/pages/workitems/workitem')}">
+									<h:outputText style="font-weight: bold;"
+										value="#{workitem.item['txtWorkflowSummary']}" />
+									<h:outputText
+										rendered="#{empty workitem.item['txtworkflowsummary']}"
+										value=" - no title - id #{workitem.item['$uniqueid']}" />								
+								</h:commandLink>
+							</div>
+							<div class="h-nav-close">
+								<h:commandLink
+									action="#{historyController.removeWorkitem(workitem.item['$uniqueID'])}">
+									<h:graphicImage url="/layout/icons/close2.png" />
+
+								</h:commandLink>
+							</div>
+						</li>
+
+					</ui:repeat>
+
+
+				</ul>
+				<div style="clear: left;" />
+			</h:form>
+		</div>
+	</c:if>
+
+</ui:composition>
+

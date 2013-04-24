@@ -1,0 +1,128 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="basic_contact">
+
+	<div class="imixs-form-section">
+		<dl>
+			<dt>
+				#{message['form.company']}<span class="imixs-required">*</span>
+			</dt>
+			<dd>
+				<h:inputText required="true"
+					value="#{workitem.item['_Subject']}"
+					id="company_id">
+				</h:inputText>
+			</dd>
+		</dl>
+
+	</div>
+	<div class="imixs-form-section-2">
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.firstname']}">
+				</h:outputLabel>
+			</dt>
+			<dd>
+				<h:inputText
+					value="#{workitem.item['_FirstName']}"
+					id="firstname_id">
+				</h:inputText>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.lastname']}">
+				</h:outputLabel>
+			</dt>
+			<dd>
+				<h:inputText
+					value="#{workitem.item['_LastName']}"
+					id="lastname_id">
+				</h:inputText>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.phone1']}">
+				</h:outputLabel>
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_Phone1']}">
+				</h:inputText>
+			</dd>
+
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.phone2']}">
+				</h:outputLabel>
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_Phone2']}">
+				</h:inputText>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.phone3']}">
+				</h:outputLabel>
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_Phone3']}">
+				</h:inputText>
+			</dd>
+
+
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.department']}" />
+			</dt>
+			<dd>
+				<h:inputText
+					value="#{workitem.item['_department']}" />
+			</dd>
+
+
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.email']}">
+				</h:outputLabel>
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_Email']}"
+					id="email_id">
+				</h:inputText>
+			</dd>
+
+		</dl>
+		<dl>
+			<!-- ### Internet ### -->
+			<dt>
+				<h:outputLabel value="#{message['form.internet']}" />
+			</dt>
+			<dd>
+				<h:inputText
+					value="#{workitem.item['_Internet']}" />
+			</dd>
+		</dl>
+	</div>
+	<div class="imixs-form-section">
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.other']}" />
+			</dt>
+			<dd>
+				<h:inputTextarea
+					value="#{workitem.item['_description']}"
+					style="" />
+			</dd>
+
+		</dl>
+	</div>
+
+</f:subview>
+

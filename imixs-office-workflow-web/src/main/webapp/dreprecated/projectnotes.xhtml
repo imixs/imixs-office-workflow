@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+	<h:form>
+
+		<!-- ##### Project Notes ######### -->
+
+		<rich:panel styleClass="sywapp-commandbox"
+			rendered="#{loginMB.authenticated}">
+			<f:facet name="header">
+				<h:outputText value="#{global.projectnotes}" />
+			</f:facet>
+			<a4j:outputPanel id="project_notes_list_id">
+				<a4j:outputPanel layout="block" styleClass="sywapp-newsentry"
+					rendered="#{empty projectNotesMB.notes}">
+					<h:outputText value="#{global.projectnotes_no_news}" />
+				</a4j:outputPanel>
+				<rich:dataList var="mynote" value="#{projectNotesMB.notes}"
+					style="margin-left:0px;" rowClasses="sywapp-newsentry">
+
+					<h:outputText value="#{mynote.item['$created']}">
+						<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+											pattern="#{global.dateTimePattern}" />
+					</h:outputText>
+					<br />
+					<h:outputText value=" #{global.by}: " />
+					<h:outputText
+						value="#{nameLookupMB.userName[mynote.item['namCreator']]}" />
+					<p><h:outputText value="#{mynote.item['txtProjectName']}: " />
+					<h:outputText value="#{mynote.item['txtSubject']}" /></p>
+
+					<a4j:outputPanel rendered="#{! empty mynote.item['txtURL']}"
+						style="margin-right:10px;">
+						<a href="#{mynote.item['txtURL']}" target="_blank"> <h:outputText
+							value="(+) #{global.read_more}" /></a>
+					</a4j:outputPanel>
+					<a4j:commandLink reRender="project_notes_list_id"
+						actionListener="#{projectNotesMB.doRemoveUserFromNote}">
+						<h:outputText value="(x) #{global.delete}" />
+
+					</a4j:commandLink>
+
+
+				</rich:dataList>
+			</a4j:outputPanel>
+
+		</rich:panel>
+
+	</h:form>
+</ui:composition>

@@ -1,0 +1,21 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="error_messages_id">
+
+	<!-- Display only if error messages available -->
+	<h:panelGroup rendered="#{! empty facesContext.maximumSeverity}"
+		styleClass="ui-widget">
+		<div class="ui-state-error ui-corner-all"
+			style="padding: .7em; margin-bottom: .7em;">
+			<h2>
+				#{message.error_title} <span class="ui-icon ui-icon-alert"
+					style="float: left; margin-right: .3em;"> </span>
+			</h2>
+			<p>
+				<h:outputText sxtyle="color: red" value="#{message.error_message}" />
+			</p>
+		</div>
+	</h:panelGroup>
+
+</f:subview>

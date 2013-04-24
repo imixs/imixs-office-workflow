@@ -1,0 +1,124 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/layout/template.xhtml">
+
+
+	<ui:define name="content">
+		<script type="text/javascript">
+		/*<![CDATA[*/
+			function updateTable(e) { 
+    				if(e.status == 'success') { 
+			        	$('.imixsdatatable').layoutImixsTable()
+			    	} 
+			}
+		 /*]]>*/	
+		</script>
+		<f:view>
+			<h:form>
+				<div class="imixs-view">
+					<!-- *** Header **** -->
+					<div class="imixs-header">
+						<h1>
+							<h:outputText value="#{message['process.view']}" />
+						</h1>
+					</div>
+
+					<div class="imixs-body">
+						<h:dataTable id="view_body"
+							value="#{processViewController.workitems}" var="record"
+							styleClass="imixsdatatable">
+
+
+							<h:column>
+								<f:facet name="header">
+									<h:panelGroup>
+										<h:panelGroup styleClass="ui-icon ui-icon-triangle-1-s"
+											style="float: left;"
+											rendered="#{processViewController.view == 'worklist.name.asc'}" />
+										<h:commandLink value="#{message.name}">
+											<f:setPropertyActionListener
+												target="#{processViewController.view}"
+												value="worklist.name.asc" />
+											<f:ajax render="view_body" onevent="updateTable" />
+										</h:commandLink>
+									</h:panelGroup>
+								</f:facet>
+								<h:commandLink
+									action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/process.xhtml')}">
+									<h:outputText value="#{record.item['txtName']}" />
+									<h:outputText rendered="#{empty record.item['txtName']}"
+										value=" - no name - " />
+								</h:commandLink>
+							</h:column>
+
+
+
+							<h:column>
+								<f:facet name="header">
+									<h:panelGroup>
+										<h:panelGroup styleClass="ui-icon ui-icon-triangle-1-s"
+											style="float: left;"
+											rendered="#{processViewController.view == 'worklist.modified.desc'}" />
+										<h:commandLink value="#{message.modified}">
+											<f:setPropertyActionListener
+												target="#{processViewController.view}"
+												value="worklist.modified.desc" />
+											<f:ajax render="view_body" onevent="updateTable" />
+
+										</h:commandLink>
+									</h:panelGroup>
+								</f:facet>
+								<h:outputText value="#{record.item['$modified']}">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="#{message.dateTimePattern}" />
+								</h:outputText>
+								<h:outputText value=" #{record.item['namcurrentEditor']}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">#{message.action}</f:facet>
+								<!-- Edit -->
+								<h:commandLink title="#{message.edit}"
+									action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/process.xhtml')}">
+									<h:graphicImage url="/layout/icons/Edit_16.png"></h:graphicImage>
+								</h:commandLink>
+							</h:column>
+						</h:dataTable>
+					</div>
+
+
+
+					<div class="imixs-footer">
+						<h:commandButton
+							actionListener="#{processViewController.doLoadPrev}"
+							disabled="#{processViewController.row==0}"
+							value="#{message.prev}">
+						</h:commandButton>
+						<h:commandButton
+							actionListener="#{processViewController.doLoadNext}"
+							disabled="#{processViewController.endOfList}"
+							value="#{message.next}">
+						</h:commandButton>
+						<h:commandButton value="#{message.add}"
+							action="/pages/admin/process"
+							actionListener="#{workflowController.create}">
+							<f:setPropertyActionListener
+								target="#{workflowController.workitem.item['$modelVersion']}"
+								value="#{modelController.systemModelVersion}" />
+							<f:setPropertyActionListener
+								target="#{workflowController.workitem.item['$ProcessID']}"
+								value="300" />
+							<f:setPropertyActionListener
+								target="#{workflowController.workitem.item['type']}"
+								value="process" />
+
+						</h:commandButton>
+					</div>
+				</div>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

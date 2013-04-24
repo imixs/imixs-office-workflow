@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+
+<style>
+body {
+	font-family: arial;
+}
+
+dl.columns-1 {
+	width: 650px;
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+
+.columns-1 dt {
+	
+}
+
+.columns-1 dd {
+	margin: 0;
+	padding: 0 0 0.5em 0;
+}
+
+.columns-1 dd input {
+	width: 500px;
+}
+
+dl.columns-1f {
+	width: 650px;
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+
+.columns-1f dt {
+	float: left;
+	margin-right: 10px;
+}
+
+.columns-1f dd {
+	margin: 0;
+	padding: 0 0 0.5em 0;
+}
+
+.columns-1f dd input {
+	width: 400px;
+}
+
+dl.columns-2 {
+	border: 1px solid #ddd;
+	width: 302px;
+	text-align: left;
+	padding: 10px;
+	float: left;
+	margin-right: 1em;
+}
+
+.columns-2 dt {
+	
+}
+
+.columns-2 dd {
+	margin: 0;
+	padding: 0;
+}
+
+.columns-2 dd input {
+	width: 280px;
+}
+
+
+.testi:after {
+	content:".";
+	display: block;
+	clear:left;
+	height:0;
+	visibility: hidden;
+}
+
+</style>
+</head>
+<body>
+
+	<h1>DT Testseite</h1>
+	<p>Die Lösung des Problems liegt wohl darin, das wir alle
+		Label/Input Kombinationen in eigene dl tags legen. Dadurch ergibt sich
+		bei mehrspaltigem layout ein wesentlich einfachers floating. Auch
+		wegen dem Focuswechsel bei Taste-Tab muß dies bei mehrspaltigem layout
+		beachtet werden. Die grauen und roten Ramen sind nur zur orientierung.
+
+
+
+
+
+	
+	<div style="border: 1px solid red; width: 700px; margin-bottom: 40px;">
+		<h3>columns-1 layout</h3>
+		<dl class="columns-1">
+			<dt>Label 1</dt>
+			<dd>
+				<input />
+			</dd>
+		</dl>
+		<dl class="columns-1">
+			<dt>Label 2</dt>
+			<dd>
+				<input />
+			</dd>
+		</dl>
+		<dl class="columns-1">
+			<dt>Label 3</dt>
+			<dd>
+				<input />
+			</dd>
+		</dl>
+
+	</div>
+
+
+
+
+
+
+
+
+
+
+	<div class="testi" style="border: 1px solid red; width: 700px; margin-bottom: 40px;">
+		<h3>columns-2 Layout</h3>
+		<dl class="columns-2">
+
+			<dt>Title here</dt>
+			<dd>
+				<input />
+			</dd>
+
+
+		</dl>
+		<dl class="columns-2">
+
+			<dt>Title here</dt>
+			<dd>
+				<input />
+			</dd>
+
+
+		</dl>
+		<dl class="columns-2">
+
+			<dt>Title here</dt>
+			<dd>
+				<input />
+			</dd>
+
+			<dt>Falsch - focuswechsel!</dt>
+			<dd>
+				<input />
+			</dd>
+		</dl>
+		<dl class="columns-2">
+
+			<dt>Title here</dt>
+			<dd>
+				<input />
+			</dd>
+
+
+		</dl>
+	
+	</div>
+
+
+
+
+
+
+
+
+
+
+	<div
+		style="border: 1px solid red; width: 700px; margin-bottom: 40px; margin-top: 20px;">
+
+		<h3>columns-1 layout - mit floating</h3>
+		<dl class="columns-1f">
+			<dt>Label 1</dt>
+			<dd>
+				<input />
+			</dd>
+		</dl>
+		<dl class="columns-1f">
+			<dt>Label 2</dt>
+			<dd>
+				<input />
+			</dd>
+		</dl>
+		<dl class="columns-1f">
+			<dt>Label 3</dt>
+			<dd>
+				<input />
+			</dd>
+		</dl>
+
+	</div>
+
+</body>
+</html>

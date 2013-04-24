@@ -1,0 +1,61 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<dl>
+
+		<!-- ******** Project Owners ********* -->
+
+		<dt>
+			<h:outputText value="#{item_label}" />
+		</dt>
+		
+		<dd>
+		
+		
+		
+
+			<h:panelGrid columns="3" rowClasses="vertTop"
+				style="padding-bottom:20px;">
+
+				<h:panelGroup>
+					<h:inputText id="new_owner_input_id" style="width: 20em;"
+						autocomplete="false" onfocus="this.value='';" />
+					<h:commandButton value="#{global.add}" id="owner_add_command_id"
+						actionListener="#{projectMB.doAddUserImmediate}" />
+					<br />
+
+					<h:dataTable id="owner_datatable_id" columns="2"
+						value="#{item_value}"
+						var="record">
+						<h:column sortBy="#{userController.userName[record]}"
+							sortOrder="ASCENDING">
+							<h:outputText value="#{userController.getUserName(record)}" />
+						</h:column>
+						<h:column>
+							<h:outputText value="#{userController.getEmail(record)}" />
+						</h:column>
+						<!-- Delete member -->
+						<h:column>
+							<h:commandLink value="#{global.remove}" id="remove_owner_link_id"
+								actionListener="#{projectMB.doRemoveUser}"
+								reRender="owner_datatable_id">
+							</h:commandLink>
+						</h:column>
+					</h:dataTable>
+
+				</h:panelGroup>
+
+
+				<h:panelGroup id="owner_error_message_id">
+					<h:message style="color: red" for="new_owner_input_id"
+						showDetail="true" showSummary="false" />
+				</h:panelGroup>
+
+			</h:panelGrid>
+
+		</dd>
+	</dl>
+</f:subview>
+

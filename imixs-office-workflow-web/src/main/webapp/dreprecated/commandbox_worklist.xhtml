@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+	
+		<h:form>
+				<rich:panel styleClass="sywapp-commandbox" rendered="false">
+					<f:facet name="header">
+						<h:outputText value="#{projectMB.workitem.item['txtname']}" />
+					</f:facet>
+				
+					
+				
+					<!-- *** Process List (only for members) *** -->
+					<a4j:outputPanel rendered="#{projectMB.member}">
+							<ul>
+							<ui:repeat
+								value="#{projectlistMB.processList[projectMB.workitem.item['$uniqueid']]}"
+								var="process">
+								<li><h:commandLink action="open_workitem"
+									actionListener="#{workitemMB.doCreateWorkitem}"
+									value="#{process.item['txtworkflowgroup']}">
+									<f:param name="id"
+										value="#{process.item['$modelversion']}|#{process.item['numprocessid']}" />
+								</h:commandLink> <a4j:outputPanel layout="block">
+									<h:outputText value="#{process.item['rtfdescription']}"
+										escape="false" />
+								</a4j:outputPanel></li>
+							</ui:repeat>
+							
+							
+							
+							<li><a4j:commandLink 
+								 reRender="infoBlockNews"
+						   		 actionListener="#{projectNotesMB.doCreate}">
+								<h:outputText value="#{messages.send_note}" />
+								</a4j:commandLink>
+							</li>
+							
+							</ul>
+						</a4j:outputPanel>
+
+						
+						
+
+
+
+
+
+					
+				</rich:panel>
+			</h:form>
+</ui:composition>
+
+

@@ -1,0 +1,42 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="sub_address">
+
+	<div class="imixs-form-section-2">
+		<dl>
+
+			<!-- ### Street ### -->
+			<dt>
+				<h:outputLabel value="#{message['form.address']}" />
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_address']}" />
+			</dd>
+		</dl>
+		<dl>
+			<!-- ### City ### -->
+			<dt>
+				<h:outputLabel value="#{message['form.city']}" />
+			</dt>
+			<dd>
+				<h:inputText style="width:40px; margin-right:10px;"
+					value="#{workitem.item['_zip']}" />
+				<h:inputText style="width:147px;"
+					value="#{workitem.item['_city']}" />
+			</dd>
+		</dl>
+		<dl>
+			<!-- ### Country ### -->
+			<dt>
+				<h:outputLabel value="#{message['form.country']}" />
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_country']}" />
+			</dd>
+		</dl>
+	</div>
+
+</f:subview>
+

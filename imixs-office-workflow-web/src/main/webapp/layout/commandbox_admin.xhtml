@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:form>
+
+		<h:panelGroup layout="block" class="imixs-commandbox"
+			rendered="#{loginController.authenticated}">
+			<h1>#{message.administration}</h1>
+
+			<ul>
+				<li><h:commandLink value="#{message['nav.admin_config']}"
+						action="/pages/admin/config">
+					</h:commandLink></li>
+
+				<li><h:commandLink action="/pages/admin/processlist"
+						actionListener="#{workflowController.reset}"
+						value="#{message['nav.admin_processlist']}">
+					</h:commandLink></li>
+
+				<li><h:commandLink action="/pages/admin/spaces"
+						actionListener="#{workflowController.reset}"
+						value="#{message['nav.admin_spaces']}">
+					</h:commandLink></li>
+
+				<li><h:commandLink action="/pages/admin/profilelist"
+						actionListener="#{workflowController.reset}"
+						value="#{message['nav.admin_profiles']}">
+					</h:commandLink></li>
+
+
+				<li><h:commandLink action="/pages/admin/modellist"
+						value="#{message['nav.admin_model']}">
+					</h:commandLink></li>
+
+
+				<li><h:commandLink actionListener="#{setupController.doSetup}"
+						action="/pages/admin/systemcheck"
+						value="#{message['nav.admin_init']}">
+					</h:commandLink></li>
+
+
+				<li><h:commandLink
+						actionListener="#{searchController.doRebuildFullTextIndex}"
+						action="/pages/admin/systemcheck"
+						value="#{message['nav.admin_rebuild_searchindex']}">
+					</h:commandLink></li>
+
+
+
+				<li><h:commandLink action="/pages/admin/workflowscheduler"
+						value="#{message['nav.admin_workflow_scheduler']}">
+					</h:commandLink></li>
+
+				<li><h:commandLink
+						actionListener="#{dmsMB.doLoadConfiguration}"
+						action="/admin/dmsscheduler" value="#{message['nav.admin_dms']}	">
+					</h:commandLink></li>
+
+			</ul>
+
+
+
+
+		</h:panelGroup>
+	</h:form>
+</ui:composition>
+
+

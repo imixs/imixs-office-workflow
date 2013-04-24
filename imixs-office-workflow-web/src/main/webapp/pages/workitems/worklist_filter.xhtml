@@ -1,0 +1,66 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="worklist_filter">
+
+	<ui:param name="process"
+		value="#{processController.getEntityById(searchController.searchFilter.item['txtprocessRef'])}" />
+
+	<!-- *** Filter *** -->
+	<div class="imixs-form-section-3">
+
+		<dl>
+			<dt>#{message['worklist.workflowgroup']}:</dt>
+			<dd>
+				<h:selectOneMenu
+					value="#{searchController.searchFilter.item['txtWorkflowGroup']}">
+					<f:selectItem itemValue="" itemLabel=" " />
+					<c:forEach items="#{process.itemList['txtWorkflowList']}"
+						var="workflow">
+						<f:selectItem itemValue="#{workflow}" itemLabel="#{workflow}" />
+					</c:forEach>
+					<f:ajax event="change" listener="#{searchController.doRefresh}"
+						render="@form" onevent="layoutFilterPanel" />
+				</h:selectOneMenu>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>#{message['worklist.workflowstatus']}:</dt>
+			<dd>
+				<h:selectOneMenu id="processid_selection"
+					value="#{searchController.searchFilter.item['$processid']}">
+					<f:selectItem itemValue="" itemLabel=" " />
+					<c:forEach
+						items="#{modelController.getAllProcessEntitiesByGroup(searchController.searchFilter.item['txtWorkflowGroup'])}"
+						var="processentity">
+						<f:selectItem itemValue="#{processentity.item['numProcessID']}"
+							itemLabel="#{processentity.item['txtname']}" />
+					</c:forEach>
+					<f:ajax event="change" listener="#{searchController.doRefresh}"
+						render="@form" onevent="layoutFilterPanel" />
+				</h:selectOneMenu>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>#{message['worklist.space']}:</dt>
+			<dd>
+				<h:selectOneMenu id="spaceid_selection"
+					value="#{searchController.searchFilter.item['txtSpaceRef']}">
+					<f:selectItem itemValue="" itemLabel=" " />
+					<c:forEach
+						items="#{processController.getSpacesByProcessId(searchController.searchFilter.item['txtProcessRef'])}"
+						var="space">
+						<f:selectItem itemValue="#{space.item['$UniqueID']}"
+							itemLabel="#{space.item['txtname']}" />
+					</c:forEach>
+					<f:ajax event="change" listener="#{searchController.doRefresh}"
+						render="@form" onevent="layoutFilterPanel" />
+				</h:selectOneMenu>
+			</dd>
+		</dl>
+
+	</div>
+</f:subview>

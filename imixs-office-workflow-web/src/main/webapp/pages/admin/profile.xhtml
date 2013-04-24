@@ -1,0 +1,202 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+		<f:view>
+			<h:form>
+
+				<!-- ########## Error ########## -->
+				<ui:include src="/pages/error_message.xhtml" />
+
+				<div class="imixs-form">
+
+
+					<div class="imixs-header">
+						<h1>
+							<h:outputText
+								value="#{message['profile.title']}: #{workflowController.workitem.item['txtName']} " />
+
+						</h1>
+						<h2>
+							<h:outputText
+								value="#{message.status}: #{workflowController.workitem.item['txtWorkflowStatus']}" />
+
+						</h2>
+					</div>
+
+					<div class="imixs-body">
+
+						<div class="imixs-tabs">
+							<ul>
+								<li><a href="#tab-1">#{message['profile.sub_title_general']}</a></li>
+								<li><a href="#tab-2">#{message['profile.sub_title_settings']}</a></li>
+
+							</ul>
+							
+
+							<div id="tab-1">
+
+
+								<dl class="columns-1">
+									<dt>
+										<h:outputLabel for="displayname_id"
+											value="#{message['profile.displayname']}">
+										</h:outputLabel>
+									</dt>
+									<dd>
+										<h:inputText style="width: 20em;" required="true"
+											value="#{workflowController.workitem.item['txtUserName']}"
+											id="displayname_id">
+										</h:inputText>
+
+										<h:outputText value="#{message['profile.displayname_help']}" />
+										<br />
+
+
+										<h:message for="displayname_id" style="color: red"
+											showSummary="true" showDetail="true">
+
+										</h:message>
+									</dd>
+
+
+									<dt>
+										<h:outputLabel for="email_id"
+											value="#{message['profile.email']}">
+											<h:message style="color: red" for="email_id"
+												showSummary="true" showDetail="false" />
+										</h:outputLabel>
+									</dt>
+									<dd>
+										<h:inputText style="width: 20em;" required="true"
+											value="#{workflowController.workitem.item['txtEmail']}"
+											id="email_id">
+										</h:inputText>
+									</dd>
+
+
+								</dl>
+								<div style="clear: left;" />
+							</div> <!-- end tab 1 -->
+							
+							
+							
+							<div id="tab-2">
+
+
+
+								<!-- Enable local database security? -->
+								<h:panelGroup styleClass="imixs-form-section-2" layout="block"
+									rendered="#{setupController.workitem.item['keyEnableUserDB']}">
+
+									<dl>
+										<dt>#{message['profile.userid']}</dt>
+										<dd>
+											<h:inputText required="false"
+												value="#{workflowController.workitem.item['txtName']}" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											<h:outputLabel value="#{message['profile.password']}" />
+										</dt>
+										<dd>
+											<h:inputSecret redisplay="true" required="false"
+												value="#{workflowController.workitem.item['txtPassword']}" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											<h:outputLabel value="#{message['profile.groups']}" />
+										</dt>
+										<dd>
+											<h:selectManyCheckbox layout="pageDirection"
+												value="#{workflowController.workitem.itemListArray['txtGroups']}">
+												<c:forEach
+													items="#{setupController.workitem.itemList['usergroups']}"
+													var="group">
+													<f:selectItem itemLabel="#{group}" itemValue="#{group}"></f:selectItem>
+												</c:forEach>
+											</h:selectManyCheckbox>
+
+										</dd>
+									</dl>
+								</h:panelGroup>
+
+
+
+
+								<div class="imixs-form-section">
+									<dl>
+										<dt>#{message.comments}</dt>
+										<dd>
+											<h:inputTextarea required="false"
+												value="#{workflowController.workitem.item['txtComments']}"
+												id="description_id" style="height: 7em; width: 95%">
+											</h:inputTextarea>
+										</dd>
+
+										<dt>
+											<h:outputText value="#{message.history}" />
+										</dt>
+										<dd>
+											<div style="xmargin-left: 10px;">
+												<h:outputText value="#{message.created}: " />
+												<h:outputText
+													value="#{workflowController.workitem.item['$created']}">
+													<f:convertDateTime timeZone="#{message.timeZone}"
+														type="both" pattern="#{message.dateTimePattern}" />
+												</h:outputText>
+												<h:outputText
+													value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCreator'])}" />
+												<br />
+												<h:outputText value="#{message.modified}: " />
+												<h:outputText
+													value="#{workflowController.workitem.item['$modified']}">
+													<f:convertDateTime timeZone="#{message.timeZone}"
+														type="both" pattern="#{message.dateTimePattern}" />
+												</h:outputText>
+												<h:outputText
+													value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCurrentEditor'])}" />
+
+												<hr />
+												<ui:repeat
+													value="#{workflowController.workitem.itemListArray['txtworkflowhistorylog']}"
+													var="log">
+
+													<h:outputText value="#{log}" />
+													<br />
+												</ui:repeat>
+											</div>
+										</dd>
+									</dl>
+								</div>
+
+							</div>
+							
+						</div>
+
+
+					</div>
+
+					<div class="imixs-footer">
+						<i:imixsWorkflowActions workflowController="#{workflowController}" />
+
+						<h:commandButton value="#{message.close}" immediate="true"
+							action="profilelist" />
+					</div>
+				</div>
+
+			</h:form>
+		</f:view>
+	</ui:define>
+
+
+
+</ui:composition>
+

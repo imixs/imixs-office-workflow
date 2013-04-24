@@ -1,0 +1,64 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<div class="imixs-portlet">
+		<div class="imixs-header">
+			#{message['nav.start_new_workflow']}
+		</div>
+		<!-- *** display all project where the current user is member of *** -->
+
+		<ui:repeat value="#{processController.processList}"
+			var="process"> 
+			<h:panelGroup layout="block" styleClass="imixs-viewentry"
+				rendered="#{process.item['isMember'] and (! empty process.itemList['txtWorkflowGroups'])}">
+				<h3>
+					<h:outputText value="#{process.item['txtName']}" />
+				</h3>
+				<h:outputText value="#{process.item['txtdescription']}" />
+
+				<!-- *** WorkflowGroup List *** -->
+				<ul style="margin: 5px 0;">
+					<ui:repeat value="#{process.itemList['txtWorkflowList']}"
+						var="group">
+
+						<ui:param name="processEntity"
+							value="#{modelController.getInitialProcessEntityByGroup(group)}" />
+
+						<li><h:commandLink
+								actionListener="#{workflowController.create}"
+								action="#{workflowController.init('/pages/workitems/workitem')}">
+								<!--  -->
+								<f:setPropertyActionListener
+									target="#{workflowController.workitem.item['$modelversion']}"
+									value="#{processEntity.item['$modelversion']}" />
+								<f:setPropertyActionListener
+									target="#{workflowController.workitem.item['$processid']}"
+									value="#{processEntity.item['numprocessid']}" />
+								<f:setPropertyActionListener
+									target="#{workflowController.workitem.item['$uniqueidRef']}"
+									value="#{process.item['$uniqueid']}" />
+
+								<h:outputText style="font-weight: bold;" value="#{group} »" />
+							</h:commandLink>
+							<p>
+								<h:outputText value="#{processEntity.item['rtfdescription']}"
+									escape="false" />
+
+							</p></li>
+					</ui:repeat>
+				</ul>
+
+
+
+
+
+			</h:panelGroup>
+
+			<div style="clear: left;" />
+		</ui:repeat>
+	</div>
+
+</f:subview>
+

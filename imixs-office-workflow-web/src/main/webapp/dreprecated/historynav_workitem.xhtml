@@ -1,0 +1,78 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<f:view>
+
+
+
+
+		<h:form>
+
+			<ul>
+				<li class="">
+					<div class="h-nav-link">
+						<a href="#{facesContext.externalContext.requestContextPath}/">Home</a>
+					</div>
+				</li>
+
+				<li class="#{(empty workitemMB.workitem.item['$uniqueid'])?'active':''}">
+					<div class="h-nav-link">
+						<h:commandLink immediate="true" action="startprocess">
+							<h:outputText value="#{global.new}..." />
+						</h:commandLink>
+
+					</div>
+				</li>
+
+				<ui:repeat value="#{workitemHistoryMB.workitems}" var="workitem">
+
+
+					<li
+						class="#{(workitem.item['$uniqueid'] eq workitemMB.workitem.item['$uniqueid'])?'active':''}">
+						<div class="h-nav-link">
+							<h:commandLink
+								actionListener="#{workitemHistoryMB.doSwitchToWorkitem}"
+								action="open_workitem">
+
+								<h:outputText value="#{workitem.item['txtworkflowsummary']}" />
+								<h:outputText
+									rendered="#{empty workitem.item['txtworkflowsummary']}"
+									value=" - no title -" />
+								<f:param name="id" value="#{workitem.item['$uniqueID']}" />
+							</h:commandLink>
+						</div>
+						<div class="h-nav-close">
+							<h:commandLink
+								action="#{workitemHistoryMB.getRemoveWorkitemAction}"
+								actionListener="#{workitemHistoryMB.doRemoveWorkitem}">
+								<h:graphicImage url="/layout/icons/close2.png" />
+								<f:param name="id" value="#{workitem.item['$uniqueID']}" />
+							</h:commandLink>
+						</div>
+					</li>
+
+				</ui:repeat>
+
+
+
+
+
+
+
+
+
+
+			</ul>
+			<div style="clear: left;" />
+		</h:form>
+
+	</f:view>
+
+</ui:composition>
+
+

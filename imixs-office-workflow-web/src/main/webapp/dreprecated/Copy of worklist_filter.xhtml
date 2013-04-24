@@ -1,0 +1,97 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="worklist_filter">
+
+
+	<!-- *** Filter *** -->
+
+	<h:panelGroup id="worklist_filter_panel" layout="block"
+		styleClass="sywapp-viewentry">
+
+		
+
+		<!-- WorkflowGroup/Status combination -->
+		<h:panelGroup rendered="#{!empty searchController.queryFilter.item['$uniqueidRef']}">
+			<dl class="columns-2">
+				<dt>
+					<span>#{message.businessprocess} / #{message.status}:</span>
+				</dt>
+
+				<dd>
+					<h:selectOneMenu
+						value="#{searchController.searchFilter.itemListArray['txtProcessIdentifier']}"
+						layout="pageDirection">
+						<f:selectItem itemLabel="#{messages.search_all}" itemValue="" />
+						<c:forEach
+							items="#{modelController.getProcessListByProject(searchController.queryFilter.item['$uniqueidRef'])}"
+							var="process">
+							<f:selectItem itemLabel="#{process.item['txtworkflowgroup']}"
+								itemValue="#{process.item['$modelversion']}|#{process.item['numprocessid']}">
+							</f:selectItem>
+						</c:forEach>
+						
+
+					</h:selectOneMenu>
+
+<!-- -->
+					<h:panelGroup id="status_selection">
+						<h:panelGroup
+							rendered="#{! empty searchController.processFilterSelection}">
+
+							<h:selectOneMenu id="process_filter"
+								value="#{searchController.searchFilter.item['$processid']}">
+								<f:selectItem itemLabel="#{messages.search_all}" itemValue="0" />
+								<f:selectItems
+									value="#{searchController.processFilterSelection}" />
+							
+							</h:selectOneMenu>
+
+						</h:panelGroup>
+					</h:panelGroup>
+					 
+
+				</dd>
+
+			</dl>
+		</h:panelGroup>
+
+
+
+
+		<!-- Status selection -->
+		<h:panelGroup rendered="#{empty projectMB.workitem.item['txtname'] and (! empty searchController.searchFilter.item['txtworkflowGroup'])}">
+			<dl class="columns-2">
+				<dt>
+					<span>#{global.status}:</span>
+				</dt>
+
+				<dd>					
+
+					<h:panelGroup>
+						<h:panelGroup
+							rendered="#{! empty searchController.processFilterSelection}">
+
+							<h:selectOneMenu
+								value="#{searchController.searchFilter.item['$processid']}">
+								<f:selectItem itemLabel="#{messages.search_all}" itemValue="0" />
+								<f:selectItems
+									value="#{searchController.processFilterSelection}" />
+							
+							</h:selectOneMenu>
+
+						</h:panelGroup>
+					</h:panelGroup>
+
+				</dd>
+
+			</dl>
+		</h:panelGroup>
+	
+
+		<div style="clear: left;" />
+
+
+	</h:panelGroup>
+</f:subview>

@@ -1,0 +1,204 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+		<f:view>
+			<h:form id="scheduler_form">
+
+				<!-- ########## Error ########## -->
+				<ui:include src="/pages/error_message.xhtml" />
+
+
+
+				<div class="imixs-form">
+
+
+					<div class="imixs-header">
+						<h1>
+							<h:outputText value="Workflow Scheduler" />
+						</h1>
+						<div>
+							<dl>
+								<dt>
+									<h:outputText
+										value="#{workflowSchedulerController.configuration.item['txtName']}" />
+								</dt>
+								<dd></dd>
+							</dl>
+						</div>
+					</div>
+
+
+					<div class="imixs-body">
+						<!-- **** General info ***** -->
+						<div>
+							<h1>#{message['admin.timer.configuration']}</h1>
+
+							<dl class="columns-2">
+
+								<dt>#{message['admin.timer.start']}:</dt>
+								<dd>
+									<h:inputText
+										value="#{workflowSchedulerController.configuration.item['datstart']}"
+										styleClass="imixs-date" />
+								</dd>
+
+								<dt>#{message['admin.timer.stop']}:</dt>
+
+								<dd>
+									<h:inputText
+										value="#{workflowSchedulerController.configuration.item['datstop']}"
+										styleClass="imixs-date" />
+								</dd>
+
+							</dl>
+							<dl class="columns-1">
+								<dt>#{message['admin.timer.interval']}:</dt>
+								<dd>
+									<h:inputText
+										value="#{workflowSchedulerController.configuration.item['hours']}"
+										style="width:40px;" />
+									#{message['admin.timer.hours']}
+									<h:inputText
+										value="#{workflowSchedulerController.configuration.item['minutes']}"
+										style="width:40px;" />
+									#{message['admin.timer.minutes']}
+								</dd>
+
+
+
+							</dl>
+
+							<div style="clear: left;" />
+
+						</div>
+
+
+
+
+						<!-- **** Status ***** -->
+
+						<div>
+							<h1>
+								<h:outputText
+									value="Status: #{workflowSchedulerController.configuration.item['statusMessage']}" />
+							</h1>
+							<dl>
+								<dt>
+									<h:outputText value="ID: " />
+									<h:outputText
+										value="#{workflowSchedulerController.configuration.item['$UniqueID']}" />
+
+									<h:outputText
+										rendered="#{!empty workflowSchedulerController.configuration.item['nextTimeout']}"
+										value=" (running)" />
+
+
+								</dt>
+
+
+								<dt>
+									<h:outputText value="Interval: " />
+									<h:outputText
+										value="#{workflowSchedulerController.configuration.item['numInterval']} ms" />
+								</dt>
+
+
+
+
+								<dt>
+									<h:outputText value="Next Timeout: " />
+									<h:outputText
+										value="#{workflowSchedulerController.configuration.item['nextTimeout']}"
+										rendered="#{! empty workflowSchedulerController.configuration.item['nextTimeout']}">
+										<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+											pattern="#{message.dateTimePattern}" />
+
+
+									</h:outputText>
+								</dt>
+
+								<dt>
+									<h:outputText value="TimeRemaining: " />
+									<h:outputText
+										rendered="#{! empty workflowSchedulerController.configuration.item['timeRemaining']}"
+										value="&lt; #{workflowSchedulerController.configuration.item['timeRemaining']} ms" />
+
+								</dt>
+
+
+
+								<dt>
+									<h:outputText value="Last scan scheduled workitems: " />
+									<h:outputText
+										value="#{workflowSchedulerController.configuration.item['numWorkItemsScheduled']}" />
+
+								</dt>
+								<dt>
+									<h:outputText value="Last scan processed workitems: " />
+									<h:outputText
+										value="#{workflowSchedulerController.configuration.item['numWorkItemsProcessed']}" />
+
+								</dt>
+
+							</dl>
+						</div>
+					</div>
+
+					<div class="imixs-footer">
+
+
+						<h:outputLabel value="#{message.modified}: " />
+						<h:outputText
+							value="#{workflowSchedulerController.configuration.item['$modified']} ">
+								<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+											pattern="#{message.dateTimePattern}" />
+						</h:outputText>
+						<h:outputText
+							value=" #{message.by} #{workflowSchedulerController.configuration.item['namcurrenteditor']}" />
+
+						<br />
+
+						<h:commandButton
+							actionListener="#{workflowSchedulerController.doSaveConfiguration}"
+							value="Save">
+						</h:commandButton>
+
+						<h:commandButton
+							actionListener="#{workflowSchedulerController.doStartScheduler}"
+							value="start">
+						</h:commandButton>
+						<h:commandButton
+							actionListener="#{workflowSchedulerController.doStopScheduler}"
+							value="stop">
+						</h:commandButton>
+						<h:commandButton
+							actionListener="#{workflowSchedulerController.doRestartScheduler}"
+							value="restart">
+						</h:commandButton>
+
+
+
+
+						<h:commandButton value="#{message.close}" action="home" />
+
+
+
+
+					</div>
+				</div>
+
+
+
+
+			</h:form>
+		</f:view>
+	</ui:define>
+
+
+
+</ui:composition>

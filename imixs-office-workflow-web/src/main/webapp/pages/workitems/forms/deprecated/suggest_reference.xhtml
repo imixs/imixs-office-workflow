@@ -1,0 +1,73 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<style>
+.suggestbox {
+	position: relative;
+}
+
+.suggestbox .resultlist {
+	display: block;
+	position: absolute;
+	z-index: 1;
+	left: 2px;
+	top: 22px;
+	border: 1px solid #CCC;
+	background-color: #fff;
+	z-index: 1;
+}
+</style>
+
+	<h:panelGroup layout="block" class="suggestbox">
+		<!-- Process references -->
+		<h:panelGroup layout="block" style="margin-bottom:5px;">
+			<h:inputText value="#{suggestController.input}">
+				<f:ajax event="keyup" render="suggest_box"
+					listener="#{suggestController.search('txtworkflowgroup:Rechnungseingang')}" />
+				<f:ajax event="blur" render="suggest_box"
+					listener="#{suggestController.reset}" />
+			</h:inputText>
+		</h:panelGroup>
+
+		<h:panelGroup id="suggest_box">
+			<h:panelGroup id="suggest_resultlist" class="resultlist"
+				rendered="#{! empty suggestController.result}">
+
+				<ui:repeat var="suggest" value="#{suggestController.result}">
+
+
+					<div style="margin: 5px 5px 0 5px; border-bottom: 1px solid #eee;">
+
+						<h:commandLink>
+							<h:outputText style="font-weight: bold;"
+								value="#{suggest.item['txtWorkflowSummary']}" escape="false"
+								rendered="#{!empty suggest.item['txtWorkflowSummary']}" />
+						</h:commandLink>
+
+
+						<br />
+						<h:outputText value="#{suggest.item['txtworkflowgroup']}: " />
+						<h:outputText value="#{suggest.item['txtworkflowstatus']} " />
+
+						<h:outputText value="#{suggest.item['$modified']}">
+							<f:convertDateTime timeZone="#{message.timeZone}"
+								pattern="#{message.dateTimePatternShort}" />
+						</h:outputText>
+
+
+
+					</div>
+
+
+
+				</ui:repeat>
+
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:panelGroup>
+
+
+</f:subview>

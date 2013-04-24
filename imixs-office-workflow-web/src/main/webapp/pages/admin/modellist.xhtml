@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+		<f:view>
+			<h:form>
+				<div class="imixs-form">
+					<div class="imixs-body">
+						<h1>#{message['config.workflowmodellist']}</h1>
+
+						<h:dataTable id="view_body" styleClass="imixsdatatable"
+							value="#{modelController.allProfileEntities}" var="record">
+
+
+
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Version" />
+								</f:facet>
+								<h:outputText value="#{record.item['$modelversion']}" />
+
+							</h:column>
+
+
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="last update" />
+								</f:facet>
+								<h:outputText value="#{record.item['$created']}">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="#{message.dateTimePattern}" />
+								</h:outputText>
+							</h:column>
+
+
+
+							<h:column
+								rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
+								<f:facet name="header">
+									<h:outputText value="" />
+								</f:facet>
+								<h:commandLink action="#{modelController.deleteModel(record.item['$modelversion'])}">
+									<h:outputText value="delete" />
+								</h:commandLink>
+
+							</h:column>
+
+
+						</h:dataTable>
+
+						<!--  Error Messages -->
+						<c:if test="#{! empty facesContext.maximumSeverity}">
+							<p>
+								<h:messages styleClass="messages" id="errorMessages"
+									layout="table" />
+							</p>
+						</c:if>
+
+
+						<i:imixsFileUpload id="file_upload_id" hideattachments="true" />
+						<div style="clear: left;" />
+						<h:commandButton value="#{message.refresh}"
+						actionListener="#{modelController.doUploadModel}"
+						 action="modellist" />
+					</div>
+				</div>
+
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>

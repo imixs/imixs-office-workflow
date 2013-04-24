@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+
+		<rich:panel>
+			<f:facet name="header">
+	        We are sorry, but there seems to be a problem...
+    	    </f:facet>
+
+
+			<p>
+			
+			
+					<br />
+					<br />
+					
+			<a
+					href="#{facesContext.externalContext.requestContextPath}/">Please try it again</a>
+					
+					<br />
+					<br />
+					
+			</p>
+
+			<h:panelGrid rendered="#{facesContext.externalContext.request.serverName eq 'localhost'}">
+				<h:outputText value="The follow error occured:" />
+				<h:inputTextarea style="width: 600px;" rows="20" readonly="true"
+					value="#{errorMB.stackTrace}" />
+			</h:panelGrid>
+
+		</rich:panel>
+
+	</ui:define>
+</ui:composition>

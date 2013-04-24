@@ -1,0 +1,34 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="form_tab">
+
+
+	<div>
+		<div class="imixs-tabs">
+			<ul>
+				<c:forEach items="#{workflowController.editorSections}"
+					var="section">
+					<li><a href="#tab-#{section.url}">#{section.name}</a></li>
+				</c:forEach>
+			</ul>
+
+			<c:forEach items="#{workflowController.editorSections}" var="section">
+				<div id="tab-#{section.url}">
+					<ui:include src="/pages/workitems/forms/#{section.url}.xhtml">
+						<ui:param name="workitem" value="#{workflowController.workitem}" />
+					</ui:include>
+				</div>
+			</c:forEach>
+
+		</div>
+
+	
+		
+	</div>
+
+
+
+</f:subview>
+

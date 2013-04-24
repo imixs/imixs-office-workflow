@@ -1,0 +1,29 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="basic">
+
+
+	<div class="imixs-form-section">
+
+		<dl>
+			<dt>#{message['form.subject']}</dt>
+			<dd>
+				<h:inputText value="#{workflowController.workitem.item['_subject']}"  />
+			</dd>
+		</dl>
+		<dl>
+			<dt>#{message['form.description']}</dt>
+			<dd>
+				<h:inputTextarea
+					value="#{workflowController.workitem.item['_description']}" />
+			</dd>
+
+
+		</dl>
+	</div>
+
+
+</f:subview>
+

@@ -1,0 +1,171 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="sub_timesheet">
+
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+			// NOTE! the script to layout the table and the editor panel is located in the 
+			// page sub_mytimesheet.xhtml only which should be loaded together with this subform ! 
+
+		/*]]>*/
+	</script>
+
+	<!-- Ajax region -->
+	<f:ajax>
+		<h:panelGroup id="timesheet_panel" binding="#{timesheetListComponent}">
+
+
+
+			<dl class="columns-2">
+
+				<!-- ### Strasse ### -->
+				<dt>
+					<h:outputLabel value="#{message.creator}" />
+				</dt>
+				<dd>
+					<h:inputText
+						value="#{timesheetController.filter.item['namcreator']}" />
+				</dd>
+
+				<!-- ### Status ### -->
+				<dt>
+					<h:outputLabel value="#{message.status}" />
+				</dt>
+				<dd>
+
+					<h:selectOneMenu id="process_filter"
+						value="#{timesheetController.filter.item['$processid']}">
+						<f:selectItem itemLabel=" " itemValue="0" />
+						<c:forEach items="#{timesheetController.processSelection}"
+							var="entity">
+							<f:selectItem itemLabel="#{entity.item['txtName']}"
+								itemValue="#{entity.item['numprocessid']}">
+							</f:selectItem>
+						</c:forEach>
+					</h:selectOneMenu>
+
+
+				</dd>
+
+				<!-- ### Timerange ### -->
+				<dt>
+					<h:outputLabel value="#{message.from}" />
+				</dt>
+				<dd>
+					<h:inputText value="#{timesheetController.filter.item['datfrom']}"
+						styleClass="imixs-date">
+						<f:convertDateTime pattern="#{message.datePatternShort}" />
+					</h:inputText>
+				</dd>
+				<dt>
+					<h:outputLabel value="#{message.to}" />
+				</dt>
+				<dd>
+					<h:inputText value="#{timesheetController.filter.item['datto']}"
+						styleClass="imixs-date">
+						<f:convertDateTime pattern="#{message.datePatternShort}" />
+					</h:inputText>
+				</dd>
+
+			</dl>
+
+			<h:commandButton value="#{message.search}"
+				action="/pages/workitems/workitem"
+				actionListener="#{timesheetController.reset}">
+				<f:ajax render="timesheet_panel" onevent="updateTimesheetPanel" />
+
+			</h:commandButton>
+
+			<div style="clear: left;" />
+
+
+
+
+
+			<!-- TimeSheet Data Table  -->
+			<h:dataTable id="timesheetdatatable" rendered="#{! empty timesheetController.filterTimeSheet}"
+				value="#{timesheetController.filterTimeSheet}" var="child"
+				styleClass="imixsdatatable" style="width:100%"
+				columnClasses="timeseetcolmedium,timeseetcolshort,timeseetcollong,timeseetcolmedium,timeseetcolmedium">
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{message['form.timesheet.date']}" />
+					</f:facet>
+					<h:commandLink id="testspalte"
+						action="#{timesheetController.load(child.item['$uniqueid'],'/pages/workitems/workitem')}">
+						<h:outputText value="#{child.item['datdate']}">
+							<f:convertDateTime timeZone="#{message.timeZone}"
+								pattern="#{message.datePattern}" />
+						</h:outputText>
+						<f:ajax
+							render=":#{component.parent.parent.parent.parent.clientId}:sub_timesheeteditor:editorpanel"
+							onevent="updateTimesheetPanel" />
+					</h:commandLink>
+				</h:column>
+
+				<h:column style="width:50px;">
+					<f:facet name="header">
+						<h:outputText value="#{message['form.timesheet.duration']}" />
+					</f:facet>
+					<h:outputText value="#{child.item['_duration']}">
+						<f:convertNumber minFractionDigits="2"
+							locale="#{userController.locale}" />
+					</h:outputText>
+					<f:facet name="footer">
+						<h:outputText
+							value="#{timesheetController.filterTimeSheetSummary.item['_duration']}">
+							<f:convertNumber minFractionDigits="2"
+								locale="#{userController.locale}" />
+						</h:outputText>
+					</f:facet>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{message['form.timesheet.subject']}" />
+					</f:facet>
+					<h:outputText value="#{child.item['txtWorkflowSummary']}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{message['form.timesheet.category']}" />
+					</f:facet>
+					<h:outputText value="#{child.item['_category']}" />
+				</h:column>
+
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{message['form.timesheet.status']}" />
+					</f:facet>
+					<h:outputText value="#{child.item['txtworkflowstatus']}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">#{message.action}</f:facet>
+					<h:commandLink
+						action="#{timesheetController.load(child.item['$uniqueid'],'/pages/workitems/workitem')}">
+						<h:outputText value="#{message.edit}" />
+						<f:ajax
+							render=":#{component.parent.parent.parent.parent.clientId}:sub_timesheeteditor:editorpanel"
+							onevent="updateTimesheetPanel" />
+					</h:commandLink>
+				</h:column>
+			</h:dataTable>
+
+			<!-- Time Sheet Editor  -->
+			<ui:include src="/pages/workitems/forms/sub_timesheeteditor.xhtml">
+				<ui:param name="tableComponent" value="#{timesheetListComponent}" />
+			</ui:include>
+
+		</h:panelGroup>
+	</f:ajax>
+
+</f:subview>
+

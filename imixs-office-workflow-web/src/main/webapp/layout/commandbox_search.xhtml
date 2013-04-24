@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<c:if test="#{loginController.authenticated}">
+		<h:form>
+
+
+			<h:panelGroup layout="block" styleClass="imixs-commandbox">
+				<h1>#{message.search}</h1>
+
+
+				<div> 
+					<h:inputText 
+						value="#{searchController.searchFilter.item['txtSearch']}"
+						onfocus="this.value='';"				
+						style="font-size:13px;width:130px;margin:2px 5px 0 0;float:left;" />
+
+					<h:commandLink actionListener="#{searchController.doRefresh}"
+						action="/pages/workitems/worklist">
+						<h:graphicImage url="/layout/icons/Search_24.png"
+							style="height:20px"></h:graphicImage>
+							
+							<f:setPropertyActionListener
+									target="#{searchController.searchFilter.item['txtProcessRef']}"
+									value="" />
+							<f:setPropertyActionListener
+									target="#{searchController.searchFilter.item['txtSpaceRef']}"
+									value="" />
+					</h:commandLink>
+					<!-- dummy botton to hit enter -->
+					<h:commandButton style="visibility:hidden;width:1px;height:1px;"
+						actionListener="#{searchController.doRefresh}"
+						action="/pages/workitems/worklist" >
+						<f:setPropertyActionListener
+									target="#{searchController.searchFilter.item['txtCoreProcessRef']}"
+									value="" />
+									</h:commandButton>
+
+				</div>
+
+			</h:panelGroup>
+
+		</h:form>
+	</c:if>
+</ui:composition>
+
+
