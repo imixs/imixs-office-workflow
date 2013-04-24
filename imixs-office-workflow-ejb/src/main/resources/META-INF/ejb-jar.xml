@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:ejb="http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+	version="3.0">
+	<enterprise-beans>
+		<!--Imixs JEE EJBs -->
+		
+		
+		<session>
+			<ejb-name>WorkflowService</ejb-name>
+			<ejb-class>org.imixs.workflow.jee.ejb.WorkflowService</ejb-class>
+			<session-type>Stateless</session-type>
+			
+			<!-- Mail Configuration -->
+			<env-entry>
+				<description>Mail Plugin Session name</description>
+				<env-entry-name>IMIXS_MAIL_SESSION</env-entry-name>
+				<env-entry-type>java.lang.String</env-entry-type>
+				<env-entry-value>mail/org.imixs.workflow.mail</env-entry-value>
+			</env-entry>
+						
+			<!-- Plugin Service EJBs -->
+			<ejb-ref>
+                    <ejb-ref-name>ejb/ProfileService</ejb-ref-name>
+                    <ejb-ref-type>Session</ejb-ref-type>
+                    <remote>org.imixs.marty.ejb.ProfileService</remote>
+            </ejb-ref>
+			<ejb-ref>
+                    <ejb-ref-name>ejb/ProjectService</ejb-ref-name>
+                    <ejb-ref-type>Session</ejb-ref-type>
+                    <remote>org.imixs.marty.ejb.ProjectService</remote>
+            </ejb-ref>
+             <ejb-ref>
+                    <ejb-ref-name>ejb/SequenceService</ejb-ref-name>
+                    <ejb-ref-type>Session</ejb-ref-type>
+                    <remote>org.imixs.marty.ejb.SequenceService</remote>
+            </ejb-ref>
+             <ejb-ref>
+                    <ejb-ref-name>ejb/UserGroupService</ejb-ref-name>
+                    <ejb-ref-type>Session</ejb-ref-type>
+                    <remote>org.imixs.marty.ejb.security.UserGroupService</remote>
+            </ejb-ref>
+             <ejb-ref>
+                    <ejb-ref-name>ejb/PropertyService</ejb-ref-name>
+                    <ejb-ref-type>Session</ejb-ref-type>
+                    <remote>org.imixs.workflow.jee.util.PropertyService</remote>
+            </ejb-ref>
+           
+            
+			<!-- Mail resource -->
+			<resource-ref>
+				<res-ref-name>mail/org.imixs.workflow.mail</res-ref-name>
+				<res-type>javax.mail.Session</res-type>
+				<res-auth>Container</res-auth>
+				<res-sharing-scope>Shareable</res-sharing-scope>
+			</resource-ref>
+
+
+		</session>
+		
+	</enterprise-beans>
+	
+	
+	<!-- Interceptors -->
+	<interceptors>
+	<!-- 
+		<interceptor>
+			<interceptor-class>org.imixs.office.ejb.security.LDAPGroupInterceptor</interceptor-class>
+		</interceptor>
+	 -->
+		<interceptor>
+			<interceptor-class>org.imixs.marty.ejb.ImageInterceptor</interceptor-class>
+		</interceptor>
+		
+		<interceptor>
+			<interceptor-class>org.imixs.marty.ejb.PropertyInterceptor</interceptor-class>
+		</interceptor>
+	</interceptors>
+
+	<assembly-descriptor>
+		<!-- LDAPGroupInterceptor -->
+		<!--  
+		<interceptor-binding>
+			<description>Intercepter to add project-role mapping into EJB Context Data</description>
+			<ejb-name>EntityService</ejb-name>
+			<interceptor-class>org.imixs.office.ejb.security.LDAPGroupInterceptor</interceptor-class>
+		</interceptor-binding>
+		-->
+		<!-- ImageInterceptor -->
+		<interceptor-binding>
+			<description>Intercepter to resize new uploaded photos if max size is exceeded.</description>
+			<ejb-name>EntityService</ejb-name>
+			<interceptor-class>org.imixs.marty.ejb.ImageInterceptor</interceptor-class>
+		</interceptor-binding>
+		
+		<!-- PropertyInterceptor -->
+		<interceptor-binding>
+			<description>PropertyInterceptor updates values of the imixs.properties file.</description>
+			<ejb-name>PropertyService</ejb-name>
+			<interceptor-class>org.imixs.marty.ejb.PropertyInterceptor</interceptor-class>
+		</interceptor-binding>
+	</assembly-descriptor>
+
+
+	
+</ejb-jar>
