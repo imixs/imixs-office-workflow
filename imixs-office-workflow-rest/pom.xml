@@ -3,17 +3,35 @@
   <parent>
     <artifactId>imixs-office-workflow</artifactId>
     <groupId>com.imixs.workflow</groupId>
-    <version>1.1.1-RC-3</version>
+    <version>2.0.0</version>
   </parent>
   <artifactId>imixs-office-workflow-rest</artifactId>
   <packaging>war</packaging>
   <name>Imixs Office Workflow Rest Service</name>
   
   <dependencies>
-		<!-- Imixs Workflow -->
+	<!-- Project Specific 
+		<dependency> 
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-workflow-office-ejb</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		
+		</dependency>
+		-->
 		<dependency>
 			<groupId>org.imixs.workflow</groupId>
 			<artifactId>imixs-workflow-jax-rs</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-workflow-faces</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.imixs.marty</groupId>
+			<artifactId>imixs-marty-util</artifactId>
+		</dependency>
+		
 	</dependencies>
 </project>

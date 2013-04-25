@@ -3,15 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.imixs.workflow</groupId>
 	<artifactId>imixs-office-workflow</artifactId>
-	<version>1.1.1-RC-3</version>
-	<packaging>pom</packaging> 
+	<version>2.0.0</version>
+	<packaging>pom</packaging>
 	<name>Imixs Office Workflow</name>
 	<description>The Imixs Workflow Office Suite </description>
 	<modules>
-		<module>imixs-workflow-office-ejb</module>
-		<module>imixs-workflow-office-web</module>
-		<module>imixs-workflow-office-ear</module>
-		<module>imixs-office-workflow-rest</module>
+		<module>imixs-office-workflow-ejb</module>
+		<module>imixs-office-workflow-web</module>
+		<module>imixs-office-workflow-ear</module>
+		<module>imixs-office-workflow-rest</module>	
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,48 +31,30 @@
 	<dependencyManagement>
 		<dependencies>
 		
-			<!-- RichFaces -->
-			<dependency>
-				<groupId>org.richfaces.ui</groupId>
-				<artifactId>richfaces-ui</artifactId>
-				<version>3.3.3.Final</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-		      <groupId>org.richfaces.framework</groupId>
-		      <artifactId>richfaces-impl</artifactId>
-		      <version>3.3.3.Final</version>
-		      <scope>provided</scope>
-		    </dependency>
-		    <dependency>
-		      <groupId>org.richfaces.framework</groupId>
-		      <artifactId>richfaces-impl-jsf2</artifactId>
-		      <version>3.3.3.Final</version>
-		      <scope>provided</scope>
-		    </dependency>
+			
     
 		    <!-- Imixs Workflow -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-workflow-core</artifactId>
-				<version>3.0.2</version>
+				<version>3.1.1</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-workflow-engine</artifactId>
-				<version>3.0.2</version>
+				<version>3.1.1</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-workflow-faces</artifactId>
-				<version>3.0.2</version>
+				<version>3.1.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-workflow-jax-rs</artifactId>
-				<version>3.0.2c</version>
+				<version>3.1.0</version>
 			</dependency>
 		
 			
@@ -81,19 +63,13 @@
 			<dependency>
 				<groupId>org.imixs.marty</groupId>
 				<artifactId>imixs-marty-util</artifactId>
-				<version>1.1.1-FINAL</version>
+				<version>2.0.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.imixs.marty</groupId>
 				<artifactId>imixs-marty-ejb</artifactId>
-				<version>1.1.1-FINAL</version>
+				<version>2.0.0</version>
 				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.imixs.marty</groupId>
-				<artifactId>imixs-marty-web</artifactId>
-				<version>1.1.1-FINAL</version>
-				<type>war</type>
 			</dependency>
 			
 			

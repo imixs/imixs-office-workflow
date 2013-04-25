@@ -1,0 +1,39 @@
+Backup JPQL
+
+SELECT entity FROM Entity entity 
+where entity.type IN ('workitem', 'workitemarchive', 'workitemlob', 'project', 'childworkitem')
+ORDER BY entity.created DESC
+
+
+Migration - Project into Process
+=======================================
+
+select existing coreprocesses:
+
+SELECT entity FROM Entity entity 
+where entity.type IN ('coreprocess')
+ORDER BY entity.created DESC
+
+
+select existing projects:
+SELECT entity FROM Entity entity 
+where entity.type IN ('project')
+ORDER BY entity.created DESC
+
+1) Change type from 'project' into coreprocess with Buldupdate:
+
+2) open coreprocess list: http://localhost:8080/office/pages/admin/coreprocesslist.jsf
+  and update configuration!
+  
+  
+  Development & Services
+       -Projekt
+       
+  Management
+     	-Rechnungseingang
+     	-Rechnungaausgang
+     	-Vertrag
+     	
+   Sales
+   		-Ansprechpartner
+   		-Aufgrag
