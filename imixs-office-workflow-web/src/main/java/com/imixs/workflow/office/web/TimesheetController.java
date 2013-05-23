@@ -440,7 +440,7 @@ public class TimesheetController extends ChildWorkitemController implements
 	 * also verifies if the property 'datdate' is provided.
 	 */
 	@Override
-	public void process(int id) throws AccessDeniedException,
+	public String process(int id) throws AccessDeniedException,
 			ProcessingErrorException {
 
 		// test if datdate is set
@@ -451,8 +451,9 @@ public class TimesheetController extends ChildWorkitemController implements
 		if ("".equals(this.getWorkitem().getItemValueString("_duration")))
 			this.getWorkitem().replaceItemValue("_duration", 0);
 
-		super.process(id);
+		String result=super.process(id);
 		reset(null);
+		return result;
 	}
 
 }
