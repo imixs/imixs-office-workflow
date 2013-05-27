@@ -13,14 +13,16 @@
 					<c:when test="#{loginController.authenticated}">
 						<li style="margin-bottom: 10px;"><h:commandLink
 								actionListener="#{workflowController.reset}" immediate="true"
-								action="index.xhtml">
+								action="home">
 								<h:outputText value="#{message['nav.home']}" />
 							</h:commandLink></li>
 
 
-						<li><b><h:outputText
-									value="#{message.signed_in}: #{userController.workitem.item['txtName']}" /></b>
-						</li>
+						<li><b><h:outputText value="#{message.signed_in}: " /> <h:outputText
+									rendered="#{! empty userController.workitem.item['txtUserName']}"
+									value="#{userController.workitem.item['txtUserName']}" /> <h:outputText
+									rendered="#{empty userController.workitem.item['txtUserName']}"
+									value="#{userController.workitem.item['txtName']}" /> </b></li>
 
 						<li><h:commandLink action="open_my_settings"
 								value="#{message['nav.my_settings']}">
@@ -46,7 +48,7 @@
 				<li><a href="http://www.imixs.com" target="_blank"><h:outputText
 							value="Imixs.com" /></a></li>
 
-				
+
 
 
 			</ul>

@@ -2,6 +2,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:ui="http://java.sun.com/jsf/facelets" id="basic">
 
 
@@ -21,6 +22,14 @@
 			</dd>
 
 
+<dt>
+				<h:outputLabel value="#{message['form.project']}" />
+			</dt>
+			<dd>
+				<marty:workitemLink workitem="#{workflowController.workitem}"
+					filter="$processid:7..." />
+
+			</dd>
 		</dl>
 	</div>
 

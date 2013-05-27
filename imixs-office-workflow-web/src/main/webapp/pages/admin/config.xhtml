@@ -25,27 +25,13 @@
 
 						<div class="imixs-form-section-2">
 							<dl>
-								<dt>#{message['config.defaultworklistview']}</dt>
+								<dt>#{message['config.sortby']}</dt>
 								<dd>
 									<h:selectOneMenu required="true"
-										value="#{setupController.workitem.item['defaultworklistview']}">
-										<f:selectItem itemValue="0" itemLabel="BY_OWNER" />
-										<f:selectItem itemValue="1" itemLabel="BY_CREATOR" />
-										<f:selectItem itemValue="2" itemLabel="BY_AUTHOR" />
-										<f:selectItem itemValue="3" itemLabel="ALL" />
-										<f:selectItem itemValue="4" itemLabel="ARCHIVE" />
-										<f:selectItem itemValue="5" itemLabel="SEARCH" />
-										<f:selectItem itemValue="7" itemLabel="DELETIONS" />
+										value="#{setupController.workitem.item['sortby']}">
+										<f:selectItem itemValue="0" itemLabel="created" />
+										<f:selectItem itemValue="1" itemLabel="modified" />
 									</h:selectOneMenu>
-
-								</dd>
-							</dl>
-							<dl>
-								<dt>#{message['config.maxviewentriesperpage']}</dt>
-								<dd>
-									<h:inputText style="width: 5em;" required="true"
-										value="#{setupController.workitem.item['maxviewentriesperpage']}">
-									</h:inputText>
 								</dd>
 							</dl>
 							<dl>
@@ -60,16 +46,7 @@
 									</h:selectOneMenu>
 								</dd>
 							</dl>
-							<dl>
-								<dt>#{message['config.sortby']}</dt>
-								<dd>
-									<h:selectOneMenu required="true"
-										value="#{setupController.workitem.item['sortby']}">
-										<f:selectItem itemValue="0" itemLabel="created" />
-										<f:selectItem itemValue="1" itemLabel="modified" />
-									</h:selectOneMenu>
-								</dd>
-							</dl>
+
 						</div>
 					</div>
 

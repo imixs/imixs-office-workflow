@@ -46,7 +46,7 @@
 									<dt>
 										<h:outputLabel for="displayname_id"
 											value="#{message['profile.displayname']}">
-										</h:outputLabel>
+										</h:outputLabel><span class="imixs-required">*</span>
 									</dt>
 									<dd>
 										<h:inputText style="width: 20em;" required="true"
@@ -54,10 +54,7 @@
 											id="displayname_id">
 										</h:inputText>
 
-										<h:outputText value="#{message['profile.displayname_help']}" />
-										<br />
-
-
+									
 										<h:message for="displayname_id" style="color: red"
 											showSummary="true" showDetail="true">
 
@@ -68,15 +65,16 @@
 									<dt>
 										<h:outputLabel for="email_id"
 											value="#{message['profile.email']}">
-											<h:message style="color: red" for="email_id"
-												showSummary="true" showDetail="false" />
-										</h:outputLabel>
+												
+										</h:outputLabel><span class="imixs-required">*</span>
 									</dt>
 									<dd>
 										<h:inputText style="width: 20em;" required="true"
 											value="#{workflowController.workitem.item['txtEmail']}"
 											id="email_id">
 										</h:inputText>
+										<h:message style="color: red" for="email_id"
+												showSummary="true" showDetail="false" />
 									</dd>
 
 
@@ -95,7 +93,7 @@
 									rendered="#{setupController.workitem.item['keyEnableUserDB']}">
 
 									<dl>
-										<dt>#{message['profile.userid']}</dt>
+										<dt>#{message['profile.userid']}<span class="imixs-required">*</span></dt>
 										<dd>
 											<h:inputText required="false"
 												value="#{workflowController.workitem.item['txtName']}" />
