@@ -10,8 +10,6 @@
 		<f:view>
 			<h:form>
 
-				<!-- ########## Error ########## -->
-				<ui:include src="/pages/error_message.xhtml" />
 
 				<div class="imixs-form">
 
@@ -31,101 +29,111 @@
 
 					<div class="imixs-body">
 
+						<!-- ########## Error ########## -->
+						<ui:include src="/pages/error_message.xhtml" />
+
 						<div class="imixs-tabs">
 							<ul>
 								<li><a href="#tab-1">#{message['profile.sub_title_general']}</a></li>
 								<li><a href="#tab-2">#{message['profile.sub_title_settings']}</a></li>
 
 							</ul>
-							
+
 
 							<div id="tab-1">
 
+								<div class="imixs-form-section-2">
+									<!-- Enable local database security? -->
+									<h:panelGroup
+										rendered="#{setupController.workitem.item['keyEnableUserDB']}">
 
-								<dl class="columns-1">
-									<dt>
-										<h:outputLabel for="displayname_id"
-											value="#{message['profile.displayname']}">
-										</h:outputLabel><span class="imixs-required">*</span>
-									</dt>
-									<dd>
-										<h:inputText style="width: 20em;" required="true"
-											value="#{workflowController.workitem.item['txtUserName']}"
-											id="displayname_id">
-										</h:inputText>
+										<dl>
+											<dt>
+												#{message['profile.userid']}<span class="imixs-required">*</span>
+											</dt>
+											<dd>
+												<h:inputText required="false"
+													value="#{workflowController.workitem.item['txtName']}" />
+											</dd>
+										</dl>
+										<dl>
+											<dt>
+												<h:outputLabel value="#{message['profile.password']}" />
+											</dt>
+											<dd>
+												<h:inputSecret redisplay="true" required="false"
+													value="#{workflowController.workitem.item['txtPassword']}" />
+											</dd>
+										</dl>
+									</h:panelGroup>
+									<dl>
+										<dt>
+											<h:outputLabel for="displayname_id"
+												value="#{message['profile.displayname']}">
+											</h:outputLabel>
+											<span class="imixs-required">*</span>
+										</dt>
+										<dd>
+											<h:inputText required="true"
+												value="#{workflowController.workitem.item['txtUserName']}"
+												id="displayname_id">
+											</h:inputText>
 
-									
-										<h:message for="displayname_id" style="color: red"
-											showSummary="true" showDetail="true">
 
-										</h:message>
-									</dd>
+											<h:message for="displayname_id" style="color: red"
+												showSummary="true" showDetail="true">
 
+											</h:message>
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											<h:outputLabel for="email_id"
+												value="#{message['profile.email']}">
 
-									<dt>
-										<h:outputLabel for="email_id"
-											value="#{message['profile.email']}">
-												
-										</h:outputLabel><span class="imixs-required">*</span>
-									</dt>
-									<dd>
-										<h:inputText style="width: 20em;" required="true"
-											value="#{workflowController.workitem.item['txtEmail']}"
-											id="email_id">
-										</h:inputText>
-										<h:message style="color: red" for="email_id"
+											</h:outputLabel>
+											<span class="imixs-required">*</span>
+										</dt>
+										<dd>
+											<h:inputText required="true"
+												value="#{workflowController.workitem.item['txtEmail']}"
+												id="email_id">
+											</h:inputText>
+											<h:message style="color: red" for="email_id"
 												showSummary="true" showDetail="false" />
-									</dd>
+										</dd>
+									</dl>
+
+								</div>
+								<!-- end form-section -->
+							</div>
+							<!-- end tab 1 -->
 
 
-								</dl>
-								<div style="clear: left;" />
-							</div> <!-- end tab 1 -->
-							
-							
-							
+
 							<div id="tab-2">
+								<div class="imixs-form-section-2">
+									<!-- Enable local database security? -->
+									<h:panelGroup
+										rendered="#{setupController.workitem.item['keyEnableUserDB']}">
+										<dl>
+											<dt>
+												<h:outputLabel value="#{message['profile.groups']}" />
+											</dt>
+											<dd>
+												<h:selectManyCheckbox layout="pageDirection"
+													value="#{workflowController.workitem.itemListArray['txtGroups']}">
+													<c:forEach
+														items="#{setupController.workitem.itemList['usergroups']}"
+														var="group">
+														<f:selectItem itemLabel="#{group}" itemValue="#{group}"></f:selectItem>
+													</c:forEach>
+												</h:selectManyCheckbox>
 
-
-
-								<!-- Enable local database security? -->
-								<h:panelGroup styleClass="imixs-form-section-2" layout="block"
-									rendered="#{setupController.workitem.item['keyEnableUserDB']}">
-
-									<dl>
-										<dt>#{message['profile.userid']}<span class="imixs-required">*</span></dt>
-										<dd>
-											<h:inputText required="false"
-												value="#{workflowController.workitem.item['txtName']}" />
-										</dd>
-									</dl>
-									<dl>
-										<dt>
-											<h:outputLabel value="#{message['profile.password']}" />
-										</dt>
-										<dd>
-											<h:inputSecret redisplay="true" required="false"
-												value="#{workflowController.workitem.item['txtPassword']}" />
-										</dd>
-									</dl>
-									<dl>
-										<dt>
-											<h:outputLabel value="#{message['profile.groups']}" />
-										</dt>
-										<dd>
-											<h:selectManyCheckbox layout="pageDirection"
-												value="#{workflowController.workitem.itemListArray['txtGroups']}">
-												<c:forEach
-													items="#{setupController.workitem.itemList['usergroups']}"
-													var="group">
-													<f:selectItem itemLabel="#{group}" itemValue="#{group}"></f:selectItem>
-												</c:forEach>
-											</h:selectManyCheckbox>
-
-										</dd>
-									</dl>
-								</h:panelGroup>
-
+											</dd>
+										</dl>
+									</h:panelGroup>
+								</div>
 
 
 
@@ -176,12 +184,10 @@
 								</div>
 
 							</div>
-							
+
+
 						</div>
-
-
 					</div>
-
 					<div class="imixs-footer">
 						<i:imixsWorkflowActions workflowController="#{workflowController}" />
 
@@ -189,7 +195,6 @@
 							action="profilelist" />
 					</div>
 				</div>
-
 			</h:form>
 		</f:view>
 	</ui:define>
