@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+	<ui:param name="value"
+		value="#{workflowController.workitem.item['supermann']}" />
+	<ui:param name="editmode" value="#{true}" />
+
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		$(document)
+				.ready(
+						function() {
+							// test if delayEvent is defined
+							if (typeof (window.delayEvent) != 'function') {
+								alert('function delayEvent() not defined! Please check if script library marty/imixs-marty.js is loaded!');
+							}
+
+							
+							$(".userinput").each(function(index, input) {
+								var onblur = input.onblur;
+								input.onblur = null;	
+							    $(input).on("blur", function(event) {
+							    	// reset the input on blur
+							    	
+							    	if ($(this).val()=='')
+							    		alert('empty');
+							    	else
+							    	 $(this).val('#{userController.getUserName(value)}'); 
+							       
+							    	 delayEvent(function() { onblur.call(input, event); }, 300);
+							    	
+							    });
+							    // turn autocomplete of
+							    $(this).attr('autocomplete','off');
+							
+							});
+							    
+							    
+							    
+							// initialize input field with current display name 
+							$(".userinput").val(
+									"#{userController.getUserName(value)}");
+						});
+
+		function updateDisplayName(event, displayName) {			
+			 if (event.status == "success") 
+				$(".userinput").val(displayName);
+
+		}
+
+		/*]]>*/
+	</script>
+
+
+	<h:panelGroup id="workitemlink_box" layout="block"
+		class="marty-workitemlink">
+
+		<!-- Input Field -->
+		<h:panelGroup id="input_box" layout="block" rendered="#{editmode}">
+			<h:inputText value="#{userInputController.input}"
+				class="userinput">
+				<f:ajax event="keyup" render="suggest_box"
+					listener="#{userInputController.search}" />
+				<f:ajax event="blur" render="suggest_box"
+					listener="#{userInputController.reset}" />
+			</h:inputText>
+			
+			<h:panelGroup id="suggest_box">
+				<h:panelGroup id="suggest_resultlist" layout="block"
+					style="width:100%;margin-top:15px;"
+					class="marty-workitemlink-resultlist"
+					rendered="#{! empty userInputController.searchResult}">
+
+					<c:forEach var="suggest"
+						items="#{userInputController.searchResult}">
+						<div class="marty-workitemlink-resultlist-entry"
+							style="width: 100%;">
+							<h:commandLink>
+								<h:outputText style="font-weight: bold;"
+									value="#{suggest.item['txtUserName']}" escape="false" />
+								<h:outputText style="font-weight: bold;margin-left:16px;"
+									value="#{suggest.item['txtEmail']}" escape="false" />
+								<f:setPropertyActionListener target="#{value}"
+									value="#{suggest.item['txtName']}" />
+								<f:ajax render="suggest_box"
+									onevent="function(data) { updateDisplayName(data, '#{suggest.item['txtUserName']}') }" />
+							</h:commandLink>
+
+						</div>
+					</c:forEach>
+
+				</h:panelGroup>
+			</h:panelGroup>
+
+
+		</h:panelGroup>
+
+	</h:panelGroup>
+
+
+
+</ui:composition>
+
+
