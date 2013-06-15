@@ -6,7 +6,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:marty="http://java.sun.com/jsf/composite/marty">
 
-
+	
 
 
 	<script type="text/javascript">
@@ -21,46 +21,67 @@
 							}
 
 							
+							$(".userinput").each(function(index, input) {
+								var onblur = input.onblur;
+								input.onblur = null;	
+						    	// reset the username and userId input on blur event 
+							    $(input).on("blur", function(event) {
+							    	// reset userid to '' ? 
+							    	if ($(this).val()=='')
+							    		 updateUserID('');
+							    	else {
+							    		// if userid selcted then display the user display name 
+							    		if (!'#{value}' == '')
+							    			$(this).val('#{userController.getUserName(value)}'); 
+							    		else 
+							    			$(this).val('');
+							    	}
+							    	 delayEvent(function() { onblur.call(input, event); }, 300);
+							    	
+							    });
+							    // turn autocomplete of 
+							    $(this).attr('autocomplete','off');
 							
+							});
+							    
+							// hide id input field 
+							$(".useridinput").hide();
+							    
+							// initialize input field with current display name 
+							if (!'#{value}' == '')
+								$(".userinput").val(
+									"#{userController.getUserName(value)}");
 						});
 
+		// after ajax event update the input field with the user name 
+		function updateDisplayName(event, displayName) {			
+			 if (event.status == "success") {
+				$(".userinput").val(displayName);
+			 }
+		}
 		
-		
-		/*
-		 * This method updates the hidden input fields.
-		 * The method expects the jquery object of the user input box
-		 * and the userid and displayname. 
-		 * The method finds the input fields and updates the values.
-		 */
-		function xxxupdateUserID(inputBox,id,displayname) {
-			 var inputfield_name=$(inputBox).find('[id$=\\:username_input]');
-			 var inputfield_id=$(inputBox).find('[id$=\\:userid_input]');
-			 var inputfield_display=$(inputfield_id).next();
-			 // alert(inputfield_id.val());
-			 inputfield_id.val(id);
-			 inputfield_name.val(displayname);
-			 inputfield_display.val(displayname);
+		// update the hidden input field for userId 
+		function updateUserID(name) {
+			$(".useridinput").val(name);
 		}
 
 		/*]]>*/
 	</script>
 
 
-	<div class="marty-workitemlink">
+	<h:panelGroup id="userinput_box" layout="block"
+		class="marty-workitemlink">
 
 		<!-- Input Field -->
 		<h:panelGroup id="input_box" layout="block" rendered="#{editmode}">
-			<h:inputText value="#{userInputController.input}" id="username_input"
+			<h:inputText value="#{userInputController.input}"
 				class="userinput">
 				<f:ajax event="keyup" render="suggest_box"
 					listener="#{userInputController.search}" />
 				<f:ajax event="blur" render="suggest_box"
 					listener="#{userInputController.reset}" />
 			</h:inputText>
-			<h:inputText class="useridinput" id="userid_input" value="#{value}"></h:inputText>
-			<input type="Text" class="userdisplaynameinput"
-				id="userdisplayname_input"
-				value="#{userController.getUserName(value)}" />
+			<h:inputText class="useridinput" value="#{value}"></h:inputText>
 
 			<h:panelGroup id="suggest_box">
 				<h:panelGroup id="suggest_resultlist" layout="block"
@@ -72,14 +93,14 @@
 						items="#{userInputController.searchResult}">
 						<div class="marty-workitemlink-resultlist-entry"
 							style="width: 100%;">
-							<h:commandLink id="suggest_link"
-								onclick="updateUserID($(this).parents('[id$=input_box]')[0],'#{suggest.item['txtName']}','#{suggest.item['txtUserName']}')">
+							<h:commandLink onclick="updateUserID('#{suggest.item['txtName']}')">
 								<h:outputText style="font-weight: bold;"
 									value="#{suggest.item['txtUserName']}" escape="false" />
 								<h:outputText style="font-weight: bold;margin-left:16px;"
 									value="#{suggest.item['txtEmail']}" escape="false" />
-
-								<f:ajax render="suggest_box" />
+							
+								<f:ajax render="suggest_box"
+									onevent="function(data) { updateDisplayName(data, '#{suggest.item['txtUserName']}') }" />
 							</h:commandLink>
 
 						</div>
@@ -91,7 +112,7 @@
 
 		</h:panelGroup>
 
-	</div>
+	</h:panelGroup>
 
 
 

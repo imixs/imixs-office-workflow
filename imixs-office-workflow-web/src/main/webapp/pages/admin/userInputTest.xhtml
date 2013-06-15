@@ -1,0 +1,136 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+	<ui:param name="value"
+		value="#{workflowController.workitem.itemList['nammanager']}" />
+	<ui:param name="editmode" value="#{true}" />
+
+
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+		$(document)
+				.ready(
+						function() {
+							// test if delayEvent is defined
+							if (typeof (window.delayEvent) != 'function') {
+								alert('function delayEvent() not defined! Please check if script library marty/imixs-marty.js is loaded!');
+							}
+						});
+
+		/*]]>*/
+	</script>
+
+
+	<h:panelGroup id="workitemlink_box" layout="block"
+		class="marty-workitemlink">
+
+		<!-- Input Field -->
+		<h:panelGroup id="input_box" layout="block" rendered="#{editmode}">
+			<h:inputText value="#{userInputController.input}"
+				class="suggestinput">
+				<f:ajax event="keyup" render="suggest_box" execute="workitemlink_box"
+					listener="#{userInputController.search}" />
+				<f:ajax event="blur" render="suggest_box"
+					listener="#{userInputController.reset}" />
+			</h:inputText>
+
+			<h:commandButton
+				actionListener="#{userInputController.add(userInputController.input,value)}"
+				value="#{message.add}">
+				<f:ajax render="suggest_box datalist" />
+			</h:commandButton>
+			
+			<h:commandLink value="debug actionTest"
+									>
+	<f:ajax listener="#{userInputController.actionTest}" />
+								</h:commandLink>
+								
+								
+
+			<h:panelGroup id="suggest_box">
+				<h:panelGroup id="suggest_resultlist" layout="block"
+					style="width:100%;margin-top:15px;"
+					class="marty-workitemlink-resultlist"
+					rendered="#{! empty userInputController.searchResult}">
+
+					<h:dataTable value="#{userInputController.searchResult}"
+						var="suggest">
+
+						<h:column>
+
+							<div class="marty-workitemlink-resultlist-entry"
+								style="width: 100%;">
+								analyse
+								<h:commandLink>
+									<h:outputText style="font-weight: bold;"
+										value="#{suggest.item['txtUserName']}" escape="false" />
+									<h:outputText style="font-weight: bold;margin-left:16px;"
+										value="#{suggest.item['txtEmail']}" escape="false" />
+
+
+									<f:ajax event="click"
+										listener="#{userInputController.add(suggest.item['txtName'],value)}" />
+
+								</h:commandLink>
+
+
+								<h:commandLink value="klick mich mal action22"
+									>
+	<f:ajax listener="#{userInputController.actionTest}" immediate="true" />
+								</h:commandLink>
+								
+								
+								
+								
+							</div>
+						</h:column>
+					</h:dataTable>
+
+				</h:panelGroup>
+			</h:panelGroup>
+
+
+		</h:panelGroup>
+
+
+		<!-- User name data table -->
+		<h:panelGroup id="datalist" layout="block">
+
+			<h:dataTable columns="2"
+				value="#{userInputController.getSortedProfilelist(value)}"
+				var="record">
+				<h:column>
+					<h:outputText value="#{record.item['txtUserName']}"
+						rendered="#{! empty record.item['txtUserName']}" />
+					<h:outputText value="#{record.item['txtName']}"
+						rendered="#{empty record.item['txtUserName']}" />
+				</h:column>
+				<h:column>
+					<h:outputText value="#{record.item['txtEmail']}" />
+				</h:column>
+				<!-- Delete member -->
+				<h:column>
+					<h:commandLink value="#{message.remove}" id="remove_owner_link_id"
+						actionListener="#{userInputController.remove(record.item['txtName'],value)}">
+						<f:ajax render=":#{component.parent.parent.parent.clientId}" />
+					</h:commandLink>
+				</h:column>
+			</h:dataTable>
+
+
+
+
+		</h:panelGroup>
+	</h:panelGroup>
+
+
+
+</ui:composition>
+
+

@@ -86,12 +86,13 @@
 									style="margin-bottom: 10px; padding: .5em;">
 									<p>#{message['space.help_team']}</p>
 								</div>
-								
+
+
 								<!-- ******** space Manager ********* -->
 								<dl class="columns-1">
 									<dt>#{message['space.manager']}</dt>
 									<dd>
-										<marty:userInput
+										<marty:userListInput
 											value="#{workflowController.workitem.itemList['nammanager']}"
 											editmode="true" />
 									</dd>
@@ -102,7 +103,7 @@
 								<dl class="columns-1">
 									<dt>#{message['space.team']}</dt>
 									<dd>
-										<marty:userInput
+										<marty:userListInput
 											value="#{workflowController.workitem.itemList['namteam']}"
 											editmode="true" />
 									</dd>
@@ -112,7 +113,7 @@
 								<dl class="columns-1">
 									<dt>#{message['space.assist']}</dt>
 									<dd>
-										<marty:userInput
+										<marty:userListInput
 											value="#{workflowController.workitem.itemList['namassist']}"
 											editmode="true" />
 									</dd>
@@ -145,7 +146,7 @@
 							<!-- *** Soft Delete  *** -->
 							<h:commandButton action="spaces" immediate="true"
 								onclick="if (!confirm('#{message.help_delete}')) return false;"
-					 			rendered="#{workflowController.workitem.item['type'] eq 'space'}"
+								rendered="#{workflowController.workitem.item['type'] eq 'space'}"
 								actionListener="#{workflowController.softDeleteWorkitem(false)}"
 								value="#{message.delete}">
 							</h:commandButton>
