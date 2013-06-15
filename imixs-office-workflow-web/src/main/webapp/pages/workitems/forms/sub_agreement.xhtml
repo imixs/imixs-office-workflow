@@ -15,7 +15,7 @@
 				<h:inputText
 					value="#{workitem.item['_startdate']}"
 					styleClass="imixs-date">
-					<f:convertDateTime pattern="#{message.datePatternShort}" />
+					<f:convertDateTime pattern="#{message.datePatternShort}" timeZone="#{message.timeZone}"/>
 				</h:inputText>
 			</dd>
 		</dl>
@@ -26,7 +26,7 @@
 			<dd>
 				<h:inputText value="#{workitem.item['_enddate']}"
 					styleClass="imixs-date">
-					<f:convertDateTime pattern="#{message.datePatternShort}" />
+					<f:convertDateTime pattern="#{message.datePatternShort}" timeZone="#{message.timeZone}"/>
 				</h:inputText>
 			</dd>
 		</dl>

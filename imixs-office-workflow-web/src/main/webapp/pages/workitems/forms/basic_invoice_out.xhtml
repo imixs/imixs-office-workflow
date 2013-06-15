@@ -58,7 +58,9 @@
 			<dd>
 				<h:inputText
 					value="#{workitem.item['_invoicedate']}"
-					styleClass="imixs-date" />
+					styleClass="imixs-date" >
+					<f:convertDateTime pattern="#{message.datePatternShort}" timeZone="#{message.timeZone}"/>
+					</h:inputText>
 			</dd>
 		</dl>
 	

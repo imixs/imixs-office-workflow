@@ -44,7 +44,10 @@
 								<dd>
 									<h:inputText
 										value="#{workflowSchedulerController.configuration.item['datstart']}"
-										styleClass="imixs-date" />
+										styleClass="imixs-date">
+										<f:convertDateTime pattern="#{message.datePatternShort}"
+											timeZone="#{message.timeZone}" />
+									</h:inputText>
 								</dd>
 
 								<dt>#{message['admin.timer.stop']}:</dt>
@@ -52,7 +55,10 @@
 								<dd>
 									<h:inputText
 										value="#{workflowSchedulerController.configuration.item['datstop']}"
-										styleClass="imixs-date" />
+										styleClass="imixs-date">
+										<f:convertDateTime pattern="#{message.datePatternShort}"
+											timeZone="#{message.timeZone}" />
+									</h:inputText>
 								</dd>
 
 							</dl>
@@ -87,65 +93,58 @@
 								<h:outputText
 									value="Status: #{workflowSchedulerController.configuration.item['statusMessage']}" />
 							</h1>
-							<dl>
-								<dt>
-									<h:outputText value="ID: " />
+
+							<h:panelGrid columns="2" id="timer_details">
+
+								<h:outputText value="ID: " />
+
+								<h:panelGroup>
 									<h:outputText
 										value="#{workflowSchedulerController.configuration.item['$UniqueID']}" />
 
 									<h:outputText
 										rendered="#{!empty workflowSchedulerController.configuration.item['nextTimeout']}"
 										value=" (running)" />
+								</h:panelGroup>
 
 
-								</dt>
+								<h:outputText value="Interval: " />
+								<h:outputText
+									value="#{workflowSchedulerController.configuration.item['numInterval']} ms" />
+
+								<h:outputText value="Next Timeout: " />
+								<h:outputText
+									value="#{workflowSchedulerController.configuration.item['nextTimeout']}"
+									rendered="#{! empty workflowSchedulerController.configuration.item['nextTimeout']}">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="#{message.dateTimePattern}" />
 
 
-								<dt>
-									<h:outputText value="Interval: " />
-									<h:outputText
-										value="#{workflowSchedulerController.configuration.item['numInterval']} ms" />
-								</dt>
+								</h:outputText>
+
+								<h:outputText value="TimeRemaining: " />
+								<h:outputText
+									rendered="#{! empty workflowSchedulerController.configuration.item['timeRemaining']}"
+									value="&lt; #{workflowSchedulerController.configuration.item['timeRemaining']} ms" />
+
+								<h:outputText value="Last scan scheduled workitems: " />
+								<h:outputText
+									value="#{workflowSchedulerController.configuration.item['numWorkItemsScheduled']}" />
 
 
-
-
-								<dt>
-									<h:outputText value="Next Timeout: " />
-									<h:outputText
-										value="#{workflowSchedulerController.configuration.item['nextTimeout']}"
-										rendered="#{! empty workflowSchedulerController.configuration.item['nextTimeout']}">
-										<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-											pattern="#{message.dateTimePattern}" />
-
-
-									</h:outputText>
-								</dt>
-
-								<dt>
-									<h:outputText value="TimeRemaining: " />
-									<h:outputText
-										rendered="#{! empty workflowSchedulerController.configuration.item['timeRemaining']}"
-										value="&lt; #{workflowSchedulerController.configuration.item['timeRemaining']} ms" />
-
-								</dt>
+								<h:outputText value="Last scan processed workitems: " />
+								<h:outputText
+									value="#{workflowSchedulerController.configuration.item['numWorkItemsProcessed']}" />
 
 
 
-								<dt>
-									<h:outputText value="Last scan scheduled workitems: " />
-									<h:outputText
-										value="#{workflowSchedulerController.configuration.item['numWorkItemsScheduled']}" />
+							</h:panelGrid>
+							<h:commandButton value="#{message.refresh}"
+								actionListener="#{workflowSchedulerController.refresh}">
+								<f:ajax render="timer_details" />
+							</h:commandButton>
 
-								</dt>
-								<dt>
-									<h:outputText value="Last scan processed workitems: " />
-									<h:outputText
-										value="#{workflowSchedulerController.configuration.item['numWorkItemsProcessed']}" />
 
-								</dt>
-
-							</dl>
 						</div>
 					</div>
 
@@ -155,8 +154,8 @@
 						<h:outputLabel value="#{message.modified}: " />
 						<h:outputText
 							value="#{workflowSchedulerController.configuration.item['$modified']} ">
-								<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-											pattern="#{message.dateTimePattern}" />
+							<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+								pattern="#{message.dateTimePattern}" />
 						</h:outputText>
 						<h:outputText
 							value=" #{message.by} #{workflowSchedulerController.configuration.item['namcurrenteditor']}" />

@@ -26,7 +26,9 @@
 		<dd>
 			<h:inputText
 				value="#{workflowController.workitem.item['datDueDate']}"
-				styleClass="imixs-date" />
+				styleClass="imixs-date" >
+				<f:convertDateTime pattern="#{message.datePatternShort}" timeZone="#{message.timeZone}"/>
+			</h:inputText>
 		</dd>
 
 		<!-- ### Name ### -->
