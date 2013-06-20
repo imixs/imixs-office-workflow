@@ -3,6 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
+
 	<!-- Display only if error messages available -->
 	<h:panelGroup rendered="#{! empty facesContext.maximumSeverity}"
 		styleClass="ui-widget">
@@ -14,6 +15,9 @@
 			</h2>
 			<p>
 				<h:outputText sxtyle="color: red" value="#{message.error_message}" />
+			</p>
+			<p>
+			<h:messages globalOnly="true" />
 			</p>
 		</div>
 	</h:panelGroup>
