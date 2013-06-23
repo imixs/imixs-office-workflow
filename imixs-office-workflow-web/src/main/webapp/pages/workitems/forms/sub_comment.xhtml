@@ -3,7 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets" id="sub_comment">
- 
+
 
 	<div class="imixs-form-section">
 		<dl>
@@ -17,32 +17,37 @@
 					value="#{workflowController.workitem.item['txtComment']}" />
 			</dd>
 		</dl>
-		
-		<h:panelGroup rendered="#{! empty workflowController.workitem.getItemValue('txtCommentLog')}">
-		<dl>
-			<dt>
-				<h:outputLabel value="#{message['form.comment.history']}:" />
-			</dt>
-			<dd>
-				<h:panelGrid columns="3" rowClasses="topAligned">
-					<c:forEach
-						items="#{workflowController.workitem.getItemValue('txtCommentLog')}"
-						var="comment">
-						<c:if test="#{!empty comment}">
-							<h:outputText value="#{comment.datcomment}"
-								style="margin-right:10px;">
-								<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-									pattern="#{message.dateTimePattern}" />
-							</h:outputText>
-							<h:outputText value="#{comment.nameditor}"
-								style="margin-right:10px;" />
-							<h:outputText value="#{comment.txtcomment}" />
-						</c:if>
-					</c:forEach>
 
-				</h:panelGrid>
-			</dd>
-		</dl>
+		<h:panelGroup
+			rendered="#{! empty workflowController.workitem.getItemValue('txtCommentLog')}">
+			<dl>
+				<dt>
+					<h:outputLabel value="#{message['form.comment.history']}:" />
+				</dt>
+				<dd>
+					<h:panelGrid columns="3" rowClasses="topAligned">
+						<c:forEach
+							items="#{workflowController.workitem.getItemValue('txtCommentLog')}"
+							var="comment">
+							<c:if test="#{!empty comment}">
+								<h:outputText value="#{comment.datcomment}"
+									style="margin-right:10px;">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="#{message.dateTimePatternShort}" />
+								</h:outputText>
+
+								<h:outputText
+									value="#{userController.getUserName(comment.nameditor)}"
+									style="margin-right:10px;" />
+
+
+								<h:outputText value="#{comment.txtcomment}" />
+							</c:if>
+						</c:forEach>
+
+					</h:panelGrid>
+				</dd>
+			</dl>
 		</h:panelGroup>
 	</div>
 

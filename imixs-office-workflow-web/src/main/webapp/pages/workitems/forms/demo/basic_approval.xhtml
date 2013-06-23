@@ -58,11 +58,11 @@
 			</dt>
 			<dd>
 				<h:inputText required="true" style="width:200px;" id="brutto_wert"
-					converter="javax.faces.Double"
 					value="#{workitem.item['_amount_brutto']}">
-					<f:converter converterId="javax.faces.Double"></f:converter>
+					<f:convertNumber minFractionDigits="2" locale="de" />
 				</h:inputText>
-
+				
+			
 
 			</dd>
 		</dl>
