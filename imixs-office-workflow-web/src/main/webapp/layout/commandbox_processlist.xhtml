@@ -22,6 +22,8 @@
 				<ul>
 					<ui:repeat value="#{processController.processList}"
 						var="process">
+						
+						<h:panelGroup layout="block"  rendered="#{process.item['isMember']}">
 						<li><h:commandLink action="/pages/workitems/worklist"
 								immediate="true" actionListener="#{searchController.doReset}">
 								<h:outputText value="#{process.item['txtName']}" />
@@ -33,6 +35,8 @@
 									value="" />
 
 							</h:commandLink></li>
+							
+						</h:panelGroup>
 					</ui:repeat>
 				</ul>
 
