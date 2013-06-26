@@ -1,8 +1,8 @@
-<f:subview xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets" id="form_tab">
+	xmlns:h="http://java.sun.com/jsf/html">
 
 
 	<div>
@@ -16,9 +16,11 @@
 
 			<c:forEach items="#{workflowController.editorSections}" var="section">
 				<div id="tab-#{section.url}">
-					<ui:include src="/pages/workitems/forms/#{section.url}.xhtml">
-						<ui:param name="workitem" value="#{workflowController.workitem}" />
-					</ui:include>
+					<f:subview>
+						<ui:include src="/pages/workitems/forms/#{section.url}.xhtml">
+							<ui:param name="workitem" value="#{workflowController.workitem}" />
+						</ui:include>
+					</f:subview>
 				</div>
 			</c:forEach>
 
@@ -45,7 +47,5 @@
 
 	</div>
 
-
-
-</f:subview>
+</ui:composition>
 
