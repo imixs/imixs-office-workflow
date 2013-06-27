@@ -28,19 +28,8 @@
 							value="#{modelController.getInitialProcessEntityByGroup(group)}" />
 
 						<li><h:commandLink
-								actionListener="#{workflowController.create}"
+								actionListener="#{workflowController.create(processEntity.item['$modelversion'],processEntity.item['numprocessid'],process.item['$uniqueid'])}"
 								action="#{workflowController.init('/pages/workitems/workitem')}">
-								<!--  -->
-								<f:setPropertyActionListener
-									target="#{workflowController.workitem.item['$modelversion']}"
-									value="#{processEntity.item['$modelversion']}" />
-								<f:setPropertyActionListener
-									target="#{workflowController.workitem.item['$processid']}"
-									value="#{processEntity.item['numprocessid']}" />
-								<f:setPropertyActionListener
-									target="#{workflowController.workitem.item['txtProcessRef']}"
-									value="#{process.item['$uniqueid']}" />
-
 								<h:outputText style="font-weight: bold;" value="#{group} »" />
 							</h:commandLink>
 							<p>
