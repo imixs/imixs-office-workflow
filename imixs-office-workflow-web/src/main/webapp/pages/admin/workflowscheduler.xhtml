@@ -9,11 +9,6 @@
 		<f:view>
 			<h:form id="scheduler_form">
 
-				<!-- ########## Error ########## -->
-				<ui:include src="/pages/error_message.xhtml" />
-
-
-
 				<div class="imixs-form">
 
 
@@ -34,6 +29,9 @@
 
 
 					<div class="imixs-body">
+						<!-- ########## Error ########## -->
+						<ui:include src="/pages/error_message.xhtml" />
+
 						<!-- **** General info ***** -->
 						<div>
 							<h1>#{message['admin.timer.configuration']}</h1>
@@ -106,8 +104,9 @@
 
 							<h:panelGrid columns="2" id="timer_details">
 
-								<h:outputText value="ID: " />
-
+								<h:panelGroup layout="block" style="width:120px;">
+									<h:outputText value="ID: " />
+								</h:panelGroup>
 								<h:panelGroup>
 									<h:outputText
 										value="#{workflowSchedulerController.configuration.item['$UniqueID']}" />
@@ -123,27 +122,41 @@
 									value="#{workflowSchedulerController.configuration.item['Schedule']}" />
 
 
+
 								<h:outputText value="Next Timeout: " />
-								<h:outputText
-									value="#{workflowSchedulerController.configuration.item['nextTimeout']}"
-									rendered="#{! empty workflowSchedulerController.configuration.item['nextTimeout']}">
-									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-										pattern="#{message.dateTimePattern}" />
+								<h:panelGroup>
+									<h:outputText
+										value="#{workflowSchedulerController.configuration.item['nextTimeout']}"
+										rendered="#{! empty workflowSchedulerController.configuration.item['nextTimeout']}">
+										<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+											pattern="#{message.dateTimePattern}" />
 
 
-								</h:outputText>
+									</h:outputText>
+									<h:outputText value=" " />
+								</h:panelGroup>
 
 								<h:outputText value="TimeRemaining: " />
 								<h:outputText
 									value="#{workflowSchedulerController.millisToShortDHMS(workflowSchedulerController.configuration.item['timeRemaining'])}" />
 
 
-								<h:outputText value="Last scan scheduled workitems: " />
+
+
+								<h:outputText value="Last run: " />
+								<h:outputText
+									value="#{workflowSchedulerController.configuration.item['datLastRun']}">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="#{message.dateTimePattern}" />
+
+
+								</h:outputText>
+								<h:outputText value="Scheduled workitems: " />
 								<h:outputText
 									value="#{workflowSchedulerController.configuration.item['numWorkItemsScheduled']}" />
 
 
-								<h:outputText value="Last scan processed workitems: " />
+								<h:outputText value="Processed workitems: " />
 								<h:outputText
 									value="#{workflowSchedulerController.configuration.item['numWorkItemsProcessed']}" />
 
