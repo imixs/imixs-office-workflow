@@ -23,10 +23,16 @@ function Init() {
 	  bildbereich = getElement("id", "iconarea1");
 
 	  
-	  for (var j = 0; j <= 10; j++) {
-		  
-		  for (var i = 0; i <= 9; i++) {
-			  imgsrc="vwicn0"+j + i + ".png";
+	  for (var j = 0; j <= 170; j++) {
+		
+		imgsrc="vwicn";
+		if (j<10)
+   		  imgsrc=imgsrc+"0";
+		if (j<100)
+   		  imgsrc=imgsrc+"0";
+			  
+		
+			  imgsrc=imgsrc+j+ ".png";
 			  if (DOM && document.createElement && bildbereich.appendChild) {
 				    var img = document.createElement("img");
 				    img.setAttribute("src",imgsrc);
@@ -35,7 +41,7 @@ function Init() {
 				    bildbereich.appendChild(img);
 				   // alert('added'+imgsrc);
 				  } 
-			}
+			
 	  }
 
 
@@ -43,10 +49,16 @@ function Init() {
  	bildbereich = getElement("id", "iconarea2");
 
 	  
-	  for (var j = 0; j <= 5; j++) {
-		  
-		  for (var i = 0; i <= 9; i++) {
-			  imgsrc="icon0"+j + i + ".png";
+	   for (var j = 0; j <= 130; j++) {
+		
+		imgsrc="icon";
+		if (j<10)
+   		  imgsrc=imgsrc+"0";
+		if (j<100)
+   		  imgsrc=imgsrc+"0";
+			  
+		
+			  imgsrc=imgsrc+j+ ".png";
 			  if (DOM && document.createElement && bildbereich.appendChild) {
 				    var img = document.createElement("img");
 				    img.setAttribute("src",imgsrc);
@@ -54,7 +66,7 @@ function Init() {
 				    img.setAttribute("title",imgsrc);
 				    bildbereich.appendChild(img);
 				   // alert('added'+imgsrc);
-				  } 
+				  
 			}
 	  }
 }
@@ -67,10 +79,10 @@ function Init() {
 
 
 
-<h2>ShareYourWork - Icon Map</h2>
+<h2>Imixs Office Workflow - Icon Map</h2>
 
 <h3>vwicnXXX.png 24x24</h3>
-<div id="iconarea1" style="width:440px;"></div>
+<div id="iconarea1" style="width:640px;"></div>
 
 <h3>iconXXX.png 16x16</h3>
 <div id="iconarea2" style="width:440px;"></div>
