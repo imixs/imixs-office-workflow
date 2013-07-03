@@ -73,13 +73,13 @@ public class TimesheetController extends ChildWorkitemController implements
 	private List<ItemCollection> processSelection = null;
 
 	@Inject
-	private LoginController loginController = null;
+	protected LoginController loginController = null;
 
 	@EJB
-	private EntityService entityService = null;
+	protected EntityService entityService = null;
 
 	@EJB
-	private ModelService modelService = null;
+	ModelService modelService = null;
 
 	/**
 	 * Initializes the search filter

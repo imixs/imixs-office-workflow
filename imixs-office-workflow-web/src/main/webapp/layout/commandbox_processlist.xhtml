@@ -23,7 +23,8 @@
 					<ui:repeat value="#{processController.processList}"
 						var="process">
 						
-						<h:panelGroup layout="block"  rendered="#{process.item['isMember']}">
+						<!-- optional: process.item['isMember'] -->
+						<h:panelGroup layout="block"  rendered="#{process.item['isTeam'] or process.item['isManager']}">
 						<li><h:commandLink action="/pages/workitems/worklist"
 								immediate="true" actionListener="#{searchController.doReset}">
 								<h:outputText value="#{process.item['txtName']}" />

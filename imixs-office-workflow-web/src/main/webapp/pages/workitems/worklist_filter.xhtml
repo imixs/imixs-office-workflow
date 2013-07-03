@@ -13,11 +13,12 @@
 		<dl>
 			<dt>#{message['worklist.workflowgroup']}:</dt>
 			<dd>
+
 				<h:selectOneMenu
 					value="#{searchController.searchFilter.item['txtWorkflowGroup']}">
 					<f:selectItem itemValue="" itemLabel=" " />
-					<c:forEach items="#{process.itemList['txtWorkflowList']}"
-						var="workflow">
+					<!-- Optional process.itemList['txtWorkflowList']  -->
+					<c:forEach items="#{modelController.workflowGroups}" var="workflow">
 						<f:selectItem itemValue="#{workflow}" itemLabel="#{workflow}" />
 					</c:forEach>
 					<f:ajax event="change" listener="#{searchController.doRefresh}"
@@ -44,23 +45,28 @@
 			</dd>
 		</dl>
 
-		<dl>
-			<dt>#{message['worklist.space']}:</dt>
-			<dd>
-				<h:selectOneMenu id="spaceid_selection"
-					value="#{searchController.searchFilter.item['txtSpaceRef']}">
-					<f:selectItem itemValue="" itemLabel=" " />
-					<c:forEach
-						items="#{processController.getSpacesByProcessId(searchController.searchFilter.item['txtProcessRef'])}"
-						var="space">
-						<f:selectItem itemValue="#{space.item['$UniqueID']}"
-							itemLabel="#{space.item['txtname']}" />
-					</c:forEach>
-					<f:ajax event="change" listener="#{searchController.doRefresh}"
-						render="@form" onevent="layoutFilterPanel" />
-				</h:selectOneMenu>
-			</dd>
-		</dl>
+		<h:panelGroup
+			rendered="#{! empty processController.getSpacesByProcessId(searchController.searchFilter.item['txtProcessRef'])}">
+			<dl>
+				<dt>#{message['worklist.space']}:</dt>
+				<dd>
+					<h:selectOneMenu id="spaceid_selection"
+						value="#{searchController.searchFilter.item['txtSpaceRef']}">
+						<f:selectItem itemValue="" itemLabel=" " />
+
+						<!--  optional processController.getSpaces() -->
+						<c:forEach
+							items="#{processController.getSpacesByProcessId(searchController.searchFilter.item['txtProcessRef'])}"
+							var="space">
+							<f:selectItem itemValue="#{space.item['$UniqueID']}"
+								itemLabel="#{space.item['txtname']}" />
+						</c:forEach>
+						<f:ajax event="change" listener="#{searchController.doRefresh}"
+							render="@form" onevent="layoutFilterPanel" />
+					</h:selectOneMenu>
+				</dd>
+			</dl>
+		</h:panelGroup>
 
 	</div>
 </f:subview>
