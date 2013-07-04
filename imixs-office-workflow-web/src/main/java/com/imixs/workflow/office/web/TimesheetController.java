@@ -43,10 +43,12 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.imixs.marty.util.ErrorHandler;
 import org.imixs.marty.workflow.ChildWorkitemController;
 import org.imixs.marty.workflow.WorkflowEvent;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.exceptions.AccessDeniedException;
+import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.exceptions.ProcessingErrorException;
 import org.imixs.workflow.jee.ejb.EntityService;
 import org.imixs.workflow.jee.ejb.ModelService;
@@ -451,7 +453,12 @@ public class TimesheetController extends ChildWorkitemController implements
 		if ("".equals(this.getWorkitem().getItemValueString("_duration")))
 			this.getWorkitem().replaceItemValue("_duration", 0);
 
-		String result=super.process(id);
+		String result=null;
+		try {
+			result = super.process(id);
+		} catch (PluginException e) {
+			ErrorHandler.handlePluginException(e);
+		}
 		reset(null);
 		return result;
 	}
