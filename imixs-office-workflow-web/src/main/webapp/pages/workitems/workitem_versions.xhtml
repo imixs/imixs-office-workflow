@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+	<!--  Workitem Version History -->
+	<ui:fragment rendered="#{! empty workflowController.versions}">
+
+		<div class="imixs-form-section">
+			<h3>
+				<h:outputText value="#{message.versions}:" />
+			</h3>
+			<h:dataTable id="minute_versionlist_id" columns="4"
+				value="#{workflowController.versions}" rows="5" var="version">
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{message.modified}" />
+					</f:facet>
+					<h:outputText value="#{version.item['$modified']}">
+						<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+							pattern="#{message.dateTimePattern}" />
+					</h:outputText>
+					<h:outputText
+						value=" #{message.by} #{userController.getUserName(version.item['namCurrentEditor'])}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value=" " />
+					</f:facet>
+					<h:outputText escape="false" value="#{version.item['txtWorkflowSummary']}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{message.status}" />
+					</f:facet>
+					<h:outputText value="#{version.item['txtWorkflowStatus']}" />
+				</h:column>
+				<!-- open -->
+				<h:column>
+					<h:commandLink value="#{message.open}"
+						rendered="#{version.item['$uniqueid'] ne workflowController.workitem.item['$uniqueid']}"
+						action="#{workflowController.load(version.item['$uniqueid'],'/pages/workitems/workitem')}">
+					</h:commandLink>
+				</h:column>
+			</h:dataTable>
+		</div>
+	</ui:fragment>
+
+</ui:composition>
+
