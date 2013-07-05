@@ -6,7 +6,12 @@
 	<display-name>Imixs Office Workflow - REST API</display-name>
 	<servlet>
 		<servlet-name>ImixsRestService</servlet-name>
+		<!-- GlassFish 3.2 -->
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+		
+		 <!-- GlassFish 4 
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		-->
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
 			<param-value>org.imixs.workflow.jaxrs</param-value>
