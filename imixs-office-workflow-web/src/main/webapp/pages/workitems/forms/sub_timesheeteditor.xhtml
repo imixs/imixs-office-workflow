@@ -27,7 +27,9 @@
 			<h:commandButton value="#{message.add}"
 				action="/pages/workitems/workitem"
 				actionListener="#{timesheetController.create}">
-				<f:ajax render="editorpanel" onevent="updateTimesheetPanel" />
+				<!--  -->
+				<f:ajax render=":#{component.parent.parent.clientId}" onevent="updateTimesheetPanel" />
+				
 				<f:setPropertyActionListener
 					target="#{timesheetController.workitem.item['$modelversion']}"
 					value="#{workflowController.workitem.item['$modelversion']}" />

@@ -99,7 +99,7 @@
 						<f:convertDateTime timeZone="#{message.timeZone}" />
 					</h:outputText>
 					<f:ajax
-						render=":#{component.parent.parent.parent.parent.clientId}:sub_timesheeteditor:editorpanel"
+						render=":#{component.parent.parent.parent.parent.clientId}:editorpanel"
 						onevent="updateTimesheetPanel" />
 				</h:commandLink>
 			</h:column>
@@ -148,9 +148,11 @@
 				<h:commandLink
 					action="#{timesheetController.load(child.item['$uniqueid'],'/pages/workitems/workitem')}">
 					<h:outputText value="#{message.edit}" />
+					<!--  -->
 					<f:ajax
-						render=":#{component.parent.parent.parent.parent.clientId}:sub_timesheeteditor:editorpanel"
+						render=":#{component.parent.parent.parent.parent.clientId}:editorpanel"
 						onevent="updateTimesheetPanel" />
+					
 				</h:commandLink>
 			</h:column>
 		</h:dataTable>
