@@ -30,7 +30,8 @@
 					<f:facet name="header">
 						<h:outputText value=" " />
 					</f:facet>
-					<h:outputText escape="false" value="#{version.item['txtWorkflowSummary']}" />
+					<h:outputText escape="false"
+						value="#{version.item['txtWorkflowSummary']}" />
 				</h:column>
 
 				<h:column>
@@ -45,6 +46,9 @@
 						rendered="#{version.item['$uniqueid'] ne workflowController.workitem.item['$uniqueid']}"
 						action="#{workflowController.load(version.item['$uniqueid'],'/pages/workitems/workitem')}">
 					</h:commandLink>
+					<h:panelGroup
+						rendered="#{version.item['$uniqueid'] eq workflowController.workitem.item['$uniqueid']}"
+						styleClass="imixs-required">*</h:panelGroup>
 				</h:column>
 			</h:dataTable>
 		</div>
