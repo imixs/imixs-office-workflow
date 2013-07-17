@@ -9,7 +9,23 @@
 	xmlns:i="http://java.sun.com/jsf/composite/imixs">
 
 <h:head>
-	<meta http-equiv="refresh" content="0; URL=#{facesContext.externalContext.requestContextPath}/pages/notes.jsf" />
+
+	<!-- support deep link for workitems -->
+	<f:metadata>
+		<f:viewParam name="workitem"
+			value="#{workflowController.uniqueId}" />
+	</f:metadata>
+
+	<c:choose>
+		<c:when test="#{! empty workflowController.workitem}">
+			<meta http-equiv="refresh"
+				content="0; URL=#{facesContext.externalContext.requestContextPath}/pages/workitems/workitem.jsf" />
+		</c:when>
+		<c:otherwise>
+			<meta http-equiv="refresh"
+				content="0; URL=#{facesContext.externalContext.requestContextPath}/pages/notes.jsf" />
+		</c:otherwise>
+	</c:choose>
 </h:head>
 <h:body></h:body>
 </html>
