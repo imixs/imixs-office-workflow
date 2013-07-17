@@ -7,10 +7,11 @@
 	<div class="imixs-form-section">
 		<!-- Dispatch Form -->
 		<dl>
-			<dt>#{message['form.space']}</dt>
+			<dt>#{message['form.space']}<span class="imixs-required">*</span></dt>
 			<dd>
-				<h:selectOneMenu style="width:20em;"
+				<h:selectOneMenu style="width:20em;" required="true"
 					value="#{workflowController.workitem.item['txtSpaceRef']}">
+					<f:selectItem itemLabel=""></f:selectItem>
 					<c:forEach items="#{processController.spaces}" var="space">
 						<f:selectItem itemLabel="#{space.item['txtName']}"
 							itemValue="#{space.item['$UniqueID']}">
