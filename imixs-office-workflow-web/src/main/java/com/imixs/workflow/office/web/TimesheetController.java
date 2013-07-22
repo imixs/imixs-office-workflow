@@ -286,7 +286,7 @@ public class TimesheetController extends ChildWorkitemController implements
 
 			for (ItemCollection aworkitem : col) {
 				myTimeSheet.add((this.cloneWorkitem(aworkitem)));
-				computeSummaryOfNumberValues(aworkitem, myTimeSheetSummary);							
+				computeSummaryOfNumberValues(aworkitem, myTimeSheetSummary);
 			}
 		} catch (Exception ee) {
 			myTimeSheet = null;
@@ -445,6 +445,24 @@ public class TimesheetController extends ChildWorkitemController implements
 	public String process(int id) throws AccessDeniedException,
 			ProcessingErrorException {
 
+		// !!! Migration of old history data !!!
+		// fix bug in old history log -validate txtworkflowhistorylog and remove
+		// empty entries
+		List<String> oldList = this.getWorkitem().getItemValue(
+				"txtworkflowhistorylog");
+		List<String> newList = new ArrayList<String>();
+		if (oldList.size() > 0) {
+			for (String oldEntry : oldList) {
+				if (!oldEntry.isEmpty() && oldEntry.contains(":"))
+					newList.add(oldEntry);
+			}
+			this.getWorkitem().replaceItemValue("txtworkflowhistorylog",
+					newList);
+		} else {
+			this.getWorkitem().removeItem("txtworkflowhistorylog");
+
+		}
+
 		// test if datdate is set
 		if (this.getWorkitem().getItemValueDate("datdate") == null)
 			this.getWorkitem().replaceItemValue("datdate", new Date());
@@ -453,7 +471,7 @@ public class TimesheetController extends ChildWorkitemController implements
 		if ("".equals(this.getWorkitem().getItemValueString("_duration")))
 			this.getWorkitem().replaceItemValue("_duration", 0);
 
-		String result=null;
+		String result = null;
 		try {
 			result = super.process(id);
 		} catch (PluginException e) {
