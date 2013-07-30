@@ -12,6 +12,7 @@
 		// no script is place here because the subform is included in 
 		// sub_mytimesheet and sub_timesheet paralel. 
 		// so we do not want to duplicate code 
+
 		/*]]>*/
 	</script>
 
@@ -48,9 +49,19 @@
 			rendered="#{! empty timesheetController.workitem}">
 
 
-			<div style="float: left; margin-right: 20px;">
 
+			<div style="float: left; width: 300px;">
 				<dl>
+				
+				<dt>
+						<h:outputText value="#{message['form.timesheet.category']}: " />
+					</dt>
+					<dd>
+						<h:inputText
+							value="#{timesheetController.workitem.item['_category']}"
+							style="width:70px;" />
+					</dd>
+					
 					<dt>
 						<h:outputText value="#{message['form.timesheet.date']}:" />
 					</dt>
@@ -64,66 +75,29 @@
 						</h:inputText>
 
 					</dd>
+					<dt>
+						<h:outputText value="#{message['form.timesheet.duration']}: " />
+					</dt>
+					<dd>
+						<h:inputText id="ln"
+							value="#{timesheetController.workitem.item['_duration']}"
+							style="width:30px;">
+							<f:convertNumber minFractionDigits="2" locale="de" />
+						</h:inputText>
+					</dd>
+					
 				</dl>
-				<h:panelGrid columns="2">
-					<h:panelGroup>
-						<dl>
-							<dt>
-								<h:outputText value="#{message['form.timesheet.category']}: " />
-							</dt>
-							<dd>
-								<!-- helper param used in f selectitem to display old values  -->
-								<ui:param name="deprecatedItemValue"
-									value="#{timesheetController.workitem.item['_category']}"></ui:param>
-								<h:selectOneMenu
-									value="#{timesheetController.workitem.item['_category']}">
-									<f:selectItem itemLabel=" " itemValue="" />
-									<c:forEach items="#{workitem.itemList['txtCategories']}"
-										var="entity">
-										<f:selectItem itemLabel="#{entity}" itemValue="#{entity}" />
-									</c:forEach>
 
-									<!-- show also deprecated item values -->
-									<c:if
-										test="#{!workitem.itemList['txtCategories'].contains(deprecatedItemValue)}">
-										<f:selectItem itemLabel="#{deprecatedItemValue}"
-											itemValue="#{deprecatedItemValue}" />
-									</c:if>
-								</h:selectOneMenu>
-
-
-							</dd>
-
-						</dl>
-					</h:panelGroup>
-					<h:panelGroup>
-						<dl>
-							<dt>
-								<h:outputText value="#{message['form.timesheet.duration']}: " />
-							</dt>
-							<dd>
-								<h:inputText id="ln"
-									value="#{timesheetController.workitem.item['_duration']}"
-									style="width:30px;">
-									<f:convertNumber minFractionDigits="2" locale="de" />
-								</h:inputText>
-							</dd>
-
-						</dl>
-					</h:panelGroup>
-
-				</h:panelGrid>
 			</div>
-
-			<div style="float: left; width: 330px;">
-				<dl>
+			<div style="float: left; width: 200px">
+				<dl class="columns-1">
 					<dt>
 						<h:outputText value="#{message['form.timesheet.subject']}: " />
 					</dt>
 					<dd>
 						<h:inputTextarea
 							value="#{timesheetController.workitem.item['_subject']}"
-							style="height:5.6em;width:100%" />
+							style="height:4em;width:200px" />
 					</dd>
 				</dl>
 			</div>

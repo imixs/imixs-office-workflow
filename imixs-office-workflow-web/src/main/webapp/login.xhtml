@@ -5,7 +5,17 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/layout/template.xhtml">
 
+
 	<ui:define name="content">
+		<script type="text/javascript">
+			/*<![CDATA[*/
+			// auto focus login 
+			$(document).ready(function() {
+				$("#j_username").focus();
+			});
+			/*]]>*/
+		</script>
+
 		<form method="post"
 			action="#{facesContext.externalContext.requestContextPath}/j_security_check">
 
@@ -18,11 +28,11 @@
 						<dl>
 							<dt>#{message['login.username']}</dt>
 							<dd>
-								<h:inputText id="j_username" style="width:200px;"/>
+								<h:inputText id="j_username" style="width:200px;" />
 							</dd>
 							<dt>#{message['login.password']}</dt>
 							<dd>
-								<h:inputSecret id="j_password" style="width:200px;"/>
+								<h:inputSecret id="j_password" style="width:200px;" />
 							</dd>
 						</dl>
 						<input type="submit" value="#{message['login.login']}" />

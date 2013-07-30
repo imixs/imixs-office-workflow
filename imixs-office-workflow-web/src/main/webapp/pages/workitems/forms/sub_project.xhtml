@@ -5,46 +5,47 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 
+	<div class="imixs-form-section-2">
+		<dl>
 
-	<dl class="columns-2">
+			<!-- ### Projectnumber ### -->
+			<dt>
+				<h:outputLabel value="#{message['form.projectnumber']}" />
+			</dt>
 
-		<!-- ### Projectnumber ### -->
-		<dt>
-			<h:outputLabel value="#{message['form.projectnumber']}" />
-		</dt>
-
-		<dd>
-			<h:inputText
-				value="#{workflowController.workitem.item['_projectnumber']}" />
-		</dd>
-
-
-		<!-- ### date ### -->
-		<dt>
-			<h:outputLabel value="#{message['form.projectdate']}" />
-		</dt>
-		<dd>
-			<h:inputText
-				value="#{workflowController.workitem.item['datDueDate']}"
-				styleClass="imixs-date" >
-				<f:convertDateTime pattern="#{message.datePatternShort}" timeZone="#{message.timeZone}"/>
-			</h:inputText>
-		</dd>
-
-		<!-- ### Name ### -->
-		<dt>
-			<h:outputLabel value="#{message['form.projectname']}" />
-		</dt>
-
-		<dd>
-			<h:inputText
-				value="#{workflowController.workitem.item['_projectname']}" />
-		</dd>
+			<dd>
+				<h:inputText
+					value="#{workflowController.workitem.item['_projectnumber']}" />
+			</dd>
 
 
+			<!-- ### date ### -->
+			<dt>
+				<h:outputLabel value="#{message['form.projectdate']}" />
+			</dt>
+			<dd>
+				<h:inputText
+					value="#{workflowController.workitem.item['datDueDate']}"
+					styleClass="imixs-date">
+					<f:convertDateTime pattern="#{message.datePatternShort}"
+						timeZone="#{message.timeZone}" />
+				</h:inputText>
+			</dd>
 
-	</dl>
-<div style="clear:left;" />
+			<!-- ### Name ### -->
+			<dt>
+				<h:outputLabel value="#{message['form.projectname']}" />
+			</dt>
+
+			<dd>
+				<h:inputText
+					value="#{workflowController.workitem.item['_projectname']}" />
+			</dd>
+
+
+
+		</dl>
+	</div>
 
 
 

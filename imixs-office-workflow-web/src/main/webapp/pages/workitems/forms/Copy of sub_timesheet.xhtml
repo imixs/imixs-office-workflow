@@ -25,7 +25,6 @@
 						<h:outputLabel value="#{message.creator}" />
 					</dt>
 					<dd>
-					<h:inputText value="#{timesheetController.filter.item['namcreator']}"></h:inputText>
 						
 					</dd>
 				</dl>
@@ -87,10 +86,9 @@
 
 
 
-
-
 			<!-- TimeSheet Data Table  -->
 			<h:dataTable id="timesheetdatatable"
+				rendered="#{! empty timesheetController.filterTimeSheet}"
 				value="#{timesheetController.filterTimeSheet}" var="child"
 				styleClass="imixsdatatable" style="width:100%"
 				columnClasses="timeseetcolmedium,timeseetcolshort,timeseetcollong,timeseetcolmedium,timeseetcolmedium">
@@ -99,13 +97,14 @@
 					<f:facet name="header">
 						<h:outputText value="#{message['form.timesheet.date']}" />
 					</f:facet>
-					<h:commandLink
+					<h:commandLink id="testspalte"
 						action="#{timesheetController.load(child.item['$uniqueid'],'/pages/workitems/workitem')}">
 						<h:outputText value="#{child.item['datdate']}">
-							<f:convertDateTime timeZone="#{message.timeZone}" />
+							<f:convertDateTime timeZone="#{message.timeZone}"
+								pattern="#{message.datePattern}" />
 						</h:outputText>
 						<f:ajax
-							render=":#{component.parent.parent.parent.parent.clientId}:editorpanel"
+							render=":#{component.parent.parent.parent.parent.clientId}:sub_timesheeteditor:editorpanel"
 							onevent="updateTimesheetPanel" />
 					</h:commandLink>
 				</h:column>
@@ -120,7 +119,7 @@
 					</h:outputText>
 					<f:facet name="footer">
 						<h:outputText
-							value="#{timesheetController.myTimeSheetSummary.item['_duration']}">
+							value="#{timesheetController.filterTimeSheetSummary.item['_duration']}">
 							<f:convertNumber minFractionDigits="2"
 								locale="#{userController.locale}" />
 						</h:outputText>
@@ -154,15 +153,12 @@
 					<h:commandLink
 						action="#{timesheetController.load(child.item['$uniqueid'],'/pages/workitems/workitem')}">
 						<h:outputText value="#{message.edit}" />
-						<!--  -->
 						<f:ajax
-							render=":#{component.parent.parent.parent.parent.clientId}:editorpanel"
+							render=":#{component.parent.parent.parent.parent.clientId}:sub_timesheeteditor:editorpanel"
 							onevent="updateTimesheetPanel" />
-
 					</h:commandLink>
 				</h:column>
 			</h:dataTable>
-
 
 			<!-- Time Sheet Editor  -->
 			<ui:include src="/pages/workitems/forms/sub_timesheeteditor.xhtml">

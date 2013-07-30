@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<div class="imixs-form-section-2">
+
+
+		<dl>
+
+			<!-- ### Strasse ### -->
+			<dt>
+				<h:outputLabel value="#{message['form.timesheet.categories']}" />
+			</dt>
+			<dd>
+				<h:inputTextarea required="false"
+					converter="org.imixs.VectorConverter"
+					style="height: 8em; width: 16em;"
+					value="#{workitem.itemList['txtCategories']}">
+				</h:inputTextarea>
+
+
+			</dd>
+
+
+
+
+		</dl>
+	</div>
+
+</ui:composition>
+
