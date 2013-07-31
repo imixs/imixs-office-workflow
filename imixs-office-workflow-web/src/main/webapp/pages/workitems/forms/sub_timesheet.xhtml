@@ -11,6 +11,7 @@
 
 		// NOTE! the script to layout the table and the editor panel is located in the 
 		// page sub_mytimesheet.xhtml only which should be loaded together with this subform ! 
+
 		/*]]>*/
 	</script>
 
@@ -25,8 +26,10 @@
 						<h:outputLabel value="#{message.creator}" />
 					</dt>
 					<dd>
-					<h:inputText value="#{timesheetController.filter.item['namcreator']}"></h:inputText>
-						
+						<span id="userselector_id"> <h:inputText
+								value="#{timesheetController.filter.item['namcreator']}"></h:inputText>
+						</span>
+
 					</dd>
 				</dl>
 				<dl>
@@ -83,9 +86,6 @@
 				<f:ajax render="timesheet_panel" onevent="updateTimesheetPanel" />
 
 			</h:commandButton>
-
-
-
 
 
 

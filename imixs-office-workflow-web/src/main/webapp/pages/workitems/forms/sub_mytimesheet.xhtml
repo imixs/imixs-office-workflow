@@ -70,11 +70,15 @@
 
 		// This method update the timesheet_panel and refreshs the layout (jquery ui calls)
 		function updateTimesheetPanel(data) {
+			//initUserInput($('#userselector_id'));
 			if (data.status === 'success') {
 				// select with wildcard operator
 				$('[id$=timesheet_panel]').imixsLayout();
 				// triber update the datatable objects 
 				updateTableLayout();
+				
+				
+				
 			}
 		}
 
