@@ -9,10 +9,10 @@
 		<h:panelGroup
 			rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
 			style="float:left;height:50px;margin-right:2px;margin-left:2px;margin-bottom:0px;">
-			<h:commandLink 
+			<h:commandLink
 				action="#{workflowController.load(workitem.item['$uniqueid'],'/pages/workitems/workitem')}">
-				<img src="#{workitem.item['txtWorkflowImageURL']}"
-					style="max-height: 24px; margin: 4px;" />
+				<h:graphicImage url="#{workitem.item['txtWorkflowImageURL']}"
+					style="max-height: 24px; margin: 4px;"></h:graphicImage>
 			</h:commandLink>
 		</h:panelGroup>
 
@@ -70,8 +70,7 @@
 
 	</div>
 	<!-- Tooltip - Details -->
-	<h:panelGroup style="display:none;"
-			class="imixs-tooltip">#{workitem.item['txtWorkflowAbstract']}</h:panelGroup>
+	<h:panelGroup style="display:none;" class="imixs-tooltip">#{workitem.item['txtWorkflowAbstract']}</h:panelGroup>
 
 </f:subview>
 
