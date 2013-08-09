@@ -1,0 +1,979 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.1.v201209101448 Build &lt;4.2.1.v20120912-1721></property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/simple_listing.gif</property>
+    <property name="cheatSheet">org.eclipse.birt.report.designer.ui.cheatsheet.simplelisting</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="CurrentProject" id="108">
+            <text-property name="helpText">Waehle das Projekt für die Zeittabelle</text-property>
+            <text-property name="promptText">Geben Sie bitte die Projektnummer an</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">integer</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">General Number</property>
+                <property name="pattern">General Number</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="FromDate" id="237">
+            <text-property name="helpText">Datum von (yyyy-mm-dd)</text-property>
+            <text-property name="promptText">Startdatum (yyyy-mm-dd)</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2013-01-01</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="ToDate" id="238">
+            <text-property name="helpText">Datum von (yyyy-mm-dd)</text-property>
+            <text-property name="promptText">Enddatum (yyyy-mm-dd)</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2013-12-31</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="Topic" id="239">
+            <text-property name="helpText">Titel</text-property>
+            <text-property name="promptText">Titel</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">Leistungsübersicht</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.datatools.enablement.oda.xml" name="zeiten" id="27">
+            <method name="beforeOpen"><![CDATA[/*  Imixs Workflow Technology
+ *  Copyright (C) 2011 Imixs Software Solutions GmbH,  
+ *  http://www.imixs.com
+ *
+ * The following code extends the XML Datasource URI 
+ *  with the projectnumber and the from/to date range.
+ * The URI provided in the XML DataSource is:
+ *
+ *  http://localhost:8080/office-rest/report/zeitabrechnung.ixr?count=-1&amp;1=
+ *
+ * This cript adds the params 'CurrentProject', 'FromDate' and 'ToDate' to that URI
+ *
+ * http://localhost:8080/office-rest/report/zeitabrechnung.ixr?count=-1&amp;1=xxx&amp;2=2010-01-01&amp;3=2010-12-31
+ *  
+ 
+ */
+
+// select the XML URI
+filelist = this.getExtensionProperty("FILELIST");
+// add the uniqueID from the selected Project
+this.setExtensionProperty("FILELIST", filelist + params["CurrentProject"] +"&amp;2=" + params["FromDate"]  +"&amp;3=" + params["ToDate"]);]]></method>
+            <property name="FILELIST">http://office.imixs.com/super-office-rest/report/zeitabrechnung-support.ixr?count=-1&amp;1=</property>
+        </oda-data-source>
+        <oda-data-source extensionID="org.eclipse.datatools.enablement.oda.xml" name="projekt" id="230">
+            <method name="beforeOpen"><![CDATA[/*  Imixs Workflow Technology
+ *  Copyright (C) 2011 Imixs Software Solutions GmbH,  
+ *  http://www.imixs.com
+ *
+ * The following code extends the XML Datasource URI 
+ *  with the UniqueID from the selected Projekt 'CurrentProject'
+ *  The defined URL did not provide the value for param 1:
+ *  
+ *  http://localhost:8080/office-rest/report/zeitabrechnung.ixr?count=-1&amp;1=
+ */
+
+// select the XML URI
+filelist = this.getExtensionProperty("FILELIST");
+// add the uniqueID from the selected Project
+this.setExtensionProperty("FILELIST", filelist + params["CurrentProject"]);]]></method>
+            <property name="FILELIST">http://office.imixs.com/super-office-rest/report/projekt.ixr?count=-1&amp;1=</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.datatools.enablement.oda.xml.dataSet" name="ZeitenDataSet" id="29">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">_date</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Datum</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">_date</text-property>
+                    <property name="analysisColumn">_date</property>
+                </structure>
+                <structure>
+                    <property name="columnName">_duration</property>
+                    <property name="analysis">measure</property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">_duration</text-property>
+                    <property name="analysisColumn">_duration</property>
+                </structure>
+                <structure>
+                    <property name="columnName">_subject</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">Thema</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">_subject</text-property>
+                    <property name="analysisColumn">_subject</property>
+                </structure>
+                <structure>
+                    <property name="columnName">namcreator</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">Bearbeiter</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">namcreator</text-property>
+                    <property name="analysisColumn">namcreator</property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">_date</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">_duration</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">_subject</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">namcreator</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">zeiten</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">_date</property>
+                    <property name="nativeName">_date</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">_duration</property>
+                    <property name="nativeName">_duration</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">_subject</property>
+                    <property name="nativeName">_subject</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">namcreator</property>
+                    <property name="nativeName">namcreator</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[table0#-TNAME-#table0#:#[/collection/entity]#:#{_date;TIMESTAMP;/datdate},{_duration;BIGDECIMAL;/_duration},{_subject;STRING;/_subject},{namcreator;STRING;/namcreator}#:#<"","http:%%www.w3.org%1999%xhtml">]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>_date</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>_date</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>_duration</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>_duration</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>_subject</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>_subject</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>MAX_ROW</name>
+                    <value>-1</value>
+                </ex-property>
+                <ex-property>
+                    <name>XML_FILE</name>
+                </ex-property>
+            </list-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.datatools.enablement.oda.xml.dataSet" name="ProjektDataSet" id="231">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">txtworkflowsummary</property>
+                    <property name="analysis">attribute</property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">txtworkflowsummary</text-property>
+                    <property name="analysisColumn">txtworkflowsummary</property>
+                </structure>
+                <structure>
+                    <property name="columnName">_subject</property>
+                    <property name="analysis">attribute</property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">_subject</text-property>
+                    <property name="analysisColumn">_subject</property>
+                </structure>
+                <structure>
+                    <property name="columnName">txtworkflowstatus</property>
+                    <property name="analysis">attribute</property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">txtworkflowstatus</text-property>
+                    <property name="analysisColumn">txtworkflowstatus</property>
+                </structure>
+                <structure>
+                    <property name="columnName">_created</property>
+                    <property name="analysis">attribute</property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">_created</text-property>
+                    <property name="analysisColumn">_created</property>
+                </structure>
+                <structure>
+                    <property name="columnName">namcreator</property>
+                    <property name="analysis">attribute</property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">namcreator</text-property>
+                    <property name="analysisColumn">namcreator</property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">txtworkflowsummary</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">_subject</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">txtworkflowstatus</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">_created</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">namcreator</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">projekt</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">txtworkflowsummary</property>
+                    <property name="nativeName">txtworkflowsummary</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">_subject</property>
+                    <property name="nativeName">_subject</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">txtworkflowstatus</property>
+                    <property name="nativeName">txtworkflowstatus</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">_created</property>
+                    <property name="nativeName">_created</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">namcreator</property>
+                    <property name="nativeName">namcreator</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[table0#-TNAME-#table0#:#[/collection/entity]#:#{txtworkflowsummary;STRING;/txtworkflowsummary},{_subject;STRING;/_subject},{txtworkflowstatus;STRING;/txtworkflowstatus},{_created;TIMESTAMP;/_created},{namcreator;STRING;/namcreator}#:#<"","http:%%www.w3.org%1999%xhtml">]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>txtworkflowsummary</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>txtworkflowsummary</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>_subject</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>_subject</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>txtworkflowstatus</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>txtworkflowstatus</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>_created</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>_created</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>namcreator</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>namcreator</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>MAX_ROW</name>
+                    <value>-1</value>
+                </ex-property>
+                <ex-property>
+                    <name>XML_FILE</name>
+                </ex-property>
+            </list-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="24">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="25">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="26">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="topMargin">0.23958333333333334in</property>
+            <property name="headerHeight">30mm</property>
+            <page-header>
+                <grid id="213">
+                    <column id="214"/>
+                    <column id="215"/>
+                    <column id="216"/>
+                    <row id="217">
+                        <cell id="218">
+                            <image id="229">
+                                <property name="height">0.9375in</property>
+                                <property name="width">2.2291666666666665in</property>
+                                <property name="source">embed</property>
+                                <property name="imageName">imixs-logo.gif</property>
+                            </image>
+                        </cell>
+                        <cell id="219"/>
+                        <cell id="220"/>
+                    </row>
+                    <row id="221">
+                        <cell id="222"/>
+                        <cell id="223"/>
+                        <cell id="224"/>
+                    </row>
+                    <row id="225">
+                        <cell id="226"/>
+                        <cell id="227"/>
+                        <cell id="228"/>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[Stand: <value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <data id="255">
+            <property name="fontSize">18pt</property>
+            <property name="fontWeight">bold</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Topic</property>
+                    <expression name="expression" type="javascript">params["Topic"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">Topic</property>
+        </data>
+        <grid id="182">
+            <property name="marginTop">10pt</property>
+            <property name="marginBottom">10pt</property>
+            <property name="width">7.739583333333333in</property>
+            <column id="183">
+                <property name="width">0.7395833333333334in</property>
+            </column>
+            <column id="184">
+                <property name="width">4.427083333333333in</property>
+            </column>
+            <column id="185">
+                <property name="width">2.5729166666666665in</property>
+            </column>
+            <row id="202">
+                <cell id="203">
+                    <property name="paddingBottom">1pt</property>
+                    <text id="206">
+                        <property name="fontWeight">bold</property>
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[Projekt:]]></text-property>
+                    </text>
+                </cell>
+                <cell id="204">
+                    <property name="paddingBottom">1pt</property>
+                    <data id="232">
+                        <property name="dataSet">ProjektDataSet</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">_subject</property>
+                                <text-property name="displayName">_subject</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["_subject"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">_subject</property>
+                    </data>
+                </cell>
+                <cell id="205">
+                    <property name="paddingBottom">1pt</property>
+                </cell>
+            </row>
+            <row id="186">
+                <cell id="187">
+                    <property name="paddingBottom">1pt</property>
+                    <text id="198">
+                        <property name="fontWeight">bold</property>
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[Status:]]></text-property>
+                    </text>
+                </cell>
+                <cell id="188">
+                    <property name="paddingBottom">1pt</property>
+                    <data id="233">
+                        <property name="dataSet">ProjektDataSet</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">txtworkflowstatus</property>
+                                <text-property name="displayName">txtworkflowstatus</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["txtworkflowstatus"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">txtworkflowstatus</property>
+                    </data>
+                </cell>
+                <cell id="189">
+                    <property name="paddingBottom">1pt</property>
+                </cell>
+            </row>
+            <row id="194">
+                <cell id="195">
+                    <property name="paddingBottom">1pt</property>
+                </cell>
+                <cell id="196">
+                    <property name="paddingBottom">1pt</property>
+                </cell>
+                <cell id="197">
+                    <property name="paddingBottom">1pt</property>
+                </cell>
+            </row>
+        </grid>
+        <table id="134">
+            <property name="marginBottom">10pt</property>
+            <property name="width">7.739583333333333in</property>
+            <property name="dataSet">ZeitenDataSet</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">_date</property>
+                    <text-property name="displayName">Datum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["_date"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">_duration</property>
+                    <text-property name="displayName">Dauer</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["_duration"]</expression>
+                    <property name="dataType">decimal</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">_subject</property>
+                    <text-property name="displayName">Thema</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["_subject"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">namcreator</property>
+                    <text-property name="displayName">Ersteller</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["namcreator"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["_duration"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <list-property name="sort">
+                <structure>
+                    <expression name="key" type="javascript">row["_date"]</expression>
+                    <property name="direction">asc</property>
+                    <property name="strength">-1</property>
+                </structure>
+            </list-property>
+            <column id="158">
+                <property name="width">0.9375in</property>
+            </column>
+            <column id="159">
+                <property name="width">0.8645833333333334in</property>
+            </column>
+            <column id="160">
+                <property name="width">4.739583333333333in</property>
+            </column>
+            <column id="161">
+                <property name="width">1.1979166666666667in</property>
+            </column>
+            <header>
+                <row id="135">
+                    <property name="backgroundColor">#E5E5E5</property>
+                    <property name="fontWeight">bold</property>
+                    <cell id="136">
+                        <property name="paddingTop">1pt</property>
+                        <label id="137">
+                            <text-property name="text">Datum</text-property>
+                        </label>
+                    </cell>
+                    <cell id="138">
+                        <property name="paddingTop">1pt</property>
+                        <label id="139">
+                            <text-property name="text">Dauer</text-property>
+                        </label>
+                    </cell>
+                    <cell id="140">
+                        <property name="paddingTop">1pt</property>
+                        <label id="141">
+                            <text-property name="text">Thema</text-property>
+                        </label>
+                    </cell>
+                    <cell id="142">
+                        <property name="paddingTop">1pt</property>
+                        <label id="143">
+                            <text-property name="text">Bearbeiter</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="144">
+                    <cell id="145">
+                        <property name="paddingTop">1pt</property>
+                        <data id="146">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Medium Date</property>
+                                <property name="pattern">Medium Date</property>
+                            </structure>
+                            <property name="resultSetColumn">_date</property>
+                        </data>
+                    </cell>
+                    <cell id="147">
+                        <property name="paddingTop">1pt</property>
+                        <data id="148">
+                            <property name="paddingLeft">1pt</property>
+                            <property name="paddingRight">10pt</property>
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="textAlign">right</property>
+                            <property name="resultSetColumn">_duration</property>
+                        </data>
+                    </cell>
+                    <cell id="149">
+                        <property name="paddingTop">1pt</property>
+                        <data id="150">
+                            <property name="resultSetColumn">_subject</property>
+                        </data>
+                    </cell>
+                    <cell id="151">
+                        <property name="paddingTop">1pt</property>
+                        <data id="152">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">namcreator</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="153">
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">1px</property>
+                    <cell id="154">
+                        <property name="paddingTop">1pt</property>
+                        <text id="236">
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">right</property>
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[Summe:]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="155">
+                        <property name="paddingTop">1pt</property>
+                        <data id="162">
+                            <property name="fontWeight">bold</property>
+                            <property name="paddingRight">10pt</property>
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="textAlign">right</property>
+                            <property name="resultSetColumn">Aggregation</property>
+                        </data>
+                    </cell>
+                    <cell id="156">
+                        <property name="paddingTop">1pt</property>
+                    </cell>
+                    <cell id="157">
+                        <property name="paddingTop">1pt</property>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+    </body>
+    <list-property name="images">
+        <structure>
+            <property name="name">imixs-logo.gif</property>
+            <property name="type">image/gif</property>
+            <property name="data">
+                R0lGODlhRwL+APAAAAAA/wD//ywAAAAARwL+AIcAAAAQDgAQEBAgGwAwKQAgICA/OyAwMDBANwBAORBA
+                PjBQRABQRxBgUgBwXwBAQEBQUFBgYGBwcHB/f3+AbQGPegCfhwCvlQC/owC/rECvqH+/tX/PsADfvgDv
+                ywD/2QD/2xD/3iD/4DD/40D/5E3/5VD/5lj/52D/6W//6nD/636Pj4+fn5+vr6+/v7//7IX/7o//7pD/
+                8J3/8ab/86//87L/9bvPz8/f39//9sT/98v/+M//+NH/+dzv7+//++P//O3//fP//v4AAAD///8AAAAA
+                AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                AAAAAAAAAAAAAAAAAAAAAAAI/wCFCBxIsKDBgwgTKlzIsKHDhxAjSpxIsaLFixgzatzIsaPHjyBDihxJ
+                sqTBICZTqlzJsqXLlzBjypxJU2ENGzVz6tzJs6fPn0CDagRCoobQo0iTKl3KtGlSHiRIwHBKtarVq1iz
+                Zq0RlQQKIFrDih1LtqxZjDa6kiix46zbt3DjykXKVS0JGXPz6t3Lt+9Qu1FRoIQZBEiPwzwO//DLuLHj
+                xyFpAPYKdqXhHDZqaN7MGbLnz6BDHwRSYnKJHiZ/7ODMurXo17Bj760L2ATqkEB20GjNe3Nb2cCDC88a
+                BMVkEiYGd/yReXfv3reHS59OHSjR44I5BslRg/vN57wrV/8fT768SxulJ7/g+OM22CA/UPb4kfu75sya
+                xZvfz78/xx4nHGcUS95xtph/CCao4ENQmaZcSjy0xsNJPORgIRAYHrjghhxSJ8NxNLDUQ2s4EQQEiRp2
+                qOKKsDVYG0snkljZiKxFx+KNOEJ23WQ6WAYebyXmKOSQfaVw3FQqxfijgUQ26WRcLxxXAkuc4ffcb09m
+                qWVYOhxHQo8qWfmjDQ9uaeaZM2B5VICT4aVSgVVuZqUN+p1p55M0hPDBniP06WcJKswQ5Ew5HGfCShEu
+                uVmZdzY6JAx7RirppCOkMOhLKhxXp0g/KLrZhI6GSiQQI0xq6qQhvLCpSlFOFmJJncr/+WMOotY6JA2n
+                5hppCK8S6OV6I/0AJ2tz3mfrsTmmoOuyKYhogpdTglQfbzvM18NqVa6K7LYJkrasriJoe1EQoBJkw7Ne
+                3jXDDCqokEINjEJErg3O+RafQdhqliK3/C64Q6nfmgqCmhq1moIKMKhQQnrpTmaCuAkF0YOYctpI0Haf
+                9qtxhzuAELCpbh4UBJkRNWwyYEg6JCxnFm6WQ7wCFUjwxjQneIIIIny8pwonoRApDDaUu5CRJ5+s8IAK
+                qbabDdVWhp/FBrlc89QdAiGDngGfUBDAe4JQggwwF8Rm0V6icKANlw4ERIVNFwREZnQuFGPcVNe9IBA5
+                BzyC05PO/5xQD2Sn+zBD9CXEXA1CI6SbvnY3rqC3AYc7g8eRigAR4Ka5626rZV80It0Lbbav46TvV8LH
+                eUvKM0Qz2AUD1DwwPBnSEkXo90nejV767uMBoazOqkeUVmC6CwREpl5C3RB3EBNEY/G8Rz8dDZQDHy1E
+                H2a3UOtSNl/QyLcjxB300pc/HA2pfxzC6xDd2xBtgGnP0MjkGxRh2ObnHxypwFf+QvgV6YHs1AKshagm
+                IszBn/4WGBsgVK9/HwBBn2DgPYcEoQYpQJdaVIA/w0hkBxVkoAhBIwMInipcHEFP/BQoERaO8IWeCYIJ
+                TxhCh3QJML2CoQ5vVMIZmgqFGxmeWv9StsMicigGPswVEDOyo65ozYhQVNAJkgiuGjIkBoCJohb7M8UT
+                quAEfgqBx0SQgtzIQAUPlNQTNQKYxG3xjcPp4qmUd5AdpE+NG+FcVNIGxz6+Jghc+wBb8ra6h8AgjXsi
+                okVyoEESzMCPkIQN3iqHkx3sKQRWFIgATxWyi2CxKwWMpCgfE4S8gSBkXcwhRIBAgxLcEYDY60qzRklL
+                xuxATyBQgXiAwCeNAGgEIAABHSMSBM7V8ph76dgHTmCxF+xpmBTpwQwUaRHjkACZ2IxLx0bARz0V0ic9
+                yJQbs0nOrMhABKociA0+gEmh/IAE4yynPJ3CA2oSZIrp9Akr58n/z7PIcARKcWE/B7oUSEGToAjlkAi+
+                mdCGquiWmXSoRKmTgnxO9KL8WSNGN8qfanH0oyANqUhHStKSmvSkKE2pSlfK0pa69KUwjalMZ0rTmnrk
+                Bi7I6QomwNOe+vSnQA1qT3Fg06KCBActmAAEHgCApjr1qVCNqlSn2lSiGvWqF/EBCyJQAKp69atgfQBW
+                xzqRFkAArGhNq1RZQNa2NoQFXVWrXOXqA7fa9SAuiOtc9wrWCNz1rwLxwVn5StivtgCwd73BAQrL2KkK
+                ALF2vYEAGktZqEoAsm2VbGU329QbYHasPpgsZytbgM+OdbGjrewKTHvVCaR2s1ZlbU1x8NrK/4pVtjZl
+                am0by1bc0tQFu6VsXX07U90Gl7B+Ja5Mb3Bcxh5WuTGNQHMJ+1jowtQH0yXsZa370hVkl6+e5a5L9frd
+                tJZWvC1lbnnlulr0slQC65VrbN2bUtHGN6z0XWkL7pvW3uYXpdLlL1iH+1+TYlfAX01ugU3KAgQbdsEn
+                Na6Do1pdCJOUthOe6nYtPFLvZliq4eWwSMn74aael3Q8yIwKXtAuFq+4xTB+sYxZvIH5ijgj6i3xU9tL
+                tR/A4GZUNFUCbtwR+Or4qTbuVxBgcMcgR6oDCiZyRux75NturDhOXhYFXCBljez3yE71b7+ol+VlGaDL
+                GgkwmAFAYH7Jsf/Mp8LAhtFckQOvOcrcejOcTdWAJNM5Ig1eMwCe6+Y9L0sBf76IhHVcYW710NCnsoCY
+                Ex0RDK95zsj6ASIhvacFtJnSEPHwmkO8LRNw+lQdgACoKULiEp94Wz849akqQOhVPyTHYObxtvQs6w8M
+                2dYRMfKa/SwqXvZaUhzANLAZQmUdW3lbSDx2pBxA6mUv5MtrnvSxsCbtD5zZ2g5RM5g/bStLdvsDF9A1
+                uBNiZzDj+Vi/63af182QQK+51sji9rE9oGp6L2TRJW40snB1bkmLBgcrkPABVkBuOFoazMrmCE55KoEH
+                WPziGM+4xjfO8Y57/OMg7zhPW1DtFLq4XSj/T7nKV87ylqtAAw13yARCTnOQQyDmRxU3VAXA5Y7kVKhA
+                D7rQh070oveUBTgvi6jBXHKM3KDigr6vACLQc73goNnHjfhHXKDzqeJ7IgiHQKujzlgBaPssY8/wqzGC
+                gwmknezfPUDV5+La8s596wCnqgCSrhCtohburz07WXB9ZHXXWdiAd7Dg3fL36R4gJC3Ie4InMgGsJ36z
+                AjcL4o9M7Ii4wPKXv+/izUL45k7AI3ClbkRu8PbQU/buZQH9hJ9dEXu73sF710vdv9t0iqSesZ03iO1v
+                n1rYjwXbYB69Q4ZPfAEbHi6Nby7tJ+KDylfW+AdhfvM3i/2wdL3EfGcI//K3L+DpwwW45X2+Q6ov+70G
+                fyDjJz9p39LuI787IqGV/4T5svnjCuD9B9F27bdXmReAA6h/c/V1Y6F9H6aAEDFYCChgfOEDrZda/eYQ
+                OPB9lHV/BgGBEVh2DigWkjdhBQgR6DdaRidUXEVYRDeChAUSIxMD7uInNFiDNmiDGRCCFnGC2aWDA5GB
+                u/V/DMGD05WCRniEQOWDWvFwR6Z1D+GCfPV4YCcBFehVF6gQ0UdZ2iEDJ6BvWeZpIKGBtZV7CcF1x6V8
+                AgGFoyWFTrJ0R9Z7GPha6qcQLqCGYKWEpddYa1cRhXJq/BYS+fddWleH/oeGQpCHwWWIHVKF/LWHwf/2
+                WuFHEIJVWSVYEP3XWOYXETwQSJBmcJC3XndHiMf1AHBYEGJYW5HIIYiYYXPoEAc4V1c4hK+IVhxYELOo
+                VqdnESogbb8mEh7YXCfGAlmYWg/QfQYRiNkVi0NyiR8GgAoRf5SliELAgIRVigIBjY1ljAsBSNIGZSSB
+                jEX4e8EVAdYofOulhCpyi+uViQ/xi5RViebIWY5oEKfIV/AoN03GaVtWEm6ofxHgjAZhh5iXJdiYYdJ4
+                EPVXWbVYEJrFWbnYd6+ljA/Ba6f2bSUhkGQ3dQBpEEzYXAvJIvWIYKmIEP34eg4xjMBXb4FHEZDSbcmW
+                EldHfgIwASN5ECUZXOX/2CEJWWIfyRAoWVjzaBC7t1nsSBAYmVZkGBEOdG7zlhI3CXczWZMI8ZOvFZQ3
+                Qo0Tho4J0ZGU5YSSqI5ohYZc2Vg9iRDxJm2IthJUCWYFcJAKsYoRKAAWBwET0AIbeRZHWV73yBDMmJIM
+                MZSbFX5PWVha+T3nhm6tCBJwqWNtyRF9+YFRtXBSGRZjmWFe2RCMKFdsuBBg2VeYmVpWqRC7eG5gyBKA
+                CWYP4JafCZlqJQCJaRaD6WA5WYZy+FavhYevdZkJ4YWy9ocusZblp40UUZCsSVVlORaZGV+hyRAhuVeR
+                mJdgtZdC8JjVOBEE122e2BKLeV/FGBLNWZyWlRfb/+l8FgGOlSWRHJmbDdGZX7WZEEGRp9aLLkGd5fWP
+                I8GexSmcYUGfAnaX8Thahhib4CV+tSkRS9lt3ggTFDhh9jkSWAmexjkX+Cl9F+GOjSWdQpCc5tUQFtpY
+                /ikQM3CY+xgTRKiXE/ChFNGhEOpVGIoVxKl4FlGZhVWW4zlXr7mTjYWeDMGJvWaRMcGfoxWVKYGjK/pV
+                KNoU33lfk0kQArpX6Aik8qWSqaWaQtADh/mSM2Gex3VzK9GkRQpV+nkVRMqgFwGcc7WcAjGhU1WUA2Gm
+                cpWUEBFt8nakH+GllLikMZpTerqnfNqnfvqngBqoe3qawRWmVvGgCFaYB1Gjcv+lm0Lwonwllq91nAbB
+                m7KWljIBhOulo3qhoq81m1YBndnVoggBpWqVk55qj+FHqNk4EebWbekmEzeQpMXnGGP6WnAhow7mqAqh
+                plLlnghxq3xVlhqKVmh6EGd5bKXpEqIoYAWAp2Fhp5QFrGQhresFqgcBqXv1mtN4mwzBqGrFqwaxaZzm
+                my3RrLvaGG6qkHBRrN91rAlBq2nljOu6ocz5Wih6ndKWnSohjG/oF7o6pW8BruvFrewWkQ0RsHvlqL4a
+                mRRxOucmnyYhjjpGrXJhqsL1FhhbXnTarQL7l58qpaNlsG5zmAlaElrlruX1kHqhsoTFqVrRsLXFpgwh
+                qiz/GokuS1UWWxCpyldLGqLnRgGKWmfWB5UdSxUlelxD2xTayl9U+oOT2hBJ21g3irATkY8V+Y1Fm3g0
+                Sxby2ljQmhRf+11hy6rO1RBja6QMYa1hORFWem5YmnPN97RUoaXjSH9RR6kIkbNTdawy+1QwKxD1ilZw
+                +hDOxJTYChGa2nyF6xaIOlqG6gM5dbQt8bj8tbQEQbBo5aiWK1eSmlp6SxCWemqYyhFmqH+BGxY9K48P
+                MZRcqhGuxbJ41VQEgX4NYbPNRaoHkbZehaqpJZ0be4cTsU7nFqumi7tgZqhWobCcZbB1BwESMFmpK3MA
+                ILsGYbsDgb0Kwbz3Ja4I8bdO/7Wzkhi1DMG3UgWvYnOYC0C52Yu8aJWa5fWscMG2jBWJ+ddb6pW4CRG7
+                C6G9QuC/JBl1+ksQnatW3Eq/XyWcU8tYJFsQ5App5noRFFtb5CgQZqueb2G+cnWcDbaZ0uW9CsG/dEi7
+                2UvCCqHBtYW+B7G6c0WvoIm2v/uzh8mvw4nCXtWgbVpeA6wUmuuXfFm9BAwA0ye5RJVU4ZVUDhi7bYd0
+                swsAtWvCCNHD2dXAx2i1CyHFXsWwqWW9DkECh5kAYTuJwaWRi1pe4osVwYtcTwgAYrbE1wsAEPB3LGBc
+                Eedafye/BeG/AGwQaTxdHYvAXmWIfUxVAFjAhLukxoagof9bED4wuG9KkyG8smcBvmC1kYuln+hXjAFW
+                AC3gYQdRdxLgAov1bnoMxQdByZzVtVgYw6vJWWcsECyMixQhp9ImtBYRy3MlpOX7XUKIEYL6y8AczH0K
+                yHvFxQnRVJgMAFJ4YMPVVZ8MANvFzHncVD4VYM8YdXQrBNyrVmXZtOzFENtsrBWBtZzmoxKxwIzVmA+B
+                zsRoES3gyBCKxw6BzFIrxANhwkz1zA/JVKFIVQrBu80VtoPsdTCcWoKZWjv8qtIWtxMB0OdLpQPtuRTh
+                0KypvEJAz9N4ccoGXFaGz04slEAsEPA1aei3p54crHl7ETbsVGhqt4yVuvBMVVRMEMn/2mvUZhHgm5p1
+                ttJf1bhD+KU2KhGT1XO7N30cfc8fLQT5DNIPKcIlnNT/a8pBLGiYC38YvBCG3LZXPFqLLLqHWboTQZQW
+                3cTJKBG4/KVdzc9PbNT2LBAerc8D4dQCUcpQXRDuG4QXQdFRlZN3vXMNEdFO1dUDoa/HZrwVQVndqRGA
+                nVYW3dcIKNhnxbJHPc0dndRLXRBOLddRDdV7LBDhXF4gzMio/MraTL4LYcMznb5MebQxDQA4rBELml3y
+                fLtAjVapbcGuvdZvXNkDcdkE4dRq/cScLdUCQczHtcMCkdVgdcAhe22VdQDIbTwPbGgRTBEXbJzsS9bT
+                5b16TX7Q/20RzJWU8MXWvJ2GdY3bDzlZNkbXeytoKtyB+NrKm4WmDn0A2TwQQIud9y0ELi1VM5ndCXHW
+                jAWqWKx/6qxoynwDPuBh5I3UvX3eQuBaPCcE0gWs7G0QBX5ct+3ZVvyWr2XMX0lYByAB0b01h8kAYTsQ
+                j6vLI9HfqUXaKl7bT1UAJL4RMelUAlAADe7Wlg3hrkVesHfhlhh1f7ySP5xahWxeFicBE+ACKW4Qb6vI
+                G4GVBQDJKeHNlNXAGcjTHyaXD8DkTv4RC77kOMAC2ubGFvyQLMDFa159DwABxtd2LCvndLa44bvf/rZS
+                ewrged7nfv7ngB7ogj7ohF7ohn7oiP+e6Iq+6Ize6I5e5yuwVBYXAXj+6APlA8zIyZaOUoo1eZtOUrHt
+                6Z8eUh4YAA6AARhwAQ0AVVU96tnEgwTgAZOCAQHA0q7+UWo2ALJuKhjwVK1+67VkXxagK6veVKFtVxVX
+                c8q+7Mze7M7+7NAe7dI+7dRe7R33VMtyAThu7dze7d7+7eAe7uIO7QEp4+Z+7rU1AMvS6+je7u6OVuX+
+                7vI+72i17vR+7/KO4cK87/ze7/7+7wAf8AI/8ARf8AYfqE+FAbriAE4F5wf/8BAf8RI/8RRf8QDPYRCI
+                ALnSAbXeVJUO7H5kew1gKh5AADj+5CAfSY2HABewJx5gAR1PzSn/j1EN2Z4zv1E1P1UHgPI3H0mdrmE8
+                3/OiZFb2ReN8LvRIn/RKv/RM3/RO//RQH/VSP/VUX/VWf/VYn/Vav/Vc3/WrhlNj7fV109kP8XdIkVMI
+                Edw8HOYpofYZgQNsj9khnSOTrRF1X8KqvBGSW+Jv7wJ+dvcgQfYNoV5mjhTErdQAEPYy4fYkwfgX4VrG
+                p9ksAvgXQfmUPxKXvxKSH9V5XxGC/9OdPxOHj1NBrxKOLxKnXxGQD9dCkvkUQfl7vxKunxKbP/t2f/j1
+                HPoygftOkfog4fuUl/isT/dtffu6H/jF/xK1n/zIf96x7wJ1eYwu4F1yV3I+kFRMrO8+gHCh/+hZNxD9
+                hzgB2R+AO2V8OIXMcS8QpE/+4K/v2rwC4/8Q2P9pklt1cB9bkrtYK+ACTTf/Aej3ACGExYQbQgwePIhj
+                xQofDwC4QJhwBcGIFRH6cBEBwAoXBRFOADBBIEWLQm5MWIGjpEWMKg26gGgQhwsfFltMYFEz4kyPQjD2
+                XPnyho+BQCMSndBiJVKlFmdiTFrSBYAHJW/mDFpxatWjHSPeoIkQpk2cOrMavLECwIGxFRWSLHkyJ1GX
+                Fwc2vZgRQASvYqkKuRnT6USjB8ee1AoAQOIDDhVHiDhVsWKuCQtMFlDY4QoBISNS1fhYwuQDJVlMXmvW
+                oOPJglc/rNiis//i0hUdspgtoO5ZHwcwG70c0zcLw6j/XvStOHNFkBCSAyBe8Ubu4BVPT4Z8VojkyZUN
+                Nn8ePWJoxeKzToVg0IdilxBgI8eM12CLtQdBZj8LoMBlxSKlz07tP9JU+26tARPzTr3nltNuu+P8ShAk
+                /3wCQICjFiysJNYUsw41/MbDzDfXTALwANW4oyyytViTwKLrHrPoMQ5VXIxGAVhQC4DdcJhAowJwAhEC
+                vRIUwjEBJBhRsQJYuE6ApKrbSbEVZPMMoYH6m2C3It9DqDOOfFvBtsdc8G3CszQSEqQI9zJJP4R4vCwC
+                IBHS6AEX1GSOthZ8tOgyId3j8iAvWxhOOx7/HZLTPCFAWquF0QpI7EbcdNRuPUgdhM4g3wh06M8KK1JM
+                J/cUXUnJm9ir6LIJXHDITINUZbXKj/ojVNbiiASJLZAu1W4rBFWsjL70Zj3gVF6zYsHHCVzFoUIWWoDS
+                SgAgOKnClCJC1AX3PjyUqjmL0w/HGd90ttYRhejOVUwj9UjEX0G18FVKEXKIwc/mdaip0dTdd74HERoX
+                20ABmxat+gQOU6CCG+xMJ9+A8qEzHDRKmN6BDWpYUwCMylWngF9yU+MRp6oNvQYXvRhlEw36WAiNojut
+                Re18KxAAmQ9OSD+don2tqcu0LHXe0WS+Vb2QD7rh4GaPLVDmqZh2kMif/w1y71yp/gWZyHFHq1je9gCQ
+                Lyhf85T5tA+pnvcyt0KOON5Z1XWwgJ03jkgtmYUFlU2LJHt3y3PHhvCgqhEuaVyHYpLQugg8AhzgGsUc
+                MXGWHz/o8KwbTLoykBRtrkIC/ZbuQZC6RnnCliUHnVy6hQA6KJCsRr1lh1xqPCiNIHJPgNKSPhsHCSq2
+                HCG7KYQ66KLfPsi33dSa8DICUZcY2KNwRv08rKOu6OHXjDq6erGvT73Z2hBS+zUt6SM6ePtsPT51wbk8
+                +qBQr6b88tf+vn4q/LxX/97K3/PemyTgGyKhq37/G9Ht/qel4NVuJYDzXsT6Y5H+2a90EYndAUcjnv8K
+                bkkAYdPO6yySwYp0BmDFs4hawiSAB7iHKBtZCQsg0JkRZc5Bw9LOuNbjtgIBL1CoqyAQB1Y7wDGvQQ50
+                INdYxkPsgYxo1iug+lpmuNWtb0JBZJ8FKyjFA7YMXH3roANRx7+UGRCBBYKbD0bTnRgd8H4CE8wW3+NA
+                +hlHXYxqXRiNM0HkTQ5yZ7yQYiDwOdeljIT32iPm9tKsZT1EhLHhj2LOZcLRnSxgH2OUcVwjxMjJqoJE
+                3GMWr0YkB+LNZH7ZYwH3Bj6H9KRlm9JYnvbYSbgBTo6J9B/9wHgxMcqKjFYz4xsvGMgb0aeAXnSfMJOZ
+                Ojqu8kfLWta5QmM1PT7/E5q0lN8B1dfB73SmAK0rySMxKKsphgSay7LkAU7TgqlMwCEuegwOOlg192So
+                cJTD5F7OmaU+LpOT0vOLNaN5xPxdz1JCUKGKBPotKFIQAGZpWb/oM771PWCfWgpgE5eJqH3m7YEtsyUv
+                r4c+K8LxnoAMoEZWRkdkVnBwyhRmM/tWEgnqzaQAXckh6QQ2QDrFNzg8izj7Wc6TiWk0NaFKASgqk/LA
+                1CCnmUD5GnTJ+m2ukFcc2D8Dt9WiWrB9CFFePXHaVTpysSI1lWSe4NZPrsoRmNn86AFDij9SPkgjYeNm
+                MFMXQFRp1HEayioMMabNOYJvlZVpyTgjMLWbcjWx/0M9oFaPwlQ3htOQ5DwgLNFiT4us8VIH6MzZUJa+
+                i4nPsCc12Jom9JR+tnKcE9IeV5mKWBeAc6ZePcgGTTg9itaWoFF8z0FBFIEH8CWFsmItW9vnVqSdC5nr
+                wqkeibS05FXRqXAVJl8fx9LKVjBmRoNaA08LKl6p5Ww/M9sf4XWQ9EI2Ng+qoBH92CChlnS+CHFPU9ZT
+                WXjqbY2ksup1hcCftaJWYWejD37yixC83de++72tEHarMKB+r64FFBb4MkYwVUZYCEr0K8vkZuGDUOy1
+                h+1pgcTDWOyuUq7wFWkBC0Wf8JaRiojLYmeIQybwzU+9OVuORkQr3g6LSSQ4oP+htLgSPYT0qyLuOTLP
+                hqnXg0iQODmqYYUgsquTgeSJ9qXyUwMk5JM1S7DXKYyafOCDaVqkzZbciw9wcJmwSRAipxGAaiRYkObk
+                6QAFIfNYDULmOWeqVwUt4H5FSebeGPosSRuxQtc8quzRJgLXKmGmJINRm7Z1iPpRyWi0xl++RTfGLp4M
+                CPN6YzTKUknx+58ACjCiDq5ROUAj8smS5qGI+KYp94nIdRrzFQB1utUOXh9meBoRWysGhDGkjWpbDFbU
+                rOxknfGImZ1S7M48mz78vSdqCpjJpo7zN66+dYSRzOvfelgIybHaurFTVG8ycUsHqtseSfWicqNy2J4+
+                F6D/lFOY5/JIXTwSz0CAhnCpEFdILuLnCCek8JesykUQsKgP0Ckdh2uJ4tZ5QHFb93GG69rhdd64T1Ju
+                n5CTziQOJ9V2LP6dtbIg5Cy4k9VkWNy3hrPlkZn5otLozgcwpKsD+UjMWUdcvuR8lUvNz8aIOwFCAgbj
+                i7PK1TPkZXdi3S0MRRrMi1ryN4H9IDcp8MRaqPSV3ADjFTbICkIugc+RTCU3WOPnWnB1YNq86Dv51sfr
+                NndCrryrh0d84hW/eMY33vGPh3zkJT95lLk8K8+VfEYpv3nOd9nRy+x86EU/etKX3vSnR33qFeK5rmI+
+                8ppPfewZr5Y/z0cAeZZ97nW/Pnve9973v8fU56cK7teLEvjHhw9qboR85jff+c+HvuwNzlnXFVjyTo++
+                89GOEttm3/vfB3/4xT9+8pd/9wEBACH/C1NUQVJESVYgNS4wCQFIEwAAZwgAAAA7
+            </property>
+        </structure>
+    </list-property>
+</report>

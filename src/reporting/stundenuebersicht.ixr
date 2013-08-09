@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Imixs IX XML QueyObject  -  www.imixs.com--><query>
+  <itemcollection>
+    <itemcollection>
+      <item name="txtworkflowmanageruri">
+        <value>http://office.imixs.com/imixs-super-office-rest/report</value>
+      </item>
+      <item name="txtattributelist">
+        <value>$created</value>
+        <value>datdate</value>
+        <value>namCreator</value>
+        <value>_subject</value>
+        <value>_category</value>
+        <value>_duration</value>
+        <value>txtWorkflowStatus</value>
+      </item>
+      <item name="txtquery">
+        <value>SELECT workitem FROM Entity AS workitem&#13;
+ JOIN workitem.textItems AS type2&#13;
+  WHERE workitem.type IN ('childworkitem')&#13;
+  AND workitem.created BETWEEN '?von' AND '?bis'&#13;
+  AND type2.itemName = 'txtworkflowgroup' &#13;
+  AND type2.itemValue = 'Zeiterfassung'&#13;
+ORDER BY workitem.created DESC</value>
+      </item>
+      <item name="txtname">
+        <value>stundenuebersicht.ixr</value>
+      </item>
+    </itemcollection>
+  </itemcollection>
+</query>
