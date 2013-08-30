@@ -1,0 +1,174 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+		<f:view>
+			<h:form id="import_form_id">
+				<div class="imixs-form">
+
+					<!-- *** Header **** -->
+					<div class="imixs-header">
+						<h1>
+							<h:outputText value="#{message['adminp.title']}" />
+						</h1>
+						<!-- **** General info ***** -->
+						<h2>#{message['adminp.subtitle']}</h2>
+
+						<p>#{message['adminp.help']}</p>
+					</div>
+
+					<div class="imixs-body">
+						<div class="imixs-form-section-3">
+							<dl>
+								<dt>#{message['adminp.fromname']}:</dt>
+								<dd>
+									<h:inputText
+										value="#{adminPController.workitem.item['namFrom']}" />
+								</dd>
+							</dl>
+							<dl>
+								<dt>#{message['adminp.toname']}:</dt>
+								<dd>
+									<h:inputText value="#{adminPController.workitem.item['namTo']}" />
+								</dd>
+							</dl>
+							<dl>
+								<dt>#{message['adminp.replace']}:</dt>
+								<dd>
+									<h:selectOneRadio styleClass="noBorder" layout="lineDirection"
+										value="#{adminPController.workitem.item['keyReplace']}"
+										required="false">
+										<f:selectItem itemValue="true" itemLabel="#{message.yes}" />
+										<f:selectItem itemValue="false" itemLabel="#{message.no}" />
+									</h:selectOneRadio>
+								</dd>
+
+							</dl>
+						</div>
+						<h:commandButton actionListener="#{adminPController.doStart}"
+							action="/pages/admin/adminp" value="#{message['adminp.start']}" />
+					</div>
+
+				</div>
+
+				<div class="imixs-view">
+					<!-- *** Header **** -->
+					<div class="imixs-header">
+						<h1>#{message['adminp.viewtitle']}</h1>
+					</div>
+
+					<div class="imixs-body">
+						<h:dataTable id="adminp_datatable_id" columns="8"
+							value="#{adminPViewController.workitems}" var="record">
+
+
+							<h:column width="110">
+								<f:facet name="header">
+									<h:outputText value="#{message.created}" />
+								</f:facet>
+								<h:outputText value="#{record.item['$created']}">
+									<f:convertDateTime timeZone="#{global.timeZone}" type="both"
+										pattern="#{message.dateTimePattern}" />
+								</h:outputText>
+							</h:column>
+
+
+
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{message['adminp.fromname']}" />
+								</f:facet>
+								<h:outputText value="#{record.item['namFrom']}" />
+							</h:column>
+
+
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{message['adminp.toname']}" />
+								</f:facet>
+								<h:outputText value="#{record.item['namTo']}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{message['adminp.replace']}" />
+								</f:facet>
+								<h:outputText value="#{message.yes}"
+									rendered="#{record.item['keyReplace']}" />
+								<h:outputText value="#{message.no}"
+									rendered="#{!record.item['keyReplace']}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{message['adminp.processed']}" />
+								</f:facet>
+								<h:outputText value="#{record.item['numProcessed']}" />
+							</h:column>
+
+
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{message['adminp.updates']}" />
+								</f:facet>
+								<h:outputText value="#{record.item['numUpdates']}" />
+							</h:column>
+
+
+							<h:column width="210">
+								<f:facet name="header">
+									<h:outputText value="Status" />
+								</f:facet>
+								<h:outputText value="#{record.item['$modified']}"
+									style="margin-right:10px;">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="#{message.dateTimePattern}" />
+								</h:outputText>
+								<h:outputText value="#{record.item['txtWorkflowStatus']}" />
+							</h:column>
+
+
+
+
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{message.action}" />
+								</f:facet>
+
+								<!-- Delete 		-->
+								<h:commandLink title="#{global.delete}"
+									action="/pages/admin/adminp"
+									actionListener="#{adminPController.delete(record.item['$uniqueid'])}">
+									<h:graphicImage url="/layout/icons/Delete_16.png"></h:graphicImage>
+								</h:commandLink>
+
+							</h:column>
+						</h:dataTable>
+
+					</div>
+
+					<div class="imixs-footer">
+						<h:commandButton immediate="true"
+							actionListener="#{adminPController.reset()}"
+							action="/pages/admin/adminp" value="#{message.refresh}" />
+						<h:commandButton value="#{message.close}" action="home" />
+
+					</div>
+
+				</div>
+
+			</h:form>
+
+
+		</f:view>
+	</ui:define>
+
+
+
+</ui:composition>
