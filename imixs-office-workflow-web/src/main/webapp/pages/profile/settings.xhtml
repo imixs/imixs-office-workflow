@@ -17,7 +17,7 @@
 
 
 					<div class="imixs-header">
-						<h1>{message.title_my_profile}</h1>
+						<h1>#{message['myprofile.title']}</h1>
 
 					</div>
 					<div class="imixs-body">
@@ -28,31 +28,69 @@
 
 						<div class="imixs-form-section-2">
 							<dl>
-
 								<dt>
-									<h:outputLabel value="#{messages.language}">
-									</h:outputLabel>
+									<h:outputLabel value="#{message['profile.displayname']}" />
 								</dt>
+								<dd>
+									<h:outputText
+										value="#{workflowController.workitem.item['txtUserName']}" />
+								</dd>
+							</dl>
+
+							<dl>
+								<dt>
+									<h:outputLabel value="#{message['profile.email']}" />
+								</dt>
+								<dd>
+									<h:outputText
+										value="#{workflowController.workitem.item['txtEmail']}" />
+								</dd>
+							</dl>
 
 
+						</div>
+						<div class="imixs-form-section-2">
+
+							<dl>
+								<dt>#{message['profile.deputy']}</dt>
+								<dd>
+									<marty:userInput
+										value="#{workflowController.workitem.item['namDeputy']}"
+										editmode="true" />
+
+								</dd>
+							</dl>
+							<dl>
+								<dt>
+									<h:outputLabel value="#{message['myprofile.locale']}" />
+								</dt>
 								<dd>
 									<h:selectOneMenu id="locale_id" layout="pageDirection"
-										value="#{userController.workitem.item['txtLocale']}">
-										
+										value="#{workflowController.workitem.item['txtLocale']}">
+										<f:selectItem itemLabel="Deutsch" itemValue="de_DE" />
+										<f:selectItem itemLabel="English" itemValue="en_EN" />
 									</h:selectOneMenu>
 								</dd>
 							</dl>
 
+
+
+
 						</div>
 						<div class="imixs-footer">
 
-							<ui:repeat value="#{userController.activities}" var="activity">
-								<h:commandButton action="notes"
-									actionListener="#{userController.doProcess}"
-									value="#{activity.item['txtname']}">
-									<f:param name="id" value="#{activity.item['numactivityid']}" />
-								</h:commandButton>
-							</ui:repeat>
+							<!-- workflow save command -->
+							<h:commandButton action="#{workflowController.process('notes')}"
+								class="imixs-workflow-action" value="#{message.save}">
+								<f:setPropertyActionListener
+									target="#{workflowController.workitem.item['$ActivityID']}"
+									value="10" />
+									
+								<f:setPropertyActionListener
+									target="#{workflowController.workitem.item['action']}"
+									value="notes" />
+							</h:commandButton>
+
 							<h:commandButton value="#{message.close}" action="notes" />
 
 						</div>

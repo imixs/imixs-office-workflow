@@ -5,13 +5,12 @@
 
 	<div class="imixs-portlet">
 		<div class="imixs-header">
-			 <h:outputText styleClass="active"
-								value="#{message['nav.start_new_workflow']}" />
+			<h:outputText styleClass="active"
+				value="#{message['nav.start_new_workflow']}" />
 		</div>
 		<!-- *** display all process nodes where the current user is member of *** -->
 
-		<ui:repeat value="#{processController.processList}"
-			var="process"> 
+		<ui:repeat value="#{processController.processList}" var="process">
 			<h:panelGroup layout="block" styleClass="imixs-viewentry"
 				rendered="#{process.item['isMember'] and (! empty process.itemList['txtWorkflowList'])}">
 				<h3>
@@ -24,19 +23,27 @@
 					<ui:repeat value="#{process.itemList['txtWorkflowList']}"
 						var="group">
 
-						<ui:param name="processEntity"
-							value="#{modelController.getInitialProcessEntityByGroup(group)}" />
+						<!-- verify if workflow groups still exists -->
+						<h:panelGroup
+							rendered="#{! empty modelController.getAllProcessEntitiesByGroup(group)}">
 
-						<li><h:commandLink
-								actionListener="#{workflowController.create(processEntity.item['$modelversion'],processEntity.item['numprocessid'],process.item['$uniqueid'])}"
-								action="#{workflowController.init('/pages/workitems/workitem')}">
-								<h:outputText style="font-weight: bold;" value="#{group} »" />
-							</h:commandLink>
-							<p>
-								<h:outputText value="#{processEntity.item['rtfdescription']}"
-									escape="false" />
+							<ui:param name="processEntity"
+								value="#{modelController.getInitialProcessEntityByGroup(group)}" />
+							<li><h:commandLink
+									actionListener="#{workflowController.create(processEntity.item['$modelversion'],processEntity.item['numprocessid'],process.item['$uniqueid'])}"
+									action="#{workflowController.init('/pages/workitems/workitem')}">
+									<h:outputText style="font-weight: bold;" value="#{group} »" />
+								</h:commandLink>
+								<p>
+									<h:outputText value="#{processEntity.item['rtfdescription']}"
+										escape="false" />
+								</p></li>
+						</h:panelGroup>
+						
+						<h:outputText style="color:red"
+							rendered="#{empty modelController.getAllProcessEntitiesByGroup(group)}"
+							value="	Missing Model Definition: #{group}"></h:outputText>
 
-							</p></li>
 					</ui:repeat>
 				</ul>
 

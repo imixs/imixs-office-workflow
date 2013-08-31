@@ -24,9 +24,12 @@
 									rendered="#{empty userController.workitem.item['txtUserName']}"
 									value="#{userController.workitem.item['txtName']}" /> </b></li>
 
-						<li><h:commandLink action="open_my_settings" rendered="false"
-								value="#{message['nav.my_settings']}">
+						<li><h:commandLink
+								action="#{workflowController.load(userController.workitem.item['$uniqueid'],'/pages/profile/settings')}"
+								rendered="true" value="#{message['nav.my_settings']}">
 							</h:commandLink></li>
+
+
 						<li><h:commandLink action="/logout.xhtml"
 								actionListener="#{loginController.doLogout}">
 								<h:outputText value="#{message['nav.logout']}" />
