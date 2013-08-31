@@ -6,14 +6,14 @@
 
 	<ui:define name="content">
 		<script type="text/javascript">
-		/*<![CDATA[*/
+			/*<![CDATA[*/
 
-			function updateTable(e) { 
-    				if(e.status == 'success') { 
-			        	$('.imixsdatatable').layoutImixsTable()
-			    	} 
+			function updateTable(e) {
+				if (e.status == 'success') {
+					$('.imixsdatatable').layoutImixsTable()
+				}
 			}
-		/*]]>*/	
+			/*]]>*/
 		</script>
 		<f:view>
 
@@ -59,14 +59,15 @@
 
 
 							<h:column>
-								<f:facet name="header">
-									<f:facet name="header">#{message['profile.displayname']}</f:facet>
-
-								</f:facet>
-							
-									<h:outputText value="#{record.item['txtUserName']} " />
-								
+								<f:facet name="header">#{message['profile.displayname']}</f:facet>
+								<h:outputText value="#{record.item['txtUserName']} " />
 							</h:column>
+
+							<h:column>
+								<f:facet name="header">#{message['profile.deputy']}</f:facet>
+								<h:outputText value="#{record.item['namDeputy']} " />
+							</h:column>
+
 
 							<h:column width="110">
 								<f:facet name="header">
@@ -91,7 +92,7 @@
 								</h:outputText>
 							</h:column>
 
-			
+
 
 							<h:column>
 								<f:facet name="header">#{message.status}</f:facet>
@@ -129,9 +130,9 @@
 							disabled="#{profileViewController.endOfList}"
 							value="#{message.next}">
 						</h:commandButton>
-						
+
 						<h:commandButton value="#{message.add}"
-						rendered="#{setupController.workitem.item['keyEnableUserDB']}"
+							rendered="#{setupController.workitem.item['keyEnableUserDB']}"
 							action="/pages/admin/profile"
 							actionListener="#{workflowController.create}">
 							<f:setPropertyActionListener
@@ -145,7 +146,7 @@
 								value="profile" />
 
 						</h:commandButton>
-				
+
 
 					</div>
 				</div>
