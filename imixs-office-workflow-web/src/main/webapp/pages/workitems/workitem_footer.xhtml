@@ -23,13 +23,13 @@
 				<!-- *** Soft Delete  *** -->
 				<h:commandButton action="home" immediate="true"
 				    onclick="if (!confirm('#{message.help_delete}')) return false;"
-					rendered="#{workflowController.workitem.item['type'] eq 'workitem'}"
+					rendered="#{workflowController.workitem.item['type'] eq 'workitem' or workflowController.workitem.item['type'] eq 'workitemarchive'}"
 					actionListener="#{workflowController.doSoftDeleteWorkitem}"
 					value="#{message.delete}">
 				</h:commandButton>
 				<!-- *** Restore Soft Delete  *** -->
 				<h:commandButton immediate="true"
-					rendered="#{workflowController.workitem.item['type'] eq 'workitemdeleted'}"
+					rendered="#{workflowController.workitem.item['type'] eq 'workitemdeleted' or workflowController.workitem.item['type'] eq 'workitemarchivedeleted'}"
 					actionListener="#{workflowController.doRestoreFromDeletions}"
 					value="#{message.restore}">
 				</h:commandButton>
