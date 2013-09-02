@@ -74,20 +74,17 @@
 							</dl>
 
 
-
-
 						</div>
 						<div class="imixs-footer">
 
 							<!-- workflow save command -->
-							<h:commandButton action="#{workflowController.process('notes')}"
+							<h:commandButton action="#{workflowController.process()}"
 								class="imixs-workflow-action" value="#{message.save}">
 								<f:setPropertyActionListener
 									target="#{workflowController.workitem.item['$ActivityID']}"
 									value="10" />
-									
 								<f:setPropertyActionListener
-									target="#{workflowController.workitem.item['action']}"
+									target="#{workflowController.action}"
 									value="notes" />
 							</h:commandButton>
 
