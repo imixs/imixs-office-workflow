@@ -11,12 +11,17 @@
 		/*<![CDATA[*/
 
 		// This method layouts the filter section with jquery ui design  
-		function layoutFilterPanel(data) {
+		function refreshViewLayout(data) {
 			if (data.status === 'success') {
 				// select with wildcard operator
 				$('.imixs-footer,.imixs-header').imixsLayout();
+				
+				$( "span.imixs-tooltip" ).layoutImixsTooltip();
+				
 			}
 		}
+		
+	
 
 		/*]]>*/
 	</script>
@@ -46,7 +51,7 @@
 					itemValue="workitemdeleted" />
 				 -->
 				<f:ajax event="change" listener="#{searchController.doRefresh}"
-					render="@form" onevent="layoutFilterPanel" />
+					render="@form" onevent="refreshViewLayout" />
 			</h:selectManyCheckbox>
 
 		</div>

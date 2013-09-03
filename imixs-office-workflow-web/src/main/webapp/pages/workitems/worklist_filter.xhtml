@@ -22,7 +22,7 @@
 						<f:selectItem itemValue="#{workflow}" itemLabel="#{workflow}" />
 					</c:forEach>
 					<f:ajax event="change" listener="#{searchController.doRefresh}"
-						render="@form" onevent="layoutFilterPanel" />
+						render="@form" onevent="refreshViewLayout" />
 				</h:selectOneMenu>
 			</dd>
 		</dl>
@@ -40,7 +40,7 @@
 							itemLabel="#{processentity.item['txtname']}" />
 					</c:forEach>
 					<f:ajax event="change" listener="#{searchController.doRefresh}"
-						render="@form" onevent="layoutFilterPanel" />
+						render="@form" onevent="refreshViewLayout" />
 				</h:selectOneMenu>
 			</dd>
 		</dl>
@@ -62,7 +62,7 @@
 								itemLabel="#{space.item['txtname']}" />
 						</c:forEach>
 						<f:ajax event="change" listener="#{searchController.doRefresh}"
-							render="@form" onevent="layoutFilterPanel" />
+							render="@form" onevent="refreshViewLayout" />
 					</h:selectOneMenu>
 				</dd>
 			</dl>
