@@ -12,6 +12,12 @@
 			// auto focus login 
 			$(document).ready(function() {
 				$("#j_username").focus();
+				
+
+				// lowercase userid....
+				$("#j_username").blur(function() {
+					$(this).val($(this).val().toLowerCase());
+				});
 			});
 			/*]]>*/
 		</script>

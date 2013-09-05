@@ -367,7 +367,7 @@ public class TimesheetController extends ChildWorkitemController implements
 						+ formatter.format(calTo.getTime()) + "' ";
 			}
 
-			sQuery += " ORDER BY td.itemValue ASC";
+			sQuery += " ORDER BY td.itemValue DESC";
 
 			logger.info("TimeSheetMB loadFilterTimeSheet - query=" + sQuery);
 			Collection<ItemCollection> col = entityService.findAllEntities(

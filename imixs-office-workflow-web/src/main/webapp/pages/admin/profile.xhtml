@@ -8,6 +8,7 @@
 	template="/layout/template.xhtml">
 
 	<ui:define name="content">
+	
 		<f:view>
 			<h:form>
 
@@ -53,7 +54,8 @@
 												#{message['profile.userid']}<span class="imixs-required">*</span>
 											</dt>
 											<dd>
-												<h:inputText required="false"
+												<!-- lower case input -->
+												<h:inputText required="true" id="txtname_id" onblur="$(this).val($(this).val().toLowerCase());"
 													value="#{workflowController.workitem.item['txtName']}" />
 											</dd>
 										</dl>
@@ -69,7 +71,7 @@
 									</h:panelGroup>
 									<dl>
 										<dt>
-											<h:outputLabel for="displayname_id"
+											<h:outputLabel
 												value="#{message['profile.displayname']}">
 											</h:outputLabel>
 											<span class="imixs-required">*</span>
