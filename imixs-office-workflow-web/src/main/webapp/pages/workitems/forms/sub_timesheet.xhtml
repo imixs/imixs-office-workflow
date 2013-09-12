@@ -93,9 +93,9 @@
 			<h:dataTable id="timesheetdatatable"
 				value="#{timesheetController.filterTimeSheet}" var="child"
 				styleClass="imixsdatatable" style="width:100%"
-				columnClasses="timeseetcolmedium,timeseetcolshort,timeseetcollong,timeseetcolmedium,timeseetcolmedium">
+				columnClasses="timeseetcolshort,timeseetcolshort,timeseetcollong,timeseetcolshort,timeseetcolshort">
 
-				<h:column>
+				<h:column style="width:50px;">
 					<f:facet name="header">
 						<h:outputText value="#{message['form.timesheet.date']}" />
 					</f:facet>
@@ -129,12 +129,6 @@
 
 
 
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="#{message.creator}" />
-					</f:facet>
-					<h:outputText value="#{child.item['namcreator']}" />
-				</h:column>
 				
 				<h:column>
 					<f:facet name="header">
@@ -157,6 +151,15 @@
 					</f:facet>
 					<h:outputText value="#{child.item['txtworkflowstatus']}" />
 				</h:column>
+
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{message.creator}" />
+					</f:facet>
+					<h:outputText value="#{child.item['namcreator']}" />
+				</h:column>
+
 
 				<h:column>
 					<f:facet name="header">#{message.action}</f:facet>

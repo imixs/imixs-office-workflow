@@ -45,7 +45,7 @@
 				if ($('tbody tr:nth-child(1) td', $(this)).length > 1)
 					$(this).dataTable({
 						"bRetrieve" : true,
-						"iDisplayLength" : 5,
+						"iDisplayLength" : 20,
 						"bLengthChange" : false,
 						"bSortable" : false,
 						"bJQueryUI" : true,
@@ -75,7 +75,7 @@
 		<!-- TimeSheet Data Table  -->
 		<h:dataTable id="timesheetdatatable" value="#{timesheetController.myTimeSheet}"
 			var="child" styleClass="imixsdatatable" style="width:100%"
-			columnClasses="timeseetcolmedium,timeseetcolshort,timeseetcollong,timeseetcolmedium,timeseetcolmedium">
+			columnClasses="timeseetcolshort,timeseetcolshort,timeseetcollong,timeseetcolshort,timeseetcolshort">
 
 			<h:column>
 				<f:facet name="header">
