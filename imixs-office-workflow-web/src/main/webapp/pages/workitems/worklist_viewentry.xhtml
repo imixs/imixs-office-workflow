@@ -50,24 +50,24 @@
 					value="#{message.created}: " /> <h:outputText
 					value="#{workitem.item['$created']}" style="font-weight: normal;">
 					<f:convertDateTime timeZone="#{message.timeZone}"
-						pattern="#{message.dateTimePatternShort}" />
+						pattern="#{message.dateTimePattern}" />
 				</h:outputText>
 				<h:outputText style="font-weight: bold;"
 					value=" #{message.by}: " /> 
 					<h:outputText 
-					value="#{workitem.item['namCreator']}" /> 
+					value="#{userController.getUserName(workitem.item['namCreator'])}" /> 
 			</span>
 			<span style="margin-left:10px;"> 
 			<h:outputText style="font-weight: bold;"
 					value="#{message.modified}: " /> <h:outputText
 					value="#{workitem.item['$modified']}" style="font-weight: normal;">
 					<f:convertDateTime timeZone="#{message.timeZone}"
-						pattern="#{message.dateTimePatternShort}" />
+						pattern="#{message.dateTimePattern}" />
 				</h:outputText>
 				<h:outputText style="font-weight: bold;"
 					value=" #{message.by}: " /> 
 					<h:outputText 
-					value="#{workitem.item['namCurrentEditor']}" /> 
+					value="#{userController.getUserName(workitem.item['namCurrentEditor'])}" /> 
 			</span>
  
 			<!-- display owner -->
@@ -76,7 +76,7 @@
 				<h:outputText style="font-weight: bold; mxargin-left:16px;"
 					value="#{message.owner}: " />
 				<ui:repeat value="#{workitem.itemList['namowner']}" var="name">
-					<h:outputText value="#{name}, " />
+					<h:outputText value="#{userController.getUserName(name)}, " />
 				</ui:repeat>
 			</h:panelGroup>
 

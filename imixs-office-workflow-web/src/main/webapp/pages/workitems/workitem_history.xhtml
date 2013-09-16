@@ -4,23 +4,40 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" id="sub_history_form">
 
 
+	<h:panelGrid columns="2">
+		<h:outputText value="#{message.created}: " style="font-weight:bold;" />
+		<h:panelGroup>
+			<h:outputText value="#{workflowController.workitem.item['$created']}">
+				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+					pattern="#{message.dateTimePattern}" />
+			</h:outputText>
 
-	<h:outputText value="#{message.created}: " />
-	<h:outputText value="#{workflowController.workitem.item['$created']}">
-		<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-			pattern="#{message.dateTimePattern}" />
-	</h:outputText>
-	<h:outputText
-		value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCreator'])}" />
+			<h:outputText
+				value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCreator'])}" />
 
-	<br />
-	<h:outputText value="#{message.modified}: " />
-	<h:outputText value="#{workflowController.workitem.item['$modified']}">
-		<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-			pattern="#{message.dateTimePattern}" />
-	</h:outputText>
-	<h:outputText
-		value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCurrentEditor'])}" />
+		</h:panelGroup>
+		<h:outputText value="#{message.modified}: " style="font-weight:bold;" />
+
+		<h:panelGroup>
+			<h:outputText
+				value="#{workflowController.workitem.item['$modified']}">
+				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+					pattern="#{message.dateTimePattern}" />
+			</h:outputText>
+			<h:outputText
+				value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCurrentEditor'])}" />
+		</h:panelGroup>
+	
+
+
+		<h:outputText value="#{message.owner}: " style="font-weight:bold;" />
+		<h:panelGroup>
+			<ui:repeat value="#{workitem.itemList['namowner']}" var="name">
+				<h:outputText value="#{userController.getUserName(name)}, " />
+			</ui:repeat>
+		</h:panelGroup>
+	</h:panelGrid>
+
 
 	<!--  Workitem Version History -->
 	<!--  support of both formats - old=txtworkflowhistorylog new=txtworkflowhistory -->

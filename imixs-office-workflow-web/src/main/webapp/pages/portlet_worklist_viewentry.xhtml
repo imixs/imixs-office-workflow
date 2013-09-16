@@ -49,17 +49,17 @@
 					value="#{message.modified}: " /> <h:outputText
 					value="#{workitem.item['$modified']}" style="font-weight: normal;">
 					<f:convertDateTime timeZone="#{message.timeZone}"
-						pattern="#{message.dateTimePatternShort}" />
+						pattern="#{message.dateTimePattern}" />
 				</h:outputText>
 			</span>
 
 			<!-- display owner -->
 			<h:panelGroup rendered="#{! empty workitem.item['namowner']}">
 				<br />
-				<h:outputText style="font-weight: bold; mxargin-left:16px;"
+				<h:outputText style="font-weight: bold;"
 					value="#{message.owner}: " />
 				<ui:repeat value="#{workitem.itemList['namowner']}" var="name">
-					<h:outputText value="#{name}, " />
+					<h:outputText value="#{userController.getUserName(name)}, " />
 				</ui:repeat>
 			</h:panelGroup>
 
