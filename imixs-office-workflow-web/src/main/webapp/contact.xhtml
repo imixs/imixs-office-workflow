@@ -9,32 +9,38 @@
 
 	<ui:define name="content">
 		<f:view>
-		<f:loadBundle basename="bundle.notes" var="messages" />
-		
-
 			<h:form id="news_form_id">
-				<div class="sywapp-form">
-					<div class="sywapp-form-body">
-						<rich:panel>
-							<f:facet name="header">
-								<h:outputText value="#{global.application_title}" />
-							</f:facet>
-
-							<dl class="columns-2">
-								<dt>Build:</dt>
-								<dd>Imixs Office Workflow</dd>
+				<div class="imixs-form">
 
 
-								<dt style="clear: left;">Support:</dt>
+					<div class="imixs-header">
+						<h1>
+							<h:outputText value="#{message.help}" />
+						</h1>
+					</div>
+					<div class="imixs-body">
 
-								<dd>
-									Imixs Software Solutions GmbH <br /> +49 89 45 21 36 0 <br />
-									www.imixs.com <br />
-								</dd>
 
-							</dl>
-							<div style="clear: left" />
-						</rich:panel>
+
+						<dl class="columns-2">
+						
+							<dt>Application:</dt>
+							<dd>#{app.application_title}</dd>
+						
+							<dt>Build:</dt>
+							<dd>#{app.application_build}</dd>
+
+
+							<dt style="clear: left;">Support:</dt>
+
+							<dd>
+								Imixs Software Solutions GmbH <br /> +49 89 45 21 36 0 <br />
+								<a href="http://www.imixs.com" target="_blank">www.imixs.com</a> <br />
+							</dd>
+
+						</dl>
+						<div style="clear: left" />
+
 					</div>
 				</div>
 			</h:form>

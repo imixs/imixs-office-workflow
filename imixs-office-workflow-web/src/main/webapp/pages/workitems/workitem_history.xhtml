@@ -32,8 +32,8 @@
 
 		<h:outputText value="#{message.owner}: " style="font-weight:bold;" />
 		<h:panelGroup>
-			<ui:repeat value="#{workitem.itemList['namowner']}" var="name">
-				<h:outputText value="#{userController.getUserName(name)}, " />
+			<ui:repeat value="#{workflowController.workitem.itemList['namowner']}" var="name">
+				<h:outputText value="#{userController.getUserName(name)}, " rendered="#{! empty name}" />
 			</ui:repeat>
 		</h:panelGroup>
 	</h:panelGrid>
