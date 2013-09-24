@@ -12,8 +12,7 @@
 				#{message['form.company']}<span class="imixs-required">*</span>
 			</dt>
 			<dd>
-				<h:inputText required="true"
-					value="#{workitem.item['_Subject']}"
+				<h:inputText required="true" value="#{workitem.item['_Subject']}"
 					id="company_id">
 				</h:inputText>
 			</dd>
@@ -27,8 +26,7 @@
 				</h:outputLabel>
 			</dt>
 			<dd>
-				<h:inputText
-					value="#{workitem.item['_FirstName']}"
+				<h:inputText value="#{workitem.item['_FirstName']}"
 					id="firstname_id">
 				</h:inputText>
 			</dd>
@@ -39,9 +37,7 @@
 				</h:outputLabel>
 			</dt>
 			<dd>
-				<h:inputText
-					value="#{workitem.item['_LastName']}"
-					id="lastname_id">
+				<h:inputText value="#{workitem.item['_LastName']}" id="lastname_id">
 				</h:inputText>
 			</dd>
 		</dl>
@@ -83,20 +79,25 @@
 				<h:outputLabel value="#{message['form.department']}" />
 			</dt>
 			<dd>
-				<h:inputText
-					value="#{workitem.item['_department']}" />
+				<h:inputText value="#{workitem.item['_department']}" />
 			</dd>
 
 
 		</dl>
 		<dl>
 			<dt>
-				<h:outputLabel value="#{message['form.email']}">
-				</h:outputLabel>
+				<h:outputLabel value="#{message['form.email']}" />
+				<!-- mailto -->
+				<h:panelGroup style="margin-left:5px;"
+					rendered="#{! empty workitem.item['_Email']}">
+					<h:outputLink value="mailto:#{workitem.item['_Email']}">
+						<h:graphicImage url="/layout/icons/icon042.png" />
+					</h:outputLink>
+				</h:panelGroup>
+
 			</dt>
 			<dd>
-				<h:inputText value="#{workitem.item['_Email']}"
-					id="email_id">
+				<h:inputText value="#{workitem.item['_Email']}" id="email_id">
 				</h:inputText>
 			</dd>
 
@@ -105,10 +106,18 @@
 			<!-- ### Internet ### -->
 			<dt>
 				<h:outputLabel value="#{message['form.internet']}" />
+				<!-- hyperlink -->
+				<h:panelGroup style="margin-left:5px;"
+					rendered="#{! empty workitem.item['_Internet']}">
+					<h:outputLink target="_blank" value="#{workitem.item['_Internet']}">
+						<h:graphicImage url="/layout/icons/icon001.png" />
+					</h:outputLink>
+				</h:panelGroup>
 			</dt>
 			<dd>
-				<h:inputText
-					value="#{workitem.item['_Internet']}" />
+				<h:inputText value="#{workitem.item['_Internet']}" />
+
+
 			</dd>
 		</dl>
 	</div>
@@ -118,11 +127,21 @@
 				<h:outputLabel value="#{message['form.other']}" />
 			</dt>
 			<dd>
-				<h:inputTextarea
-					value="#{workitem.item['_description']}"
-					style="" />
+				<h:inputTextarea value="#{workitem.item['_description']}" style="" />
 			</dd>
 
+		</dl>
+	</div>
+
+	<div class="imixs-form-section-2">
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.reminder']}" />
+			</dt>
+			<dd>
+				<h:inputText styleClass="imixs-date"
+					value="#{workitem.item['datDate']}" />
+			</dd>
 		</dl>
 	</div>
 
