@@ -13,7 +13,7 @@
 		<f:view>
 
 
-			<h:form id="space_form_id">
+			<h:form id="report_form_id">
 				<div class="imixs-form">
 
 
@@ -33,25 +33,56 @@
 
 
 					<div class="imixs-body">
+						<f:ajax event="change" render=":report_form_id:sepp">
+							<div class="imixs-form-section-2">
+								<dl>
+									<ui:repeat
+										value="#{reportController.params.keySet().toArray()}"
+										var="key">
+										<dt>
+											<h:outputLabel value="#{key}:" />
+										</dt>
 
-						<div class="imixs-form-section-2">
-							<dl>
-								<ui:repeat
-									value="#{reportController.params.keySet().toArray()}"
-									var="key">
-									<dt>
-										<h:outputLabel value="#{key}:" />
-									</dt>
+										<dd>
+											<h:inputText value="#{reportController.params[key]}">
+
+
+											</h:inputText>
+										</dd>
+
+									</ui:repeat>
+
+
+								</dl>
+
+								<dl>
+									<dt>Format:</dt>
 
 									<dd>
-										<h:inputText value="#{reportController.params[key]}" />
+										<h:selectOneRadio value="#{reportController.format}">
+											<f:selectItem itemLabel="HTML" itemValue="html"></f:selectItem>
+											<f:selectItem itemLabel="XML" itemValue="xml"></f:selectItem>
+											<f:selectItem itemLabel="JSON" itemValue="json"></f:selectItem>
+										</h:selectOneRadio>
+
 									</dd>
 
-								</ui:repeat>
+									<dt>Encoding:</dt>
+
+									<dd>
+										<h:inputText value="#{reportController.encoding}"></h:inputText>
+
+									</dd>
+								</dl>
+							</div>
+
+							<h:inputText id="sepp" value="#{reportController.uri}"
+								style="width:100%" />
+
+						</f:ajax>
 
 
-							</dl>
-						</div>
+
 					</div>
 
 
