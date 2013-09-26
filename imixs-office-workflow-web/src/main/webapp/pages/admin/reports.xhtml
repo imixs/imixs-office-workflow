@@ -1,0 +1,78 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/layout/template.xhtml">
+
+
+	<ui:define name="content">
+		
+		<f:view>
+			<h:form>
+				<div class="imixs-view">
+					<!-- *** Header **** -->
+					<div class="imixs-header">
+						<h1>
+							<h:outputText value="#{message['report.view']}" />
+						</h1>
+					</div>
+
+					<div class="imixs-body">
+						<h:dataTable id="view_body"
+							value="#{reportViewController.workitems}" var="record"
+							styleClass="imixsdatatable">
+
+
+							<h:column>
+								<f:facet name="header">#{message.name}</f:facet>
+								<h:commandLink
+									action="#{reportController.load(record.item['$UniqueID'],'/pages/admin/report.xhtml')}">
+									<h:outputText value="#{record.item['txtName']}" />
+									<h:outputText rendered="#{empty record.item['txtName']}"
+										value=" - no name - " />
+								</h:commandLink>
+							</h:column>
+
+
+
+							<h:column>
+								<f:facet name="header">#{message.modified}</f:facet>
+								<h:outputText value="#{record.item['$modified']}">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="#{message.dateTimePattern}" />
+								</h:outputText>
+		
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">#{message.action}</f:facet>
+								<!-- Edit -->
+								<h:commandLink title="#{message.edit}"
+									action="#{reportController.load(record.item['$UniqueID'],'/pages/admin/report.xhtml')}">
+									<h:graphicImage url="/layout/icons/Edit_16.png"></h:graphicImage>
+								</h:commandLink>
+							</h:column>
+						</h:dataTable>
+					</div>
+
+
+
+					<div class="imixs-footer">
+						<h:commandButton
+							actionListener="#{reportViewController.doLoadPrev}"
+							disabled="#{reportViewController.row==0}"
+							value="#{message.prev}">
+						</h:commandButton>
+						<h:commandButton
+							actionListener="#{reportViewController.doLoadNext}"
+							disabled="#{reportViewController.endOfList}"
+							value="#{message.next}">
+						</h:commandButton>
+						
+					</div>
+				</div>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,94 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+
+		<!-- Documentinfo: $UniqueID= #{reportController.workitem.item['$uniqueid']}-->
+		<f:view>
+
+
+			<h:form id="space_form_id">
+				<div class="imixs-form">
+
+
+					<div class="imixs-header">
+						<h1>
+							<h:outputText value="#{message['report.title']}: " />
+							<h:outputText
+								value="#{reportController.workitem.item['txtname']} " />
+						</h1>
+					</div>
+
+
+
+
+					<!-- ########## Error ########## -->
+					<ui:include src="/pages/error_message.xhtml" />
+
+
+					<div class="imixs-body">
+
+						<div class="imixs-form-section-2">
+							<dl>
+								<ui:repeat
+									value="#{reportController.params.keySet().toArray()}"
+									var="key">
+									<dt>
+										<h:outputLabel value="#{key}:" />
+									</dt>
+
+									<dd>
+										<h:inputText value="#{reportController.params[key]}" />
+									</dd>
+
+								</ui:repeat>
+
+
+							</dl>
+						</div>
+					</div>
+
+
+
+
+
+					<div class="imixs-footer">
+
+
+						<!-- open report -->
+						<!-- *** Soft Delete  *** -->
+						<h:commandButton action="reports" immediate="true"
+							actionListener="#{reportController.sssoad(false)}"
+							value="#{message.open}">
+						</h:commandButton>
+
+
+
+						<h:commandButton immediate="true" value="#{message.close}"
+							action="reports" />
+
+
+
+					</div>
+
+
+
+
+
+
+
+				</div>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+
+
+</ui:composition>
+
