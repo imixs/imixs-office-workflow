@@ -9,6 +9,14 @@
 
 	<ui:define name="content">
 
+		<script type="text/javascript">
+			/*<![CDATA[*/
+
+			/*]]>*/
+		</script>
+
+
+
 		<!-- Documentinfo: $UniqueID= #{reportController.workitem.item['$uniqueid']}-->
 		<f:view>
 
@@ -33,7 +41,7 @@
 
 
 					<div class="imixs-body">
-						<f:ajax event="change" render=":report_form_id:sepp">
+						<f:ajax event="change" render=":report_form_id:hidden_uri">
 							<div class="imixs-form-section-2">
 								<dl>
 									<ui:repeat
@@ -75,37 +83,24 @@
 									</dd>
 								</dl>
 							</div>
-
-							<h:inputText id="sepp" value="#{reportController.uri}"
+							<!-- hidden field for uri -->
+							<h:inputHidden id="hidden_uri"
+								value="#{facesContext.externalContext.requestContextPath}#{reportController.uri}"
 								style="width:100%" />
-
 						</f:ajax>
-
-
 
 					</div>
 
-
-
-
-
 					<div class="imixs-footer">
 
-
 						<!-- open report -->
-						<!-- *** Soft Delete  *** -->
-						<h:commandButton action="reports" immediate="true"
-							actionListener="#{reportController.sssoad(false)}"
+						<h:commandButton  immediate="true"
+							onclick="window.open($('[id$=hidden_uri]').val()).focus();"
 							value="#{message.open}">
 						</h:commandButton>
 
-
-
 						<h:commandButton immediate="true" value="#{message.close}"
 							action="reports" />
-
-
-
 					</div>
 
 
