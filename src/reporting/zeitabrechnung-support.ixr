@@ -14,9 +14,6 @@
         <value>$created</value>
         <value>txtworkflowstatus</value>
       </item>
-      <item name="txtcontenttype">
-        <value>text/xml</value>
-      </item>
       <item name="txtquery">
         <value>SELECT workitem FROM Entity AS workitem
  JOIN workitem.integerItems AS p
@@ -26,15 +23,18 @@
   AND p.itemName = '$processid' 
   AND p.itemValue BETWEEN  6110 AND 6119
   AND d.itemName = 'datdate'
-  AND d.itemValue BETWEEN '?2' AND '?3'
+  AND d.itemValue BETWEEN '?von' AND '?bis'
   AND r.itemName='$uniqueidref'
   AND r.itemValue IN (
 	SELECT project.id FROM Entity AS project
    	  join project.integerItems AS ipid
 	  join project.integerItems AS sequid
 	  WHERE ipid.itemName='$processid' AND ipid.itemValue BETWEEN  6000 AND 6099
-	  AND sequid.itemName = 'numsequencenumber' AND sequid.itemValue = '?1'
+	  AND sequid.itemName = 'numsequencenumber' AND sequid.itemValue = '?projektnummer'
 	)</value>
+      </item>
+      <item name="txtcontenttype">
+        <value>text/xml</value>
       </item>
       <item name="txtencoding">
         <value/>

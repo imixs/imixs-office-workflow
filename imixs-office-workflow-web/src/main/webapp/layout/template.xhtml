@@ -36,16 +36,22 @@
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
-		
-		
-	
+
+
+
 	<!-- IE 7 support -->
-	<h:outputText value="&lt;!--[if IE 7]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;" escape="false" />
+	<h:outputText
+		value="&lt;!--[if IE 7]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
+		escape="false" />
 	<!-- IE 8 support -->
-	<h:outputText value="&lt;!--[if IE 8]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;" escape="false" />
+	<h:outputText
+		value="&lt;!--[if IE 8]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
+		escape="false" />
 	<!-- IE 9 support -->
-	<h:outputText value="&lt;!--[if IE 9]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;" escape="false" />
-	
+	<h:outputText
+		value="&lt;!--[if IE 9]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
+		escape="false" />
+
 
 	<!-- Load the marty component script -->
 	<script type="text/javascript"
@@ -65,7 +71,13 @@
 
 	<script type="text/javascript">
 		/*<![CDATA[*/
-		
+
+		// set a page navigation cookie 
+		function setNavigationCookie(page) {
+			 var cookie_name = "imixs.office.navigation";
+			 document.cookie = cookie_name+"="+page+";path=#{facesContext.externalContext.requestContextPath};";
+		}
+
 		/*]]>*/
 	</script>
 
@@ -114,7 +126,7 @@
 
 						<ui:include src="commandbox_processlist.xhtml" />
 
-						
+
 
 						<c:if
 							test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
