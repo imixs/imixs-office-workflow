@@ -11,14 +11,27 @@
 		<module>imixs-office-workflow-ejb</module>
 		<module>imixs-office-workflow-web</module>
 		<module>imixs-office-workflow-ear</module>
-		<module>imixs-office-workflow-rest</module>	
+		<module>imixs-office-workflow-rest</module>
 	</modules>
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.imixs.workflow.version>3.1.4</org.imixs.workflow.version>
+		<!-- <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
+			because of resource filtering is enabled we can not use UTF-8 for some strange 
+			reasons. When setting sourceEncoding to ISO-8859-1 the special german charcters 
+			works fine -->
+		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+		<org.imixs.workflow.version>3.1.5-SNAPSHOT</org.imixs.workflow.version>
 		<org.imixs.marty.version>2.0.5</org.imixs.marty.version>
 	</properties>
 	<build>
+
+		<resources>
+			<!-- enable resource filtering for multi language version -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -28,14 +41,23 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencyManagement>
 		<dependencies>
-		
-			
-    
-		    <!-- Imixs Workflow -->
+
+
+
+			<!-- Imixs Workflow -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-workflow-core</artifactId>
@@ -51,17 +73,17 @@
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-workflow-faces</artifactId>
-				<!-- <version>${org.imixs.workflow.version}</version>  -->
-				<version>3.1.5-SNAPSHOT</version>
+				<!-- <version>${org.imixs.workflow.version}</version> -->
+				<version>${org.imixs.workflow.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-workflow-jax-rs</artifactId>
-				<version>3.1.5-SNAPSHOT</version>
+				<version>${org.imixs.workflow.version}</version>
 			</dependency>
-		
-			
-			
+
+
+
 			<!-- Marty -->
 			<dependency>
 				<groupId>org.imixs.marty</groupId>
@@ -74,13 +96,13 @@
 				<version>${org.imixs.marty.version}</version>
 				<scope>provided</scope>
 			</dependency>
-			
-			
-			<!-- lucene 2.0.0, 3.0.0 3.1.0-->
+
+
+			<!-- lucene 2.0.0, 3.0.0 3.1.0 -->
 			<dependency>
-				   <groupId>org.apache.lucene</groupId>
-	    			<artifactId>lucene-core</artifactId>
-	    			<version>3.1.0</version>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-core</artifactId>
+				<version>3.1.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
