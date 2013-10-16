@@ -1,7 +1,7 @@
 package com.imixs.workflow.office.util;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -39,13 +39,12 @@ import org.junit.Test;
  */
 public class TranslateModelData {
 
-	public static String MODEL_SOURCE_FILE = "/office-de-2.0.5.ixm";
-	public static String MODEL_TARGET_FILE = "src/test/resources/generated-model.ixm";
-	public static String MODEL_PROPERTIES = "/model_en.properties";
+	public static String SETUP_PROPERTIES = "/setup.properties";
 
 	public static List<ItemCollection> modelData = null;
 
-	private static Properties properties;
+	private static Properties bundle;
+	private static Properties setup;
 	private static List<String> fieldList = null;
 
 	private final static Logger logger = Logger
@@ -54,10 +53,22 @@ public class TranslateModelData {
 	@Before
 	public void setup() {
 
-		properties = new Properties();
+		// read setup property file
+		setup = new Properties();
 		try {
-			InputStream in = getClass().getResourceAsStream(MODEL_PROPERTIES);
-			properties.load(in);
+			InputStream in = getClass().getResourceAsStream(SETUP_PROPERTIES);
+			setup.load(in);
+			in.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			Assert.fail();
+		}
+
+		bundle = new Properties();
+		try {
+			String bundleFile = setup.getProperty("org.imixs.model.bundle");
+			InputStream in = getClass().getResourceAsStream(bundleFile);
+			bundle.load(in);
 			in.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -66,16 +77,17 @@ public class TranslateModelData {
 
 		// read fieldlist
 		fieldList = new ArrayList<String>();
-		String sFields = properties.getProperty("org.imixs.model.fields");
+		String sFields = setup.getProperty("org.imixs.model.fields");
 		StringTokenizer stFields = new StringTokenizer(sFields, ",");
 		while (stFields.hasMoreElements()) {
 			fieldList.add(stFields.nextToken());
 		}
 
 		try {
+			String sModelSource = setup.getProperty("org.imixs.model.source");
 			modelData = XMLItemCollectionAdapter
 					.readCollectionFromInputStream(getClass()
-							.getResourceAsStream(MODEL_SOURCE_FILE));
+							.getResourceAsStream(sModelSource));
 		} catch (JAXBException e) {
 			Assert.fail();
 		} catch (IOException e) {
@@ -92,15 +104,58 @@ public class TranslateModelData {
 	@Test
 	public void testRead() {
 
-		Assert.assertEquals(137, modelData.size());
+		Assert.assertTrue(modelData.size() > 1);
 	}
 
 	/**
-	 * Writes a new ixm file
+	 * Writes a model.property file with all lables to be translated. This file
+	 * can be used for translation
 	 */
 	@Test
-	public void generateModel() {
+	public void generateDefaultModelProperties() {
 
+		Properties defaultBundle = new Properties();
+		logger.info("generate Model Properties ");
+
+		for (ItemCollection modelEntity : modelData) {
+			// iterate over each field
+			for (String aField : fieldList) {
+				String sValue = modelEntity.getItemValueString(aField);
+				if (!sValue.isEmpty()) {
+					logger.fine("check field " + aField + "=" + sValue);
+					// replace ' ' with '_'
+					String sKeyValue = getKeyFor(sValue);
+					// test if found in resource bundle
+					String newValue = defaultBundle.getProperty(sKeyValue);
+
+					if (newValue == null) {
+						// create property
+						defaultBundle.setProperty(sKeyValue, sValue);
+					}
+				} else {
+					logger.fine("check field " + aField + "=null" + sValue);
+				}
+			}
+
+		}
+		// save properties to project root folder
+		try {
+			defaultBundle.store(new FileOutputStream(
+					"src/test/resources/defaultBundle.properties"), null);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			Assert.fail();
+		}
+
+		Assert.assertNotNull(defaultBundle);
+	}
+
+	/**
+	 * Writes a new translated ixm file
+	 */
+	@Test
+	public void translateModel() {
 		// translate modelData
 		modelData = translateModelData(modelData);
 
@@ -117,8 +172,8 @@ public class TranslateModelData {
 		// now write back to file
 		File file = null;
 		try {
-
-			file = new File(MODEL_TARGET_FILE);
+			String sTargetFile = setup.getProperty("org.imixs.model.target");
+			file = new File(sTargetFile);
 			JAXBContext jaxbContext = JAXBContext
 					.newInstance(EntityCollection.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -134,6 +189,7 @@ public class TranslateModelData {
 			Assert.fail();
 		}
 		Assert.assertNotNull(file);
+
 	}
 
 	/**
@@ -142,8 +198,7 @@ public class TranslateModelData {
 	 * @param model
 	 * @return
 	 */
-	private static List<ItemCollection> translateModelData(
-			List<ItemCollection> aModel) {
+	static List<ItemCollection> translateModelData(List<ItemCollection> aModel) {
 
 		List<ItemCollection> newModelData = new ArrayList<ItemCollection>();
 
@@ -156,8 +211,12 @@ public class TranslateModelData {
 
 				logger.info("Translater translate " + aField + ":" + sValue);
 
+				// replace ' ' with '_'
+				sValue = getKeyFor(sValue);
+
 				// test if found in resource bundle
-				String newValue = properties.getProperty(sValue);
+				String newValue = bundle.getProperty(sValue);
+
 				if (newValue != null && !newValue.isEmpty()) {
 					logger.info("Translater found : " + sValue + " -> "
 							+ newValue);
@@ -172,4 +231,25 @@ public class TranslateModelData {
 		return newModelData;
 
 	}
+
+	/**
+	 * Genereate a unique property key
+	 * 
+	 * @param key
+	 * @return
+	 */
+	static String getKeyFor(String key) {
+		key = key.replace(' ', '_');
+		key = key.replace("ä", "ae");
+		key = key.replace("ö", "oe");
+		key = key.replace("ü", "ue");
+		key = key.replace("ß", "ss");
+		key = key.replace("Ä", "Ae");
+		key = key.replace("Ö", "Oe");
+		key = key.replace("Ü", "Ue");
+
+		return key;
+
+	}
+
 }
