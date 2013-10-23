@@ -14,6 +14,9 @@
         <value>$created</value>
         <value>txtworkflowstatus</value>
       </item>
+      <item name="txtcontenttype">
+        <value>text/xml</value>
+      </item>
       <item name="txtquery">
         <value>SELECT workitem FROM Entity AS workitem
  JOIN workitem.integerItems AS p
@@ -31,10 +34,8 @@
 	  join project.integerItems AS sequid
 	  WHERE ipid.itemName='$processid' AND ipid.itemValue BETWEEN  6000 AND 6099
 	  AND sequid.itemName = 'numsequencenumber' AND sequid.itemValue = '?projektnummer'
-	)</value>
-      </item>
-      <item name="txtcontenttype">
-        <value>text/xml</value>
+	)
+ORDER BY d.itemValue ASC</value>
       </item>
       <item name="txtencoding">
         <value/>
