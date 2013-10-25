@@ -35,7 +35,7 @@
 							<f:convertDateTime timeZone="#{message.timeZone}"
 								pattern="#{message.dateTimePattern}" />
 						</h:outputText>
-						<h:outputText value=" - #{attachment.item['namCreator']}" />
+						<h:outputText value=" - #{userController.getUserName(attachment.item['namCreator'])}" />
 						<br />
 
 						<!-- comment function (toggle feature) -->
