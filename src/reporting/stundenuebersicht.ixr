@@ -16,9 +16,11 @@
       </item>
       <item name="txtquery">
         <value>SELECT workitem FROM Entity AS workitem&#13;
- JOIN workitem.textItems AS type2&#13;
+ JOIN workitem.textItems AS type2
+ JOIN workitem.calendarItems AS type3&#13;
   WHERE workitem.type IN ('childworkitem')&#13;
-  AND workitem.created BETWEEN '?von' AND '?bis'&#13;
+  AND type3.itemName = 'datdate' &#13;
+  AND type3.itemValue  BETWEEN '?von' AND '?bis'
   AND type2.itemName = 'txtworkflowgroup' &#13;
   AND type2.itemValue = 'Zeiterfassung'&#13;
 ORDER BY workitem.created DESC</value>
