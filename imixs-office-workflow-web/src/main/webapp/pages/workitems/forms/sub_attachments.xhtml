@@ -6,64 +6,114 @@
 	xmlns:i="http://java.sun.com/jsf/composite/imixs">
 
 	<!-- **** General info ***** -->
-	<dl class="columns-1">
-		<dt style="clear: left;">
-			<h:outputText value="#{message['form.attachments.files']}" />
-		</dt>
-		<dd>
-			<h:panelGroup layout="block" id="dmslist"
-				binding="#{dmsListComponent}" style="margin-bottom:10px;">
+	<div class="imixs-form-section-2">
 
-				<!-- **** DMS List ***** -->
-				<ui:repeat var="attachment" value="#{dmsController.dmsList}">
-					<!-- image -->
-					<div style="float: left; height: 34px; margin: 0 2px 2px 0;">
-						<h:graphicImage url="/layout/icons/icon048.png"
-							style="border:0px;vertical-align: text-top;margin-right:0.5em" />
-					</div>
-					<!-- link -->
-					<div
-						style="border-bottom: 1px solid silver; margin: 0 0 10px 20px; padding: 0 0 5px 0;">
-						<h:outputText escape="false" value="&lt;a target='_blank'" />
-						<h:outputText escape="false"
-							value=" href='#{facesContext.externalContext.requestContextPath}/rest-service/workflow/workitem/#{attachment.item['$uniqueIDRef']}/file/#{attachment.item['txtName']}" />
-						<h:outputText escape="false"
-							value="'&gt;#{attachment.item['txtName']}&lt;/a&gt;" />
-						<br />
-						<!-- created by -->
-						<h:outputText value="#{attachment.item['$created']}">
-							<f:convertDateTime timeZone="#{message.timeZone}"
-								pattern="#{message.dateTimePattern}" />
-						</h:outputText>
-						<h:outputText value=" - #{userController.getUserName(attachment.item['namCreator'])}" />
-						<br />
 
-						<!-- comment function (toggle feature) -->
-						<a onclick="$(this).next().toggle();" style="cursor: pointer;">[#{message.comment}]</a>
-						<div class="dms-comment-panel" style="margin: 4px;">
-							<h:inputTextarea value="#{attachment.item['txtComment']}"
-								style="width: 100%; height: 50px;" />
+
+
+
+
+		<dl>
+			<dt>
+				<h:outputText value="#{message['form.attachments.files']}" />
+			</dt>
+			<dd>
+				<h:panelGroup layout="block" id="dmslist"
+					binding="#{dmsListComponent}" style="margin-bottom:10px;">
+
+					<!-- **** DMS List ***** -->
+					<ui:repeat var="attachment" value="#{dmsController.dmsList}">
+						<!-- image -->
+						<div style="float: left; height: 34px; margin: 0 2px 2px 0;">
+							<h:graphicImage url="/layout/icons/icon048.png"
+							 rendered="#{!attachment.item['txtName'].contains('://')}"
+								style="border:0px;vertical-align: text-top;margin-right:0.5em" />
+								
+							<h:graphicImage url="/layout/icons/icon001.png"
+							 rendered="#{attachment.item['txtName'].contains('://')}"
+								style="border:0px;vertical-align: text-top;margin-right:0.5em" />
+						</div>
+						<!-- link -->
+						<div
+							style="border-bottom: 1px solid silver; margin: 0 0 10px 20px; padding: 0 0 5px 0;">
+
+							<!-- Attachment link -->
+							<h:panelGroup
+								rendered="#{!attachment.item['txtName'].contains('://')}">
+								<h:outputText escape="false" value="&lt;a target='_blank'" />
+								<h:outputText escape="false"
+									value=" href='#{facesContext.externalContext.requestContextPath}/rest-service/workflow/workitem/#{attachment.item['$uniqueIDRef']}/file/#{attachment.item['txtName']}" />
+								<h:outputText escape="false"
+									value="'&gt;#{attachment.item['txtName']}&lt;/a&gt;" />
+							</h:panelGroup>
+							<!-- File link -->
+							<h:panelGroup
+								rendered="#{attachment.item['txtName'].contains('://')}">
+								<h:outputText escape="false" value="&lt;a target='_blank'" />
+								<h:outputText escape="false"
+									value=" href='#{attachment.item['txtName']}" />
+								<h:outputText escape="false"
+									value="'&gt;#{attachment.item['txtName']}&lt;/a&gt;" />
+							</h:panelGroup>
+
+							<br />
+							<!-- created by -->
+							<h:outputText value="#{attachment.item['$created']}">
+								<f:convertDateTime timeZone="#{message.timeZone}"
+									pattern="#{message.dateTimePattern}" />
+							</h:outputText>
+							<h:outputText
+								value=" - #{userController.getUserName(attachment.item['namCreator'])}" />
+							<br />
+
+							<!-- comment function (toggle feature) -->
+							<a onclick="$(this).next().toggle();" style="cursor: pointer;">[#{message.comment}]</a>
+							<div class="dms-comment-panel" style="margin: 4px;">
+								<h:inputTextarea value="#{attachment.item['txtComment']}"
+									style="width: 100%; height: 50px;" />
+							</div>
+
+							<!-- Delete function -->
+							<f:ajax render=":#{dmsListComponent.clientId}"
+								onevent="hideComments">
+								<h:commandLink
+									actionListener="#{dmsController.removeFile(attachment.item['txtName'])}"
+									immediate="true">
+									<h:outputText value="[#{message.remove}]" />
+								</h:commandLink>
+							</f:ajax>
 						</div>
 
-						<!-- Delete function -->
-						<f:ajax render=":#{dmsListComponent.clientId}"
-							onevent="hideComments">
-							<h:commandLink
-								actionListener="#{dmsController.removeFile(attachment.item['txtName'])}"
-								immediate="true">
-								<h:outputText value="[#{message.remove}]" />
-							</h:commandLink>
-						</f:ajax>
-					</div>
+					</ui:repeat>
+				</h:panelGroup>
 
-				</ui:repeat>
-			</h:panelGroup>
+				<i:imixsFileUpload id="file_upload_id" hideattachments="true" />
+			</dd>
 
-			<i:imixsFileUpload id="file_upload_id" hideattachments="true" />
-		</dd>
-	</dl>
 
-	<div style="clear: left;" />
+
+		</dl>
+
+		<!-- Add File Link -->
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.attachments.link']}" />
+			</dt>
+			<dd>
+				<f:ajax render=":#{dmsListComponent.clientId} link_input"
+					onevent="hideComments">
+					<h:inputText value="#{dmsController.link}" style="width:180px;"
+						id="link_input" />
+					<h:commandButton value="#{message['form.attachments.addlink']}"
+						actionListener="#{dmsController.addLink}">
+
+					</h:commandButton>
+				</f:ajax>
+			</dd>
+		</dl>
+	</div>
+
+
 	<script type="text/javascript">
 		/*<![CDATA[*/
 		function hideComments(event) {
@@ -71,7 +121,7 @@
 		}
 		// init...
 		hideComments(null);
-		
+
 		/*]]>*/
 	</script>
 
