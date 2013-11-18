@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	<h:panelGroup layout="block" id="minute_edit_section"
+		styleClass="imixs-subform minute_layout_region" style="margin-bottom: 20px;">
+		
+		<!-- Header -->
+		<h:panelGroup layout="block" style="margin: 5px 0 0 12px;"
+			rendered="#{(!minuteController.newWorkitem)}">
+			<!-- *** Sequence Number -->
+			<div class="minute-number">
+				<span>#{workitem.item['numsequencenumber']}.</span>
+			</div>
+			<!-- *** Image *** -->
+			<h:panelGroup
+				rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
+				style="float: left; min-height: 50px;margin: 0 2px 0 0;">
+					<h:graphicImage url="#{workitem.item['txtWorkflowImageURL']}"
+					style="max-height: 24px; margin: 4px;"></h:graphicImage>
+			</h:panelGroup>
+
+			<div>
+				<!-- Status -->
+				<h:outputText style="font-weight: bold;"
+					value="#{workitem.item['txtworkflowgroup']}: " />
+				<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
+				<h:outputText value=" (#{workitem.item['txtProjectName']})" />
+
+
+				<!-- Crated -->
+				<br /> <span> <h:outputText style="font-weight: bold;"
+						value="#{message.created}: " /> <h:outputText
+						value="#{workitem.item['$modified']}" style="font-weight: normal;">
+						<f:convertDateTime timeZone="#{message.timeZone}"
+							pattern="#{message.dateTimePatternShort}" />
+					</h:outputText> <h:outputText
+						value=" #{message.by} #{userController.getUserName(workitem.item['namcreator'])}" />
+				</span>
+
+				<!-- Modified -->
+				<br /> <span> <h:outputText style="font-weight: bold;"
+						value="#{message.modified}: " /> <h:outputText
+						value="#{workitem.item['$modified']}" style="font-weight: normal;">
+						<f:convertDateTime timeZone="#{message.timeZone}"
+							pattern="#{message.dateTimePatternShort}" />
+					</h:outputText> <h:outputText
+						value=" #{message.by} #{userController.getUserName(workitem.item['namcurrentEditor'])}" />
+				</span>
+
+			</div>
+		</h:panelGroup>
+		<div style="clear: left;" />
+
+		<ui:include src="/pages/workitems/forms/minutes/sub_minute.xhtml">
+			<ui:param name="workitem" value="#{workitem}" />
+		</ui:include>
+
+
+		<!-- Workflow Action -->
+		<div class="imixs-form-section">
+			<ui:include src="/pages/error_message.xhtml" />
+
+
+			<ui:repeat var="activity"
+				value="#{minuteController.activities}">
+				<h:commandButton role="button" onclick="saveTinyMCE();"
+					class="imixs-workflow-action ui-button-warning" title=" "
+					actionListener="#{minuteController.process(activity.item['numactivityid'],true)}"
+					value="#{activity.item['txtname']}">
+					<f:ajax render=":#{minutesBody.clientId}"
+						execute=":#{minutesBody.clientId}" onevent="layoutBodySection" />
+				</h:commandButton>
+			</ui:repeat>
+			
+		
+
+			<h:commandButton value="#{message.close}" class="ui-button"
+				action="/pages/workitems/workitem"
+				actionListener="#{minuteController.reset}">
+				<f:ajax render=":#{minutesBody.clientId}"
+					onevent="layoutBodySection" />
+			</h:commandButton>
+
+		</div>
+	</h:panelGroup>
+
+
+</ui:composition>

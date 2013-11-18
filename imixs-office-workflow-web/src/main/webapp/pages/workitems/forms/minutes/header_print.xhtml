@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+	<div class="imixs-form-section">
+
+		<dl>
+			<dt>
+				#{message['form.minutes.date']}: 
+			</dt>
+			<dd>
+				<h:outputText value="#{workitem.item['datdate']}" required="true"
+					title="#{message['form.minutes.help_datdate']}">
+					<f:convertDateTime pattern="#{message.datePatternShort}"
+						timeZone="#{message.timeZone}" />
+				</h:outputText>
+			</dd>
+		</dl>
+		<dl>
+			<dt>#{message['form.team']}:</dt>
+			<dd>
+				<ui:repeat var="member" value="#{minuteController.teamMembers}">
+					<h:outputText value="#{member.item['txtUserName']}, "></h:outputText>
+				</ui:repeat>
+			</dd>
+		</dl>
+
+
+	
+		<dl>
+			<dt>#{message['form.description']}</dt>
+			<dd>
+				<h:outputText value="#{workitem.item['_description']}" />
+			</dd>
+		</dl>
+	</div>
+
+	<div style="margin-top:30px;" />
+
+
+
+
+</ui:composition>

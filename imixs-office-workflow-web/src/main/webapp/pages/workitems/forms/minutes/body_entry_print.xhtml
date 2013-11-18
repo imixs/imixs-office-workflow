@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:panelGroup layout="block" styleClass="imixs-viewentry"
+		rendered="#{(empty minuteController.workitem) or (minuteController.workitem.item['$uniqueid'] ne workitem.item['$uniqueid'])}">
+
+		<!-- *** Sequence Number -->
+		<div class="minute-number">
+			<span>#{workitem.item['numsequencenumber']}.</span>
+		</div>
+
+
+		<!-- *** Image *** -->
+		<h:panelGroup
+			rendered="#{!empty workitem.item['txtWorkflowImageURL']}">
+
+			<h:panelGroup
+				style="float:left;min-height:50px;margin-right:2px;margin-left:2px;margin-bottom:0px;">
+				<img src="#{workitem.item['txtWorkflowImageURL']}"
+					style="max-height: 24px; margin: 4px;" />
+			</h:panelGroup>
+		</h:panelGroup>
+
+		<!-- *** Standard Info *** -->
+		<div>
+
+
+			<!-- Read only Mode -->
+			<h:panelGroup>
+				<!-- summary empty ? -->
+				<h:panelGroup
+					rendered="#{empty workitem.item['txtWorkflowSummary']}">
+					<h:outputText value="#{workitem.item['$modified']}"
+						style="font-weight: bold;">
+						<f:convertDateTime timeZone="#{message.timeZone}"
+							pattern="#{message.dateTimePattern}" />
+					</h:outputText>
+					<h:outputText value=" #{workitem.item['_subject']}"
+						style="font-weight: bold;" />
+				</h:panelGroup>
+				<h:outputText style="font-weight: bold;"
+					value="#{workitem.item['txtWorkflowSummary']}" />
+			</h:panelGroup>
+
+
+			<br />
+			<!-- Status -->
+			<h:outputText style="font-weight: bold;"
+				value="#{workitem.item['txtworkflowgroup']}: " />
+			<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
+			<h:outputText value=" (#{workitem.item['txtProjectName']})" />
+
+
+
+
+
+
+			<div class="imixs-form-section" style="margin: 10px 0 0px 50px;">
+				<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
+					escape="false"></h:outputText>
+
+			</div>
+
+			<div class="imixs-form-section-2"  style="margin: 0px 0 30px 50px;">
+				<dl>
+					<dt>#{message['form.minutes.deadline']}:</dt>
+					<dd>
+						<h:outputText value="#{workitem.item['datdate']}">
+							<f:convertDateTime pattern="#{message.datePatternShort}"
+								timeZone="#{message.timeZone}" />
+						</h:outputText>
+					</dd>
+				</dl>
+
+				<dl>
+					<dt>#{message['form.minutes.responsible']}:</dt>
+					<dd>
+						<h:outputText
+							value="#{userController.getUserName(workitem.item['namresponsible'])}" />
+					</dd>
+
+				</dl>
+			</div>
+		
+
+
+
+
+
+		</div>
+
+		<!-- clear floating problem from sidebar in ff and chrome.  -->
+		<div style="clear: left;" />
+
+
+
+	</h:panelGroup>
+
+
+
+
+
+</ui:composition>
+

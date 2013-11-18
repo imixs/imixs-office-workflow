@@ -1,0 +1,154 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+
+<style>
+
+/* Minute Number 
+   -------------------------------------------------- */
+.minute-number {
+	float: left;
+	height: 34px;
+	border-right: 1px solid silver;
+	margin-right: 5px;
+	margin-left: 2px;
+	margin-bottom: 10px;
+	padding-top: 4px;
+	padding-right: 4px;
+}
+
+.minute-number span {
+	font-size: 30px;
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+</style>
+		<!--  Init script -->
+		<script type="text/javascript">
+			/*<![CDATA[*/
+
+			// method to refresh create buttons 
+			function layoutBodySection(e) {
+		        if (e.status == 'success') {
+		        	$(".minutes-body-section").imixsLayout();   	
+		        	//$('.minutes-body-section').tooltip();
+		        	
+		        	/* Imixs Tooltip support */		
+					$( ".minutes-body-section span.imixs-tooltip" ).prev().tooltip({ 
+						 position: {  my: "left top", at: "left+10 bottom", collision: "flipfit" },
+						 show: { duration: 800 },
+						 content:  function() { 
+							var tooltip=$(this).next();
+							tooltip.hide();
+							return tooltip.text();  
+						} 
+				 	});							
+					// hide all imixs tooltips 
+					$( ".minutes-body-section span.imixs-tooltip" ).hide();
+					
+					
+					
+					/* for some reason it is not possible to put the following code into a function or a jQuery function. 
+					 */
+					$('textarea.imixs-editor')
+							.tinymce(
+									{
+										// Location of TinyMCE script
+										script_url : '#{facesContext.externalContext.requestContextPath}/imixs/tinymce/jscripts/tiny_mce/tiny_mce.js',
+										// General options
+										theme : "advanced",
+										plugins : "inlinepopups,fullscreen",
+										height: "200px",
+										// Theme options
+										theme_advanced_buttons1 : "cut,copy,paste,removeformat,cleanup,|,undo,redo,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,hr,bullist,numlist,",
+										theme_advanced_buttons2 : "formatselect,fontsizeselect,outdent,indent,blockquote,|,link,unlink,image,|,forecolor,backcolor,|,fullscreen,code",
+										theme_advanced_toolbar_location : "top",
+										theme_advanced_toolbar_align : "left",
+										theme_advanced_statusbar_location : "none",
+										theme_advanced_default_foreground_color: "#FFFFFF",
+										theme_advanced_resizing : false,
+										content_css: "#{facesContext.externalContext.requestContextPath}/layout/css/tinymce.css"
+										
+									});
+		        }
+		    }
+			
+			
+
+
+			/*]]>*/
+		</script>
+		
+	<ui:param name="editmode" value="#{workitem.item['$processid'] lt 1500}" />
+
+	<!-- minutes body -->
+	<h:panelGroup layout="block" styleClass="imixs-form-section minutes-body-section"
+		id="minutes_body" binding="#{minutesBody}">
+
+
+		<h:panelGroup id="minute_list">
+			<!-- minute list  -->
+			<ui:repeat var="child" value="#{minuteController.workitems}">
+				<ui:include
+					src="/pages/workitems/forms/minutes/body_entry_read.xhtml">
+					<ui:param name="editmode" value="#{editmode}" />
+					<ui:param name="workitem" value="#{child}" />
+					<ui:param name="minutesBody" value="#{minutesBody}" />
+					
+				</ui:include>
+			</ui:repeat>
+		</h:panelGroup>
+
+		<!-- create new minute if processid lower than 1500 -->
+		<h:panelGroup rendered="#{empty minuteController.workitem and editmode}"
+			id="createnew-action-list">
+			<!-- compute actions for each sub process  -->
+			<ui:repeat
+				value="#{modelController.getSubWorkflowGroups(workflowController.workitem.item['txtWorkflowGroup'])}"
+				var="group">
+				<ui:param name="entity"
+					value="#{modelController.getInitialProcessEntityByGroup(group)}"></ui:param>
+				<h:commandButton class="imixs-workflow-action ui-button-warning"
+					title="" value="#{fn:substringAfter(group,'~')}"
+					
+					actionListener="#{minuteController.create}"
+					action="/pages/workitems/workitem">
+					<f:setPropertyActionListener
+						target="#{minuteController.workitem.item['$modelversion']}"
+						value="#{workflowController.workitem.item['$modelversion']}" />
+					<f:setPropertyActionListener
+						target="#{minuteController.workitem.item['$processid']}"
+						value="#{entity.item['numProcessID']}" />
+					<f:setPropertyActionListener
+						target="#{minuteController.workitem.item['$uniqueidRef']}"
+						value="#{workflowController.workitem.item['$uniqueid']}" />
+					<f:ajax render=":#{minutesBody.clientId}"
+					onevent="layoutBodySection"
+					 />
+				</h:commandButton>
+			</ui:repeat>
+		</h:panelGroup>
+
+
+		<br />
+
+		<!-- Edit new minute if 'isnewWorkitem' -->
+		<h:panelGroup
+			rendered="#{(minuteController.newWorkitem) and (! empty minuteController.workitem)}">
+			<ui:include
+				src="/pages/workitems/forms/minutes/body_entry_edit.xhtml">
+				<ui:param name="workitem"
+					value="#{minuteController.workitem}" />
+				<ui:param name="minutesBody" value="#{minutesBody}" />
+			</ui:include>
+		</h:panelGroup>
+
+
+	</h:panelGroup>
+</ui:composition>
+

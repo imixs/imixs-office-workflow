@@ -1,0 +1,132 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<!-- Read Block -->
+	<h:panelGroup layout="block" styleClass="imixs-viewentry"
+		rendered="#{(empty minuteController.workitem) or (minuteController.workitem.item['$uniqueid'] ne workitem.item['$uniqueid'])}">
+
+		<!-- *** Sequence Number -->
+		<div class="minute-number">
+			<span>#{workitem.item['numsequencenumber']}.</span>
+		</div>
+
+
+		<!-- *** Image *** -->
+		<h:panelGroup
+			rendered="#{!empty workitem.item['txtWorkflowImageURL']}">
+			<h:panelGroup rendered="#{editmode}"
+				style="float:left;min-height:70px;margin-right:2px;margin-left:2px;margin-bottom:0px;">
+				<h:commandLink
+					actionListener="#{minuteController.load(workitem.item['$uniqueid'])}">
+					<h:graphicImage url="#{workitem.item['txtWorkflowImageURL']}"
+					style="max-height: 24px; margin: 4px;"></h:graphicImage>
+					
+					
+				
+					<f:ajax render=":#{minutesBody.clientId}" onevent="layoutBodySection" />
+				</h:commandLink>
+			</h:panelGroup>
+
+			<h:panelGroup rendered="#{!editmode}"
+				style="float:left;min-height:70px;margin-right:2px;margin-left:2px;margin-bottom:0px;">
+				
+					<h:graphicImage url="#{workitem.item['txtWorkflowImageURL']}"
+					style="max-height: 24px; margin: 4px;"></h:graphicImage>
+					
+			</h:panelGroup>
+		</h:panelGroup>
+
+		<!-- *** Standard Info *** -->
+		<div>
+
+			<!-- Edit Mode -->
+			<h:panelGroup rendered="#{editmode}">
+				<h:commandLink
+					actionListener="#{minuteController.load(workitem.item['$uniqueid'])}">
+					<!-- summary empty ? -->
+					<h:panelGroup
+						rendered="#{empty workitem.item['txtWorkflowSummary']}">
+						<h:outputText value="#{workitem.item['$modified']}"
+							style="font-weight: bold;">
+							<f:convertDateTime timeZone="#{message.timeZone}"
+								pattern="#{message.dateTimePattern}" />
+						</h:outputText>
+						<h:outputText value=" #{workitem.item['_subject']}"
+							style="font-weight: bold;" />
+					</h:panelGroup>
+					<h:outputText style="font-weight: bold;"
+						value="#{workitem.item['txtWorkflowSummary']}" />
+
+					<f:ajax render=":#{minutesBody.clientId}" onevent="layoutBodySection" />
+
+				</h:commandLink>
+			</h:panelGroup>
+
+			<!-- Read only Mode -->
+			<h:panelGroup rendered="#{!editmode}">
+				<!-- summary empty ? -->
+				<h:panelGroup
+					rendered="#{empty workitem.item['txtWorkflowSummary']}">
+					<h:outputText value="#{workitem.item['$modified']}"
+						style="font-weight: bold;">
+						<f:convertDateTime timeZone="#{message.timeZone}"
+							pattern="#{message.dateTimePattern}" />
+					</h:outputText>
+					<h:outputText value=" #{workitem.item['_subject']}"
+						style="font-weight: bold;" />
+				</h:panelGroup>
+				<h:outputText style="font-weight: bold;"
+					value="#{workitem.item['txtWorkflowSummary']}" />
+			</h:panelGroup>
+
+			<span title=" "> <br /> <!-- Status --> <h:outputText
+					style="font-weight: bold;"
+					value="#{workitem.item['txtworkflowgroup']}: " /> <h:outputText
+					value="#{workitem.item['txtworkflowstatus']}" /> <h:outputText
+					value=" (#{workitem.item['txtProjectName']})" /> <!-- Crated --> <br />
+				<span> <h:outputText style="font-weight: bold;"
+						value="#{message.created}: " /> <h:outputText
+						value="#{workitem.item['$modified']}" style="font-weight: normal;">
+						<f:convertDateTime timeZone="#{message.timeZone}"
+							pattern="#{message.dateTimePatternShort}" />
+					</h:outputText> <h:outputText
+						value=" #{message.by} #{userController.getUserName(workitem.item['namcreator'])}" />
+			</span> <!-- Modified --> <br /> <span> <h:outputText
+						style="font-weight: bold;" value="#{message.modified}: " /> <h:outputText
+						value="#{workitem.item['$modified']}" style="font-weight: normal;">
+						<f:convertDateTime timeZone="#{message.timeZone}"
+							pattern="#{message.dateTimePatternShort}" />
+					</h:outputText> <h:outputText
+						value=" #{message.by} #{userController.getUserName(workitem.item['namcurrentEditor'])}" />
+			</span>
+
+			</span>
+
+			<!-- Tooltip - Details -->
+			<h:panelGroup style="display:none;" class="imixs-tooltip">#{workitem.item['txtWorkflowAbstract']}</h:panelGroup>
+		</div>
+
+		<!-- clear floating problem from sidebar in ff and chrome.  -->
+		<div style="clear: left;" />
+
+
+
+	</h:panelGroup>
+
+
+	<!-- Edit Block -->
+	<h:panelGroup id="edit_block"
+		rendered="#{(! empty minuteController.workitem) and (minuteController.workitem.item['$uniqueid'] eq workitem.item['$uniqueid'])}">
+
+		<ui:include src="/pages/workitems/forms/minutes/body_entry_edit.xhtml">
+			<ui:param name="workitem" value="#{minuteController.workitem}" />
+			<ui:param name="minutesBody" value="#{minutesBody}" />
+		</ui:include>
+
+	</h:panelGroup>
+
+
+</ui:composition>
+
