@@ -21,18 +21,25 @@
 				<configuration>
 					<version>6</version>
 					<modules>
-					<!--  -->
+					<!-- Web Gui -->
 						<webModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>imixs-office-workflow-web</artifactId>
 							<contextRoot>/office</contextRoot>
 						</webModule>
-					<!-- -->
+					<!-- Rest API -->
 						<webModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>imixs-office-workflow-rest</artifactId>
 							<contextRoot>/office-rest</contextRoot>
 						</webModule>
+					<!-- Mobile -->
+						<webModule>
+							<groupId>com.imixs.workflow</groupId>
+							<artifactId>imixs-office-workflow-mobile</artifactId>
+							<contextRoot>/office-mobile</contextRoot>
+						</webModule>
+
 						 
 						<ejbModule>
 							<groupId>com.imixs.workflow</groupId>
@@ -112,6 +119,13 @@
 		<dependency>
 			<groupId>com.imixs.workflow</groupId>
 			<artifactId>imixs-office-workflow-rest</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.imixs.workflow</groupId>
+			<artifactId>imixs-office-workflow-mobile</artifactId>
 			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
