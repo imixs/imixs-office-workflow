@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta content="text/javascript" http-equiv="Content-Script-Type" />
+	<meta content="text/css" http-equiv="Content-Style-Type" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	<meta content="Imixs Workflow" name="keywords" />
+	<title>#{app.application_title}</title>
+
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+
+
+	<link rel="stylesheet"
+		href="#{facesContext.externalContext.requestContextPath}/jquery/jquery.mobile-1.3.2.min.css" />
+	<link rel="stylesheet" href="custom.css" />
+
+	<!-- Load jquery mobile... -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/jquery/jquery-1.9.1.min.js"></script>
+
+
+<!-- Load imixs sccript.js  -->
+	<script type="text/javascript" src="imixs-0.0.5-SNAPSHOT.js"></script>
+
+
+	<!-- Load imixs.js to bind the mobile client -->
+	<script type="text/javascript" src="imixs-mobile.js"></script>
+
+
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/jquery/jquery.mobile-1.3.2.min.js"></script>
+
+<!-- 
+	<script type="text/javascript" src="jquery.getParams.js"></script>
+ -->
+
+<!--  Init script -->
+	<script type="text/javascript">
+		/*<![CDATA[*/
+	
+		$(document)
+				.ready(
+						function() {
+							
+						});
+	
+		/*]]>*/
+	</script>
+
+
+</h:head>
+<h:body>
+
+	<div data-role="page" id="home">
+
+		<div data-role="header">
+			<h4>Imixs Office Workflow</h4>
+		</div>
+		<!-- /header -->
+
+		<div data-role="content">
+			<h3>Geschäftsprozesse jetzt mobil managen!</h3>
+			<p>Mit Imixs Office Workflow werden Ihre Unternehmensprozesse
+				mobil.</p>
+			<p>Wählen Sie eine Funktion:</p>
+			<div data-role="navbar">
+				<ul>
+					<li><a
+						href="worklist.html?service=workflow/worklistbyowner/null.json"
+						data-transition="slide" data-role="button" data-icon="star">Meine
+							Aufgaben</a></li>
+					<li><a
+						href="worklist2.html?service=workflow/worklistbyowner/null.json"
+						data-transition="slide" data-role="button" data-icon="star">Meine
+							Statusliste</a></li>
+					<li><a href="workflowgroups.html" data-transition="slide"
+						data-role="button" data-icon="gear">Persönliche Aufgaben</a></li>
+				</ul>
+				<ul>
+
+					<li><a href="projects.html?uid=123" data-transition="slide"
+						data-role="button" data-icon="grid">Workflows</a></li>
+					<li><a href="workflowgroups2.html" data-transition="slide"
+						data-role="button" data-icon="gear">Prozesse</a></li>
+					<li><a href="workflowgroups3.html" data-transition="slide"
+						data-role="button" data-icon="gear">Suche</a></li>
+				</ul>
+			</div>
+
+
+			<br />
+
+			<p>
+				<a href="http://www.office-workflow.de">Erfahren Sie mehr</a>
+
+			</p>
+
+
+		</div>
+		<!-- content -->
+
+		<div data-role="footer">
+			<h4>(c) Imixs GmbH - 2011 - Version 3.0.1</h4>
+			<a href="#" onclick="localStorage.clear();" data-role="button"
+				data-icon="refresh" data-iconpos="right">Update</a>
+		</div>
+
+	</div>
+	<!-- /page -->
+
+
+
+
+
+</h:body>
+</html>
