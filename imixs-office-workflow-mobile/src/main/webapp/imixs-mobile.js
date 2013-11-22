@@ -13,6 +13,10 @@ $(document).bind("mobileinit", function() {
 	
 	
 
+	 $(document).on( "refreshWorklist", function(e, adata, aservice) {
+	   alert( 'jetzt male ich');
+	  
+	 });
 	
 
 	// Event Handler for process page on pageshow event
