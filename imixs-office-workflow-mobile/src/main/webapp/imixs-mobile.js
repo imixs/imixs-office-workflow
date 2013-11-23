@@ -3,50 +3,31 @@
 // Bind mobileinit event
 $(document).bind("mobileinit", function() {
 
-	setupWorkflowService("http://localhost:8080/office-rest/", "", 1); 
+	setupWorkflowService("http://localhost:8080/office-rest/", "", 1);
 	// alert('binding..');
 	// overwrite configuration if necessarry
 	$.extend($.mobile, {
 	// config...
-		
+
 	});
-	
-	
 
-	 $(document).on( "refreshWorklist", function(e, adata, aservice) {
-	   alert( 'jetzt male ich');
-	  
-	 });
-	
 
-	// Event Handler for process page on pageshow event
-	$(document).on('pageshow', '#workflowgroups' ,function(event, ui){
-		// alert('pageshow');
-		// clearView();
-		fetchWorkflowGroups();
+
+	// register custom refreshWorklist Event Handler for #worklist
+	$(document).on('pageinit', '#worklist', function(event, ui) {
+		$(document).on('refreshWorklist','#worklist', function(e, adata, aservice) {
+			alert('jetzt male ich23');
+
+		});
 	});
 
 	// Event Handler for process page on pageshow event
-	$(document).on('pageshow', '#worklist' ,function(event, ui){
-	 alert('pageshow worklist');
+	$(document).on('pageshow', '#worklist', function(event, ui) {
+		alert('pageshow worklist hh');
 		// clearView();
-	//	fetchWorklist();
-	 
-	 loadWorkitems('workflow/worklistbyowner/null.json'); 
-	});
+		// fetchWorklist();
 
-	// Event Handler for process page on pageshow event
-	$('#projects').on('pageshow', function(event, ui) {
-		// alert('pageshow');
-		// clearView();
-		fetchProjects();
-	});
-
-	// Event Handler for process page on pageshow event
-	$('#workitem').on('pageshow', function(event, ui) {
-		// alert('pageshow');
-		// clearView();
-		fetchWorkitem();
+		loadWorkitems('workflow/worklistbyowner/null.json','#worklist');
 	});
 
 });
@@ -108,22 +89,20 @@ function writeWorklist(service) {
 
 	dataString = localStorage.getItem("com.imixs.worklist." + service);
 	var data = JSON.parse(dataString);
-	
-	if (data==null) {
-		$("#worklist_view").append(
-				"<li>Keine Daten vorhanden</li>");
+
+	if (data == null) {
+		$("#worklist_view").append("<li>Keine Daten vorhanden</li>");
 		// refresh view
 		$("#worklist_view").listview("refresh");
 		return;
 	}
-	
-	
+
 	// check if the entity is an array ...
-	if (data.entity[0]==null) {
+	if (data.entity[0] == null) {
 		// need to be optimized - see duplicate code
-		
+
 		// wie macht man aus einem data.entity ein array??
-		var workitem=data.entity;
+		var workitem = data.entity;
 		var img = "<img src=\"" + workitem.item[4].value.$ + "\" />";
 		var p_status = "<p><b>" + workitem.item[1].value.$ + "</b>: "
 				+ workitem.item[2].value.$ + "</p>";
@@ -133,26 +112,21 @@ function writeWorklist(service) {
 						+ workitem.item[3].value.$ + "</h3>" + p_status
 						+ "</a></li>");
 
-		
-	}
-	else
+	} else
 		// iterate over all workitems
-	$.each(data.entity, function(i, workitem) {
+		$.each(data.entity, function(i, workitem) {
 
-		var img = "<img src=\"" + workitem.item[4].value.$ + "\" />";
-		var p_status = "<p><b>" + workitem.item[1].value.$ + "</b>: "
-				+ workitem.item[2].value.$ + "</p>";
-		$("#worklist_view").append(
-				"<li>" + "<a href=\"workitem.html?id="
-						+ workitem.item[0].value.$ + "\">" + img + "<h3>"
-						+ workitem.item[3].value.$ + "</h3>" + p_status
-						+ "</a></li>");
+			var img = "<img src=\"" + workitem.item[4].value.$ + "\" />";
+			var p_status = "<p><b>" + workitem.item[1].value.$ + "</b>: "
+					+ workitem.item[2].value.$ + "</p>";
+			$("#worklist_view").append(
+					"<li>" + "<a href=\"workitem.html?id="
+							+ workitem.item[0].value.$ + "\">" + img + "<h3>"
+							+ workitem.item[3].value.$ + "</h3>" + p_status
+							+ "</a></li>");
 
-	});
-	
-	
-	
-	
+		});
+
 	// refresh view
 	$("#worklist_view").listview("refresh");
 }
@@ -196,14 +170,14 @@ function fetchWorkitem() {
 
 // this method writes the html code for the workflow group list..
 function writeWorkitem(uid) {
-	
+
 	dataString = localStorage.getItem("com.imixs.workitem." + uid);
 	var workitem = JSON.parse(dataString);
 
 	var img = "<img src=\"" + workitem.item[4].value.$
 			+ "\" style=\"margin-right:8px;\"/>";
-	
-	//alert(workitem.item[7].value.$)	;	
+
+	// alert(workitem.item[7].value.$) ;
 
 	$("#workitem_summary").append(img + workitem.item[3].value.$);
 

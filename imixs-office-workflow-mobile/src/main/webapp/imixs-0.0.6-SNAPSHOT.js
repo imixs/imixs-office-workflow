@@ -99,11 +99,13 @@ function clearWorkflowElement(identifier) {
  * 
  * The result is stored into the clients localStorage.
  * 
- *   
- * @param service
- *            workflow/worklistbyowner/null.json
+ * 
+ * @param service -
+ *            rest uri to be called ( workflow/worklistbyowner/null.json)
+ * @param selector -
+ *            jquery selector for result list output
  */
-function loadWorkitems(service) {
+function loadWorkitems(service, selector) {
 
 	// we first test if we still have the workflow groups in the local storage
 	var data = null;
@@ -128,14 +130,27 @@ function loadWorkitems(service) {
 							if (hasLocalStorage())
 								localStorage.setItem("org.imixs.workflow."
 										+ service, JSON.stringify(data));
-							refreshWorklistView(service);
+							refreshWorklistView(service, selector);
 						});
 
 	} else {
 		// use workflow groups from cache
-		refreshWorklistView(service);
+		refreshWorklistView(service, selector);
 	}
 }
+
+jQuery.events = function(expr) {
+
+	var rez = [], evo;
+	jQuery(expr).each(function() {
+		if (evo = jQuery._data(this, "events"))
+			rez.push({
+				element : this,
+				events : evo
+			});
+	});
+	return rez.length > 0 ? rez : null;
+};
 
 /**
  * This method fills the page element ID=worklist_view with the selected
@@ -150,9 +165,16 @@ function loadWorkitems(service) {
  * </code>
  * 
  * If no refreshWorklist event is bound the method prints the worklist in a
- * default layout
+ * default layout. A refreshWorlist handler can be bound to the global document
+ * or to a specific selector
+ * 
+ * <code>
+ *  $(document).on( "refreshWorklist", "#worklist", function(e, data,service) {
+     ....
+    });
+ * </code>
  */
-function refreshWorklistView(service) {
+function refreshWorklistView(service, selector) {
 
 	var dataString = null;
 	var data = null;
@@ -160,18 +182,38 @@ function refreshWorklistView(service) {
 		dataString = localStorage.getItem("org.imixs.workflow." + service);
 		data = JSON.parse(dataString);
 	}
-	
-	
-	// checking if an external refreshWorklist method was bound 
-	var $ve =$._data(document, 'events');
-	if ($ve != null && typeof($ve.refreshWorklist) != 'undefined') {
+
+	// checking if an external general refreshWorklist method was bound
+	// there for we check the _data object for bound events....
+	var handlerFound = false;
+	var $ve = $._data(document, 'events');
+	if ($ve != null && typeof ($ve.refreshWorklist) != 'undefined') {
+		// the refreshWorklist method was bound! so now
+		// test if a binding for the current selector exists...
+		var handlerList = $ve.refreshWorklist;
+		$(handlerList).each(function(index) {
+			if (selector != null && selector == $(this).selector) {
+				// yes! we have a specific handler!
+				handlerFound = true;
+				// trigger handler
+				$(selector).trigger('refreshWorklist', [ data, service ]);
+				return;
+			}
+		});
+
+		if (handlerFound) {
+			// return from method
+			return;
+		}
+
+		// no specific handler was found so we trigger the general handler 
 		// trigger external refreshWorklist method
-		$(document).trigger('refreshWorklist', [data, service]);
-		return;		
-	} 
-	
-	// draw worklist.....
-	
+		$(document).trigger('refreshWorklist', [ data, service ]);
+		return;
+	}
+
+	// we did not found any handler - so do default output
+
 	// clear list
 	$("#worklist_view").empty();
 
