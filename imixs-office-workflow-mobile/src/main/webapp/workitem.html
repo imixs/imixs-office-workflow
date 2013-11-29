@@ -9,7 +9,7 @@
 	<div data-role="page" id="workitem" data-add-back-btn="true">
 
 		<div data-role="header" data-add-back-btn="true">
-			
+
 			<h1>Aufgabe</h1>
 		</div>
 		<!-- /header -->
@@ -17,19 +17,36 @@
 		<div data-role="content">
 
 			<h3 id="workitem_summary"></h3>
-			
-			<p id="workitem_abstract"></p>
-			<dl>
-				<dt>Status:</dt>
-				<dd id="workitem_workflowstatus"></dd>
-				<dt>Prozess:</dt>
-				<dd id="workitem_workflowgroup"></dd>
-				<dt>Bearbeitet von:</dt>
-				<dd id="workitem_currenteditor"></dd>
-				<dt>Zuletzt geändert:</dt>
-				<dd id="workitem_modified"></dd>
-			</dl>
 
+			<p id="workitem_abstract"></p>
+
+
+
+			<table data-role="table" id="my-table" data-mode="reflow">
+				<thead>
+					<tr>
+						<th>Status:</th>
+						<th>Prozess:</th>
+						<th>Bearbeitet von:</th>
+						<th>Zuletzt geändert:</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><span id="workitem_workflowstatus"></span></td>
+						<td><span id="workitem_workflowgroup"></span></td>
+						<td><span id="workitem_currenteditor"></span></td>
+						<td><span id="workitem_modified"></span></td>
+					</tr>
+				</tbody>
+			</table>
+
+
+
+
+			<!-- action buttons -->
+			<div data-role="controlgroup" data-mini="true" data-type="horizontal"
+				id="xxworkitem_activities"></div>
 		</div>
 
 		<div data-role="footer">

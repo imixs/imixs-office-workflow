@@ -13,6 +13,7 @@ $(document).bind("mobileinit", function() {
 
 	});
 
+	// Register refreshWorklistUI method..
 	$(document).on('pagecreate', '#worklist', function(event, ui) {
 		// pagecreate pageinit pageshow
 		// alert('pagecreate bind refresh method');
@@ -25,8 +26,42 @@ $(document).bind("mobileinit", function() {
 	$(document).on('pageshow', '#worklist', function(event, ui) {
 		loadWorkitems('workflow/worklistbyowner/null.json', '#worklist');
 	});
-
+	
+	
+	
+	
+	
+	// Register refreshWorkitemUI
+	$(document).on('pagecreate', '#workitem', function(event, ui) {
+		$(document).off('afterRefresh', '#workitem', refreshWorkitemUI);
+		$(document).on('afterRefresh', '#workitem', refreshWorkitemUI);
+	});
+	
+	// Event Handler for  pageshow event - loadWorkitem...
+	$(document).on('pageshow', '#workitem', function(event, ui) {
+		var id=$.urlParam('id');
+		//alert(id);
+		loadWorkitem(id, '#workitem');
+	});
+	
 });
+
+
+/**
+ * This method updates the Wrokitem UI
+ * @param e
+ * @param workitem
+ */
+function refreshWorkitemUI(e, workitem) {
+
+	$("#workitem_summary").text(getEntityItemValue(workitem, "txtworkflowsummary"));
+	$("#workitem_abstract").html(getEntityItemValue(workitem, "txtworkflowabstract"));
+
+	$("#workitem_workflowstatus").text(getEntityItemValue(workitem, "txtworkflowstatus"));
+	$("#workitem_workflowgroup").text(getEntityItemValue(workitem, "txtworkflowgroup"));
+	$("#workitem_currenteditor").text(getEntityItemValue(workitem, "namcreator"));
+        
+}
 
 // ########### Worklist ###################
 
@@ -82,3 +117,17 @@ function refreshWorklistUI(e, data, aservice) {
 	$("#worklist_view").listview("refresh");
 
 }
+
+
+/**
+ * Get a query param value
+ */
+$.urlParam = function(name){
+    var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null){
+       return null;
+    }
+    else{
+       return results[1] || 0;
+    }
+};

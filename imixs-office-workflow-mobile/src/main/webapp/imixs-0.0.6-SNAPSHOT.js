@@ -170,8 +170,8 @@ jQuery.events = function(expr) {
  * 
  * <code>
  *  $(document).on( "refreshWorklist", "#worklist", function(e, data,service) {
-     ....
-    });
+ ....
+ });
  * </code>
  */
 function refreshWorklistView(service, selector) {
@@ -206,7 +206,7 @@ function refreshWorklistView(service, selector) {
 			return;
 		}
 
-		// no specific handler was found so we trigger the general handler 
+		// no specific handler was found so we trigger the general handler
 		// trigger external refreshWorklist method
 		$(document).trigger('refreshWorklist', [ data, service ]);
 		return;
@@ -466,23 +466,27 @@ function updateActivities(workitem, selectorId) {
 		$(sActionSelector).addClass(defaultActionClass);
 
 	/* Imixs Tooltip support */
-	$("span.imixs-tooltip").prev().tooltip({
-		position : {
-			my : "left top+5",
-			at : "left+10 bottom",
-			collision : "flipfit"
-		},
-		show : {
-			duration : 800
-		},
-		content : function() {
-			var tooltip = $(this).next();
-			tooltip.hide();
-			return tooltip.text();
-		}
-	});
-	// hide all imixs tooltips
-	$("span.imixs-tooltip").hide();
+	// test if juery ui is availalbe....
+	if ($.fn.tooltip) {
+
+		$("span.imixs-tooltip").prev().tooltip({
+			position : {
+				my : "left top+5",
+				at : "left+10 bottom",
+				collision : "flipfit"
+			},
+			show : {
+				duration : 800
+			},
+			content : function() {
+				var tooltip = $(this).next();
+				tooltip.hide();
+				return tooltip.text();
+			}
+		});
+		// hide all imixs tooltips
+		$("span.imixs-tooltip").hide();
+	} // end of tooltip support
 
 	// trigger afterRefresh event
 	$(selectorId + ' #workitem_activities').trigger('afterRefresh', workitem);
