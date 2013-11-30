@@ -5,7 +5,13 @@ var officeBaseURL = "/office/";
 // Bind mobileinit event
 $(document).bind("mobileinit", function() {
 
-	setupWorkflowService("http://localhost:8080/office-rest/", "", 1);
+	// compute base url
+	var host=window.location.href;
+	var pos=host.indexOf('/',7);
+	//alert(pos);
+	host=host.substring(0,pos+1);
+	//alert(host);
+	setupWorkflowService(host+"office-rest/", "", 1);
 	// alert('binding..');
 	// overwrite configuration if necessarry
 	$.extend($.mobile, {
@@ -60,7 +66,11 @@ function refreshWorkitemUI(e, workitem) {
 	$("#workitem_workflowstatus").text(getEntityItemValue(workitem, "txtworkflowstatus"));
 	$("#workitem_workflowgroup").text(getEntityItemValue(workitem, "txtworkflowgroup"));
 	$("#workitem_currenteditor").text(getEntityItemValue(workitem, "namcreator"));
+	$("#workitem_modified").text(getEntityItemValue(workitem, "$modified"));
+	$("#workitem_process").text(getEntityItemValue(workitem, "txtprocessname"));
         
+	var history=getEntityItemValueArray(workitem,"txtworkflowhistorylog");
+	
 }
 
 // ########### Worklist ###################

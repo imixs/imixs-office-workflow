@@ -15,16 +15,16 @@
 		<!-- /header -->
 
 		<div data-role="content">
+			<div class="ui-body ui-body-d ui-corner-all">
+				<h2 id="workitem_summary"></h2>
 
-			<h3 id="workitem_summary"></h3>
-
-			<p id="workitem_abstract"></p>
-
-
+				<p id="workitem_abstract"></p>
+			</div>
 
 			<table data-role="table" id="my-table" data-mode="reflow">
 				<thead>
 					<tr>
+						<th>Workflow:</th>
 						<th>Status:</th>
 						<th>Prozess:</th>
 						<th>Bearbeitet von:</th>
@@ -33,8 +33,9 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td><span id="workitem_workflowstatus"></span></td>
 						<td><span id="workitem_workflowgroup"></span></td>
+						<td><span id="workitem_workflowstatus"></span></td>
+						<td><span id="workitem_process"></span></td>
 						<td><span id="workitem_currenteditor"></span></td>
 						<td><span id="workitem_modified"></span></td>
 					</tr>
@@ -42,11 +43,19 @@
 			</table>
 
 
-
+			<div data-role="collapsible-set" data-content-theme="d" id="set">
+				<div data-role="collapsible" id="set1" data-collapsed="true">
+					<h3>Historie</h3>
+					<p>Workitem Historie...</p>
+				</div>
+			</div>
 
 			<!-- action buttons -->
-			<div data-role="controlgroup" data-mini="true" data-type="horizontal"
-				id="xxworkitem_activities"></div>
+			<fieldset data-role="controlgroup" data-type="horizontal"
+				data-mini="true">
+				<div id="xxworkitem_activities"></div>
+
+			</fieldset>
 		</div>
 
 		<div data-role="footer">
