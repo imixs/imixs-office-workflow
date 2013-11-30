@@ -76,15 +76,15 @@
 			<p>Wählen Sie eine Funktion:</p>
 			<div data-role="navbar">
 				<ul>
-					<li><a
-						href="worklist.html?service=workflow/worklistbyowner/null.json"
+					<li><a 
+						href="worklist.html" onclick="serviceURL='workflow/worklistbyowner/null.json'"
 						data-transition="slide" data-role="button" data-icon="star">Meine
 							Aufgaben</a></li>
-					<li><a
-						href="worklist2.html?service=workflow/worklistbyowner/null.json"
+					<li><a 
+						href="worklist.html" onclick="serviceURL='workflow/worklistbycreator/null.json'"
 						data-transition="slide" data-role="button" data-icon="star">Meine
 							Statusliste</a></li>
-					<li><a href="workflowgroups.html" data-transition="slide"
+					<li><a href='javascript:$.mobile.changePage("worklist.html?service=workflow/worklistbycreator/null.json", "slide")' data-transition="slide"
 						data-role="button" data-icon="gear">Persönliche Aufgaben</a></li>
 				</ul>
 				<ul>

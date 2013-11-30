@@ -1,6 +1,8 @@
 /*! Imixs Office Workflow - mobile v0.0.1 */
 
 var officeBaseURL = "/office/";
+var serviceURL="";
+var lastServiceURL="";
 
 // Bind mobileinit event
 $(document).bind("mobileinit", function() {
@@ -18,6 +20,18 @@ $(document).bind("mobileinit", function() {
 	// config...
 
 	});
+	
+	
+	// swipe right event -> history back
+	$(document).on('swiperight', function(event, ui) {
+		 history.back();
+	});
+	
+	$(document).on('swipeleft', function(event, ui) {
+		 history.forward();
+	});
+	
+	
 
 	// Register refreshWorklistUI method..
 	$(document).on('pagecreate', '#worklist', function(event, ui) {
@@ -30,12 +44,15 @@ $(document).bind("mobileinit", function() {
 	// Event Handler for process page on pageshow event
 	// pageshow pageload
 	$(document).on('pageshow', '#worklist', function(event, ui) {
-		loadWorkitems('workflow/worklistbyowner/null.json', '#worklist');
+		// clear worklist content if url changed!
+		if (lastServiceURL!=serviceURL) {
+			$("#worklist_view").empty();
+			//alert(serviceURL);
+		}
+		lastServiceURL=serviceURL;
+		loadWorkitems(serviceURL, '#worklist');
 	});
-	
-	
-	
-	
+
 	
 	// Register refreshWorkitemUI
 	$(document).on('pagecreate', '#workitem', function(event, ui) {
@@ -107,16 +124,10 @@ function refreshWorklistUI(e, data, aservice) {
 		var img = '<img class="ui-li-icon imixs-image ui-li-thumb" src="' + imageURL
 				+ '" />';
 
-		// $("#worklist_view").append(
-		// "<li>" + "<a href=\"workitem.html?id=" + id + "\">" +
-		// img
-		// + summary +'</a><p class="ui-li-desc">'+ group
-		// +status +"</p></li>");
-
 		$("#worklist_view").append(
 				'<li>'
 
-				+ '<a href="workitem.html?id=' + id + '">' + img + '<h3>'
+				+ '<a href="workitem.html?id=' + id + '" data-transition="slide">' + img + '<h3>'
 						+ summary + '</h3><p>' + '<b>' + group + '</b>: '
 						+ status + '</p><p class="ui-li-aside">Last update: '
 						+ modified + '</p></a></li>');
