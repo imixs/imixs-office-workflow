@@ -140,7 +140,19 @@
 			</dt>
 			<dd>
 				<h:inputText styleClass="imixs-date"
-					value="#{workitem.item['datDate']}" />
+					value="#{workitem.item['datDate']}">
+					<f:convertDateTime pattern="#{message.datePatternShort}"
+						timeZone="#{message.timeZone}" />
+				</h:inputText>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.project']}" />
+			</dt>
+			<dd>
+				<marty:workitemLink workitem="#{workflowController.workitem}"
+					filter="$processid:6..." />
 			</dd>
 		</dl>
 	</div>
