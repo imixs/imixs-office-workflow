@@ -10,7 +10,6 @@ $(document).bind("mobileinit", function() {
 	// compute base url
 	var host=window.location.href;
 	var pos=host.indexOf('/',7);
-	//alert(pos);
 	host=host.substring(0,pos+1);
 	//alert(host);
 	setupWorkflowService(host+"office-rest/", "", 1);

@@ -48,17 +48,16 @@
 	
 	<!-- RESTfull Service -->
 	<servlet>
-		<servlet-name>ImixsRestService</servlet-name>
-		<!-- GlassFish 3.2 -->
+		<servlet-name>MobileRestService</servlet-name>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>org.imixs.workflow.jaxrs</param-value>
+			<param-value>org.imixs.marty.jaxrs</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>ImixsRestService</servlet-name>
+		<servlet-name>MobileRestService</servlet-name>
 		<url-pattern>/rest-service/*</url-pattern>
 	</servlet-mapping>
 
