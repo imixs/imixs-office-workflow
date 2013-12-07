@@ -67,7 +67,7 @@ public class MobileJaxService  implements Serializable {
 		if (entityService==null)
 			result+=" is null :-( 1";
 		else
-			result+=" is da :-) 2";
+			result+=" entityService is da :-))";
 		
 		return result;
 	}
