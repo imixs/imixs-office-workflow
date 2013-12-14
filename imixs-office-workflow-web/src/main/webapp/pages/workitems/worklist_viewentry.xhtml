@@ -6,14 +6,38 @@
 	<div class="imixs-viewentry" title=" ">
 		<!-- *** Image *** -->
 		<h:panelGroup
-			rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
-			style="float:left;height:50px;margin-right:2px;margin-left:2px;margin-bottom:0px;">
+			style="float:left;min-height:55px;margin-right:2px;margin-left:2px;margin-bottom:0px;">
 			<h:commandLink
 				action="#{workflowController.load(workitem.item['$uniqueid'],'/pages/workitems/workitem')}">
-				<h:graphicImage url="#{workitem.item['txtWorkflowImageURL']}"
+				<h:graphicImage
+					rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
+					url="#{workitem.item['txtWorkflowImageURL']}"
 					style="max-height: 24px; margin: 4px;"></h:graphicImage>
-					
+				<h:graphicImage
+					rendered="#{empty workitem.item['txtWorkflowImageURL']}"
+					value="/layout/icons/vwicn070.png"
+					style="max-height: 24px; margin: 4px;"></h:graphicImage>
 			</h:commandLink>
+
+			<!-- favorite marker -->
+			<br />
+			<h:panelGroup id="marked_id">
+				<h:commandLink
+					rendered="#{!userController.isFavorite(workitem.item['$uniqueid'])}"
+					actionListener="#{userController.addFavorite(workitem.item['$uniqueid'])}">
+					<h:graphicImage value="/layout/icons/unmarked.gif"
+						style="margin: 0 0 0 7px;"></h:graphicImage>
+					<f:ajax render="marked_id" />
+				</h:commandLink>
+
+				<h:commandLink
+					rendered="#{userController.isFavorite(workitem.item['$uniqueid'])}"
+					actionListener="#{userController.removeFavorite(workitem.item['$uniqueid'])}">
+					<h:graphicImage value="/layout/icons/marked.gif"
+						style="margin: 0 0 0 7px;"></h:graphicImage>
+					<f:ajax render="marked_id" />
+				</h:commandLink>
+			</h:panelGroup>
 		</h:panelGroup>
 
 		<!-- *** Standard Info *** -->
@@ -45,31 +69,24 @@
 			<h:outputText value=" (#{workitem.item['txtprocessname']})" />
 
 			<!-- Created/ Modified -->
-			<br /> <span> 
-			<h:outputText style="font-weight: bold;"
+			<br /> <span> <h:outputText style="font-weight: bold;"
 					value="#{message.created}: " /> <h:outputText
 					value="#{workitem.item['$created']}" style="font-weight: normal;">
 					<f:convertDateTime timeZone="#{message.timeZone}"
 						pattern="#{message.dateTimePattern}" />
-				</h:outputText>
-				<h:outputText style="font-weight: bold;"
-					value=" #{message.by}: " /> 
-					<h:outputText 
-					value="#{userController.getUserName(workitem.item['namCreator'])}" /> 
-			</span>
-			<span style="margin-left:10px;"> 
-			<h:outputText style="font-weight: bold;"
-					value="#{message.modified}: " /> <h:outputText
+				</h:outputText> <h:outputText style="font-weight: bold;" value=" #{message.by}: " />
+				<h:outputText
+					value="#{userController.getUserName(workitem.item['namCreator'])}" />
+			</span> <span style="margin-left: 10px;"> <h:outputText
+					style="font-weight: bold;" value="#{message.modified}: " /> <h:outputText
 					value="#{workitem.item['$modified']}" style="font-weight: normal;">
 					<f:convertDateTime timeZone="#{message.timeZone}"
 						pattern="#{message.dateTimePattern}" />
-				</h:outputText>
-				<h:outputText style="font-weight: bold;"
-					value=" #{message.by}: " /> 
-					<h:outputText 
-					value="#{userController.getUserName(workitem.item['namCurrentEditor'])}" /> 
+				</h:outputText> <h:outputText style="font-weight: bold;" value=" #{message.by}: " />
+				<h:outputText
+					value="#{userController.getUserName(workitem.item['namCurrentEditor'])}" />
 			</span>
- 
+
 			<!-- display owner -->
 			<h:panelGroup rendered="#{! empty workitem.item['namowner']}">
 				<br />
@@ -88,9 +105,8 @@
 
 	</div>
 	<!-- Tooltip - Details -->
-	<h:panelGroup style="display:none;"
-			class="imixs-tooltip">#{workitem.item['txtWorkflowAbstract']}</h:panelGroup>
-	
+	<h:panelGroup style="display:none;" class="imixs-tooltip">#{workitem.item['txtWorkflowAbstract']}</h:panelGroup>
+
 
 </f:subview>
 
