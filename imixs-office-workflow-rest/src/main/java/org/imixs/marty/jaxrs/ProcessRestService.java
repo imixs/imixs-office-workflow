@@ -29,7 +29,6 @@ package org.imixs.marty.jaxrs;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -40,7 +39,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.imixs.marty.ejb.ProcessService;
 import org.imixs.workflow.ItemCollection;
@@ -50,9 +48,10 @@ import org.imixs.workflow.xml.XMLItemCollectionAdapter;
 
 /**
  * The ProcessRestService provides methods to access the marty process and space
- * entities.
+ * entities. The Service extends the imixs-workflow-jaxrs api.
  * 
  * Additional the service provides a list of all workflow groups
+ * 
  * 
  * @author rsoika
  * 

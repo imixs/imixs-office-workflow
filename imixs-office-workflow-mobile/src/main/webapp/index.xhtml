@@ -76,23 +76,36 @@
 			<p>Wählen Sie eine Funktion:</p>
 			<div data-role="navbar">
 				<ul>
-					<li><a 
-						href="worklist.html" onclick="serviceURL='workflow/worklistbyowner/null.json'"
+
+					<!-- Worklist -->
+					<li><a href="worklist.html"
+						onclick="serviceURL='workflow/worklistbyowner/null.json'"
 						data-transition="slide" data-role="button" data-icon="star">Meine
 							Aufgaben</a></li>
-					<li><a 
-						href="worklist.html" onclick="serviceURL='workflow/worklistbycreator/null.json'"
+
+					<!-- Statuslist -->
+					<li><a href="worklist.html"
+						onclick="serviceURL='workflow/worklistbycreator/null.json'"
 						data-transition="slide" data-role="button" data-icon="star">Meine
 							Statusliste</a></li>
-					<li><a href='javascript:$.mobile.changePage("worklist.html?service=workflow/worklistbycreator/null.json", "slide")' data-transition="slide"
-						data-role="button" data-icon="gear">Persönliche Aufgaben</a></li>
-				</ul>
+					<li><a
+						href='javascript:$.mobile.changePage("worklist.html?service=workflow/worklistbycreator/null.json", "slide")'
+						data-transition="slide" data-role="button" data-icon="gear">xPersönliche
+							Aufgaben</a></li>
+							
+					</ul>
 				<ul>
 
 					<li><a href="projects.html?uid=123" data-transition="slide"
 						data-role="button" data-icon="grid">Workflows</a></li>
-					<li><a href="workflowgroups2.html" data-transition="slide"
-						data-role="button" data-icon="gear">Prozesse</a></li>
+
+					<!-- Process List -->
+					<li><a href="processlist.html"
+						onclick="serviceURL='marty/processlist.json'"
+						data-transition="slide" data-role="button" data-icon="star">Prozesse</a>
+
+
+					</li>
 					<li><a href="workflowgroups3.html" data-transition="slide"
 						data-role="button" data-icon="gear">Suche</a></li>
 				</ul>
