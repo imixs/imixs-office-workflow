@@ -27,31 +27,38 @@
 			<!-- switch between owner and creator list  -->
 			<h:panelGroup id="view-type-navigator">
 
-				<h:panelGroup rendered="#{view.view eq 'worklist.owner'}">
-					<h:outputText styleClass="active" value="#{message[view.view]}" />
-					<h:commandLink style="margin-left:30px;"
-						actionListener="#{view.doReset}">
-						<h:outputText value="#{message['worklist.creator']}" />
-						<f:setPropertyActionListener target="#{view.view}"
-							value="worklist.creator" />
+				<!-- owner -->
+				<h:outputText rendered="#{view.view eq 'worklist.owner'}"
+					styleClass="active" value="#{message[view.view]}" />
+				<h:commandLink rendered="#{view.view ne 'worklist.owner'}"
+					styleClass="inactive" actionListener="#{view.doReset}">
+					<h:outputText value="#{message['worklist.owner']}" />
+					<f:setPropertyActionListener target="#{view.view}"
+						value="worklist.owner" />
+					<f:ajax render="portlet_worklist_body view-type-navigator" />
+				</h:commandLink>
 
-						<f:ajax render="portlet_worklist_body view-type-navigator" />
-					</h:commandLink>
+				<!-- creator -->
+				<h:outputText rendered="#{view.view eq 'worklist.creator'}"
+					styleClass="active" value="#{message[view.view]}" />
+				<h:commandLink rendered="#{view.view ne 'worklist.creator'}"
+					styleClass="inactive" actionListener="#{view.doReset}">
+					<h:outputText value="#{message['worklist.creator']}" />
+					<f:setPropertyActionListener target="#{view.view}"
+						value="worklist.creator" />
+					<f:ajax render="portlet_worklist_body view-type-navigator" />
+				</h:commandLink>
 
-				</h:panelGroup>
-				<h:panelGroup rendered="#{view.view eq 'worklist.creator'}">
-					<h:commandLink actionListener="#{view.doReset}">
-						<h:outputText value="#{message['worklist.owner']}" />
-						<f:setPropertyActionListener target="#{view.view}"
-							value="worklist.owner" />
-
-						<f:ajax render="portlet_worklist_body view-type-navigator" />
-					</h:commandLink>
-
-					<h:outputText value="#{message[view.view]}" styleClass="active"
-						style="margin-left:30px;" />
-				</h:panelGroup>
-
+				<!-- favorite -->
+				<h:outputText rendered="#{view.view eq 'worklist.favorite'}"
+					styleClass="active" value="#{message[view.view]}" />
+				<h:commandLink rendered="#{view.view ne 'worklist.favorite'}"
+					styleClass="inactive" actionListener="#{view.doReset}">
+					<h:outputText value="#{message['worklist.favorite']}" />
+					<f:setPropertyActionListener target="#{view.view}"
+						value="worklist.favorite" />
+					<f:ajax render="portlet_worklist_body view-type-navigator" />
+				</h:commandLink>
 
 			</h:panelGroup>
 		</div>
