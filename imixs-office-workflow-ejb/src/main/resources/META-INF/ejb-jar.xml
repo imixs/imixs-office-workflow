@@ -26,11 +26,14 @@
                     <ejb-ref-type>Session</ejb-ref-type>
                     <remote>org.imixs.marty.ejb.ProfileService</remote>
             </ejb-ref>
+            
+            <!--  
 			<ejb-ref>
                     <ejb-ref-name>ejb/ProjectService</ejb-ref-name>
                     <ejb-ref-type>Session</ejb-ref-type>
                     <remote>org.imixs.marty.ejb.ProjectService</remote>
             </ejb-ref>
+            -->
              <ejb-ref>
                     <ejb-ref-name>ejb/SequenceService</ejb-ref-name>
                     <ejb-ref-type>Session</ejb-ref-type>
@@ -50,7 +53,8 @@
             
 			<!-- Mail resource -->
 			<resource-ref>
-				<res-ref-name>mail/org.imixs.workflow.mail</res-ref-name>
+				<!-- <res-ref-name>mail/org.imixs.workflow.mail</res-ref-name> -->
+				<res-ref-name>java:/mail/org.imixs.workflow.mail</res-ref-name>
 				<res-type>javax.mail.Session</res-type>
 				<res-auth>Container</res-auth>
 				<res-sharing-scope>Shareable</res-sharing-scope>

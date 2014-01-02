@@ -1,0 +1,163 @@
+How to migrate from GlassFish to WildFly
+*****************************************
+*****************************************
+
+The Imixs Workflow Project was started in the early beginning of the JEE5 Specification. 
+Since than all Workflow Components where tested on GlassFish V2 and V3. GlassFish is 
+a great application server and still the Reference Implementation for JEE. 
+So we recommend the usage of GlassFish for development and in production for our customers.
+
+But since Oracle announced stopping commercial support for GlassFish and recommend there
+customers to use WebLogic in productive environments its time for open source projects (like the Imixs project) 
+also look for alternatives. 
+And the brand new JEE Server WildFly from RedHead is such an alternative. WildFly is based
+on the well known JBoss Application server and a promising platform for JEE Open Source Projects.
+In the following sections I will explain what is necessary to migrate a JEE Project form
+GlassFish to WildFly.
+
+General
+=======
+First I want to point out that one advantage of the Java Enterprise platform is its 
+standardization. This means a JEE Application should be platform independent and can be run on 
+any JEE implementation. This is true for simple components and web applications. 
+It becomes more complex as the application becomes more complex. So you will need to use in some cases
+platform specific deployment descriptors and use after all different server setups
+for your application. 
+The main interesting topics which I will focus on are:
+
+ * The DataSource configuration (JPA)
+
+ * The Security Configurateion (JAAS)
+
+ * The REST Service Configuration (JAX-RS)
+
+
+
+EclipseLink
+=============
+If you have developed JEE on GlassFish you typically use EclipseLink as the JPA implementation. JBoss and Wildfly use in default 
+Hibernate. Both implementation shuld do the same thing but it is a good idea to stay with EclipseLink, if you started with it.
+You can add EclipseLink very easy by adding EclipseLink.jar into the folder 'modules/system/layers/base/org/eclipse/persistence/main'
+and update the configuration in 'modules/system/layers/base/org/eclipse/persistence/main/module.xml'. 
+This is described here:
+https://docs.jboss.org/author/display/WFLY8/JPA+Reference+Guide#JPAReferenceGuide-UsingEclipseLink
+
+It is important to add the org.jipijapa.eclipselink.JBossArchiveFactoryImpl afterwards with the following command:
+
+jboss-cli.sh --connect '/system-property=eclipselink.archive.factory:add(value=org.jipijapa.eclipselink.JBossArchiveFactoryImpl)'
+
+
+Datasource Configuration (MySQL)
+=============================
+
+The Datasource management is one of the things which is realy much easier as in GlassFish Server. For example to use the MySQL JDBC driver you can 
+simply deploy the driver jar into Wildfly. In the web inferface from WildFly choose: Runtime->Server->Manage Deployments 
+and add your mysql Driver jar (e.g mysql-connector-java-5.1.7-bin.jar) as a new deployment. That's it. 
+
+If you now go to add a new Datasource: Profile->Subsystem->Connector->Datasources
+you can choose the mysql driver directly. 
+
+If you need to configure a XADataSorce which I recommend you need to know the MySQL XADatasource class name: "com.mysql.jdbc.jdbc2.optional.MysqlXADataSource"
+Also you need to add the JDBC connect string (URL) manually. This can be done in the section 'Properties' where you cann add a new key 'URL' with the 
+corresponding value. E.g. : jdbc:mysql://localhost:3306/my-first-db
+
+See also details about datasource configuration here: 
+https://docs.jboss.org/author/display/WFLY8/DataSource+configuration
+
+    	
+
+RestEasy Configuration
+===========================
+Using RestServices makes it necessary to change things in the web.xml file because Jersey (used by GlassFish) and RestEasy (used by Wildfly) have 
+different configurations. 
+In GlassFish V3 a RestService configuration for Jersey looks typically like this:
+
+	<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+	<servlet>
+		<servlet-name>ImixsRestService</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>org.imixs.workflow.jaxrs</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+
+In WildFly you need to chage the configuration like this:
+
+	<context-param>
+		<param-name>resteasy.scan</param-name>
+		<param-value>true</param-value>
+	</context-param>
+ 	<context-param>
+		<param-name>resteasy.servlet.mapping.prefix</param-name>
+		<param-value>/rest</param-value>
+	</context-param>
+ 	<listener>
+		<listener-class>
+			org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
+		</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>ImixsRestService</servlet-name>
+		<servlet-class>
+			org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+		</servlet-class>
+	</servlet>
+ 
+
+
+An useful short example about resteasy you can find here 
+http://www.mkyong.com/webservices/jax-rs/resteasy-hello-world-example/
+
+
+Security Realm
+=================
+
+
+
+
+
+Mail
+====
+Using mail sessions makes it necessary to know some details about JNDI Resource names. In GlassFish you can configure a jndi resource 
+with any name you choosse. For example: mail/org.imixs.workflow.mail
+
+The configuration in your ejb-jar.xml or web.xml file looks than like this:
+
+
+<!-- Mail Configuration -->
+<env-entry>
+<description> Mail Plugin Session name</description>
+<env-entry-name>IMIXS_MAIL_SESSION</env-entry-name>
+<env-entry-type>java.lang.String</env-entry-type>
+<env-entry-value>mail/org.imixs.workflow.mail</env-entry-value>
+</env-entry>
+<resource-ref>
+<res-ref-name>mail/org.imixs.workflow.mail</res-ref-name>
+<res-type>javax.mail.Session</res-type>
+<res-auth>Container</res-auth>
+<res-sharing-scope>Shareable</res-sharing-scope>
+</resource-ref>
+
+
+In wildfly the name 'mail/org.imixs.workflow.mail' is not allowed to be used as a JNDI resource name. You allways have to start 
+with the prafix 'java:/' or 'java:jboss:/'. This means your jndi mail resource name would be 'java:/mail/org.imixs.workflow.mail'
+And so you also need to change the res-ref-name tag in your ejb-jar.xml or web.xml like this:
+
+<!-- Mail Configuration -->
+<env-entry>
+<description> Mail Plugin Session name</description>
+<env-entry-name>IMIXS_MAIL_SESSION</env-entry-name>
+<env-entry-type>java.lang.String</env-entry-type>
+<env-entry-value>mail/org.imixs.workflow.mail</env-entry-value>
+</env-entry>
+<resource-ref>
+<res-ref-name>java:/mail/org.imixs.workflow.mail</res-ref-name>
+<res-type>javax.mail.Session</res-type>
+<res-auth>Container</res-auth>
+<res-sharing-scope>Shareable</res-sharing-scope>
+</resource-ref>
+
+In general Wildfly use always the java:/ prfix in jndi names. Se be careful about this small change in the naming. 
