@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+
+	<display-name>imixs-office-workflow-mobile</display-name>
+	<welcome-file-list>
+		<welcome-file>index.xhtml</welcome-file>
+	</welcome-file-list>
+
+
+
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>server</param-value>
+	</context-param>
+
+	
+	<!-- Change to "Production" when you are ready to deploy
+	     Change to "Development" during development -->
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Production</param-value>
+	</context-param>
+	
+	
+ 	<listener>
+        <listener-class>
+            com.sun.faces.config.ConfigureListener
+        </listener-class>
+    </listener>
+	<!-- Facelets -->
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+	
+	
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>ApplicationRealm</realm-name>
+	</login-config>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>restricted</web-resource-name>
+			<url-pattern>/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>org.imixs.ACCESSLEVEL.READERACCESS</role-name>
+			<role-name>org.imixs.ACCESSLEVEL.AUTHORACCESS</role-name>
+			<role-name>org.imixs.ACCESSLEVEL.EDITORACCESS</role-name>
+			<role-name>org.imixs.ACCESSLEVEL.MANAGERACCESS</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-role>
+		<role-name>org.imixs.ACCESSLEVEL.NOACCESS</role-name>
+	</security-role>
+	<security-role>
+		<role-name>org.imixs.ACCESSLEVEL.READERACCESS</role-name>
+	</security-role>
+	<security-role>
+		<role-name>org.imixs.ACCESSLEVEL.AUTHORACCESS</role-name>
+	</security-role>
+	<security-role>
+		<role-name>org.imixs.ACCESSLEVEL.EDITORACCESS</role-name>
+	</security-role>
+	<security-role>
+		<role-name>org.imixs.ACCESSLEVEL.MANAGERACCESS</role-name>
+	</security-role>
+</web-app>

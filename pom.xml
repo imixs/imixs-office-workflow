@@ -22,9 +22,24 @@
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 		<org.imixs.workflow.version>3.1.5</org.imixs.workflow.version>
 		<org.imixs.marty.version>2.0.8</org.imixs.marty.version>
-		
 		<lucene.version>3.6.2</lucene.version>
+		<custom.webResources>src/main/webapp</custom.webResources>
 	</properties>
+	
+	
+	
+		<profiles>
+		<!-- wildfly profile -->
+		<profile>
+			<id>wildfly</id>
+			<properties>
+				<custom.webResources>src/main/webapp_wildfly</custom.webResources>
+			</properties>
+		</profile>
+		</profiles>
+	
+	
+	
 	<build>
 
 		<resources>

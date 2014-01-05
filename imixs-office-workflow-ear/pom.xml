@@ -21,26 +21,25 @@
 				<configuration>
 					<version>6</version>
 					<modules>
-					<!-- Web Gui -->
+						<!-- Web Gui -->
 						<webModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>imixs-office-workflow-web</artifactId>
 							<contextRoot>/office</contextRoot>
 						</webModule>
-					<!-- Rest API -->
+						<!-- Rest API -->
 						<webModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>imixs-office-workflow-rest</artifactId>
 							<contextRoot>/office-rest</contextRoot>
 						</webModule>
-					<!-- Mobile -->
+						<!-- Mobile -->
 						<webModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>imixs-office-workflow-mobile</artifactId>
 							<contextRoot>/office-mobile</contextRoot>
 						</webModule>
-
-						 
+						
 						<ejbModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>
@@ -57,19 +56,12 @@
 							<groupId>org.imixs.workflow</groupId>
 							<artifactId>imixs-workflow-engine </artifactId>
 						</JarModule>
-						<!--  -->
+						<!-- -->
 						<JarModule>
 							<groupId>org.imixs.marty</groupId>
 							<artifactId>imixs-marty-ejb</artifactId>
 						</JarModule>
-						
-						
-						<!--  
-						<JarModule>
-							<groupId>org.imixs</groupId>
-							<artifactId>imixs-dummy</artifactId>
-						</JarModule>
-		-->
+
 					</modules>
 				</configuration>
 			</plugin>
@@ -89,15 +81,15 @@
 			<artifactId>imixs-workflow-engine</artifactId>
 			<type>jar</type>
 		</dependency>
-	
+
 		<!-- Marty -->
 		<dependency>
 			<groupId>org.imixs.marty</groupId>
 			<artifactId>imixs-marty-ejb</artifactId>
 			<type>jar</type>
 		</dependency>
-	
-		<!-- Office -->	
+
+		<!-- Office -->
 		<dependency>
 			<groupId>com.imixs.workflow</groupId>
 			<artifactId>
@@ -106,16 +98,15 @@
 			<version>${project.version}</version>
 			<type>ejb</type>
 		</dependency>
-		
-		<!--  -->
+
+		<!-- -->
 		<dependency>
 			<groupId>com.imixs.workflow</groupId>
 			<artifactId>imixs-office-workflow-web</artifactId>
 			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
-		
-		<!-- -->
+
 		<dependency>
 			<groupId>com.imixs.workflow</groupId>
 			<artifactId>imixs-office-workflow-rest</artifactId>
@@ -123,7 +114,7 @@
 			<type>war</type>
 		</dependency>
 		
-		<!--  -->
+		<!-- mobile -->
 		<dependency>
 			<groupId>com.imixs.workflow</groupId>
 			<artifactId>imixs-office-workflow-mobile</artifactId>
@@ -131,19 +122,12 @@
 			<type>war</type>
 		</dependency>
 		
- 
+
 		<!-- external -->
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
 		</dependency>
 
-<!--  
-		<dependency>
-			<groupId>org.imixs</groupId>
-			<artifactId>imixs-dummy</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		-->
 	</dependencies>
 </project>
