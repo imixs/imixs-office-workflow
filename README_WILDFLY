@@ -1,3 +1,92 @@
+
+Customize web.xml
+
+
+http://stackoverflow.com/questions/3298763/maven-customize-web-xml-of-web-app-project
+
+
+
+
+
+
+imixs_office
+java:/jdbc/imixs_office
+com.mysql.jdbc.jdbc2.optional.MysqlXADataSource
+
+Url
+jdbc:mysql://localhost:3306/imixs_office_wildfly
+
+Url
+jdbc:mysql://localhost:3306/imixs_office_wildfly
+
+
+
+
+
+Migration Stepps
+=======================
+
+* the realm need to be changed to : ApplicationRealm :-/
+
+* SetupServlet unclear if setup=1 is possible :_/
+
+
+* in web xml the rest servlet need to be replaced with 
+
+<context-param>
+		<param-name>resteasy.scan</param-name>
+		<param-value>true</param-value>
+	</context-param>
+ 	<context-param>
+		<param-name>resteasy.servlet.mapping.prefix</param-name>
+		<param-value>/rest-service</param-value>
+	</context-param>
+ 	<listener>
+		<listener-class>
+			org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
+		</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>ImixsRestService</servlet-name>
+		<servlet-class>
+			org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+		</servlet-class>
+	</servlet>
+	
+	
+	
+	<servlet-mapping>
+		<servlet-name>ImixsRestService</servlet-name>
+		<url-pattern>/rest-service/*</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 How to migrate from GlassFish to WildFly
 *****************************************
 *****************************************
@@ -57,7 +146,8 @@ and add your mysql Driver jar (e.g mysql-connector-java-5.1.7-bin.jar) as a new 
 If you now go to add a new Datasource: Profile->Subsystem->Connector->Datasources
 you can choose the mysql driver directly. 
 
-If you need to configure a XADataSorce which I recommend you need to know the MySQL XADatasource class name: "com.mysql.jdbc.jdbc2.optional.MysqlXADataSource"
+If you need to configure a XADataSorce which I recommend you need to know the MySQL XADatasource class name:
+ "com.mysql.jdbc.jdbc2.optional.MysqlXADataSource"
 Also you need to add the JDBC connect string (URL) manually. This can be done in the section 'Properties' where you cann add a new key 'URL' with the 
 corresponding value. E.g. : jdbc:mysql://localhost:3306/my-first-db
 

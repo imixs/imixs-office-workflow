@@ -6,7 +6,7 @@
 	<display-name>Imixs Office Workflow - REST API</display-name>
 
 
-		<!-- GlassFish 3.2
+	<!-- GlassFish 3.2
 	<servlet>
 		<servlet-name>ImixsRestService</servlet-name>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
@@ -16,18 +16,16 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	
-	 -->
+	 --><!-- END GlassFish 3.2 -->
 	 
 	 <!-- Wilfly -->
-	
 	<context-param>
 		<param-name>resteasy.scan</param-name>
 		<param-value>true</param-value>
 	</context-param>
  	<context-param>
 		<param-name>resteasy.servlet.mapping.prefix</param-name>
-		<param-value>/rest</param-value>
+		<param-value>/</param-value>
 	</context-param>
  	<listener>
 		<listener-class>
@@ -40,6 +38,7 @@
 			org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
 		</servlet-class>
 	</servlet>
+	 <!-- END Wilfly -->
 	
 	<servlet-mapping>
 		<servlet-name>ImixsRestService</servlet-name>
