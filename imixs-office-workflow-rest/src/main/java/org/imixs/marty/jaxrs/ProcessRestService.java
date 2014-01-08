@@ -58,7 +58,7 @@ import org.imixs.workflow.xml.XMLItemCollectionAdapter;
  */
 @Named("processService")
 @RequestScoped
-@Path("/marty")
+@Path("/process")
 @Produces({ "text/html", "application/xml", "application/json" })
 public class ProcessRestService implements Serializable {
 

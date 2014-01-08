@@ -142,7 +142,7 @@ function clearWorklist(view_type) {
 function refreshWorklistUI(event, data, service) {
 
 	// check service type....
-	if (service.indexOf('marty/processlist') > -1) {
+	if (service.indexOf('process/processlist') > -1) {
 		$("#processlist #processlist_view").empty();
 		// iterate over all workitems
 		$.each(data.entity, function(i, workitem) {
