@@ -22,7 +22,7 @@
 				rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
 				<!-- *** Soft Delete  *** -->
 				<h:commandButton action="home" immediate="true"
-				    onclick="if (!confirm('#{message.help_delete}')) return false;"
+					onclick="if (!confirm('#{message.help_delete}')) return false;"
 					rendered="#{workflowController.workitem.item['type'] eq 'workitem' or workflowController.workitem.item['type'] eq 'workitemarchive'}"
 					actionListener="#{workflowController.doSoftDeleteWorkitem}"
 					value="#{message.delete}">
@@ -56,5 +56,19 @@
 		actionListener="#{historyController.closeCurrentWorkitem}">
 	</h:commandButton>
 
+
+	<!-- ** Print ** -->
+	<input type="button" value="#{message.print}"
+		onclick="openPrintWindow();" />
+	<script type="text/javascript">
+		function openPrintWindow() {
+			fenster = window
+					.open(
+							"#{facesContext.externalContext.requestContextPath}/pages/workitems/workitem_print.jsf",
+							"message.print",
+							"width=1100,height=700,status=no,scrollbars=yes,resizable=yes");
+			fenster.focus();
+		}
+	</script>
 
 </f:subview>
