@@ -336,7 +336,7 @@ public class TimesheetController extends ChildWorkitemController implements
 				sQuery += " JOIN wi.calendarItems as td ";
 
 			// restrict type depending of a supporte ref id
-			sQuery += " WHERE wi.type = 'childworkitem' ";
+			sQuery += " WHERE wi.type IN ('childworkitem','childworkitemarchive') ";
 
 			sQuery += " AND tref.itemName = '$uniqueidref' and tref.itemValue = '"
 					+ getUniqueIdRef() + "' ";
