@@ -12,7 +12,20 @@
 		/ui:include 
 	
 	-->
+	<script type="text/javascript">
+		/*<![CDATA[*/
 
+		// This method layouts the filter section with jquery ui design  
+		function refreshViewLayout(data) {
+			if (data.status === 'success') {
+				$( ".ui-tooltip" ).hide();
+				// select with wildcard operator
+				$( "span.imixs-tooltip" ).layoutImixsTooltip();
+			}
+		}
+		/*]]>*/
+	</script>
+	
 	<div class="imixs-portlet">
 		<div class="imixs-header">
 
@@ -20,7 +33,7 @@
 				<h:commandLink actionListener="#{view.doReset}"
 					title="#{message.refresh}">
 					<h:graphicImage url="/layout/icons/Update2_16.png"></h:graphicImage>
-					<f:ajax render="portlet_worklist_body" />
+					<f:ajax render="portlet_worklist_body" onevent="refreshViewLayout"/>
 				</h:commandLink>
 			</div>
 
@@ -35,7 +48,7 @@
 					<h:outputText value="#{message['worklist.owner']}" />
 					<f:setPropertyActionListener target="#{view.view}"
 						value="worklist.owner" />
-					<f:ajax render="portlet_worklist_body view-type-navigator" />
+					<f:ajax render="portlet_worklist_body view-type-navigator" onevent="refreshViewLayout"/>
 				</h:commandLink>
 
 				<!-- creator -->
@@ -46,7 +59,7 @@
 					<h:outputText value="#{message['worklist.creator']}" />
 					<f:setPropertyActionListener target="#{view.view}"
 						value="worklist.creator" />
-					<f:ajax render="portlet_worklist_body view-type-navigator" />
+					<f:ajax render="portlet_worklist_body view-type-navigator" onevent="refreshViewLayout" />
 				</h:commandLink>
 
 				<!-- favorite -->
@@ -57,7 +70,7 @@
 					<h:outputText value="#{message['worklist.favorite']}" />
 					<f:setPropertyActionListener target="#{view.view}"
 						value="worklist.favorite" />
-					<f:ajax render="portlet_worklist_body view-type-navigator" />
+					<f:ajax render="portlet_worklist_body view-type-navigator" onevent="refreshViewLayout"/>
 				</h:commandLink>
 
 			</h:panelGroup>
@@ -84,12 +97,12 @@
 				<span style="margin-right: 10px;"> <h:commandLink
 						actionListener="#{view.doLoadPrev}" disabled="#{view.row == 0}"
 						value="#{message.prev}">
-						<f:ajax render="portlet_worklist_body" />
+						<f:ajax render="portlet_worklist_body" onevent="refreshViewLayout"/>
 					</h:commandLink>
 				</span>
 				<h:commandLink actionListener="#{view.doLoadNext}"
 					disabled="#{view.endOfList}" value="#{message.next}">
-					<f:ajax render="portlet_worklist_body"></f:ajax>
+					<f:ajax render="portlet_worklist_body" onevent="refreshViewLayout"></f:ajax>
 				</h:commandLink>
 			</h:panelGroup>
 

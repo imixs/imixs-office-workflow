@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+	<c:forEach items="#{workflowController.editorSections}" var="section">
+		<div>
+			<h1>
+				<h:outputText value="#{section.name}" />
+			</h1>
+			<f:subview>
+				<ui:include src="/pages/workitems/forms/#{section.url}.xhtml">
+					<ui:param name="workitem" value="#{workflowController.workitem}" />
+				</ui:include>
+			</f:subview> 
+		</div>
+	</c:forEach> 
+
+
+	<!-- Standard Tab Section --> 
+	<div>
+		<h1>#{message.comments}</h1>
+		<ui:include src="/pages/workitems/forms/sub_comment.xhtml" />
+
+		<h1>#{message.documents}</h1>
+		<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
+
+
+		<h1>#{message.references}</h1>
+		<ui:include src="/pages/workitems/forms/sub_reference.xhtml" />
+
+	</div>
+
+
+</ui:composition>
