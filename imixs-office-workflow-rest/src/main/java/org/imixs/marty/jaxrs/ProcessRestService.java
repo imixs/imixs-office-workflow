@@ -169,8 +169,8 @@ public class ProcessRestService implements Serializable {
 	@GET
 	@Path("/workflowgroups.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getWorkflowGroupsJSON() {
-
+	public  EntityCollection getWorkflowGroupsJSON() {
+		List<ItemCollection> col=new ArrayList<ItemCollection>();
 		List<String> result = new ArrayList<String>();
 		List<String> modelVersions = modelService.getAllModelVersions();
 		for (String modelVersion : modelVersions) {
@@ -180,23 +180,28 @@ public class ProcessRestService implements Serializable {
 						.getAllWorkflowGroupsByVersion(modelVersion);
 
 				for (String group : groups) {
-					if (!result.contains(group))
+					if (!result.contains(group)) {
 						result.add(group);
+						ItemCollection itemCol=new ItemCollection();
+						itemCol.replaceItemValue("txtWorkflowGroup", group);
+						itemCol.replaceItemValue("txtName", group);
+						col.add(itemCol);
+					}
 				}
 			}
 
 		}
 
-		String s = "{";
-		for (String value : result) {
-			s += "\"" + value + "\",";
+	
+		
+		try {
+			return XMLItemCollectionAdapter.putCollection(col);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
 		}
-
-		// cut last ,
-		s = s.substring(0, s.length() - 1);
-		s += "}";
-
-		return s;
+		
+		return new EntityCollection();
 	}
 
 	/**

@@ -5,90 +5,159 @@ var serviceURL = "";
 var lastServiceURL = "";
 
 // Bind mobileinit event
-$(document).bind("mobileinit", function() {
+$(document)
+		.bind(
+				"mobileinit",
+				function() {
 
-	// compute base url
-	var host = window.location.href;
-	var pos = host.indexOf('/', 7);
-	host = host.substring(0, pos + 1);
-	// alert(host);
-	setupWorkflowService(host + "office-rest/", "", 1);
-	// alert('binding..');
-	// overwrite configuration if necessarry
-	$.extend($.mobile, {
-	// config...
+					// compute base url
+					var host = window.location.href;
+					var pos = host.indexOf('/', 7);
+					host = host.substring(0, pos + 1);
+					// alert(host);
+					setupWorkflowService(host + "office-rest/", "", 1);
+					// alert('binding..');
+					// overwrite configuration if necessarry
+					$.extend($.mobile, {
+					// config...
 
-	});
+					});
 
-	// swipe right event -> history back
-	$(document).on('swiperight', function(event, ui) {
-		history.back();
-	});
+					// swipe right event -> history back
+					$(document).on('swiperight', function(event, ui) {
+						history.back();
+					});
 
-	$(document).on('swipeleft', function(event, ui) {
-		history.forward();
-	});
+					$(document).on('swipeleft', function(event, ui) {
+						history.forward();
+					});
 
-	// Register refreshWorklistUI method. Rebind the method and remove an old
-	// binding!
-	$(document).on('pagecreate', '#worklist', function(event, ui) {
-		// pagecreate pageinit pageshow
-		// alert('pagecreate bind refresh method');
-		$(document).off('refreshWorklist', '#worklist', refreshWorklistUI);
-		$(document).on('refreshWorklist', '#worklist', refreshWorklistUI);
-	});
+					// Register refreshWorklistUI method. Rebind the method and
+					// remove an old
+					// binding!
+					$(document).on(
+							'pagecreate',
+							'#worklist',
+							function(event, ui) {
+								// pagecreate pageinit pageshow
+								$(document).off('refreshWorklist', '#worklist',
+										refreshWorklistUI);
+								$(document).on('refreshWorklist', '#worklist',
+										refreshWorklistUI);
+							});
 
-	// Register refreshWorklistUI method. Rebind the method and remove an old
-	// binding!
-	$(document).on('pagecreate', '#processlist', function(event, ui) {
-		// pagecreate pageinit pageshow
-		// alert('pagecreate bind refresh method');
-		$(document).off('refreshWorklist', '#processlist', refreshWorklistUI);
-		$(document).on('refreshWorklist', '#processlist', refreshWorklistUI);
-	});
+					// Register refreshWorklistUI method. Rebind the method and
+					// remove an old
+					// binding!
+					$(document).on(
+							'pagecreate',
+							'#processlist',
+							function(event, ui) {
+								// pagecreate pageinit pageshow
+								$(document).off('refreshWorklist',
+										'#processlist', refreshWorklistUI);
+								$(document).on('refreshWorklist',
+										'#processlist', refreshWorklistUI);
+							});
+					
+					// Register refreshWorklowgroup method. Rebind the method and
+					// remove an old
+					// binding!
+					$(document).on(
+							'pagecreate',
+							'#workflowgroups',
+							function(event, ui) {
+								// pagecreate pageinit pageshow
+								$(document).off('refreshWorklist',
+										'#workflowgroups', refreshWorkflowGroupView);
+								$(document).on('refreshWorklist',
+										'#workflowgroups', refreshWorkflowGroupView);
+							});
 
-	// Event Handler for process page on pageshow event
-	// pageshow pageload
-	// the content will only be loaded once
-	$(document).on('pageshow', '#worklist', function(event, ui) {
-		// clear worklist content if url changed!
-		if (lastServiceURL != serviceURL) {
-			// we empty the list to hide deprecated content!
-			$("#worklist #worklist_view").empty();
-			// now load the workItems into the page....
-			loadWorkitems(serviceURL, '#worklist');
-		}
-		lastServiceURL = serviceURL;
-	});
+					// Event Handler for process page on pageshow event
+					// pageshow pageload
+					// the content will only be loaded once
+					$(document).on('pageshow', '#worklist',
+							function(event, ui) {
+								// clear worklist content if url changed!
+								if (lastServiceURL != serviceURL) {
+									// we empty the list to hide deprecated
+									// content!
+									$("#worklist #worklist_view").empty();
+									// now load the workItems into the page....
+									loadWorkitems(serviceURL, '#worklist');
+								}
+								lastServiceURL = serviceURL;
+							});
 
-	// Event Handler for process page on pageshow event
-	// pageshow pageload
-	// the content will only be loaded once
-	$(document).on('pageshow', '#processlist', function(event, ui) {
-		// clear worklist content if url changed!
-		if (lastServiceURL != serviceURL) {
-			// we empty the list to hide deprecated content!
-			$("#processlist #processlist_view").empty();
-			// now load the workItems into the page....
-			loadWorkitems(serviceURL, '#processlist');
-		}
-		lastServiceURL = serviceURL;
-	});
+					// Event Handler for process page on pageshow event
+					// pageshow pageload
+					// the content will only be loaded once
+					$(document)
+							.on(
+									'pageshow',
+									'#processlist',
+									function(event, ui) {
+										// clear worklist content if url
+										// changed!
+										if (lastServiceURL != serviceURL) {
+											// we empty the list to hide
+											// deprecated content!
+											$("#processlist #processlist_view")
+													.empty();
+											// now load the workItems into the
+											// page....
+											loadWorkitems(serviceURL,
+													'#processlist');
+										}
+										lastServiceURL = serviceURL;
+									});
 
-	// Register refreshWorkitemUI
-	$(document).on('pagecreate', '#workitem', function(event, ui) {
-		$(document).off('afterRefresh', '#workitem', refreshWorkitemUI);
-		$(document).on('afterRefresh', '#workitem', refreshWorkitemUI);
-	});
+					// Event Handler for worfklogroups page on pageshow event
+					// pageshow pageload
+					// the content will only be loaded once
+					$(document)
+							.on(
+									'pageshow',
+									'#workflowgroups',
+									function(event, ui) {								
+										// clear worklist content if url
+										// changed!
+										if (lastServiceURL != serviceURL) {
+											// we empty the list to hide
+											// deprecated content!
+											$(
+													"#workflowgroups #workflowgroup_view")
+													.empty();
+											// now load the workflowgroups into
+											// the
+											// page....
+											loadWorkitems(serviceURL,
+													'#workflowgroups');
+										}
+										lastServiceURL = serviceURL;
+									});
 
-	// Event Handler for pageshow event - loadWorkitem...
-	$(document).on('pageshow', '#workitem', function(event, ui) {
-		var id = $.urlParam('id');
-		// alert(id);
-		loadWorkitem(id, '#workitem');
-	});
+					// Register refreshWorkitemUI
+					$(document).on(
+							'pagecreate',
+							'#workitem',
+							function(event, ui) {
+								$(document).off('afterRefresh', '#workitem',
+										refreshWorkitemUI);
+								$(document).on('afterRefresh', '#workitem',
+										refreshWorkitemUI);
+							});
 
-});
+					// Event Handler for pageshow event - loadWorkitem...
+					$(document).on('pageshow', '#workitem',
+							function(event, ui) {
+								var id = $.urlParam('id');
+								// alert(id);
+								loadWorkitem(id, '#workitem');
+							});
+
+				});
 
 /**
  * This method updates the Workitem UI
@@ -140,9 +209,9 @@ function clearWorklist(view_type) {
  *            URI
  */
 function refreshWorklistUI(event, data, service) {
-
 	// check service type....
 	if (service.indexOf('process/processlist') > -1) {
+		alert('hier in dder process');
 		$("#processlist #processlist_view").empty();
 		// iterate over all workitems
 		$.each(data.entity, function(i, workitem) {
@@ -152,21 +221,16 @@ function refreshWorklistUI(event, data, service) {
 		// Update the layout
 		$("#processlist #processlist_view").listview("refresh");
 	} else {
+		// defalt behavior
 		$("#worklist #worklist_view").empty();
 		// iterate over all workitems
 		$.each(data.entity, function(i, workitem) {
-				// workitem
-				paintWorkitemViewEntry(workitem);
+			// workitem
+			paintWorkitemViewEntry(workitem);
 		});
 		// Update the layout
 		$("#worklist #worklist_view").listview("refresh");
 	}
-
-	
-
-
-
-
 
 }
 
@@ -212,6 +276,42 @@ function paintProcessViewEntry(workitem) {
 	$("#processlist_view").append('<li>'
 
 	+ anker + '</li>');
+}
+
+
+
+/**
+ * This method is triggered by the loadWorkflowGroups method and refreshes the
+ * WorkflowGroups output
+ * 
+ * 
+ * @param event
+ * @param data
+ * @param service
+ *            URI
+ */
+function refreshWorkflowGroupView(event, data, service) {
+	// check service type....
+	if (service.indexOf('process/workflowgroups') > -1) {
+		alert('so jetzt mal gemalt');
+		$("#workflowgroups #workflowgroup_view").empty();
+		// iterate over all workitems
+
+		$.each(data.entity, function(i, workitem) {
+			
+			var name = getEntityItemValue(workitem, 'txtworkflowgroup');
+			var anker = "<a href='worklist.html' data-transition='slide' onclick='serviceURL=\"workflow/worklistbygroup/"
+				+ name + ".json\"; '><h3>" + name + "</h3><p></p></a>";
+
+		$("#workflowgroup_view").append('<li>'
+
+		+ anker + '</li>');
+		});
+		// Update the layout
+		$("#workflowgroups #workflowgroup_view").listview("refresh");
+	
+	}
+
 }
 
 /**
