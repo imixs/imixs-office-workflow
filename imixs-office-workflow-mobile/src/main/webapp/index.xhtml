@@ -51,9 +51,16 @@
 	<script type="text/javascript">
 		/*<![CDATA[*/
 
+		var searchInput = "";
+
 		$(document).ready(function() {
 
 		});
+
+		function searchHelper() {
+			searchInput = $('#search-input').val();
+			serviceURL = 'search/' + searchInput + '.json';
+		}
 
 		/*]]>*/
 	</script>
@@ -70,14 +77,18 @@
 		<!-- /header -->
 
 		<div data-role="content">
-			<h3>Geschäftsprozesse jetzt mobil managen!</h3>
-			<p>Mit Imixs Office Workflow werden Ihre Unternehmensprozesse
-				mobil.</p>
-			<p>Wählen Sie eine Funktion:</p>
+
+			<img src="background_small.png"
+				style="float: left; margin-right: 10px;"></img>
+			<h2 style="margin: 0px;">Imixs-Office-Workflow</h2>
+
+			<h3>Geschäftsprozesse mobil managen!</h3>
+
+
+			<p>Ihre aktuelle Aufgaben:</p>
+
 			<div data-role="navbar">
 				<ul>
-
-					<!-- Worklist -->
 					<li><a href="worklist.html"
 						onclick="serviceURL='workflow/worklistbyowner/null.json'"
 						data-transition="slide" data-role="button" data-icon="edit">Meine
@@ -88,20 +99,29 @@
 						onclick="serviceURL='workflow/worklistbycreator/null.json'"
 						data-transition="slide" data-role="button" data-icon="check">Meine
 							Statusliste</a></li>
-							
+
 					<!-- personal tasks -->
 					<li><a href="worklist.html"
-						onclick="serviceURL='user/favorites.json'"
-						data-transition="slide" data-role="button" data-icon="star">Persönliche
-							Aufgaben</a></li>
-							
-					</ul>
+						onclick="serviceURL='user/favorites.json'" data-transition="slide"
+						data-role="button" data-icon="star">Persönliche Aufgaben</a></li>
+
+
+				</ul>
+			</div>
+
+
+			<p>Nach Aufgaben suchen:</p>
+
+
+
+			<div data-role="navbar">
+
 				<ul>
-					<li><a href="workflowgroups.html" 
+					<li><a href="workflowgroups.html"
 						onclick="serviceURL='process/workflowgroups.json'"
 						data-transition="slide" data-role="button" data-icon="refresh">Workflows</a>
-					 </li>
-					 
+					</li>
+
 					<!-- Process List -->
 					<li><a href="processlist.html"
 						onclick="serviceURL='process/processlist.json'"
@@ -109,7 +129,7 @@
 
 
 					</li>
-					<li><a href="workflowgroups3.html" data-transition="slide"
+					<li><a href="search.html" data-transition="slide"
 						data-role="button" data-icon="search">Suche</a></li>
 				</ul>
 			</div>

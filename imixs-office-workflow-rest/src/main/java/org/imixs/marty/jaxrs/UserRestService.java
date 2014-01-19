@@ -32,6 +32,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -63,6 +64,7 @@ import org.imixs.workflow.xml.XMLItemCollectionAdapter;
 public class UserRestService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(UserRestService.class.getSimpleName());
 
 	@EJB
 	org.imixs.workflow.jee.ejb.EntityService entityService;

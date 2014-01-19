@@ -183,6 +183,15 @@ function refreshWorklistView(service, selector) {
 		data = JSON.parse(dataString);
 	}
 
+
+	if (data != null) {
+		// test if data.entity is an array....
+		if (!$.isArray(data.entity)) {
+			data.entity = jQuery.makeArray(data.entity);
+		}
+	}
+	
+	
 	// checking if an external general refreshWorklist method was bound
 	// there for we check the _data object for bound events....
 	var handlerFound = false;
@@ -223,9 +232,7 @@ function refreshWorklistView(service, selector) {
 		return;
 	}
 
-	// test if data.entity is an array....
-	if (!$.isArray(data.entity))
-		data.entity = jQuery.makeArray(data.entity);
+
 
 	// iterate over all workitems
 	$

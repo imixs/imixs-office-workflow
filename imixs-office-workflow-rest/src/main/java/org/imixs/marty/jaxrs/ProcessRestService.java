@@ -31,6 +31,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -63,6 +64,8 @@ import org.imixs.workflow.xml.XMLItemCollectionAdapter;
 public class ProcessRestService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(ProcessRestService.class.getSimpleName());
+
 
 	@EJB
 	org.imixs.workflow.jee.ejb.EntityService entityService;
@@ -204,47 +207,5 @@ public class ProcessRestService implements Serializable {
 		return new EntityCollection();
 	}
 
-	/**
-	 * This method returns a list of registred public nodes. These nodes can be
-	 * used to exchange messageItems.
-	 * 
-	 * @param sessionId
-	 * @return array of strings
-	 */
-	@GET
-	@Path("/nodes")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String[] getPublicNodes() {
-
-		// List<String> nodeList = new ArrayList<String>();
-		// int size = 0;
-		// try {
-		//
-		// // verify existing nodes
-		// // Property public.node.0, public.node.1, ...
-		// for (int j = 0; j < 10; j++) {
-		// String value;
-		// value = CryptSession.getInstance().getProperty(
-		// PUBLIC_NODE_ + j, sessionId);
-		// if (value != null) {
-		// nodeList.add(value);
-		// size++;
-		// }
-		// }
-		//
-		// } catch (ImixsCryptException e) {
-		// e.printStackTrace();
-		// // return empty list
-		// return null;
-		//
-		// }
-		// String[] result = new String[size];
-		//
-		// for (int j = 0; j < size; j++) {
-		// result[j] = nodeList.get(j);
-		// }
-
-		return null;
-	}
 
 }

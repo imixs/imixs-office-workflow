@@ -156,6 +156,14 @@ $(document)
 								// alert(id);
 								loadWorkitem(id, '#workitem');
 							});
+					
+					
+					// Event Handler for pageshow event - serch page - restore input...
+					$(document).on('pageshow', '#search',
+							function(event, ui) {
+								//alert(searchInput);
+								$('#search-input').val(searchInput);
+							});
 
 				});
 
