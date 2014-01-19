@@ -211,7 +211,6 @@ function clearWorklist(view_type) {
 function refreshWorklistUI(event, data, service) {
 	// check service type....
 	if (service.indexOf('process/processlist') > -1) {
-		alert('hier in dder process');
 		$("#processlist #processlist_view").empty();
 		// iterate over all workitems
 		$.each(data.entity, function(i, workitem) {
@@ -279,7 +278,6 @@ function paintProcessViewEntry(workitem) {
 }
 
 
-
 /**
  * This method is triggered by the loadWorkflowGroups method and refreshes the
  * WorkflowGroups output
@@ -293,7 +291,6 @@ function paintProcessViewEntry(workitem) {
 function refreshWorkflowGroupView(event, data, service) {
 	// check service type....
 	if (service.indexOf('process/workflowgroups') > -1) {
-		alert('so jetzt mal gemalt');
 		$("#workflowgroups #workflowgroup_view").empty();
 		// iterate over all workitems
 
