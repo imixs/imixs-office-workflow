@@ -10,14 +10,13 @@
 
 	<!-- support deep link for workitems -->
 	<f:metadata>
-		<f:viewParam name="workitem"
-			value="#{workflowController.uniqueId}" />
+		<f:viewParam name="workitem"/>
 	</f:metadata>
 
 	<c:choose>
-		<c:when test="#{! empty workflowController.workitem}">
+		<c:when test="#{! empty workitem}">
 			<meta http-equiv="refresh"
-				content="0; URL=#{facesContext.externalContext.requestContextPath}/pages/workitems/workitem.jsf" />
+				content="0; URL=#{facesContext.externalContext.requestContextPath}/pages/workitems/workitem.jsf?workitem=#{workitem}" />
 		</c:when>
 		<c:otherwise>
 			<meta http-equiv="refresh"

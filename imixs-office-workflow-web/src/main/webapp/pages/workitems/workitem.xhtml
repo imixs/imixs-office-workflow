@@ -5,27 +5,26 @@
 	template="/layout/template.xhtml">
 
 
-
-
+	<h:head>
+		<!-- support deep link for workitems (see index.xhtml) -->
+		<f:metadata>
+			<f:viewParam  name="workitem" value="#{workflowController.deepLinkId}" />
+		</f:metadata>
+	</h:head>
+	
 
 	<ui:define name="content">
 		<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
 
 		<f:view>
-			
-
 			<h:form id="workitem_form">
-
 				<div class="imixs-form">
 					<div class="imixs-header">
 						<ui:include src="/pages/workitems/workitem_header.xhtml" />
-
 					</div>
 
-		
 					<div class="imixs-body">
-					
-					<ui:include src="/pages/error_message.xhtml" />
+						<ui:include src="/pages/error_message.xhtml" />
 						<!--  -->
 						<ui:include
 							src="/pages/workitems/forms/#{workflowController.editor}.xhtml" />

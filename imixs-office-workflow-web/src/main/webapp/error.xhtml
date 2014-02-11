@@ -11,17 +11,16 @@
 		<h:panelGroup styleClass="ui-widget">
 			<div class="ui-state-error ui-corner-all"
 				style="padding: .7em; margin-bottom: .7em;">
-
-				We are sorry, but there seems to be a problem...
-
-				<p>
+				<p>#{message.error_message_general}</p>
 
 
-					<br /> <br /> <a
-						href="#{facesContext.externalContext.requestContextPath}/">Please
-						try it again</a> <br /> <br />
+				<br /> <br />
+				<h2>
+					<a class="ui-button ui-widget  ui-corner-all"
+						href="#{facesContext.externalContext.requestContextPath}/">#{message.prev}</a>
+				</h2>
 
-				</p>
+
 				<h:messages globalOnly="true" />
 			</div>
 		</h:panelGroup>
