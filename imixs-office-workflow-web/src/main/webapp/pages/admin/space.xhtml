@@ -20,7 +20,15 @@
 						<h1>
 							<h:outputText value="#{message['space.title']}: " />
 							<h:outputText
-								value="#{workflowController.workitem.item['txtspacename']}: " />
+								rendered="#{! empty workflowController.workitem.item['txtParentname']}"
+								value="#{workflowController.workitem.item['txtParentname']}" />
+
+							<h:outputText rendered="#{! empty workflowController.workitem.item['txtspacename']}"
+								value="." />
+
+
+							<h:outputText
+								value="#{workflowController.workitem.item['txtspacename']} " />
 						</h1>
 					</div>
 					<!-- ########## Error ########## -->
