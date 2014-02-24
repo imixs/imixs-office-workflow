@@ -23,24 +23,15 @@
 		<h:panelGroup layout="block"
 			rendered="#{empty timesheetController.workitem and !workflowController.newWorkitem}">
 			<h:commandButton value="#{message.add}"
-				action="/pages/workitems/workitem"
-				actionListener="#{timesheetController.create}">
-				<!--  -->
+				actionListener="#{timesheetController.create(workflowController.workitem.item['$modelversion'],6100,workflowController.workitem.item['$uniqueid'])}"
+				action="#{timesheetController.init('/pages/workitems/workitem')}">
 				<f:ajax render=":#{component.parent.parent.clientId}"
 					onevent="updateTimesheetPanel" />
-
 				<f:setPropertyActionListener
-					target="#{timesheetController.workitem.item['$modelversion']}"
-					value="#{workflowController.workitem.item['$modelversion']}" />
-				<f:setPropertyActionListener
-					target="#{timesheetController.workitem.item['$processid']}"
-					value="6100" />
-				<f:setPropertyActionListener
-					target="#{timesheetController.workitem.item['$uniqueidRef']}"
-					value="#{workflowController.workitem.item['$uniqueid']}" />
+					target="#{timesheetController.workitem.item['type']}"
+					value="childworkitem" />
 			</h:commandButton>
 		</h:panelGroup>
-
 
 
 		<!-- edit panel -->
