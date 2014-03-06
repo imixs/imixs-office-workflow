@@ -9,6 +9,10 @@
 			value="#{workflowController.workitem.item['txtprocessname']}: " />
 		<h:outputText
 			value="#{workflowController.workitem.item['txtworkflowgroup']}" />
+		<!-- Display Deleted status -->
+		<h:outputText
+			rendered="#{workflowController.workitem.item['type'] eq 'workitemdeleted'}"
+			value="- #{message.deleted}!" style="color:red;" />	
 	</h1>
 
 	<!-- Workitem Info Header -->
