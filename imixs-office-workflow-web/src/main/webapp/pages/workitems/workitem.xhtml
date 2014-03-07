@@ -16,10 +16,12 @@
 	
 		<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
 		<f:view>
-			<!-- Disable browser cache! -->
-			<marty:cacheControl redirect="#{facesContext.externalContext.requestContextPath}/index.jsf?workitem=#{workflowController.workitem.item['$uniqueid']}" />
 		
 			<h:form id="workitem_form">
+				<!-- Disable browser cache! -->
+				<marty:cacheControl redirect="#{facesContext.externalContext.requestContextPath}/index.jsf?workitem=#{workflowController.workitem.item['$uniqueid']}"/>
+
+
 				<div class="imixs-form">
 					<div class="imixs-header">
 						<ui:include src="/pages/workitems/workitem_header.xhtml" />
