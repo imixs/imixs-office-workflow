@@ -16,11 +16,10 @@
 	
 		<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
 		<f:view>
-		
 			<h:form id="workitem_form">
-				<!-- Disable browser HistoryBack navigation an multiBrowserTabs! -->
-				<marty:cacheControl redirect="#{facesContext.externalContext.requestContextPath}/index.jsf?workitem=#{workflowController.workitem.item['$uniqueid']}"/>
-
+				<!-- enable browser HistoryBack navigation an multiBrowserTabs! -->
+				<marty:cacheControl />
+				
 				<div class="imixs-form">
 					<div class="imixs-header">
 						<ui:include src="/pages/workitems/workitem_header.xhtml" />
