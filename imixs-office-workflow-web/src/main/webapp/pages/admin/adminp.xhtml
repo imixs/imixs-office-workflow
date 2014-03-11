@@ -64,6 +64,10 @@
 					</div>
 
 					<div class="imixs-body">
+						<h:commandButton immediate="true"
+							actionListener="#{adminPController.reset()}"
+							action="/pages/admin/adminp" value="#{message.refresh}" />
+						
 						<h:dataTable id="adminp_datatable_id" columns="8"
 							value="#{adminPViewController.workitems}" var="record">
 
