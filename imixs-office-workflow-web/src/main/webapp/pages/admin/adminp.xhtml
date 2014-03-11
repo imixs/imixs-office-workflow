@@ -51,7 +51,7 @@
 
 							</dl>
 						</div>
-						<h:commandButton actionListener="#{adminPController.doStart}"
+						<h:commandButton actionListener="#{adminPController.createJob}"
 							action="/pages/admin/adminp" value="#{message['adminp.start']}" />
 					</div>
 
@@ -141,11 +141,25 @@
 									<h:outputText value="#{message.action}" />
 								</f:facet>
 
+								<!-- Cancel -->
+								<h:commandLink title="#{message.cancel}"
+									action="/pages/admin/adminp"
+									actionListener="#{adminPController.cancelJob(record.item['$uniqueid'])}">
+									[#{message.cancel}]
+								</h:commandLink>
+
+								<!-- Restart -->
+								<h:commandLink title="#{message.restart}"
+									action="/pages/admin/adminp"
+									actionListener="#{adminPController.restartJob(record.item['$uniqueid'])}">
+									[#{message.restart}]
+								</h:commandLink>
+
 								<!-- Delete 		-->
-								<h:commandLink title="#{global.delete}"
+								<h:commandLink title="#{message.delete}"
 									action="/pages/admin/adminp"
 									actionListener="#{adminPController.delete(record.item['$uniqueid'])}">
-									<h:graphicImage url="/layout/icons/Delete_16.png"></h:graphicImage>
+									[#{message.delete}]
 								</h:commandLink>
 
 							</h:column>
