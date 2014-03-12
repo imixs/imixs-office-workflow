@@ -51,7 +51,8 @@
 
 							</dl>
 						</div>
-						<h:commandButton actionListener="#{adminPController.createJob}"
+						<h:commandButton
+							actionListener="#{adminPController.createRenameUserJob}"
 							action="/pages/admin/adminp" value="#{message['adminp.start']}" />
 					</div>
 
@@ -67,7 +68,7 @@
 						<h:commandButton immediate="true"
 							actionListener="#{adminPController.reset()}"
 							action="/pages/admin/adminp" value="#{message.refresh}" />
-						
+
 						<h:dataTable id="adminp_datatable_id" columns="8"
 							value="#{adminPViewController.workitems}" var="record">
 
@@ -86,28 +87,11 @@
 
 							<h:column>
 								<f:facet name="header">
-									<h:outputText value="#{message['adminp.fromname']}" />
+									<h:outputText value="#{message.description}" />
 								</f:facet>
-								<h:outputText value="#{record.item['namFrom']}" />
+								<h:outputText value="#{record.item['txtWorkflowSummary']}" />
 							</h:column>
 
-
-							<h:column>
-								<f:facet name="header">
-									<h:outputText value="#{message['adminp.toname']}" />
-								</f:facet>
-								<h:outputText value="#{record.item['namTo']}" />
-							</h:column>
-
-							<h:column>
-								<f:facet name="header">
-									<h:outputText value="#{message['adminp.replace']}" />
-								</f:facet>
-								<h:outputText value="#{message.yes}"
-									rendered="#{record.item['keyReplace']}" />
-								<h:outputText value="#{message.no}"
-									rendered="#{!record.item['keyReplace']}" />
-							</h:column>
 
 							<h:column>
 								<f:facet name="header">
@@ -125,19 +109,26 @@
 							</h:column>
 
 
-							<h:column width="210">
+
+							<h:column width="160">
 								<f:facet name="header">
 									<h:outputText value="Status" />
+								</f:facet>
+								<h:outputText value="#{record.item['txtWorkflowStatus']}" />
+							</h:column>
+
+
+
+							<h:column width="210">
+								<f:facet name="header">
+									<h:outputText value="#{message.modified}" />
 								</f:facet>
 								<h:outputText value="#{record.item['$modified']}"
 									style="margin-right:10px;">
 									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 										pattern="#{message.dateTimePattern}" />
 								</h:outputText>
-								<h:outputText value="#{record.item['txtWorkflowStatus']}" />
 							</h:column>
-
-
 
 
 							<h:column>
@@ -150,14 +141,14 @@
 									action="/pages/admin/adminp"
 									actionListener="#{adminPController.cancelJob(record.item['$uniqueid'])}">
 									[#{message.cancel}]
-								</h:commandLink>
+								</h:commandLink><br />
 
 								<!-- Restart -->
 								<h:commandLink title="#{message.restart}"
 									action="/pages/admin/adminp"
 									actionListener="#{adminPController.restartJob(record.item['$uniqueid'])}">
 									[#{message.restart}]
-								</h:commandLink>
+								</h:commandLink><br />
 
 								<!-- Delete 		-->
 								<h:commandLink title="#{message.delete}"
