@@ -18,14 +18,14 @@
 		// This method layouts the filter section with jquery ui design  
 		function refreshViewLayout(data) {
 			if (data.status === 'success') {
-				$( ".ui-tooltip" ).hide();
+				$(".ui-tooltip").hide();
 				// select with wildcard operator
-				$( "span.imixs-tooltip" ).layoutImixsTooltip();
+				$("span.imixs-tooltip").layoutImixsTooltip();
 			}
 		}
 		/*]]>*/
 	</script>
-	
+
 	<div class="imixs-portlet">
 		<div class="imixs-header">
 
@@ -33,50 +33,62 @@
 				<h:commandLink actionListener="#{view.doReset}"
 					title="#{message.refresh}">
 					<h:graphicImage url="/layout/icons/Update2_16.png"></h:graphicImage>
-					<f:ajax render="portlet_worklist_body" onevent="refreshViewLayout"/>
+					<f:ajax render="portlet_worklist_body" onevent="refreshViewLayout" />
 				</h:commandLink>
 			</div>
 
 			<!-- switch between owner and creator list  -->
 			<h:panelGroup id="view-type-navigator">
 
-				<!-- owner -->
-				<h:outputText rendered="#{view.view eq 'worklist.owner'}"
-					styleClass="active" value="#{message[view.view]}" />
-				<h:commandLink rendered="#{view.view ne 'worklist.owner'}"
-					styleClass="inactive" actionListener="#{view.doReset}">
-					<h:outputText value="#{message['worklist.owner']}" />
-					<f:setPropertyActionListener target="#{view.view}"
-						value="worklist.owner" />
-					<f:ajax render="portlet_worklist_body view-type-navigator" onevent="refreshViewLayout"/>
-				</h:commandLink>
 
-				<!-- creator -->
-				<h:outputText rendered="#{view.view eq 'worklist.creator'}"
-					styleClass="active" value="#{message[view.view]}" />
-				<h:commandLink rendered="#{view.view ne 'worklist.creator'}"
-					styleClass="inactive" actionListener="#{view.doReset}">
-					<h:outputText value="#{message['worklist.creator']}" />
-					<f:setPropertyActionListener target="#{view.view}"
-						value="worklist.creator" />
-					<f:ajax render="portlet_worklist_body view-type-navigator" onevent="refreshViewLayout" />
-				</h:commandLink>
+				<ul>
+					<li class="#{view.view eq 'worklist.owner'?'active':'inactive'}">
+						<!-- owner --> <h:outputText
+							rendered="#{view.view eq 'worklist.owner'}" 
+							value="#{message[view.view]}" /> <h:commandLink
+							rendered="#{view.view ne 'worklist.owner'}" 
+							actionListener="#{view.doReset}">
+							<h:outputText value="#{message['worklist.owner']}" />
+							<f:setPropertyActionListener target="#{view.view}"
+								value="worklist.owner" />
+							<f:ajax render="portlet_worklist_body view-type-navigator"
+								onevent="refreshViewLayout" />
+						</h:commandLink>
+					</li>
+					<li class="#{view.view eq 'worklist.creator'?'active':'inactive'}">
+						<!-- creator --> <h:outputText
+							rendered="#{view.view eq 'worklist.creator'}" 
+							value="#{message[view.view]}" /> <h:commandLink
+							rendered="#{view.view ne 'worklist.creator'}"
+							 actionListener="#{view.doReset}">
+							<h:outputText value="#{message['worklist.creator']}" />
+							<f:setPropertyActionListener target="#{view.view}"
+								value="worklist.creator" />
+							<f:ajax render="portlet_worklist_body view-type-navigator"
+								onevent="refreshViewLayout" />
+						</h:commandLink>
+					</li>
+					<li class="#{view.view eq 'worklist.favorite'?'active':'inactive'}">
+						<!-- favorite --> <h:outputText
+							rendered="#{view.view eq 'worklist.favorite'}"
+							 value="#{message[view.view]}" /> <h:commandLink
+							rendered="#{view.view ne 'worklist.favorite'}"
+							 actionListener="#{view.doReset}">
+							<h:outputText value="#{message['worklist.favorite']}" />
+							<f:setPropertyActionListener target="#{view.view}"
+								value="worklist.favorite" />
+							<f:ajax render="portlet_worklist_body view-type-navigator"
+								onevent="refreshViewLayout" />
+						</h:commandLink>
 
-				<!-- favorite -->
-				<h:outputText rendered="#{view.view eq 'worklist.favorite'}"
-					styleClass="active" value="#{message[view.view]}" />
-				<h:commandLink rendered="#{view.view ne 'worklist.favorite'}"
-					styleClass="inactive" actionListener="#{view.doReset}">
-					<h:outputText value="#{message['worklist.favorite']}" />
-					<f:setPropertyActionListener target="#{view.view}"
-						value="worklist.favorite" />
-					<f:ajax render="portlet_worklist_body view-type-navigator" onevent="refreshViewLayout"/>
-				</h:commandLink>
+					</li>
+				</ul>
 
 			</h:panelGroup>
 		</div>
 
-		<h:panelGroup id="portlet_worklist_body">
+		<h:panelGroup id="portlet_worklist_body" layout="block"
+			class="imixs-body">
 
 			<!-- **** Workitems ***** -->
 			<ui:repeat var="workitem" value="#{view.workitems}">
@@ -93,11 +105,11 @@
 
 			<!-- navigation -->
 			<h:panelGroup layout="block" id="portlet_worklist_nav"
-				style="float: right;">
+				class="imixs-footer">
 				<span style="margin-right: 10px;"> <h:commandLink
 						actionListener="#{view.doLoadPrev}" disabled="#{view.row == 0}"
 						value="#{message.prev}">
-						<f:ajax render="portlet_worklist_body" onevent="refreshViewLayout"/>
+						<f:ajax render="portlet_worklist_body" onevent="refreshViewLayout" />
 					</h:commandLink>
 				</span>
 				<h:commandLink actionListener="#{view.doLoadNext}"
