@@ -7,38 +7,37 @@
 /*** Default DL Definitonen ****/
 dl {
 	margin: 0;
+	vertical-align: top;
 }
-
-
-
-
 
 dl dd input[type="text"],.imixs-form-section-2 dd input[type="password"],.imixs-form-section-2 dd select
 	{
 	width: 100%;
 }
 
- dd textarea {
+dd textarea {
 	width: 100%;
 	height: 5em;
 }
 
+.imixs-form-section dd,.imixs-form-section-2 dd {
+	margin-left: 0px;
+}
 
 /* Simulation row */
-.imixs-form-section, .imixs-form-section-2 , .imixs-form-section-3 {
+.imixs-form-section,.imixs-form-section-2,.imixs-form-section-3 {
 	clear: both;
 	width: 100%;
 }
 
-
-.imixs-form-section:after,.imixs-form-section-2:after,.imixs-form-section-3:after {
+.imixs-form-section:after,.imixs-form-section-2:after,.imixs-form-section-3:after
+	{
 	content: ".";
 	display: block;
 	clear: left;
 	height: 0;
 	visibility: hidden;
 }
-
 
 /* Simulation col-12 */
 .imixs-form-section dl {
@@ -49,24 +48,23 @@ dl dd input[type="text"],.imixs-form-section-2 dd input[type="password"],.imixs-
 	float: none;
 	min-height: 1px;
 	position: relative;
-	padding: 10px;
-	
+	xpadding: 10px;
 	left: 0;
-		text-align: left;
+	text-align: left;
 }
-
-
 
 /* Simulation col-6 */
 .imixs-form-section-2 dl {
 	margin: 0;
-	width: 50%;
+	width: 49%;
 	display: inline-block;
-	float: left;
 	min-height: 1px;
 	position: relative;
-	padding: 10px;
+	padding: 10px 10px 10px 0;
 }
+
+
+
 
 @media screen and (max-width: 768px) {
 	.imixs-form-section-2 dl {
@@ -78,8 +76,6 @@ dl dd input[type="text"],.imixs-form-section-2 dd input[type="password"],.imixs-
 		text-align: left;
 	}
 }
-
-
 
 /* Simulation col-4 */
 .imixs-form-section-3 dl {

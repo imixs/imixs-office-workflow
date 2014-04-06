@@ -168,8 +168,7 @@ body {
 }
 
 .imixs-form .imixs-body h1 {
-	border-bottom: 1px solid #FFD7A8;
-	margin: 5px 0 10px;
+	font-size: 2em;
 }
 
 .imixs-form .imixs-footer {
@@ -361,6 +360,14 @@ END
 	background: transparent;
 }
 
+.imixs-form table, td,th {
+	border: none;
+}
+
+.imixsdatatable  {
+	width: 100%;
+}
+
 /* #ECF3F8 #FFDF89 */
 .imixs-form-header,.imixs-view-header {
 	background: #ECF3F8;
@@ -391,6 +398,16 @@ END
 	background: #FFDF89;
 }
 
+.imixs-form-panel {
+	border: 1px solid #aaaaaa;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	padding: 10px 10px;
+	margin: 10px 0;
+}
+
 .imixs-subform-body {
 	background: #83C6EA;
 	border: 2px solid #83C6EA;
@@ -400,115 +417,6 @@ END
 	border-radius: 10px;
 	padding: 10px 10px;
 	margin: 10px 0;
-}
-
-/* form-section defines a dl with label and input field in separate lines */
-.imixs-form-section {
-	xborder: 1px solid red;
-	width: 700px;
-}
-
-.imixs-form-section:after {
-	content: ".";
-	display: block;
-	clear: left;
-	height: 0;
-	visibility: hidden;
-}
-
-.imixs-form-section dl {
-	xborder: 1px solid #ddd;
-}
-
-.imixs-form-section dt {
-	
-}
-
-.imixs-form-section dd {
-	
-}
-
-.imixs-form-section dd input[type="text"],.imixs-form-section dd input[type="password"],.imixs-form-section dd select,.imixs-form-section .marty-workitemlink
-	{
-	width: 680px;
-}
-
-.imixs-subform .imixs-form-section dd input[type="text"],.imixs-form-section dd input[type="password"],.imixs-form-section dd select,.imixs-form-section .marty-workitemlink
-	{
-	width: 670px;
-}
-
-.imixs-form-section dd textarea {
-	width: 678px;
-	height: 5em;
-}
-
-/* form-section-2 defines a 2-column-dl with label and input field in separate lines */
-.imixs-form-section-2 {
-	xborder: 1px solid red;
-	width: 700px;
-}
-
-.imixs-form-section-2:after {
-	content: ".";
-	display: block;
-	clear: left;
-	height: 0;
-	visibility: hidden;
-}
-
-.imixs-form-section-2 dl {
-	xborder: 1px solid #ddd;
-	width: 348px;
-	text-align: left;
-	float: left;
-}
-
-.imixs-form-section-2 dt {
-	width: 338px;
-}
-
-.imixs-form-section-2 dd {
-	
-}
-
-.imixs-form-section-2 dd input[type="text"],.imixs-form-section-2 dd input[type="password"],.imixs-form-section-2 dd select
-	{
-	width: 330px;
-}
-
-/* form-section-3 defines a 3-column-dl with label and input field in separate lines */
-.imixs-form-section-3 {
-	xborder: 1px solid red;
-	width: 700px;
-}
-
-.imixs-form-section-3:after {
-	content: ".";
-	display: block;
-	clear: left;
-	height: 0;
-	visibility: hidden;
-}
-
-.imixs-form-section-3 dl {
-	xborder: 1px solid #ddd;
-	width: 231px;
-	text-align: left;
-	float: left;
-}
-
-.imixs-form-section-3 dt {
-	
-}
-
-.imixs-form-section-3 dd {
-	width: 220px;
-}
-
-.imixs-form-section-3 dd input[type="text"],.imixs-form-section-3 dd input[type="password"],.imixs-form-section-3 dd select,.imixs-form-section-3 .marty-workitemlink
-	{
-	width: 218px;
 }
 
 .imixs-editor {
@@ -593,8 +501,8 @@ END
 
 /** Customize Marty WorkitemLink Widget - see imixs-marty.css **/
 .marty-workitemlink {
-	width: 320px;
-	margin: 2px 10px 0 0;
+	xwidth: 320px;
+	xmargin: 2px 10px 0 0;
 	padding: 8px;
 	border: 1px solid #ccc;
 	-webkit-border-radius: 3px;
@@ -608,7 +516,7 @@ END
 }
 
 .marty-workitemlink-inputbox input[type="text"] {
-	width: 290px !important;
+	xwidth: 290px !important;
 	background: url(../icons/Search_16.png) no-repeat scroll left center
 		white;
 	padding-left: 20px;
@@ -616,7 +524,7 @@ END
 
 /** Marty UserListInput Widget - see imixs-marty.css **/
 .marty-userlistinput {
-	margin: 2px 10px 0 0;
+	xmargin: 2px 10px 0 0;
 	padding: 8px;
 	border: 1px solid #ccc;
 	-webkit-border-radius: 3px;
@@ -646,7 +554,7 @@ END
 .model-box {
 	margin: 0;
 	padding: 5px;
-	width: 700px;
+	width: 100%;
 	min-height: 60px;
 	border: 0px solid #000;
 }
@@ -659,13 +567,13 @@ END
 .model-entity {
 	display: inline-block;
 	width: 135px;
-	min-height: 40px;
+	min-height: 50px;
 	float: left;
 	vertical-align: middle;
 	text-align: center;
 	padding: 5px 5px;
 	margin: 10px 0;
-	background-color: #ECF3F8;
+	background-color: #206B87;
 	border: 1px solid #CCC;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
@@ -673,46 +581,41 @@ END
 	border-radius: 5px;
 	font-family: Arial, Verdana, sans-serif;
 	font-weight: normal;
-	color: #333;
+	color: #FFF;
 }
 
-.model-entity:HOVER {
-	xbackground-color: #83C6EA;
+.model-entity:HOVER{
+	background-color: #61B1D0;
 }
 
 .model-box .completed {
-	background-color: #CCC;
+	background-color: #22A976;
 	border-color: #999;
 }
 
-.model-box.completed:HOVER {
-	background-color: #CCC;
-	border-color: #999;
-}
 
-.model-box.active {
-	background: #FFCC00;
+.model-box .active {
+	background: #faa732;
 	border: 1px solid #FFFA;
 	xpadding: 0 5px;
 }
 
 /* c9ced1 */
-.model-box.inactive {
-	xbackground-color: #cbd1cb;
+.model-box .inactive {
 	border-color: #b4c5d1;
 }
 
 .model-line {
 	float: left;
-	margin: 30px 1px 36px 1px;
-	height: 2px;
+	margin: 35px 1px 54px 1px;
+	height: 1px;
 	width: 20px;
 	background-color: #CCC;
 }
 
 .model-end {
 	float: left;
-	margin: 26px 1px 26px 1px;
+	margin: 31px 1px 26px 1px;
 	height: 10px;
 	width: 10px;
 	background-color: #CCC;
@@ -720,7 +623,7 @@ END
 
 .model-start {
 	float: left;
-	margin: 26px 1px 26px 1px;
+	margin: 31px 1px 26px 1px;
 	height: 10px;
 	width: 3px;
 	background-color: #CCC;
