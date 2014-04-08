@@ -5,10 +5,9 @@
 
 	<div class="imixs-portlet">
 		<div class="imixs-header">
-		<ul>
-			<li  class="active"><h:outputText
-				value="#{message['nav.start_new_workflow']}" />
-				</li>
+			<ul>
+				<li class="active"><h:outputText
+						value="#{message['nav.start_new_workflow']}" /></li>
 			</ul>
 		</div>
 		<!-- *** display all process nodes where the current user is member of *** -->
@@ -32,15 +31,15 @@
 
 							<ui:param name="processEntity"
 								value="#{modelController.getInitialProcessEntityByGroup(group)}" />
-							<li><h:commandLink
+							<li><h:commandLink title=" "
 									actionListener="#{workflowController.create(processEntity.item['$modelversion'],processEntity.item['numprocessid'],process.item['$uniqueid'])}"
 									action="#{workflowController.init('/pages/workitems/workitem')}">
 									<h:outputText style="font-weight: bold;" value="#{group} »" />
 								</h:commandLink> 
-								<h:panelGroup class="imixs-process-description">
-									<h:outputText value="#{processEntity.item['rtfdescription']}"
-										escape="false" />
-								</h:panelGroup></li>
+					
+								<span class="imixs-tooltip"> <h:outputText
+										value="#{processEntity.item['rtfdescription']}" escape="false" />
+							</span></li>
 						</h:panelGroup>
 
 						<h:outputText style="color:red"

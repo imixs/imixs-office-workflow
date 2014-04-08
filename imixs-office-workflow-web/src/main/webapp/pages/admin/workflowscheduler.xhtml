@@ -16,15 +16,6 @@
 						<h1>
 							<h:outputText value="Workflow Scheduler" />
 						</h1>
-						<div>
-							<dl>
-								<dt>
-									<h:outputText
-										value="#{workflowSchedulerController.configuration.item['txtName']}" />
-								</dt>
-								<dd></dd>
-							</dl>
-						</div>
 					</div>
 
 
@@ -33,7 +24,7 @@
 						<ui:include src="/pages/error_message.xhtml" />
 
 						<!-- **** General info ***** -->
-						<div>
+						<div class="imixs-form-panel">
 							<h1>#{message['admin.timer.configuration']}</h1>
 
 
@@ -96,7 +87,7 @@
 
 						<!-- **** Status ***** -->
 
-						<div>
+						<div class="imixs-form-panel">
 							<h1>
 								<h:outputText
 									value="Status: #{workflowSchedulerController.configuration.item['statusMessage']}" />

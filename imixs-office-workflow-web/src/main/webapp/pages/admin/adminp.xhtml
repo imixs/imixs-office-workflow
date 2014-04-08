@@ -17,13 +17,15 @@
 						<h1>
 							<h:outputText value="#{message['adminp.title']}" />
 						</h1>
+					
+					</div>
+
+					<div class="imixs-body">
+					<div class="imixs-form-panel">
 						<!-- **** General info ***** -->
 						<h2>#{message['adminp.subtitle']}</h2>
 
 						<p>#{message['adminp.help']}</p>
-					</div>
-
-					<div class="imixs-body">
 						<div class="imixs-form-section-3">
 							<dl>
 								<dt>#{message['adminp.fromname']}:</dt>
@@ -54,22 +56,24 @@
 						<h:commandButton
 							actionListener="#{adminPController.createRenameUserJob}"
 							action="/pages/admin/adminp" value="#{message['adminp.start']}" />
+					
+					</div>
 					</div>
 
 				</div>
 
 				<div class="imixs-view">
-					<!-- *** Header **** -->
-					<div class="imixs-header">
-						<h1>#{message['adminp.viewtitle']}</h1>
-					</div>
+					
 
-					<div class="imixs-body">
-						<h:commandButton immediate="true"
+					<div class="imixs-form-panel">
+					<h1>#{message['adminp.viewtitle']}</h1>
+					
+						<h:commandButton immediate="true" style="margin-bottom:10px;"
 							actionListener="#{adminPController.reset()}"
 							action="/pages/admin/adminp" value="#{message.refresh}" />
 
 						<h:dataTable id="adminp_datatable_id" columns="8"
+						 styleClass="imixsdatatable"
 							value="#{adminPViewController.workitems}" var="record">
 
 
