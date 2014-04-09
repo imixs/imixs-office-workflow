@@ -20,6 +20,10 @@
 				<version>2.6</version>
 				<configuration>
 					<version>6</version>
+					<applicationName>${imixs-office.applicationname}</applicationName>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<filtering>true</filtering>
+					
 					<modules>
 					<!-- Web Gui -->
 						<webModule>
@@ -52,24 +56,19 @@
 						<JarModule>
 							<groupId>org.imixs.workflow</groupId>
 							<artifactId> imixs-workflow-core</artifactId>
+							<bundleDir>/</bundleDir>
 						</JarModule>
 						<JarModule>
 							<groupId>org.imixs.workflow</groupId>
 							<artifactId>imixs-workflow-engine </artifactId>
+							<bundleDir>/</bundleDir>
 						</JarModule>
-						<!--  -->
 						<JarModule>
 							<groupId>org.imixs.marty</groupId>
 							<artifactId>imixs-marty-ejb</artifactId>
+							<bundleDir>/</bundleDir>
 						</JarModule>
 						
-						
-						<!--  
-						<JarModule>
-							<groupId>org.imixs</groupId>
-							<artifactId>imixs-dummy</artifactId>
-						</JarModule>
-		-->
 					</modules>
 				</configuration>
 			</plugin>
@@ -106,16 +105,12 @@
 			<version>${project.version}</version>
 			<type>ejb</type>
 		</dependency>
-		
-		<!--  -->
 		<dependency>
 			<groupId>com.imixs.workflow</groupId>
 			<artifactId>imixs-office-workflow-web</artifactId>
 			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
-		
-		<!-- -->
 		<dependency>
 			<groupId>com.imixs.workflow</groupId>
 			<artifactId>imixs-office-workflow-rest</artifactId>
@@ -132,18 +127,22 @@
 		</dependency>
 		-->
  
-		<!-- external -->
-		<dependency>
-			<groupId>org.apache.lucene</groupId>
-			<artifactId>lucene-core</artifactId>
-		</dependency>
-
-<!--  
-		<dependency>
-			<groupId>org.imixs</groupId>
-			<artifactId>imixs-dummy</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		-->
+		<!-- Apache Lucene -->
+	    <dependency>
+	        <groupId>org.apache.lucene</groupId>
+	        <artifactId>lucene-core</artifactId>
+	        <scope>compile</scope>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.apache.lucene</groupId>
+	        <artifactId>lucene-analyzers-common</artifactId>
+	        <scope>compile</scope>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.apache.lucene</groupId>
+	        <artifactId>lucene-queryparser</artifactId>
+	        <scope>compile</scope>
+	    </dependency>
+   
 	</dependencies>
 </project>

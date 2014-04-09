@@ -22,13 +22,14 @@
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 		<org.imixs.workflow.version>3.1.6</org.imixs.workflow.version>
 		<org.imixs.marty.version>2.0.9</org.imixs.marty.version>
-		<lucene.version>3.6.2</lucene.version>
+		<lucene.version>4.5.1</lucene.version>
 		<custom.webResources>src/main/webapp</custom.webResources>
+		<imixs-office.applicationname>imixs-office-workflow</imixs-office.applicationname>		
 	</properties>
-	
-	
-	
-		<profiles>
+
+
+
+	<profiles>
 		<!-- wildfly profile -->
 		<profile>
 			<id>wildfly</id>
@@ -36,10 +37,10 @@
 				<custom.webResources>src/main/webapp_wildfly</custom.webResources>
 			</properties>
 		</profile>
-		</profiles>
-	
-	
-	
+	</profiles>
+
+
+
 	<build>
 
 		<resources>
@@ -115,13 +116,26 @@
 				<scope>provided</scope>
 			</dependency>
 
-
-			<!-- lucene 2.0.0, 3.0.0 3.1.0 -->
+			<!-- Apache Lucene -->
 			<dependency>
 				<groupId>org.apache.lucene</groupId>
 				<artifactId>lucene-core</artifactId>
 				<version>${lucene.version}</version>
+				<scope>provided</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-analyzers-common</artifactId>
+				<version>${lucene.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-queryparser</artifactId>
+				<version>${lucene.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
