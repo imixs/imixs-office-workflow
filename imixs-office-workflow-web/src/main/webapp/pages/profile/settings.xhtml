@@ -25,55 +25,56 @@
 						<!-- ########## Error ########## -->
 						<ui:include src="/pages/error_message.xhtml" />
 
+						<div class="imixs-form-panel">
+							<div class="imixs-form-section-2">
+								<dl>
+									<dt>
+										<h:outputLabel value="#{message['profile.displayname']}" />
+									</dt>
+									<dd>
+										<h:outputText
+											value="#{workflowController.workitem.item['txtUserName']}" />
+									</dd>
+								</dl>
 
-						<div class="imixs-form-section-2">
-							<dl>
-								<dt>
-									<h:outputLabel value="#{message['profile.displayname']}" />
-								</dt>
-								<dd>
-									<h:outputText
-										value="#{workflowController.workitem.item['txtUserName']}" />
-								</dd>
-							</dl>
-
-							<dl>
-								<dt>
-									<h:outputLabel value="#{message['profile.email']}" />
-								</dt>
-								<dd>
-									<h:outputText
-										value="#{workflowController.workitem.item['txtEmail']}" />
-								</dd>
-							</dl>
-
-
-						</div>
-						<div class="imixs-form-section-2">
-
-							<dl>
-								<dt>#{message['profile.deputy']}</dt>
-								<dd>
-									<marty:userInput
-										value="#{workflowController.workitem.item['namDeputy']}"
-										editmode="true" />
-
-								</dd>
-							</dl>
-							<dl>
-								<dt>
-									<h:outputLabel value="#{message['myprofile.locale']}" />
-								</dt>
-								<dd>
-									<h:selectOneMenu id="locale_id" layout="pageDirection"
-										value="#{workflowController.workitem.item['txtLocale']}">
-										<f:selectItem itemLabel="Deutsch" itemValue="de_DE" />
-										<f:selectItem itemLabel="English" itemValue="en_EN" />
-									</h:selectOneMenu>
-								</dd>
-							</dl>
+								<dl>
+									<dt>
+										<h:outputLabel value="#{message['profile.email']}" />
+									</dt>
+									<dd>
+										<h:outputText
+											value="#{workflowController.workitem.item['txtEmail']}" />
+									</dd>
+								</dl>
 
 
+							</div>
+							<div class="imixs-form-section-2">
+
+								<dl>
+									<dt>#{message['profile.deputy']}</dt>
+									<dd>
+										<marty:userInput
+											value="#{workflowController.workitem.item['namDeputy']}"
+											editmode="true" />
+
+									</dd> 
+								</dl>
+								<dl>
+									<dt>
+										<h:outputLabel value="#{message['myprofile.locale']}" />
+									</dt>
+									<dd>
+										<h:selectOneMenu id="locale_id" layout="pageDirection"
+											value="#{workflowController.workitem.item['txtLocale']}">
+											<f:selectItem itemLabel="Deutsch" itemValue="de_DE" />
+											<f:selectItem itemLabel="English" itemValue="en_EN" />
+										</h:selectOneMenu>
+									</dd>
+								</dl>
+
+
+							</div>
 						</div>
 						<div class="imixs-footer">
 
@@ -84,8 +85,7 @@
 									target="#{workflowController.workitem.item['$ActivityID']}"
 									value="10" />
 								<f:setPropertyActionListener
-									target="#{workflowController.action}"
-									value="notes" />
+									target="#{workflowController.action}" value="notes" />
 							</h:commandButton>
 
 							<h:commandButton value="#{message.close}" action="notes" />
