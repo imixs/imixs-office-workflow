@@ -34,9 +34,12 @@
 
 	<i:imixsHeader disablecss="false"
 		dateformat="#{message.datePatternShort}"
-		theme="#{facesContext.externalContext.requestContextPath}/layout/themes/office/jquery-ui-1.10.4.custom.css" />
+		theme="#{facesContext.externalContext.requestContextPath}/layout/themes/#{app.application_theme}" />
 
 
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.css"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
 
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme.css"
@@ -48,11 +51,11 @@
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
 
+
+
 	<link
-		href="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.css"
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
-
-
 
 	<!-- IE 7 support -->
 	<h:outputText
