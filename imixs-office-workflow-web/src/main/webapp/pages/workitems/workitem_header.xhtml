@@ -5,14 +5,15 @@
 
 
 	<h1>
-		<h:outputText rendered="#{! empty workflowController.workitem.item['txtprocessname']}"
+		<h:outputText
+			rendered="#{! empty workflowController.workitem.item['txtprocessname']}"
 			value="#{workflowController.workitem.item['txtprocessname']}: " />
 		<h:outputText
 			value="#{workflowController.workitem.item['txtworkflowgroup']}" />
 		<!-- Display Deleted status -->
 		<h:outputText
 			rendered="#{workflowController.workitem.item['type'] eq 'workitemdeleted'}"
-			value="- #{message.deleted}!" style="color:red;" />	
+			value="- #{message.deleted}!" style="color:red;" />
 	</h1>
 
 	<!-- Workitem Info Header -->
@@ -22,7 +23,9 @@
 		<h:panelGroup
 			rendered="#{!empty workflowController.workitem.item['txtWorkflowImageURL']}"
 			style="float:left;margin-right:2px;margin-left:2px;margin-bottom:0px;">
-				<h:graphicImage url="#{workflowController.workitem.item['txtWorkflowImageURL']}" style="max-height: 24px; margin: 4px;"></h:graphicImage>
+			<h:graphicImage
+				url="#{workflowController.workitem.item['txtWorkflowImageURL']}"
+				style="max-height: 24px; margin: 4px;"></h:graphicImage>
 		</h:panelGroup>
 
 
@@ -44,27 +47,43 @@
 			<h:outputText style=""
 				value=" #{workflowController.workitem.item['txtworkflowstatus']}" />
 
-			<h:panelGroup rendered="#{! workflowController.newWorkitem}"
-				style="cursor:pointer;">
-				<a onclick="$('#history-panel').toggle();"
-					style="margin-left: 10px;">[#{message.history}]</a>
-			</h:panelGroup>
 
+			<!-- sub navigation -->
 
-			<h:panelGroup 
-				style="cursor:pointer;">
-				<a onclick="$('#process-panel').toggle();"
-					style="margin-left: 10px;">[#{message.progress}]</a>
-			</h:panelGroup>
+			<div class="imixs-subnav">
+				<h:panelGroup rendered="#{! workflowController.newWorkitem}"
+					style="cursor:pointer;">
+					<a onclick="togglePanel(this,'#history-panel');">#{message.history}</a>
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{! workflowController.newWorkitem}"
+					style="cursor:pointer;">
+					<a onclick="togglePanel(this,'#reference-panel');">#{message.references}</a>
+				</h:panelGroup>
+
+				<h:panelGroup style="cursor:pointer;">
+					<a onclick="togglePanel(this,'#process-panel');">#{message.progress}</a>
+				</h:panelGroup>
+			</div>
 
 			<div style="clear: left;" />
 			<!-- Workflow History -->
-			<div id="history-panel" style="border-top: 1px solid silver;">
+			<div id="history-panel">
+				<hr />
 				<ui:include src="/pages/workitems/workitem_history.xhtml" />
 				<ui:include src="/pages/workitems/workitem_versions.xhtml" />
 			</div>
+			
+			<!-- Workflow History -->
+			<div id="reference-panel">
+				<hr />
+				<h1>References...</h1>
+			</div>
+			
+			
 			<!-- Process Map -->
-			<div id="process-panel" style="border-top: 1px solid silver;">
+			<div id="process-panel">
+				<hr />
 				<ui:include src="/pages/workitems/workitem_processmap.xhtml">
 					<ui:param name="workflowgroup"
 						value="#{workflowController.workitem.item['txtWorkflowGroup']}" />
@@ -90,9 +109,49 @@
 	<script type="text/javascript">
 		/*<![CDATA[*/
 
-		$('#history-panel').hide();
-		$('#process-panel').hide();
+		
 
+		$(document).ready(function() {
+
+
+			$('#history-panel').hide();
+			$('#process-panel').hide();
+			$('#reference-panel').hide();
+
+			
+			$('.imixs-subnav a').button({
+				icons : {
+					secondary : "ui-icon-plus",
+
+				},
+				text : true
+			});
+		});
+		
+		// change toggle state of a header panel
+		function togglePanel(buttonid,panelid) {
+			$(panelid).toggle();
+			
+			if ($(panelid).is(":hidden")) {
+			     // do this
+				 $(buttonid).button({
+						icons : {
+							secondary : "ui-icon-plus"
+						}
+					}).removeClass('active');
+			  }  else {
+				  $(buttonid).button({
+						icons : {
+							secondary : "ui-icon-minus"
+						}
+					}).addClass('active');
+				  
+			  }
+			
+		}
+
+		
+		
 		/*]]>*/
 	</script>
 </f:subview>
