@@ -1,6 +1,7 @@
 package org.imixs.application.minutes;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.mail.internet.AddressException;
@@ -8,11 +9,11 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.imixs.marty.ejb.SystemWorkitemService;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowContext;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.PluginException;
-import org.imixs.workflow.jee.ejb.EntityService;
 import org.imixs.workflow.jee.ejb.WorkflowService;
 import org.imixs.workflow.plugins.jee.VersionPlugin;
 
@@ -39,18 +40,26 @@ import org.imixs.workflow.plugins.jee.VersionPlugin;
  * 
  */
 public class MinutePlugin extends VersionPlugin {
-	private EntityService entityService = null;
+ 
+	private SystemWorkitemService systemWorkitemService = null;
 	private static Logger logger = Logger.getLogger(MinutePlugin.class
 			.getName());
 
 	public void init(WorkflowContext actx) throws PluginException {
 		super.init(actx);
 
-		// check for an instance of WorkflowService
-		if (actx instanceof WorkflowService) {
-			// yes we are running in a WorkflowService EJB
-			WorkflowService ws = (WorkflowService) actx;
-			entityService = ws.getEntityService();
+		// lookup profile service EJB
+		String jndiName = "ejb/SystemWorkitemService";
+		InitialContext ictx;
+		try {
+			ictx = new InitialContext();
+			Context ctx = (Context) ictx.lookup("java:comp/env");
+			systemWorkitemService = (SystemWorkitemService) ctx.lookup(jndiName);
+
+		} catch (NamingException e) {
+			throw new PluginException(MinutePlugin.class.getSimpleName(),
+					INVALID_CONTEXT,
+					"[MinutePlugin] unable to find SystemWorkitemService", e);
 		}
 
 	}
@@ -119,7 +128,7 @@ public class MinutePlugin extends VersionPlugin {
 
 					// save child with runAs manager access level
 					// this.getEntityService().save(achild);
-					entityService.save(achild);
+					systemWorkitemService.save(achild);
 
 				} catch (AccessDeniedException e) {
 
@@ -139,30 +148,43 @@ public class MinutePlugin extends VersionPlugin {
 	 * number is computed based on the count childwokitems.
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	private void computeSequenceNumber(ItemCollection documentContext) {
+		ItemCollection parent = null;
+		String sUniqueIdRef=null;
+		String sType = documentContext.getItemValueString("Type");
 
-		// skip if it is no child or numsequencenumber already defined
-		if (!"childworkitem".equals(documentContext.getItemValueString("Type"))
-				|| documentContext.hasItem("numsequencenumber")) {
-			logger.fine("[MinutePlugin] skip computeSequenceNumber");
+		// skip if it is no workitem or numsequencenumber already defined
+		if (documentContext.hasItem("numsequencenumber")
+				|| !(sType.contains("workitem"))) {
+			logger.fine("[MinutePlugin] skip computeSequenceNumber - number already exits");
 			return;
 		}
 
-		// get parent workitem
-		String sUniqueIdRef = documentContext
-				.getItemValueString("$UniqueIDRef");
+		// test if a parent workitem exits
+		List<String> uniqueIdRefList = documentContext
+				.getItemValue(WorkflowService.UNIQUEIDREF);
+		for (String id : uniqueIdRefList) {
+			parent = this.getWorkflowService().getWorkItem(id);
+			if (parent != null) {
+				String parentType = parent.getItemValueString("type");
+				if ("workitem".equals(parentType)) {
+					sUniqueIdRef=id;
+					break;
+				} else {
+					parent = null;
+				}
+			}
+		}
+
+		if (parent==null) {
+			logger.fine("[MinutePlugin] skip computeSequenceNumber - no parent workitem");
+			return;
+		}
 
 		logger.fine("[MinutePlugin] compute computeSequenceNumber for Ref:"
 				+ sUniqueIdRef + "....");
-		ItemCollection parent = this.getWorkflowService().getWorkItem(
-				sUniqueIdRef);
-
-		if (parent == null) {
-			logger.warning("[MinutePlugin] parent not found!");
-			return;
-		}
-
-		logger.fine("[MinutePlugin] compute new sequence number for childworkitem");
+	
 
 		// compute number by searching last childs.
 		String sQuery = null;
@@ -189,13 +211,7 @@ public class MinutePlugin extends VersionPlugin {
 		}
 		documentContext.replaceItemValue("numsequencenumber", iNumber);
 
-		// compute a text based super sequencenumber from parent
-		// numsequencenumber
-		// String sNumber = "" + parent.getItemValueInteger("numsequencenumber")
-		// + "-" + iNumber;
-		// documentContext.replaceItemValue("txtsequencenumber", sNumber);
-		//
-		// logger.fine("[MinutePlugin] txtsequencenumber="+sNumber);
+	
 
 	}
 }
