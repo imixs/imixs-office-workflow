@@ -69,6 +69,11 @@
 		<h:panelGroup style="cursor:pointer;">
 			<a onclick="togglePanel(this,'#process-panel');">#{message.progress}</a>
 		</h:panelGroup>
+		
+		
+		<h:panelGroup style="cursor:pointer;" rendered="#{! empty workflowController.versions}">
+			<a onclick="togglePanel(this,'#version-panel');">#{message.versions}</a>
+		</h:panelGroup>
 	</div>
 
 
@@ -79,8 +84,10 @@
 	<div id="history-panel">
 		<hr />
 		<ui:include src="/pages/workitems/workitem_history.xhtml" />
-		<ui:include src="/pages/workitems/workitem_versions.xhtml" />
 	</div>
+	
+
+	
 
 	<!-- References -->
 	<!--  
@@ -104,7 +111,11 @@
 	</div>
 
 
-
+	<!-- Workflow Versions -->
+	<div id="version-panel">
+		<hr />
+		<ui:include src="/pages/workitems/workitem_versions.xhtml" />
+	</div>
 
 
 
@@ -116,6 +127,7 @@
 		$(document).ready(function() {
 
 			$('#history-panel').hide();
+			$('#version-panel').hide();
 			$('#process-panel').hide();
 			$('#reference-panel').hide();
 
