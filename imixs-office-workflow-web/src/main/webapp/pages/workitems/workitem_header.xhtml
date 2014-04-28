@@ -17,111 +17,108 @@
 	</h1>
 
 	<!-- Workitem Info Header -->
-	<div>
 
-		<!-- *** Image *** -->
-		<h:panelGroup
-			rendered="#{!empty workflowController.workitem.item['txtWorkflowImageURL']}"
-			style="float:left;margin-right:2px;margin-left:2px;margin-bottom:0px;">
-			<h:graphicImage
-				url="#{workflowController.workitem.item['txtWorkflowImageURL']}"
-				style="max-height: 24px; margin: 4px;"></h:graphicImage>
+	<!-- *** Image *** -->
+	<h:panelGroup layout="block" styleClass="image-block">
+
+		<h:graphicImage
+			rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
+			url="#{workitem.item['txtWorkflowImageURL']}"
+			style="max-height: 24px; margin: 4px;"></h:graphicImage>
+
+		<h:graphicImage
+			rendered="#{empty workitem.item['txtWorkflowImageURL']}"
+			value="/layout/icons/vwicn070.png"
+			style="max-height: 24px; margin: 4px;"></h:graphicImage>
+
+	</h:panelGroup>
+
+
+
+	<!-- *** Standard Info *** -->
+	<div class="content-block">
+		<h:outputText styleClass="lead" escape="false"
+			rendered="#{empty workflowController.workitem.item['txtWorkflowSummary']}"
+			value="#{message.new_workitem}" />
+
+		<h:outputText styleClass="lead" escape="false"
+			rendered="#{!empty workflowController.workitem.item['txtWorkflowSummary']}"
+			value="#{workflowController.workitem.item['txtWorkflowSummary']}" />
+		<br />
+		<h:outputLabel value="#{message.status}:" />
+		<h:outputText
+			value=" #{workflowController.workitem.item['txtworkflowstatus']}" />
+
+	</div>
+
+	<!-- sub navigation -->
+
+	<div class="imixs-subnav">
+		<h:panelGroup rendered="#{! workflowController.newWorkitem}"
+			style="cursor:pointer;">
+			<a onclick="togglePanel(this,'#history-panel');">#{message.history}</a>
 		</h:panelGroup>
 
-
-		<!-- *** Standard Info *** -->
-		<h:panelGroup>
-			<h:outputText style="font-size:14px; font-weight:bold;"
-				escape="false"
-				rendered="#{empty workflowController.workitem.item['txtWorkflowSummary']}"
-				value="#{message.new_workitem}" />
-
-			<h:outputText style="font-size:14px; font-weight:bold;"
-				escape="false"
-				rendered="#{!empty workflowController.workitem.item['txtWorkflowSummary']}"
-				value="#{workflowController.workitem.item['txtWorkflowSummary']}" />
-			<br />
-
-			<h:outputText style="font-weight: bold;" value="#{message.status}:" />
-
-			<h:outputText style=""
-				value=" #{workflowController.workitem.item['txtworkflowstatus']}" />
-
-
-			<!-- sub navigation -->
-
-			<div class="imixs-subnav">
-				<h:panelGroup rendered="#{! workflowController.newWorkitem}"
-					style="cursor:pointer;">
-					<a onclick="togglePanel(this,'#history-panel');">#{message.history}</a>
-				</h:panelGroup>
-				
-				<!-- 
+		<!-- 
 				<h:panelGroup rendered="#{! workflowController.newWorkitem}"
 					style="cursor:pointer;">
 					<a onclick="togglePanel(this,'#reference-panel');">#{message.references}</a>
 				</h:panelGroup>
 				 -->
 
-				<h:panelGroup style="cursor:pointer;">
-					<a onclick="togglePanel(this,'#process-panel');">#{message.progress}</a>
-				</h:panelGroup>
-			</div>
+		<h:panelGroup style="cursor:pointer;">
+			<a onclick="togglePanel(this,'#process-panel');">#{message.progress}</a>
+		</h:panelGroup>
+	</div>
 
-			<div style="clear: left;" />
-			<!-- Workflow History -->
-			<div id="history-panel">
-				<hr />
-				<ui:include src="/pages/workitems/workitem_history.xhtml" />
-				<ui:include src="/pages/workitems/workitem_versions.xhtml" />
-			</div>
-			
-			<!-- References -->
-			<!--  
+
+
+
+	<div style="clear: left;" />
+	<!-- Workflow History -->
+	<div id="history-panel">
+		<hr />
+		<ui:include src="/pages/workitems/workitem_history.xhtml" />
+		<ui:include src="/pages/workitems/workitem_versions.xhtml" />
+	</div>
+
+	<!-- References -->
+	<!--  
 			<div id="reference-panel">
 				<hr />
 				<h1>References...</h1>
 			</div>
 			-->
-			
-			<!-- Process Map -->
-			<div id="process-panel">
-				<hr />
-				<ui:include src="/pages/workitems/workitem_processmap.xhtml">
-					<ui:param name="workflowgroup"
-						value="#{workflowController.workitem.item['txtWorkflowGroup']}" />
-					<ui:param name="modelversion"
-						value="#{workflowController.workitem.item['$modelVersion']}" />
-					<ui:param name="processid"
-						value="#{workflowController.workitem.item['$ProcessID']}" />
-				</ui:include>
-			</div>
 
-
-		</h:panelGroup>
-
-
-
-
-
-
+	<!-- Process Map -->
+	<div id="process-panel">
+		<hr />
+		<ui:include src="/pages/workitems/workitem_processmap.xhtml">
+			<ui:param name="workflowgroup"
+				value="#{workflowController.workitem.item['txtWorkflowGroup']}" />
+			<ui:param name="modelversion"
+				value="#{workflowController.workitem.item['$modelVersion']}" />
+			<ui:param name="processid"
+				value="#{workflowController.workitem.item['$ProcessID']}" />
+		</ui:include>
 	</div>
+
+
+
+
+
 
 
 
 	<script type="text/javascript">
 		/*<![CDATA[*/
 
-		
-
 		$(document).ready(function() {
-
 
 			$('#history-panel').hide();
 			$('#process-panel').hide();
 			$('#reference-panel').hide();
 
-			
 			$('.imixs-subnav a').button({
 				icons : {
 					secondary : "ui-icon-plus",
@@ -130,31 +127,29 @@
 				text : true
 			});
 		});
-		
+
 		// change toggle state of a header panel
-		function togglePanel(buttonid,panelid) {
+		function togglePanel(buttonid, panelid) {
 			$(panelid).toggle();
-			
+
 			if ($(panelid).is(":hidden")) {
-			     // do this
-				 $(buttonid).button({
-						icons : {
-							secondary : "ui-icon-plus"
-						}
-					}).removeClass('active');
-			  }  else {
-				  $(buttonid).button({
-						icons : {
-							secondary : "ui-icon-minus"
-						}
-					}).addClass('active');
-				  
-			  }
-			
+				// do this
+				$(buttonid).button({
+					icons : {
+						secondary : "ui-icon-plus"
+					}
+				}).removeClass('active');
+			} else {
+				$(buttonid).button({
+					icons : {
+						secondary : "ui-icon-minus"
+					}
+				}).addClass('active');
+
+			}
+
 		}
 
-		
-		
 		/*]]>*/
 	</script>
 </f:subview>
