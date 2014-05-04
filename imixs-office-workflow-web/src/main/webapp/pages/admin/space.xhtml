@@ -14,13 +14,24 @@
 
 
 			<h:form id="space_form_id">
+				<!-- Disable browser HistoryBack navigation an multiBrowserTabs! -->
+				<marty:cacheControl/>
+			
 				<div class="imixs-form">
 
 					<div class="imixs-header">
 						<h1>
 							<h:outputText value="#{message['space.title']}: " />
 							<h:outputText
-								value="#{workflowController.workitem.item['txtspacename']}: " />
+								rendered="#{! empty workflowController.workitem.item['txtParentname']}"
+								value="#{workflowController.workitem.item['txtParentname']}" />
+
+							<h:outputText rendered="#{! empty workflowController.workitem.item['txtspacename']}"
+								value="." />
+
+
+							<h:outputText
+								value="#{workflowController.workitem.item['txtspacename']} " />
 						</h1>
 					</div>
 					<!-- ########## Error ########## -->

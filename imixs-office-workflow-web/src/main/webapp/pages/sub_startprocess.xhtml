@@ -5,14 +5,16 @@
 
 	<div class="imixs-portlet">
 		<div class="imixs-header">
-			<h:outputText styleClass="active"
-				value="#{message['nav.start_new_workflow']}" />
+			<ul>
+				<li class="active"><h:outputText
+						value="#{message['nav.start_new_workflow']}" /></li>
+			</ul>
 		</div>
 		<!-- *** display all process nodes where the current user is member of *** -->
 
 		<ui:repeat value="#{processController.processList}" var="process">
 			<h:panelGroup layout="block" styleClass="imixs-viewentry"
-				rendered="#{process.item['isMember'] and (! empty process.itemList['txtWorkflowList'])}">
+				rendered="#{(loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isMember']) and (! empty process.itemList['txtWorkflowList'])}">
 				<h3>
 					<h:outputText value="#{process.item['txtName']}" />
 				</h3>
@@ -29,17 +31,17 @@
 
 							<ui:param name="processEntity"
 								value="#{modelController.getInitialProcessEntityByGroup(group)}" />
-							<li><h:commandLink
+							<li><h:commandLink title=" "
 									actionListener="#{workflowController.create(processEntity.item['$modelversion'],processEntity.item['numprocessid'],process.item['$uniqueid'])}"
 									action="#{workflowController.init('/pages/workitems/workitem')}">
 									<h:outputText style="font-weight: bold;" value="#{group} »" />
-								</h:commandLink>
-								<p>
-									<h:outputText value="#{processEntity.item['rtfdescription']}"
-										escape="false" />
-								</p></li>
+								</h:commandLink> 
+					
+								<span class="imixs-tooltip"> <h:outputText
+										value="#{processEntity.item['rtfdescription']}" escape="false" />
+							</span></li>
 						</h:panelGroup>
-						
+
 						<h:outputText style="color:red"
 							rendered="#{empty modelController.getAllProcessEntitiesByGroup(group)}"
 							value="	Missing Model Definition: #{group}"></h:outputText>

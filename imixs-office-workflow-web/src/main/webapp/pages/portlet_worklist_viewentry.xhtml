@@ -6,8 +6,7 @@
 
 	<div class="imixs-viewentry" title=" ">
 		<!-- *** Image *** -->
-		<h:panelGroup
-			style="float:left;min-height:55px;margin-right:2px;margin-left:2px;margin-bottom:0px;">
+		<h:panelGroup layout="block" styleClass="image-block">
 			<h:commandLink
 				action="#{workflowController.load(workitem.item['$uniqueid'],'/pages/workitems/workitem')}">
 				<h:graphicImage
@@ -43,7 +42,7 @@
 
 
 		<!-- *** Standard Info *** -->
-		<div>
+		<div class="content-block">
 			<h:panelGroup>
 				<h:commandLink
 					action="#{workflowController.load(workitem.item['$uniqueid'],'/pages/workitems/workitem')}">
@@ -94,8 +93,18 @@
 		<div style="clear: left;" />
 
 	</div>
-	<!-- Tooltip - Details -->
-	<h:panelGroup style="display:none;" class="imixs-tooltip">#{workitem.item['txtWorkflowAbstract']}</h:panelGroup>
+	<!-- Tooltip -->
+	<h:panelGroup style="display:none;" class="imixs-tooltip">
+		<h:outputText value="#{message.created}: " style="font-weight:bold;" />
+		<h:outputText value="#{workitem.item['$created']}">
+				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+					pattern="#{message.dateTimePattern}" />
+		</h:outputText>
+		<h:outputText
+				value=" #{message.by} #{userController.getUserName(workitem.item['namCreator'])}" />
+		<hr />
+		<h:outputText value="#{workitem.item['txtWorkflowAbstract']}" escape="false" />
+	</h:panelGroup>
 
 </f:subview>
 

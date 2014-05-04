@@ -45,7 +45,7 @@
 										</h:commandLink>
 									</h:panelGroup>
 								</f:facet>
-								<h:commandLink
+								<h:commandLink styleClass="imixs-viewentry-main-link"
 									action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/process.xhtml')}">
 									<h:outputText value="#{record.item['txtName']}" />
 									<h:outputText rendered="#{empty record.item['txtName']}"
@@ -80,9 +80,9 @@
 							<h:column>
 								<f:facet name="header">#{message.action}</f:facet>
 								<!-- Edit -->
-								<h:commandLink title="#{message.edit}"
+								<h:commandLink title="#{message.edit}" styleClass="imixs-viewentry-action-link"
 									action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/process.xhtml')}">
-									<h:graphicImage url="/layout/icons/Edit_16.png"></h:graphicImage>
+									<h:graphicImage url="/layout/icons/Edit_16.png"/>#{message.edit}
 								</h:commandLink>
 							</h:column>
 						</h:dataTable>

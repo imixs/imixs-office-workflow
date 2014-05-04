@@ -49,7 +49,7 @@
 								<h:graphicImage value="/layout/icons/locked.gif"
 									rendered="#{record.item['$processid'] lt 210}" />
 
-								<h:commandLink
+								<h:commandLink styleClass="imixs-viewentry-main-link"
 									action="#{workflowController.load(record.item['$uniqueid'],'profile')}">
 									<h:outputText value="#{record.item['txtName']} " />
 								</h:commandLink>
@@ -75,18 +75,18 @@
 									<h:panelGroup>
 										<h:panelGroup styleClass="ui-icon ui-icon-triangle-1-s"
 											style="float: left;"
-											rendered="#{profileViewController.view == 'worklist.created.desc'}" />
-										<h:commandLink value="#{message.created}">
+											rendered="#{profileViewController.view == 'worklist.modified.desc'}" />
+										<h:commandLink value="#{message.modified}">
 											<f:setPropertyActionListener
 												target="#{profileViewController.view}"
-												value="worklist.created.desc" />
+												value="worklist.modified.desc" />
 											<f:ajax render="view_body" onevent="updateTable" />
 
 										</h:commandLink>
 									</h:panelGroup>
 
 								</f:facet>
-								<h:outputText value="#{record.item['$created']}">
+								<h:outputText value="#{record.item['$modified']}">
 									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 										pattern="#{message.dateTimePattern}" />
 								</h:outputText>

@@ -9,7 +9,7 @@
 	xmlns:i="http://java.sun.com/jsf/composite/imixs">
 
 <h:head>
-
+	<meta name="viewport" content="width=device-width" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta content="text/javascript" http-equiv="Content-Script-Type" />
 	<meta content="text/css" http-equiv="Content-Style-Type" />
@@ -19,25 +19,43 @@
 
 	<title>#{app.application_title}</title>
 
+	<!-- creatix-css -->
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/creatix-basic.css"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/creatix-layout.css"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/creatix-forms.css"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+
 	<i:imixsHeader disablecss="false"
 		dateformat="#{message.datePatternShort}"
-		xxtheme="#{facesContext.externalContext.requestContextPath}/layout/themes/bootstrap/jquery-ui-1.10.0.custom.css" />
-	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/basic.css"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
+		theme="#{facesContext.externalContext.requestContextPath}/layout/themes/#{app.application_theme}" />
+
 
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
 	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/office.css"
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/migration-office-forms.css"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+
+
+
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
-
-
 
 	<!-- IE 7 support -->
 	<h:outputText
@@ -78,8 +96,11 @@
 
 		// set a page navigation cookie 
 		function setNavigationCookie(page) {
-			 var cookie_name = "imixs.office.navigation";
-			 document.cookie = cookie_name+"="+page+";path=#{facesContext.externalContext.requestContextPath};";
+			var cookie_name = "imixs.office.navigation";
+			document.cookie = cookie_name
+					+ "="
+					+ page
+					+ ";path=#{facesContext.externalContext.requestContextPath};";
 		}
 
 		/*]]>*/
@@ -93,23 +114,29 @@
 <h:body>
 	<f:view locale="#{userController.locale}">
 
-		<div id="imixs-container">
+		<div id="header">
 			<div id="imixs-header">
 				<div id="imixs-servicenav">
 					<ui:insert name="servicenav">
 						<ui:include src="servicenav.xhtml" />
 					</ui:insert>
 				</div>
+				<div id="imixs-branding-text">#{app.application_title}</div>
 
-				<div id="imixs-topnav">
-					<ui:insert name="topnav">
-						<ui:include src="header.xhtml" />
-					</ui:insert>
-				</div>
+
+
 			</div>
-			<div id="imixs-wrapper">
 
-				<div id="imixs-content">
+		</div>
+		<!-- END header -->
+
+
+		<!-- content -->
+
+		<div id="container">
+
+			<div class="row">
+				<div id="imixs-content" class="col-9">
 
 					<ui:insert name="historynav">
 						<ui:include src="historynav.xhtml" />
@@ -121,44 +148,51 @@
 				</div>
 
 
+
+
+
+				<div id="imixs-navigation" class="col-3">
+					<c:if test="#{loginController.authenticated}">
+						<h:panelGroup layout="block" id="imixs-sidebar">
+
+							<ui:include src="commandbox_search.xhtml" />
+
+							<ui:include src="commandbox_processlist.xhtml" />
+
+
+
+							<c:if
+								test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
+								<ui:insert name="adminbox">
+									<ui:include src="commandbox_admin.xhtml" />
+								</ui:insert>
+							</c:if>
+						</h:panelGroup>
+					</c:if>
+
+
+				</div>
 			</div>
-			<div id="imixs-navigation">
-				<c:if test="#{loginController.authenticated}">
-					<h:panelGroup layout="block" id="imixs-sidebar">
-
-						<ui:include src="commandbox_search.xhtml" />
-
-						<ui:include src="commandbox_processlist.xhtml" />
+		</div>
 
 
+		<!-- END container -->
 
-						<c:if
-							test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
-							<ui:insert name="adminbox">
-								<ui:include src="commandbox_admin.xhtml" />
-							</ui:insert>
-						</c:if>
-					</h:panelGroup>
-				</c:if>
-
-
-			</div>
-
-
-			<div id="imixs-extra">
+		<div id="footer">
+			<div id="footer1">
 				<ui:insert name="extra">
 					<ui:include src="extra.xhtml" />
 				</ui:insert>
 			</div>
-
-			<div id="imixs-footer">
+			<div id="footer2">
 				<ui:insert name="footer">
 					<ui:include src="footer.xhtml" />
 				</ui:insert>
 			</div>
-
-
 		</div>
+		<!-- END footer -->
+
+
 	</f:view>
 </h:body>
 

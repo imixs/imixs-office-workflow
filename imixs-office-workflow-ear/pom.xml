@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>imixs-office-workflow</artifactId>
 		<groupId>com.imixs.workflow</groupId>
-		<version>2.0.8</version>
+		<version>2.0.9</version>
 	</parent>
 	<artifactId>imixs-office-workflow-ear</artifactId>
 	<packaging>ear</packaging>
@@ -20,26 +20,31 @@
 				<version>2.6</version>
 				<configuration>
 					<version>6</version>
+					<applicationName>${imixs-office.applicationname}</applicationName>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<filtering>true</filtering>
+					
 					<modules>
-						<!-- Web Gui -->
+					<!-- Web Gui -->
 						<webModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>imixs-office-workflow-web</artifactId>
 							<contextRoot>/office</contextRoot>
 						</webModule>
-						<!-- Rest API -->
+					<!-- Rest API -->
 						<webModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>imixs-office-workflow-rest</artifactId>
 							<contextRoot>/office-rest</contextRoot>
 						</webModule>
-						<!-- Mobile -->
+					<!-- Mobile 
 						<webModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>imixs-office-workflow-mobile</artifactId>
 							<contextRoot>/office-mobile</contextRoot>
 						</webModule>
-						
+-->
+						 
 						<ejbModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>
@@ -51,17 +56,19 @@
 						<JarModule>
 							<groupId>org.imixs.workflow</groupId>
 							<artifactId> imixs-workflow-core</artifactId>
+							<bundleDir>/</bundleDir>
 						</JarModule>
 						<JarModule>
 							<groupId>org.imixs.workflow</groupId>
 							<artifactId>imixs-workflow-engine </artifactId>
+							<bundleDir>/</bundleDir>
 						</JarModule>
-						<!-- -->
 						<JarModule>
 							<groupId>org.imixs.marty</groupId>
 							<artifactId>imixs-marty-ejb</artifactId>
+							<bundleDir>/</bundleDir>
 						</JarModule>
-
+						
 					</modules>
 				</configuration>
 			</plugin>
@@ -81,15 +88,15 @@
 			<artifactId>imixs-workflow-engine</artifactId>
 			<type>jar</type>
 		</dependency>
-
+	
 		<!-- Marty -->
 		<dependency>
 			<groupId>org.imixs.marty</groupId>
 			<artifactId>imixs-marty-ejb</artifactId>
 			<type>jar</type>
 		</dependency>
-
-		<!-- Office -->
+	
+		<!-- Office -->	
 		<dependency>
 			<groupId>com.imixs.workflow</groupId>
 			<artifactId>
@@ -98,15 +105,12 @@
 			<version>${project.version}</version>
 			<type>ejb</type>
 		</dependency>
-
-		<!-- -->
 		<dependency>
 			<groupId>com.imixs.workflow</groupId>
 			<artifactId>imixs-office-workflow-web</artifactId>
 			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
-
 		<dependency>
 			<groupId>com.imixs.workflow</groupId>
 			<artifactId>imixs-office-workflow-rest</artifactId>
@@ -114,20 +118,31 @@
 			<type>war</type>
 		</dependency>
 		
-		<!-- mobile -->
+		<!--  
 		<dependency>
 			<groupId>com.imixs.workflow</groupId>
 			<artifactId>imixs-office-workflow-mobile</artifactId>
 			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
-		
-
-		<!-- external -->
-		<dependency>
-			<groupId>org.apache.lucene</groupId>
-			<artifactId>lucene-core</artifactId>
-		</dependency>
-
+		-->
+ 
+		<!-- Apache Lucene -->
+	    <dependency>
+	        <groupId>org.apache.lucene</groupId>
+	        <artifactId>lucene-core</artifactId>
+	        <scope>compile</scope>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.apache.lucene</groupId>
+	        <artifactId>lucene-analyzers-common</artifactId>
+	        <scope>compile</scope>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.apache.lucene</groupId>
+	        <artifactId>lucene-queryparser</artifactId>
+	        <scope>compile</scope>
+	    </dependency>
+   
 	</dependencies>
 </project>

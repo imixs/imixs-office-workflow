@@ -11,6 +11,8 @@
 	
 		<f:view>
 			<h:form>
+				<!-- Disable browser HistoryBack navigation an multiBrowserTabs! -->
+				<marty:cacheControl/>
 
 
 				<div class="imixs-form">
@@ -54,9 +56,15 @@
 												#{message['profile.userid']}<span class="imixs-required">*</span>
 											</dt>
 											<dd>
-												<!-- lower case input -->
+												<!-- lower case input 
 												<h:inputText required="true" id="txtname_id" onblur="$(this).val($(this).val().toLowerCase());"
 													value="#{workflowController.workitem.item['txtName']}" />
+													
+													-->
+													
+												<h:inputText required="true" id="txtname_id" disabled="#{! empty workflowController.workitem.item['txtName']}"
+													value="#{workflowController.workitem.item['txtName']}" />
+											
 											</dd>
 										</dl>
 										<dl>

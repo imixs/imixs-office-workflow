@@ -5,7 +5,7 @@
 
 
 	<h:panelGrid columns="2">
-		<h:outputText value="#{message.created}: " style="font-weight:bold;" />
+		<h:outputLabel value="#{message.created}: " />
 		<h:panelGroup>
 			<h:outputText value="#{workflowController.workitem.item['$created']}">
 				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
@@ -16,7 +16,7 @@
 				value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCreator'])}" />
 
 		</h:panelGroup>
-		<h:outputText value="#{message.modified}: " style="font-weight:bold;" />
+		<h:outputLabel value="#{message.modified}: " />
 
 		<h:panelGroup>
 			<h:outputText
@@ -27,53 +27,59 @@
 			<h:outputText
 				value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCurrentEditor'])}" />
 		</h:panelGroup>
-	
 
 
-		<h:outputText value="#{message.owner}: " style="font-weight:bold;" />
+
+		<h:outputLabel value="#{message.owner}: " />
 		<h:panelGroup>
-			<ui:repeat value="#{workflowController.workitem.itemList['namowner']}" var="name">
-				<h:outputText value="#{userController.getUserName(name)}, " rendered="#{! empty name}" />
+			<ui:repeat
+				value="#{workflowController.workitem.itemList['namowner']}"
+				var="name">
+				<h:outputText value="#{userController.getUserName(name)}, "
+					rendered="#{! empty name}" />
 			</ui:repeat>
 		</h:panelGroup>
+
+
+
+		
+		<h:outputLabel value="#{message.history}:" />
+
+		<h:panelGroup>
+			<!--  new log format -->
+			<ui:fragment
+				rendered="#{!empty workflowController.workitem.item['txtworkflowhistory']}">
+				<h:dataTable var="log"
+					value="#{workflowController.workitem.itemListArray['txtworkflowhistory']}">
+					<h:column>
+						<h:outputText value="#{log[0]}">
+							<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+								pattern="#{message.dateTimePattern}" />
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<h:outputText value="#{log[1]}" />
+					</h:column>
+				</h:dataTable>
+			</ui:fragment>
+
+
+			<!--  old log format -->
+			<ui:fragment
+				rendered="#{empty workflowController.workitem.item['txtworkflowhistory']}">
+				<ui:repeat
+					value="#{workflowController.workitem.itemListArray['txtworkflowhistoryLog']}"
+					var="log">
+					<h:outputText value="#{log}" />
+					<br />
+				</ui:repeat>
+			</ui:fragment>
+
+		</h:panelGroup>
+		
+		
+		
+		
 	</h:panelGrid>
-
-
-	<!--  Workitem Version History -->
-	<!--  support of both formats - old=txtworkflowhistorylog new=txtworkflowhistory -->
-
-	<h3>
-		<h:outputText value="#{message.history}" />
-	</h3>
-
-	<!--  new log format -->
-	<ui:fragment
-		rendered="#{!empty workflowController.workitem.item['txtworkflowhistory']}">
-		<h:dataTable var="log"
-			value="#{workflowController.workitem.itemListArray['txtworkflowhistory']}">
-			<h:column>
-				<h:outputText value="#{log[0]}">
-					<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-						pattern="#{message.dateTimePattern}" />
-				</h:outputText>
-			</h:column>
-			<h:column>
-				<h:outputText value="#{log[1]}" />
-			</h:column>
-		</h:dataTable>
-	</ui:fragment>
-
-
-	<!--  old log format -->
-	<ui:fragment
-		rendered="#{empty workflowController.workitem.item['txtworkflowhistory']}">
-		<ui:repeat
-			value="#{workflowController.workitem.itemListArray['txtworkflowhistoryLog']}"
-			var="log">
-			<h:outputText value="#{log}" />
-			<br />
-		</ui:repeat>
-	</ui:fragment>
-
 </f:subview>
 

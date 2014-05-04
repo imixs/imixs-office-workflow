@@ -8,9 +8,7 @@
 	<ui:fragment rendered="#{! empty workflowController.versions}">
 
 		<div class="imixs-form-section">
-			<h3>
-				<h:outputText value="#{message.versions}:" />
-			</h3>
+				<h:outputLabel value="#{message.versions}:" />
 			<h:dataTable id="minute_versionlist_id" columns="4"
 				value="#{workflowController.versions}" rows="5" var="version">
 

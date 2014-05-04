@@ -12,7 +12,6 @@
 			// auto focus login 
 			$(document).ready(function() {
 				$("#j_username").focus();
-				
 
 				// lowercase userid....
 				$("#j_username").blur(function() {
@@ -30,18 +29,25 @@
 					<h1>#{message['login.login_title']}</h1>
 				</div>
 				<div class="imixs-body">
-					<div class="imixs-form-section">
-						<dl>
-							<dt>#{message['login.username']}</dt>
-							<dd>
-								<h:inputText id="j_username" style="width:200px;" />
-							</dd>
-							<dt>#{message['login.password']}</dt>
-							<dd>
-								<h:inputSecret id="j_password" style="width:200px;" />
-							</dd>
-						</dl>
-						<input type="submit" value="#{message['login.login']}" />
+					<div class="imixs-form-panel">
+						<div class="imixs-form-section">
+							<dl>
+								<dt>#{message['login.username']}</dt>
+								<dd>
+									<h:inputText id="j_username" style="width:200px;" />
+								</dd>
+								<dt>#{message['login.password']}</dt>
+								<dd>
+									<h:inputSecret id="j_password" style="width:200px;" />
+								</dd>
+							</dl>
+							<dl>
+								<dd>
+									<input type="submit" value="#{message['login.login']}" /> 
+								</dd>
+							</dl>
+
+						</div>
 					</div>
 				</div>
 			</div>

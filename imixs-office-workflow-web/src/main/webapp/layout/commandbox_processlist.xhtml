@@ -15,7 +15,6 @@
 		<h:form>
 
 			<h:panelGroup layout="block" styleClass="imixs-commandbox">
-
 				<!-- *** Workfow Groups *** -->
 
 				<h1>#{message['nav.processlist']}</h1>
@@ -24,17 +23,13 @@
 						var="process">
 						
 						<!-- optional: process.item['isMember'] -->
-						<h:panelGroup layout="block"  rendered="#{process.item['isTeam'] or process.item['isManager']}">
+						<h:panelGroup layout="block"  rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isTeam'] or process.item['isManager']}">
 						<li><h:commandLink action="/pages/workitems/worklist"
 								immediate="true" actionListener="#{searchController.doReset}">
 								<h:outputText value="#{process.item['txtName']}" />
 								<f:setPropertyActionListener
 									target="#{searchController.searchFilter.item['txtprocessRef']}"
 									value="#{process.item['$uniqueId']}" />
-								<f:setPropertyActionListener
-									target="#{searchController.searchFilter.item['txtSearch']}"
-									value="" />
-
 							</h:commandLink></li>
 							
 						</h:panelGroup>
