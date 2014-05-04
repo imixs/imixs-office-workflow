@@ -79,14 +79,16 @@ $(document)
 					// the content will only be loaded once
 					$(document).on('pageshow', '#worklist',
 							function(event, ui) {
-								// clear worklist content if url changed!
-								if (lastServiceURL != serviceURL) {
+								// clear worklist content and refresh content!
+							//	if (lastServiceURL != serviceURL) {
+			
 									// we empty the list to hide deprecated
 									// content!
 									$("#worklist #worklist_view").empty();
 									// now load the workItems into the page....
 									loadWorkitems(serviceURL, '#worklist');
-								}
+									
+					//			}
 								lastServiceURL = serviceURL;
 							});
 
@@ -100,7 +102,7 @@ $(document)
 									function(event, ui) {
 										// clear worklist content if url
 										// changed!
-										if (lastServiceURL != serviceURL) {
+									//	if (lastServiceURL != serviceURL) {
 											// we empty the list to hide
 											// deprecated content!
 											$("#processlist #processlist_view")
@@ -109,7 +111,7 @@ $(document)
 											// page....
 											loadWorkitems(serviceURL,
 													'#processlist');
-										}
+									//	}
 										lastServiceURL = serviceURL;
 									});
 
@@ -123,7 +125,7 @@ $(document)
 									function(event, ui) {								
 										// clear worklist content if url
 										// changed!
-										if (lastServiceURL != serviceURL) {
+									//	if (lastServiceURL != serviceURL) {
 											// we empty the list to hide
 											// deprecated content!
 											$(
@@ -134,7 +136,7 @@ $(document)
 											// page....
 											loadWorkitems(serviceURL,
 													'#workflowgroups');
-										}
+									//	}
 										lastServiceURL = serviceURL;
 									});
 
