@@ -59,19 +59,20 @@
 			<a onclick="togglePanel(this,'#history-panel');">#{message.history}</a>
 		</h:panelGroup>
 
-		<!-- 
-				<h:panelGroup rendered="#{! workflowController.newWorkitem}"
-					style="cursor:pointer;">
-					<a onclick="togglePanel(this,'#reference-panel');">#{message.references}</a>
-				</h:panelGroup>
-				 -->
+		<!--  -->
+		<h:panelGroup rendered="#{! workflowController.newWorkitem}"
+			style="cursor:pointer;">
+			<a onclick="togglePanel(this,'#reference-panel');">#{message.references}</a>
+		</h:panelGroup>
+
 
 		<h:panelGroup style="cursor:pointer;">
 			<a onclick="togglePanel(this,'#process-panel');">#{message.progress}</a>
 		</h:panelGroup>
-		
-		
-		<h:panelGroup style="cursor:pointer;" rendered="#{! empty workflowController.versions}">
+
+
+		<h:panelGroup style="cursor:pointer;"
+			rendered="#{! empty workflowController.versions}">
 			<a onclick="togglePanel(this,'#version-panel');">#{message.versions}</a>
 		</h:panelGroup>
 	</div>
@@ -85,17 +86,18 @@
 		<hr />
 		<ui:include src="/pages/workitems/workitem_history.xhtml" />
 	</div>
-	
 
-	
+
+
 
 	<!-- References -->
-	<!--  
-			<div id="reference-panel">
-				<hr />
-				<h1>References...</h1>
-			</div>
-			-->
+
+	<div id="reference-panel">
+		<hr />
+		<ui:include src="/pages/workitems/workitem_references.xhtml">
+		</ui:include>
+	</div>
+
 
 	<!-- Process Map -->
 	<div id="process-panel">
