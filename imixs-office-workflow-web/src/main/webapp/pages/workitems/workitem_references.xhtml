@@ -7,19 +7,15 @@
 
 	<div class="imixs-timeline">
 		<table id="timeline-table">
-			<tr class="imixs-timeline-year">
+			<tr>
+				<td style="width: 50%;"></td>
 				<td />
-				<!-- current year -->
-				<td style="text-align:center;"><h1><h:outputText value="#{currentDate}">
-					<f:convertDateTime timeZone="#{message.timeZone}"
-						pattern="yyyy" />
-				</h:outputText></h1></td>
-				<td />
+				<td style="width: 50%;"></td>
 			</tr>
 			<tr>
 				<td>
 					<!-- show outgoing references --> <ui:repeat var="workitemref"
-						value="#{workitemLinkController.getReferences('')}">
+						value="#{workitemLinkController.externalReferences}">
 						<ui:include src="workitem_reference_entry.xhtml">
 							<ui:param name="workitem" value="#{workitemref}" />
 							<ui:param name="entityclass" value="workitemref-out" />
@@ -29,15 +25,12 @@
 
 				</td>
 
-<!-- current month -->
-				<td style="text-align:center;"><h2><h:outputText value="#{currentDate}">
-					<f:convertDateTime timeZone="#{message.timeZone}"
-						pattern="MMM" />
-				</h:outputText></h2></td>
+
+				<td />
 
 				<td>
 					<!-- show incomming references --> <ui:repeat var="workitemref"
-						value="#{workitemLinkController.externalReferences}">
+						value="#{workitemLinkController.getReferences('')}">
 						<ui:include src="workitem_reference_entry.xhtml">
 							<ui:param name="workitem" value="#{workitemref}" />
 							<ui:param name="entityclass" value="workitemref-in" />
@@ -59,49 +52,60 @@
 		var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
 				"Sep", "Okt", "Nov", "Dec" ];
 
-		$(document).ready(
-				function() {
-					var lastDatemark = 0;
-					var lastYear = 0;
-					entries = $(".imixs-timeline-entry");
-					tabel = $("#timeline-table");
-					// in the first run we add table rows for each month.....
-					$.each(entries, function(i, val) {
-						var currentDatemark = parseInt($(this)
-								.find(".datemark").text());
-						var currentYear = parseInt($(this).find(".datemark")
-								.text().substring(0, 4));
-						var currentMonth = parseInt($(this).find(".datemark")
-								.text().substring(4, 6));
-						if (lastYear == 0)
-							lastYear = currentYear;
-						if (currentDatemark < lastDatemark) {
-							// append new table row for each new year and new month....
-							if (currentYear < lastYear) {
-								$('#timeline-table tr:last').after(
-										"<tr class='imixs-timeline-year'><td></td><td style='text-align:center;'><h1>"
-												+ currentYear
-												+ "</h1></td><td></td></tr>");
-								lastYear = currentYear;
-							}
-							$('#timeline-table tr:last').after(
-									"<tr><td></td><td style='text-align:center;'><h2>"
-											+ months[currentMonth - 1]
-											+ "</h2></td><td></td></tr>");
+		$(document)
+				.ready(
+						function() {
+							var lastDatemark = 999999;
+							var lastYear = 9999;
+							entries = $(".imixs-timeline-entry");
+							tabel = $("#timeline-table");
+							// first  we add table rows for each month.....
+							$.each(entries,function(i, val) {
+								var currentDatemark = parseInt($(
+										this).find(".datemark")
+										.text());
 
-							// now we can move this element into the new row...
-							if ($(this).hasClass("workitemref-in")) {
-								$('#timeline-table tr:last td:last').append(
-										$(this));
-							} else {
-								$('#timeline-table tr:last td:first').append(
-										$(this));
-							}
-						}
-						lastDatemark = currentDatemark;
-					});
+								var currentYear = parseInt($(
+										this).find(".datemark")
+										.text().substring(0, 4));
+								var currentMonth = parseInt($(
+										this).find(".datemark")
+										.text().substring(4, 6));
+								if (currentDatemark < lastDatemark) {
+									// append new table row for each new year and new month....
+									if (currentYear < lastYear) {
+										$('#timeline-table tr:last')
+												.after(
+														"<tr class='imixs-timeline-year'><td></td><td style='text-align:center;'><h1>"
+																+ currentYear
+																+ "</h1></td><td></td></tr>");
+										lastYear = currentYear;
+									}
+									$('#timeline-table tr:last')
+											.after(
+													"<tr><td id='" + currentDatemark +"-out'></td><td style='text-align:center;'><h2>"
+															+ months[currentMonth - 1]
+															+ "</h2></td><td id='" + currentDatemark +"-in'></td></tr>");
+								}
+								lastDatemark = currentDatemark;
+							});
 
-				});
+							// now we can sort each element into the corresponding cell...
+							$.each(entries, function(i, val) {
+								var currentDatemark = parseInt($(this).find(
+										".datemark").text());
+								var newcell;
+								if ($(this).hasClass("workitemref-in"))
+									newcell = $("#" + currentDatemark + "-in",
+											tabel);
+								else
+									newcell = $("#" + currentDatemark + "-out",
+											tabel);
+								if (newcell)
+									$(newcell).append($(this));
+							});
+
+						});
 
 		/*]]>*/
 	</script>

@@ -83,13 +83,13 @@
 		</div>
 		<!-- Tooltip -->
 		<h:panelGroup style="display:none;" class="imixs-tooltip">
-			<h:outputText value="#{message.created}: " style="font-weight:bold;" />
-			<h:outputText value="#{workitem.item['$created']}">
+			<h:outputText value="#{message.modified}: " style="font-weight:bold;" />
+			<h:outputText value="#{workitem.item['$modified']}">
 				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 					pattern="#{message.dateTimePattern}" />
 			</h:outputText>
 			<h:outputText
-				value=" #{message.by} #{userController.getUserName(workitem.item['namCreator'])}" />
+				value=" #{message.by} #{userController.getUserName(workitem.item['namcurrentEditor'])}" />
 			<hr />
 			<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
 				escape="false" />
