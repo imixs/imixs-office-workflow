@@ -5,69 +5,106 @@
 	xmlns:i="http://java.sun.com/jsf/composite/imixs"
 	xmlns:marty="http://java.sun.com/jsf/composite/marty">
 
-	<div>
-
-		<h1>Outgoing References...</h1>
-
-
-		<!-- show outgoing references -->
-
-		<ui:repeat var="workitemref"
-			value="#{workitemLinkController.getReferences('')}">
-			<div
-				style="border-bottom: 1px solid silver; margin-bottom: 5px; padding-bottom: 5px;">
-				<h:commandLink
-					action="#{workflowController.load(workitemref.item['$uniqueid'],'/pages/workitems/workitem')}">
-					<h:outputText value="#{workitemref.item['txtWorkflowSummary']}"
-						rendered="#{!empty workitemref.item['txtWorkflowSummary']}" />
-					<h:outputText value="#{suggest.item['$created']}"
-						rendered="#{empty workitemref.item['txtWorkflowSummary']}">
-						<f:convertDateTime timeZone="#{message.timeZone}"
-							pattern="#{message.dateTimePatternShort}" />
-					</h:outputText>
-				</h:commandLink>
-				<br />
-				<h:outputText style="font-weight: normal;"
-					value="#{workitemref.item['txtworkflowgroup']}: " />
-				<h:outputText value="#{workitemref.item['txtworkflowstatus']}" />
-			</div>
-
-		</ui:repeat>
+	<div class="imixs-timeline">
+		<table id="timeline-table">
+			<tr class="imixs-timeline-year">
+				<td />
+				<!-- current year -->
+				<td style="text-align:center;"><h1><h:outputText value="#{currentDate}">
+					<f:convertDateTime timeZone="#{message.timeZone}"
+						pattern="yyyy" />
+				</h:outputText></h1></td>
+				<td />
+			</tr>
+			<tr>
+				<td>
+					<!-- show outgoing references --> <ui:repeat var="workitemref"
+						value="#{workitemLinkController.getReferences('')}">
+						<ui:include src="workitem_reference_entry.xhtml">
+							<ui:param name="workitem" value="#{workitemref}" />
+							<ui:param name="entityclass" value="workitemref-out" />
+						</ui:include>
+					</ui:repeat>
 
 
+				</td>
 
-		<h1>Incomming References...</h1>
-		<!-- show incomming references -->
+<!-- current month -->
+				<td style="text-align:center;"><h2><h:outputText value="#{currentDate}">
+					<f:convertDateTime timeZone="#{message.timeZone}"
+						pattern="MMM" />
+				</h:outputText></h2></td>
+
+				<td>
+					<!-- show incomming references --> <ui:repeat var="workitemref"
+						value="#{workitemLinkController.externalReferences}">
+						<ui:include src="workitem_reference_entry.xhtml">
+							<ui:param name="workitem" value="#{workitemref}" />
+							<ui:param name="entityclass" value="workitemref-in" />
+						</ui:include>
 
 
-		<ui:repeat var="workitemref"
-			value="#{workitemLinkController.externalReferences}">
-			<div
-				style="border-bottom: 1px solid silver; margin-bottom: 5px; padding-bottom: 5px;">
-				<h:commandLink
-					action="#{workflowController.load(workitemref.item['$uniqueid'],'/pages/workitems/workitem')}">
-					<h:outputText value="#{workitemref.item['txtWorkflowSummary']}"
-						rendered="#{!empty workitemref.item['txtWorkflowSummary']}" />
-					<h:outputText value="#{suggest.item['$created']}"
-						rendered="#{empty workitemref.item['txtWorkflowSummary']}">
-						<f:convertDateTime timeZone="#{message.timeZone}"
-							pattern="#{message.dateTimePatternShort}" />
-					</h:outputText>
-				</h:commandLink>
-				<br />
-				<h:outputText style="font-weight: normal;"
-					value="#{workitemref.item['txtworkflowgroup']}: " />
-				<h:outputText value="#{workitemref.item['txtworkflowstatus']}" />
-			</div>
+					</ui:repeat>
+				</td>
+			</tr>
 
-		</ui:repeat>
-
-	
+		</table>
 
 
 	</div>
 
 
+	<script type="text/javascript">
+		/*<![CDATA[*/
+		var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
+				"Sep", "Okt", "Nov", "Dec" ];
+
+		$(document).ready(
+				function() {
+					var lastDatemark = 0;
+					var lastYear = 0;
+					entries = $(".imixs-timeline-entry");
+					tabel = $("#timeline-table");
+					// in the first run we add table rows for each month.....
+					$.each(entries, function(i, val) {
+						var currentDatemark = parseInt($(this)
+								.find(".datemark").text());
+						var currentYear = parseInt($(this).find(".datemark")
+								.text().substring(0, 4));
+						var currentMonth = parseInt($(this).find(".datemark")
+								.text().substring(4, 6));
+						if (lastYear == 0)
+							lastYear = currentYear;
+						if (currentDatemark < lastDatemark) {
+							// append new table row for each new year and new month....
+							if (currentYear < lastYear) {
+								$('#timeline-table tr:last').after(
+										"<tr class='imixs-timeline-year'><td></td><td style='text-align:center;'><h1>"
+												+ currentYear
+												+ "</h1></td><td></td></tr>");
+								lastYear = currentYear;
+							}
+							$('#timeline-table tr:last').after(
+									"<tr><td></td><td style='text-align:center;'><h2>"
+											+ months[currentMonth - 1]
+											+ "</h2></td><td></td></tr>");
+
+							// now we can move this element into the new row...
+							if ($(this).hasClass("workitemref-in")) {
+								$('#timeline-table tr:last td:last').append(
+										$(this));
+							} else {
+								$('#timeline-table tr:last td:first').append(
+										$(this));
+							}
+						}
+						lastDatemark = currentDatemark;
+					});
+
+				});
+
+		/*]]>*/
+	</script>
 
 </f:subview>
 

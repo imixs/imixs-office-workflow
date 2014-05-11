@@ -82,8 +82,8 @@
 
 	<div style="clear: left;" />
 	<!-- Workflow History -->
-	<div id="history-panel">
-		<hr />
+	<div id="history-panel" style="display:none;">
+	
 		<ui:include src="/pages/workitems/workitem_history.xhtml" />
 	</div>
 
@@ -92,16 +92,16 @@
 
 	<!-- References -->
 
-	<div id="reference-panel">
-		<hr />
+	<div id="reference-panel" style="display:none;">
+		
 		<ui:include src="/pages/workitems/workitem_references.xhtml">
 		</ui:include>
 	</div>
 
 
 	<!-- Process Map -->
-	<div id="process-panel">
-		<hr />
+	<div id="process-panel" style="display:none;">
+		
 		<ui:include src="/pages/workitems/workitem_processmap.xhtml">
 			<ui:param name="workflowgroup"
 				value="#{workflowController.workitem.item['txtWorkflowGroup']}" />
@@ -114,8 +114,8 @@
 
 
 	<!-- Workflow Versions -->
-	<div id="version-panel">
-		<hr />
+	<div id="version-panel" style="display:none;">
+		
 		<ui:include src="/pages/workitems/workitem_versions.xhtml" />
 	</div>
 
@@ -127,17 +127,8 @@
 		/*<![CDATA[*/
 
 		$(document).ready(function() {
-
-			$('#history-panel').hide();
-			$('#version-panel').hide();
-			$('#process-panel').hide();
-			$('#reference-panel').hide();
-
 			$('.imixs-subnav a').button({
-				icons : {
-					secondary : "ui-icon-plus",
-
-				},
+				icons : {secondary : "ui-icon-plus"},
 				text : true
 			});
 		});
@@ -145,23 +136,16 @@
 		// change toggle state of a header panel
 		function togglePanel(buttonid, panelid) {
 			$(panelid).toggle();
-
 			if ($(panelid).is(":hidden")) {
 				// do this
 				$(buttonid).button({
-					icons : {
-						secondary : "ui-icon-plus"
-					}
+					icons : { secondary : "ui-icon-plus"}
 				}).removeClass('active');
 			} else {
 				$(buttonid).button({
-					icons : {
-						secondary : "ui-icon-minus"
-					}
+					icons : {secondary : "ui-icon-minus"}
 				}).addClass('active');
-
 			}
-
 		}
 
 		/*]]>*/

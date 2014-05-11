@@ -1,0 +1,101 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+
+
+
+	<div class="imixs-timeline-entry #{entityclass}">
+		<!-- date marker -->
+		<h:outputText style="display:none;" class="datemark"
+			value="#{workitem.item['$created']}">
+			<f:convertDateTime timeZone="#{message.timeZone}" pattern="yyyyMM" />
+		</h:outputText>
+
+		<div title=" ">
+			<p class="imixs-timeline-entry-date">
+				<h:outputText value="#{workitem.item['$created']}">
+					<f:convertDateTime timeZone="#{message.timeZone}"
+						pattern="#{message.dateTimePattern}" />
+				</h:outputText>
+			</p>
+			<hr />
+
+			<!-- *** Image *** -->
+			<h:panelGroup layout="block" styleClass="image-block">
+				<h:commandLink
+					action="#{workflowController.load(workitem.item['$uniqueid'],'/pages/workitems/workitem')}">
+					<h:graphicImage
+						rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
+						url="#{workitem.item['txtWorkflowImageURL']}"
+						style="max-height: 24px; margin: 4px;"></h:graphicImage>
+
+					<h:graphicImage
+						rendered="#{empty workitem.item['txtWorkflowImageURL']}"
+						value="/layout/icons/vwicn070.png"
+						style="max-height: 24px; margin: 4px;"></h:graphicImage>
+				</h:commandLink>
+
+
+			</h:panelGroup>
+
+
+			<!-- *** Standard Info *** -->
+			<div class="content-block">
+				<h:panelGroup>
+
+
+					<h:commandLink
+						action="#{workflowController.load(workitem.item['$uniqueid'],'/pages/workitems/workitem')}">
+						<!-- summary empty ? -->
+						<h:panelGroup
+							rendered="#{empty workitem.item['txtWorkflowSummary']}">
+							<h:outputText value="#{workitem.item['$modified']}"
+								style="font-weight: bold;">
+								<f:convertDateTime timeZone="#{message.timeZone}"
+									pattern="#{message.dateTimePattern}" />
+							</h:outputText>
+							<h:outputText value=" #{workitem.item['_subject']}"
+								style="font-weight: bold;" />
+						</h:panelGroup>
+						<h:outputText style="font-weight: bold;" escape="false"
+							value="#{workitem.item['txtWorkflowSummary']}" />
+					</h:commandLink>
+				</h:panelGroup>
+
+				<br />
+				<!-- Status -->
+				<h:outputText value="#{workitem.item['txtworkflowgroup']}: " />
+				<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
+				<h:outputText value=" (#{workitem.item['txtProcessName']})" />
+
+
+
+
+
+			</div>
+			<!-- clear floating problem from sidebar in ff and chrome.  -->
+			<div style="clear: left;" />
+
+		</div>
+		<!-- Tooltip -->
+		<h:panelGroup style="display:none;" class="imixs-tooltip">
+			<h:outputText value="#{message.created}: " style="font-weight:bold;" />
+			<h:outputText value="#{workitem.item['$created']}">
+				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+					pattern="#{message.dateTimePattern}" />
+			</h:outputText>
+			<h:outputText
+				value=" #{message.by} #{userController.getUserName(workitem.item['namCreator'])}" />
+			<hr />
+			<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
+				escape="false" />
+		</h:panelGroup>
+
+	</div>
+
+</f:subview>
+
