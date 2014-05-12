@@ -18,38 +18,6 @@
 				<marty:workitemLink workitem="#{workflowController.workitem}"
 					filter="" />
 			</dd>
-
-
-
-
-			<!-- show incomming references -->
-
-			<dt style="clear: left;">
-				<h:outputText value="#{message['form.reference.incomming']}" />
-			</dt>
-			<dd>
-				<ui:repeat var="workitemref"
-					value="#{workitemLinkController.externalReferences}">
-					<div
-						style="border-bottom: 1px solid silver; margin-bottom: 5px; padding-bottom: 5px;">
-						<h:commandLink
-							action="#{workflowController.load(workitemref.item['$uniqueid'],'/pages/workitems/workitem')}">
-							<h:outputText value="#{workitemref.item['txtWorkflowSummary']}"
-								rendered="#{!empty workitemref.item['txtWorkflowSummary']}" />
-							<h:outputText value="#{suggest.item['$created']}"
-								rendered="#{empty workitemref.item['txtWorkflowSummary']}">
-								<f:convertDateTime timeZone="#{message.timeZone}"
-									pattern="#{message.dateTimePatternShort}" />
-							</h:outputText>
-						</h:commandLink>
-						<br />
-						<h:outputText style="font-weight: normal;"
-							value="#{workitemref.item['txtworkflowgroup']}: " />
-						<h:outputText value="#{workitemref.item['txtworkflowstatus']}" />
-					</div>
-
-				</ui:repeat>
-			</dd>
 		</dl>
 		<div style="clear: left;" />
 	</h:panelGroup>

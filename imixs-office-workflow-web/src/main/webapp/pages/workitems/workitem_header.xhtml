@@ -60,7 +60,7 @@
 		</h:panelGroup>
 
 		<!--  -->
-		<h:panelGroup rendered="#{! workflowController.newWorkitem}"
+		<h:panelGroup rendered="#{! workflowController.newWorkitem and (! empty workitemLinkController.externalReferences or ! empty workitemLinkController.getReferences(''))}"
 			style="cursor:pointer;">
 			<a onclick="togglePanel(this,'#reference-panel');">#{message.references}</a>
 		</h:panelGroup>
