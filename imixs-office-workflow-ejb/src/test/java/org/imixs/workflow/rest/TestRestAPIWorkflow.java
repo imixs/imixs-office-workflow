@@ -1,4 +1,4 @@
-package org.imixs.workflow.test.rest;
+package org.imixs.workflow.rest;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.services.rest.RestClient;

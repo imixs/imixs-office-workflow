@@ -1,4 +1,4 @@
-package org.imixs.workflow.test.rest;
+package org.imixs.workflow.rest;
 
 import java.util.Map;
 import java.util.Random;
