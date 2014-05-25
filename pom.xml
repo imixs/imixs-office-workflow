@@ -24,7 +24,14 @@
 		<org.imixs.marty.version>2.1.0</org.imixs.marty.version>
 		<lucene.version>4.5.1</lucene.version>
 		<custom.webResources>src/main/webapp</custom.webResources>
-		<imixs-office.applicationname>imixs-office-workflow</imixs-office.applicationname>		
+		<imixs-office.applicationname>imixs-office-workflow</imixs-office.applicationname>
+		
+		
+		<!-- Environment Settings -->
+		<imixs-office.contextroot>/office</imixs-office.contextroot>
+		<imixs-office.realm>imixsrealm</imixs-office.realm>
+		<imixs-office.jta-data-source>jdbc/imixs_office</imixs-office.jta-data-source>
+		<imixs-office.IndexDir>office-workflow-index</imixs-office.IndexDir>
 	</properties>
 
 
@@ -73,9 +80,6 @@
 	</build>
 	<dependencyManagement>
 		<dependencies>
-
-
-
 			<!-- Imixs Workflow -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>

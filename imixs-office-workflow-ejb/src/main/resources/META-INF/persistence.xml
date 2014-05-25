@@ -7,7 +7,7 @@
         <!-- eclipselink -->
         <persistence-unit name="org.imixs.workflow.jee.jpa" transaction-type="JTA">     
                 <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>    
-                <jta-data-source>jdbc/imixs_office</jta-data-source>
+                <jta-data-source>${imixs-office.jta-data-source}</jta-data-source>
                 <jar-file>imixs-workflow-engine-${org.imixs.workflow.version}.jar</jar-file>
                 <jar-file>imixs-marty-ejb-${org.imixs.marty.version}.jar</jar-file>
                 <properties>

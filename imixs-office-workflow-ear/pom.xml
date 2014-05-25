@@ -29,22 +29,20 @@
 						<webModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>imixs-office-workflow-web</artifactId>
-							<contextRoot>/office</contextRoot>
+							<contextRoot>${imixs-office.contextroot}</contextRoot>
 						</webModule>
 					<!-- Rest API -->
 						<webModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>imixs-office-workflow-rest</artifactId>
-							<contextRoot>/office-rest</contextRoot>
+							<contextRoot>${imixs-office.contextroot}-rest</contextRoot>
 						</webModule>
-					<!-- Mobile -->
+						<!-- Mobile -->
 						<webModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>imixs-office-workflow-mobile</artifactId>
-							<contextRoot>/office-mobile</contextRoot>
+							<contextRoot>${imixs-office.contextroot}-mobile</contextRoot>
 						</webModule>
-
-						 
 						<ejbModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>
@@ -118,7 +116,7 @@
 			<type>war</type>
 		</dependency>
 		
-		<!--  -->
+		<!-- Mobile -->
 		<dependency>
 			<groupId>com.imixs.workflow</groupId>
 			<artifactId>imixs-office-workflow-mobile</artifactId>
