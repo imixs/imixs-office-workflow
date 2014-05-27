@@ -5,9 +5,9 @@
 	version="2.1">
 
 	<managed-bean>
-	    <managed-bean-name>currentDate</managed-bean-name>
-	    <managed-bean-class>java.util.Date</managed-bean-class>
-	    <managed-bean-scope>request</managed-bean-scope>
+		<managed-bean-name>currentDate</managed-bean-name>
+		<managed-bean-class>java.util.Date</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 
 	<managed-bean>
@@ -163,19 +163,25 @@
 		<navigation-case>
 			<from-outcome>home</from-outcome>
 			<to-view-id>/pages/home.xhtml</to-view-id>
-			<redirect/>
+			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>notes</from-outcome>
 			<to-view-id>/pages/notes.xhtml</to-view-id>
 		</navigation-case>
 		
-		
-	 <navigation-case>
-        <from-outcome>nologin</from-outcome>
-        <to-view-id>/loginerror.xhtml</to-view-id>
-        <redirect />
-    </navigation-case>
+		<!-- reload workitem -->
+		<navigation-case>
+			<from-outcome>workitem</from-outcome>
+			<to-view-id>/pages/workitems/workitem.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>nologin</from-outcome>
+			<to-view-id>/loginerror.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
 	</navigation-rule>
 
 
