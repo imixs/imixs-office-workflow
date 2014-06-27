@@ -42,6 +42,7 @@
 			<id>wildfly</id>
 			<properties>
 				<custom.webResources>src/main/webapp_wildfly</custom.webResources>
+				<custom.unpackTypes>war</custom.unpackTypes>
 			</properties>
 		</profile>
 	</profiles>
@@ -76,6 +77,18 @@
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
+
+			<!-- WildFly Deployment
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>1.0.2.Final</version>
+                <configuration>
+                	<unpack>true</unpack>
+                </configuration>
+            </plugin>
+             -->
+        
 		</plugins>
 	</build>
 	<dependencyManagement>

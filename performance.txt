@@ -1,0 +1,45 @@
+
+
+
+org.imixs.workflow.jee.ejb.EntityService - FINE:
+
+findAllEntities - 
+
+Query=SELECT wi FROM Entity as wi JOIN wi.textItems as t
+ JOIN wi.textItems as s WHERE  wi.type='workitem' AND  t.itemName = 'namowner' 
+ and t.itemValue = 'rsoika' AND s.itemName = '$workitemid'
+ ORDER BY wi.modified desc
+
+
+
+
+GlassFish XADataSource
+===============================
+
+getResultList in 9 ms
+implode ResultList in 9 ms
+
+
+WildFly XADataSource
+===============================
+
+getResultList in 10 ms
+implode ResultList in 8 ms
+
+
+
+WildFly DataSource
+===============================
+
+getResultList in 16 ms
+implode ResultList in 8 ms
+
+
+
+
+
+
+Driver: com.mysql.jdbc.Driver
+javax.sql.DataSource=com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+
+javax.sql.ConnectionPoolDataSource=com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource
