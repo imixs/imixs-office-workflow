@@ -26,7 +26,7 @@
 
 			<!-- *** Image *** -->
 			<h:panelGroup layout="block" styleClass="image-block">
-				<h:commandLink
+				<h:commandLink immediate="true"
 					action="#{workflowController.load(workitem.item['$uniqueid'],'/pages/workitems/workitem')}">
 					<h:graphicImage
 						rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
@@ -48,7 +48,7 @@
 				<h:panelGroup>
 
 
-					<h:commandLink
+					<h:commandLink  immediate="true"
 						action="#{workflowController.load(workitem.item['$uniqueid'],'/pages/workitems/workitem')}">
 						<!-- summary empty ? -->
 						<h:panelGroup
