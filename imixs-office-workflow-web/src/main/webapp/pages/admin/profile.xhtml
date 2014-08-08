@@ -8,11 +8,11 @@
 	template="/layout/template.xhtml">
 
 	<ui:define name="content">
-	
+
 		<f:view>
 			<h:form>
 				<!-- Disable browser HistoryBack navigation an multiBrowserTabs! -->
-				<marty:cacheControl/>
+				<marty:cacheControl />
 
 
 				<div class="imixs-form">
@@ -61,10 +61,11 @@
 													value="#{workflowController.workitem.item['txtName']}" />
 													
 													-->
-													
-												<h:inputText required="true" id="txtname_id" disabled="#{! empty workflowController.workitem.item['txtName']}"
+
+												<h:inputText required="true" id="txtname_id"
+													disabled="#{! empty workflowController.workitem.item['txtName']}"
 													value="#{workflowController.workitem.item['txtName']}" />
-											
+
 											</dd>
 										</dl>
 										<dl>
@@ -79,8 +80,7 @@
 									</h:panelGroup>
 									<dl>
 										<dt>
-											<h:outputLabel
-												value="#{message['profile.displayname']}">
+											<h:outputLabel value="#{message['profile.displayname']}">
 											</h:outputLabel>
 											<span class="imixs-required">*</span>
 										</dt>
@@ -114,7 +114,8 @@
 									<dl>
 										<dt>#{message['profile.deputy']}</dt>
 										<dd>
-											<marty:userInput value="#{workflowController.workitem.item['namDeputy']}"
+											<marty:userInput
+												value="#{workflowController.workitem.item['namDeputy']}"
 												editmode="true" />
 
 										</dd>
@@ -223,6 +224,27 @@
 					</div>
 					<div class="imixs-footer">
 						<i:imixsWorkflowActions workflowController="#{workflowController}" />
+
+
+
+						<!-- Delete/Restore -->
+						<h:panelGroup
+							rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
+							<!-- *** Soft Delete  *** -->
+							<h:commandButton action="profilelist" immediate="true"
+								onclick="if (!confirm('#{message.help_delete}')) return false;"
+								rendered="#{workflowController.workitem.item['type'] eq 'profile'}"
+								actionListener="#{workflowController.softDeleteWorkitem(true)}"
+								value="#{message.delete}">
+							</h:commandButton>
+							<!-- *** Restore Soft Delete  *** -->
+							<h:commandButton immediate="true"
+								rendered="#{workflowController.workitem.item['type'] eq 'profiledeleted'}"
+								actionListener="#{workflowController.doRestoreFromDeletions}"
+								value="#{message.restore}">
+							</h:commandButton>
+						</h:panelGroup>
+
 
 						<h:commandButton value="#{message.close}" immediate="true"
 							action="profilelist" />
