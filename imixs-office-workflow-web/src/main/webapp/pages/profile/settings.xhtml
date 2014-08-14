@@ -9,7 +9,27 @@
 
 	<ui:define name="content">
 
+
 		<f:view>
+			<script type="text/javascript">
+				/*<![CDATA[*/
+				function passwordCheck() {
+					var dbEnabled=#{setupController.workitem.item['keyEnableUserDB']};
+					if (!dbEnabled)
+						return true;
+					var password1=$(':password[id$=password1]').val();
+					var password2=$(':password[id$=password2]').val();
+					if (password1!=password2) {
+						alert("#{message['profile.passworderror']}");
+						return false;
+					} else
+						return true;
+				}
+
+				/*]]>*/
+			</script>
+
+
 			<h:form>
 
 
@@ -58,7 +78,7 @@
 											value="#{workflowController.workitem.item['namDeputy']}"
 											editmode="true" />
 
-									</dd> 
+									</dd>
 								</dl>
 								<dl>
 									<dt>
@@ -75,12 +95,41 @@
 
 
 							</div>
+
+
+
+
+							<!-- set new password -->
+							<h:panelGroup layout="block" styleClass="imixs-form-section-2"
+								rendered="#{setupController.workitem.item['keyEnableUserDB']}">
+								<dl>
+									<dt>
+										<h:outputLabel value="#{message['profile.newpassword']}" />
+									</dt>
+									<dd>
+										<h:inputSecret id="password1"
+											value="#{workflowController.workitem.item['txtpassword']}" />
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<h:outputLabel value="#{message['profile.repeatpassword']}" />
+									</dt>
+									<dd>
+										<h:inputSecret id="password2"
+											value="#{workflowController.workitem.item['txtpassword2']}" />
+									</dd>
+								</dl>
+
+							</h:panelGroup>
+
 						</div>
 						<div class="imixs-footer">
 
 							<!-- workflow save command -->
 							<h:commandButton action="#{workflowController.process()}"
-								class="imixs-workflow-action" value="#{message.save}">
+								onclick="return passwordCheck();" class="imixs-workflow-action"
+								value="#{message.save}">
 								<f:setPropertyActionListener
 									target="#{workflowController.workitem.item['$ActivityID']}"
 									value="10" />
