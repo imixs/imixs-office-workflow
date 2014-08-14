@@ -21,14 +21,14 @@
 			<h:panelGroup
 				rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
 				<!-- *** Soft Delete  *** -->
-				<h:commandButton action="home" immediate="true"
+				<h:commandButton action="home" immediate="true" styleClass="imixs-delete-action"
 					onclick="if (!confirm('#{message.help_delete}')) return false;"
 					rendered="#{workflowController.workitem.item['type'] eq 'workitem' or workflowController.workitem.item['type'] eq 'workitemarchive'}"
 					actionListener="#{workflowController.doSoftDeleteWorkitem}"
 					value="#{message.delete}">
 				</h:commandButton>
 				<!-- *** Restore Soft Delete  *** -->
-				<h:commandButton immediate="true"
+				<h:commandButton immediate="true" styleClass="imixs-delete-action"
 					rendered="#{workflowController.workitem.item['type'] eq 'workitemdeleted' or workflowController.workitem.item['type'] eq 'workitemarchivedeleted'}"
 					actionListener="#{workflowController.doRestoreFromDeletions}"
 					value="#{message.restore}">
@@ -52,13 +52,13 @@
 
 	<!-- *** Close  *** -->
 	<h:commandButton immediate="true" action="home"
-		value="#{message.close}"
+		value="#{message.close}" styleClass="imixs-close-action"
 		actionListener="#{historyController.closeCurrentWorkitem}">
 	</h:commandButton>
 
 
 	<!-- ** Print ** -->
-	<input type="button" value="#{message.print}"
+	<input type="button" value="#{message.print}"  class="imixs-print-action""
 		onclick="openPrintWindow();" />
 	<script type="text/javascript">
 		function openPrintWindow() {

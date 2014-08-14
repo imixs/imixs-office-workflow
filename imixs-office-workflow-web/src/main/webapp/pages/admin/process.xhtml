@@ -195,21 +195,21 @@
 						<h:panelGroup
 							rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
 							<!-- *** Soft Delete  *** -->
-							<h:commandButton action="processlist" immediate="true"
+							<h:commandButton action="processlist" immediate="true" styleClass="imixs-delete-action"
 								onclick="if (!confirm('#{message.help_delete}')) return false;"
 								rendered="#{workflowController.workitem.item['type'] eq 'process'}"
 								actionListener="#{workflowController.softDeleteWorkitem(true)}"
 								value="#{message.delete}">
 							</h:commandButton>
 							<!-- *** Restore Soft Delete  *** -->
-							<h:commandButton immediate="true"
+							<h:commandButton immediate="true" styleClass="imixs-delete-action"
 								rendered="#{workflowController.workitem.item['type'] eq 'processdeleted'}"
 								actionListener="#{workflowController.doRestoreFromDeletions}"
 								value="#{message.restore}">
 							</h:commandButton>
 						</h:panelGroup>
 
-						<h:commandButton immediate="true" value="#{message.close}"
+						<h:commandButton immediate="true" value="#{message.close}" styleClass="imixs-close-action"
 							action="processlist" />
 
 					</div>
