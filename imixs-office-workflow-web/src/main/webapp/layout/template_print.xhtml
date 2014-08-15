@@ -9,7 +9,7 @@
 	xmlns:i="http://java.sun.com/jsf/composite/imixs">
 
 <h:head>
-
+	<meta name="viewport" content="width=device-width" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta content="text/javascript" http-equiv="Content-Script-Type" />
 	<meta content="text/css" http-equiv="Content-Style-Type" />
@@ -18,7 +18,7 @@
 
 
 	<title>#{app.application_title}</title>
-	
+
 	<!-- creatix-css -->
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/creatix-basic.css"
@@ -30,45 +30,43 @@
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/creatix-forms.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
-	
-	
+
+
 	<!-- #### Customize TinyMCE  Start -->
+	<!--  tinymce disable can be set back to true if new defaulttinymce is supported -->
 	<i:imixsHeader disablecss="false" disabletinymce="true"
 		dateformat="#{message.datePatternShort}"
 		theme="#{facesContext.externalContext.requestContextPath}/layout/themes/#{app.application_theme}" />
 	<!-- #### Customize TinyMCE  END -->
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-	<i:imixsHeader disablecss="false"
-		dateformat="#{message.datePatternShort}"
-		xxtheme="#{facesContext.externalContext.requestContextPath}/layout/themes/bootstrap/jquery-ui-1.10.0.custom.css" />
-	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/basic.css"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
+
 
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
 	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/office.css"
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-print.css"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/migration-office-forms.css"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+
+
+
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
-
-
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom-print.css"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
 
 	<!-- IE 7 support -->
 	<h:outputText
@@ -92,29 +90,22 @@
 	<script type="text/javascript"
 		src="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.js"></script>
 
-
-	<!-- Load DatatablePlugin  -->
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/layout/js/jquery.dataTables.min.js"></script>
-
-
 	<ui:insert name="header">
-
-
-
 	</ui:insert>
 
 	<script type="text/javascript">
 		/*<![CDATA[*/
 		$(document).ready(function() {
-			// jQuery code to disable all input elements in read modus 
-			$(".imixs-body :input").attr("disabled", true);
+			// tiny mce read layout
+			$(".imixs-body :input").each(function(index) {
+				var content = $(this).val();
+				$(this).after(content).hide();
+			});
 
 			// autoprint 
 			window.print();
 		}
 
-		
 		);
 
 		/*]]>*/
@@ -130,11 +121,6 @@
 
 		<div id="imixs-container">
 			<div id="imixs-header">
-				<div id="imixs-servicenav">
-					<ui:insert name="servicenav">
-						<ui:include src="servicenav.xhtml" />
-					</ui:insert>
-				</div>
 
 				<div id="imixs-topnav">
 					<ui:insert name="topnav">
@@ -183,17 +169,21 @@
 			 -->
 
 
-			<div id="imixs-extra">
-				<ui:insert name="extra">
-					<ui:include src="extra.xhtml" />
-				</ui:insert>
-			</div>
+			<!-- END container -->
 
-			<div id="imixs-footer">
-				<ui:insert name="footer">
-					<ui:include src="footer.xhtml" />
-				</ui:insert>
+			<div id="footer">
+				<div id="footer1">
+					<ui:insert name="extra">
+						<ui:include src="extra.xhtml" />
+					</ui:insert>
+				</div>
+				<div id="footer2">
+					<ui:insert name="footer">
+						<ui:include src="footer.xhtml" />
+					</ui:insert>
+				</div>
 			</div>
+			<!-- END footer -->
 
 
 		</div>
