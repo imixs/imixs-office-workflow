@@ -67,7 +67,7 @@
 							<br />
 
 							<!-- comment function (toggle feature) -->
-							<a onclick="$(this).next().toggle();" style="cursor: pointer;">[#{message.comment}]</a>
+							<a onclick="$(this).next().toggle();" class="imixs-action-dms-comment" style="cursor: pointer;">[#{message.comment}]</a>
 							<div class="dms-comment-panel" style="margin: 4px;">
 								<h:inputTextarea value="#{attachment.item['txtComment']}"
 									style="width: 100%; height: 50px;" />
@@ -76,7 +76,7 @@
 							<!-- Delete function -->
 							<f:ajax render=":#{dmsListComponent.clientId}"
 								onevent="hideComments">
-								<h:commandLink
+								<h:commandLink  styleClass="imixs-action-dms-remove"
 									actionListener="#{dmsController.removeFile(attachment.item['txtName'])}"
 									immediate="true">
 									<h:outputText value="[#{message.remove}]" />
