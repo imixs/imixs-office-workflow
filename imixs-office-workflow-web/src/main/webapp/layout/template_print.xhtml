@@ -93,15 +93,41 @@
 	<ui:insert name="header">
 	</ui:insert>
 
-	<script type="text/javascript">
+		<script type="text/javascript">
 		/*<![CDATA[*/
 		$(document).ready(function() {
-			// tiny mce read layout
-			$(".imixs-body :input").each(function(index) {
-				var content = $(this).val();
-				$(this).after("<span style=\"white-space: pre-line;\">"+content+"</span>").hide();
+			
+			/* This script replaces input fields with their values
+			 * we skip radio inputs and checkboxes.
+			 * if a input field is inside a parent element with the class named '.imixs-custom-print' 
+			 * then the input will be printed as it is  
+			 * 
+			 */
+			$(".imixs-body input[type=text], .imixs-body textarea").each(function(index) {
+				var hauptding=$(this).closest( ".imixs-custom-print" );
+				if (hauptding.length==0) {
+					var content = $(this).val();
+					$(this).after("<span style=\"white-space: pre-line;\">"+content+"</span>").hide();		
+				}
 			});
 
+			$(".imixs-body input[type=radio]").each(function(index) {
+				var content = $(this).val();
+				var label= $(this).next().next().text();
+			});
+			
+			
+			$(".imixs-body select").each(function(index) {
+				$( "option:selected",this ).each(function() {
+				    var content=$( this ).text();				    
+			    	$(this).parent().after("<span style=\"white-space: pre-line;\">"+content+"</span>");
+				  });
+				$(this).hide();
+			});
+				
+			// hide buttons
+			$(".imixs-body input[type=submit], .imixs-body input[type=rest], .imixs-body input[type=button], .imixs-body :button").hide();
+			
 			// autoprint 
 			window.print();
 		}
