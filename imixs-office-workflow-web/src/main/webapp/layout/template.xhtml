@@ -102,6 +102,18 @@
 		$(document).ready(function() {
 			layoutOfficeEditor();
 
+			// waiting feature
+			$body = $("body");
+			// ajax
+			$(document).on({
+			    ajaxStart: function() { $body.addClass("loading");    },
+			     ajaxStop: function() { $body.removeClass("loading"); }    
+			});
+			// form submit
+			$('form').on('submit', function(e) { 
+			   $body.addClass("loading");
+			});
+		
 		});
 
 		// customize tiynmce with additional css file
