@@ -33,6 +33,8 @@
 		<imixs-office.realm>imixsrealm</imixs-office.realm>
 		<imixs-office.jta-data-source>jdbc/imixs_office</imixs-office.jta-data-source>
 		<imixs-office.IndexDir>office-workflow-index</imixs-office.IndexDir>
+		<!-- jndi Mail res-ref name -->		
+		<imixs-mail-res-ref-name>mail/org.imixs.workflow.mail</imixs-mail-res-ref-name>
 	</properties>
 
 
@@ -44,7 +46,13 @@
 			<properties>
 				<custom.webResources>src/main/webapp_wildfly</custom.webResources>
 				<custom.unpackTypes>war</custom.unpackTypes>
+
+				<!-- jndi Mail res-ref name -->		
+				<imixs-mail-res-ref-name>java:/mail/org.imixs.workflow.mail</imixs-mail-res-ref-name>
+
 			</properties>
+
+
 		</profile>
 	</profiles>
 
