@@ -7,6 +7,61 @@
 	<packaging>pom</packaging>
 	<name>Imixs Office Workflow</name>
 	<description>The Imixs Workflow Office Suite </description>
+
+
+
+
+
+	<developers>
+		<developer>
+			<id>rsoika</id>
+			<name>Ralph Soika</name>
+			<email>ralph.soika@imixs.com</email>
+			<url>http://blog.imixs.org/</url>
+			<organization>Imixs Software Solutions GmbH</organization>
+			<organizationUrl>http://www.imixs.com</organizationUrl>
+			<roles>
+				<role>developer</role>
+				<role>testing</role>
+			</roles>
+			<timezone>2</timezone>
+		</developer>
+
+		<developer>
+			<id>gaheinle</id>
+			<name>Gaby Heinle</name>
+			<email />
+			<url />
+			<organization>Imixs Software Solutions GmbH</organization>
+			<organizationUrl>http://www.imixs.com</organizationUrl>
+			<roles>
+				<role>developer</role>
+				<role>testing</role>
+			</roles>
+			<timezone>2</timezone>
+		</developer>
+	</developers>
+	<issueManagement>
+		<url>https://github.com/imixs/imixs-office-workflow/issues</url>
+	</issueManagement>
+	<scm>
+		<connection>scm:git:https://github.com/imixs-office-workflow.git</connection>
+		<developerConnection>scm:git:https://github.com/imixs-office-workflow.git</developerConnection>
+		<url>https://github.com/imixs/imixs-office-workflow/</url>
+	</scm>
+
+
+	<licenses>
+		<license>
+			<name>GNU General Public License</name>
+			<url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>All the results of the imixs workflow project are subject to the GPL licensing model. </comments>
+		</license>
+	</licenses>
+
+
+
 	<modules>
 		<module>imixs-office-workflow-ejb</module>
 		<module>imixs-office-workflow-web</module>
@@ -25,14 +80,14 @@
 		<lucene.version>4.5.1</lucene.version>
 		<custom.webResources>src/main/webapp</custom.webResources>
 		<imixs-office.applicationname>imixs-office-workflow</imixs-office.applicationname>
-		
-		
+
+
 		<!-- Environment Settings -->
 		<imixs-office.contextroot>/office</imixs-office.contextroot>
 		<imixs-office.realm>imixsrealm</imixs-office.realm>
 		<imixs-office.jta-data-source>jdbc/imixs_office</imixs-office.jta-data-source>
 		<imixs-office.IndexDir>office-workflow-index</imixs-office.IndexDir>
-		<!-- jndi Mail res-ref name -->		
+		<!-- jndi Mail res-ref name -->
 		<imixs-mail-res-ref-name>mail/org.imixs.workflow.mail</imixs-mail-res-ref-name>
 	</properties>
 
@@ -45,13 +100,14 @@
 			<properties>
 				<custom.webResources>src/main/webapp_wildfly</custom.webResources>
 				<custom.unpackTypes>war</custom.unpackTypes>
-				<!-- jndi Mail res-ref name -->		
+				<!-- jndi Mail res-ref name -->
 				<imixs-mail-res-ref-name>java:/mail/org.imixs.workflow.mail</imixs-mail-res-ref-name>
 			</properties>
 
 
 		</profile>
 	</profiles>
+
 
 
 
@@ -84,17 +140,11 @@
 				</configuration>
 			</plugin>
 
-			<!-- WildFly Deployment
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>1.0.2.Final</version>
-                <configuration>
-                	<unpack>true</unpack>
-                </configuration>
-            </plugin>
-             -->
-        
+			<!-- relase management -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencyManagement>
@@ -169,8 +219,13 @@
 			<version>6.0</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- JUnit Tests -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
-	<scm>
-		<url>git@github.com:imixs/imixs-office-workflow.git</url>
-	</scm>
+
 </project>
