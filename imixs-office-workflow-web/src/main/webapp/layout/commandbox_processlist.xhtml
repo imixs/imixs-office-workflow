@@ -7,40 +7,30 @@
 
 	<!-- 
 		The ProcessList provides all process for all available projects
-		
-	 
 	 -->
+	<h:panelGroup layout="block" styleClass="imixs-commandbox">
+		<!-- *** Workfow Groups *** -->
 
-	<c:if test="#{loginController.authenticated}">
-		<h:form>
+		<h1>#{message['nav.processlist']}</h1>
+		<ul>
+			<ui:repeat value="#{processController.processList}" var="process">
 
-			<h:panelGroup layout="block" styleClass="imixs-commandbox">
-				<!-- *** Workfow Groups *** -->
+				<!-- optional: process.item['isMember'] -->
+				<h:panelGroup layout="block"
+					rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isTeam'] or process.item['isManager']}">
+					<li><h:commandLink action="/pages/workitems/worklist"
+							immediate="true" actionListener="#{searchController.doReset}">
+							<h:outputText value="#{process.item['txtName']}" />
+							<f:setPropertyActionListener
+								target="#{searchController.searchFilter.item['txtprocessRef']}"
+								value="#{process.item['$uniqueId']}" />
+						</h:commandLink></li>
 
-				<h1>#{message['nav.processlist']}</h1>
-				<ul>
-					<ui:repeat value="#{processController.processList}"
-						var="process">
-						
-						<!-- optional: process.item['isMember'] -->
-						<h:panelGroup layout="block"  rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isTeam'] or process.item['isManager']}">
-						<li><h:commandLink action="/pages/workitems/worklist"
-								immediate="true" actionListener="#{searchController.doReset}">
-								<h:outputText value="#{process.item['txtName']}" />
-								<f:setPropertyActionListener
-									target="#{searchController.searchFilter.item['txtprocessRef']}"
-									value="#{process.item['$uniqueId']}" />
-							</h:commandLink></li>
-							
-						</h:panelGroup>
-					</ui:repeat>
-				</ul>
+				</h:panelGroup>
+			</ui:repeat>
+		</ul>
 
-			</h:panelGroup>
-
-
-		</h:form>
-	</c:if>
+	</h:panelGroup>
 </ui:composition>
 
 

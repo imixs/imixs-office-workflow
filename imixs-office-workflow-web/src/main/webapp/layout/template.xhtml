@@ -106,14 +106,18 @@
 			$body = $("body");
 			// ajax
 			$(document).on({
-			    ajaxStart: function() { $body.addClass("loading");    },
-			     ajaxStop: function() { $body.removeClass("loading"); }    
+				ajaxStart : function() {
+					$body.addClass("loading");
+				},
+				ajaxStop : function() {
+					$body.removeClass("loading");
+				}
 			});
 			// form submit
-			$('form').on('submit', function(e) { 
-			   $body.addClass("loading");
+			$('form').on('submit', function(e) {
+				$body.addClass("loading");
 			});
-		
+
 		});
 
 		// customize tiynmce with additional css file
@@ -193,29 +197,34 @@
 				</div>
 
 
-
-
-
 				<div id="imixs-navigation" class="col-3">
 					<c:if test="#{loginController.authenticated}">
 						<h:panelGroup layout="block" id="imixs-sidebar">
+							<h:form>
+								<ui:include src="commandbox_search.xhtml" />
 
-							<ui:include src="commandbox_search.xhtml" />
+								<ui:include src="commandbox_custom.xhtml" />
 
-							<ui:include src="commandbox_processlist.xhtml" />
+								<ui:include src="commandbox_processlist.xhtml" />
 
+								<!-- Admin Menu -->
+								<c:if
+									test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
+									<h:panelGroup layout="block" class="imixs-commandbox"
+										rendered="#{loginController.authenticated}">
+										<h1>#{message.administration}</h1>
+										<ui:insert name="adminbox_custom">
+											<ui:include src="commandbox_admin_custom.xhtml" />
+										</ui:insert>
 
-
-							<c:if
-								test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
-								<ui:insert name="adminbox">
-									<ui:include src="commandbox_admin.xhtml" />
-								</ui:insert>
-							</c:if>
+										<ui:insert name="adminbox">
+											<ui:include src="commandbox_admin.xhtml" />
+										</ui:insert>
+									</h:panelGroup>
+								</c:if>
+							</h:form>
 						</h:panelGroup>
 					</c:if>
-
-
 				</div>
 			</div>
 		</div>
@@ -236,8 +245,10 @@
 			</div>
 		</div>
 		<!-- END footer -->
-		
-		<div class="imixs-wait"><!-- empty --></div>
+
+		<div class="imixs-wait">
+			<!-- empty -->
+		</div>
 
 
 	</f:view>
