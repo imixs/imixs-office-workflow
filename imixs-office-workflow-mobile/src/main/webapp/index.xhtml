@@ -24,7 +24,7 @@
 		src="#{facesContext.externalContext.requestContextPath}/jquery/jquery-1.9.1.min.js"></script>
 
 	<!-- Load imixs sccript.js  -->
-	<script type="text/javascript" src="imixs-script-1.0.1.js"></script>
+	<script type="text/javascript" src="imixs-script-1.1.0-SNAPSHOT.js"></script>
 
 	<!-- Load imixs.js to bind the mobile client -->
 	<script type="text/javascript" src="imixs-mobile.js"></script>
@@ -45,7 +45,7 @@
 
 		function searchHelper() {
 			searchInput = $('#search-input').val();
-			serviceURL = 'search/' + searchInput + '.json';
+			serviceURL = 'search/' + searchInput + '';
 		}
 
 		/*]]>*/
@@ -76,19 +76,19 @@
 			<div data-role="navbar">
 				<ul>
 					<li><a href="worklist.html"
-						onclick="serviceURL='workflow/worklistbyowner/null.json?sortorder=2'"
+						onclick="serviceURL='workflow/worklistbyowner/null?sortorder=2'"
 						data-transition="slide" data-role="button" data-icon="edit">Meine
 							Aufgaben</a></li>
 
 					<!-- Statuslist -->
 					<li><a href="worklist.html"
-						onclick="serviceURL='workflow/worklistbycreator/null.json?sortorder=2'"
+						onclick="serviceURL='workflow/worklistbycreator/null?sortorder=2'"
 						data-transition="slide" data-role="button" data-icon="check">Meine
 							Statusliste</a></li>
 
 					<!-- personal tasks -->
 					<li><a href="worklist.html"
-						onclick="serviceURL='user/favorites.json'" data-transition="slide"
+						onclick="serviceURL='user/favorites'" data-transition="slide"
 						data-role="button" data-icon="star">Persönliche Aufgaben</a></li>
 
 
@@ -104,13 +104,13 @@
 
 				<ul>
 					<li><a href="workflowgroups.html"
-						onclick="serviceURL='process/workflowgroups.json'"
+						onclick="serviceURL='process/workflowgroups'"
 						data-transition="slide" data-role="button" data-icon="refresh">Workflows</a>
 					</li>
 
 					<!-- Process List -->
 					<li><a href="processlist.html"
-						onclick="serviceURL='process/processlist.json'"
+						onclick="serviceURL='process/processlist'"
 						data-transition="slide" data-role="button" data-icon="bars">Prozesse</a>
 
 
