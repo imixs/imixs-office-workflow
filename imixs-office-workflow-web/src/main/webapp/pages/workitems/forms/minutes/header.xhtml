@@ -8,73 +8,82 @@
 	<script type="text/javascript">
 		/*<![CDATA[*/
 
-		$(document)
-				.ready(
-						function() {
-							
-							
-						});
-	
+		$(document).ready(function() {
+
+		});
+
 		/*]]>*/
 	</script>
-	<ui:param name="editmode" value="#{workitem.item['$processid'] lt 1500}" />
-	
-	<div class="imixs-form-section">
-		<dl>
-			<dt>
-				#{message['form.minutes.subject']}: <span class="imixs-required">*</span>
-			</dt>
-			<dd>
-				<h:inputText title="#{message['form.minutes.help_subject']}"
-					required="true" value="#{workitem.item['_subject']}" />
-			</dd>
-		</dl>
+	<ui:param name="editmode"
+		value="#{workitem.item['$processid'] lt 1500}" />
+
+
+
+	<div class="imixs-form-panel">
+
+		<div class="imixs-form-section">
+			<dl>
+				<dt>
+					#{message['form.minutes.subject']}: <span class="imixs-required">*</span>
+				</dt>
+				<dd>
+					<h:inputText title="#{message['form.minutes.help_subject']}"
+						required="true" value="#{workitem.item['_subject']}" />
+				</dd>
+			</dl>
+
+
+		</div>
+		<div class="imixs-form-section-2">
+			<dl>
+				<dt>#{message['form.minutes.team']}:</dt>
+				<dd>
+					<marty:userListInput
+						value="#{workflowController.workitem.itemList['namTeam']}"
+						editmode="#{editmode}" />
+				</dd>
+
+			</dl>
+			<dl>
+				<dt>
+					#{message['form.minutes.date']}: <span class="imixs-required">*</span>
+				</dt>
+				<dd>
+					<h:inputText value="#{workitem.item['datdate']}" required="true"
+						title="#{message['form.minutes.help_datdate']}" class="imixs-date">
+						<f:convertDateTime pattern="#{message.datePatternShort}"
+							timeZone="#{message.timeZone}" />
+					</h:inputText>
+				</dd>
+			</dl>
+
+		</div>
+		<div class="imixs-form-section">
+			<dl>
+				<dt>#{message['form.description']}</dt>
+				<dd>
+					<h:inputTextarea value="#{workitem.item['_description']}" />
+				</dd>
+			</dl>
+		</div>
+
+
 
 
 	</div>
-	<div class="imixs-form-section-2">
-		<dl>
-			<dt>#{message['form.minutes.team']}:</dt>
-			<dd>
-				<marty:userListInput
-					value="#{workflowController.workitem.itemList['namTeam']}"
-					editmode="#{editmode}" />
-			</dd>
-
-		</dl>
-		<dl>
-			<dt>
-				#{message['form.minutes.date']}: <span class="imixs-required">*</span>
-			</dt>
-			<dd>
-				<h:inputText value="#{workitem.item['datdate']}" required="true"
-					title="#{message['form.minutes.help_datdate']}" class="imixs-date">
-					<f:convertDateTime pattern="#{message.datePatternShort}"
-						timeZone="#{message.timeZone}" />
-				</h:inputText>
-			</dd>
-		</dl>
-
-	</div>
-	<div class="imixs-form-section">
-		<dl>
-			<dt>#{message['form.description']}</dt>
-			<dd>
-				<h:inputTextarea value="#{workitem.item['_description']}" />
-			</dd>
-		</dl>
-	</div>
-
-
-
-
-
 	<!-- ReadOnly Modus -->
 	<c:if test="#{workitem.item['$processid'] ge 1500}">
 		<!-- jQuery code to disable all input elements in read modus -->
 		<script type="text/javascript">
 			/*<![CDATA[*/
-			jQuery(".imixs-body :input").attr("disabled", true);
+			$(".imixs-body :input").attr("disabled", true);
+			
+			// hide owner links
+			
+			$("a[id$=remove_owner_link_id]").hide();
+			//workitem_form:j_idt593:j_idt612:j_idt616:0:remove_owner_link_id
+			
+			
 			/*]]>*/
 		</script>
 	</c:if>
