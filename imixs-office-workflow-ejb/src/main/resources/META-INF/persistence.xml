@@ -11,9 +11,12 @@
                 <jar-file>imixs-workflow-engine-${org.imixs.workflow.version}.jar</jar-file>
                 <jar-file>imixs-marty-ejb-${org.imixs.marty.version}.jar</jar-file>
                 <properties>
-                        <property name="eclipselink.ddl-generation"
-                                value="create-tables" />
-                        <property name="eclipselink.logging.level" value="INFO"/>
+                        <!-- target-database Auto MySQL PostgreSQL  -->
+						<property name="eclipselink.target-database" value="Auto" />
+						<property name="eclipselink.ddl-generation" value="create-tables" />
+						<property name="eclipselink.deploy-on-startup" value="true" />
+						<property name="eclipselink.logging.level" value="INFO" />
+                        
                 </properties>                           
         </persistence-unit>     
 
