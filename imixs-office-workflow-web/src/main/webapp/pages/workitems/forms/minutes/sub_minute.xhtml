@@ -51,7 +51,7 @@
 						<c:forEach
 							items="#{minuteController.minuteHeader.itemList['namTeam']}"
 							var="member">
-							<f:selectItem itemLabel="#{member}" itemValue="#{member}"></f:selectItem>
+							<f:selectItem itemLabel="#{userController.getUserName(member)}" itemValue="#{member}"></f:selectItem>							
 						</c:forEach>
 					</h:selectOneMenu>
 				</dd>
