@@ -201,7 +201,7 @@ public class TimesheetController extends ChildWorkitemController implements
 			// current model Version
 			String sModelVersion = this.getParentWorkitem().getItemValueString(
 					"$modelversion");
-			startProcess = modelService.getProcessEntityByVersion(6100,
+			startProcess = modelService.getProcessEntity(6100,
 					sModelVersion);
 
 			if (startProcess == null) {
@@ -212,7 +212,7 @@ public class TimesheetController extends ChildWorkitemController implements
 			String sWorkflowGroup = startProcess
 					.getItemValueString("txtWorkflowGroup");
 			List<ItemCollection> processList = modelService
-					.getAllProcessEntitiesByGroupByVersion(sWorkflowGroup,
+					.getAllProcessEntitiesByGroup(sWorkflowGroup,
 							sModelVersion);
 			for (ItemCollection process : processList) {
 				processSelection.add(process);
@@ -443,6 +443,7 @@ public class TimesheetController extends ChildWorkitemController implements
 	 * after processing a child workItem to close the editor section. The method
 	 * also verifies if the property 'datdate' is provided.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public String process(int id) throws AccessDeniedException,
 			ProcessingErrorException {

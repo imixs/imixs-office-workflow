@@ -2,9 +2,7 @@ package com.imixs.workflow.office.web;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
@@ -79,10 +77,12 @@ public class MinuteController extends ChildWorkitemController implements
 					"$ProcessID");
 
 			if (processID >= 1000 && processID <= 1999) {
+				logger.fine("set miniute header");;
 				minuteHeader = workflowEvent.getWorkitem();
 				//teamMembers = null;
 				//setMemberInput(null);
 			} else {
+				logger.fine("set miniute header");;
 				// lookup the header....
 				String sID = workflowEvent.getWorkitem().getItemValueString(
 						"$UniqueIDRef");
