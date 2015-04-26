@@ -13,45 +13,59 @@
 					<div class="imixs-body">
 						<h1>#{message['config.workflowmodellist']}</h1>
 
-						<h:dataTable id="view_body" styleClass="imixsdatatable"
-							value="#{modelController.allProfileEntities}" var="record">
 
 
+						<!--  Workflow Versions -->
+						<table class="imixsdatatable">
+							<tr>
+								<th>Version/Profile</th>
+								<th>Workflow Group</th>
+								<th>last update</th>
+								<th></th>
+							</tr>
 
-							<h:column>
-								<f:facet name="header">
-									<h:outputText value="Version" />
-								</f:facet>
-								<h:outputText value="#{record.item['$modelversion']}" />
+							<ui:repeat var="profile"
+								value="#{modelController.allProfileEntities}">
 
-							</h:column>
+								<tr>
+									<td><strong><h:outputText value="#{profile.item['$modelversion']}" /></strong></td>
+									<td></td>
+									<td><h:outputText value="#{profile.item['$created']}">
+											<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+												pattern="#{message.dateTimePattern}" />
+										</h:outputText></td>
+									<td><h:commandLink
+											action="#{modelController.deleteModel(profile.item['$modelversion'])}">
+											<h:outputText value="delete" />
+										</h:commandLink></td>
+								</tr>
 
-
-							<h:column>
-								<f:facet name="header">
-									<h:outputText value="last update" />
-								</f:facet>
-								<h:outputText value="#{record.item['$created']}">
-									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-										pattern="#{message.dateTimePattern}" />
-								</h:outputText>
-							</h:column>
-
-
-
-							<h:column
-								rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
-								<f:facet name="header">
-									<h:outputText value="" />
-								</f:facet>
-								<h:commandLink action="#{modelController.deleteModel(record.item['$modelversion'])}">
-									<h:outputText value="delete" />
-								</h:commandLink>
-
-							</h:column>
+								<!-- add workflow groups.... -->
 
 
-						</h:dataTable>
+								<ui:repeat var="process" value="#{modelController.getAllStartProcessEntities(profile.item['$modelversion'])}">
+									<tr>
+										<td></td>
+										<td><h:outputText
+												value="#{process.item['txtworkflowgroup']}" /></td>
+										<td><h:outputText value="#{profile.item['$created']}">
+											<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+												pattern="#{message.dateTimePattern}" />
+										</h:outputText></td>
+										<td><h:commandLink
+											action="#{modelController.deleteWorkflowGroup(process.item['txtworkflowgroup'],profile.item['$modelversion'])}">
+											<h:outputText value="delete" />
+										</h:commandLink></td>
+
+									</tr>
+
+								</ui:repeat>
+
+
+							</ui:repeat>
+
+						</table>
+						
 
 						<!--  Error Messages -->
 						<c:if test="#{! empty facesContext.maximumSeverity}">
@@ -65,8 +79,8 @@
 						<i:imixsFileUpload id="file_upload_id" hideattachments="true" />
 						<div style="clear: left;" />
 						<h:commandButton value="#{message.refresh}"
-						actionListener="#{modelController.doUploadModel}"
-						 action="modellist" />
+							actionListener="#{modelController.doUploadModel}"
+							action="modellist" />
 					</div>
 				</div>
 
