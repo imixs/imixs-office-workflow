@@ -22,14 +22,15 @@
 						<li
 							class="#{(historyController.currentId eq workitem.item['$uniqueID']) ? 'active' : ''}">
 							<div class="h-nav-link">
-								<h:commandLink
-									action="#{workflowController.load(workitem.item['$uniqueid'],'/pages/workitems/workitem')}">
+								<h:link outcome="/pages/workitems/workitem" >
 									<h:outputText
 										value="#{workitem.item['txtWorkflowSummary']}" escape="false"/>
 									<h:outputText
 										rendered="#{empty workitem.item['txtworkflowsummary']}"
 										value=" - no title - id #{workitem.item['$uniqueid']}" />								
-								</h:commandLink>
+								
+									<f:param name="id" value="#{workitem.item['$uniqueid']}"/>
+								</h:link>
 							</div>
 							<div class="h-nav-close">
 								<h:commandLink

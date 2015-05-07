@@ -6,8 +6,7 @@
 	<div class="imixs-viewentry" title="#{empty workitem.item['txtWorkflowAbstract']?'':' '}">
 		<!-- *** Image *** -->
 		<h:panelGroup layout="block" styleClass="image-block">
-			<h:commandLink
-				action="#{workflowController.load(workitem.item['$uniqueid'],'/pages/workitems/workitem')}">
+			<h:link outcome="/pages/workitems/workitem" >
 				<h:graphicImage
 					rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
 					url="#{workitem.item['txtWorkflowImageURL']}"
@@ -16,7 +15,8 @@
 					rendered="#{empty workitem.item['txtWorkflowImageURL']}"
 					value="/layout/icons/vwicn070.png"
 					style="max-height: 24px; margin: 4px;"></h:graphicImage>
-			</h:commandLink>
+				<f:param name="id" value="#{workitem.item['$uniqueid']}"/>
+			</h:link>
 
 			<!-- favorite marker -->
 			<br />
@@ -42,9 +42,7 @@
 		<!-- *** Standard Info *** -->
 		<div class="content-block">
 			<h:panelGroup>
-				<h:commandLink
-					action="#{workflowController.load(workitem.item['$uniqueid'],'/pages/workitems/workitem')}">
-
+				<h:link outcome="/pages/workitems/workitem" >
 					<!-- summary empty ? -->
 					<h:panelGroup
 						rendered="#{empty workitem.item['txtWorkflowSummary']}">
@@ -58,7 +56,8 @@
 					</h:panelGroup>
 					<h:outputText style="font-weight: bold;" escape="false"
 						value="#{workitem.item['txtWorkflowSummary']}" />
-				</h:commandLink>
+				<f:param name="id" value="#{workitem.item['$uniqueid']}"/>
+			</h:link>
 			</h:panelGroup>
 			<br />
 			<!-- Status -->
