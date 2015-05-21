@@ -20,15 +20,11 @@
 					style="height:20px"></h:graphicImage>
 			</h:commandLink>
 
-
 			<!-- dummy botton to hit enter -->
 			<h:commandButton style="visibility:hidden;width:1px;height:1px;"
-				actionListener="#{searchController.doRefresh}"
+				actionListener="#{searchController.doResetFilter}"
 				action="/pages/workitems/worklist">
-				<f:setPropertyActionListener
-					target="#{searchController.searchFilter.item['txtCoreProcessRef']}"
-					value="" />
-			</h:commandButton>
+			</h:commandButton>			
 
 		</div>
 
