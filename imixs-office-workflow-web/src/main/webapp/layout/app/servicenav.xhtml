@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<f:view>
+		<h:form>
+
+			<!-- Branding -->
+			<h:panelGroup layout="block" styleClass="toolbar branding">
+				<h:commandLink actionListener="#{workflowController.reset}"
+					immediate="true" action="home">
+					<span class="typcn typcn-adjust-brightness"></span>
+				</h:commandLink>
+			</h:panelGroup>
+			<!-- Login -->
+			<h:panelGroup layout="block" styleClass="toolbar"
+				rendered="#{loginController.authenticated}">
+				<h:outputText value="#{message.signed_in}: " />
+				<h:outputText
+					rendered="#{! empty userController.workitem.item['txtUserName']}"
+					value="#{userController.workitem.item['txtUserName']}" />
+				<h:outputText
+					rendered="#{empty userController.workitem.item['txtUserName']}"
+					value="#{userController.workitem.item['txtName']}" />
+
+				<h:commandLink action="/logout.xhtml"
+					title="#{message['nav.logout']}"
+					actionListener="#{loginController.doLogout}">
+					<span class="typcn typcn-power"></span>
+				</h:commandLink>
+			</h:panelGroup>
+
+
+			<!-- settings -->
+			<h:panelGroup layout="block" styleClass="toolbar"
+				rendered="#{loginController.authenticated}">
+
+				<h:commandLink actionListener="#{workflowController.reset}"
+					immediate="true" title="home" action="notes">
+					<span class="typcn typcn-home"></span>
+				</h:commandLink>
+
+				<h:commandLink
+					action="#{workflowController.load(userController.workitem.item['$uniqueid'],'/pages/profile/settings')}"
+					rendered="true" title="#{message['nav.my_settings']}">
+					<span class="typcn typcn-cog"></span>
+				</h:commandLink>
+			</h:panelGroup>
+
+
+			<!-- Search -->
+			<h:panelGroup layout="block" styleClass="toolbar"
+				rendered="#{loginController.authenticated}">
+
+				<h:inputText
+					value="#{searchController.searchFilter.item['txtSearch']}"
+					onfocus="this.value='';" /><h:commandLink actionListener="#{searchController.doResetFilter}"
+					action="/pages/workitems/worklist" title="#{message.search}">
+					<span class="typcn typcn-zoom-outline"></span>
+				</h:commandLink>
+
+				<!-- dummy botton to hit enter -->
+				<h:commandButton
+					style="visibility:hidden;display: none;width:1px;height:1px;"
+					actionListener="#{searchController.doResetFilter}"
+					action="/pages/workitems/worklist">
+				</h:commandButton>
+
+
+				<!-- Process Menu -->
+				<a href="#" class="process-menu-control" title="#{message['nav.processlist']}"><span
+					class="typcn typcn-flow-merge"></span><span
+					class="typcn typcn-arrow-sorted-down" style="font-size: 14px;"></span>
+				</a>
+				<ul id="process-menu" class=""
+					style="display: none;">
+					<ui:repeat value="#{processController.processList}" var="process">
+
+						<li><h:commandLink action="/pages/workitems/worklist"
+								immediate="true" actionListener="#{searchController.doReset}">
+								<h:outputText value="#{process.item['txtName']}" />
+								<f:setPropertyActionListener
+									target="#{searchController.searchFilter.item['txtprocessRef']}"
+									value="#{process.item['$uniqueId']}" />
+							</h:commandLink></li>
+
+					</ui:repeat>
+				</ul>
+
+
+
+			</h:panelGroup>
+
+			<ul>
+				<li><a href="http://www.office-workflow.de" target="_blank"><h:outputText
+							value="#{message['nav.about']}" /></a></li>
+
+				<li><a href="http://www.imixs.com" target="_blank"><h:outputText
+							value="Imixs.com" /></a></li>
+
+			</ul>
+		</h:form>
+
+
+	</f:view>
+
+</ui:composition>
+
+

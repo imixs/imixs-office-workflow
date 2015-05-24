@@ -1,0 +1,893 @@
+body {
+	font-size: 14px;;
+	color: #414141;
+}
+
+/* RESPONSIVE BEHAVIOUR */
+@media screen and (max-width: 768px) {
+	.col-3 {
+		float: left;
+		width: 100% !important;
+	}
+}
+
+/* Ajax loader */
+.imixs-wait {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(255, 255, 255, .8) url('../icons/ajax-loader.gif') 50%
+		50% no-repeat;
+}
+
+body.loading {
+	overflow: hidden;
+}
+
+body.loading .imixs-wait {
+	display: block;
+}
+
+button, html input[type="button"], input[type="reset"], input[type="submit"]
+	{
+	font-weight: bold;
+}
+
+input, textarea, select {
+	color: #666;
+}
+
+select {
+	background-color: #FFF;
+}
+
+#header {
+	margin: 0 auto;
+	background: none;
+	display: block;
+	font-size: 1em;
+	padding: 0;
+}
+
+#container {
+	margin: 0 auto;
+	max-width: none;
+}
+
+#imixs-header {
+	background-color: #61B1D0;
+	background-image: url("background.png");
+	background-repeat: no-repeat;
+	background-position: 10px 21px;
+	min-height: 120px;
+}
+
+#footer {
+	margin: 0 auto;
+	padding: 0;
+}
+
+#footer1 {
+	background-color: #ECF3F8;
+	color: #333;
+}
+
+#footer2 {
+	background-color: #206B87;
+	color: #fff;
+	text-align: right;
+}
+
+#imixs-branding {
+	margin-left: 370px;
+	font-size: 3em;
+	margin-top: 46px;
+}
+
+#imixs-servicenav {
+	position: fixed;
+	top: 0;
+	height: 46px;
+	z-index: 5;
+	width: 100%;
+	padding: 5px;
+	xtext-align: right;
+	color: #FFF;
+	border-bottom: 1px solid #fff;
+	margin: 0;
+	background-color: #61B1D0;
+}
+
+.toolbar {
+	float: left;
+	height: 36px;
+	border-right: 1px solid #ccc;
+	padding: 0 16px;
+	font-size: 16px;
+}
+
+#process-menu {
+	padding: 10px 0;
+	min-width: 200px;
+	z-index: 999999;
+	xposition: absolute;
+	top: 45px;
+	left: 12px;
+	border-radius: 3px;
+	box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+}
+
+#process-menu li {
+	padding: 0px;
+	text-align: left;
+}
+
+#process-menu li a {
+	  color: #428BCA;
+	display: block;
+	padding: 3px 0 3px 10px;
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+}
+
+#process-menu li a:HOVER {
+	text-decoration: none;
+}
+
+#process-menu li .ui-state-focus {
+	color: #F68D20;
+	background: #fff;
+	border-color: #ddd;
+	font-weight: normal;
+}
+
+
+
+#imixs-servicenav  .branding {
+	width: 80px;
+}
+
+#imixs-servicenav .typcn {
+	font-size: 26px;
+	vertical-align: middle;
+}
+
+#imixs-servicenav ul, #footer ul {
+	list-style-type: none;
+	margin: 0 5px 0 0;
+	padding: 0px;
+	text-align: right;
+}
+
+#imixs-servicenav li, #footer li {
+	list-style: none;
+	display: inline;
+	margin: 0em 0em 0em 2em;
+	padding: 0px;
+	xfont-size: 13px;
+	line-height: 18px;
+	color: #fff;
+}
+
+#imixs-servicenav a, #footer a {
+	color: #fff;
+}
+
+.imixs-subnav a {
+	
+}
+
+.imixs-subnav a.active {
+	background: #faa732;
+	border-color: #faa732;
+}
+
+.imixs-subnav .ui-button-text-icon-secondary .ui-button-text {
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 5px;
+}
+
+.imixs-subnav .ui-button-icon-secondary {
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-right: 5px;
+}
+
+.imixs-commandbox {
+	background: #ECF3F8;
+	padding: 10px;
+	margin-bottom: 10px;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.imixs-commandbox h1 {
+	font-size: 1.45em;
+}
+
+#imixs-historynav {
+	margin-bottom: 16px;
+	border-bottom: 1px solid #CCC;
+}
+
+#imixs-historynav ul {
+	list-style-type: none;
+	padding: 0px;
+}
+
+#imixs-historynav li {
+	list-style: none;
+	display: inline;
+	margin: 0 0px 0 0;
+	padding: 0px 0px;
+	border: 1px solid #FFF;;
+	float: left;
+	padding-top: 5px;
+	background: #206B87;
+}
+
+#imixs-historynav li a {
+	color: #fff;
+}
+
+#imixs-historynav li:HOVER {
+	border-top: 1px solid #fff;
+	border-left: 1px solid #fff;
+	border-right: 1px solid #fff;
+	background-color: #61B1D0;
+}
+
+#imixs-historynav ul li .h-nav-link {
+	float: left;
+	padding: 0 10px;
+	xheight: 16px;
+}
+
+#imixs-historynav ul li .h-nav-close {
+	float: left;
+	visibility: hidden;
+	border: 0px solid #FFF;
+}
+
+#imixs-historynav ul li:HOVER .h-nav-close {
+	visibility: visible;
+}
+
+#imixs-historynav ul li.active .h-nav-close {
+	border: 0px solid #ECF3F8;
+	visibility: visible;
+}
+
+#imixs-historynav ul li.active {
+	background: #faa732;
+	xborder: 1px solid #faa732;
+}
+
+#imixs-historynav ul li.active a {
+	color: #fff;
+}
+
+.imixs-form {
+	
+}
+
+.imixs-form .imixs-header {
+	background: #ECF3F8;
+	padding: 10px 10px;
+	margin-bottom: 15px;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.imixs-form .imixs-header label {
+	font-weight: bold;
+}
+
+.imixs-form .imixs-header hr {
+	margin: 5px auto;
+}
+
+.imixs-form .imixs-header  table, td, th {
+	padding: 0 10px 0 0;
+}
+
+.imixs-form .imixs-body {
+	margin-bottom: 15px;
+}
+
+.imixs-form .imixs-body h1 {
+	font-size: 2em;
+}
+
+.imixs-form .imixs-footer {
+	background: #ECF3F8;
+	padding: 10px 10px;
+	margin-bottom: 20px;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.imixs-form .imixs-subform {
+	background: #d1dfe5;
+	border: 2px solid #FFDF89;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 10px 10px;
+	margin: 10px 0 0 0;
+}
+
+.imixs-view {
+	
+}
+
+.imixs-view .imixs-header {
+	background: #ECF3F8;
+	padding: 10px 10px;
+	margin-bottom: 15px;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.imixs-view .imixs-body {
+	border: 1px solid #aaa;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	padding: 10px 10px;
+	margin-bottom: 15px;
+}
+
+.imixs-view .imixs-body h1 {
+	border-bottom: 1px solid #FFD7A8;
+	margin: 5px 0 10px;
+}
+
+.imixs-view .imixs-footer {
+	background: #ECF3F8;
+	padding: 10px 10px;
+	margin-bottom: 20px;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+/*  Imixs Portlet  */
+.imixs-portlet {
+	padding: 10px 10px;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	border: 1px solid #aaaaaa;
+}
+
+.imixs-portlet .imixs-header {
+	background: transparent;
+	font-weight: bold;
+	xpadding: 10px;
+}
+
+.imixs-portlet .imixs-header ul {
+	list-style-type: none;
+	margin: 0 20px 0 0px;
+	padding: 0px;
+	border-bottom: 1px solid #CCC;
+}
+
+.imixs-portlet .imixs-header li {
+	list-style: none;
+	display: inline;
+	border: 1px solid #FFF;;
+	float: left;
+	padding-top: 5px;
+	background: #206B87;
+	color: #fff;
+	padding: 5px 10px;
+}
+
+.imixs-portlet .imixs-header ul:after {
+	content: ".";
+	display: block;
+	clear: left;
+	height: 0;
+	visibility: hidden;
+}
+
+.imixs-portlet .imixs-header li a {
+	color: #fff;
+}
+
+.imixs-portlet .imixs-header li:HOVER {
+	border-top: 1px solid #fff;
+	border-left: 1px solid #fff;
+	border-right: 1px solid #fff;
+	background-color: #61B1D0;
+}
+
+.imixs-portlet .imixs-header ul li.active {
+	background: #faa732;
+	xborder: 1px solid #faa732;
+}
+
+.imixs-portlet .imixs-header ul li.active a {
+	color: #fff;
+}
+
+.imixs-portlet .imixs-body {
+	font-size: 0.9em;
+}
+
+.imixs-portlet .imixs-footer {
+	text-align: right;
+}
+
+.imixs-portlet .imixs-viewentry {
+	
+}
+
+/******************************************
+Neue  CSS Definitionen
+
+
+********************************************
+
+END
+ */
+
+/* 
+ * Die Klasse viewentry wird für die Darstellung von Views verwendet.
+ * die Klasse wird als RowClass im element rich:dataList  verwendet
+ * 
+ */
+.imixs-viewentry {
+	margin: 5px 0 20px;
+}
+
+.imixs-viewentry-nav {
+	border-top: 1px solid #FFD7A8;
+}
+
+.imixs-viewentry:HOVER {
+	background: #ECF3F8;
+}
+
+.imixs-viewentry-details h3 {
+	border-bottom: 1px solid silver;
+}
+
+.imixs-viewentry-main-link {
+	font-weight: normal;
+	line-height: 20px;
+}
+
+.imixs-viewentry-action-link {
+	margin-right: 10px;
+}
+
+.imixs-viewentry-action-link img {
+	width: 14px;
+	margin-right: 5px;
+}
+
+/* ==== Form ======= */
+.imixs-form .imixs-viewentry, .imixs-view-header .imixs-viewentry {
+	border-bottom: 0 solid #000000;
+	border-top: 0 solid #FFFFFF;
+	margin: 0;
+}
+
+.imixs-form .imixs-viewentry:HOVER {
+	background: transparent;
+}
+
+.imixs-form table, td, th {
+	border: none;
+}
+
+.imixs-view table, td, th {
+	border: none;
+}
+
+.imixsdatatable {
+	width: 100%;
+}
+
+/* #ECF3F8 #FFDF89 */
+.imixs-form-header, .imixs-view-header {
+	background: #ECF3F8;
+	padding: 5px 10px 5px;
+	margin-bottom: 20px;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+/* Standard Rahmen im Formular abschalten */
+.imixs-workitem-body {
+	
+}
+
+.imixs-form-footer, .imixs-view-footer {
+	background: #ECF3F8;
+	padding: 10px 10px;
+	margin-bottom: 20px;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.imixs-form-footer {
+	background: #FFDF89;
+}
+
+.imixs-form-panel {
+	border: 1px solid #aaaaaa;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	padding: 10px 10px;
+	margin: 10px 0;
+}
+
+.imixs-subform-body {
+	background: #83C6EA;
+	border: 2px solid #83C6EA;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 10px 10px;
+	margin: 10px 0;
+}
+
+.imixs-editor {
+	
+}
+
+.imixs-workflow-action {
+	
+}
+
+.imixs-close-action {
+	
+}
+
+.imixs-delete-action {
+	
+}
+
+.imixs-print-action {
+	
+}
+
+.imixs-read-only {
+	padding: 5px 10px;
+	color: #555;
+	font-style: italic;
+}
+
+.imixs-input-disabled {
+	background: #EBEBE4;
+}
+
+.mceEditor>table {
+	width: 690px !important;
+	max-width: 690px !important;
+}
+
+.imixs-subform .mceEditor>table {
+	width: 680px !important;
+	max-width: 680px !important;
+}
+
+.imixs-date {
+	width: 110px !important;
+	background: url(../icons/Calendar_16.png) no-repeat scroll left center
+		white;
+	padding-left: 20px !important;;
+}
+
+dl dd  .imixs-datetime-picker select {
+	width: 50px;
+}
+
+.imixs-required {
+	color: red;
+}
+
+.imixsdatatable tr:HOVER td {
+	background-color: #61B1D0;
+	border-color: #61B1D0;
+}
+
+.imixs-label {
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	display: inline-block;
+	padding: 2px 4px;
+	font-weight: bold;
+	line-height: 14px;
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	white-space: nowrap;
+	vertical-align: baseline;
+	background-color: #999;
+}
+
+.imixs-label-important {
+	background-color: #b94a48
+}
+
+.imixs-label-important[href] {
+	background-color: #953b39
+}
+
+.imixs-label-warning {
+	background-color: #f89406
+}
+
+.imixs-label-warning[href] {
+	background-color: #c67605
+}
+
+.imixs-label-success {
+	background-color: #468847
+}
+
+.imixs-label-success[href] {
+	background-color: #356635
+}
+
+.imixs-label-info {
+	background-color: #3a87ad
+}
+
+.imixs-label-info[href] {
+	background-color: #2d6987
+}
+
+.imixs-label-inverse {
+	background-color: #333
+}
+
+.imixs-label-inverse[href] {
+	background-color: #1a1a1a
+}
+
+/** Fileupload Widget **/
+/
+.imixsFileUpload {
+	float: left;
+}
+
+.imixsFileUpload_help {
+	border-left: 2px solid #ccc;
+	float: left;
+	padding-left: 10px;
+	height: 30px;
+	font-size: 13px;
+	font-weight: bold;
+	color: #999;
+	line-height: 1.9em;
+}
+
+.imixsLinkWidget {
+	clear: left;
+}
+
+#imixsFileUpload_button, .imixsLink_button {
+	width: 160px;
+	margin-bottom: 5px;
+	margin-right: 10px;
+}
+
+.imixsFileUpload_delete {
+	margin-bottom: 5px;
+}
+
+/** Customize Marty WorkitemLink Widget - see imixs-marty.css **/
+.marty-workitemlink {
+	xwidth: 320px;
+	xmargin: 2px 10px 0 0;
+	padding: 8px;
+	border: 1px solid #ccc;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border: 1px solid #ccc;
+}
+
+.marty-workitemlink-entry-link {
+	font-weight: bold;
+}
+
+.marty-workitemlink-inputbox input[type="text"] {
+	xwidth: 290px !important;
+	background: url(../icons/Search_16.png) no-repeat scroll left center
+		white;
+	padding-left: 20px;
+}
+
+/** Marty UserListInput Widget - see imixs-marty.css **/
+.marty-userlistinput {
+	xmargin: 2px 10px 0 0;
+	padding: 8px;
+	border: 1px solid #ccc;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border: 1px solid #ccc;
+}
+
+.marty-userlistinput-inputbox input[type="text"] {
+	width: 180px !important;
+	background: url(../icons/User_16.png) no-repeat scroll left center white;
+	padding-left: 20px;
+}
+
+/** Marty UserInput Widget - see imixs-marty.css **/
+.marty-userinput {
+	width: 315px;
+}
+
+.marty-userinput-inputbox input[type="text"] {
+	width: 310px !important;
+	background: url(../icons/User_16.png) no-repeat scroll left center white;
+	padding-left: 20px;
+}
+
+.image-block {
+	float: left;
+	min-height: 55px;
+	margin-right: 2px;
+	margin-left: 2px;
+	margin-bottom: 0px;
+}
+
+.content-block {
+	margin-left: 40px;
+}
+
+.content-block:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+
+/** Process Model **/
+.model-box {
+	margin: 0;
+	padding: 5px;
+	width: 100%;
+	min-height: 60px;
+	border: 0px solid #000;
+}
+
+.model-entity-box {
+	min-height: 90px;
+	float: left;
+}
+
+.model-entity {
+	display: inline-block;
+	width: 135px;
+	min-height: 50px;
+	float: left;
+	vertical-align: middle;
+	text-align: center;
+	padding: 5px 5px;
+	margin: 10px 0;
+	background-color: #206B87;
+	border: 1px solid #CCC;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-family: Arial, Verdana, sans-serif;
+	font-weight: normal;
+	color: #FFF;
+}
+
+.model-entity:HOVER {
+	background-color: #61B1D0;
+}
+
+.model-box .completed {
+	background-color: #22A976;
+	border-color: #999;
+}
+
+.model-box .active {
+	background: #faa732;
+	border: 1px solid #FFFA;
+	xpadding: 0 5px;
+}
+
+/* c9ced1 */
+.model-box .inactive {
+	border-color: #b4c5d1;
+}
+
+.model-line {
+	float: left;
+	margin: 35px 1px 54px 1px;
+	height: 1px;
+	width: 20px;
+	background-color: #CCC;
+}
+
+.model-end {
+	float: left;
+	margin: 31px 1px 26px 1px;
+	height: 10px;
+	width: 10px;
+	background-color: #CCC;
+}
+
+.model-start {
+	float: left;
+	margin: 31px 1px 26px 1px;
+	height: 10px;
+	width: 3px;
+	background-color: #CCC;
+}
+
+.ui-widget-content {
+	color: #333;
+}
+
+.ui-widget-content a {
+	color: #428bca;
+}
+
+.imixs-tooltip-content {
+	max-width: 600px;
+}
+
+.imixs-timeline table {
+	width: 100%;
+}
+
+.imixs-timeline-year {
+	border-bottom: 1px solid #ddd;
+}
+
+.imixs-timeline table tr td h1 {
+	margin: 0;
+}
+
+.imixs-timeline  .imixs-timeline-entry-date {
+	margin: 10px 0 0 0;
+	padding: 0;
+	line-height: 10px;
+}
+
+.imixs-timeline  .workitemref-out .imixs-timeline-entry-date {
+	text-align: right;
+}
