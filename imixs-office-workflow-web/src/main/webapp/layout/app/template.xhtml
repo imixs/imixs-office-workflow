@@ -106,48 +106,55 @@
 
 	<script type="text/javascript">
 		/*<![CDATA[*/
-		$(document).ready(function() {
-			layoutOfficeEditor();
+		$(document)
+				.ready(
+						function() {
+							layoutOfficeEditor();
 
-			// waiting feature
-			$body = $("body");
-			// ajax
-			$(document).on({
-				ajaxStart : function() {
-					$body.addClass("loading");
-				},
-				ajaxStop : function() {
-					$body.removeClass("loading");
-				}
-			});
-			// form submit
-			$('form').on('submit', function(e) {
-				$body.addClass("loading");
-			});
+							// waiting feature
+							$body = $("body");
+							// ajax
+							$(document).on({
+								ajaxStart : function() {
+									$body.addClass("loading");
+								},
+								ajaxStop : function() {
+									$body.removeClass("loading");
+								}
+							});
+							// form submit
+							$('form').on('submit', function(e) {
+								$body.addClass("loading");
+							});
 
-			
-			// translate fileupload widgets....
-			$('.imixsFileUpload #imixsFileUpload_button .ui-button-text').text("#{message['form.attachments.addfile']}");
-			$('.imixsFileUpload .imixsFileUpload_help').text("#{message['form.attachments.dropfile']}");
-			
-		
-			
-			// process menu
-			$( "#process-menu" ).menu().hide();
-			  
-			$( ".process-menu-control" ).click(function() {
-				$( "#process-menu" ).show();
-			});
-			
-			// hide view menu...
-			$(document).mouseup(function (e) {
-			    var container = $("#process-menu");
-			    if (!container.is(e.target) && container.has(e.target).length === 0) {
-			        container.hide();
-			    }
-			});
-			
-		});
+							// translate fileupload widgets....
+							$(
+									'.imixsFileUpload #imixsFileUpload_button .ui-button-text')
+									.text(
+											"#{message['form.attachments.addfile']}");
+							$('.imixsFileUpload .imixsFileUpload_help').text(
+									"#{message['form.attachments.dropfile']}");
+
+							// process menu
+							$("#process-menu").menu().hide();
+
+							$(".process-menu-control").click(function() {
+								$("#process-menu").show();
+							});
+
+							// hide view menu...
+							$(document)
+									.mouseup(
+											function(e) {
+												var container = $("#process-menu");
+												if (!container.is(e.target)
+														&& container
+																.has(e.target).length === 0) {
+													container.hide();
+												}
+											});
+
+						});
 
 		// customize tiynmce with additional css file
 		function layoutOfficeEditor() {
@@ -193,16 +200,15 @@
 	<f:view locale="#{userController.locale}">
 
 		<div id="header">
+			<div id="imixs-servicenav">
+				<ui:insert name="servicenav">
+					<ui:include src="servicenav.xhtml" />
+				</ui:insert>
+			</div>
 			<div id="imixs-header">
-				<div id="imixs-servicenav">
-					<ui:insert name="servicenav">
-						<ui:include src="servicenav.xhtml" />
-					</ui:insert>
-				</div>
-				<div id="imixs-branding">#{app.application_title}</div>
-
-
-
+				<ui:insert name="header">
+					<ui:include src="header.xhtml" />
+				</ui:insert>
 			</div>
 
 		</div>
@@ -216,9 +222,7 @@
 			<div class="row">
 				<div id="imixs-content" class="col-9">
 
-					<ui:insert name="historynav">
-						<ui:include src="historynav.xhtml" />
-					</ui:insert>
+
 
 					<ui:insert name="content">
 						<h1>Default Content</h1>

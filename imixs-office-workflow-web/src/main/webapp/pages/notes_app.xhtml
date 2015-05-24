@@ -1,0 +1,41 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+		<f:view>
+
+			<script type="text/javascript">
+				/*<![CDATA[*/
+				setNavigationCookie('/pages/notes.jsf');
+				/*]]>*/
+			</script>
+
+
+			<h:form id="news_form">
+				<div class="row nested">
+
+					<!--  Box 1 -->
+					<div class="col-6">
+						<!-- -->
+						<ui:include src="/pages/portlet_worklist.xhtml">
+							<ui:param name="view" value="#{portletWorklistTasks}" />
+						</ui:include>
+					</div>
+
+
+
+					<!--  Box 2 -->
+					<div class="col-6">
+						<ui:include src="/pages/sub_startprocess.xhtml" />
+
+					</div>
+
+				</div>
+			</h:form>
+		</f:view>
+
+
+</f:subview>
+

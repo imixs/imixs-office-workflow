@@ -6,7 +6,6 @@
 
 	<f:view>
 		<h:form>
-
 			<!-- Branding -->
 			<h:panelGroup layout="block" styleClass="toolbar branding">
 				<h:commandLink actionListener="#{workflowController.reset}"
@@ -51,47 +50,50 @@
 
 
 			<!-- Search -->
-			<h:panelGroup layout="block" styleClass="toolbar"
-				rendered="#{loginController.authenticated}">
+			<c:if test="#{loginController.authenticated}">
 
-				<h:inputText
-					value="#{searchController.searchFilter.item['txtSearch']}"
-					onfocus="this.value='';" /><h:commandLink actionListener="#{searchController.doResetFilter}"
-					action="/pages/workitems/worklist" title="#{message.search}">
-					<span class="typcn typcn-zoom-outline"></span>
-				</h:commandLink>
+				<h:panelGroup layout="block" styleClass="toolbar">
 
-				<!-- dummy botton to hit enter -->
-				<h:commandButton
-					style="visibility:hidden;display: none;width:1px;height:1px;"
-					actionListener="#{searchController.doResetFilter}"
-					action="/pages/workitems/worklist">
-				</h:commandButton>
+					<h:inputText
+						value="#{searchController.searchFilter.item['txtSearch']}"
+						onfocus="this.value='';" />
+					<h:commandLink actionListener="#{searchController.doResetFilter}"
+						action="/pages/workitems/worklist" title="#{message.search}">
+						<span class="typcn typcn-zoom-outline"></span>
+					</h:commandLink>
 
-
-				<!-- Process Menu -->
-				<a href="#" class="process-menu-control" title="#{message['nav.processlist']}"><span
-					class="typcn typcn-flow-merge"></span><span
-					class="typcn typcn-arrow-sorted-down" style="font-size: 14px;"></span>
-				</a>
-				<ul id="process-menu" class=""
-					style="display: none;">
-					<ui:repeat value="#{processController.processList}" var="process">
-
-						<li><h:commandLink action="/pages/workitems/worklist"
-								immediate="true" actionListener="#{searchController.doReset}">
-								<h:outputText value="#{process.item['txtName']}" />
-								<f:setPropertyActionListener
-									target="#{searchController.searchFilter.item['txtprocessRef']}"
-									value="#{process.item['$uniqueId']}" />
-							</h:commandLink></li>
-
-					</ui:repeat>
-				</ul>
+					<!-- dummy botton to hit enter -->
+					<h:commandButton
+						style="visibility:hidden;display: none;width:1px;height:1px;"
+						actionListener="#{searchController.doResetFilter}"
+						action="/pages/workitems/worklist">
+					</h:commandButton>
 
 
+					<!-- Process Menu -->
+					<a href="#" class="process-menu-control"
+						title="#{message['nav.processlist']}"><span
+						class="typcn typcn-flow-merge"></span><span
+						class="typcn typcn-arrow-sorted-down" style="font-size: 14px;"></span>
+					</a>
+					<ul id="process-menu" class="" style="display: none;">
+						<ui:repeat value="#{processController.processList}" var="process">
 
-			</h:panelGroup>
+							<li><h:commandLink action="/pages/workitems/worklist"
+									immediate="true" actionListener="#{searchController.doReset}">
+									<h:outputText value="#{process.item['txtName']}" />
+									<f:setPropertyActionListener
+										target="#{searchController.searchFilter.item['txtprocessRef']}"
+										value="#{process.item['$uniqueId']}" />
+								</h:commandLink></li>
+
+						</ui:repeat>
+					</ul>
+
+
+
+				</h:panelGroup>
+			</c:if>
 
 			<ul>
 				<li><a href="http://www.office-workflow.de" target="_blank"><h:outputText
@@ -101,11 +103,9 @@
 							value="Imixs.com" /></a></li>
 
 			</ul>
+
 		</h:form>
-
-
 	</f:view>
-
 </ui:composition>
 
 

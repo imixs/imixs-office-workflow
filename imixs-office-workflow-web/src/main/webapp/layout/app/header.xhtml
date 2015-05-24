@@ -1,19 +1,25 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-    <ui:composition>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	<!-- Header depends on history mode -->
+	<c:choose>
+		<c:when
+			test="#{(!loginController.authenticated) or (empty historyController.workitems)}">
 
-            <div style="clear: both;">
-                <div id="imixs-branding">
-                <div id="imixs-branding-text">#{app.application_title}</div>
-                
-                </div>
-                
-                
-            </div>
-    </ui:composition>
+			<div id="imixs-branding">
+				<div id="imixs-branding-text">#{app.application_title}</div>
+			</div>
 
-</html>
+		</c:when>
+
+		<c:otherwise>
+
+			<ui:include src="/layout/#{app.application_layout}/historynav.xhtml" />
+
+		</c:otherwise>
+	</c:choose>
+</ui:composition>
+
+
