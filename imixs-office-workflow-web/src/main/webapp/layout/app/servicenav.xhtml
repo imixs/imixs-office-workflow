@@ -13,23 +13,7 @@
 					<span class="typcn typcn-adjust-brightness"></span>
 				</h:commandLink>
 			</h:panelGroup>
-			<!-- Login -->
-			<h:panelGroup layout="block" styleClass="toolbar"
-				rendered="#{loginController.authenticated}">
-				<h:outputText value="#{message.signed_in}: " />
-				<h:outputText
-					rendered="#{! empty userController.workitem.item['txtUserName']}"
-					value="#{userController.workitem.item['txtUserName']}" />
-				<h:outputText
-					rendered="#{empty userController.workitem.item['txtUserName']}"
-					value="#{userController.workitem.item['txtName']}" />
 
-				<h:commandLink action="/logout.xhtml"
-					title="#{message['nav.logout']}"
-					actionListener="#{loginController.doLogout}">
-					<span class="typcn typcn-power"></span>
-				</h:commandLink>
-			</h:panelGroup>
 
 
 			<!-- settings -->
@@ -41,10 +25,30 @@
 					<span class="typcn typcn-home"></span>
 				</h:commandLink>
 
+
+			</h:panelGroup>
+
+
+<!-- Login -->
+			<h:panelGroup layout="block" styleClass="toolbar"
+				rendered="#{loginController.authenticated}">
+				<h:outputText value="#{message.signed_in}: " />
+				<h:outputText
+					rendered="#{! empty userController.workitem.item['txtUserName']}"
+					value="#{userController.workitem.item['txtUserName']}" />
+				<h:outputText
+					rendered="#{empty userController.workitem.item['txtUserName']}"
+					value="#{userController.workitem.item['txtName']}" />
+
 				<h:commandLink
 					action="#{workflowController.load(userController.workitem.item['$uniqueid'],'/pages/profile/settings')}"
 					rendered="true" title="#{message['nav.my_settings']}">
 					<span class="typcn typcn-cog"></span>
+				</h:commandLink>
+				<h:commandLink action="/logout.xhtml"
+					title="#{message['nav.logout']}"
+					actionListener="#{loginController.doLogout}">
+					<span class="typcn typcn-power"></span>
 				</h:commandLink>
 			</h:panelGroup>
 
@@ -95,6 +99,8 @@
 				</h:panelGroup>
 			</c:if>
 
+
+			
 			<ul>
 				<li><a href="http://www.office-workflow.de" target="_blank"><h:outputText
 							value="#{message['nav.about']}" /></a></li>

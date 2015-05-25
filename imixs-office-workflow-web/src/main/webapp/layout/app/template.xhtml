@@ -218,47 +218,10 @@
 		<!-- content -->
 
 		<div id="container">
-
-			<div class="row">
-				<div id="imixs-content" class="col-9">
-
-
-
-					<ui:insert name="content">
-						<h1>Default Content</h1>
-					</ui:insert>
-				</div>
-
-
-				<div id="imixs-navigation" class="col-3">
-					<c:if test="#{loginController.authenticated}">
-						<h:panelGroup layout="block" id="imixs-sidebar">
-							<h:form>
-								<ui:include src="commandbox_search.xhtml" />
-
-								<ui:include src="commandbox_custom.xhtml" />
-
-								<ui:include src="commandbox_processlist.xhtml" />
-
-								<!-- Admin Menu -->
-								<c:if
-									test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
-									<h:panelGroup layout="block" class="imixs-commandbox"
-										rendered="#{loginController.authenticated}">
-										<h1>#{message.administration}</h1>
-										<ui:insert name="adminbox_custom">
-											<ui:include src="commandbox_admin_custom.xhtml" />
-										</ui:insert>
-
-										<ui:insert name="adminbox">
-											<ui:include src="commandbox_admin.xhtml" />
-										</ui:insert>
-									</h:panelGroup>
-								</c:if>
-							</h:form>
-						</h:panelGroup>
-					</c:if>
-				</div>
+			<div id="imixs-content">
+				<ui:insert name="content">
+					<h1>Default Content</h1>
+				</ui:insert>
 			</div>
 		</div>
 

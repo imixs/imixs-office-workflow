@@ -36,11 +36,18 @@
 					<f:ajax render="portlet_worklist_body" onevent="refreshViewLayout" />
 				</h:commandLink>
 			</div>
+			
+			<!-- single view mode -->
+			<h:panelGroup  rendered="#{!tabMode}">
+				<ul>
+				<li class="active"><h:outputText
+						value="#{message[view.view]}" />
+						</li>
+				</ul>
+			</h:panelGroup>
 
-			<!-- switch between owner and creator list  -->
-			<h:panelGroup id="view-type-navigator">
-
-
+			<!-- switch between owner and creator list if 'tabMode'  -->
+			<h:panelGroup id="view-type-navigator" rendered="#{tabMode}">
 				<ul>
 					<li class="#{view.view eq 'worklist.owner'?'active':'inactive'}">
 						<!-- owner --> <h:outputText
