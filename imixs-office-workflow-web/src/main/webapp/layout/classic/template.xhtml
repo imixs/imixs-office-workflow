@@ -20,7 +20,7 @@
 	<title>#{app.application_title}</title>
 
 	<link rel="shortcut icon" type="image/x-icon"
-		href="#{facesContext.externalContext.requestContextPath}/layout/classic/favicon.ico" />
+		href="#{facesContext.externalContext.requestContextPath}/layout/favicon.ico" />
 
 
 	<!-- creatix-css -->
@@ -214,7 +214,7 @@
 							<h:form>
 								<ui:include src="commandbox_search.xhtml" />
 
-								<ui:include src="commandbox_custom.xhtml" />
+								<ui:include src="/layout/commandbox_custom.xhtml" />
 
 								<ui:include src="commandbox_processlist.xhtml" />
 
@@ -225,7 +225,7 @@
 										rendered="#{loginController.authenticated}">
 										<h1>#{message.administration}</h1>
 										<ui:insert name="adminbox_custom">
-											<ui:include src="commandbox_admin_custom.xhtml" />
+											<ui:include src="/layout/commandbox_admin_custom.xhtml" />
 										</ui:insert>
 
 										<ui:insert name="adminbox">
@@ -246,12 +246,12 @@
 		<div id="footer">
 			<div id="footer1">
 				<ui:insert name="extra">
-					<ui:include src="extra.xhtml" />
+					<ui:include src="/layout/extra.xhtml" />
 				</ui:insert>
 			</div>
 			<div id="footer2">
 				<ui:insert name="footer">
-					<ui:include src="footer.xhtml" />
+					<ui:include src="/layout/footer.xhtml" />
 				</ui:insert>
 			</div>
 		</div>

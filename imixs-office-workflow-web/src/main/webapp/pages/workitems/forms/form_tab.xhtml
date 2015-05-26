@@ -5,47 +5,108 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 
-	<div>
-		<div class="imixs-tabs">
-			<ul>
-				<c:forEach items="#{workflowController.editorSections}"
-					var="section">
-					<li><a href="#tab-#{section.url}">#{section.name}</a></li>
-				</c:forEach>
-			</ul>
+	<!-- different design for classic and app layout -->
+	<c:choose>
+		<c:when test="#{app.application_layout eq 'app'}">
 
-			<c:forEach items="#{workflowController.editorSections}" var="section">
-				<div id="tab-#{section.url}">
-					<f:subview>
-						<ui:include src="/pages/workitems/forms/#{section.url}.xhtml">
-							<ui:param name="workitem" value="#{workflowController.workitem}" />
-						</ui:include>
-					</f:subview>
+
+			<div class="row nested imixs-form-tabs">
+
+				<div class="col-8 " >
+					<div class="imixs-tabs">
+						<ul>
+							<c:forEach items="#{workflowController.editorSections}"
+								var="section">
+								<li><a href="#tab-#{section.url}">#{section.name}</a></li>
+							</c:forEach>
+						</ul>
+
+						<c:forEach items="#{workflowController.editorSections}"
+							var="section">
+							<div id="tab-#{section.url}">
+								<f:subview>
+									<ui:include src="/pages/workitems/forms/#{section.url}.xhtml">
+										<ui:param name="workitem"
+											value="#{workflowController.workitem}" />
+									</ui:include>
+								</f:subview>
+							</div>
+						</c:forEach>
+
+					</div>
 				</div>
-			</c:forEach>
 
-		</div>
-
-		<!-- Standard Tab Section -->
-		<div class="imixs-tabs" style="margin-top: 10px;">
-			<ul>
-				<li><a href="#tab-comments">#{message.comments}</a></li>
-				<li><a href="#tab-documents">#{message.documents}</a></li>
-				<li><a href="#tab-references">#{message.references}</a></li>
-			</ul>
-			<div id="tab-comments">
-				<ui:include src="/pages/workitems/forms/sub_comment.xhtml" />
+				<div class="col-4">
+					<!-- Standard Tab Section -->
+					<div class="imixs-tabs">
+						<ul>
+							<li><a href="#tab-comments">#{message.comments}</a></li>
+							<li><a href="#tab-documents">#{message.documents}</a></li>
+							<li><a href="#tab-references">#{message.references}</a></li>
+						</ul>
+						<div id="tab-comments">
+							<ui:include src="/pages/workitems/forms/sub_comment.xhtml" />
+						</div>
+						<div id="tab-documents">
+							<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
+						</div>
+						<div id="tab-references">
+							<ui:include src="/pages/workitems/forms/sub_reference.xhtml" />
+						</div>
+					</div>
+				</div>
 			</div>
-			<div id="tab-documents">
-				<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
-			</div>
-			<div id="tab-references">
-				<ui:include src="/pages/workitems/forms/sub_reference.xhtml" />
-			</div>
-		</div>
+
+		</c:when>
+
+		<c:otherwise>
+
+			<div>
+				<div class="imixs-tabs">
+					<ul>
+						<c:forEach items="#{workflowController.editorSections}"
+							var="section">
+							<li><a href="#tab-#{section.url}">#{section.name}</a></li>
+						</c:forEach>
+					</ul>
+
+					<c:forEach items="#{workflowController.editorSections}"
+						var="section">
+						<div id="tab-#{section.url}">
+							<f:subview>
+								<ui:include src="/pages/workitems/forms/#{section.url}.xhtml">
+									<ui:param name="workitem"
+										value="#{workflowController.workitem}" />
+								</ui:include>
+							</f:subview>
+						</div>
+					</c:forEach>
+
+				</div>
+
+				<!-- Standard Tab Section -->
+				<div class="imixs-tabs" style="margin-top: 10px;">
+					<ul>
+						<li><a href="#tab-comments">#{message.comments}</a></li>
+						<li><a href="#tab-documents">#{message.documents}</a></li>
+						<li><a href="#tab-references">#{message.references}</a></li>
+					</ul>
+					<div id="tab-comments">
+						<ui:include src="/pages/workitems/forms/sub_comment.xhtml" />
+					</div>
+					<div id="tab-documents">
+						<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
+					</div>
+					<div id="tab-references">
+						<ui:include src="/pages/workitems/forms/sub_reference.xhtml" />
+					</div>
+				</div>
 
 
-	</div>
+			</div>
+		</c:otherwise>
+	</c:choose>
+
 
 </ui:composition>
 
