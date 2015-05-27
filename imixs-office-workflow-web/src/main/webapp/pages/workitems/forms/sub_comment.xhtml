@@ -5,7 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 
-	<div class="imixs-form-section">
+	<div class="imixs-form-section imixs-form-comment">
 		<dl class="imixsWidgetAddNewLabel">
 			<!-- ### Kommentar ### -->
 			<dt class="imixs-no-print">
@@ -24,7 +24,7 @@
 					<h:outputLabel value="#{message['form.comment.history']}:" />
 				</dt>
 				<dd>
-					<h:panelGrid columns="3" rowClasses="topAligned">
+					<h:panelGrid columns="3" rowClasses="topAligned" styleClass="imixs-commentlist">
 						<c:forEach
 							items="#{workflowController.workitem.getItemValue('txtCommentLog')}"
 							var="comment">
@@ -32,12 +32,11 @@
 								<h:outputText value="#{comment.datcomment}"
 									style="margin-right:10px;">
 									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-										pattern="#{message.dateTimePattern}" />
+										pattern="#{message.dateTimePatternShort}" />
 								</h:outputText>
 
 								<h:outputText
-									value="#{userController.getUserName(comment.nameditor)}"
-									style="margin-right:10px;" />
+									value="#{userController.getUserName(comment.nameditor)}" />
 
 
 								<h:outputText value="#{comment.txtcomment}" />
