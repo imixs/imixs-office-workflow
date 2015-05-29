@@ -10,19 +10,17 @@
 	 -->
 
 	<c:if test="#{loginController.authenticated}">
-		<h:form>
+		<h:panelGroup layout="block" styleClass="imixs-commandbox">
 
-			<h:panelGroup layout="block" styleClass="imixs-commandbox">
+			<!-- *** Workfow Groups *** -->
 
-				<!-- *** Workfow Groups *** -->
+			<h1>#{message['nav.spaces']}</h1>
+			<ul>
 
-				<h1>#{message['nav.spaces']}</h1>
-				<ul>
-					
-					<ui:repeat value="#{processController.spaces}"
-						var="space">
-						<!-- optional: process.item['isMember'] -->
-						<h:panelGroup layout="block"  rendered="#{space.item['isTeam'] or space.item['isManager']}">
+				<ui:repeat value="#{processController.spaces}" var="space">
+					<!-- optional: process.item['isMember'] -->
+					<h:panelGroup layout="block"
+						rendered="#{space.item['isTeam'] or space.item['isManager']}">
 						<li><h:commandLink action="/pages/workitems/worklist"
 								immediate="true" actionListener="#{searchController.doReset}">
 								<h:outputText value="#{space.item['txtName']}" />
@@ -37,15 +35,14 @@
 									value="" />
 
 							</h:commandLink></li>
-							
-						</h:panelGroup>
-					</ui:repeat>
-				</ul>
 
-			</h:panelGroup>
+					</h:panelGroup>
+				</ui:repeat>
+			</ul>
+
+		</h:panelGroup>
 
 
-		</h:form>
 	</c:if>
 </ui:composition>
 
