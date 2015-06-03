@@ -3,7 +3,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<!-- ##### Portlet View  ######### 
+	<div class="imixs-portlet">
+		<!-- ##### Portlet View  ######### 
 	
 	    Usage: 
 	    
@@ -12,21 +13,21 @@
 		/ui:include 
 	
 	-->
-	<script type="text/javascript">
-		/*<![CDATA[*/
+		<script type="text/javascript">
+			/*<![CDATA[*/
 
-		// This method layouts the filter section with jquery ui design  
-		function refreshViewLayout(data) {
-			if (data.status === 'success') {
-				$(".ui-tooltip").hide();
-				// select with wildcard operator
-				$("span.imixs-tooltip").layoutImixsTooltip();
+			// This method layouts the filter section with jquery ui design  
+			function refreshViewLayout(data) {
+				if (data.status === 'success') {
+					$(".ui-tooltip").hide();
+					// select with wildcard operator
+					$("span.imixs-tooltip").layoutImixsTooltip();
+				}
 			}
-		}
-		/*]]>*/
-	</script>
+			/*]]>*/
+		</script>
 
-	<div class="imixs-portlet">
+
 		<div class="imixs-header">
 
 			<div align="right" style="float: right;">
@@ -36,13 +37,12 @@
 					<f:ajax render="portlet_worklist_body" onevent="refreshViewLayout" />
 				</h:commandLink>
 			</div>
-			
+
 			<!-- single view mode -->
-			<h:panelGroup  rendered="#{!tabMode}">
+			<h:panelGroup rendered="#{!tabMode}">
 				<ul>
-				<li class="active"><h:outputText
-						value="#{message[view.view]}" />
-						</li>
+					<li class="active"><h:outputText value="#{message[view.view]}" />
+					</li>
 				</ul>
 			</h:panelGroup>
 
@@ -51,9 +51,9 @@
 				<ul>
 					<li class="#{view.view eq 'worklist.owner'?'active':'inactive'}">
 						<!-- owner --> <h:outputText
-							rendered="#{view.view eq 'worklist.owner'}" 
+							rendered="#{view.view eq 'worklist.owner'}"
 							value="#{message[view.view]}" /> <h:commandLink
-							rendered="#{view.view ne 'worklist.owner'}" 
+							rendered="#{view.view ne 'worklist.owner'}"
 							actionListener="#{view.doReset}">
 							<h:outputText value="#{message['worklist.owner']}" />
 							<f:setPropertyActionListener target="#{view.view}"
@@ -64,10 +64,10 @@
 					</li>
 					<li class="#{view.view eq 'worklist.creator'?'active':'inactive'}">
 						<!-- creator --> <h:outputText
-							rendered="#{view.view eq 'worklist.creator'}" 
+							rendered="#{view.view eq 'worklist.creator'}"
 							value="#{message[view.view]}" /> <h:commandLink
 							rendered="#{view.view ne 'worklist.creator'}"
-							 actionListener="#{view.doReset}">
+							actionListener="#{view.doReset}">
 							<h:outputText value="#{message['worklist.creator']}" />
 							<f:setPropertyActionListener target="#{view.view}"
 								value="worklist.creator" />
@@ -78,9 +78,9 @@
 					<li class="#{view.view eq 'worklist.favorite'?'active':'inactive'}">
 						<!-- favorite --> <h:outputText
 							rendered="#{view.view eq 'worklist.favorite'}"
-							 value="#{message[view.view]}" /> <h:commandLink
+							value="#{message[view.view]}" /> <h:commandLink
 							rendered="#{view.view ne 'worklist.favorite'}"
-							 actionListener="#{view.doReset}">
+							actionListener="#{view.doReset}">
 							<h:outputText value="#{message['worklist.favorite']}" />
 							<f:setPropertyActionListener target="#{view.view}"
 								value="worklist.favorite" />

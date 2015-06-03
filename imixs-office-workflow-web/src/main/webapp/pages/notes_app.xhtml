@@ -11,67 +11,51 @@
 			/*]]>*/
 		</script>
 
+		<h:form>
+			<div class="row">
 
-		<div class="row">
-			<h:form>
 				<!--  Box 1 -->
-				<div class="col-4">
-					<!-- -->
-					<ui:include src="/pages/portlet_worklist.xhtml">
-						<ui:param name="view" value="#{portletWorklistTasks}" />
-						<ui:param name="tabMode" value="#{false}" />
-					</ui:include>
-				</div>
+				<!-- -->
+				<ui:include src="/pages/portlet_worklist.xhtml">
+					<ui:param name="view" value="#{portletWorklistTasks}" />
+					<ui:param name="tabMode" value="#{false}" />
+				</ui:include>
 
 
 
 				<!--  Box 2 -->
-				<div class="col-4">
-					<!-- -->
-					<ui:include src="/pages/portlet_worklist.xhtml">
-						<ui:param name="view" value="#{portletWorklistCreator}" />
-						<ui:param name="tabMode" value="#{false}" />
-					</ui:include>
-				</div>
+				<!-- -->
+				<ui:include src="/pages/portlet_worklist.xhtml">
+					<ui:param name="view" value="#{portletWorklistCreator}" />
+					<ui:param name="tabMode" value="#{false}" />
+				</ui:include>
 
 
 				<!--  Box 3 -->
-				<div class="col-4">
-					<ui:include src="/pages/portlet_startprocess.xhtml" />
-
-				</div>
-			</h:form>
-		</div>
-		<div class="row">
+				<ui:include src="/pages/portlet_startprocess.xhtml" />
 
 
-			<!--  Box 4 -->
-			<div class="col-4">
-				<h:form>
-					<!-- -->
-					<ui:include src="/pages/portlet_worklist.xhtml">
-						<ui:param name="view" value="#{portletWorklistFavorites}" />
-						<ui:param name="tabMode" value="#{false}" />
-					</ui:include>
-				</h:form>
+				<!--  Box 4 -->
+				<!-- -->
+				<ui:include src="/pages/portlet_worklist.xhtml">
+					<ui:param name="view" value="#{portletWorklistFavorites}" />
+					<ui:param name="tabMode" value="#{false}" />
+				</ui:include>
+
+
+
+				<!--  Box 5 -->
+				<!-- Admin Menu -->
+				<c:if
+					test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
+					<ui:include src="/pages/portlet_admin.xhtml" />
+				</c:if>
+
+				<!--  Box 6 -->
+				
 			</div>
 
-
-
-			<!--  Box 5 -->
-			<div class="col-4">
-					<!-- Admin Menu -->
-					<c:if
-						test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
-						<ui:include src="/pages/portlet_admin.xhtml" />
-					</c:if>
-			</div>
-
-			<!--  Box 6 -->
-			<div class="col-4"></div>
-		</div>
-
-		
+		</h:form>
 	</f:view>
 
 

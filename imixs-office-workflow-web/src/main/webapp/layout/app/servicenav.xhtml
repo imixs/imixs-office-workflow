@@ -17,7 +17,7 @@
 
 
 			<!-- settings -->
-			<h:panelGroup layout="block" styleClass="toolbar"
+			<h:panelGroup layout="block" styleClass="toolbar settings"
 				rendered="#{loginController.authenticated}">
 
 				<h:commandLink actionListener="#{workflowController.reset}"
@@ -30,7 +30,7 @@
 
 
 <!-- Login -->
-			<h:panelGroup layout="block" styleClass="toolbar"
+			<h:panelGroup layout="block" styleClass="toolbar login"
 				rendered="#{loginController.authenticated}">
 				<h:outputText value="#{message.signed_in}: " />
 				<h:outputText
@@ -56,7 +56,7 @@
 			<!-- Search -->
 			<c:if test="#{loginController.authenticated}">
 
-				<h:panelGroup layout="block" styleClass="toolbar">
+				<h:panelGroup layout="block" styleClass="toolbar search">
 
 					<h:inputText
 						value="#{searchController.searchFilter.item['txtSearch']}"
