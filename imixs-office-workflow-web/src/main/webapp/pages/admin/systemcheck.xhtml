@@ -2,6 +2,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	template="/layout/template.xhtml">
 
 	<ui:define name="content">
@@ -20,13 +21,26 @@
 						<div class="imixs-form-panel">
 
 							<h:panelGrid columns="2">
-								<h:outputText value="Application:" />
+								<h:outputText value="Application Name:" />
 								<h:outputText value="#{app.application_title}" />
-								<h:outputText value="Build:" />
+								
+								<h:outputText value="App Version:" />
 								<h:outputText value="#{app.application_build}" />
+								
+								 
+								<h:outputText value="Marty Version:" />
+								<h:outputText value="#{app.application_marty_build}" />
+							
+								<h:outputText value="Workflow Version:" />
+								<h:outputText value="#{app.application_workflow_build}" />
+							
+								
+								<h:outputText value="JNDI-Name:" />
+								<h:outputText value="#{setupController.appName}/#{fn:replace(setupController.moduleName, '-web-', '-ejb-')}" />
+								
 								<h:outputText value="Systemstatus:" />
 								<h:outputText value="ok" />
-
+								
 
 								<h:outputText value="Support:" />
 								<h:panelGroup>
