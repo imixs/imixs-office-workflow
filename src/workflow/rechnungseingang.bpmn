@@ -163,6 +163,9 @@
     followUp=21;
 }]]></imixs:value>
         </imixs:item>
+        <imixs:item name="txtactivityresult" type="CDATA">
+          <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
+        </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_11</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_13</bpmn2:outgoing>
@@ -182,6 +185,9 @@
         <imixs:item name="keyaddwritefields" type="xs:string">
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtactivityresult" type="CDATA">
+          <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_15</bpmn2:incoming>
@@ -205,11 +211,7 @@
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtbusinessrule" type="CDATA">
-          <imixs:value><![CDATA[// if betrag > 20000 append 21
- var followUp=null;
- if (_capacity[0]<2000) {
-    followUp=21;
-}]]></imixs:value>
+          <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_2</bpmn2:incoming>
@@ -233,11 +235,10 @@
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtbusinessrule" type="CDATA">
-          <imixs:value><![CDATA[// if betrag > 20000 append 21
- var followUp=null;
- if (_capacity[0]<2000) {
-    followUp=21;
-}]]></imixs:value>
+          <imixs:value><![CDATA[]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtactivityresult" type="CDATA">
+          <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_18</bpmn2:incoming>
@@ -259,11 +260,7 @@
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtbusinessrule" type="CDATA">
-          <imixs:value><![CDATA[// if betrag > 20000 append 21
- var followUp=null;
- if (_capacity[0]<2000) {
-    followUp=21;
-}]]></imixs:value>
+          <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_5</bpmn2:incoming>
@@ -271,7 +268,7 @@
     </bpmn2:intermediateThrowEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_5" sourceRef="EventBasedGateway_2" targetRef="IntermediateThrowEvent_9"/>
     <bpmn2:sequenceFlow id="SequenceFlow_14" sourceRef="IntermediateThrowEvent_9" targetRef="Task_3"/>
-    <bpmn2:intermediateThrowEvent id="IntermediateThrowEvent_11" imixs:activityid="50" name="Speichern">
+    <bpmn2:intermediateThrowEvent id="IntermediateThrowEvent_11" imixs:activityid="50" name="Bezahlen">
       <bpmn2:extensionElements>
         <imixs:item name="rtfresultlog" type="CDATA">
           <imixs:value><![CDATA[Bezahlt von <itemvalue>namcurrentEditor</itemvalue>]]></imixs:value>
@@ -279,19 +276,16 @@
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
         </imixs:item>
-        <imixs:item name="keyownershipfields" type="xs:string">
-          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
-        </imixs:item>
+        <imixs:item name="keyownershipfields" type="xs:string"/>
         <imixs:item name="keyaddwritefields" type="xs:string">
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtbusinessrule" type="CDATA">
-          <imixs:value><![CDATA[// if betrag > 20000 append 21
- var followUp=null;
- if (_capacity[0]<2000) {
-    followUp=21;
-}]]></imixs:value>
+          <imixs:value><![CDATA[]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtactivityresult" type="CDATA">
+          <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_22</bpmn2:incoming>
@@ -403,7 +397,7 @@
       <bpmndi:BPMNShape id="BPMNShape_IntermediateThrowEvent_7" bpmnElement="IntermediateThrowEvent_11">
         <dc:Bounds height="36.0" width="36.0" x="1030.0" y="150.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_28">
-          <dc:Bounds height="14.0" width="56.0" x="1020.0" y="186.0"/>
+          <dc:Bounds height="14.0" width="52.0" x="1022.0" y="186.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_1" bpmnElement="IntermediateCatchEvent_1">
