@@ -51,13 +51,13 @@
 <itemvalue>_description</itemvalue>]]></imixs:value>
         </imixs:item>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel#basic|sub_agreement|sub_dispatch]]></imixs:value>
+          <imixs:value><![CDATA[form_panel#basic_invoice_out|sub_dispatch]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtimageurl" type="xs:string">
           <imixs:value><![CDATA[/layout/icons/vwicn060.png]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_1">&lt;b>Create&lt;/b> a new ticket</bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_1">Neuen Rechnungseingang erfassen.</bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_23</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_11</bpmn2:outgoing>
@@ -159,7 +159,7 @@
         <imixs:item name="txtbusinessrule" type="CDATA">
           <imixs:value><![CDATA[// if betrag > 20000 append 21
  var followUp=null;
- if (_capacity[0]<2000) {
+ if (_amount[0]<2000) {
     followUp=21;
 }]]></imixs:value>
         </imixs:item>
@@ -167,6 +167,7 @@
           <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
+      <bpmn2:documentation id="Documentation_3">Weiterleiten an Fachbereich</bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_11</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_13</bpmn2:outgoing>
     </bpmn2:intermediateThrowEvent>
