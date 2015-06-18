@@ -6,6 +6,8 @@
 
 	<ui:param name="process"
 		value="#{processController.getEntityById(searchController.searchFilter.item['txtprocessRef'])}" />
+	<ui:param name="space"
+		value="#{processController.getEntityById(searchController.searchFilter.item['txtspaceRef'])}" />
 
 	<script type="text/javascript">
 		/*<![CDATA[*/
@@ -31,11 +33,12 @@
 		<div style="float: left">
 			<h1>
 				<!-- Project Name -->
-				<h:outputText value="#{process.item['txtName']}" />
-
-				<h:outputText rendered="#{empty process.item['txtName']}"
+				<h:outputText rendered="#{!empty process.item['txtName']}" value="#{process.item['txtName']}" />
+				<!-- Space Name -->
+ 				<h:outputText  rendered="#{!empty space.item['txtName'] and empty process.item['txtName']}" value="#{space.item['txtName']}" />
+				<!-- Search -->
+				<h:outputText rendered="#{empty process.item['txtName'] and empty space.item['txtName']}"
 					value="#{message.search}" />
-
 			</h1>
 		</div>
 		<div style="float: right">
