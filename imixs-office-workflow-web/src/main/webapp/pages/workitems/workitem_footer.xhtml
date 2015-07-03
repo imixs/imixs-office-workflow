@@ -42,15 +42,17 @@
 			<!-- jQuery code to disable all input elements in read modus -->
 			<script type="text/javascript">
 				/*<![CDATA[*/
-				$(".imixs-body :input").attr("disabled", true);
-				
-				// remove imixs-data class
-				$(".imixs-date").removeClass("imixs-date");
-				$("#imixs_file_upload, #imixs-add-file-link").hide();
-				$(".imixs-action-dms-comment, .imixs-action-dms-remove, .marty-workitemlink-entry-remove, .marty-workitemlink-inputbox").hide();
-
-				// imixs link input
-				$('.marty-workitemlink').addClass("imixs-input-disabled");
+				$(document).ready(function() {				
+					$(".imixs-body :input").attr("disabled", true);
+					
+					// remove imixs-data class
+					$(".imixs-date").removeClass("imixs-date");
+					$("#imixs_file_upload, #imixs-add-file-link").hide();
+					$(".imixs-action-dms-comment, .imixs-action-dms-remove, .marty-workitemlink-entry-remove, .marty-workitemlink-inputbox").hide();
+	
+					// imixs link input
+					$('.marty-workitemlink').addClass("imixs-input-disabled");
+				 });
 				/*]]>*/
 			</script>
 		</c:otherwise>
