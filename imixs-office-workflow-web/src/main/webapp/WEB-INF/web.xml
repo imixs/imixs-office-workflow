@@ -94,7 +94,7 @@
 	</error-page>
 	<error-page>
 		<error-code>403</error-code>
-		<location>/loginerror.jsf</location>
+		<location>/authorizationerror.jsf</location>
 	</error-page>
 	<error-page>
 		<error-code>404</error-code>
@@ -139,6 +139,15 @@
 			<role-name>org.imixs.ACCESSLEVEL.MANAGERACCESS</role-name>
 		</auth-constraint>
 	</security-constraint>
+	<security-constraint>
+        <web-resource-collection>
+            <web-resource-name>AUTHENTICATED_ADMIN_RESOURCE</web-resource-name>
+            <url-pattern>/pages/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>org.imixs.ACCESSLEVEL.MANAGERACCESS</role-name>
+        </auth-constraint>
+    </security-constraint>
 	<security-role>
 		<role-name>org.imixs.ACCESSLEVEL.NOACCESS</role-name>
 	</security-role>
