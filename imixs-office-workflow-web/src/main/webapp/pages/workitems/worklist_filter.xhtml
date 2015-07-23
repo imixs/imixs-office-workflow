@@ -21,7 +21,7 @@
 					<c:forEach items="#{modelController.workflowGroups}" var="workflow">
 						<f:selectItem itemValue="#{workflow}" itemLabel="#{workflow}" />
 					</c:forEach>
-					<f:ajax event="change" listener="#{searchController.doRefresh}"
+					<f:ajax event="change" listener="#{searchController.doRefreshWorkflowGroup}"
 						render="@form" onevent="refreshViewLayout" />
 				</h:selectOneMenu>
 			</dd>
