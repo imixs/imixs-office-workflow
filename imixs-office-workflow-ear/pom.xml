@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>imixs-office-workflow</artifactId>
@@ -22,15 +23,15 @@
 					<applicationName>${imixs-office.applicationname}</applicationName>
 					<defaultLibBundleDir>lib</defaultLibBundleDir>
 					<filtering>true</filtering>
-					
+
 					<modules>
-					<!-- Web Gui -->
+						<!-- Web Gui -->
 						<webModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>imixs-office-workflow-web</artifactId>
 							<contextRoot>${imixs-office.contextroot}</contextRoot>
 						</webModule>
-					<!-- Rest API -->
+						<!-- Rest API -->
 						<webModule>
 							<groupId>com.imixs.workflow</groupId>
 							<artifactId>imixs-office-workflow-rest</artifactId>
@@ -65,12 +66,12 @@
 							<artifactId>imixs-marty-ejb</artifactId>
 							<bundleDir>/</bundleDir>
 						</JarModule>
-						
+
 					</modules>
-					
-					
-          			 <unpackTypes>${custom.unpackTypes}</unpackTypes>
-          			 
+
+
+					<unpackTypes>${custom.unpackTypes}</unpackTypes>
+
 				</configuration>
 			</plugin>
 		</plugins>
@@ -89,15 +90,15 @@
 			<artifactId>imixs-workflow-engine</artifactId>
 			<type>jar</type>
 		</dependency>
-	
+
 		<!-- Marty -->
 		<dependency>
 			<groupId>org.imixs.marty</groupId>
 			<artifactId>imixs-marty-ejb</artifactId>
 			<type>jar</type>
 		</dependency>
-	
-		<!-- Office -->	
+
+		<!-- Office -->
 		<dependency>
 			<groupId>com.imixs.workflow</groupId>
 			<artifactId>
@@ -118,7 +119,7 @@
 			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
-		
+
 		<!-- Mobile -->
 		<dependency>
 			<groupId>com.imixs.workflow</groupId>
@@ -126,24 +127,24 @@
 			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
-		
- 
+
+
 		<!-- Apache Lucene -->
-	    <dependency>
-	        <groupId>org.apache.lucene</groupId>
-	        <artifactId>lucene-core</artifactId>
-	        <scope>compile</scope>
-	    </dependency>
-	    <dependency>
-	        <groupId>org.apache.lucene</groupId>
-	        <artifactId>lucene-analyzers-common</artifactId>
-	        <scope>compile</scope>
-	    </dependency>
-	    <dependency>
-	        <groupId>org.apache.lucene</groupId>
-	        <artifactId>lucene-queryparser</artifactId>
-	        <scope>compile</scope>
-	    </dependency>
-   
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-common</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-queryparser</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
 	</dependencies>
 </project>
