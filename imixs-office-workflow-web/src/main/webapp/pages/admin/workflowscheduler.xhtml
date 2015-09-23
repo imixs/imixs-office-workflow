@@ -26,60 +26,11 @@
 						<!-- **** General info ***** -->
 						<div class="imixs-form-panel">
 							<h1>#{message['admin.timer.configuration']}</h1>
-
-
 							<h:inputTextarea required="false"
 								converter="org.imixs.VectorConverter"
 								style="height: 8em; width: 100%;"
 								value="#{workflowSchedulerController.configuration.itemList['txtConfiguration']}">
 							</h:inputTextarea>
-
-							<!-- old configuration -->
-							<h:panelGroup rendered="false">
-
-								<dl class="columns-2">
-
-									<dt>#{message['admin.timer.start']}:</dt>
-									<dd>
-										<h:inputText
-											value="#{workflowSchedulerController.configuration.item['datstart']}"
-											styleClass="imixs-date">
-											<f:convertDateTime pattern="#{message.datePatternShort}"
-												timeZone="#{message.timeZone}" />
-										</h:inputText>
-									</dd>
-
-									<dt>#{message['admin.timer.stop']}:</dt>
-
-									<dd>
-										<h:inputText
-											value="#{workflowSchedulerController.configuration.item['datstop']}"
-											styleClass="imixs-date">
-											<f:convertDateTime pattern="#{message.datePatternShort}"
-												timeZone="#{message.timeZone}" />
-										</h:inputText>
-									</dd>
-
-								</dl>
-								<dl class="columns-1">
-									<dt>#{message['admin.timer.interval']}:</dt>
-									<dd>
-										<h:inputText
-											value="#{workflowSchedulerController.configuration.item['hours']}"
-											style="width:40px;" />
-										#{message['admin.timer.hours']}
-										<h:inputText
-											value="#{workflowSchedulerController.configuration.item['minutes']}"
-											style="width:40px;" />
-										#{message['admin.timer.minutes']}
-									</dd>
-
-
-
-								</dl>
-
-								<div style="clear: left;" />
-							</h:panelGroup>
 						</div>
 
 
@@ -90,7 +41,7 @@
 						<div class="imixs-form-panel">
 							<h1>
 								<h:outputText
-									value="Status: #{workflowSchedulerController.configuration.item['statusMessage']}" />
+									value="Status: #{!empty workflowSchedulerController.configuration.item['nextTimeout']?'running':'stopped'}" />
 							</h1>
 
 							<h:panelGrid columns="2" id="timer_details">
@@ -103,17 +54,46 @@
 										value="#{workflowSchedulerController.configuration.item['$UniqueID']}" />
 
 									<h:outputText
-										rendered="#{!empty workflowSchedulerController.configuration.item['nextTimeout']}"
-										value=" (running)" />
-								</h:panelGroup>
+										value=" (#{workflowSchedulerController.configuration.item['statusMessage']})" />
 
+								</h:panelGroup>
 
 								<h:outputText value="Schedule: " />
 								<h:outputText
 									value="#{workflowSchedulerController.configuration.item['Schedule']}" />
 
 
+								<h:panelGroup>
+									<hr />
+								</h:panelGroup>
+								<h:panelGroup>
+									<hr />
+								</h:panelGroup>
 
+
+								<h:outputText value="Last run: " />
+								<h:outputText
+									value="#{workflowSchedulerController.configuration.item['datLastRun']}">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="#{message.dateTimePattern}" />
+
+
+								</h:outputText>
+
+								<h:outputText value="Processed: " />
+								<h:outputText
+									value="#{workflowSchedulerController.configuration.item['numWorkItemsProcessed']}" />
+
+								<h:outputText value="Errors: " />
+								<h:outputText
+									value="#{workflowSchedulerController.configuration.item['numWorkItemsUnprocessed']}" />
+
+								<h:panelGroup>
+									<hr />
+								</h:panelGroup>
+								<h:panelGroup>
+									<hr />
+								</h:panelGroup>
 								<h:outputText value="Next Timeout: " />
 								<h:panelGroup>
 									<h:outputText
@@ -134,27 +114,9 @@
 
 
 
-								<h:outputText value="Last run: " />
-								<h:outputText
-									value="#{workflowSchedulerController.configuration.item['datLastRun']}">
-									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-										pattern="#{message.dateTimePattern}" />
-
-
-								</h:outputText>
-
-								<h:outputText value="Processed workitems: " />
-								<h:outputText
-									value="#{workflowSchedulerController.configuration.item['numWorkItemsProcessed']}" />
-
-								<h:outputText value="Errors: " />
-								<h:outputText
-									value="#{workflowSchedulerController.configuration.item['numWorkItemsUnprocessed']}" />
-
-
-
 							</h:panelGrid>
-							<h:commandButton value="#{message.refresh}"
+							<h:commandButton style="margin-top:10px;"
+								value="#{message.refresh}"
 								actionListener="#{workflowSchedulerController.refresh}">
 								<f:ajax render="timer_details" />
 							</h:commandButton>
