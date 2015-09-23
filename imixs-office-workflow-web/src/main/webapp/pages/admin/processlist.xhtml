@@ -7,13 +7,13 @@
 
 	<ui:define name="content">
 		<script type="text/javascript">
-		/*<![CDATA[*/
-			function updateTable(e) { 
-    				if(e.status == 'success') { 
-			        	$('.imixsdatatable').layoutImixsTable()
-			    	} 
+			/*<![CDATA[*/
+			function updateTable(e) {
+				if (e.status == 'success') {
+					$('.imixsdatatable').layoutImixsTable()
+				}
 			}
-		 /*]]>*/	
+			/*]]>*/
 		</script>
 		<f:view>
 			<h:form>
@@ -80,9 +80,10 @@
 							<h:column>
 								<f:facet name="header">#{message.action}</f:facet>
 								<!-- Edit -->
-								<h:commandLink title="#{message.edit}" styleClass="imixs-viewentry-action-link"
+								<h:commandLink title="#{message.edit}"
+									styleClass="imixs-viewentry-action-link"
 									action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/process.xhtml')}">
-									<h:graphicImage url="/layout/icons/Edit_16.png"/>#{message.edit}
+									<h:graphicImage url="/layout/icons/Edit_16.png" />#{message.edit}
 								</h:commandLink>
 							</h:column>
 						</h:dataTable>
@@ -114,6 +115,10 @@
 								target="#{workflowController.workitem.item['type']}"
 								value="process" />
 
+						</h:commandButton>
+
+
+						<h:commandButton action="home" value="#{message.close}">
 						</h:commandButton>
 					</div>
 				</div>

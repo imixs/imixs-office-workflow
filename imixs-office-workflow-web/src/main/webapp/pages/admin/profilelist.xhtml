@@ -96,7 +96,18 @@
 
 							<h:column>
 								<f:facet name="header">#{message.status}</f:facet>
-								<h:outputText value="#{record.item['txtWorkflowStatus']}" />
+
+								<div title=" ">
+									<h:outputText value="#{record.item['txtWorkflowStatus']}" />
+								</div>
+
+								<!-- Tooltip -->
+								<h:panelGroup style="display:none;" class="imixs-tooltip">
+									<ui:repeat var="grp" value="#{record.itemListArray['txtGroups']}">
+									<h:outputText value="#{grp}" /><br />
+									</ui:repeat>
+									
+								</h:panelGroup>
 							</h:column>
 
 
@@ -114,10 +125,13 @@
 								<h:outputText value="#{record.item['txtEmail']} " />
 							</h:column>
 
-
-
 						</h:dataTable>
 					</div>
+
+
+
+
+
 					<div class="imixs-footer">
 						<h:commandButton
 							actionListener="#{profileViewController.doLoadPrev}"
@@ -147,6 +161,8 @@
 
 						</h:commandButton>
 
+						<h:commandButton action="home" value="#{message.close}">
+						</h:commandButton>
 
 					</div>
 				</div>
