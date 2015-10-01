@@ -8,45 +8,38 @@
 	<!-- 
 		The SpaceList provides all spaces for the current user
 	 -->
+	<h:panelGroup layout="block" styleClass="imixs-commandbox">
 
-	<c:if test="#{loginController.authenticated}">
-		<h:form>
+		<!-- *** Workfow Groups *** -->
 
-			<h:panelGroup layout="block" styleClass="imixs-commandbox">
+		<h1>#{message['nav.spaces']}</h1>
+		<ul>
 
-				<!-- *** Workfow Groups *** -->
+			<ui:repeat value="#{processController.spaces}" var="space">
+				<!-- optional: process.item['isMember'] -->
+				<h:panelGroup layout="block"
+					rendered="#{space.item['isTeam'] or space.item['isManager']}">
+					<li><h:commandLink action="/pages/workitems/worklist"
+							immediate="true" actionListener="#{searchController.doReset}">
+							<h:outputText value="#{space.item['txtName']}" />
+							<f:setPropertyActionListener
+								target="#{searchController.searchFilter.item['txtProcessRef']}"
+								value="" />
+							<f:setPropertyActionListener
+								target="#{searchController.searchFilter.item['txtSpaceRef']}"
+								value="#{space.item['$uniqueId']}" />
+							<f:setPropertyActionListener
+								target="#{searchController.searchFilter.item['txtSearch']}"
+								value="" />
 
-				<h1>#{message['nav.spaces']}</h1>
-				<ul>
-					
-					<ui:repeat value="#{processController.spaces}"
-						var="space">
-						<!-- optional: process.item['isMember'] -->
-						<h:panelGroup layout="block"  rendered="#{space.item['isTeam'] or space.item['isManager']}">
-						<li><h:commandLink action="/pages/workitems/worklist"
-								immediate="true" actionListener="#{searchController.doReset}">
-								<h:outputText value="#{space.item['txtName']}" />
-								<f:setPropertyActionListener
-									target="#{searchController.searchFilter.item['txtProcessRef']}"
-									value="" />
-								<f:setPropertyActionListener
-									target="#{searchController.searchFilter.item['txtSpaceRef']}"
-									value="#{space.item['$uniqueId']}" />
-								<f:setPropertyActionListener
-									target="#{searchController.searchFilter.item['txtSearch']}"
-									value="" />
+						</h:commandLink></li>
 
-							</h:commandLink></li>
-							
-						</h:panelGroup>
-					</ui:repeat>
-				</ul>
+				</h:panelGroup>
+			</ui:repeat>
+		</ul>
 
-			</h:panelGroup>
+	</h:panelGroup>
 
-
-		</h:form>
-	</c:if>
 </ui:composition>
 
 
