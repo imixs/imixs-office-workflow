@@ -39,7 +39,7 @@
 						<f:selectItem itemValue="#{processentity.item['numProcessID']}"
 							itemLabel="#{processentity.item['txtname']}" />
 					</c:forEach>
-					<f:ajax event="change" listener="#{searchController.doRefresh}"
+					<f:ajax event="change" listener="#{searchController.doResetSearchResult()}"
 						render="@form" onevent="refreshViewLayout" />
 				</h:selectOneMenu>
 			</dd>
@@ -61,7 +61,7 @@
 							<f:selectItem itemValue="#{space.item['$UniqueID']}"
 								itemLabel="#{space.item['txtname']}" />
 						</c:forEach>
-						<f:ajax event="change" listener="#{searchController.doRefresh}"
+						<f:ajax event="change" listener="#{searchController.doResetSearchResult()}"
 							render="@form" onevent="refreshViewLayout" />
 					</h:selectOneMenu>
 				</dd>
