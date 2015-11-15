@@ -6,6 +6,30 @@
 	template="/layout/template.xhtml">
 
 	<ui:define name="content">
+
+
+		<script type="text/javascript">
+			/*<![CDATA[*/
+
+			// open admin client 
+			function openAdminClient() {
+				
+				loc = window.location;
+				
+				root=loc.pathname; // => "/pathname/"
+				root=root.substring(1);
+				root=root.substring(0,root.indexOf('/'))+"-rest";
+				
+				url ="/imixsadmin/?service="+root;
+				window.open(url,"_blank");
+				
+			
+			}
+
+			/*]]>*/
+		</script>
+
+
 		<f:view>
 
 			<h:form id="news_form_id">
@@ -23,24 +47,36 @@
 							<h:panelGrid columns="2">
 								<h:outputText value="Application Name:" />
 								<h:outputText value="#{app.application_title}" />
-								
+
 								<h:outputText value="App Version:" />
 								<h:outputText value="#{app.application_build}" />
-								
-								 
+
+
 								<h:outputText value="Marty Version:" />
 								<h:outputText value="#{app.application_marty_build}" />
-							
+
 								<h:outputText value="Workflow Version:" />
 								<h:outputText value="#{app.application_workflow_build}" />
-							
-								
+
+
+
 								<h:outputText value="JNDI-Name:" />
-								<h:outputText value="#{setupController.appName}/#{fn:replace(setupController.moduleName, '-web-', '-ejb-')}" />
-								
+
+								<h:outputText
+									value="#{setupController.appName}/#{fn:replace(setupController.moduleName, '-web-', '-ejb-')}" />
+
 								<h:outputText value="Systemstatus:" />
 								<h:outputText value="ok" />
-								
+
+
+								<h:outputText value="Administration: " />
+								<h:panelGroup>
+									<a href="javascript:void;" onclick="openAdminClient()"> <h:outputText
+											value="Imixs-Admin-Client" />
+									</a>
+								</h:panelGroup>
+
+
 
 								<h:outputText value="Support:" />
 								<h:panelGroup>
