@@ -3,19 +3,6 @@ body {
 	color: #414141;
 }
 
-/* Ajax loader */
-.imixs-wait {
-	display: none;
-	position: fixed;
-	z-index: 1000;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	background: rgba(255, 255, 255, .8) url('../../icons/ajax-loader.gif') 50%
-		50% no-repeat;
-}
-
 body.loading {
 	overflow: hidden;
 }
@@ -40,6 +27,43 @@ select {
 .pull-right {
 	float: right;
 	margin-left: 20px;
+}
+
+/* Ajax loader */
+.imixs-wait {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(255, 255, 255, .8) url('../../icons/ajax-loader.gif')
+		50% 50% no-repeat;
+}
+
+.imixs-state-info {
+	font-size: 1.2em;
+	padding: 5px;
+	
+}
+
+.imixs-state-success {
+	color: #7ad162;
+	font-size: 1.2em;
+	padding: 5px;
+}
+
+.imixs-state-warning {
+	color: #ffcc00;
+	font-size: 1.2em;
+	padding: 5px;
+}
+
+.imixs-state-error {
+	color: #d18262;
+	font-size: 1.2em;
+	padding: 5px;
 }
 
 #header {
@@ -907,7 +931,7 @@ dl dd  .imixs-datetime-picker select {
 		float: left;
 		clear: none;
 	}
-	.imixs-portlet:nth-child(3n+3),.imixs-portlet:nth-child(5) {
+	.imixs-portlet:nth-child(3n+3), .imixs-portlet:nth-child(5) {
 		clear: left;
 		border-right: 1px solid #aaaaaa;
 	}

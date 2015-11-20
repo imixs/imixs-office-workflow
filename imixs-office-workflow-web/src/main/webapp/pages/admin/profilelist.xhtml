@@ -31,23 +31,33 @@
 							<h:column>
 								<f:facet name="header">
 									<h:panelGroup>
-										<h:panelGroup styleClass="ui-icon ui-icon-triangle-1-s"
-											style="float: left;"
-											rendered="#{profileViewController.view == 'worklist.name.asc'}" />
 										<h:commandLink value="#{message['profile.userid']}">
 											<f:setPropertyActionListener
 												target="#{profileViewController.view}"
 												value="worklist.name.asc" />
 											<f:ajax render="view_body" onevent="updateTable" />
+
+											<h:panelGroup
+												styleClass="typcn typcn-arrow-sorted-down imixs-state-info"
+												rendered="#{profileViewController.view == 'worklist.name.asc'}"></h:panelGroup>
+											<h:panelGroup
+												styleClass="typcn typcn-arrow-unsorted imixs-state-info"
+												rendered="#{profileViewController.view ne 'worklist.name.asc'}"></h:panelGroup>
+
+
 										</h:commandLink>
 									</h:panelGroup>
 
 								</f:facet>
 
-								<h:graphicImage value="/layout/icons/unlocked.gif"
+
+								<h:panelGroup styleClass="typcn typcn-tick imixs-state-success"
 									rendered="#{record.item['$processid'] ge 210}" />
-								<h:graphicImage value="/layout/icons/locked.gif"
+
+								<h:panelGroup styleClass="typcn typcn-warning imixs-state-error"
 									rendered="#{record.item['$processid'] lt 210}" />
+
+
 
 								<h:commandLink styleClass="imixs-viewentry-main-link"
 									action="#{workflowController.load(record.item['$uniqueid'],'profile')}">
@@ -73,14 +83,18 @@
 								<f:facet name="header">
 
 									<h:panelGroup>
-										<h:panelGroup styleClass="ui-icon ui-icon-triangle-1-s"
-											style="float: left;"
-											rendered="#{profileViewController.view == 'worklist.modified.desc'}" />
 										<h:commandLink value="#{message.modified}">
 											<f:setPropertyActionListener
 												target="#{profileViewController.view}"
 												value="worklist.modified.desc" />
 											<f:ajax render="view_body" onevent="updateTable" />
+
+											<h:panelGroup
+												styleClass="typcn typcn-arrow-sorted-down imixs-state-info"
+												rendered="#{profileViewController.view == 'worklist.modified.desc'}"></h:panelGroup>
+											<h:panelGroup
+												styleClass="typcn typcn-arrow-unsorted imixs-state-info"
+												rendered="#{profileViewController.view ne 'worklist.modified.desc'}"></h:panelGroup>
 
 										</h:commandLink>
 									</h:panelGroup>
@@ -103,10 +117,12 @@
 
 								<!-- Tooltip -->
 								<h:panelGroup style="display:none;" class="imixs-tooltip">
-									<ui:repeat var="grp" value="#{record.itemListArray['txtGroups']}">
-									<h:outputText value="#{grp}" /><br />
+									<ui:repeat var="grp"
+										value="#{record.itemListArray['txtGroups']}">
+										<h:outputText value="#{grp}" />
+										<br />
 									</ui:repeat>
-									
+
 								</h:panelGroup>
 							</h:column>
 

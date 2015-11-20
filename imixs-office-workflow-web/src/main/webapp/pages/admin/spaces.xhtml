@@ -34,14 +34,20 @@
 							<h:column>
 								<f:facet name="header">
 									<h:panelGroup>
-										<h:panelGroup styleClass="ui-icon ui-icon-triangle-1-s"
-											style="float: left;"
-											rendered="#{spaceViewController.view == 'worklist.name.asc'}" />
 										<h:commandLink value="#{message.name}">
 											<f:setPropertyActionListener
 												target="#{spaceViewController.view}"
 												value="worklist.name.asc" />
 											<f:ajax render="view_body" onevent="updateTable" />
+
+
+											<h:panelGroup
+												styleClass="typcn typcn-arrow-sorted-down imixs-state-info"
+												rendered="#{spaceViewController.view == 'worklist.name.asc'}"></h:panelGroup>
+											<h:panelGroup
+												styleClass="typcn typcn-arrow-unsorted imixs-state-info"
+												rendered="#{spaceViewController.view ne 'worklist.name.asc'}"></h:panelGroup>
+
 										</h:commandLink>
 									</h:panelGroup>
 								</f:facet>
@@ -58,14 +64,17 @@
 							<h:column>
 								<f:facet name="header">
 									<h:panelGroup>
-										<h:panelGroup styleClass="ui-icon ui-icon-triangle-1-s"
-											style="float: left;"
-											rendered="#{spaceViewController.view == 'worklist.modified.desc'}" />
 										<h:commandLink value="#{message.modified}">
 											<f:setPropertyActionListener
 												target="#{spaceViewController.view}"
 												value="worklist.modified.desc" />
 											<f:ajax render="view_body" onevent="updateTable" />
+											<h:panelGroup
+												styleClass="typcn typcn-arrow-sorted-down imixs-state-info"
+												rendered="#{spaceViewController.view == 'worklist.modified.desc'}"></h:panelGroup>
+											<h:panelGroup
+												styleClass="typcn typcn-arrow-unsorted imixs-state-info"
+												rendered="#{spaceViewController.view ne 'worklist.modified.desc'}"></h:panelGroup>
 
 										</h:commandLink>
 									</h:panelGroup>
@@ -83,7 +92,9 @@
 								<h:commandLink title="#{message.edit}"
 									styleClass="imixs-viewentry-action-link"
 									action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/space.xhtml')}">
-									<h:graphicImage url="/layout/icons/Edit_16.png" />#{message.edit}
+
+									<span class="typcn typcn-pencil imixs-state-info"></span>
+									#{message.edit}
 								</h:commandLink>
 
 								<!-- Subspace -->
@@ -91,7 +102,7 @@
 									title="#{message.add}"
 									actionListener="#{workflowController.create}"
 									action="/pages/admin/space.xhtml">
-									<h:graphicImage url="/layout/icons/New_16.png" />#{message.add}
+									<span class="typcn typcn-flow-children imixs-state-info"></span>#{message.add}
 									
 									<f:setPropertyActionListener
 										target="#{workflowController.workitem.item['$modelVersion']}"
