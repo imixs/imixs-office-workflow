@@ -53,7 +53,7 @@
 				<f:selectItem itemLabel="#{message['worklist.deletions']}"
 					itemValue="workitemdeleted" />
 				 -->
-				<f:ajax event="change" listener="#{searchController.doRefresh}"
+				<f:ajax event="change" listener="#{searchController.doResetSearchResult()}"
 					render="@form" onevent="refreshViewLayout" />
 			</h:selectManyCheckbox>
 
