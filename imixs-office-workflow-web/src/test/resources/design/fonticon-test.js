@@ -1,19 +1,32 @@
-$("input[name='icontheme']").bind({
-	click : function() {
 
-		$(".imixs-viewentry-icon").removeClass("imixs-info");
-		$(".imixs-viewentry-icon").removeClass("imixs-success");
-		$(".imixs-viewentry-icon").removeClass("imixs-warning");
-		$(".imixs-viewentry-icon").removeClass("imixs-error");
+/* icon-main */
+$("#icon-main").bind({
+	change : function() {
+		$( ".imixs-viewentry-icon a span" ).removeClass();
+		$( ".imixs-viewentry-icon a span" ).addClass("typcn " + $(this).val());
+	}
+});
+
+/* icon-main theme */
+$("input[name^='imixs-viewentry-icon']").bind({
+	click : function() {
+		
+		var elementName=$(this).attr("name");
+		elementName="."+elementName.replace("-theme","");
+		
+		$(elementName).removeClass("imixs-info");
+		$(elementName).removeClass("imixs-success");
+		$(elementName).removeClass("imixs-warning");
+		$(elementName).removeClass("imixs-error");
 
 		var theme = $(this).val();
-		$(".imixs-viewentry-icon").addClass(theme);
+		$(elementName).addClass(theme);
 	}
 });
 
 
-
-$("#icontheme-ne").bind({
+/* icon-ne */
+$("#icon-ne").bind({
 	change : function() {
 	
 		
@@ -24,6 +37,15 @@ $("#icontheme-ne").bind({
 		
 		$( ".imixs-viewentry-icon-ne span" ).addClass("typcn " + $(this).val());
 		//imixs-viewentry-icon-ne
+		
+		// Hide if empty
+		if (""===$(this).val()) {
+			//$( ".imixs-viewentry-icon-ne" ).attr("visibility","hidden");
+			$( ".imixs-viewentry-icon-ne" ).hide();
+		} else {
+			//$( ".imixs-viewentry-icon-ne" ).attr("visibility","visible");
+			$( ".imixs-viewentry-icon-ne" ).show();
+		}
 	}
 });
 	
