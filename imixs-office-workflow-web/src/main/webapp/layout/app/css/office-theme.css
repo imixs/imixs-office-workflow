@@ -286,7 +286,6 @@ select {
 	padding: 10px 10px;
 	margin-bottom: 15px;
 	border-bottom: 1px solid #ccc;
-	xbackground-color: #F4F4F4;
 }
 
 .imixs-form .imixs-header label {
@@ -420,31 +419,16 @@ select {
 .imixs-portlet .imixs-header li {
 	list-style: none;
 	display: inline;
-	xfloat: left;
 }
 
-.imixs-portlet .imixs-header ul:after {
-	content: ".";
-	display: block;
-	clear: left;
-	height: 0;
-	visibility: hidden;
-}
 
 .imixs-portlet .imixs-header li a {
 	color: #fff;
 }
 
-.imixs-portlet .imixs-header li:HOVER {
-	border-top: 1px solid #fff;
-	border-left: 1px solid #fff;
-	border-right: 1px solid #fff;
-	background-color: #61B1D0;
-}
 
-.imixs-portlet .imixs-header ul li.active {
-	xbackground: #faa732;
-	xborder: 1px solid #faa732;
+
+.imixs-portlet .imixs-header  {
 	background-color: #fff;
 	font-size: 20px;
 	font-weight: bold;
@@ -471,6 +455,11 @@ select {
 	
 }
 
+.imixs-portlet .imixs-viewentry .imixs-viewentry-title {
+	font-weight: bold;
+	font-size:16px;
+}
+
 /******************************************
 Neue  CSS Definitionen
 
@@ -488,6 +477,8 @@ END
 .imixs-viewentry {
 	margin: 5px 0 20px;
 }
+
+
 
 .imixs-viewentry-nav {
 	border-top: 1px solid #FFD7A8;
@@ -790,11 +781,110 @@ dl dd  .imixs-datetime-picker select {
 
 .image-block {
 	float: left;
-	min-height: 55px;
+	min-height: 80px;
+	min-width: 40px;
 	margin-right: 2px;
 	margin-left: 2px;
 	margin-bottom: 0px;
+	position: relative;
 }
+
+.imixs-typicon {
+	position:absolute;
+	color: #666;
+	font-size:34px;
+	line-height: 1em;
+}
+.imixs-favorite {
+	position:absolute;
+	top:40px;
+	color: #999;
+	font-size:24px;
+	line-height: 1em;
+	margin-left: 4px;
+}
+	
+.imixs-typicon  a, .imixs-favorite  a  {
+	color:inherit;
+}
+
+
+.icon-main.imixs-info, .imixs-favorite .imixs-info{
+	color:#61B1D0;
+}
+
+
+.icon-main.imixs-success {
+	color:#95CF5E;
+}
+
+
+.icon-main.imixs-warning {
+	color:#cfab5e;
+}
+
+
+.icon-main.imixs-error {
+	color:#cf5e6f;
+}
+
+
+.icon-sub {
+	position:absolute;
+	color: #fff;
+	background-color: #666;
+	font-size:16px;
+	line-height: 1em;
+	-webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: 0px;
+    padding: 1px;
+}
+
+.icon-sub-ne {
+	top: -2px;
+	right: -2px;
+}
+.icon-sub-se {
+	bottom: -2px;
+	right: -2px;
+}
+
+.icon-sub-sw {
+	bottom: -2px;
+	left: -2px;
+}
+.icon-sub-nw {
+	top: -2px;
+	left: -2px;
+}
+
+.icon-sub.imixs-info {
+	 background-color: #61B1D0;
+	 color: #fff;
+}
+
+
+.icon-sub.imixs-success {
+	 background-color: #95CF5E;
+	 color: #fff;
+}
+
+.icon-sub.imixs-warning {
+	 background-color: #cfab5e;
+	 color: #fff;
+}
+
+
+.icon-sub.imixs-error {
+	 background-color: #cf5e6f;
+	 color: #fff;
+}
+
+
+
 
 .content-block {
 	margin-left: 40px;

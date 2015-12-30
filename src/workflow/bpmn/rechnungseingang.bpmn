@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- origin at X=-10.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.2.2.201511241736" targetNamespace="http://www.imixs.org/bpmn2">
+<!-- origin at X=0.0 Y=0.0 -->
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.2.2.201512032052" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
-      <imixs:value><![CDATA[rechnungseingang-office-de-0.0.2]]></imixs:value>
+      <imixs:value><![CDATA[rechnungseingang-1.1.0]]></imixs:value>
     </imixs:item>
     <imixs:item name="txtfieldmapping" type="xs:string">
       <imixs:value><![CDATA[Ersteller | namCreator]]></imixs:value>
@@ -79,7 +79,7 @@
           <imixs:value><![CDATA[Rechnung erhalten]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtimageurl" type="xs:string">
-          <imixs:value><![CDATA[/layout/icons/vwicn060.png]]></imixs:value>
+          <imixs:value><![CDATA[typcn-download|normal,typcn-tick|warning|ne]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowsummary" type="xs:string">
           <imixs:value><![CDATA[<itemvalue>_subject</itemvalue>]]></imixs:value>
@@ -103,7 +103,7 @@
           <imixs:value><![CDATA[in Prüfung]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtimageurl" type="xs:string">
-          <imixs:value><![CDATA[/layout/icons/vwicn060.png]]></imixs:value>
+          <imixs:value><![CDATA[typcn-download|warning,typcn-tick|success|ne]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowsummary" type="xs:string">
           <imixs:value><![CDATA[<itemvalue>_subject</itemvalue>]]></imixs:value>
@@ -1453,9 +1453,9 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
     <bpmn2:sequenceFlow id="SequenceFlow_35" sourceRef="IntermediateCatchEvent_5000-100" targetRef="IntermediateCatchEvent_5000-101"/>
     <bpmn2:eventBasedGateway id="EventBasedGateway_2" gatewayDirection="Diverging">
       <bpmn2:incoming>SequenceFlow_37</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_8</bpmn2:outgoing>
       <bpmn2:outgoing>SequenceFlow_10</bpmn2:outgoing>
       <bpmn2:outgoing>SequenceFlow_12</bpmn2:outgoing>
-      <bpmn2:outgoing>SequenceFlow_8</bpmn2:outgoing>
     </bpmn2:eventBasedGateway>
     <bpmn2:sequenceFlow id="SequenceFlow_37" sourceRef="Task_5005" targetRef="EventBasedGateway_2"/>
     <bpmn2:sequenceFlow id="SequenceFlow_38" sourceRef="IntermediateCatchEvent_5005-10" targetRef="Task_5005"/>

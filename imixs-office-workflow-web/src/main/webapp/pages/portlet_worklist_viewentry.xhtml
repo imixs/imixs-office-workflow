@@ -1,53 +1,67 @@
 <f:subview xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
 
 	<div class="imixs-viewentry" title=" ">
 		<!-- *** Image *** -->
 		<h:panelGroup layout="block" styleClass="image-block">
-			<h:link outcome="/pages/workitems/workitem" >
-				<h:graphicImage
-					rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
-					url="#{workitem.item['txtWorkflowImageURL']}"
-					style="max-height: 24px; margin: 4px;"></h:graphicImage>
-				<h:graphicImage
-					rendered="#{empty workitem.item['txtWorkflowImageURL']}"
-					value="/layout/icons/vwicn070.png"
-					style="max-height: 24px; margin: 4px;"></h:graphicImage>
-				<f:param name="id" value="#{workitem.item['$uniqueid']}"/>
-			</h:link>
+
+			<!--  view icon  -->
+			<div class="imixs-typicon"> 
+				<h:link outcome="/pages/workitems/workitem">
+					<ui:fragment
+						rendered="#{fn:startsWith(workitem.item['txtWorkflowImageURL'],'typcn')}">
+						<span class="icon-main typcn typcn-document"></span> 
+						<span class="icon-sub icon-sub-ne typcn typcn-tick imixs-success"></span>
+					</ui:fragment>
+					<ui:fragment
+						rendered="#{!fn:startsWith(workitem.item['txtWorkflowImageURL'],'typcn')}">
+						<h:graphicImage
+							rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
+							url="#{workitem.item['txtWorkflowImageURL']}"
+							style="max-height: 24px; margin: 4px;"></h:graphicImage>
+						<h:graphicImage
+							rendered="#{empty workitem.item['txtWorkflowImageURL']}"
+							value="/layout/icons/vwicn070.png"
+							style="max-height: 24px; margin: 4px;"></h:graphicImage>
+					</ui:fragment>
+					<f:param name="id" value="#{workitem.item['$uniqueid']}" />
+				</h:link>
+			</div>
 
 			<!-- favorite marker -->
-			<br />
-			<h:panelGroup id="marked_id">
+			<h:panelGroup id="marked_id" layout="block"
+				styleClass="imixs-favorite">
 				<h:commandLink
 					rendered="#{!userController.isFavorite(workitem.item['$uniqueid'])}"
 					actionListener="#{userController.addFavorite(workitem.item['$uniqueid'])}">
-					<h:graphicImage value="/layout/icons/unmarked.gif"
-						style="margin: 0 0 0 7px;"></h:graphicImage>
+					<span class="typcn typcn-star-outline"></span>
 					<f:ajax render="marked_id" />
 				</h:commandLink>
 				<h:commandLink
 					rendered="#{userController.isFavorite(workitem.item['$uniqueid'])}"
 					actionListener="#{userController.removeFavorite(workitem.item['$uniqueid'])}">
-					<h:graphicImage value="/layout/icons/marked.gif"
-						style="margin: 0 0 0 7px;"></h:graphicImage>
+					<span class="typcn typcn-star imixs-info"></span>
 					<f:ajax render="marked_id" />
 				</h:commandLink>
 			</h:panelGroup>
+
+
+
 		</h:panelGroup>
 
 
 		<!-- *** Standard Info *** -->
 		<div class="content-block">
 			<h:panelGroup>
-				<h:link outcome="/pages/workitems/workitem" >
+				<h:link outcome="/pages/workitems/workitem">
 					<!-- summary empty ? -->
-					<h:panelGroup
+					<h:panelGroup  styleClass="imixs-viewentry-title"
 						rendered="#{empty workitem.item['txtWorkflowSummary']}">
-						<h:outputText value="#{workitem.item['$modified']}" 
+						<h:outputText value="#{workitem.item['$modified']}"
 							style="font-weight: bold;">
 							<f:convertDateTime timeZone="#{message.timeZone}"
 								pattern="#{message.dateTimePattern}" />
@@ -55,11 +69,11 @@
 						<h:outputText value=" #{workitem.item['_subject']}"
 							style="font-weight: bold;" />
 					</h:panelGroup>
-					<h:outputText style="font-weight: bold;" escape="false"
+					<h:outputText  styleClass="imixs-viewentry-title" escape="false"
 						value="#{workitem.item['txtWorkflowSummary']}" />
-					<f:param name="id" value="#{workitem.item['$uniqueid']}"/>
+					<f:param name="id" value="#{workitem.item['$uniqueid']}" />
 				</h:link>
-				
+
 			</h:panelGroup>
 
 			<br />
@@ -97,13 +111,14 @@
 	<h:panelGroup style="display:none;" class="imixs-tooltip">
 		<h:outputText value="#{message.created}: " style="font-weight:bold;" />
 		<h:outputText value="#{workitem.item['$created']}">
-				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-					pattern="#{message.dateTimePattern}" />
+			<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+				pattern="#{message.dateTimePattern}" />
 		</h:outputText>
 		<h:outputText
-				value=" #{message.by} #{userController.getUserName(workitem.item['namCreator'])}" />
+			value=" #{message.by} #{userController.getUserName(workitem.item['namCreator'])}" />
 		<hr />
-		<h:outputText value="#{workitem.item['txtWorkflowAbstract']}" escape="false" />
+		<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
+			escape="false" />
 	</h:panelGroup>
 
 </f:subview>
