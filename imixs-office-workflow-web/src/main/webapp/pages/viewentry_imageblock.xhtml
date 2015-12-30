@@ -1,0 +1,39 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	
+	
+	<!-- *** Image *** -->
+	<h:panelGroup layout="block" styleClass="image-block">
+
+		<!--  view icon  -->
+		<h:link outcome="/pages/workitems/workitem">
+			<ui:include src="viewentry_icon.xhtml">
+				<ui:param name="workitem" value="#{workitem}" />
+			</ui:include>
+			<f:param name="id" value="#{workitem.item['$uniqueid']}" />
+		</h:link>
+
+		<!-- favorite marker -->
+		<h:panelGroup id="marked_id" layout="block"
+			styleClass="imixs-favorite">
+			<h:commandLink
+				rendered="#{!userController.isFavorite(workitem.item['$uniqueid'])}"
+				actionListener="#{userController.addFavorite(workitem.item['$uniqueid'])}">
+				<span class="typcn typcn-star-outline"></span>
+				<f:ajax render="marked_id" />
+			</h:commandLink>
+			<h:commandLink
+				rendered="#{userController.isFavorite(workitem.item['$uniqueid'])}"
+				actionListener="#{userController.removeFavorite(workitem.item['$uniqueid'])}">
+				<span class="typcn typcn-star imixs-info"></span>
+				<f:ajax render="marked_id" />
+			</h:commandLink>
+		</h:panelGroup>
+
+	</h:panelGroup>
+</f:subview>
+

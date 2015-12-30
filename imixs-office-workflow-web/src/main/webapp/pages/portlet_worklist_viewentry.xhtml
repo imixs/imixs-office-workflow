@@ -6,60 +6,19 @@
 
 
 	<div class="imixs-viewentry" title=" ">
-		<!-- *** Image *** -->
-		<h:panelGroup layout="block" styleClass="image-block">
 
-			<!--  view icon  -->
-			<div class="imixs-typicon"> 
-				<h:link outcome="/pages/workitems/workitem">
-					<ui:fragment
-						rendered="#{fn:startsWith(workitem.item['txtWorkflowImageURL'],'typcn')}">
-						<span class="icon-main typcn typcn-document"></span> 
-						<span class="icon-sub icon-sub-ne typcn typcn-tick imixs-success"></span>
-					</ui:fragment>
-					<ui:fragment
-						rendered="#{!fn:startsWith(workitem.item['txtWorkflowImageURL'],'typcn')}">
-						<h:graphicImage
-							rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
-							url="#{workitem.item['txtWorkflowImageURL']}"
-							style="max-height: 24px; margin: 4px;"></h:graphicImage>
-						<h:graphicImage
-							rendered="#{empty workitem.item['txtWorkflowImageURL']}"
-							value="/layout/icons/vwicn070.png"
-							style="max-height: 24px; margin: 4px;"></h:graphicImage>
-					</ui:fragment>
-					<f:param name="id" value="#{workitem.item['$uniqueid']}" />
-				</h:link>
-			</div>
-
-			<!-- favorite marker -->
-			<h:panelGroup id="marked_id" layout="block"
-				styleClass="imixs-favorite">
-				<h:commandLink
-					rendered="#{!userController.isFavorite(workitem.item['$uniqueid'])}"
-					actionListener="#{userController.addFavorite(workitem.item['$uniqueid'])}">
-					<span class="typcn typcn-star-outline"></span>
-					<f:ajax render="marked_id" />
-				</h:commandLink>
-				<h:commandLink
-					rendered="#{userController.isFavorite(workitem.item['$uniqueid'])}"
-					actionListener="#{userController.removeFavorite(workitem.item['$uniqueid'])}">
-					<span class="typcn typcn-star imixs-info"></span>
-					<f:ajax render="marked_id" />
-				</h:commandLink>
-			</h:panelGroup>
+		<!-- image block  -->
+		<ui:include src="viewentry_imageblock.xhtml">
+			<ui:param name="workitem" value="#{workitem}" />
+		</ui:include>
 
 
-
-		</h:panelGroup>
-
-
-		<!-- *** Standard Info *** -->
+		<!-- content-block -->
 		<div class="content-block">
 			<h:panelGroup>
 				<h:link outcome="/pages/workitems/workitem">
 					<!-- summary empty ? -->
-					<h:panelGroup  styleClass="imixs-viewentry-title"
+					<h:panelGroup styleClass="imixs-viewentry-title"
 						rendered="#{empty workitem.item['txtWorkflowSummary']}">
 						<h:outputText value="#{workitem.item['$modified']}"
 							style="font-weight: bold;">
@@ -69,7 +28,7 @@
 						<h:outputText value=" #{workitem.item['_subject']}"
 							style="font-weight: bold;" />
 					</h:panelGroup>
-					<h:outputText  styleClass="imixs-viewentry-title" escape="false"
+					<h:outputText styleClass="imixs-viewentry-title" escape="false"
 						value="#{workitem.item['txtWorkflowSummary']}" />
 					<f:param name="id" value="#{workitem.item['$uniqueid']}" />
 				</h:link>

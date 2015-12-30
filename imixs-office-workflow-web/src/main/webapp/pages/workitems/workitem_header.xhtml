@@ -19,20 +19,10 @@
 	<!-- Workitem Info Header -->
 	<!-- *** Image *** -->
 	<h:panelGroup layout="block" styleClass="image-block">
-
-		<h:graphicImage
-			rendered="#{!empty workflowController.workitem.item['txtWorkflowImageURL']}"
-			url="#{workflowController.workitem.item['txtWorkflowImageURL']}"
-			style="max-height: 24px; margin: 4px;"></h:graphicImage>
-
-		<h:graphicImage
-			rendered="#{empty workflowController.workitem.item['txtWorkflowImageURL']}"
-			value="/layout/icons/vwicn070.png"
-			style="max-height: 24px; margin: 4px;"></h:graphicImage>
-
+		<ui:include src="/pages/viewentry_icon.xhtml">
+					<ui:param name="workitem" value="#{workflowController.workitem}" />
+		</ui:include>
 	</h:panelGroup>
-
-
 
 	<!-- *** Standard Info *** -->
 	<div class="content-block">
