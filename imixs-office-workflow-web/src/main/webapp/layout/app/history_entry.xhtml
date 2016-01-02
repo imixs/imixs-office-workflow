@@ -4,8 +4,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 	<div
-		class="imixs-historyentry #{(historyController.currentId eq workitem.item['$uniqueID']) ? 'active' : ''}"
-		title=" ">
+		class="imixs-historyentry #{(historyController.currentId eq workitem.item['$uniqueID']) ? 'active' : ''}">
 		<!-- *** Image *** -->
 		<h:panelGroup layout="block" styleClass="image-block">
 			<h:link outcome="/pages/workitems/workitem">
@@ -58,19 +57,7 @@
 		<div style="clear: left;" />
 
 	</div>
-	<!-- Tooltip -->
-	<h:panelGroup style="display:none;" class="imixs-tooltip">
-		<h:outputText value="#{message.created}: " style="font-weight:bold;" />
-		<h:outputText value="#{workitem.item['$created']}">
-			<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-				pattern="#{message.dateTimePattern}" />
-		</h:outputText>
-		<h:outputText
-			value=" #{message.by} #{userController.getUserName(workitem.item['namCreator'])}" />
-		<hr />
-		<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
-			escape="false" />
-	</h:panelGroup>
+	
 
 </f:subview>
 

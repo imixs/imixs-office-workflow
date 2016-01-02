@@ -46,7 +46,7 @@
 
 							<div id="tab-1">
 
-								<div class="imixs-form-section-2">
+								<div class="imixs-form-panel imixs-form-section-2">
 									<!-- Enable local database security? -->
 									<h:panelGroup
 										rendered="#{setupController.workitem.item['keyEnableUserDB']}">
@@ -123,6 +123,37 @@
 
 
 								</div>
+
+								<!-- User Icon -->
+								<div class="imixs-form-panel">
+
+									<h1>User Icon</h1>
+
+
+									<h:panelGroup layout="block" id="usericonpanel"
+										style="float: left; margin-right: 20px;">
+										<h:graphicImage styleClass="imixs-user-icon"
+											rendered="#{! empty workflowController.workitem.item['txtusericon']}"
+											value="/rest-service/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}/file/#{workflowController.workitem.item['txtusericon']}">
+										</h:graphicImage>
+									</h:panelGroup>
+									<h:panelGroup layout="block" styleClass="imixs-form-section"
+										style="clear: none; width:80%;">
+
+										<i:imixsFileUpload id="file_upload_id" hideattachments="false" />
+										<div style="clear: left;" />
+
+										<h:commandButton value="#{message.remove}"
+											rendered="#{! empty workflowController.workitem.item['txtusericon']}"
+											actionListener="#{userController.removeUserIcon()}">
+											<f:ajax render="usericonpanel"></f:ajax>
+										</h:commandButton>
+
+									</h:panelGroup>
+								</div>
+
+
+
 								<!-- end form-section -->
 							</div>
 							<!-- end tab 1 -->
@@ -130,7 +161,7 @@
 
 
 							<div id="tab-2">
-								<div class="imixs-form-section-2">
+								<div class="imixs-form-panel imixs-form-section-2">
 
 									<dl>
 										<dt>
@@ -171,7 +202,7 @@
 
 
 
-								<div class="imixs-form-section">
+								<div class="imixs-form-panel imixs-form-section">
 									<dl>
 										<dt>#{message.comments}</dt>
 										<dd>
@@ -231,14 +262,16 @@
 						<h:panelGroup
 							rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
 							<!-- *** Soft Delete  *** -->
-							<h:commandButton action="profilelist" immediate="true"  styleClass="imixs-delete-action"
+							<h:commandButton action="profilelist" immediate="true"
+								styleClass="imixs-delete-action"
 								onclick="if (!confirm('#{message.help_delete}')) return false;"
 								rendered="#{workflowController.workitem.item['type'] eq 'profile'}"
 								actionListener="#{workflowController.softDeleteWorkitem(true)}"
 								value="#{message.delete}">
 							</h:commandButton>
 							<!-- *** Restore Soft Delete  *** -->
-							<h:commandButton immediate="true"  styleClass="imixs-delete-action"
+							<h:commandButton immediate="true"
+								styleClass="imixs-delete-action"
 								rendered="#{workflowController.workitem.item['type'] eq 'profiledeleted'}"
 								actionListener="#{workflowController.doRestoreFromDeletions}"
 								value="#{message.restore}">

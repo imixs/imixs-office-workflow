@@ -5,7 +5,7 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
 
-	<div class="imixs-viewentry" title=" ">
+	<div class="imixs-viewentry">
 
 		<!-- image block  -->
 		<ui:include src="viewentry_imageblock.xhtml">
@@ -53,10 +53,33 @@
 
 			<!-- display owner -->
 			<h:panelGroup rendered="#{! empty workitem.item['namowner']}">
-				<br />
-				<h:outputText style="font-weight: bold;" value="#{message.owner}: " />
+				<div styoe="clear:left;" />
 				<ui:repeat value="#{workitem.itemList['namowner']}" var="name">
-					<h:outputText value="#{userController.getUserName(name)}, " />
+
+					<ui:param name="profile" value="#{userController.getProfile(name)}"></ui:param>
+
+					<h:panelGroup layout="block" styleClass="imixs-user-icon"
+						style="float: left;">
+
+						<div title=" ">
+							<h:graphicImage rendered="#{! empty profile.item['txtusericon']}"
+								value="/rest-service/workflow/workitem/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
+							</h:graphicImage>
+
+							<h:outputText rendered="#{empty profile.item['txtusericon']}"
+								value="#{userController.getMiddleInitial(name)}" />
+						</div>
+						<!-- Tooltip -->
+						<h:panelGroup class="imixs-tooltip">
+							#{userController.getUserName(name)}
+						</h:panelGroup>
+
+					</h:panelGroup>
+
+
+
+
+
 				</ui:repeat>
 			</h:panelGroup>
 
@@ -66,19 +89,7 @@
 		<div style="clear: left;" />
 
 	</div>
-	<!-- Tooltip -->
-	<h:panelGroup style="display:none;" class="imixs-tooltip">
-		<h:outputText value="#{message.created}: " style="font-weight:bold;" />
-		<h:outputText value="#{workitem.item['$created']}">
-			<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-				pattern="#{message.dateTimePattern}" />
-		</h:outputText>
-		<h:outputText
-			value=" #{message.by} #{userController.getUserName(workitem.item['namCreator'])}" />
-		<hr />
-		<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
-			escape="false" />
-	</h:panelGroup>
+
 
 </f:subview>
 

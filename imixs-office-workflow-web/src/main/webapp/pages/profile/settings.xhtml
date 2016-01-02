@@ -124,6 +124,36 @@
 							</h:panelGroup>
 
 						</div>
+
+
+						<!-- User Icon -->
+						<div class="imixs-form-panel">
+
+							<h1>User Icon</h1>
+
+
+							<h:panelGroup layout="block" id="usericonpanel"
+								style="float: left; margin-right: 20px;">
+								<h:graphicImage styleClass="imixs-user-icon"
+									rendered="#{! empty workflowController.workitem.item['txtusericon']}"
+									value="/rest-service/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}/file/#{workflowController.workitem.item['txtusericon']}">
+								</h:graphicImage>
+							</h:panelGroup>
+							<h:panelGroup layout="block" styleClass="imixs-form-section"
+								style="clear: none; width:80%;">
+
+								<i:imixsFileUpload id="file_upload_id" hideattachments="false" />
+								<div style="clear: left;" />
+
+								<h:commandButton value="#{message.remove}"
+									rendered="#{! empty workflowController.workitem.item['txtusericon']}"
+									actionListener="#{userController.removeUserIcon()}">
+									<f:ajax render="usericonpanel"></f:ajax>
+								</h:commandButton>
+
+							</h:panelGroup>
+						</div>
+
 						<div class="imixs-footer">
 
 							<!-- workflow save command -->
