@@ -58,8 +58,8 @@
 
 					<ui:param name="profile" value="#{userController.getProfile(name)}"></ui:param>
 
-					<h:panelGroup layout="block" styleClass="imixs-user-icon"
-						style="float: left;">
+					<h:panelGroup layout="block" rendered="#{!empty profile}"
+						styleClass="imixs-user-icon" style="float: left;">
 
 						<div title=" ">
 							<h:graphicImage rendered="#{! empty profile.item['txtusericon']}"
