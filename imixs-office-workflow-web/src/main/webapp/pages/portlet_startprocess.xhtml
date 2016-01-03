@@ -7,33 +7,49 @@
 		<div class="imixs-header">
 			<ul>
 				<li class="active"><h:outputText
-						value="#{message['nav.start_new_workflow']}" /></li>
+						value="#{message['process.view']}" /></li>
 			</ul>
 		</div>
 		<!-- *** display all process nodes where the current user is member of *** -->
 
 		<ui:repeat value="#{processController.processList}" var="process">
-			<h:panelGroup layout="block" styleClass="imixs-viewentry"
-				rendered="#{(loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isMember']) and (! empty process.itemList['txtWorkflowList'])}">
+			<h:panelGroup layout="block" styleClass="imixs-viewentry" 
+			rendered="#{(loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isMember'])}">
 				<h3>
-					<h:outputText value="#{process.item['txtName']}" />
+					<h:commandLink action="/pages/workitems/worklist"
+									immediate="true" actionListener="#{searchController.doReset}">
+									
+							
+							<h:outputText style="color:#333;" value="#{process.item['txtName']}" />
+					<span class="typcn typcn-zoom-outline"></span>
+					
+									<f:setPropertyActionListener
+										target="#{searchController.searchFilter.item['txtprocessRef']}"
+										value="#{process.item['$uniqueId']}" />
+								</h:commandLink>
 				</h3>
 				<h:outputText value="#{process.item['txtdescription']}" />
 
-				<!-- *** WorkflowGroup List *** -->
+				<!-- *** WorkflowGroup List if user is member*** -->
+				<h:panelGroup rendered="#{(loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isMember'])}">
 				<ul style="margin: 5px 0;">
 					<ui:repeat value="#{process.itemList['txtWorkflowList']}"
 						var="group">
 
-						<!-- verify if workflow groups still exists -->
+						<!-- verify if workflow groups still exists and if user is member -->
 						<h:panelGroup
 							rendered="#{! empty modelController.getAllProcessEntitiesByGroup(group)}">
+							
+							
+							
+				
 
 							<ui:param name="processEntity"
 								value="#{modelController.getInitialProcessEntityByGroup(group)}" />
 							<li><h:commandLink title=" "
 									actionListener="#{workflowController.create(processEntity.item['$modelversion'],processEntity.item['numprocessid'],process.item['$uniqueid'])}"
 									action="#{workflowController.init('/pages/workitems/workitem')}">
+									
 									<h:outputText style="font-weight: bold;" value="#{group} »" />
 								</h:commandLink> 
 					
@@ -46,16 +62,15 @@
 							rendered="#{empty modelController.getAllProcessEntitiesByGroup(group)}"
 							value="	Missing Model Definition: #{group}"></h:outputText>
 
+
 					</ui:repeat>
 				</ul>
-
-
-
-
-
+				</h:panelGroup>
+				
+<hr />
 			</h:panelGroup>
-
-			<div style="clear: left;" />
+			
+			
 		</ui:repeat>
 	</div>
 

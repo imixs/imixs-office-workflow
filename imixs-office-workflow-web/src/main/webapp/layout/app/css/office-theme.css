@@ -49,7 +49,6 @@ dl dt {
 .imixs-state-info {
 	font-size: 1.2em;
 	padding: 5px;
-	
 }
 
 .imixs-state-success {
@@ -137,6 +136,7 @@ dl dt {
 .toolbar {
 	float: left;
 	height: 36px;
+	line-height: 36px;
 	border-right: 1px solid #ccc;
 	padding: 0 16px;
 	font-size: 16px;
@@ -180,12 +180,12 @@ dl dt {
 }
 
 #imixs-servicenav  .branding {
-	width: 120px;
+	min-width: 120px;
 }
 
 #imixs-servicenav .typcn {
 	font-size: 26px;
-	vertical-align: middle;
+	line-height: 26px;
 }
 
 #imixs-servicenav ul, #footer ul {
@@ -289,7 +289,7 @@ dl dt {
 .imixs-form .imixs-header {
 	padding: 10px 10px;
 	margin-bottom: 15px;
-	border-bottom: 1px solid #ccc;
+	background: #FAFAFA;
 }
 
 .imixs-form .imixs-header label {
@@ -312,8 +312,16 @@ dl dt {
 	
 }
 
+.imixs-form .imixs-body .imixs-form-tabs .ui-tabs .ui-tabs-panel {
+	padding: 1em 0.4em;
+}
+
 .imixs-form .imixs-body .imixs-tabs {
 	border: none;
+}
+
+.imixs-form .imixs-body .imixs-tabs.ui-tabs .ui-tabs-panel {
+	padding: 1em 0.4em;
 }
 
 .imixs-form-comment .imixs-commentlist td {
@@ -334,7 +342,7 @@ dl dt {
 }
 
 .imixs-form .imixs-footer {
-	background: #F4F4F4;
+	background: #FAFAFA;
 	padding: 10px 10px;
 	margin-bottom: 20px;
 }
@@ -425,14 +433,11 @@ dl dt {
 	display: inline;
 }
 
-
 .imixs-portlet .imixs-header li a {
 	color: #fff;
 }
 
-
-
-.imixs-portlet .imixs-header  {
+.imixs-portlet .imixs-header {
 	background-color: #fff;
 	font-size: 20px;
 	font-weight: bold;
@@ -461,7 +466,7 @@ dl dt {
 
 .imixs-portlet .imixs-viewentry .imixs-viewentry-title {
 	font-weight: bold;
-	font-size:16px;
+	font-size: 16px;
 }
 
 /******************************************
@@ -481,8 +486,6 @@ END
 .imixs-viewentry {
 	margin: 5px 0 20px;
 }
-
-
 
 .imixs-viewentry-nav {
 	border-top: 1px solid #FFD7A8;
@@ -570,7 +573,7 @@ END
 	-moz-border-radius: 4px;
 	border-radius: 4px;
 	padding: 10px 10px;
-	margin: 10px 0;
+	margin: 10px 0px;
 }
 
 .imixs-subform-body {
@@ -708,18 +711,18 @@ dl dd  .imixs-datetime-picker select {
 	font-weight: bold;
 	color: #4D4D4D;
 	background-color: #CCC;
-    border-bottom: 0;
-    -webkit-border-radius: 3px 3px 3px 3px;
-    border-radius: 3px 3px 3px 3px;
-    margin:4px;
-    cursor: default;
+	border-bottom: 0;
+	-webkit-border-radius: 3px 3px 3px 3px;
+	border-radius: 3px 3px 3px 3px;
+	margin: 4px;
+	cursor: default;
 }
 
 .imixs-user-icon img {
- -webkit-border-radius: 3px 3px 3px 3px;
-    border-radius: 3px 3px 3px 3px;
+	-webkit-border-radius: 3px 3px 3px 3px;
+	border-radius: 3px 3px 3px 3px;
 }
-	
+
 /** Fileupload Widget **/
 /
 .imixsFileUpload {
@@ -815,63 +818,60 @@ dl dd  .imixs-datetime-picker select {
 }
 
 .imixs-typicon {
-	position:absolute;
+	position: absolute;
 	color: #666;
-	font-size:32px;
+	font-size: 32px;
 	line-height: 1em;
 }
+
 .imixs-favorite {
-	position:absolute;
-	top:40px;
+	position: absolute;
+	top: 40px;
 	color: #999;
-	font-size:24px;
+	font-size: 24px;
 	line-height: 1em;
 	margin-left: 4px;
 }
-	
-.imixs-typicon  a, .imixs-favorite  a  {
-	color:inherit;
-}
 
+.imixs-typicon  a, .imixs-favorite  a {
+	color: inherit;
+}
 
 .icon-main.imixs-info {
-	color:#61B1D0;
+	color: #61B1D0;
 }
-
 
 .icon-main.imixs-success {
-	color:#95CF5E;
+	color: #95CF5E;
 }
-
 
 .icon-main.imixs-warning, .imixs-favorite .imixs-info {
-	color:#cfab5e;
+	color: #cfab5e;
 }
-
 
 .icon-main.imixs-error {
-	color:#cf5e6f;
+	color: #cf5e6f;
 }
 
-
 .icon-sub {
-	position:absolute;
+	position: absolute;
 	color: #fff;
 	background-color: #666;
-	font-size:14px;
+	font-size: 14px;
 	line-height: 1em;
 	-webkit-border-radius: 10px;
-    -khtml-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    border: 0px;
-    padding: 1px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	border: 0px;
+	padding: 1px;
 }
 
 .icon-sub-ne {
 	top: -2px;
 	right: -2px;
 }
+
 .icon-sub-se {
 	bottom: -2px;
 	right: -2px;
@@ -881,35 +881,31 @@ dl dd  .imixs-datetime-picker select {
 	bottom: -2px;
 	left: -2px;
 }
+
 .icon-sub-nw {
 	top: -2px;
 	left: -2px;
 }
 
 .icon-sub.imixs-info {
-	 background-color: #61B1D0;
-	 color: #fff;
+	background-color: #61B1D0;
+	color: #fff;
 }
 
-
 .icon-sub.imixs-success {
-	 background-color: #95CF5E;
-	 color: #fff;
+	background-color: #95CF5E;
+	color: #fff;
 }
 
 .icon-sub.imixs-warning {
-	 background-color: #cfab5e;
-	 color: #fff;
+	background-color: #cfab5e;
+	color: #fff;
 }
-
 
 .icon-sub.imixs-error {
-	 background-color: #cf5e6f;
-	 color: #fff;
+	background-color: #cf5e6f;
+	color: #fff;
 }
-
-
-
 
 .content-block {
 	margin-left: 40px;
@@ -1055,11 +1051,16 @@ dl dd  .imixs-datetime-picker select {
 	}
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 868px) {
 	.col-3 {
 		float: left;
 		width: 100% !important;
 	}
+	
+	#imixs-content {
+    	padding: 10px;
+	}
+	
 	.imixs-portlet {
 		width: 100%;
 		float: none;
@@ -1073,7 +1074,7 @@ dl dd  .imixs-datetime-picker select {
 		border: none;
 	}
 	#imixs-servicenav .toolbar.search {
-		margin-left: 120px;
+		
 	}
 	#imixs-header {
 		margin-top: 82px;
@@ -1087,17 +1088,50 @@ dl dd  .imixs-datetime-picker select {
 		padding-top: 12px;
 		margin-left: 280px;
 	}
+	
+	
 }
 
-@media screen and (max-width: 470px) {
+@media screen and (max-width: 548px) {
 	#imixs-servicenav {
-		height: 126px;
+		
 	}
+	
+	#imixs-servicenav li {
+   	 margin: 0em 0em 0em 0em;
+	}
+	
+	#imixs-branding {
+		background-image: none;
+	}
+	
+	#imixs-branding-text {
+		margin-left:20px;
+		font-size: 2.5em;
+	}
+    
 	#imixs-header {
-		margin-top: 126px;
+		
 	}
+	
+	#imixs-content {
+    	padding: 0px;
+	}
+	
+	.imixs-header h1, .imixs-footer h1 {
+	    font-size: 1.7em;
+	}
+	
 	#imixs-servicenav .toolbar.search {
 		margin-left: 0px;
+	}
+	
+	#imixs-servicenav .toolbar.login span.login-name {
+		display:none;
+	}
+	
+	.imixs-form-panel {
+		border: none;
 	}
 }
 
@@ -1106,6 +1140,7 @@ dl dd  .imixs-datetime-picker select {
 		{
 		border-right: none;
 		width: 100% !important;
+		padding: 0;
 	}
 }
 
