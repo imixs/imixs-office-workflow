@@ -1,60 +1,45 @@
+/*
+ * Updates the 'data-typicon' attribute of the element with class 'imixs-typicon'
+ */
+function updateTypIconData() {
+
+	console.log("Atacke=" + $("input[name='icon-sub-ne-theme']").val());
+
+	var classes = $("#icon-main").val() + ","
+			+ $("input[name='icon-main-theme']:checked").val()
+
+			+ "|" + $("#icon-sub-ne").val() + ","
+			+ $("input[name='icon-sub-ne-theme']:checked").val()
+
+			+ "|" + $("#icon-sub-se").val() + ","
+			+ $("input[name='icon-sub-se-theme']:checked").val()
+
+			+ "|" + $("#icon-sub-sw").val() + ","
+			+ $("input[name='icon-sub-sw-theme']:checked").val()
+			
+			+ "|" + $("#icon-sub-nw").val()+ ","
+			+ $("input[name='icon-sub-nw-theme']:checked").val();
+	
+	
+	$(".imixs-typicon").attr('data-typicon', classes);
+
+	console.log('data-typicon=' + classes);
+	imixsOfficeWorkflow.layout();
+}
 
 /* icon-main */
-$("#icon-main").bind({
+$("#icon-main, #icon-sub-ne, #icon-sub-se,#icon-sub-sw,#icon-sub-nw").bind({
 	change : function() {
-		var iconElement=$( ".icon-main" );
-		$(iconElement).removeClass();
-		$(iconElement).addClass("icon-main typcn " + $(this).val());
+		// var iconElement=$( ".icon-main" );
+		// $(iconElement).removeClass();
+		// $(iconElement).addClass("icon-main typcn " + $(this).val());
+		updateTypIconData();
 	}
 });
 
-
-/* icon-sub */
-$("#icon-sub").bind({
-	change : function() {
-		
-		var iconElement=$( ".icon-sub" );
-		$(iconElement).removeClass();
-		$(iconElement).addClass("icon-sub icon-sub-ne typcn " + $(this).val());
-		
-		// Hide if empty
-		if (""===$(this).val()) {
-			$(iconElement ).hide();
-		} else {
-			$(iconElement ).show();
-		}
-	}
-});
-
-
-/* icon-sub position */
-$("input[name='icon-sub-pos']").bind({
-	click : function() {
-		$(".icon-sub").removeClass("icon-sub-ne");
-		$(".icon-sub").removeClass("icon-sub-se");
-		$(".icon-sub").removeClass("icon-sub-sw");
-		$(".icon-sub").removeClass("icon-sub-nw");
-		var theme = $(this).val();
-		$(".icon-sub").addClass(theme);
-	}
-});
-
-/* icons theme */
-$("input[name='icon-main-theme'], input[name='icon-sub-theme']").bind({
-	click : function() {
-		
-		var elementName=$(this).attr("name");
-		elementName="."+elementName.replace("-theme","");
-		
-		$(elementName).removeClass("imixs-info");
-		$(elementName).removeClass("imixs-success");
-		$(elementName).removeClass("imixs-warning");
-		$(elementName).removeClass("imixs-error");
-
-		var theme = $(this).val();
-		$(elementName).addClass(theme);
-	}
-});
-
-
-	
+$("input[name='icon-main-theme'], input[name='icon-sub-ne-theme'], input[name='icon-sub-se-theme'], input[name='icon-sub-sw-theme'], input[name='icon-sub-nw-theme']")
+		.bind({
+			click : function() {
+				updateTypIconData();
+			}
+		});

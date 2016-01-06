@@ -10,44 +10,73 @@ IMIXS.com.imixs.workflow.office = (function() {
 	}
 
 	var imixs = IMIXS.org.imixs.core,
-	
+
 	/***************************************************************************
 	 * 
 	 * module methods
 	 * 
 	 **************************************************************************/
 
-	/* render typicons */
+	/*
+	 * render typicons
+	 * 
+	 * expected format= classnames: main|sub-ne|sub-ns|...
+	 */
 	layoutTypIcons = function() {
-		$('.imixs-typicon').each(
-				function() {
-					var mainIcon = "", subIcon = "",typClasses, i;
+		$('.imixs-typicon')
+				.each(
+						function() {
+							var mainIcon = "", subIconNe = "", subIconSe = "", subIconSw = "", subIconNw = "", typClasses, i, typiconElement;
 
-					typClasses = $(this).attr("data-typicon").trim();
-					// replace , with ' '
-					typClasses = typClasses.replace(/,/g, ' ');
+							typClasses = $(this).attr("data-typicon").trim();
+							// replace , with ' '
+							typClasses = typClasses.replace(/,/g, ' ');
 
-					// only render typicons if data string starts with typicn
-					if (typClasses.startsWith('typcn-')) {
-						i = typClasses.indexOf('|');
-						if (i > 0) {
-							mainIcon = typClasses.substring(0, i).trim();
-							subIcon = typClasses.substring(i + 1).trim();
-						} else {
-							mainIcon = typClasses;
-						}
-						// now render two span tags...
-						$(this).empty();
-						$(this).append(
-								"<span class=\"icon-main typcn " + mainIcon
-										+ "\"></span>");
-						if (subIcon != "") {
-							$(this).append(
-									"<span class=\"icon-sub typcn " + subIcon
-											+ "\"></span>");
-						}
-					}
-				});
+							// only render typicons if data string starts with
+							// typicn
+							if (typClasses.startsWith('typcn-')) {
+
+								var typiconElements = typClasses.split('|');
+								mainIcon = typiconElements[0];
+								subIconNe = typiconElements[1];
+								subIconSe = typiconElements[2];
+								subIconSw = typiconElements[3];
+								subIconNw = typiconElements[4];
+
+								// now render the span tags...
+								$(this).empty();
+								if (mainIcon != "") {
+									$(this).append(
+											"<span class=\"icon-main typcn "
+													+ mainIcon + "\"></span>");
+								}
+
+								if (subIconNe && subIconNe.startsWith('typcn-')) {
+									$(this).append(
+											"<span class=\"icon-sub icon-sub-ne typcn "
+													+ subIconNe + "\"></span>");
+								}
+								
+								
+								if (subIconSe && subIconSe.startsWith('typcn-')) {
+									$(this).append(
+											"<span class=\"icon-sub icon-sub-se typcn "
+													+ subIconSe + "\"></span>");
+								}
+								
+								if (subIconSw && subIconSw.startsWith('typcn-')) {
+									$(this).append(
+											"<span class=\"icon-sub icon-sub-sw typcn "
+													+ subIconSw + "\"></span>");
+								}
+								
+								if (subIconNw && subIconNw.startsWith('typcn-')) {
+									$(this).append(
+											"<span class=\"icon-sub icon-sub-nw typcn "
+													+ subIconNw + "\"></span>");
+								}
+							}
+						});
 	},
 
 	/**
@@ -56,7 +85,7 @@ IMIXS.com.imixs.workflow.office = (function() {
 	layout = function(settings) {
 		// Force options to be an object
 		settings = settings || {};
-	
+
 		// waiting feature
 		var $body = $("body");
 		// ajax
@@ -73,11 +102,9 @@ IMIXS.com.imixs.workflow.office = (function() {
 			$body.addClass("loading");
 		});
 
-	
-		
 		// layout
 		this.layoutTypIcons();
-		//this.layoutOfficeEditor();
+		// this.layoutOfficeEditor();
 	};
 
 	// public API
@@ -87,4 +114,3 @@ IMIXS.com.imixs.workflow.office = (function() {
 	};
 
 }());
-

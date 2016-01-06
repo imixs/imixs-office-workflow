@@ -4,18 +4,33 @@
 <meta charset="UTF-8">
 <title>Title of the document</title>
 
-<link href="../app/css/creatix-basic.css" type="text/css"
-	rel="stylesheet" />
-<link href="../app/css/creatix-forms.css" type="text/css"
-	rel="stylesheet" />
-<link href="../app/css/creatix-layout.css" type="text/css"
-	rel="stylesheet" />
-<link href="../app/css/office-theme.css" type="text/css"
-	rel="stylesheet" />
-<link href="./fonticon-test.css" type="text/css" rel="stylesheet" />
-
-
+<link href="../../../main/webapp/layout/css/creatix-basic.css"
+	type="text/css" rel="stylesheet" />
+<link href="../../../main/webapp/layout/css/creatix-forms.css"
+	type="text/css" rel="stylesheet" />
+<link href="../../../main/webapp/layout/css/creatix-layout.css"
+	type="text/css" rel="stylesheet" />
+<link href="../../../main/webapp/layout/app/css/office-theme.css"
+	type="text/css" rel="stylesheet" />
 <link href="../fontdemo/typicons.css" type="text/css" rel="stylesheet" />
+
+<!-- Script -->
+<script type="text/javascript"
+	src="../../../main/webapp/js/jquery-2.1.4.min.js"></script>
+
+<!-- Imixs-Office-Workflow  -->
+<script type="text/javascript"
+	src="../../../main/webapp/js/imixs-core.js"></script>
+<script type="text/javascript"
+	src="../../../main/webapp/js/imixs-office-workflow.js"></script>
+
+
+<style>
+body {
+	margin: 30px;
+}
+</style>
+
 </head>
 
 <body>
@@ -29,24 +44,17 @@
 
 
 
-
-
-
 	<div class="imixs-viewentry">
 
 		<div class="image-block">
 			<!--  view icon  -->
-			<div class="imixs-typicon">
-				<a href="/super-office/pagescdd460"> 
-					<span class="icon-main typcn typcn-document"></span> 
-					<span class="icon-sub icon-sub-ne"></span>
-				</a>
-			</div>
+			<div class="imixs-typicon"
+				data-typicon="typcn-document-text|typcn-arrow-forward-outline,icon-sub-ne"
+				title=" "></div>
 
 			<!-- favorite marker -->
 			<div class="imixs-favorite">
-				<a href="#"> 
-					<span class="typcn typcn-star-outline"></span>
+				<a href="#"> <span class="typcn typcn-star-outline"></span>
 				</a>
 			</div>
 		</div>
@@ -74,87 +82,221 @@
 	</div>
 
 
-<hr />
+	<hr />
 	<!-- Icon theme -->
-	<h3>Main Theme</h3>
+	<h3>Main Icon</h3>
 	<select name="icon-main" id="icon-main">
-		<option>typcn-document</option>
-		<option>typcn-document-text</option>
-		<option>typcn-clipboard</option>
 		<option>typcn-business-card</option>
+		<option>typcn-calendar</option>
+		<option>typcn-calendar-outline</option>
+
 		<option>typcn-credit-card</option>
+		<option>typcn-clipboard</option>
 		<option>typcn-database</option>
-		<option>typcn-lock-closed</option>
-		<option>typcn-time</option>
-		<option>typcn-info</option>
-		<option>typcn-spanner</option>
-		<option>typcn-export</option>
-		<option>typcn-export-outline</option>
+		<option>typcn-document-text</option>
+		<option>typcn-document</option>
 		<option>typcn-download</option>
 		<option>typcn-download-outline</option>
-		<option>typcn-upload</option>
-		<option>typcn-upload-outline</option>
 		<option>typcn-dropbox</option>
 		<option>typcn-edit</option>
+		<option>typcn-export</option>
+		<option>typcn-export-outline</option>
+		<option>typcn-folder</option>
+		<option>typcn-folder-open</option>
+		<option>typcn-group</option>
+		<option>typcn-info</option>
+		<option>typcn-lock-closed</option>
+		<option>typcn-mortar-board</option>
 		<option>typcn-phone</option>
 		<option>typcn-phone-outline</option>
+		<option>typcn-spanner</option>
 		<option>typcn-shopping-bag</option>
 		<option>typcn-shopping-cart</option>
 		<option>typcn-tabs-outline</option>
+		<option>typcn-time</option>
+		<option>typcn-upload</option>
+		<option>typcn-upload-outline</option>
 
 
 	</select>
-	<input type="radio" name="icon-main-theme" value="">Normal
-	<input type="radio" name="icon-main-theme"
-		value="imixs-info">Info
-	<input type="radio" name="icon-main-theme"
-		value="imixs-success">Success
-	<input type="radio" name="icon-main-theme"
-		value="imixs-warning">Warning
-	<input type="radio" name="icon-main-theme"
-		value="imixs-error">Error
+
+	<input type="radio" name="icon-main-theme" checked
+		value="imixs-default">Normal
+	<input type="radio" name="icon-main-theme" value="imixs-info">Info
+	<input type="radio" name="icon-main-theme" value="imixs-success">Success
+	<input type="radio" name="icon-main-theme" value="imixs-warning">Warning
+	<input type="radio" name="icon-main-theme" value="imixs-error">Error
 
 
-	<h3>Sub-Icon</h3>
-	Position:
-	<input type="radio" name="icon-sub-pos" value="icon-sub-ne">NE
-	<input type="radio" name="icon-sub-pos"
-		value="icon-sub-se">SE
-	<input type="radio" name="icon-sub-pos"
-		value="icon-sub-sw">SW
-	<input type="radio" name="icon-sub-pos"
-		value="icon-sub-nw">NW
-		<br />
-	<select name="icon-sub" id="icon-sub">
+	<h3>North-East</h3>
+
+	<select name="icon-sub-ne" id="icon-sub-ne">
+		<option>typcn-arrow-forward-outline</option>
 		<option></option>
+		<option>typcn-arrow-sync</option>
+		<option>typcn-arrow-forward</option>
+		<option>typcn-arrow-forward-outline</option>
+		<option>typcn-arrow-back</option>
+		<option>typcn-arrow-back-outline</option>
+		<option>typcn-arrow-right-thick</option>
+		<option>typcn-arrow-right-outline</option>
 		<option>typcn-attachment</option>
 		<option>typcn-bell</option>
-		<option>typcn-arrow-sync</option>
 		<option>typcn-bookmark</option>
+		<option>typcn-chevron-left</option>
+		<option>typcn-chevron-left-outline</option>
+		<option>typcn-chevron-right</option>
+		<option>typcn-chevron-right-outline</option>
+
 		<option>typcn-tick</option>
 		<option>typcn-lock-closed</option>
+		<option>typcn-media-play</option>
+
 		<option>typcn-times</option>
 		<option>typcn-info</option>
 		<option>typcn-spanner</option>
 		<option>typcn-cancel</option>
 	</select>
-	<input type="radio" name="icon-sub-theme" value="">Normal
-	<input type="radio" name="icon-sub-theme"
-		value="imixs-info">Info
-	<input type="radio" name="icon-sub-theme"
-		value="imixs-success">Success
-	<input type="radio" name="icon-sub-theme"
-		value="imixs-warning">Warning
-	<input type="radio" name="icon-sub-theme"
-		value="imixs-error">Error
+	<input type="radio" name="icon-sub-ne-theme" checked value="">None
+	<input type="radio" name="icon-sub-ne-theme" value="imixs-default">Default
+	<input type="radio" name="icon-sub-ne-theme" value="imixs-info">Info
+	<input type="radio" name="icon-sub-ne-theme" value="imixs-success">Success
+	<input type="radio" name="icon-sub-ne-theme" value="imixs-warning">Warning
+	<input type="radio" name="icon-sub-ne-theme" value="imixs-error">Error
 
-	
-	
 
-<hr />
+	<h3>South-East</h3>
 
-	<script type="text/javascript" src="./jquery-2.1.4.min.js"></script>
+	<select name="icon-sub-se" id="icon-sub-se">
+		<option></option>
+				<option>typcn-arrow-sync</option>
+		<option>typcn-arrow-forward</option>
+		<option>typcn-arrow-forward-outline</option>
+		<option>typcn-arrow-back</option>
+		<option>typcn-arrow-back-outline</option>
+		<option>typcn-arrow-right-thick</option>
+		<option>typcn-arrow-right-outline</option>
+		<option>typcn-attachment</option>
+		<option>typcn-bell</option>
+		<option>typcn-arrow-sync</option>
+		<option>typcn-bookmark</option>
+		<option>typcn-chevron-left</option>
+		<option>typcn-chevron-left-outline</option>
+		<option>typcn-chevron-right</option>
+		<option>typcn-chevron-right-outline</option>
+
+		<option>typcn-tick</option>
+		<option>typcn-lock-closed</option>
+		<option>typcn-media-play</option>
+
+		<option>typcn-times</option>
+		<option>typcn-info</option>
+		<option>typcn-spanner</option>
+		<option>typcn-cancel</option>
+	</select>
+	<input type="radio" name="icon-sub-se-theme" checked value="">None
+	<input type="radio" name="icon-sub-se-theme" value="imixs-default">Default
+	<input type="radio" name="icon-sub-se-theme" value="imixs-info">Info
+	<input type="radio" name="icon-sub-se-theme" value="imixs-success">Success
+	<input type="radio" name="icon-sub-se-theme" value="imixs-warning">Warning
+	<input type="radio" name="icon-sub-se-theme" value="imixs-error">Error
+
+
+
+
+
+
+	<h3>South-West</h3>
+
+	<select name="icon-sub-sw" id="icon-sub-sw">
+		<option></option>
+				<option>typcn-arrow-sync</option>
+		<option>typcn-arrow-forward</option>
+		<option>typcn-arrow-forward-outline</option>
+		<option>typcn-arrow-back</option>
+		<option>typcn-arrow-back-outline</option>
+		<option>typcn-arrow-right-thick</option>
+		<option>typcn-arrow-right-outline</option>
+		<option>typcn-attachment</option>
+		<option>typcn-bell</option>
+		<option>typcn-arrow-sync</option>
+		<option>typcn-bookmark</option>
+		<option>typcn-chevron-left</option>
+		<option>typcn-chevron-left-outline</option>
+		<option>typcn-chevron-right</option>
+		<option>typcn-chevron-right-outline</option>
+
+		<option>typcn-tick</option>
+		<option>typcn-lock-closed</option>
+		<option>typcn-media-play</option>
+
+		<option>typcn-times</option>
+		<option>typcn-info</option>
+		<option>typcn-spanner</option>
+		<option>typcn-cancel</option>
+	</select>
+	<input type="radio" name="icon-sub-sw-theme" checked value="">None
+	<input type="radio" name="icon-sub-sw-theme" value="imixs-default">Default
+	<input type="radio" name="icon-sub-sw-theme" value="imixs-info">Info
+	<input type="radio" name="icon-sub-sw-theme" value="imixs-success">Success
+	<input type="radio" name="icon-sub-sw-theme" value="imixs-warning">Warning
+	<input type="radio" name="icon-sub-sw-theme" value="imixs-error">Error
+
+
+
+
+
+
+	<h3>North-West</h3>
+
+	<select name="icon-sub-nw" id="icon-sub-nw">
+		<option></option>
+				<option>typcn-arrow-sync</option>
+		<option>typcn-arrow-forward</option>
+		<option>typcn-arrow-forward-outline</option>
+		<option>typcn-arrow-back</option>
+		<option>typcn-arrow-back-outline</option>
+		<option>typcn-arrow-right-thick</option>
+		<option>typcn-arrow-right-outline</option>
+		<option>typcn-attachment</option>
+		<option>typcn-bell</option>
+		<option>typcn-arrow-sync</option>
+		<option>typcn-bookmark</option>
+		<option>typcn-chevron-left</option>
+		<option>typcn-chevron-left-outline</option>
+		<option>typcn-chevron-right</option>
+		<option>typcn-chevron-right-outline</option>
+
+		<option>typcn-tick</option>
+		<option>typcn-lock-closed</option>
+		<option>typcn-media-play</option>
+
+		<option>typcn-times</option>
+		<option>typcn-info</option>
+		<option>typcn-spanner</option>
+		<option>typcn-cancel</option>
+	</select>
+	<input type="radio" name="icon-sub-nw-theme" checked value="">None
+	<input type="radio" name="icon-sub-nw-theme" value="imixs-default">Default
+	<input type="radio" name="icon-sub-nw-theme" value="imixs-info">Info
+	<input type="radio" name="icon-sub-nw-theme" value="imixs-success">Success
+	<input type="radio" name="icon-sub-nw-theme" value="imixs-warning">Warning
+	<input type="radio" name="icon-sub-nw-theme" value="imixs-error">Error
+
+
+	<hr />
+
+
 	<script type="text/javascript" src="./fonticon-test.js"></script>
+
+	<script type="text/javascript">
+		/* Init Script */
+		var imixs = IMIXS.org.imixs.core, imixsOfficeWorkflow = IMIXS.com.imixs.workflow.office;
+
+		$(document).ready(function() {
+			imixsOfficeWorkflow.layout();
+		});
+	</script>
 
 
 
