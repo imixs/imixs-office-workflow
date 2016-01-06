@@ -4,7 +4,15 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/layout/template.xhtml">
 
+	
 	<ui:define name="content">
+	
+		<script type="text/javascript">
+		/*<![CDATA[*/
+			document.cookie = "imixs.office.navigation=/pages/notes.jsf;path=#{facesContext.externalContext.requestContextPath};";
+		/*]]>*/
+		</script>
+
 		<ui:include src="/pages/notes_#{app.application_layout}.xhtml" />
 	</ui:define>
 

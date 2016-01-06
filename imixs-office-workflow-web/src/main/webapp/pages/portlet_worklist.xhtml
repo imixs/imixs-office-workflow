@@ -22,7 +22,7 @@
 					$(".ui-tooltip").hide();
 					// select with wildcard operator
 					$("span.imixs-tooltip").layoutImixsTooltip();
-					layoutTypIcons();
+					imixsOfficeWorkflow.layoutTypIcons();
 				}
 			}
 			/*]]>*/
@@ -98,18 +98,16 @@
 			class="imixs-body">
 
 			<!-- **** Workitems ***** -->
-			<ui:repeat var="workitem" value="#{view.workitems}">
+			<ui:repeat var="workitem" value="#{view.workitems}"> 
 				<ui:include src="portlet_worklist_viewentry.xhtml">
 					<ui:param name="workitem" value="#{workitem}" />
 				</ui:include>
-			</ui:repeat>
+			</ui:repeat> 
 
 			<h3>
 				<h:outputText rendered="#{empty view.workitems}"
 					value="#{message.empty_worklist}" />
 			</h3>
-
-
 			<!-- navigation -->
 			<h:panelGroup layout="block" id="portlet_worklist_nav"
 				class="imixs-footer">
