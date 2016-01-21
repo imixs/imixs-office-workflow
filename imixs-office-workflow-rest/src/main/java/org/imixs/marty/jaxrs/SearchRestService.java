@@ -51,7 +51,7 @@ import javax.ws.rs.core.MediaType;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.jee.ejb.WorkflowService;
 import org.imixs.workflow.jee.util.PropertyService;
-import org.imixs.workflow.plugins.jee.extended.LucenePlugin;
+import org.imixs.workflow.plugins.jee.extended.LuceneSearchService;
 import org.imixs.workflow.xml.EntityCollection;
 import org.imixs.workflow.xml.XMLItemCollectionAdapter;
 
@@ -80,6 +80,9 @@ public class SearchRestService implements Serializable {
 
 	@EJB
 	private WorkflowService workflowService;
+	
+	@EJB
+	private LuceneSearchService luceneSearchService;
 
 	/**
 	 * Returns the result of a lucene search. If the query contains () AND OR we
@@ -91,7 +94,6 @@ public class SearchRestService implements Serializable {
 	 *            - lucene search phrase
 	 * @return
 	 */
-	@SuppressWarnings("static-access")
 	@GET
 	@Path("/{query}")
 	public EntityCollection getSearchResult(@PathParam("query") String query,
@@ -104,12 +106,12 @@ public class SearchRestService implements Serializable {
 			Collection<ItemCollection> col = null;
 			try {  
 				logger.fine("SearchQuery=" + query);
-				LucenePlugin lucenePlugin = new LucenePlugin();
-				lucenePlugin.setMaxResult(count);
+				
+				luceneSearchService.setMaxResult(count);
 
 				// if the query contains () AND OR we think its a valid lucen
 				// search therm
-				col = lucenePlugin.search(generateSearchTerm(query), workflowService);
+				col = luceneSearchService.search(generateSearchTerm(query), workflowService);
 
 				return XMLItemCollectionAdapter.putCollection(col,
 						getItemList(items));
