@@ -7,13 +7,10 @@
 
 
 	<!-- the following code computes the txtworktow abstract from the current modelversion and processid  -->
-	<div class="ui-state-highlight ui-corner-all"
-		style="margin-bottom: 10px; padding: .5em;">
-		<p>
+	<div class="ui-state-highlight ui-corner-all imixs-instruction">
 			<h:outputText escape="false"
 				value="#{modelController.getProcessDescription(workflowController.workitem.item['$processID'],workflowController.workitem.item['$ModelVersion'],workflowController.workitem)}">
 			</h:outputText>
-		</p>
 	</div>
 
 	<c:forEach items="#{workflowController.editorSections}" var="section">
