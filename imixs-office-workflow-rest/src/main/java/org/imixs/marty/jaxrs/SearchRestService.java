@@ -101,22 +101,18 @@ public class SearchRestService implements Serializable {
 			@QueryParam("items") String items) {
 
 		if (query != null) {
-
 			// start lucene search
 			Collection<ItemCollection> col = null;
 			try {  
 				logger.fine("SearchQuery=" + query);
-				
-				luceneSearchService.setMaxResult(count);
-
-				// if the query contains () AND OR we think its a valid lucen
-				// search therm
-				col = luceneSearchService.search(generateSearchTerm(query), workflowService);
+				// if the query contains () AND OR we think its a valid lucene
+				// search term
+				col = luceneSearchService.search(generateSearchTerm(query), workflowService,count);
 
 				return XMLItemCollectionAdapter.putCollection(col,
 						getItemList(items));
 			} catch (Exception e) {
-				logger.warning("  lucene error!");
+				logger.warning("  lucene error: "+e.getMessage());
 				e.printStackTrace();
 			}
 
