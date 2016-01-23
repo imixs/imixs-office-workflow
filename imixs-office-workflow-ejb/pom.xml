@@ -29,7 +29,7 @@
 					<archive>
 						<!-- add the EJB module imixs-workflow-jee-impl - !DO NOT format this line! -->
 						<manifestEntries>
-							<Class-Path>imixs-workflow-engine-${org.imixs.workflow.version}.jar imixs-workflow-core-${org.imixs.workflow.version}.jar imixs-marty-ejb-${org.imixs.marty.version}.jar</Class-Path>
+							<Class-Path>imixs-workflow-engine-${org.imixs.workflow.version}.jar imixs-workflow-core-${org.imixs.workflow.version}.jar imixs-marty-ejb-${org.imixs.marty.version}.jar imixs-adapters-lucene-ejb-${org.imixs.adapters.version}.jar</Class-Path>
 						</manifestEntries>
 					</archive>
 				</configuration>
@@ -51,6 +51,12 @@
 			<artifactId>imixs-marty-ejb</artifactId>
 		</dependency>
 		
+		<!-- lucene 
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-adapters-lucene-ejb</artifactId>
+		</dependency>
+		-->
 		<!-- 
 		<dependency>
 			<groupId>org.apache.lucene</groupId>

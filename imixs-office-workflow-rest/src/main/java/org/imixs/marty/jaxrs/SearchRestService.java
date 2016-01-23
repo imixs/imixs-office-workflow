@@ -51,7 +51,7 @@ import javax.ws.rs.core.MediaType;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.jee.ejb.WorkflowService;
 import org.imixs.workflow.jee.util.PropertyService;
-import org.imixs.workflow.plugins.jee.extended.LuceneSearchService;
+import org.imixs.workflow.lucene.LuceneSearchService;
 import org.imixs.workflow.xml.EntityCollection;
 import org.imixs.workflow.xml.XMLItemCollectionAdapter;
 
