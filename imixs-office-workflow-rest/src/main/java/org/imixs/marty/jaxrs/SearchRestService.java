@@ -51,7 +51,7 @@ import javax.ws.rs.core.MediaType;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.jee.ejb.WorkflowService;
 import org.imixs.workflow.jee.util.PropertyService;
-import org.imixs.workflow.plugins.jee.extended.LuceneSearchService;
+import org.imixs.workflow.lucene.LuceneSearchService;
 import org.imixs.workflow.xml.EntityCollection;
 import org.imixs.workflow.xml.XMLItemCollectionAdapter;
 
@@ -77,11 +77,11 @@ public class SearchRestService implements Serializable {
 
 	@EJB
 	private PropertyService propertyService;
-
+ 
 	@EJB
 	private WorkflowService workflowService;
 	
-	@EJB
+	@EJB 
 	private LuceneSearchService luceneSearchService;
 
 	/**
@@ -107,11 +107,9 @@ public class SearchRestService implements Serializable {
 			try {  
 				logger.fine("SearchQuery=" + query);
 				
-				luceneSearchService.setMaxResult(count);
-
 				// if the query contains () AND OR we think its a valid lucen
 				// search therm
-				col = luceneSearchService.search(generateSearchTerm(query), workflowService);
+				col = luceneSearchService.search(generateSearchTerm(query), workflowService,count);
 
 				return XMLItemCollectionAdapter.putCollection(col,
 						getItemList(items));
