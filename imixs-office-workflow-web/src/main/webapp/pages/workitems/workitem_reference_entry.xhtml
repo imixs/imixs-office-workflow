@@ -25,22 +25,9 @@
 			<hr />
 
 			<!-- *** Image *** -->
-			<h:panelGroup layout="block" styleClass="image-block">
-				<h:commandLink immediate="true"
-					action="#{workflowController.load(workitem.item['$uniqueid'],'/pages/workitems/workitem')}">
-					<h:graphicImage
-						rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
-						url="#{workitem.item['txtWorkflowImageURL']}"
-						style="max-height: 24px; margin: 4px;"></h:graphicImage>
-
-					<h:graphicImage
-						rendered="#{empty workitem.item['txtWorkflowImageURL']}"
-						value="/layout/icons/vwicn070.png"
-						style="max-height: 24px; margin: 4px;"></h:graphicImage>
-				</h:commandLink>
-
-
-			</h:panelGroup>
+			<ui:include src="/pages/viewentry_imageblock.xhtml">
+				<ui:param name="workitem" value="#{workitem}" />
+			</ui:include>
 
 
 			<!-- *** Standard Info *** -->
