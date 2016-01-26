@@ -161,6 +161,10 @@
           <imixs:value><![CDATA[<itemvalue>_contracttype</itemvalue>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
+      <bpmn2:documentation id="Documentation_7"><![CDATA[<h1>Anweisung </h1>
+<ol>
+<li>Bestellung auslösen/ablehnen</li>
+<li>Vorgang weiterleiten</li>]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_18</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_46</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
@@ -235,10 +239,10 @@
           <imixs:value><![CDATA[0]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namCreator]]></imixs:value>
           <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+          <imixs:value><![CDATA[namCreator]]></imixs:value>
         </imixs:item>
         <imixs:item name="numnextactivityid" type="xs:int">
           <imixs:value><![CDATA[0]]></imixs:value>
@@ -618,6 +622,8 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
           <imixs:value><![CDATA[namProjectManager]]></imixs:value>
           <imixs:value><![CDATA[namProjectTeam]]></imixs:value>
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
+          <imixs:value><![CDATA[namspaceteam]]></imixs:value>
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
         <imixs:item name="numnextactivityid" type="xs:int">
           <imixs:value><![CDATA[0]]></imixs:value>
@@ -633,7 +639,7 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
         </imixs:item>
         <imixs:item name="keyownershipfields" type="xs:string">
           <imixs:value><![CDATA[namProjectOwner]]></imixs:value>
-          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
+          <imixs:value><![CDATA[namspaceteam]]></imixs:value>
         </imixs:item>
         <imixs:item name="numnextid" type="xs:int">
           <imixs:value><![CDATA[5005]]></imixs:value>
@@ -706,7 +712,7 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
           <imixs:value><![CDATA[0]]></imixs:value>
         </imixs:item>
         <imixs:item name="rtfresultlog" type="xs:string">
-          <imixs:value><![CDATA[Betrag <500 EUR - Bestellung auslösen]]></imixs:value>
+          <imixs:value><![CDATA[Betrag <= 500 EUR - Bestellung auslösen]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
@@ -1220,9 +1226,7 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
         <imixs:item name="keylogdateformat" type="xs:string">
           <imixs:value><![CDATA[2]]></imixs:value>
         </imixs:item>
-        <imixs:item name="keyownershipfields" type="xs:string">
-          <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
-        </imixs:item>
+        <imixs:item name="keyownershipfields" type="xs:string"/>
         <imixs:item name="txtnextprocesstree" type="xs:string">
           <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
@@ -1236,10 +1240,10 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
           <imixs:value><![CDATA[0]]></imixs:value>
         </imixs:item>
         <imixs:item name="rtfresultlog" type="xs:string">
-          <imixs:value><![CDATA[Gespeichert von <username>namcurrenteditor</username>.]]></imixs:value>
+          <imixs:value><![CDATA[Fachlich geprüft von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
+          <imixs:value>false</imixs:value>
         </imixs:item>
         <imixs:item name="txtbusinessrule" type="CDATA">
           <imixs:value><![CDATA[var followUp=90;
