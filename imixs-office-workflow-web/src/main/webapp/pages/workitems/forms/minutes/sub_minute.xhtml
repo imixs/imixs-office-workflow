@@ -5,59 +5,60 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 
-	<div class="imixs-form-panel">
-		<div class="imixs-form-section">
-			<dl>
-				<dt>
-					#{message['form.minutes.subject_minute']}: <span
-						class="imixs-required">*</span>
-				</dt>
-				<dd>
-					<h:inputText title="#{message['form.minutes.help_subject']}"
-						required="true" value="#{workitem.item['_subject']}" />
-				</dd>
-			</dl>
-			<dl>
-				<dt>#{message['form.minutes.description']}</dt>
-				<dd>
-					<h:inputTextarea class="imixs-editor"
-						value="#{workitem.item['_description']}" />
-				</dd>
-			</dl>
-		</div>
 
 
-		<!-- hide this section if we are not in the main minute... -->
-		<h:panelGroup layout="block" styleClass="imixs-form-section-2"
-		 rendered="#{workitem.item['$uniqueid'] ne workflowController.workitem.item['$uniqueid']}">
-			<dl>
-				<dt>#{message['form.minutes.deadline']}:</dt>
-				<dd>
-					<h:inputText value="#{workitem.item['datdate']}"
-						title="#{message['form.minutes.help_deadline']}"
-						class="imixs-date">
-						<f:convertDateTime pattern="#{message.datePatternShort}"
-							timeZone="#{message.timeZone}" />
-					</h:inputText>
-				</dd>
-			</dl>
-
-			<dl>
-				<dt>#{message['form.minutes.responsible']}:</dt>
-				<dd>
-					<h:selectOneMenu value="#{workitem.item['namresponsible']}"
-						title="#{message['form.minutes.help_responsible']}">
-						<f:selectItem itemLabel=" - " itemValue=" "></f:selectItem>
-						<c:forEach
-							items="#{minuteController.minuteHeader.itemList['namTeam']}"
-							var="member">
-							<f:selectItem itemLabel="#{userController.getUserName(member)}" itemValue="#{member}"></f:selectItem>							
-						</c:forEach>
-					</h:selectOneMenu>
-				</dd>
-
-			</dl>
-		</h:panelGroup>
+	<div class="imixs-form-section">
+		<dl>
+			<dt>
+				#{message['form.minutes.subject_minute']}: <span
+					class="imixs-required">*</span>
+			</dt>
+			<dd>
+				<h:inputText title="#{message['form.minutes.help_subject']}"
+					required="true" value="#{workitem.item['_subject']}" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>#{message['form.minutes.description']}</dt>
+			<dd>
+				<h:inputTextarea class="imixs-editor"
+					value="#{workitem.item['_description']}" />
+			</dd>
+		</dl>
 	</div>
+
+
+	<!-- hide this section if we are not in the main minute... -->
+	<h:panelGroup layout="block" styleClass="imixs-form-section-2"
+		rendered="#{workitem.item['$uniqueid'] ne workflowController.workitem.item['$uniqueid']}">
+		<dl>
+			<dt>#{message['form.minutes.deadline']}:</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['datdate']}"
+					title="#{message['form.minutes.help_deadline']}" class="imixs-date">
+					<f:convertDateTime pattern="#{message.datePatternShort}"
+						timeZone="#{message.timeZone}" />
+				</h:inputText>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>#{message['form.minutes.responsible']}:</dt>
+			<dd>
+				<h:selectOneMenu value="#{workitem.item['namresponsible']}"
+					title="#{message['form.minutes.help_responsible']}">
+					<f:selectItem itemLabel=" - " itemValue=" "></f:selectItem>
+					<c:forEach
+						items="#{minuteController.minuteHeader.itemList['namTeam']}"
+						var="member">
+						<f:selectItem itemLabel="#{userController.getUserName(member)}"
+							itemValue="#{member}"></f:selectItem>
+					</c:forEach>
+				</h:selectOneMenu>
+			</dd>
+
+		</dl>
+	</h:panelGroup>
+
 </ui:composition>
 
