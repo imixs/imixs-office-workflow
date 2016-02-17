@@ -28,9 +28,15 @@ IMIXS.com.imixs.workflow.office = (function() {
 						function() {
 							var mainIcon = "", subIconNe = "", subIconSe = "", subIconSw = "", subIconNw = "", typClasses, i, typiconElement;
 
-							typClasses = $(this).attr("data-typicon").trim();
-							// replace , with ' '
-							typClasses = typClasses.replace(/,/g, ' ');
+							typClasses = $(this).attr("data-typicon");
+							if (typClasses) {
+								typClasses = $(this).attr("data-typicon").trim();
+							
+								// replace , with ' '
+								typClasses = typClasses.replace(/,/g, ' ');
+							} else {
+								typClasses="";
+							}
 
 							// only render typicons if data string starts with
 							// typicn
