@@ -40,7 +40,7 @@
 				</h:column>
 				<!-- open -->
 				<h:column>
-					<h:commandLink value="#{message.open}"
+					<h:commandLink value="#{message.open}" immediate="true"
 						rendered="#{version.item['$uniqueid'] ne workflowController.workitem.item['$uniqueid']}"
 						action="#{workflowController.load(version.item['$uniqueid'],'/pages/workitems/workitem')}">
 					</h:commandLink>

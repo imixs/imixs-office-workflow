@@ -14,49 +14,36 @@
 
 
 		<div class="minute-info">
-			<h:panelGroup styleClass="minute-summary"
-				rendered="#{!empty workitem.item['txtWorkflowImageURL']}">
-				
-				<!-- *** Image *** -->
-				<h:panelGroup layout="block" rendered="#{editmode}" styleClass="minute-icon">
-					<h:commandLink
-						actionListener="#{minuteController.load(workitem.item['$uniqueid'])}">
-						<h:graphicImage url="#{workitem.item['txtWorkflowImageURL']}"
-							style="max-height: 24px; margin: 4px;"></h:graphicImage>
-						<f:ajax render=":#{minutesBody.clientId}"
-							onevent="layoutBodySection" />
-					</h:commandLink>
-				</h:panelGroup>
-				<h:panelGroup layout="block" rendered="#{!editmode}"  styleClass="minute-icon">
-					<h:graphicImage url="#{workitem.item['txtWorkflowImageURL']}"
-						style="max-height: 24px; margin: 4px;"></h:graphicImage>
-				</h:panelGroup>
+			<h:panelGroup styleClass="minute-summary">
 
+			
 
 				<!-- Edit Mode -->
-				<h:panelGroup rendered="#{editmode}">
-				<h:commandLink
-					actionListener="#{minuteController.load(workitem.item['$uniqueid'])}">
-					<!-- summary empty ? -->
-					<h:panelGroup
-						rendered="#{empty workitem.item['txtWorkflowSummary']}">
-						<h:outputText value="#{workitem.item['$modified']}"
-							style="font-weight: bold;">
-							<f:convertDateTime timeZone="#{message.timeZone}"
-								pattern="#{message.dateTimePattern}" />
-						</h:outputText>
-						<h:outputText value=" #{workitem.item['_subject']}"
-							style="font-weight: bold;" />
-					</h:panelGroup>
-					<h1><h:outputText style="font-weight: bold;"
-						value="#{workitem.item['txtWorkflowSummary']}" /></h1>
+				<h:panelGroup layout="block" rendered="#{editmode}">
+					<h:commandLink
+						actionListener="#{minuteController.load(workitem.item['$uniqueid'])}">
+						<h1>
+							<!-- summary empty ? -->
+							<h:panelGroup
+								rendered="#{empty workitem.item['txtWorkflowSummary']}">
+								<h:outputText value="#{workitem.item['$modified']}"
+									style="font-weight: bold;">
+									<f:convertDateTime timeZone="#{message.timeZone}"
+										pattern="#{message.dateTimePattern}" />
+								</h:outputText>
+								<h:outputText value=" #{workitem.item['_subject']}"
+									style="font-weight: bold;" />
+							</h:panelGroup>
+							<h:outputText style="font-weight: bold;"
+								value="#{workitem.item['txtWorkflowSummary']}" />
+						</h1>
 
-					<f:ajax render=":#{minutesBody.clientId}"
-						onevent="layoutBodySection" />
+						<f:ajax render=":#{minutesBody.clientId}"
+							onevent="layoutBodySection" />
 
-				</h:commandLink>
+					</h:commandLink>
 				</h:panelGroup>
-				
+
 				<!-- Read only Mode -->
 				<h:panelGroup rendered="#{!editmode}">
 					<!-- summary empty ? -->
@@ -72,10 +59,8 @@
 						<h:outputText value="#{workitem.item['txtWorkflowSummary']}" />
 					</h1>
 				</h:panelGroup>
-				
-			</h:panelGroup>
 
-			
+			</h:panelGroup>
 
 			<!-- *** Minute details *** -->
 			<h:panelGroup layout="block" class="minute-details">
@@ -123,9 +108,6 @@
 
 			<!-- Tooltip - Details -->
 			<h:panelGroup style="display:none;" class="imixs-tooltip">#{workitem.item['txtWorkflowAbstract']}</h:panelGroup>
-
-
-
 		</div>
 		<!-- clear floating problem from sidebar in ff and chrome.  -->
 		<div style="clear: left;" />

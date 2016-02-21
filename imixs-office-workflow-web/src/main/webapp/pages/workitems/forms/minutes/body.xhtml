@@ -10,7 +10,7 @@
 
 /* Minute Number 
    -------------------------------------------------- */
-.minute-number {
+.xminute-number {
 	float: left;
 	height: 34px;
 	border-right: 1px solid silver;
@@ -21,7 +21,7 @@
 	padding-right: 4px;
 }
 
-.minute-number span {
+.xminute-number span {
 	font-size: 30px;
 	font-weight: bold;
 	margin-right: 5px;
@@ -85,11 +85,12 @@
 		</script>
 		
 	<ui:param name="editmode" value="#{workitem.item['$processid'] lt 1500}" />
-<div class="imixs-form-panel">
+	<div class="imixs-form-panel">
+
+
 	<!-- minutes body -->
 	<h:panelGroup layout="block" styleClass="imixs-form-section minutes-body-section"
 		id="minutes_body" binding="#{minutesBody}">
-
 
 		<h:panelGroup id="minute_list">
 			<!-- minute list  -->
@@ -114,8 +115,7 @@
 				<ui:param name="entity"
 					value="#{modelController.getInitialProcessEntityByGroup(group)}"></ui:param>
 				<h:commandButton class="imixs-workflow-action ui-button-warning"
-					title="" value="#{fn:substringAfter(group,'~')}"
-					
+					title="" value="#{fn:substringAfter(group,'~')}"					
 					actionListener="#{minuteController.create}"
 					action="/pages/workitems/workitem">
 					<f:setPropertyActionListener
@@ -127,6 +127,9 @@
 					<f:setPropertyActionListener
 						target="#{minuteController.workitem.item['$uniqueidRef']}"
 						value="#{workflowController.workitem.item['$uniqueid']}" />
+					<f:setPropertyActionListener
+						target="#{minuteController.workitem.item['txtprocessref']}"
+						value="#{workflowController.workitem.item['txtprocessref']}" />
 					<f:ajax render=":#{minutesBody.clientId}"
 					onevent="layoutBodySection"
 					 />
@@ -140,6 +143,7 @@
 		<!-- Edit new minute if 'isnewWorkitem' -->
 		<h:panelGroup
 			rendered="#{(minuteController.newWorkitem) and (! empty minuteController.workitem)}">
+			
 			<ui:include
 				src="/pages/workitems/forms/minutes/body_entry_edit.xhtml">
 				<ui:param name="workitem"

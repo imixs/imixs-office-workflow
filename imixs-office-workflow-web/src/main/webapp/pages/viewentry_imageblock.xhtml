@@ -18,7 +18,7 @@
 		</h:link>
 
 		<!-- favorite marker -->
-		<h:panelGroup id="marked_id" layout="block"
+		<h:panelGroup id="marked_id" layout="block" rendered="#{! hidefavorite}"
 			styleClass="imixs-favorite">
 			<h:commandLink
 				rendered="#{!userController.isFavorite(workitem.item['$uniqueid'])}"
