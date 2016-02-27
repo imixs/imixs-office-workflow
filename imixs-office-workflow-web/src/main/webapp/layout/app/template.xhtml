@@ -44,7 +44,9 @@
 		theme="#{facesContext.externalContext.requestContextPath}/layout/themes/#{app.application_theme}" />
 	<!-- this script can be removed if disabletinymce is set back to false -->
 	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/imixs/tinymce/jscripts/tiny_mce/jquery.tinymce.js?build=#{app.application_build_timestamp}"></script>
+		src="#{facesContext.externalContext.requestContextPath}/js/tinymce/tinymce.min.js?build=#{app.application_build_timestamp}"></script>
+
+
 
 	<!-- #### Customize TinyMCE  END -->
 
@@ -194,6 +196,25 @@
 		/* laest sich im moment nicht auslagern (script_url!) see issue #87 */
 		layoutOfficeEditor = function() {
 			
+			
+			//tinymce.init({ selector:'textarea.imixs-editor' });
+			
+			// Layout office default editor
+			tinymce.init({
+				  selector: 'textarea.imixs-editor',
+				  height: 300,
+				  plugins: [
+				    'advlist autolink lists link image preview',
+				    'searchreplace code fullscreen',
+				    'contextmenu paste code'
+				  ],
+				  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+				  content_css : "#{facesContext.externalContext.requestContextPath}/layout/app/css/tinymce.css"
+			
+				});
+			
+			
+			/*
 			$('textarea.imixs-editor')
 					.tinymce(
 							{
@@ -212,6 +233,7 @@
 								content_css : "#{facesContext.externalContext.requestContextPath}/layout/app/css/tinymce.css",
 								theme_advanced_path : false
 							});
+			*/
 		};
 		
 		/*]]>*/
