@@ -117,12 +117,8 @@
 						value="#{entity.item['numProcessID']}" />
 					<f:setPropertyActionListener
 						target="#{minuteController.workitem.item['$uniqueidRef']}"
-						value="#{workflowController.workitem.item['$uniqueid']}" />
-					<f:setPropertyActionListener
-						target="#{minuteController.workitem.item['txtprocessref']}"
-						value="#{workflowController.workitem.item['txtprocessref']}" />
-					<f:ajax render=":#{minutesBody.clientId}"
-					onevent="layoutBodySection"
+						value="#{workflowController.workitem.item['$uniqueid']}" />					
+					<f:ajax render=":#{minutesBody.clientId}" onevent="layoutBodySection"
 					 />
 				</h:commandButton>
 			</ui:repeat>
