@@ -68,10 +68,11 @@
 			
 		
 
-			<h:commandButton value="#{message.close}" class="ui-button"
-				action="/pages/workitems/workitem"
+			<h:commandButton role="button" value="#{message.close}" class="ui-button"
+				
 				actionListener="#{minuteController.reset}">
 				<f:ajax render=":#{minutesBody.clientId}"
+				execute=":#{minutesBody.clientId}"
 					onevent="layoutBodySection" />
 			</h:commandButton>
 
