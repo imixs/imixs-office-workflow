@@ -6,141 +6,138 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
 
-<style>
 
-/* Minute Number 
-   -------------------------------------------------- */
-.xminute-number {
-	float: left;
-	height: 34px;
-	border-right: 1px solid silver;
-	margin-right: 5px;
-	margin-left: 2px;
-	margin-bottom: 10px;
-	padding-top: 4px;
-	padding-right: 4px;
-}
+	<!--  Init script -->
+	<script type="text/javascript">
+		/*<![CDATA[*/
 
-.xminute-number span {
-	font-size: 30px;
-	font-weight: bold;
-	margin-right: 5px;
-}
+		// method to refresh create buttons 
+		function layoutBodySection(e) {
+			if (e.status == 'success') {
+				$(".minutes-body-section").imixsLayout();
 
-</style>
-		<!--  Init script -->
-		<script type="text/javascript">
-			/*<![CDATA[*/
+				/* Imixs Tooltip support */
+				$(".minutes-body-section span.imixs-tooltip").prev().tooltip({
+					position : {
+						my : "left top",
+						at : "left+10 bottom",
+						collision : "flipfit"
+					},
+					show : {
+						duration : 800
+					},
+					content : function() {
+						var tooltip = $(this).next();
+						tooltip.hide();
+						return tooltip.text();
+					}
+				});
+				// hide all imixs tooltips 
+				$(".minutes-body-section span.imixs-tooltip").hide();
 
-			// method to refresh create buttons 
-			function layoutBodySection(e) {
-		        if (e.status == 'success') {
-		        	$(".minutes-body-section").imixsLayout();   	
-		        	
-		        	/* Imixs Tooltip support */		
-					$( ".minutes-body-section span.imixs-tooltip" ).prev().tooltip({ 
-						 position: {  my: "left top", at: "left+10 bottom", collision: "flipfit" },
-						 show: { duration: 800 },
-						 content:  function() { 
-							var tooltip=$(this).next();
-							tooltip.hide();
-							return tooltip.text();  
-						} 
-				 	});							
-					// hide all imixs tooltips 
-					$( ".minutes-body-section span.imixs-tooltip" ).hide();
-					
-					// layout tinymce for minutes
-					tinymce.init({
-						  selector: 'textarea.imixs-minute-editor',
-						  height: 200,
-						  menubar:false,
-						  statusbar: true,
-						  plugins: [
-						    'advlist autolink lists link image',
-						    'searchreplace',
-						    'contextmenu paste'
-						  ],
-						  toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-						  content_css : "#{facesContext.externalContext.requestContextPath}/layout/app/css/tinymce.css"
-					
+				// layout tinymce for minutes
+				tinymce
+						.init({
+							selector : 'textarea.imixs-minute-editor',
+							height : 200,
+							menubar : false,
+							statusbar : true,
+							plugins : [ 'advlist autolink lists link image',
+									'searchreplace', 'contextmenu paste' ],
+							toolbar : 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+							content_css : "#{facesContext.externalContext.requestContextPath}/layout/app/css/tinymce.css"
+
 						});
-					
-		        }
-		    }
-			
-			
+
+			}
+		}
+
+		/* This method removes the tiny mce editor befor closed. 
+		   This call is important to rerender new editor in minute body */
+		function closeMinuteEditor() {
+			if (tinyMCE) {
+				tinymce.remove("textarea.imixs-minute-editor");
+			}
+		}
+
+		/* This method saves the tinyMCE content. 
+			This can not by handled automatically by ajax call */
+		function saveTinyMCE() {
+			if (tinyMCE) {
+				tinyMCE.triggerSave();
+				closeMinuteEditor();
+			}
+		}
+
+		/*]]>*/
+	</script>
+
+	<ui:param name="editmode"
+		value="#{workitem.item['$processid'] lt 1500}" />
+	
+		<!-- minutes body -->
+		<h:panelGroup layout="block"
+			styleClass="imixs-form-section minutes-body-section"
+			id="minutes_body" binding="#{minutesBody}">
+
+			<h:panelGroup id="minute_list">
+				<!-- minute list  -->
+				<ui:repeat var="child" value="#{minuteController.workitems}">
+					<ui:include
+						src="/pages/workitems/forms/minutes/body_entry_read.xhtml">
+						<ui:param name="editmode" value="#{editmode}" />
+						<ui:param name="workitem" value="#{child}" />
+						<ui:param name="minutesBody" value="#{minutesBody}" />
+
+					</ui:include>
+				</ui:repeat>
+			</h:panelGroup>
+
+			<!-- create new minute if processid lower than 1500 -->
+			<h:panelGroup
+				rendered="#{empty minuteController.workitem and editmode}"
+				id="createnew-action-list">
+				<!-- compute actions for each sub process  -->
+				<ui:repeat
+					value="#{modelController.getSubWorkflowGroups(workflowController.workitem.item['txtWorkflowGroup'])}"
+					var="group">
+					<ui:param name="entity"
+						value="#{modelController.getInitialProcessEntityByGroup(group)}"></ui:param>
+					<h:commandButton class="imixs-workflow-action ui-button-warning"
+						title="" value="#{fn:substringAfter(group,'~')}"
+						actionListener="#{minuteController.create}"
+						action="/pages/workitems/workitem">
+						<f:setPropertyActionListener
+							target="#{minuteController.workitem.item['$modelversion']}"
+							value="#{workflowController.workitem.item['$modelversion']}" />
+						<f:setPropertyActionListener
+							target="#{minuteController.workitem.item['$processid']}"
+							value="#{entity.item['numProcessID']}" />
+						<f:setPropertyActionListener
+							target="#{minuteController.workitem.item['$uniqueidRef']}"
+							value="#{workflowController.workitem.item['$uniqueid']}" />
+						<f:ajax render=":#{minutesBody.clientId}"
+							onevent="layoutBodySection" />
+					</h:commandButton>
+				</ui:repeat>
+			</h:panelGroup>
 
 
-			/*]]>*/
-		</script>
-		
-	<ui:param name="editmode" value="#{workitem.item['$processid'] lt 1500}" />
-	<div class="imixs-form-panel">
+			<br />
 
+			<!-- Edit new minute if 'isnewWorkitem' -->
+			<h:panelGroup
+				rendered="#{(minuteController.newWorkitem) and (! empty minuteController.workitem)}">
 
-	<!-- minutes body -->
-	<h:panelGroup layout="block" styleClass="imixs-form-section minutes-body-section"
-		id="minutes_body" binding="#{minutesBody}">
-
-		<h:panelGroup id="minute_list">
-			<!-- minute list  -->
-			<ui:repeat var="child" value="#{minuteController.workitems}">
 				<ui:include
-					src="/pages/workitems/forms/minutes/body_entry_read.xhtml">
-					<ui:param name="editmode" value="#{editmode}" />
-					<ui:param name="workitem" value="#{child}" />
+					src="/pages/workitems/forms/minutes/body_entry_edit.xhtml">
+					<ui:param name="workitem" value="#{minuteController.workitem}" />
 					<ui:param name="minutesBody" value="#{minutesBody}" />
-					
 				</ui:include>
-			</ui:repeat>
+			</h:panelGroup>
+
+
 		</h:panelGroup>
-
-		<!-- create new minute if processid lower than 1500 -->
-		<h:panelGroup rendered="#{empty minuteController.workitem and editmode}"
-			id="createnew-action-list">
-			<!-- compute actions for each sub process  -->
-			<ui:repeat
-				value="#{modelController.getSubWorkflowGroups(workflowController.workitem.item['txtWorkflowGroup'])}"
-				var="group">
-				<ui:param name="entity"
-					value="#{modelController.getInitialProcessEntityByGroup(group)}"></ui:param>
-				<h:commandButton class="imixs-workflow-action ui-button-warning"
-					title="" value="#{fn:substringAfter(group,'~')}"					
-					actionListener="#{minuteController.create}"
-					action="/pages/workitems/workitem">
-					<f:setPropertyActionListener
-						target="#{minuteController.workitem.item['$modelversion']}"
-						value="#{workflowController.workitem.item['$modelversion']}" />
-					<f:setPropertyActionListener
-						target="#{minuteController.workitem.item['$processid']}"
-						value="#{entity.item['numProcessID']}" />
-					<f:setPropertyActionListener
-						target="#{minuteController.workitem.item['$uniqueidRef']}"
-						value="#{workflowController.workitem.item['$uniqueid']}" />					
-					<f:ajax render=":#{minutesBody.clientId}" onevent="layoutBodySection"
-					 />
-				</h:commandButton>
-			</ui:repeat>
-		</h:panelGroup>
-
-
-		<br />
-
-		<!-- Edit new minute if 'isnewWorkitem' -->
-		<h:panelGroup
-			rendered="#{(minuteController.newWorkitem) and (! empty minuteController.workitem)}">
-			
-			<ui:include
-				src="/pages/workitems/forms/minutes/body_entry_edit.xhtml">
-				<ui:param name="workitem"
-					value="#{minuteController.workitem}" />
-				<ui:param name="minutesBody" value="#{minutesBody}" />
-			</ui:include>
-		</h:panelGroup>
-
-
-	</h:panelGroup>
-	</div>
+	
 </ui:composition>
 

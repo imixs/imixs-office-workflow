@@ -16,11 +16,9 @@
 		<div class="minute-info">
 			<h:panelGroup styleClass="minute-summary">
 
-			
-
 				<!-- Edit Mode -->
 				<h:panelGroup layout="block" rendered="#{editmode}">
-					<h:commandLink
+					<h:commandLink onclick="closeMinuteEditor();"
 						actionListener="#{minuteController.load(workitem.item['$uniqueid'])}">
 						<h1>
 							<!-- summary empty ? -->

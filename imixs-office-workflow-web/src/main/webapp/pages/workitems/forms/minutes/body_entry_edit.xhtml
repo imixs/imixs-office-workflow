@@ -3,19 +3,20 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html">
-	
-	 
+
+
 	<h:panelGroup layout="block" id="minute_edit_section"
-		styleClass="imixs-subform minute_layout_region" style="margin-bottom: 20px;">
-		
-		<!-- Header -->
+		styleClass="imixs-subform minute_layout_region"
+		style="margin-bottom: 20px;">
+
+		<!-- Head -->
 		<h:panelGroup layout="block" style="margin: 5px 0 0 12px;"
 			rendered="#{(!minuteController.newWorkitem)}">
 			<!-- *** Sequence Number -->
 			<div class="minute-number">
 				<span>#{workitem.item['numsequencenumber']}.</span>
 			</div>
-			
+
 			<div class="minute-info">
 				<!-- Status -->
 				<h:outputText style="font-weight: bold;"
@@ -44,19 +45,101 @@
 
 			</div>
 		</h:panelGroup>
-		<div style="clear: left;" />
+		
+		<!-- Edit section -->
+		<div class="imixs-form-section">
+			<dl>
+				<dt>
+					#{message['form.minutes.subject_minute']}: <span
+						class="imixs-required">*</span>
+				</dt>
+				<dd>
+					<h:inputText title="#{message['form.minutes.help_subject']}"
+						required="true" value="#{workitem.item['_subject']}" />
+				</dd>
+			</dl>
+			<dl>
+				<dt>#{message['form.minutes.description']}</dt>
+				<dd>
+					<h:inputTextarea id="tinymce-minute-editor"
+						class="imixs-minute-editor"
+						value="#{workitem.item['_description']}" />
+				</dd>
+			</dl>
+		</div>
 
-		<ui:include src="/pages/workitems/forms/minutes/sub_minute.xhtml">
-			<ui:param name="workitem" value="#{workitem}" />
-		</ui:include>
+
+		<h:panelGroup layout="block" styleClass="imixs-form-section-2">
+			<dl>
+				<dt>#{message['form.minutes.deadline']}:</dt>
+				<dd>
+					<h:inputText value="#{workitem.item['datdate']}"
+						title="#{message['form.minutes.help_deadline']}"
+						class="imixs-date">
+						<f:convertDateTime pattern="#{message.datePatternShort}"
+							timeZone="#{message.timeZone}" />
+					</h:inputText>
+				</dd>
+			</dl>
+
+			<dl>
+				<dt>#{message['form.minutes.responsible']}:</dt>
+				<dd>
+					<h:selectOneMenu value="#{workitem.item['namresponsible']}"
+						title="#{message['form.minutes.help_responsible']}">
+						<f:selectItem itemLabel=" - " itemValue=" "></f:selectItem>
+						<c:forEach
+							items="#{minuteController.minuteHeader.itemList['namTeam']}"
+							var="member">
+							<f:selectItem itemLabel="#{userController.getUserName(member)}"
+								itemValue="#{member}"></f:selectItem>
+						</c:forEach>
+					</h:selectOneMenu>
+				</dd>
+
+			</dl>
+		</h:panelGroup>
 
 
-		<!-- Workflow Action -->
+		<!-- comment log -->
+		<h:panelGroup
+			rendered="#{! empty workitem.getItemValue('txtCommentLog')}">
+			<dl>
+				<dt>
+					<h:outputLabel value="#{message['form.comment.history']}:" />
+				</dt>
+				<dd>
+					<h:panelGrid columns="3" rowClasses="topAligned"
+						styleClass="imixs-commentlist">
+						<c:forEach items="#{workitem.getItemValue('txtCommentLog')}"
+							var="comment">
+							<c:if test="#{!empty comment}">
+								<h:outputText value="#{comment.datcomment}"
+									style="margin-right:10px;">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="#{message.dateTimePatternShort}" />
+								</h:outputText>
+
+								<h:outputText
+									value="#{userController.getUserName(comment.nameditor)}" />
+
+
+								<h:outputText value="#{comment.txtcomment}" />
+							</c:if>
+						</c:forEach>
+
+					</h:panelGrid>
+				</dd>
+			</dl>
+		</h:panelGroup>
+
+
+
+		<!-- Workflow Actions -->
 		<div class="imixs-form-section">
 			<ui:include src="/pages/error_message.xhtml" />
 
-			<ui:repeat var="activity"
-				value="#{minuteController.activities}">
+			<ui:repeat var="activity" value="#{minuteController.activities}">
 				<h:commandButton role="button" onclick="saveTinyMCE();"
 					class="imixs-workflow-action ui-button-warning" title=" "
 					actionListener="#{minuteController.process(activity.item['numactivityid'],true)}"
@@ -65,15 +148,12 @@
 						execute=":#{minutesBody.clientId}" onevent="layoutBodySection" />
 				</h:commandButton>
 			</ui:repeat>
-			
-		
 
-			<h:commandButton role="button" value="#{message.close}" class="ui-button"
-				
+			<h:commandButton role="button" value="#{message.close}"
+				class="imixs-close-action ui-button" onclick="closeMinuteEditor();"
 				actionListener="#{minuteController.reset}">
 				<f:ajax render=":#{minutesBody.clientId}"
-				execute=":#{minutesBody.clientId}"
-					onevent="layoutBodySection" />
+					execute=":#{minutesBody.clientId}" onevent="layoutBodySection" />
 			</h:commandButton>
 
 		</div>
