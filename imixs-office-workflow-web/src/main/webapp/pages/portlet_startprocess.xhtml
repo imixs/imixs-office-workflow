@@ -11,12 +11,11 @@
 			</ul>
 		</div>
 		<!-- *** display all process nodes where the current user is member of *** -->
-
 		<ui:repeat value="#{processController.processList}" var="process">
 			<h:panelGroup layout="block" styleClass="imixs-viewentry"
 				rendered="#{(loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isMember'])}">
 				<h1>
-					<h:commandLink action="/pages/workitems/worklist" immediate="true"
+					<h:commandLink action="search" immediate="true"
 						actionListener="#{searchController.doReset}">
 						<h:outputText value="#{process.item['txtName']}" />
 						<span class="typcn typcn-zoom-outline"></span>

@@ -5,21 +5,21 @@
 
 	<!-- main section -->
 	<ul>
-		<li><h:commandLink action="/pages/admin/profilelist.xhtml"
+		<li><h:commandLink action="/pages/admin/profilelist?faces-redirect=true"
 				actionListener="#{workflowController.reset}"
 				value="#{message['nav.admin_profiles']}">
 			</h:commandLink></li>
-		<li><h:commandLink action="/pages/admin/processlist"
+		<li><h:commandLink action="/pages/admin/processlist?faces-redirect=true"
 				actionListener="#{workflowController.reset}"
 				value="#{message['nav.admin_processlist']}">
 			</h:commandLink></li>
 
-		<li><h:commandLink action="/pages/admin/spaces"
+		<li><h:commandLink action="/pages/admin/spaces?faces-redirect=true"
 				actionListener="#{workflowController.reset}"
 				value="#{message['nav.admin_spaces']}">
 			</h:commandLink></li>
 
-		<li><h:commandLink action="/pages/admin/reports"
+		<li><h:commandLink action="/pages/admin/reports?faces-redirect=true"
 				value="#{message['nav.admin_reporting']}">
 			</h:commandLink></li>
 
@@ -29,11 +29,11 @@
 	<ul>
 		<li><h:commandLink value="#{message['nav.admin_config']}"
 				actionListener="#{setupController.loadConfiguration()}"
-				action="/pages/admin/config">
+				action="/pages/admin/config?faces-redirect=true">
 			</h:commandLink></li>
 
 
-		<li><h:commandLink action="/pages/admin/modellist"
+		<li><h:commandLink action="/pages/admin/modellist?faces-redirect=true"
 				value="#{message['nav.admin_model']}">
 			</h:commandLink></li>
 
@@ -47,26 +47,19 @@
 			</h:commandLink></li>
 		<li><h:commandLink
 				actionListener="#{adminPController.createRebuildLuceneIndexJob}"
-				action="/pages/admin/adminp"
+				action="/pages/admin/adminp?faces-redirect=true"
 				value="#{message['nav.admin_rebuild_searchindex']}">
 			</h:commandLink></li>
 
-		<li><h:commandLink action="/pages/admin/workflowscheduler"
+		<li><h:commandLink action="/pages/admin/workflowscheduler?faces-redirect=true"
 				value="#{message['nav.admin_workflow_scheduler']}">
 			</h:commandLink></li>
 
 
 		<li><h:commandLink actionListener="#{adminPController.create}"
-				action="/pages/admin/adminp" value="#{message['nav.admin_adminp']}">
+				action="/pages/admin/adminp?faces-redirect=true" value="#{message['nav.admin_adminp']}">
 			</h:commandLink></li>
 
-
-		<!--  
-				<li><h:commandLink
-						actionListener="#{dmsMB.doLoadConfiguration}"
-						action="/admin/dmsscheduler" value="#{message['nav.admin_dms']}	">
-					</h:commandLink></li>
-			-->
 	</ul>
 
 </f:subview>
