@@ -42,11 +42,10 @@
 					rendered="#{empty userController.workitem.item['txtUserName']}"
 					value="#{userController.workitem.item['txtName']}" />
 				</span>
-				<h:commandLink
-					action="#{workflowController.load(userController.workitem.item['$uniqueid'],'/pages/profile/settings')}"
-					rendered="true" title="#{message['nav.my_settings']}">
+				<h:link outcome="/pages/profile/settings" title="#{message['nav.my_settings']}">
 					<span class="typcn typcn-cog"></span>
-				</h:commandLink>
+				</h:link>
+				
 				<h:commandLink action="logout" immediate="true"
 					title="#{message['nav.logout']}"
 					actionListener="#{loginController.doLogout}">

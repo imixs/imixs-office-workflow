@@ -11,6 +11,10 @@
 
 
 		<f:view>
+			
+			<f:event type="preRenderView" listener="#{workflowController.load(userController.workitem.item['$uniqueid'])}" />
+		
+		
 			<script type="text/javascript">
 				/*<![CDATA[*/
 				function passwordCheck() {
