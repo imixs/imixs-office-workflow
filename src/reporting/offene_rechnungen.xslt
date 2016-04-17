@@ -10,24 +10,24 @@
 
 	<xsl:template match="/">
 		{
-			labels : [
+			"labels" : [
 						<!--Select the first element of each group -->
 						<xsl:for-each select="/collection/entity[generate-id() =generate-id(key('groups', item[name='_invoicedate']/value)[1])]" >
 							<xsl:text><![CDATA["]]></xsl:text><xsl:value-of select="item[name='_invoicedate']/value" /><xsl:text><![CDATA["]]></xsl:text>
 							<!-- comma separator only if not last one -->
 							<xsl:if test="position() != last()" ><xsl:text><![CDATA[,]]></xsl:text></xsl:if>
 						</xsl:for-each>
-					 ]
-			datasets : [
+					 ],
+			"datasets" : [
 			{
-				label: "Rechnungsausgänge",
-				fillColor : "rgba(220,220,220,0.2)",
-				strokeColor : "rgba(220,220,220,1)",
-				pointColor : "rgba(220,220,220,1)",
-				pointStrokeColor : "#fff",
-				pointHighlightFill : "#fff",
-				pointHighlightStroke : "rgba(220,220,220,1)",
-				data : [
+				"label": "Rechnungsausgaenge",
+				"fillColor" : "rgba(220,220,220,0.2)",
+				"strokeColor" : "rgba(220,220,220,1)",
+				"pointColor" : "rgba(220,220,220,1)",
+				"pointStrokeColor" : "#fff",
+				"pointHighlightFill" : "#fff",
+				"pointHighlightStroke" : "rgba(220,220,220,1)",
+				"data" : [
 				<xsl:apply-templates
 					select="/collection/entity[generate-id() = generate-id(key('groups', item[name='_invoicedate']/value)[1])]" />
 				]

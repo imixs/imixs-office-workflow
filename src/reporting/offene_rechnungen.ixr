@@ -11,10 +11,13 @@
         <value>txtworkflowSummary</value>
         <value>_invoicenumber</value>
         <value>_invoicedate&lt;format&gt;yyyy-MMM&lt;/format&gt;</value>
-        <value>_amount</value>
+        <value>_amount&lt;convert&gt;DOUBLE&lt;/convert&gt;</value>
         <value>_tax</value>
         <value>_amount_brutto</value>
         <value>txtworkflowgroup</value>
+      </item>
+      <item name="txtcontenttype">
+        <value>application/json</value>
       </item>
       <item name="txtquery">
         <value>SELECT workitem FROM Entity AS workitem
@@ -42,18 +45,17 @@ ORDER BY workitem.created ASC</value>
 		use="item[name='_invoicedate']/value" /&gt;
 
 	&lt;xsl:template match="/"&gt;
-		{
-			labels : [
+		{labels : [
 						&lt;!--Select the first element of each group --&gt;
 						&lt;xsl:for-each select="/collection/entity[generate-id() =generate-id(key('groups', item[name='_invoicedate']/value)[1])]" &gt;
 							&lt;xsl:text&gt;&lt;![CDATA["]]&gt;&lt;/xsl:text&gt;&lt;xsl:value-of select="item[name='_invoicedate']/value" /&gt;&lt;xsl:text&gt;&lt;![CDATA["]]&gt;&lt;/xsl:text&gt;
 							&lt;!-- comma separator only if not last one --&gt;
 							&lt;xsl:if test="position() != last()" &gt;&lt;xsl:text&gt;&lt;![CDATA[,]]&gt;&lt;/xsl:text&gt;&lt;/xsl:if&gt;
 						&lt;/xsl:for-each&gt;
-					 ]
+					 ],
 			datasets : [
 			{
-				label: "Rechnungsausgänge",
+				label: "Rechnungsausgaenge",
 				fillColor : "rgba(220,220,220,0.2)",
 				strokeColor : "rgba(220,220,220,1)",
 				pointColor : "rgba(220,220,220,1)",
