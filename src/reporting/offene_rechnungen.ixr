@@ -45,7 +45,8 @@ ORDER BY workitem.created ASC</value>
 		use="item[name='_invoicedate']/value" /&gt;
 
 	&lt;xsl:template match="/"&gt;
-		{labels : [
+		{
+			"labels" : [
 						&lt;!--Select the first element of each group --&gt;
 						&lt;xsl:for-each select="/collection/entity[generate-id() =generate-id(key('groups', item[name='_invoicedate']/value)[1])]" &gt;
 							&lt;xsl:text&gt;&lt;![CDATA["]]&gt;&lt;/xsl:text&gt;&lt;xsl:value-of select="item[name='_invoicedate']/value" /&gt;&lt;xsl:text&gt;&lt;![CDATA["]]&gt;&lt;/xsl:text&gt;
@@ -53,16 +54,16 @@ ORDER BY workitem.created ASC</value>
 							&lt;xsl:if test="position() != last()" &gt;&lt;xsl:text&gt;&lt;![CDATA[,]]&gt;&lt;/xsl:text&gt;&lt;/xsl:if&gt;
 						&lt;/xsl:for-each&gt;
 					 ],
-			datasets : [
+			"datasets" : [
 			{
-				label: "Rechnungsausgaenge",
-				fillColor : "rgba(220,220,220,0.2)",
-				strokeColor : "rgba(220,220,220,1)",
-				pointColor : "rgba(220,220,220,1)",
-				pointStrokeColor : "#fff",
-				pointHighlightFill : "#fff",
-				pointHighlightStroke : "rgba(220,220,220,1)",
-				data : [
+				"label": "Rechnungsausgaenge",
+				"fillColor" : "rgba(220,220,220,0.2)",
+				"strokeColor" : "rgba(220,220,220,1)",
+				"pointColor" : "rgba(220,220,220,1)",
+				"pointStrokeColor" : "#fff",
+				"pointHighlightFill" : "#fff",
+				"pointHighlightStroke" : "rgba(220,220,220,1)",
+				"data" : [
 				&lt;xsl:apply-templates
 					select="/collection/entity[generate-id() = generate-id(key('groups', item[name='_invoicedate']/value)[1])]" /&gt;
 				]
