@@ -13,6 +13,7 @@
 			"labels" : [
 						<!--Select the first element of each group -->
 						<xsl:for-each select="/collection/entity[generate-id() =generate-id(key('groups', item[name='_invoicedate']/value)[1])]" >
+							<xsl:sort select="item[name='_invoicedate']/value" data-type="text" order="ascending"/>
 							<xsl:text><![CDATA["]]></xsl:text><xsl:value-of select="item[name='_invoicedate']/value" /><xsl:text><![CDATA["]]></xsl:text>
 							<!-- comma separator only if not last one -->
 							<xsl:if test="position() != last()" ><xsl:text><![CDATA[,]]></xsl:text></xsl:if>
@@ -20,16 +21,18 @@
 					 ],
 			"datasets" : [
 			{
-				"label": "Rechnungsausgaenge",
-				"fillColor" : "rgba(220,220,220,0.2)",
-				"strokeColor" : "rgba(220,220,220,1)",
-				"pointColor" : "rgba(220,220,220,1)",
-				"pointStrokeColor" : "#fff",
-				"pointHighlightFill" : "#fff",
-				"pointHighlightStroke" : "rgba(220,220,220,1)",
+				"label": "Umsatz",
+				"fillColor" : "rgba(151,187,205,0.5)",
+				"strokeColor" : "rgba(151,187,205,0.8)",
+				"highlightFill" : "rgba(151,187,205,0.75)",
+				"highlightStroke" : "rgba(151,187,205,1)",
+				"charttype": "Bar",
 				"data" : [
-				<xsl:apply-templates
-					select="/collection/entity[generate-id() = generate-id(key('groups', item[name='_invoicedate']/value)[1])]" />
+			<xsl:apply-templates
+					select="/collection/entity[generate-id() = generate-id(key('groups', item[name='_invoicedate']/value)[1])]" >
+					<!-- sort -->
+					<xsl:sort select="item[name='_invoicedate']/value" data-type="text" order="ascending"/>
+			</xsl:apply-templates>
 				]
 			}
 			]
@@ -39,6 +42,8 @@
 
 	<!-- This template builds a JSON array with sum of '_amount' over all groups -->
 	<xsl:template match="/collection/entity">
+	
+		
 		<!-- build sum variable -->
 		<xsl:variable name="summe"
 			select="sum(key('groups', item[name='_invoicedate']/value)//item[name='_amount']/value)"/>

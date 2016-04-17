@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Imixs IX XML QueyObject  -  www.imixs.com--><query>
+  <itemcollection>
+    <itemcollection>
+      <item name="txtworkflowmanageruri">
+        <value>http://localhost:8080/office-rest/report</value>
+      </item>
+      <item name="txtattributelist">
+        <value>$created</value>
+        <value>txtworkflowstatus</value>
+        <value>txtworkflowSummary</value>
+        <value>_invoicenumber</value>
+        <value>_invoicedate&lt;format&gt;yyyy-MM&lt;/format&gt;</value>
+        <value>_amount&lt;convert&gt;DOUBLE&lt;/convert&gt;</value>
+        <value>_tax</value>
+        <value>_amount_brutto</value>
+        <value>txtworkflowgroup</value>
+      </item>
+      <item name="txtcontenttype">
+        <value>application/json</value>
+      </item>
+      <item name="txtquery">
+        <value>SELECT workitem FROM Entity AS workitem
+ JOIN workitem.textItems AS w
+  WHERE workitem.type IN( 'workitem' ,'workitemarchive')
+  AND w.itemName = 'txtworkflowgroup' 
+  AND w.itemValue = 'Rechnungsausgang'
+  AND workitem.created BETWEEN '&lt;date DAY_OF_MONTH="1" ADD="MONTH,-6" /&gt;' 
+                            AND  '&lt;date DAY_OF_MONTH="ACTUAL_MAXIMUM" /&gt;' 
+ORDER BY workitem.created ASC</value>
+      </item>
+      <item name="txtencoding">
+        <value>UTF-8</value>
+      </item>
+      <item name="txtname">
+        <value>rechnungen_amount.ixr</value>
+      </item>
+      <item name="txtxsl">
+        <value>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"&gt;
+	&lt;xsl:output method="text" indent="no" encoding="ISO-8859-1" 
+		omit-xml-declaration="yes" /&gt;
+	&lt;xsl:strip-space elements="*" /&gt;
+
+	&lt;xsl:key name="groups" match="/collection/entity"
+		use="item[name='_invoicedate']/value" /&gt;
+
+	&lt;xsl:template match="/"&gt;
+		{
+			"labels" : [
+						&lt;!--Select the first element of each group --&gt;
+						&lt;xsl:for-each select="/collection/entity[generate-id() =generate-id(key('groups', item[name='_invoicedate']/value)[1])]" &gt;
+							&lt;xsl:sort select="item[name='_invoicedate']/value" data-type="text" order="ascending"/&gt;
+							&lt;xsl:text&gt;&lt;![CDATA["]]&gt;&lt;/xsl:text&gt;&lt;xsl:value-of select="item[name='_invoicedate']/value" /&gt;&lt;xsl:text&gt;&lt;![CDATA["]]&gt;&lt;/xsl:text&gt;
+							&lt;!-- comma separator only if not last one --&gt;
+							&lt;xsl:if test="position() != last()" &gt;&lt;xsl:text&gt;&lt;![CDATA[,]]&gt;&lt;/xsl:text&gt;&lt;/xsl:if&gt;
+						&lt;/xsl:for-each&gt;
+					 ],
+			"datasets" : [
+			{
+				"label": "Umsatz",
+				"fillColor" : "rgba(151,187,205,0.5)",
+				"strokeColor" : "rgba(151,187,205,0.8)",
+				"highlightFill" : "rgba(151,187,205,0.75)",
+				"highlightStroke" : "rgba(151,187,205,1)",
+				"charttype": "Bar",
+				"data" : [
+			&lt;xsl:apply-templates
+					select="/collection/entity[generate-id() = generate-id(key('groups', item[name='_invoicedate']/value)[1])]" &gt;
+					&lt;!-- sort --&gt;
+					&lt;xsl:sort select="item[name='_invoicedate']/value" data-type="text" order="ascending"/&gt;
+			&lt;/xsl:apply-templates&gt;
+				]
+			}
+			]
+		}
+	&lt;/xsl:template&gt;
+
+
+	&lt;!-- This template builds a JSON array with sum of '_amount' over all groups --&gt;
+	&lt;xsl:template match="/collection/entity"&gt;
+	
+		
+		&lt;!-- build sum variable --&gt;
+		&lt;xsl:variable name="summe"
+			select="sum(key('groups', item[name='_invoicedate']/value)//item[name='_amount']/value)"/&gt;
+			
+			&lt;!-- output sum  --&gt;
+			&lt;xsl:choose&gt;
+ 			  &lt;!-- test if NaN --&gt;
+			  &lt;xsl:when test="not(number($summe))"&gt;
+			      &lt;!-- myNode is a not a number or empty(NaN) or zero --&gt;  
+			      &lt;xsl:text&gt;&lt;![CDATA[0]]&gt;&lt;/xsl:text&gt;   
+			  &lt;/xsl:when&gt;
+			  &lt;xsl:otherwise&gt;
+			      &lt;!-- myNode is a number (!= zero) --&gt;     
+			      &lt;xsl:value-of select="$summe" /&gt;   
+			  &lt;/xsl:otherwise&gt;
+			&lt;/xsl:choose&gt;
+			&lt;!-- comma separator only if not last one --&gt;
+			&lt;xsl:if test="position() != last()" &gt;&lt;xsl:text&gt;&lt;![CDATA[,]]&gt;&lt;/xsl:text&gt;&lt;/xsl:if&gt;
+	&lt;/xsl:template&gt;
+
+&lt;/xsl:stylesheet&gt;</value>
+      </item>
+    </itemcollection>
+  </itemcollection>
+</query>

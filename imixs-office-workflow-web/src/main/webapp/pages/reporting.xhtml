@@ -1,0 +1,99 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+
+	<!-- Imixs Reports -->
+	<div class="imixs-reports col-3" id="rechnungen_count">
+
+		<div class="imixs-header">
+			<div align="right" style="float: right;">
+				<a href="javascript:void(0)" onclick="loadReportData('rechnungen_count');"
+					title="#{message.refresh}"> <span
+					class="typcn typcn-arrow-sync"></span>
+				</a>
+			</div>
+
+			<h1>...</h1>
+
+		</div>
+
+		<canvas id="canvas-rechnungen_count"></canvas>
+
+
+	</div>
+
+
+	<div class="imixs-reports col-3"  id="rechnungen_amount">
+
+		<div class="imixs-header">
+			<div align="right" style="float: right;">
+				<a href="javascript:void(0)" onclick="loadReportData('rechnungen_amount');"
+					title="#{message.refresh}"> <span
+					class="typcn typcn-arrow-sync"></span>
+				</a>
+			</div>
+
+			<h1>...</h1>
+
+		</div>
+
+		<canvas id="canvas-rechnungen_amount"></canvas>
+
+
+	</div>
+
+
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		$(document).ready(function() {
+			loadReportData("rechnungen_amount");
+			loadReportData("rechnungen_count");
+		});
+
+		loadReportData = function(report) {
+			console.log('loading report data..');
+
+			var request_url = "/office/rest-service/report/" + report +".ixr";
+
+			$.ajax({
+				url : request_url,
+				type: "GET",
+				dataType: "json"
+			}).done(function(data) {
+				console.log("success");
+				// update h1 with label
+				$("#" +report + " h1").text(data.datasets[0].label);				
+
+				// build chart...
+				var charttype=data.datasets[0].charttype;
+				var ctx = document.getElementById("canvas-"+report).getContext("2d");
+				if (charttype=="Bar") {
+					window.report1=new Chart(ctx).Bar(data, {
+						responsive : true
+					});
+				} else {
+					window.report1=new Chart(ctx).Line(data, {
+						responsive : true
+					});
+				}
+				
+			});
+
+		}
+
+	
+
+		/*]]>*/
+	</script>
+
+
+
+
+</f:subview>
+

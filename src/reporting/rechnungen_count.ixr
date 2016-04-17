@@ -10,7 +10,7 @@
         <value>txtworkflowstatus</value>
         <value>txtworkflowSummary</value>
         <value>_invoicenumber</value>
-        <value>_invoicedate&lt;format&gt;yyyy-MMM&lt;/format&gt;</value>
+        <value>_invoicedate&lt;format&gt;yyyy-MM&lt;/format&gt;</value>
         <value>_amount&lt;convert&gt;DOUBLE&lt;/convert&gt;</value>
         <value>_tax</value>
         <value>_amount_brutto</value>
@@ -25,13 +25,15 @@
   WHERE workitem.type IN( 'workitem' ,'workitemarchive')
   AND w.itemName = 'txtworkflowgroup' 
   AND w.itemValue = 'Rechnungsausgang'
+  AND workitem.created BETWEEN '&lt;date DAY_OF_MONTH="1" ADD="MONTH,-6" /&gt;' 
+                            AND  '&lt;date DAY_OF_MONTH="ACTUAL_MAXIMUM" /&gt;' 
 ORDER BY workitem.created ASC</value>
       </item>
       <item name="txtencoding">
         <value>UTF-8</value>
       </item>
       <item name="txtname">
-        <value>offene_rechnungen.ixr</value>
+        <value>rechnungen_count.ixr</value>
       </item>
       <item name="txtxsl">
         <value>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
@@ -49,6 +51,7 @@ ORDER BY workitem.created ASC</value>
 			"labels" : [
 						&lt;!--Select the first element of each group --&gt;
 						&lt;xsl:for-each select="/collection/entity[generate-id() =generate-id(key('groups', item[name='_invoicedate']/value)[1])]" &gt;
+							&lt;xsl:sort select="item[name='_invoicedate']/value" data-type="text" order="ascending"/&gt;
 							&lt;xsl:text&gt;&lt;![CDATA["]]&gt;&lt;/xsl:text&gt;&lt;xsl:value-of select="item[name='_invoicedate']/value" /&gt;&lt;xsl:text&gt;&lt;![CDATA["]]&gt;&lt;/xsl:text&gt;
 							&lt;!-- comma separator only if not last one --&gt;
 							&lt;xsl:if test="position() != last()" &gt;&lt;xsl:text&gt;&lt;![CDATA[,]]&gt;&lt;/xsl:text&gt;&lt;/xsl:if&gt;
@@ -64,8 +67,11 @@ ORDER BY workitem.created ASC</value>
 				"pointHighlightFill" : "#fff",
 				"pointHighlightStroke" : "rgba(220,220,220,1)",
 				"data" : [
-				&lt;xsl:apply-templates
-					select="/collection/entity[generate-id() = generate-id(key('groups', item[name='_invoicedate']/value)[1])]" /&gt;
+			&lt;xsl:apply-templates
+					select="/collection/entity[generate-id() = generate-id(key('groups', item[name='_invoicedate']/value)[1])]" &gt;
+					&lt;!-- sort --&gt;
+					&lt;xsl:sort select="item[name='_invoicedate']/value" data-type="text" order="ascending"/&gt;
+			&lt;/xsl:apply-templates&gt;
 				]
 			}
 			]
@@ -75,9 +81,11 @@ ORDER BY workitem.created ASC</value>
 
 	&lt;!-- This template builds a JSON array with sum of '_amount' over all groups --&gt;
 	&lt;xsl:template match="/collection/entity"&gt;
+	
+		
 		&lt;!-- build sum variable --&gt;
 		&lt;xsl:variable name="summe"
-			select="sum(key('groups', item[name='_invoicedate']/value)//item[name='_amount']/value)"/&gt;
+			select="count(key('groups', item[name='_invoicedate']/value)//item[name='_amount']/value)"/&gt;
 			
 			&lt;!-- output sum  --&gt;
 			&lt;xsl:choose&gt;
