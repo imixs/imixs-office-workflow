@@ -13,23 +13,23 @@
 					"charttype": "Pie",
 					"data" : [
 						{
-							"value": <xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'Neue Anfrage'])"></xsl:value-of>,
-							"color": "#46BFBD",
-							"highlight": "#5AD3D1",
+							"value": <xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'Neue Anfrage'])"></xsl:value-of>,							
+							"color":"#F7464A",
+							"highlight": "#FF5A5E",
 							"label": "Neue Anfrage"
 						},
 						
 						{
 							"value": <xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'On Hold'])"></xsl:value-of>,
-							"color": "#FDB45C",
-							"highlight": "#FFC870",
+							"color": "#46BFBD",
+							"highlight": "#5AD3D1",
 							"label": "On Hold"
 						},
 						
 						{
 							"value": <xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'Wiedervorlage'])"></xsl:value-of>,
-							"color":"#F7464A",
-							"highlight": "#FF5A5E",
+							"color": "#FDB45C",
+							"highlight": "#FFC870",
 							"label": "Wiedervorlage"
 						}
 					]

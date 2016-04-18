@@ -46,23 +46,23 @@ ORDER BY workitem.created ASC</value>
 					"charttype": "Pie",
 					"data" : [
 						{
-							"value": &lt;xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'Neue Anfrage'])"&gt;&lt;/xsl:value-of&gt;,
-							"color": "#46BFBD",
-							"highlight": "#5AD3D1",
+							"value": &lt;xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'Neue Anfrage'])"&gt;&lt;/xsl:value-of&gt;,							
+							"color":"#F7464A",
+							"highlight": "#FF5A5E",
 							"label": "Neue Anfrage"
 						},
 						
 						{
 							"value": &lt;xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'On Hold'])"&gt;&lt;/xsl:value-of&gt;,
-							"color": "#FDB45C",
-							"highlight": "#FFC870",
+							"color": "#46BFBD",
+							"highlight": "#5AD3D1",
 							"label": "On Hold"
 						},
 						
 						{
 							"value": &lt;xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'Wiedervorlage'])"&gt;&lt;/xsl:value-of&gt;,
-							"color":"#F7464A",
-							"highlight": "#FF5A5E",
+							"color": "#FDB45C",
+							"highlight": "#FFC870",
 							"label": "Wiedervorlage"
 						}
 					]
