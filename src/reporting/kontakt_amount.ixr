@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Imixs IX XML QueyObject  -  www.imixs.com--><query>
+  <itemcollection>
+    <itemcollection>
+      <item name="txtworkflowmanageruri">
+        <value>http://localhost:8080/office-rest/report</value>
+      </item>
+      <item name="txtattributelist">
+        <value>$created&lt;format&gt;yyyy-MM&lt;/format&gt;</value>
+        <value>txtworkflowstatus</value>
+        <value>txtworkflowSummary</value>
+        <value>txtworkflowgroup</value>
+      </item>
+      <item name="txtquery">
+        <value>SELECT workitem FROM Entity AS workitem
+ JOIN workitem.textItems AS w
+  WHERE workitem.type IN( 'workitem' ,'workitemarchive')
+  AND w.itemName = 'txtworkflowgroup' 
+  AND w.itemValue = 'Kontakt'
+  AND workitem.created BETWEEN '&lt;date DAY_OF_MONTH="1" ADD="MONTH,-6" /&gt;' 
+                            AND  '&lt;date DAY_OF_MONTH="ACTUAL_MAXIMUM" /&gt;' 
+ORDER BY workitem.created ASC</value>
+      </item>
+      <item name="txtcontenttype">
+        <value>application/json</value>
+      </item>
+      <item name="txtencoding">
+        <value>UTF-8</value>
+      </item>
+      <item name="txtname">
+        <value>kontakt_amount.ixr</value>
+      </item>
+      <item name="txtxsl">
+        <value>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"&gt;
+	&lt;xsl:output method="text" indent="no" encoding="ISO-8859-1" 
+		omit-xml-declaration="yes" /&gt;
+	&lt;xsl:strip-space elements="*" /&gt;
+
+	&lt;xsl:template match="/"&gt;
+		{
+			"datasets" :[ 
+				{
+					"label": "Kontanfragen",
+					"charttype": "Pie",
+					"data" : [
+						{
+							"value": &lt;xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'Neue Anfrage'])"&gt;&lt;/xsl:value-of&gt;,
+							"color": "#46BFBD",
+							"highlight": "#5AD3D1",
+							"label": "Neue Anfrage"
+						},
+						
+						{
+							"value": &lt;xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'On Hold'])"&gt;&lt;/xsl:value-of&gt;,
+							"color": "#FDB45C",
+							"highlight": "#FFC870",
+							"label": "On Hold"
+						},
+						
+						{
+							"value": &lt;xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'Wiedervorlage'])"&gt;&lt;/xsl:value-of&gt;,
+							"color":"#F7464A",
+							"highlight": "#FF5A5E",
+							"label": "Wiedervorlage"
+						}
+					]
+				}
+			]
+		}
+	&lt;/xsl:template&gt;
+
+
+	
+&lt;/xsl:stylesheet&gt;</value>
+      </item>
+    </itemcollection>
+  </itemcollection>
+</query>

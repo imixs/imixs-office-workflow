@@ -72,9 +72,8 @@
 				dataType : "json"
 			}).done(
 					function(data) {
-						console.log("success");
+						console.log("building chart.js diagramm '" + reportid + "'...");
 						// update h1 with label
-
 						$("#" + reportid + " h1").text(data.datasets[0].label);
 
 						// build chart...
@@ -85,6 +84,8 @@
 							window.report1 = new Chart(ctx).Bar(data, {
 								responsive : true
 							});
+						} else if (charttype == "Pie") {
+							window.myPie = new Chart(ctx).Pie(data.datasets[0].data,data.datasets[0].options);
 						} else {
 							window.report1 = new Chart(ctx).Line(data, {
 								responsive : true
