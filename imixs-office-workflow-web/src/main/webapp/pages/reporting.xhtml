@@ -1,50 +1,47 @@
 <f:subview xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 
-
-	<!-- Imixs Reports -->
-	<div class="imixs-reports col-3" id="rechnungen_count">
-
-		<div class="imixs-header">
-			<div align="right" style="float: right;">
-				<a href="javascript:void(0)" onclick="loadReportData('rechnungen_count');"
-					title="#{message.refresh}"> <span
-					class="typcn typcn-arrow-sync"></span>
-				</a>
-			</div>
-
-			<h1>...</h1>
-
-		</div>
-
-		<canvas id="canvas-rechnungen_count"></canvas>
+	<!-- Imixs Reports 
+	
+		For each report defined in the process entity we generate a Chart.js canvas and load the json data for the report  
+	
+	-->
 
 
-	</div>
+	<!-- *** display all process nodes where the current user is manager of *** -->
+	<ui:repeat value="#{processController.processList}" var="process">
+		<h:panelGroup layout="block"
+			rendered="#{process.item['isManager'] and (! empty process.item['txtReportList'])}">
 
+			<!-- bulild a portlet for each report -->
+			<ui:repeat value="#{process.itemList['txtReportList']}" var="report">
+				<!--  We replace the sufix .ixr with -ixr so that we an use the report name as an ID -->
+				<ui:param name="reportid"
+					value="#{fn:replace(report,'.ixr','-ixr')}"></ui:param>
+				<h:panelGroup layout="block" styleClass="imixs-reports col-3">
+					<!-- chart header -->
+					<div class="imixs-header" id="#{reportid}">
+						<div align="right" style="float: right;">
+							<a href="javascript:void(0)"
+								onclick="loadReportData('#{reportid}');"
+								title="#{message.refresh}"> <span
+								class="typcn typcn-arrow-sync"></span>
+							</a>
+						</div>
+						<h1>...</h1>
+					</div>
+					<!-- the char canvas -->
+					<canvas id="canvas-#{reportid}"></canvas>
+				</h:panelGroup>
+			</ui:repeat>
+		</h:panelGroup>
+	</ui:repeat>
 
-	<div class="imixs-reports col-3"  id="rechnungen_amount">
-
-		<div class="imixs-header">
-			<div align="right" style="float: right;">
-				<a href="javascript:void(0)" onclick="loadReportData('rechnungen_amount');"
-					title="#{message.refresh}"> <span
-					class="typcn typcn-arrow-sync"></span>
-				</a>
-			</div>
-
-			<h1>...</h1>
-
-		</div>
-
-		<canvas id="canvas-rechnungen_amount"></canvas>
-
-
-	</div>
 
 
 
@@ -52,48 +49,53 @@
 		/*<![CDATA[*/
 
 		$(document).ready(function() {
-			loadReportData("rechnungen_amount");
-			loadReportData("rechnungen_count");
+			// find all imxis-report portlets and start to load the report data..
+			var allReports = $(".imixs-reports .imixs-header");
+			$(allReports).each(function(index) {
+				var reportname = this.id;
+				loadReportData(reportname);
+			});
+
 		});
 
-		loadReportData = function(report) {
-			console.log('loading report data..');
+		loadReportData = function(reportid) {
+			console.log("loading report data '" + report + "'...'");
+			// get report name with .ixr extension form the reportid...
+			var report = reportid.replace("-ixr", ".ixr");
 
-			var request_url = "/office/rest-service/report/" + report +".ixr";
+			var request_url = "/office/rest-service/report/" + report;
 
+			// We replace the sufix .ixr with -ixr so that we an use the report name as an ID
 			$.ajax({
 				url : request_url,
-				type: "GET",
-				dataType: "json"
-			}).done(function(data) {
-				console.log("success");
-				// update h1 with label
-				$("#" +report + " h1").text(data.datasets[0].label);				
+				type : "GET",
+				dataType : "json"
+			}).done(
+					function(data) {
+						console.log("success");
+						// update h1 with label
 
-				// build chart...
-				var charttype=data.datasets[0].charttype;
-				var ctx = document.getElementById("canvas-"+report).getContext("2d");
-				if (charttype=="Bar") {
-					window.report1=new Chart(ctx).Bar(data, {
-						responsive : true
+						$("#" + reportid + " h1").text(data.datasets[0].label);
+
+						// build chart...
+						var charttype = data.datasets[0].charttype;
+						var ctx = document.getElementById("canvas-" + reportid)
+								.getContext("2d");
+						if (charttype == "Bar") {
+							window.report1 = new Chart(ctx).Bar(data, {
+								responsive : true
+							});
+						} else {
+							window.report1 = new Chart(ctx).Line(data, {
+								responsive : true
+							});
+						}
+
 					});
-				} else {
-					window.report1=new Chart(ctx).Line(data, {
-						responsive : true
-					});
-				}
-				
-			});
 
 		}
 
-	
-
 		/*]]>*/
 	</script>
-
-
-
-
 </f:subview>
 
