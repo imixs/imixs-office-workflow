@@ -59,11 +59,11 @@
 		});
 
 		loadReportData = function(reportid) {
-			console.log("loading report data '" + report + "'...'");
+			console.log("loading report data '" + reportid + "'...'");
 			// get report name with .ixr extension form the reportid...
 			var report = reportid.replace("-ixr", ".ixr");
 
-			var request_url = "/office/rest-service/report/" + report;
+			var request_url = "#{facesContext.externalContext.requestContextPath}/rest-service/report/" + report+"?count=-1";
 
 			// We replace the sufix .ixr with -ixr so that we an use the report name as an ID
 			$.ajax({
