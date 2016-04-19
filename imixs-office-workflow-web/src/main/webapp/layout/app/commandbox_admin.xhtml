@@ -26,9 +26,10 @@
 	</ul>
 
 	<!-- config section -->
-	<ul>
+	<ul>			
 		<li><h:commandLink value="#{message['nav.admin_config']}"
-				action="/pages/admin/config">
+				actionListener="#{setupController.loadConfiguration()}"
+				action="/pages/admin/config?faces-redirect=true">
 			</h:commandLink></li>
 
 
