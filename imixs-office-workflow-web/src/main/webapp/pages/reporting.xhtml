@@ -28,7 +28,7 @@
 					<div class="imixs-header" id="#{reportid}">
 						<div align="right" style="float: right;">
 							<a href="javascript:void(0)"
-								onclick="loadReportData('#{reportid}');"
+								onclick="loadReportData('#{reportid}',true);"
 								title="#{message.refresh}"> <span
 								class="typcn typcn-arrow-sync"></span>
 							</a>
@@ -51,20 +51,41 @@
 		$(document).ready(function() {
 			// find all imxis-report portlets and start to load the report data..
 			var allReports = $(".imixs-reports .imixs-header");
-			$(allReports).each(function(index) {
-				var reportname = this.id;
-				loadReportData(reportname);
-			});
-
+    		$(allReports).each(function(index) {
+    			var reportname = this.id;
+    			// we use the internal browser cache to avoid unecessary ajax calls 
+    			loadReportData(reportname,false);
+    		});    		    		
 		});
-
-		loadReportData = function(reportid) {
-			console.log("loading report data '" + reportid + "'...'");
+	
+		
+		// This method loads a report and refreshes the corresponding chart diagramm.
+		// We use the browser local storage to cache reports
+		// The boolean 'refresh==true' indicates if the current cache should be discarded.
+		loadReportData = function(reportid, refresh) {
+			if (!refresh) {
+				var storedDataObject=getStoredDataObject();
+				var chartData=null;
+				$.each(storedDataObject.report, function( index, value ) {
+					// search chartdate entry with same id...
+					if (value.id==reportid) {
+    					// found!
+						chartData=value.data;
+    					return false;
+					}
+    			});
+				
+				if (chartData) {
+					refreshChartDiagramm(reportid,chartData);
+					// finish!
+					return false;
+				}
+			}
+			
+			console.log("loading chart data '" + reportid + "'...'");
 			// get report name with .ixr extension form the reportid...
 			var report = reportid.replace("-ixr", ".ixr");
-
 			var request_url = "#{facesContext.externalContext.requestContextPath}/rest-service/report/" + report+"?count=-1";
-
 			// We replace the sufix .ixr with -ixr so that we an use the report name as an ID
 			$.ajax({
 				url : request_url,
@@ -72,29 +93,74 @@
 				dataType : "json"
 			}).done(
 					function(data) {
-						console.log("building chart.js diagramm '" + reportid + "'...");
-						// update h1 with label
-						$("#" + reportid + " h1").text(data.datasets[0].label);
-
-						// build chart...
-						var charttype = data.datasets[0].charttype;
-						var ctx = document.getElementById("canvas-" + reportid)
-								.getContext("2d");
-						if (charttype == "Bar") {
-							window.report1 = new Chart(ctx).Bar(data, {
-								responsive : true
-							});
-						} else if (charttype == "Pie") {
-							window.myPie = new Chart(ctx).Pie(data.datasets[0].data,data.datasets[0].options);
-						} else {
-							window.report1 = new Chart(ctx).Line(data, {
-								responsive : true
-							});
+						// retrieve data object
+			    		var storedDataObject=getStoredDataObject();
+						
+						// update array or push new data object if not available...
+						var found=false;
+						$.each(storedDataObject.report, function( index, value ) {
+							// search chartdate entry with same id...
+							if (value.id==reportid) {
+		    					// found!
+		    					console.log("update chart data in local cache...");
+								storedDataObject.report[index].data=data;
+								found=true;
+		    					return false;
+							}
+		    			});
+						if (!found) {
+							// push the chart data object together with its id into the storedDadaObject...
+				    		console.log("pushing chart data into local cache....");
+						    storedDataObject.report.push({id:reportid, data:data});
 						}
-
+			    		
+			    		sessionStorage.setItem("imixs-office-wrokflow.report.data", JSON.stringify(storedDataObject));
+						refreshChartDiagramm(reportid,data);
 					});
-
-		}
+			}
+		
+		
+			// This method rebuilds a chart diagramm
+			refreshChartDiagramm = function(reportid,data) {
+				console.log("building chart.js diagramm '" + reportid + "'...");
+				// update h1 with label
+				$("#" + reportid + " h1").text(data.datasets[0].label);
+				// build chart...
+				var charttype = data.datasets[0].charttype;
+				var ctx = document.getElementById("canvas-" + reportid)
+						.getContext("2d");
+				if (charttype == "Bar") {
+					window.report1 = new Chart(ctx).Bar(data, {
+						responsive : true
+					});
+				} else if (charttype == "Pie") {
+					window.myPie = new Chart(ctx).Pie(data.datasets[0].data,data.datasets[0].options);
+				} else {
+					window.report1 = new Chart(ctx).Line(data, {
+						responsive : true
+					});
+				}
+			}
+			
+			
+			getStoredDataObject = function() {
+				var storedDataObject=null;
+				if(typeof(Storage) !== "undefined") {
+	    			// retrieve data object from localStorage/sessionStorage.
+	    			dataString=sessionStorage.getItem("imixs-office-wrokflow.report.data");
+	    			try {
+	    				 storedDataObject= JSON.parse(dataString);
+	    			} catch(e){
+	    				storedDataObject=null;
+	    			}
+	    			// if the storedDataObject is undefined or not initalized....    
+	    			if (!storedDataObject || !storedDataObject.report) {
+	    				// ...then initialize the storage-object with an empty dummy array..
+	    				storedDataObject={date:"", report:new Array()};		    		
+	    			}
+				}
+				return storedDataObject;
+			}
 
 		/*]]>*/
 	</script>
