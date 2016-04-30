@@ -11,24 +11,25 @@
         <value>txtworkflowSummary</value>
         <value>txtworkflowgroup</value>
       </item>
+      <item name="txtcontenttype">
+        <value>application/json</value>
+      </item>
       <item name="txtquery">
         <value>SELECT workitem FROM Entity AS workitem
  JOIN workitem.textItems AS w
+ JOIN workitem.integerItems AS i
   WHERE workitem.type IN( 'workitem' ,'workitemarchive')
   AND w.itemName = 'txtworkflowgroup' 
   AND w.itemValue = 'Kontakt'
-  AND workitem.created BETWEEN '&lt;date DAY_OF_MONTH="1" ADD="MONTH,-6" /&gt;' 
-                            AND  '&lt;date DAY_OF_MONTH="ACTUAL_MAXIMUM" /&gt;' 
+  AND i.itemName="$processid"
+  AND i.itemValue &lt; 9600
 ORDER BY workitem.created ASC</value>
-      </item>
-      <item name="txtcontenttype">
-        <value>application/json</value>
       </item>
       <item name="txtencoding">
         <value>UTF-8</value>
       </item>
       <item name="txtname">
-        <value>kontakt_amount.ixr</value>
+        <value>03_kontakt_amount.ixr</value>
       </item>
       <item name="txtxsl">
         <value>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;

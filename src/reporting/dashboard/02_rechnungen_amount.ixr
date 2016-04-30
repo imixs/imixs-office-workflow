@@ -33,7 +33,7 @@ ORDER BY workitem.created ASC</value>
         <value>UTF-8</value>
       </item>
       <item name="txtname">
-        <value>rechnungen_count.ixr</value>
+        <value>02_rechnungen_amount.ixr</value>
       </item>
       <item name="txtxsl">
         <value>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
@@ -59,13 +59,12 @@ ORDER BY workitem.created ASC</value>
 					 ],
 			"datasets" : [
 			{
-				"label": "Rechnungsausgaenge",
-				"fillColor" : "rgba(220,220,220,0.2)",
-				"strokeColor" : "rgba(220,220,220,1)",
-				"pointColor" : "rgba(220,220,220,1)",
-				"pointStrokeColor" : "#fff",
-				"pointHighlightFill" : "#fff",
-				"pointHighlightStroke" : "rgba(220,220,220,1)",
+				"label": "Umsatz",
+				"fillColor" : "rgba(151,187,205,0.5)",
+				"strokeColor" : "rgba(151,187,205,0.8)",
+				"highlightFill" : "rgba(151,187,205,0.75)",
+				"highlightStroke" : "rgba(151,187,205,1)",
+				"charttype": "Bar",
 				"data" : [
 			&lt;xsl:apply-templates
 					select="/collection/entity[generate-id() = generate-id(key('groups', item[name='_invoicedate']/value)[1])]" &gt;
@@ -85,7 +84,7 @@ ORDER BY workitem.created ASC</value>
 		
 		&lt;!-- build sum variable --&gt;
 		&lt;xsl:variable name="summe"
-			select="count(key('groups', item[name='_invoicedate']/value)//item[name='_amount']/value)"/&gt;
+			select="sum(key('groups', item[name='_invoicedate']/value)//item[name='_amount']/value)"/&gt;
 			
 			&lt;!-- output sum  --&gt;
 			&lt;xsl:choose&gt;

@@ -3,36 +3,37 @@
   <itemcollection>
     <itemcollection>
       <item name="txtworkflowmanageruri">
-        <value>http://toci01.imixs.com:12182/super-office-rest/report</value>
+        <value>http://localhost:8080/office-rest/report</value>
       </item>
       <item name="txtattributelist">
-        <value>datdate&lt;format&gt;dd&lt;/format&gt;</value>
-        <value>_subject</value>
-        <value>_category</value>
-        <value>_duration</value>
-        <value>namCreator</value>
-        <value>txtWorkflowStatus</value>
+        <value>$created</value>
+        <value>txtworkflowstatus</value>
+        <value>txtworkflowSummary</value>
+        <value>_invoicenumber</value>
+        <value>_invoicedate&lt;format&gt;yyyy-MM&lt;/format&gt;</value>
+        <value>_amount&lt;convert&gt;DOUBLE&lt;/convert&gt;</value>
+        <value>_tax</value>
+        <value>_amount_brutto</value>
+        <value>txtworkflowgroup</value>
       </item>
       <item name="txtcontenttype">
         <value>application/json</value>
       </item>
       <item name="txtquery">
-        <value>SELECT workitem FROM Entity AS workitem&#13;
- JOIN workitem.textItems AS type2
- JOIN workitem.calendarItems AS type3&#13;
-  WHERE workitem.type IN ('childworkitem')&#13;
-  AND type3.itemName = 'datdate' &#13;
-  AND type3.itemValue   BETWEEN '&lt;date DAY_OF_MONTH="1" /&gt;' 
+        <value>SELECT workitem FROM Entity AS workitem
+ JOIN workitem.textItems AS w
+  WHERE workitem.type IN( 'workitem' ,'workitemarchive')
+  AND w.itemName = 'txtworkflowgroup' 
+  AND w.itemValue = 'Rechnungsausgang'
+  AND workitem.created BETWEEN '&lt;date DAY_OF_MONTH="1" ADD="MONTH,-6" /&gt;' 
                             AND  '&lt;date DAY_OF_MONTH="ACTUAL_MAXIMUM" /&gt;' 
-  AND type2.itemName = 'txtworkflowgroup' &#13;
-  AND type2.itemValue = 'Zeiterfassung'&#13;
-ORDER BY type3.itemValue ASC</value>
+ORDER BY workitem.created ASC</value>
       </item>
       <item name="txtencoding">
         <value>UTF-8</value>
       </item>
       <item name="txtname">
-        <value>projekt_stunden.ixr</value>
+        <value>01_rechnungen_count.ixr</value>
       </item>
       <item name="txtxsl">
         <value>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
@@ -43,22 +44,22 @@ ORDER BY type3.itemValue ASC</value>
 	&lt;xsl:strip-space elements="*" /&gt;
 
 	&lt;xsl:key name="groups" match="/collection/entity"
-		use="item[name='datdate']/value" /&gt;
+		use="item[name='_invoicedate']/value" /&gt;
 
 	&lt;xsl:template match="/"&gt;
 		{
 			"labels" : [
 						&lt;!--Select the first element of each group --&gt;
-						&lt;xsl:for-each select="/collection/entity[generate-id() =generate-id(key('groups', item[name='datdate']/value)[1])]" &gt;
-							&lt;xsl:sort select="item[name='datdate']/value" data-type="text" order="ascending"/&gt;
-							&lt;xsl:text&gt;&lt;![CDATA["]]&gt;&lt;/xsl:text&gt;&lt;xsl:value-of select="item[name='datdate']/value" /&gt;&lt;xsl:text&gt;&lt;![CDATA["]]&gt;&lt;/xsl:text&gt;
+						&lt;xsl:for-each select="/collection/entity[generate-id() =generate-id(key('groups', item[name='_invoicedate']/value)[1])]" &gt;
+							&lt;xsl:sort select="item[name='_invoicedate']/value" data-type="text" order="ascending"/&gt;
+							&lt;xsl:text&gt;&lt;![CDATA["]]&gt;&lt;/xsl:text&gt;&lt;xsl:value-of select="item[name='_invoicedate']/value" /&gt;&lt;xsl:text&gt;&lt;![CDATA["]]&gt;&lt;/xsl:text&gt;
 							&lt;!-- comma separator only if not last one --&gt;
 							&lt;xsl:if test="position() != last()" &gt;&lt;xsl:text&gt;&lt;![CDATA[,]]&gt;&lt;/xsl:text&gt;&lt;/xsl:if&gt;
 						&lt;/xsl:for-each&gt;
 					 ],
 			"datasets" : [
 			{
-				"label": "Erbrachte Stunden",
+				"label": "Rechnungsausgaenge",
 				"fillColor" : "rgba(220,220,220,0.2)",
 				"strokeColor" : "rgba(220,220,220,1)",
 				"pointColor" : "rgba(220,220,220,1)",
@@ -67,9 +68,9 @@ ORDER BY type3.itemValue ASC</value>
 				"pointHighlightStroke" : "rgba(220,220,220,1)",
 				"data" : [
 			&lt;xsl:apply-templates
-					select="/collection/entity[generate-id() = generate-id(key('groups', item[name='datdate']/value)[1])]" &gt;
+					select="/collection/entity[generate-id() = generate-id(key('groups', item[name='_invoicedate']/value)[1])]" &gt;
 					&lt;!-- sort --&gt;
-					&lt;xsl:sort select="item[name='datdate']/value" data-type="text" order="ascending"/&gt;
+					&lt;xsl:sort select="item[name='_invoicedate']/value" data-type="text" order="ascending"/&gt;
 			&lt;/xsl:apply-templates&gt;
 				]
 			}
@@ -84,7 +85,7 @@ ORDER BY type3.itemValue ASC</value>
 		
 		&lt;!-- build sum variable --&gt;
 		&lt;xsl:variable name="summe"
-			select="sum(key('groups', item[name='datdate']/value)//item[name='_duration']/value)"/&gt;
+			select="count(key('groups', item[name='_invoicedate']/value)//item[name='_amount']/value)"/&gt;
 			
 			&lt;!-- output sum  --&gt;
 			&lt;xsl:choose&gt;
