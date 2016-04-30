@@ -47,7 +47,16 @@
 								<!-- Edit -->
 								<h:commandLink title="#{message.edit}"
 									action="#{reportController.load(record.item['$UniqueID'],'/pages/admin/report.xhtml')}">
-									<h:graphicImage url="/layout/icons/Edit_16.png"></h:graphicImage>
+									<span class="typcn typcn-pencil imixs-state-info"></span>#{message.open}
+								</h:commandLink>
+								
+								
+								<!-- Delete -->
+								<h:commandLink title="#{message.delete}"
+									rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}"
+									action="#{reportController.delete(record.item['$UniqueID'],'/pages/admin/reports.xhtml')}"
+									onclick="if (!confirm('#{message.help_delete}')) return false;">
+									<span class="typcn typcn-trash imixs-state-error"></span>#{message.delete}
 								</h:commandLink>
 							</h:column>
 						</h:dataTable>
@@ -56,17 +65,9 @@
 
 
 					<div class="imixs-footer">
-						<h:commandButton
-							actionListener="#{reportViewController.doLoadPrev}"
-							disabled="#{reportViewController.row==0}"
-							value="#{message.prev}">
-						</h:commandButton>
-						<h:commandButton
-							actionListener="#{reportViewController.doLoadNext}"
-							disabled="#{reportViewController.endOfList}"
-							value="#{message.next}">
-						</h:commandButton>
 						
+						<h:commandButton action="home" value="#{message.close}">
+						</h:commandButton>
 					</div>
 				</div>
 			</h:form>

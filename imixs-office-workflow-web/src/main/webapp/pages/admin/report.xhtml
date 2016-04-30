@@ -101,6 +101,15 @@
 
 						<h:commandButton immediate="true" value="#{message.close}"
 							action="reports" />
+							
+							
+						
+						<h:commandButton action="reports" immediate="true" 
+							rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}"
+							onclick="if (!confirm('#{message.help_delete}')) return false;"
+							actionListener="#{reportController.delete(reportController.workitem.item['$uniqueid'])}"
+							value="#{message.delete}">
+						</h:commandButton>
 					</div>
 
 
