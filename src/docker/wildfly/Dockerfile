@@ -13,10 +13,13 @@ COPY postgresql-9.3-1102.jdbc41.jar /opt/jboss/wildfly/standalone/deployments/
 
 # Set the default command to run on boot
 # This will boot WildFly in the standalone mode and bind to all interface
-CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
+#CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
+# default run in management mode
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
+
 
 ########################################################
 # NOTE: 
-# run it with          : docker run -it -p 8080:8080 imixs-office
-# run in admin mode use: docker run -it -p 8080:8080 -p 9990:9990 imixs-microservice /opt/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0
+# run it with          : docker run -it -p 8080:8080 -p 9990:9990 imixs/wildfly
+# run in admin mode use: docker run -it -p 8080:8080 -p 9990:9990 imixs/wildfly /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0
 ########################################################
