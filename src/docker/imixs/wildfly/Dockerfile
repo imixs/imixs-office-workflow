@@ -5,10 +5,12 @@ FROM jboss/wildfly:10.0.0.Final
 MAINTAINER ralph.soika@imixs.com
 
 
-# wildfly configuration 
+# add eclipsliknk configuration 
 COPY eclipselink.jar /opt/jboss/wildfly/modules/system/layers/base/org/eclipse/persistence/main/
 COPY module.xml /opt/jboss/wildfly/modules/system/layers/base/org/eclipse/persistence/main/
+# add jdbc drivers
 COPY postgresql-9.3-1102.jdbc41.jar /opt/jboss/wildfly/standalone/deployments/
+COPY mysql-connector-java-5.1.7-bin.jar /opt/jboss/wildfly/standalone/deployments/
 
 
 # Set the default command to run on boot
