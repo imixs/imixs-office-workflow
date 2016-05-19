@@ -15,6 +15,8 @@ Build:
 
 	docker build --tag=imixs/wildfly .
 
+
+##How to run the imixs/wildfly container
 Run wildfly with life console: 
 
 	docker run -it imixs/wildfly
@@ -23,8 +25,6 @@ Run wildfly in background
 
 	docker run -it -d --name office-wildfly imixs/wildfly 
 
-
-    docker build --tag=imixs/wildfly .
 
 Stop container:
 
