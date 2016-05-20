@@ -5,6 +5,29 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:i="http://java.sun.com/jsf/composite/imixs">
 
+
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		/* reqlace special characters in attachemnt url */
+		$(document).ready(
+				function() {
+					$(".imixs-form-attachments .attachmentlink").each(
+							function(index, element) {
+								var link = $(this).attr("href");
+								if (link.indexOf('+') > -1) {
+									link = link.replace('+', '%2B');
+									$(this).attr("href", link);
+								}
+							});
+				});
+
+		/*]]>*/
+	</script>
+
+
+
 	<!-- **** General info ***** -->
 	<div class="row imixs-form-attachments">
 		<div class="col-6">
@@ -25,13 +48,14 @@
 							style="border:0px;vertical-align: text-top;margin-right:0.5em" />
 					</div>
 					<!-- link -->
-					<div
+					<div id="hyperlink"
 						style="border-bottom: 1px solid silver; margin: 0 0 10px 20px; padding: 0 0 5px 0;">
 
 						<!-- Attachment link -->
 						<h:panelGroup
 							rendered="#{!attachment.item['txtName'].contains('://')}">
-							<h:outputText escape="false" value="&lt;a target='_blank'" />
+							<h:outputText escape="false"
+								value="&lt;a target='_blank' class='attachmentlink'" />
 							<h:outputText escape="false"
 								value=" href='#{facesContext.externalContext.requestContextPath}/rest-service/workflow/workitem/#{attachment.item['$uniqueIDRef']}/file/#{attachment.item['txtName']}" />
 							<h:outputText escape="false"
