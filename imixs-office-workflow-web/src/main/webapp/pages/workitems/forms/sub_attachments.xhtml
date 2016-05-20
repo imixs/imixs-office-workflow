@@ -13,7 +13,7 @@
 				binding="#{dmsListComponent}" style="margin-bottom:10px;">
 
 				<!-- **** DMS List ***** -->
-				<ui:repeat var="attachment" value="#{dmsController.dmsList}">
+				<c:forEach var="attachment" items="#{dmsController.dmsList}">
 					<!-- image -->
 					<div style="float: left; height: 34px; margin: 0 2px 2px 0;">
 						<h:graphicImage url="/layout/icons/icon048.png"
@@ -75,8 +75,7 @@
 							</h:commandLink>
 						</f:ajax>
 					</div>
-
-				</ui:repeat>
+				</c:forEach>
 			</h:panelGroup>
 
 
