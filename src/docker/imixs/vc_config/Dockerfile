@@ -34,6 +34,9 @@ RUN chown -R imixs /opt/jboss/wildfly/standalone/configuration/
 
 
 VOLUME /opt/jboss/wildfly/standalone/configuration
+VOLUME /opt/jboss/wildfly/standalone/logs
 
 # Specify the user which should be used to execute all commands below
 USER imixs
+
+CMD ["/bin/bash"]
