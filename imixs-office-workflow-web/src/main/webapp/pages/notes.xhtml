@@ -5,28 +5,27 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/layout/template.xhtml">
 	<ui:define name="content">
+	
+		
 		<f:view>
+			<script type="text/javascript">
+			/*<![CDATA[*/
+				document.cookie = "imixs.office.navigation=/pages/notes.jsf;path=#{facesContext.externalContext.requestContextPath};";
+			/*]]>*/
+			</script>
+		
 			<h:form>
-			
-			<div class="row">
-			
-				<ui:include src="/pages/reporting.xhtml">
-						
-					</ui:include>
-			
-			</div>
-			
-			
+				<div class="row">
+					<ui:include src="/pages/reporting.xhtml" />
+				</div>
+
 				<div class="row">
 
 					<!--  Box 1 -->
-					<!-- -->
 					<ui:include src="/pages/portlet_worklist.xhtml">
 						<ui:param name="view" value="#{portletWorklistTasks}" />
 						<ui:param name="tabMode" value="#{false}" />
 					</ui:include>
-
-
 
 					<!--  Box 2 -->
 					<!-- -->
@@ -41,12 +40,10 @@
 
 
 					<!--  Box 4 -->
-					<!-- -->
 					<ui:include src="/pages/portlet_worklist.xhtml">
 						<ui:param name="view" value="#{portletWorklistFavorites}" />
 						<ui:param name="tabMode" value="#{false}" />
 					</ui:include>
-
 
 
 					<!--  Box 5 -->
@@ -55,8 +52,6 @@
 						test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
 						<ui:include src="/pages/portlet_admin.xhtml" />
 					</c:if>
-
-					<!--  Box 6 -->
 
 				</div>
 
