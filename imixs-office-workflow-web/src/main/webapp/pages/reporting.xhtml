@@ -82,7 +82,7 @@
 				}
 			}
 			
-			console.log("loading chart data '" + reportid + "'...'");
+			//console.log("loading chart data '" + reportid + "'...'");
 			// get report name with .ixr extension form the reportid...
 			var report = reportid.replace("-ixr", ".ixr");
 			var request_url = "#{facesContext.externalContext.requestContextPath}/rest-service/report/" + report+"?count=-1";
@@ -102,7 +102,7 @@
 							// search chartdate entry with same id...
 							if (value.id==reportid) {
 		    					// found!
-		    					console.log("update chart data in local cache...");
+		    					//console.log("update chart data in local cache...");
 								storedDataObject.report[index].data=data;
 								found=true;
 		    					return false;
@@ -110,7 +110,7 @@
 		    			});
 						if (!found) {
 							// push the chart data object together with its id into the storedDadaObject...
-				    		console.log("pushing chart data into local cache....");
+				    		//console.log("pushing chart data into local cache....");
 						    storedDataObject.report.push({id:reportid, data:data});
 						}
 			    		
@@ -122,7 +122,7 @@
 		
 			// This method rebuilds a chart diagramm
 			refreshChartDiagramm = function(reportid,data) {
-				console.log("building chart.js diagramm '" + reportid + "'...");
+				//console.log("building chart.js diagramm '" + reportid + "'...");
 				// update h1 with label
 				$("#" + reportid + " h1").text(data.datasets[0].label);
 				// build chart...
