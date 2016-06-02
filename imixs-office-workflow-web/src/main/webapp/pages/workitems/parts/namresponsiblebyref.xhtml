@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<dl>
+		<dt>
+			<h:outputLabel value="#{empty label?message['form.owner']:label}" />
+			<h:panelGroup rendered="#{empty required?false:required}"
+				class="imixs-required">*</h:panelGroup>
+		</dt>
+		<dd>
+			<h:selectOneMenu style="width:20em;"
+				required="#{empty required?false:required}"
+				value="#{empty itemname?workflowController.workitem.item['namresponsible']:workflowController.workitem.item[itemname]}">
+				<f:selectItem itemLabel=""></f:selectItem>
+				<c:forEach items="#{empty itemref?workflowController.workitem.itemList['namprocessteam']:workflowController.workitem.itemList[itemref]}" var="member">
+					<f:selectItem itemLabel="#{userController.getUserName(member)}"
+						itemValue="#{member}">
+					</f:selectItem>
+				</c:forEach> 
+				
+				
+				
+			</h:selectOneMenu>
+		</dd>
+	</dl>
+
+
+</ui:composition>
+
