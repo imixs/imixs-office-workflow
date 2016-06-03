@@ -39,7 +39,8 @@
 			</select>
 
 			<h:inputHidden value="#{empty itemname?workflowController.workitem.item['datdate']:workflowController.workitem.item[itemname]}"
-						id="datdate_year_month">
+						id="datdate_year_month"
+						required="#{empty required?false:required}">
 				<f:convertDateTime pattern="#{message.datePatternShort}"
 					timeZone="#{message.timeZone}" />
 			</h:inputHidden>
