@@ -149,9 +149,8 @@
                     </security>
                 </datasource>
               
-             <!-- -->
-                <datasource jta="true" jndi-name="java:/jdbc/office-cmp" pool-name="office-cmp" enabled="true" use-ccm="true">
-                    <connection-url>jdbc:postgresql://localhost/office-cmp</connection-url>
+                <datasource jta="true" jndi-name="java:/jdbc/office" pool-name="office" enabled="true" use-ccm="true">
+                    <connection-url>jdbc:postgresql://localhost/office</connection-url>
                     <driver-class>org.postgresql.Driver</driver-class>
                     <driver>postgresql-9.3-1102.jdbc41.jar</driver>
                     <security>
@@ -366,7 +365,7 @@
                     </authorization>
                 </security-domain>
                 
-                <!-- 
+               
                 <security-domain name="jaspitest" cache-type="default">
                     <authentication-jaspi>
                         <login-module-stack name="dummy">
@@ -379,7 +378,7 @@
                 <security-domain name="imixsrealm">
                     <authentication>
                         <login-module code="Database" flag="required">
-                            <module-option name="dsJndiName" value="java:/jdbc/office-cmp"/>
+                            <module-option name="dsJndiName" value="java:/jdbc/office"/>
                             <module-option name="hashAlgorithm" value="SHA-256"/>
                             <module-option name="hashEncoding" value="hex"/>
                             <module-option name="principalsQuery" value="select PASSWORD from USERID where ID=?"/>
@@ -393,10 +392,10 @@
                     </authentication>
                 </security-domain>
          
-                <security-domain name="office-cmp" cache-type="default">
+                <security-domain name="office" cache-type="default">
                     <authentication>
                         <login-module code="Database" flag="required">
-                            <module-option name="dsJndiName" value="java:/jdbc/office-cmp"/>
+                            <module-option name="dsJndiName" value="java:/jdbc/office"/>
                             <module-option name="hashAlgorithm" value="SHA-256"/>
                             <module-option name="hashEncoding" value="hex"/>
                             <module-option name="principalsQuery" value="select PASSWORD from USERID where ID=?"/>
@@ -408,7 +407,6 @@
                         </login-module>
                     </authentication>
                 </security-domain>
-          -->
             </security-domains>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:transactions:3.0">
