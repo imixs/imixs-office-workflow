@@ -150,7 +150,7 @@
                 </datasource>
               
                 <datasource jta="true" jndi-name="java:/jdbc/office" pool-name="office" enabled="true" use-ccm="true">
-                    <connection-url>jdbc:postgresql://localhost/office</connection-url>
+                    <connection-url>jdbc:postgresql://postgres/office</connection-url>
                     <driver-class>org.postgresql.Driver</driver-class>
                     <driver>postgresql-9.3-1102.jdbc41.jar</driver>
                     <security>
@@ -160,16 +160,7 @@
                     <validation>
                         <validate-on-match>false</validate-on-match>
                         <background-validation>false</background-validation>
-                    </validation>
-                    <timeout>
-                        <set-tx-query-timeout>false</set-tx-query-timeout>
-                        <blocking-timeout-millis>0</blocking-timeout-millis>
-                        <idle-timeout-minutes>0</idle-timeout-minutes>
-                        <query-timeout>0</query-timeout>
-                        <use-try-lock>0</use-try-lock>
-                        <allocation-retry>0</allocation-retry>
-                        <allocation-retry-wait-millis>0</allocation-retry-wait-millis>
-                    </timeout>
+                    </validation>                  
                     <statement>
                         <share-prepared-statements>false</share-prepared-statements>
                     </statement>
