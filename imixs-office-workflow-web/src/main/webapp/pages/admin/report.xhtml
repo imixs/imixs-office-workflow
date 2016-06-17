@@ -9,22 +9,11 @@
 
 	<ui:define name="content">
 
-		<script type="text/javascript">
-			/*<![CDATA[*/
-
-			/*]]>*/
-		</script>
-
-
 
 		<!-- Documentinfo: $UniqueID= #{reportController.workitem.item['$uniqueid']}-->
 		<f:view>
-
-
 			<h:form id="report_form_id">
 				<div class="imixs-form">
-
-
 					<div class="imixs-header">
 						<h1>
 							<h:outputText value="#{message['report.title']}: " />
@@ -34,59 +23,80 @@
 					</div>
 
 
-
-
-					<!-- ########## Error ########## -->
-					<ui:include src="/pages/error_message.xhtml" />
+					<!-- ########## Error message ########## -->
+					<div class="ui-widget" id="imixs-report-errormessage"
+						style="display: none;">
+						<div class="ui-state-error ui-corner-all"
+							style="padding: .7em; margin-bottom: .7em;">
+							<h2>
+								#{message.error_title} <span class="ui-icon ui-icon-alert"
+									style="float: left; margin-right: .3em;"> </span>
+							</h2>
+							<p>
+								<h:outputText sxtyle="color: red"
+									value="#{message.error_message}" />
+							</p>
+							<p>
+								<h:messages globalOnly="true" />
+							</p>
+						</div>
+					</div>
 
 
 					<div class="imixs-body">
 						<f:ajax event="change" render=":report_form_id:hidden_uri">
-							<div class="imixs-form-section-2">
-								<dl>
+
+							<div class="imixs-form-panel">
+								<h1>Parameter</h1>
+								<div class="imixs-form-section-2">
+
 									<ui:repeat
 										value="#{reportController.params.keySet().toArray()}"
 										var="key">
-										<dt>
-											<h:outputLabel value="#{key}:" />
-										</dt>
-
-										<dd>
-											<h:inputText value="#{reportController.params[key]}">
-
-
-											</h:inputText>
-										</dd>
+										<dl>
+											<dt>
+												<h:outputLabel value="#{key}:" />
+												<span class="imixs-required">*</span>
+											</dt>
+											<dd>
+												<input type="text" data-param="#{key}"
+													class="imixs-report-param" />
+											</dd>
+										</dl>
 
 									</ui:repeat>
-
-
-								</dl>
-
-								<dl>
-									<dt>Format:</dt>
-
-									<dd>
-										<h:selectOneRadio value="#{reportController.format}">
-											<f:selectItem itemLabel="HTML" itemValue="html"></f:selectItem>
-											<f:selectItem itemLabel="XML" itemValue="xml"></f:selectItem>
-											<f:selectItem itemLabel="JSON" itemValue="json"></f:selectItem>
-										</h:selectOneRadio>
-
-									</dd>
-
-									<dt>Encoding:</dt>
-
-									<dd>
-										<h:inputText value="#{reportController.encoding}"></h:inputText>
-
-									</dd>
-								</dl>
+								</div>
 							</div>
-							<!-- hidden field for uri -->
-							<h:inputHidden id="hidden_uri"
-								value="#{facesContext.externalContext.requestContextPath}#{reportController.uri}"
-								style="width:100%" />
+							<div class="imixs-form-panel">
+								<h1>Format</h1>
+								<div class="imixs-form-section-2">
+
+									<dl>
+										<dt>Output:</dt>
+										<dd>
+											<select id="imixs-report-output">
+												<option value="html">HTML</option>
+												<option value="xml">XML</option>
+												<option value="json">JSON</option>
+											</select>
+										</dd>
+									</dl>
+									<dl>
+										<dt>Count:</dt>
+										<dd>
+											<input type="text" id="imixs-report-count" />
+										</dd>
+									</dl>
+									
+									<dl>
+										<dt>Encoding:</dt>
+										<dd>
+											<input type="text" id="imixs-report-encoding" />
+										</dd>
+									</dl>
+								</div>
+							</div>
+
 						</f:ajax>
 
 					</div>
@@ -94,17 +104,13 @@
 					<div class="imixs-footer">
 
 						<!-- open report -->
-						<h:commandButton  immediate="true"
-							onclick="window.open($('[id$=hidden_uri]').val()).focus();"
-							value="#{message.open}">
-						</h:commandButton>
+						<input type="button" onclick="openReport();"
+							value="#{message.open}" />
 
 						<h:commandButton immediate="true" value="#{message.close}"
 							action="reports" />
-							
-							
-						
-						<h:commandButton action="reports" immediate="true" 
+
+						<h:commandButton action="reports" immediate="true"
 							rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}"
 							onclick="if (!confirm('#{message.help_delete}')) return false;"
 							actionListener="#{reportController.delete(reportController.workitem.item['$uniqueid'])}"
@@ -112,14 +118,85 @@
 						</h:commandButton>
 					</div>
 
-
-
-
-
-
-
 				</div>
 			</h:form>
+
+			<script type="text/javascript">
+				/*<![CDATA[*/
+				var reportBaseURI = "#{facesContext.externalContext.requestContextPath}/rest-service/report/";
+				var reportName= "#{reportController.workitem.item['txtname']}";
+				
+				// check of date input fields
+				$(document).ready(function() {
+					var paramList = $('.imixs-report-param');
+					$(paramList).each(
+							function(index, value) {
+								var paramName = $(this).attr("data-param");
+								// add datepicker
+								if (paramName.startsWith('date_')) {
+									$(this).addClass('imixs-date').datepicker({
+										showOtherMonths : true,
+										selectOtherMonths : true,
+										dateFormat : "yy-mm-dd"
+									});
+								}
+							});
+				});
+				
+				
+				// test if all params are provided and open URI
+				function openReport() {
+					var reportURI = "";
+					var encoding = $('#imixs-report-encoding').val();
+					var count = $('#imixs-report-count').val();
+					var outputFormat = $('#imixs-report-output').val();
+					var paramList = $('.imixs-report-param');
+					var paramsValid = true;
+					
+					// report name
+					if (reportName.indexOf(".")>-1) {
+						reportName = reportName.substring(0, reportName.indexOf('.'));
+					}
+					// default count?
+					if (!count) {
+						count="-1";
+					}
+
+					reportURI = reportURI+reportBaseURI + reportName + "." + outputFormat + "?count="+count;
+					
+					if (encoding) {
+						reportURI = reportURI + "&encoding=" + encoding;
+					}
+
+					// build param list
+					$(paramList).each(
+							function(index, value) {
+								var paramName = $(this).attr("data-param");
+								var paramValue = $(this).val();
+								if (!paramValue) {
+									// error no value found!
+									paramsValid = false;
+									return false;
+								} else {
+									reportURI = reportURI + "&" + paramName
+											+ "=" + paramValue;
+								}
+							});
+
+					if (paramsValid) {
+						$("#imixs-report-errormessage").hide();
+						window.open(reportURI).focus();
+					} else {
+						$("#imixs-report-errormessage").show();
+					}
+
+				}
+
+				/*]]>*/
+			</script>
+
+
+
 		</f:view>
 	</ui:define>
 
