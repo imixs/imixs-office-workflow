@@ -18,8 +18,14 @@
 				<configuration>
 					<webResources>
 						<resource>
+						 	<filtering>true</filtering>
 							<!-- this is relative to the pom.xml directory -->
 							<directory>${custom.webResources}</directory>
+							<includes>
+					        	<include>**/WEB-INF/*</include>
+					        	<include>/src/main/resources/*</include>
+					         	<!-- include any other file types you want to filter -->
+					       	</includes>
 						</resource>
 					</webResources>
 				</configuration>
