@@ -139,7 +139,7 @@
 		<div class="imixs-form-section">
 			<ui:include src="/pages/error_message.xhtml" />
 
-			<ui:repeat var="activity" value="#{minuteController.activities}">
+			<ui:repeat var="activity" value="#{minuteController.events}">
 				<h:commandButton role="button" onclick="saveTinyMCE();"
 					class="imixs-workflow-action ui-button-warning" title=" "
 					actionListener="#{minuteController.process(activity.item['numactivityid'],true)}"

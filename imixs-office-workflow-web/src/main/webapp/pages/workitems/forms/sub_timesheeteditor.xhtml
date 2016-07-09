@@ -134,7 +134,7 @@
 
 			<br />
 			<!-- *** Workflow Actions **** -->
-			<c:forEach items="#{timesheetController.activities}" var="activity">
+			<c:forEach items="#{timesheetController.events}" var="activity">
 				<h:commandButton
 					actionListener="#{timesheetController.process(activity.item['numactivityid'])}"
 					action="/pages/workitems/workitem"
