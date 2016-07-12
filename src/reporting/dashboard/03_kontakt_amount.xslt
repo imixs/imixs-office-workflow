@@ -9,7 +9,7 @@
 		{
 			"datasets" :[ 
 				{
-					"label": "Kontanfragen",
+					"label": "Kontaktanfragen",
 					"charttype": "Pie",
 					"data" : [
 						{

@@ -11,25 +11,25 @@
         <value>txtworkflowSummary</value>
         <value>txtworkflowgroup</value>
       </item>
+      <item name="txtcontenttype">
+        <value>application/json</value>
+      </item>
       <item name="txtquery">
         <value>SELECT workitem FROM Entity AS workitem
  JOIN workitem.textItems AS w
  JOIN workitem.integerItems AS i
   WHERE workitem.type IN( 'workitem' ,'workitemarchive')
   AND w.itemName = 'txtworkflowgroup' 
-  AND w.itemValue = 'Kontakt'
+  AND w.itemValue = 'Reklamation'
   AND i.itemName="$processid"
-  AND i.itemValue &lt; 9600
+  AND i.itemValue BETWEEN 5001 AND 5089
 ORDER BY workitem.created ASC</value>
-      </item>
-      <item name="txtcontenttype">
-        <value>application/json</value>
       </item>
       <item name="txtencoding">
         <value>UTF-8</value>
       </item>
       <item name="txtname">
-        <value>03_kontakt_amount.ixr</value>
+        <value>04_reklamation_amount.ixr</value>
       </item>
       <item name="txtxsl">
         <value>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
@@ -43,28 +43,35 @@ ORDER BY workitem.created ASC</value>
 		{
 			"datasets" :[ 
 				{
-					"label": "Kontaktanfragen",
+					"label": "Reklamationen",
 					"charttype": "Pie",
 					"data" : [
 						{
-							"value": &lt;xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'Neue Anfrage'])"&gt;&lt;/xsl:value-of&gt;,							
-							"color":"#F7464A",
-							"highlight": "#FF5A5E",
-							"label": "Neue Anfrage"
+							"value": &lt;xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'Stellungnahme'])"&gt;&lt;/xsl:value-of&gt;,							
+							"color":"#f7464a",
+							"highlight": "#f7464a",
+							"label": "Stellungnahme"
 						},
 						
 						{
-							"value": &lt;xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'On Hold'])"&gt;&lt;/xsl:value-of&gt;,
+							"value": &lt;xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'Umtausch'])"&gt;&lt;/xsl:value-of&gt;,
+							"color": "#aaaa39",
+							"highlight": "#aaaa39",
+							"label": "Umtausch"
+						},
+						
+						{
+							"value": &lt;xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'Reparatur'])"&gt;&lt;/xsl:value-of&gt;,
 							"color": "#46BFBD",
-							"highlight": "#5AD3D1",
-							"label": "On Hold"
+							"highlight": "#46BFBD",
+							"label": "Reparatur"
 						},
-						
+
 						{
-							"value": &lt;xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'Wiedervorlage'])"&gt;&lt;/xsl:value-of&gt;,
-							"color": "#FDB45C",
-							"highlight": "#FFC870",
-							"label": "Wiedervorlage"
+							"value": &lt;xsl:value-of select="count(/collection/entity[normalize-space(item[name = 'txtworkflowstatus']/value) = 'Versand'])"&gt;&lt;/xsl:value-of&gt;,
+							"color": "#4b9130",
+							"highlight": "#4b9130",
+							"label": "Versand"
 						}
 					]
 				}
