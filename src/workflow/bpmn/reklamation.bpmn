@@ -1215,6 +1215,7 @@ if ( !bereich || !bereich[0]) {
 </ol>]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_26</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_27</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_29</bpmn2:outgoing>
     </bpmn2:task>
     <bpmn2:sequenceFlow id="SequenceFlow_26" sourceRef="IntermediateCatchEvent_7" targetRef="Task_1"/>
@@ -1223,6 +1224,61 @@ if ( !bereich || !bereich[0]) {
     <bpmn2:sequenceFlow id="SequenceFlow_29" sourceRef="Task_1" targetRef="IntermediateCatchEvent_5020-20"/>
     <bpmn2:sequenceFlow id="SequenceFlow_30" sourceRef="IntermediateCatchEvent_5020-20" targetRef="Task_5090"/>
     <bpmn2:sequenceFlow id="SequenceFlow_32" sourceRef="Task_5080" targetRef="EndEvent_1"/>
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_1" imixs:activityid="10" name="Speichern">
+      <bpmn2:extensionElements>
+        <imixs:item name="keylogtimeformat" type="xs:string">
+          <imixs:value><![CDATA[2]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyarchive" type="xs:string">
+          <imixs:value><![CDATA[0]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyaccessmode" type="xs:string">
+          <imixs:value><![CDATA[0]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyscheduledactivity" type="xs:string">
+          <imixs:value><![CDATA[0]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyversion" type="xs:string">
+          <imixs:value><![CDATA[0]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyaddwritefields" type="xs:string">
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="numnextactivityid" type="xs:int">
+          <imixs:value><![CDATA[0]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyfollowup" type="xs:string">
+          <imixs:value><![CDATA[2]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keypublicresult" type="xs:string">
+          <imixs:value><![CDATA[1]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keylogdateformat" type="xs:string">
+          <imixs:value><![CDATA[2]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtnextprocesstree" type="xs:string">
+          <imixs:value><![CDATA[]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="numnextid" type="xs:int">
+          <imixs:value><![CDATA[5090]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtactivityresult" type="xs:string">
+          <imixs:value><![CDATA[]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyownershipmode" type="xs:string">
+          <imixs:value><![CDATA[0]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="rtfresultlog" type="xs:string">
+          <imixs:value><![CDATA[Gespeichert von <username>namcurrenteditor</username>.]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyupdateacl" type="xs:boolean">
+          <imixs:value>false</imixs:value>
+        </imixs:item>
+      </bpmn2:extensionElements>
+      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+    </bpmn2:intermediateCatchEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" sourceRef="IntermediateCatchEvent_1" targetRef="Task_1"/>
     <bpmn2:group id="Group_1"/>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -1389,6 +1445,12 @@ if ( !bereich || !bereich[0]) {
           <dc:Bounds height="14.0" width="45.0" x="1139.0" y="290.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_7" bpmnElement="IntermediateCatchEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="1170.0" y="182.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_6">
+          <dc:Bounds height="14.0" width="56.0" x="1160.0" y="218.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_7" bpmnElement="SequenceFlow_3" sourceElement="BPMNShape_IntermediateCatchEvent_2" targetElement="BPMNShape_Task_2">
         <di:waypoint xsi:type="dc:Point" x="481.0" y="255.0"/>
         <di:waypoint xsi:type="dc:Point" x="503.0" y="255.0"/>
@@ -1551,6 +1613,13 @@ if ( !bereich || !bereich[0]) {
         <di:waypoint xsi:type="dc:Point" x="1059.0" y="595.0"/>
         <di:waypoint xsi:type="dc:Point" x="1091.0" y="595.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_62"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_1" sourceElement="BPMNShape_IntermediateCatchEvent_7" targetElement="BPMNShape_Task_5">
+        <di:waypoint xsi:type="dc:Point" x="1188.0" y="218.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1188.0" y="239.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1180.0" y="239.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1180.0" y="272.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_15"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
