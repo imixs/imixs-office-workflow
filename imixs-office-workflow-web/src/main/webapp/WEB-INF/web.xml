@@ -3,33 +3,30 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 
-	<display-name>org.imixs.workflow-office</display-name>
+	<display-name>${imixs-office.applicationname}</display-name>
 	<welcome-file-list>
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
-
-
 	<context-param>
 		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
 		<param-value>server</param-value>
 	</context-param>
-
-
 	<context-param>
 		<param-name>javax.faces.CONFIG_FILES</param-name>
 		<param-value>
 			/WEB-INF/faces-config.xml,/WEB-INF/faces-config-office.xml,/WEB-INF/faces-config-custom.xml
 		</param-value>
 	</context-param>
-
 	<!-- Change to "Production" when you are ready to deploy
 	     Change to "Development" during development -->
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Production</param-value>
 	</context-param>
-	
-	
+	<session-config> 
+		<!-- 3h -->
+		<session-timeout>180</session-timeout> 
+	</session-config> 	
  	<listener>
         <listener-class>
             com.sun.faces.config.ConfigureListener
@@ -37,14 +34,11 @@
     </listener>
 
 	
-
-
 	<!-- Facelets -->
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-		<load-on-startup>0</load-on-startup>
-		
+		<load-on-startup>0</load-on-startup>		
 		<multipart-config>
 	      <location>/tmp</location>
 	      <max-file-size>20848820</max-file-size>
@@ -52,7 +46,6 @@
 	      <file-size-threshold>1048576</file-size-threshold>
 		</multipart-config>
 	</servlet>
-
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
@@ -63,7 +56,7 @@
 	</servlet-mapping>
 
 
-	<!-- RESTfull Service -->
+	<!-- Imixs REST Service -->
 	<servlet>
 		<servlet-name>ImixsRestService</servlet-name>
 		<!-- GlassFish 3.2 -->
@@ -81,8 +74,8 @@
 		<servlet-name>ImixsRestService</servlet-name>
 		<url-pattern>/rest-service/*</url-pattern>
 	</servlet-mapping>
-
-
+		
+	
 	<!-- Error handling -->
 	<error-page>
 		<exception-type>java.lang.RuntimeException</exception-type>
@@ -95,7 +88,7 @@
 	<error-page>
 		<error-code>403</error-code>
 		<location>/authorizationerror.jsf</location>
-	</error-page>
+	</error-page>	
 	<error-page>
 		<error-code>404</error-code>
 		<location>/error.jsf</location>
@@ -123,8 +116,9 @@
 			<form-error-page>/loginerror.jsf</form-error-page> 
 		</form-login-config> 
 	</login-config> 
-
-
+	
+	
+	<!-- Security Roles -->
 	<security-constraint>
 		<display-name>Access Manager Security Constraint</display-name>
 		<web-resource-collection>
