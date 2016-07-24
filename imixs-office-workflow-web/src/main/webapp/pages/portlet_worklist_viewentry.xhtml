@@ -42,13 +42,15 @@
 			<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
 			<h:outputText value=" (#{workitem.item['txtProcessName']})" />
 
-			<!-- Modified -->
+			<!-- Modified --> 
 			<br /> <span> <h:outputText style="font-weight: bold;"
-					value="#{message.modified}: " /> <h:outputText
+					value="#{message.edited}: " /> <h:outputText
 					value="#{workitem.item['$modified']}" style="font-weight: normal;">
 					<f:convertDateTime timeZone="#{message.timeZone}"
 						pattern="#{message.dateTimePattern}" />
 				</h:outputText>
+				<h:outputText
+				value=" #{message.by} #{userController.getUserName(workitem.item['namCurrentEditor'])}" />
 			</span>
 
 			<!-- display owner -->

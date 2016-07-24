@@ -72,39 +72,25 @@
 	<div style="clear: left;" />
 	<!-- Workflow History -->
 	<div id="history-panel" style="display:none;">
-	
 		<ui:include src="/pages/workitems/workitem_history.xhtml" />
 	</div>
-
-
 
 
 	<!-- References -->
 
 	<div id="reference-panel" style="display:none;">
-		
-		<ui:include src="/pages/workitems/workitem_references.xhtml">
-		</ui:include>
+		<ui:include src="/pages/workitems/workitem_references.xhtml"/>
 	</div>
 
 
 	<!-- Process Map -->
 	<div id="process-panel" style="display:none;">
-		
-		<ui:include src="/pages/workitems/workitem_processmap.xhtml">
-			<ui:param name="workflowgroup"
-				value="#{workflowController.workitem.item['txtWorkflowGroup']}" />
-			<ui:param name="modelversion"
-				value="#{workflowController.workitem.item['$modelVersion']}" />
-			<ui:param name="processid"
-				value="#{workflowController.workitem.item['$ProcessID']}" />
-		</ui:include>
+		<ui:include src="/pages/workitems/workitem_processmap.xhtml"/>
 	</div>
 
 
 	<!-- Workflow Versions -->
 	<div id="version-panel" style="display:none;">
-		
 		<ui:include src="/pages/workitems/workitem_versions.xhtml" />
 	</div>
 
