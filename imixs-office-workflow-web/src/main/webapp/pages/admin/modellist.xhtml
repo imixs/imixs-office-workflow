@@ -18,54 +18,52 @@
 						<!--  Workflow Versions -->
 						<table class="imixsdatatable">
 							<tr>
-								<th>Version/Profile</th>
-								<th>Workflow Group</th>
-								<th>last update</th>
+								<th>Version</th>
+								<th>Workflow Groups</th>
+								<th>Uploaded</th>
 								<th></th>
 							</tr>
 
-							<ui:repeat var="profile"
-								value="#{modelController.allProfileEntities}">
+							<ui:repeat var="version" value="#{modelController.versions}">
+
+								<ui:param name="modelEntity"
+									value="#{modelController.getModelEntity(version)}" />
 
 								<tr>
-									<td><strong><h:outputText value="#{profile.item['$modelversion']}" /></strong></td>
-									<td></td>
-									<td><h:outputText value="#{profile.item['$created']}">
+									<td><h:outputLink
+											value="#{facesContext.externalContext.requestContextPath}/rest-service/model/#{version}/bpmn"
+											target="_blank">#{version}</h:outputLink></td>
+
+									<!-- workflow groups.... -->
+									<td><ui:repeat var="group"
+											value="#{modelController.getGroups(version)}">
+											<h:outputText value="#{group}" />
+											<br />
+										</ui:repeat></td>
+
+									<!-- uploaded -->
+									<td><h:outputText value="#{modelEntity.item['$modified']}">
 											<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-												pattern="#{message.dateTimePattern}" />
-										</h:outputText></td>
+												pattern="#{message.dateTimePatternLong}" />
+										</h:outputText> <h:outputText
+											value=" #{message.by} #{userController.getUserName(modelEntity.item['namcreator'])}" />
+									</td>
+
+
+									<!-- delete version -->
 									<td><h:commandLink
-											action="#{modelController.deleteModel(profile.item['$modelversion'])}">
+											action="#{modelController.deleteModel(version)}">
 											<h:outputText value="delete" />
 										</h:commandLink></td>
 								</tr>
 
-								<!-- add workflow groups.... -->
 
-
-								<ui:repeat var="process" value="#{modelController.getAllStartProcessEntities(profile.item['$modelversion'])}">
-									<tr>
-										<td></td>
-										<td><h:outputText
-												value="#{process.item['txtworkflowgroup']}" /></td>
-										<td><h:outputText value="#{profile.item['$created']}">
-											<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-												pattern="#{message.dateTimePattern}" />
-										</h:outputText></td>
-										<td><h:commandLink
-											action="#{modelController.deleteWorkflowGroup(process.item['txtworkflowgroup'],profile.item['$modelversion'])}">
-											<h:outputText value="delete" />
-										</h:commandLink></td>
-
-									</tr>
-
-								</ui:repeat>
 
 
 							</ui:repeat>
 
 						</table>
-						
+
 
 						<!--  Error Messages -->
 						<c:if test="#{! empty facesContext.maximumSeverity}">

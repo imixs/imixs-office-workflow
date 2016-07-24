@@ -24,43 +24,42 @@
 							value="#{process.item['$uniqueId']}" />
 					</h:commandLink>
 				</h1>
-				<p><h:outputText value="#{process.item['txtdescription']}" /></p>
+				<p>
+					<h:outputText value="#{process.item['txtdescription']}" />
+				</p>
 
 				<!-- *** WorkflowGroup List if user is member*** -->
 				<h:panelGroup
 					rendered="#{!empty process.itemList['txtWorkflowList'] and (loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isMember'])}">
 
-					
+
 					<ul style="margin: 5px 0;">
 
 
 						<ui:repeat value="#{process.itemList['txtWorkflowList']}"
 							var="group">
+							<ui:param name="initalTask"
+								value="#{modelController.getInitialTaskByGroup(group)}" />
+
 
 							<!-- verify if workflow groups still exists and if user is member -->
-							<h:panelGroup
-								rendered="#{! empty modelController.getAllProcessEntitiesByGroup(group)}">
+							
+							<li>
+							<h:panelGroup rendered="#{! empty initalTask}">
 
-
-
-
-
-								<ui:param name="processEntity"
-									value="#{modelController.getInitialProcessEntityByGroup(group)}" />
-								<li><h:commandLink title=" "
-										actionListener="#{workflowController.create(processEntity.item['$modelversion'],processEntity.item['numprocessid'],process.item['$uniqueid'])}"
+								<h:commandLink title=" "
+										actionListener="#{workflowController.create(initialtask.item['$modelversion'],initialtask.item['numprocessid'],process.item['$uniqueid'])}"
 										action="#{workflowController.init('/pages/workitems/workitem')}">
 
 										<h:outputText style="font-weight: bold;" value="#{group} »" />
 									</h:commandLink> <span class="imixs-tooltip"> <h:outputText
-											value="#{processEntity.item['rtfdescription']}"
-											escape="false" />
-								</span></li>
+											value="#{initialtask.item['rtfdescription']}" escape="false" />
+								</span>
 							</h:panelGroup>
 
-							<h:outputText style="color:red"
-								rendered="#{empty modelController.getAllProcessEntitiesByGroup(group)}"
+							<h:outputText style="color:red" rendered="#{empty initalTask}"
 								value="	Missing Model Definition: #{group}"></h:outputText>
+							</li>
 
 
 						</ui:repeat>
