@@ -4,15 +4,23 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" id="sub_processlist_form">
 
 
-<hr />
-	<div class="model-box">
+	<hr />
+	<ui:param name="model"
+		value="#{modelController.getModelByWorkitem(workflowController.workitem)}" />
+	<ui:param name="processid"
+		value="#{workflowController.workitem.item['$processid']}" />
 
+
+	<h:panelGroup layout="block" styleClass="model-box"
+		rendered="#{! empty model}">
+
+		<ui:param name="tasks"
+			value="#{model.findTasksByGroup(workflowController.workitem.item['txtworkflowgroup'])}" />
 		<div class="model-start"></div>
 		<div class="model-line"></div>
-		<ui:repeat
-			value="#{modelController.getAllProcessEntitiesByGroup(workflowgroup,modelversion)}"
-			var="processEntity">
 
+
+		<ui:repeat value="#{tasks}" var="processEntity">
 			<h:panelGroup layout="block" styleClass="model-entity-box">
 				<h:panelGroup layout="block" styleClass="model-entity completed"
 					rendered="#{(processEntity.item['numprocessid']) lt processid }">
@@ -40,7 +48,7 @@
 		<div class="model-end"></div>
 
 		<div style="clear: left" />
-	</div>
+	</h:panelGroup>
 
 
 

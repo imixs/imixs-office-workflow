@@ -43,6 +43,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.imixs.marty.ejb.ProcessService;
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.jee.ejb.ModelService;
 import org.imixs.workflow.xml.EntityCollection;
 import org.imixs.workflow.xml.XMLItemCollectionAdapter;
@@ -168,19 +169,19 @@ public class ProcessRestService implements Serializable {
 	 * Returns a string list of all workflow groups
 	 * 
 	 * @return
+	 * @throws ModelException 
 	 */
 	@GET
 	@Path("/workflowgroups.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public  EntityCollection getWorkflowGroupsJSON() {
+	public  EntityCollection getWorkflowGroupsJSON() throws ModelException {
 		List<ItemCollection> col=new ArrayList<ItemCollection>();
 		List<String> result = new ArrayList<String>();
-		List<String> modelVersions = modelService.getAllModelVersions();
+		List<String> modelVersions = modelService.getVersions();
 		for (String modelVersion : modelVersions) {
 			// if not a system model
 			if (!modelVersion.startsWith("system")) {
-				List<String> groups = modelService
-						.getAllWorkflowGroupsByVersion(modelVersion);
+				List<String> groups = modelService.getModel(modelVersion).getGroups();
 
 				for (String group : groups) {
 					if (!result.contains(group)) {

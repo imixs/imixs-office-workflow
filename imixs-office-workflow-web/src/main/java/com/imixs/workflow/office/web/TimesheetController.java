@@ -201,8 +201,7 @@ public class TimesheetController extends ChildWorkitemController implements
 			// current model Version
 			String sModelVersion = this.getParentWorkitem().getItemValueString(
 					"$modelversion");
-			startProcess = modelService.getProcessEntity(6100,
-					sModelVersion);
+			startProcess = modelService.getModel(sModelVersion).getTask(6100);
 
 			if (startProcess == null) {
 				logger.warning("TimeSheetMB unable to find start ProcessEntity - ID=6100 !");
@@ -211,9 +210,7 @@ public class TimesheetController extends ChildWorkitemController implements
 
 			String sWorkflowGroup = startProcess
 					.getItemValueString("txtWorkflowGroup");
-			List<ItemCollection> processList = modelService
-					.getAllProcessEntitiesByGroup(sWorkflowGroup,
-							sModelVersion);
+			List<ItemCollection> processList = modelService.getModel(sModelVersion).findTasksByGroup(sWorkflowGroup);
 			for (ItemCollection process : processList) {
 				processSelection.add(process);
 

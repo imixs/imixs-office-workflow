@@ -61,20 +61,21 @@
 
 
 
-							<h:column>
+							<h:column >
 								<f:facet name="header">
 									<h:panelGroup>
 										<h:commandLink value="#{message.modified}">
 											<f:setPropertyActionListener
-												target="#{spaceViewController.view}"
+												target="#{processViewController.view}"
 												value="worklist.modified.desc" />
 											<f:ajax render="view_body" onevent="updateTable" />
+
 											<h:panelGroup
 												styleClass="typcn typcn-arrow-sorted-down imixs-state-info"
-												rendered="#{spaceViewController.view == 'worklist.modified.desc'}"></h:panelGroup>
+												rendered="#{processViewController.view == 'worklist.modified.desc'}"></h:panelGroup>
 											<h:panelGroup
 												styleClass="typcn typcn-arrow-unsorted imixs-state-info"
-												rendered="#{spaceViewController.view ne 'worklist.modified.desc'}"></h:panelGroup>
+												rendered="#{processViewController.view ne 'worklist.modified.desc'}"></h:panelGroup>
 
 										</h:commandLink>
 									</h:panelGroup>
@@ -83,9 +84,34 @@
 									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 										pattern="#{message.dateTimePattern}" />
 								</h:outputText>
-								<h:outputText value=" #{record.item['namcurrentEditor']}" />
+								<h:outputText value=" #{message.by} #{userController.getUserName(record.item['namcurrentEditor'])}" title="#{record.item['namcurrentEditor']}" />
 							</h:column>
 
+
+
+							<h:column>
+								<f:facet name="header">Manager</f:facet>
+								<ui:repeat var="grp"
+									value="#{record.itemListArray['namManager']}">
+									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp}" /><br />
+								</ui:repeat>
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">Team</f:facet>
+								<ui:repeat var="grp"
+									value="#{record.itemListArray['namTeam']}">
+									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp}" /><br />
+								</ui:repeat>
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">Assist</f:facet>
+								<ui:repeat var="grp"
+									value="#{record.itemListArray['namAssist']}">
+									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp}" /><br />
+								</ui:repeat>
+							</h:column>
 							<h:column>
 								<f:facet name="header">#{message.action}</f:facet>
 								<!-- Edit -->
