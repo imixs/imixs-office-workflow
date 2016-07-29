@@ -35,11 +35,12 @@
 					<ul style="margin: 5px 0;">
 						<ui:repeat value="#{process.itemList['txtWorkflowList']}"
 							var="group">
+							<!-- get first task by group -->
 							<ui:param name="model"
 								value="#{modelController.getModelByGroup(group)}" />
 							<ui:param name="initialTask"
-									value="#{(!empty model) and (!empty model.findAllTasks())?model.findAllTasks().get(0):null}" />
-							<!-- verify if workflow groups still exists and if user is member -->
+									value="#{(!empty model) and (!empty model.findTasksByGroup(group))?model.findTasksByGroup(group).get(0):null}" />
+
 							<li><h:panelGroup rendered="#{! empty initialTask}">
 									<h:commandLink title=" "
 										actionListener="#{workflowController.create(model.version,initialTask.item['numprocessid'],process.item['$uniqueid'])}"
