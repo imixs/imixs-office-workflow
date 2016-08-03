@@ -7,14 +7,18 @@
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	template="/layout/template.xhtml">
 
-	<ui:define name="content">
 
+	
+		<ui:define name="content">
 
-		<f:view>
-			
+	<f:view>
+	
+	<c:if test="#{(empty workflowController.workitem) or (workflowController.workitem.item['$uniqueid'] ne userController.workitem.item['$uniqueid'])}">
 			<f:event type="preRenderView" listener="#{workflowController.load(userController.workitem.item['$uniqueid'])}" />
-		
-		
+	
+	</c:if>
+	
+	
 			<script type="text/javascript">
 				/*<![CDATA[*/
 				function passwordCheck() {
@@ -35,11 +39,7 @@
 
 
 			<h:form>
-
-
 				<div class="imixs-form">
-
-
 					<div class="imixs-header">
 						<h1>#{message['myprofile.title']}</h1>
 
@@ -81,7 +81,6 @@
 										<marty:userInput
 											value="#{workflowController.workitem.item['namDeputy']}"
 											editmode="true" />
-
 									</dd>
 								</dl>
 								<dl>
