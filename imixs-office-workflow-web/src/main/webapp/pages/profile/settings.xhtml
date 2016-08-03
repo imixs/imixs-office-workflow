@@ -8,17 +8,12 @@
 	template="/layout/template.xhtml">
 
 
-	
-		<ui:define name="content">
 
-	<f:view>
-	
-	<c:if test="#{(empty workflowController.workitem) or (workflowController.workitem.item['$uniqueid'] ne userController.workitem.item['$uniqueid'])}">
-			<f:event type="preRenderView" listener="#{workflowController.load(userController.workitem.item['$uniqueid'])}" />
-	
-	</c:if>
-	
-	
+	<ui:define name="content">
+		<f:view>
+			<f:event type="preRenderComponent"
+				listener="#{workflowController.load(userController.workitem.item['$uniqueid'])}" />
+
 			<script type="text/javascript">
 				/*<![CDATA[*/
 				function passwordCheck() {
@@ -170,7 +165,8 @@
 									target="#{workflowController.action}" value="notes" />
 							</h:commandButton>
 
-							<h:commandButton value="#{message.close}"  class="imixs-close-action" action="notes" />
+							<h:commandButton value="#{message.close}"
+								class="imixs-close-action" action="notes" />
 
 						</div>
 					</div>
