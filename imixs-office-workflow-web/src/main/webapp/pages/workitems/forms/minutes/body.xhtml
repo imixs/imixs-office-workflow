@@ -101,9 +101,14 @@
 				<ui:repeat
 					value="#{modelController.getSubWorkflowGroups(workflowController.workitem.item['txtWorkflowGroup'])}"
 					var="group">
-					<ui:param name="entity"
-						value="#{modelController.getInitialProcessEntityByGroup(group)}"></ui:param>
-					<h:commandButton class="imixs-workflow-action ui-button-warning"
+					
+					<!-- get first task by group -->
+					<ui:param name="model"
+							value="#{modelController.getModelByGroup(group)}" />
+					<ui:param name="initialTask"
+							value="#{(!empty model) and (!empty model.findTasksByGroup(group))?model.findTasksByGroup(group).get(0):null}" />
+									
+					<h:commandButton class="imixs-workflow-action ui-button-warning" rendered="#{! empty initialTask}"
 						title="" value="#{fn:substringAfter(group,'~')}"
 						actionListener="#{minuteController.create}"
 						action="/pages/workitems/workitem">
@@ -112,7 +117,7 @@
 							value="#{workflowController.workitem.item['$modelversion']}" />
 						<f:setPropertyActionListener
 							target="#{minuteController.workitem.item['$processid']}"
-							value="#{entity.item['numProcessID']}" />
+							value="#{initialTask.item['numprocessid']}" />
 						<f:setPropertyActionListener
 							target="#{minuteController.workitem.item['$uniqueidRef']}"
 							value="#{workflowController.workitem.item['$uniqueid']}" />
