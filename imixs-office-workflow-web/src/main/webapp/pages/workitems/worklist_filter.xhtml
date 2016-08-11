@@ -13,7 +13,6 @@
 		<dl>
 			<dt>#{message['worklist.workflowgroup']}:</dt>
 			<dd>
-
 				<h:selectOneMenu
 					value="#{searchController.searchFilter.item['txtWorkflowGroup']}">
 					<f:selectItem itemValue="" itemLabel=" " />
@@ -22,7 +21,7 @@
 						<f:selectItem itemValue="#{workflow}" itemLabel="#{workflow}" />
 					</c:forEach>
 					<f:ajax event="change" listener="#{searchController.doRefreshWorkflowGroup}"
-						render="@form" onevent="refreshViewLayout" />
+						render="@form" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 				</h:selectOneMenu>
 			</dd>
 		</dl>
@@ -45,7 +44,7 @@
 								itemLabel="#{processentity.item['txtname']}" />
 						</c:forEach>
 						<f:ajax event="change" listener="#{searchController.doResetSearchResult()}"
-							render="@form" onevent="refreshViewLayout" />
+							render="@form" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 					</h:selectOneMenu>
 				</dd>
 			</dl>

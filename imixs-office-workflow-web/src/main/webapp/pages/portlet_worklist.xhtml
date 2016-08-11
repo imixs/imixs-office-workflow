@@ -13,20 +13,7 @@
 		/ui:include 
 	
 	-->
-		<script type="text/javascript">
-			/*<![CDATA[*/
-
-			// This method layouts the filter section with jquery ui design  
-			function refreshViewLayout(data) {
-				if (data.status === 'success') {
-					$(".ui-tooltip").hide();
-					// select with wildcard operator
-					$("span.imixs-tooltip").layoutImixsTooltip();
-					imixsOfficeWorkflow.layoutTypIcons();
-				}
-			}
-			/*]]>*/
-		</script>
+		
 
 
 		<div class="imixs-header">
@@ -34,7 +21,7 @@
 				<h:commandLink actionListener="#{view.doReset}"
 					title="#{message.refresh}">
 					<span class="typcn typcn-arrow-sync"></span>  
-					<f:ajax render="portlet_worklist_body" onevent="refreshViewLayout" />
+					<f:ajax render="portlet_worklist_body" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 				</h:commandLink>
 			</div>
 
@@ -59,7 +46,7 @@
 							<f:setPropertyActionListener target="#{view.view}"
 								value="worklist.owner" />
 							<f:ajax render="portlet_worklist_body view-type-navigator"
-								onevent="refreshViewLayout" />
+								onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 						</h:commandLink>
 					</li>
 					<li class="#{view.view eq 'worklist.creator'?'active':'inactive'}">
@@ -72,7 +59,7 @@
 							<f:setPropertyActionListener target="#{view.view}"
 								value="worklist.creator" />
 							<f:ajax render="portlet_worklist_body view-type-navigator"
-								onevent="refreshViewLayout" />
+								onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 						</h:commandLink>
 					</li>
 					<li class="#{view.view eq 'worklist.favorite'?'active':'inactive'}">
@@ -85,7 +72,7 @@
 							<f:setPropertyActionListener target="#{view.view}"
 								value="worklist.favorite" />
 							<f:ajax render="portlet_worklist_body view-type-navigator"
-								onevent="refreshViewLayout" />
+								onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 						</h:commandLink>
 
 					</li>
@@ -114,12 +101,12 @@
 				<span style="margin-right: 10px;"> <h:commandLink
 						actionListener="#{view.doLoadPrev}" disabled="#{view.row == 0}"
 						value="#{message.prev}">
-						<f:ajax render="portlet_worklist_body" onevent="refreshViewLayout" />
+						<f:ajax render="portlet_worklist_body" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 					</h:commandLink>
 				</span>
 				<h:commandLink actionListener="#{view.doLoadNext}"
 					disabled="#{view.endOfList}" value="#{message.next}">
-					<f:ajax render="portlet_worklist_body" onevent="refreshViewLayout"></f:ajax>
+					<f:ajax render="portlet_worklist_body" onevent="imixsOfficeWorkflow.layoutAjaxEvent"></f:ajax>
 				</h:commandLink>
 			</h:panelGroup>
 

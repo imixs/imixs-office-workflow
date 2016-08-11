@@ -9,26 +9,6 @@
 	<ui:param name="space"
 		value="#{processController.getEntityById(searchController.searchFilter.item['txtspaceRef'])}" />
 
-	<script type="text/javascript">
-		/*<![CDATA[*/
-
-		// This method layouts the filter section with jquery ui design  
-		function refreshViewLayout(data) {
-			if (data.status === 'success') {
-				// select with wildcard operator
-				$('.imixs-footer,.imixs-header').imixsLayout();
-				
-				$( "span.imixs-tooltip" ).layoutImixsTooltip();
-				imixsOfficeWorkflow.layoutTypIcons();
-				
-			}
-		}
-		
-	
-
-		/*]]>*/
-	</script>
-
 	<h:panelGroup id="worklist_filter_panel">
 
 		<div style="float: left">
@@ -43,19 +23,14 @@
 			</h1>
 		</div>
 		<div style="float: right">
-		
 			<h:selectManyCheckbox id="view_filter"
 				value="#{searchController.searchFilter.itemListArray['type']}">
 				<f:selectItem itemLabel="#{message['worklist.in_progress']}"
 					itemValue="workitem" />
 				<f:selectItem itemLabel="#{message['worklist.archive']}"
 					itemValue="workitemarchive" />
-				<!-- 
-				<f:selectItem itemLabel="#{message['worklist.deletions']}"
-					itemValue="workitemdeleted" />
-				 -->
 				<f:ajax event="change" listener="#{searchController.doResetSearchResult()}"
-					render="@form" onevent="refreshViewLayout" />
+					render="@form" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 			</h:selectManyCheckbox>
 
 		</div>
@@ -71,8 +46,11 @@
 		<ui:include src="/pages/workitems/worklist_search.xhtml" />
 
 		<h:commandButton value="#{message.search}"
-			actionListener="#{searchController.doResetSearchResult()}" />
-
+			actionListener="#{searchController.doResetSearchResult()}" >
+			
+		
+		</h:commandButton>
+ 
 
 	</h:panelGroup>
 

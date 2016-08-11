@@ -94,6 +94,9 @@ IMIXS.com.imixs.workflow.office = (function() {
 
 		// waiting feature
 		var $body = $("body");
+		
+		$body.removeClass("loading");
+		
 		// ajax
 		$(document).on({
 			ajaxStart : function() {
@@ -109,13 +112,33 @@ IMIXS.com.imixs.workflow.office = (function() {
 		});
 
 		// layout
-		this.layoutTypIcons();
+		$('.imixs-footer,.imixs-header').imixsLayout();
+		$(".ui-tooltip").hide();
+		// select with wildcard operator
+		$("span.imixs-tooltip").layoutImixsTooltip();
+		
+		layoutTypIcons();
 		// this.layoutOfficeEditor();
+	},
+	
+	/** This method layouts an ajax event with a waiting panel 
+	 *  and refresh the page layout after complete
+	 */  
+	layoutAjaxEvent = function(data) {
+		// waiting feature
+		var $body = $("body");
+		if (data.status === 'begin') {
+			$body.addClass("loading");
+		}
+		if (data.status === 'success') {
+			layout();
+		}
 	};
 
 	// public API
 	return {
 		layoutTypIcons : layoutTypIcons,
+		layoutAjaxEvent : layoutAjaxEvent,
 		layout : layout
 	};
 
