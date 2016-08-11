@@ -256,29 +256,6 @@
 					<div class="imixs-footer">
 						<i:imixsWorkflowActions workflowController="#{workflowController}" />
 
-
-
-						<!-- Delete/Restore -->
-						<h:panelGroup
-							rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
-							<!-- *** Soft Delete  *** -->
-							<h:commandButton action="profilelist" immediate="true"
-								styleClass="imixs-delete-action"
-								onclick="if (!confirm('#{message.help_delete}')) return false;"
-								rendered="#{workflowController.workitem.item['type'] eq 'profile'}"
-								actionListener="#{workflowController.softDeleteWorkitem(true)}"
-								value="#{message.delete}">
-							</h:commandButton>
-							<!-- *** Restore Soft Delete  *** -->
-							<h:commandButton immediate="true"
-								styleClass="imixs-delete-action"
-								rendered="#{workflowController.workitem.item['type'] eq 'profiledeleted'}"
-								actionListener="#{workflowController.doRestoreFromDeletions}"
-								value="#{message.restore}">
-							</h:commandButton>
-						</h:panelGroup>
-
-
 						<h:commandButton value="#{message.close}"
 							styleClass="imixs-close-action" immediate="true"
 							action="profilelist" />
