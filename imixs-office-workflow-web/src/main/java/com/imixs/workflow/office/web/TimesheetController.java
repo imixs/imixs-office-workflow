@@ -120,9 +120,8 @@ public class TimesheetController extends ChildWorkitemController implements
 	/**
 	 * Reset the current users timeSheet selection
 	 */
-	@Override
 	public void reset(ActionEvent event) {
-		super.reset(event);
+		super.reset();
 		myTimeSheet = null;
 		filterTimeSheet = null;
 	}

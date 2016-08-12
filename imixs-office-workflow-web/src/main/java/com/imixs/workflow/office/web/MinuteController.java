@@ -130,10 +130,9 @@ public class MinuteController extends ChildWorkitemController implements
 
 	}
 
-	@Override
-	public void reset(ActionEvent event) {
 
-		super.reset(event);
+	public void reset(ActionEvent event) {
+		super.reset();
 		minutes = null;
 	}
 

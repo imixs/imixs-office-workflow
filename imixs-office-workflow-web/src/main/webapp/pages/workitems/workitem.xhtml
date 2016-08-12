@@ -4,9 +4,9 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	template="/layout/template.xhtml">
-		
+
 	<h:head>
-		<!-- support deep link for workitems (see index.xhtml) -->
+		<!-- support deep link for workitems (see index.xhtml) optional params 'id' and 'workitem' supported -->
 		<f:metadata>
 			<f:viewParam name="workitem" value="#{workflowController.deepLinkId}" />
 			<f:viewParam name="id" value="#{workflowController.deepLinkId}" />
@@ -14,27 +14,22 @@
 	</h:head>
 
 	<ui:define name="content">
-	
+
 		<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
 		<f:view>
 			<h:form id="workitem_form">
-				<!-- enable browser HistoryBack navigation an multiBrowserTabs! -->
-				<marty:cacheControl />
-				
+
 				<div class="imixs-form">
 					<div class="imixs-header">
 						<ui:include src="/pages/workitems/workitem_header.xhtml" />
 					</div>
-
 					<div class="imixs-body">
 						<ui:include src="/pages/error_message.xhtml" />
 						<!--  -->
 						<ui:include
 							src="/pages/workitems/forms/#{workflowController.editor}.xhtml" />
 					</div>
-					<!-- *** Footer **** -->
 					<div class="imixs-footer">
-
 						<ui:include src="/pages/workitems/workitem_footer.xhtml" />
 					</div>
 				</div>
