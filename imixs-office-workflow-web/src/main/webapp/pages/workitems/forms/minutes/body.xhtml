@@ -92,10 +92,10 @@
 					</ui:include>
 				</ui:repeat>
 			</h:panelGroup>
-
+			
 			<!-- create new minute if processid lower than 1500 -->
 			<h:panelGroup
-				rendered="#{empty minuteController.workitem and editmode}"
+				rendered="#{empty minuteController.workitem.item['$modelversion'] and editmode}"
 				id="createnew-action-list">
 				<!-- compute actions for each sub process  -->
 				<ui:repeat
@@ -132,8 +132,7 @@
 
 			<!-- Edit new minute if 'isnewWorkitem' -->
 			<h:panelGroup
-				rendered="#{(minuteController.newWorkitem) and (! empty minuteController.workitem)}">
-
+				rendered="#{(minuteController.newWorkitem) and (!empty minuteController.workitem.item['$modelversion'])}">
 				<ui:include
 					src="/pages/workitems/forms/minutes/body_entry_edit.xhtml">
 					<ui:param name="workitem" value="#{minuteController.workitem}" />
