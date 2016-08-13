@@ -21,7 +21,8 @@
 	<h:panelGroup id="editorpanel">
 		<!-- add new entry -->
 		<h:panelGroup layout="block"
-			rendered="#{empty timesheetController.workitem and !workflowController.newWorkitem}">
+			rendered="#{(empty timesheetController.workitem.item['$modelversion'])}">
+
 			<h:commandButton value="#{message.add}"
 				actionListener="#{timesheetController.create(workflowController.workitem.item['$modelversion'],6100,workflowController.workitem.item['$uniqueid'])}"
 				action="#{timesheetController.init('/pages/workitems/workitem')}">
@@ -35,123 +36,127 @@
 
 
 		<!-- edit panel -->
-		<h:panelGroup layout="block" styleClass="imixs-subform"
-			rendered="#{! empty timesheetController.workitem}">
+		<c:if
+			test="#{(!empty timesheetController.workitem.item['$modelversion'])}">
+			<h:panelGroup layout="block" styleClass="imixs-subform">
 
 
-			<div style="float: left; margin-right: 20px;">
+				<div style="float: left; margin-right: 20px;">
 
-				<dl>
-					<dt>
-						<h:outputText value="#{message['form.timesheet.date']}:" />
-					</dt>
-					<dd>
+					<dl>
+						<dt>
+							<h:outputText value="#{message['form.timesheet.date']}:" />
+						</dt>
+						<dd>
 
-						<h:inputText
-							value="#{timesheetController.workitem.item['datdate']}"
-							styleClass="imixs-date">
-							<f:convertDateTime pattern="#{message.datePatternShort}"
-								timeZone="#{message.timeZone}" />
-						</h:inputText>
+							<h:inputText
+								value="#{timesheetController.workitem.item['datdate']}"
+								styleClass="imixs-date">
+								<f:convertDateTime pattern="#{message.datePatternShort}"
+									timeZone="#{message.timeZone}" />
+							</h:inputText>
 
-					</dd>
-				</dl>
-				<h:panelGrid columns="2">
-					<h:panelGroup>
-						<dl>
-							<dt>
-								<h:outputText value="#{message['form.timesheet.category']}: " />
-							</dt>
-							<dd>
-								<!-- helper param used in f selectitem to display old values  -->
-								<ui:param name="deprecatedItemValue"
-									value="#{timesheetController.workitem.item['_category']}"></ui:param>
-								<h:selectOneMenu
-									value="#{timesheetController.workitem.item['_category']}">
-									<f:selectItem itemLabel=" " itemValue="" />
-									<c:forEach items="#{workitem.itemList['txtCategories']}"
-										var="entity">
-										<f:selectItem itemLabel="#{entity}" itemValue="#{entity}" />
-									</c:forEach>
+						</dd>
+					</dl>
+					<h:panelGrid columns="2">
+						<h:panelGroup>
+							<dl>
+								<dt>
+									<h:outputText value="#{message['form.timesheet.category']}: " />
+								</dt>
+								<dd>
+									<!-- helper param used in f selectitem to display old values  -->
+									<ui:param name="deprecatedItemValue"
+										value="#{timesheetController.workitem.item['_category']}"></ui:param>
+									<h:selectOneMenu
+										value="#{timesheetController.workitem.item['_category']}">
+										<f:selectItem itemLabel=" " itemValue="" />
+										<c:forEach items="#{workitem.itemList['txtCategories']}"
+											var="entity">
+											<f:selectItem itemLabel="#{entity}" itemValue="#{entity}" />
+										</c:forEach>
 
-									<!-- show also deprecated item values -->
-									<c:if
-										test="#{!workitem.itemList['txtCategories'].contains(deprecatedItemValue)}">
-										<f:selectItem itemLabel="#{deprecatedItemValue}"
-											itemValue="#{deprecatedItemValue}" />
-									</c:if>
-								</h:selectOneMenu>
-
-
-							</dd>
-
-						</dl>
-					</h:panelGroup>
-					<h:panelGroup>
-						<dl>
-							<dt>
-								<h:outputText value="#{message['form.timesheet.duration']}: " />
-							</dt>
-							<dd>
-								<h:inputText id="ln"
-									value="#{timesheetController.workitem.item['_duration']}"
-									style="width:50px;">
-									<f:convertNumber minFractionDigits="2" locale="de" />
-								</h:inputText>
-							</dd>
-
-						</dl>
-					</h:panelGroup>
-
-				</h:panelGrid>
-			</div>
-
-			<div style="float: left; width: 330px;">
-				<dl>
-					<dt>
-						<h:outputText value="#{message['form.timesheet.subject']}: " />
-					</dt>
-					<dd>
-						<h:inputTextarea
-							value="#{timesheetController.workitem.item['_subject']}"
-							style="height:5.6em;width:100%" />
-					</dd>
-				</dl>
-			</div>
-			<div style="clear: left;" />
-
-			<h:panelGroup>
-				<h:outputText style="font-weight:bold;"
-					value="#{message['history']}:" />
-				<ui:repeat
-					value="#{timesheetController.workitem.itemListArray['txtworkflowhistorylog']}"
-					var="log">
-					<h:outputText value="#{log}" />
-					<br />
-				</ui:repeat>
-			</h:panelGroup>
+										<!-- show also deprecated item values -->
+										<c:if
+											test="#{!workitem.itemList['txtCategories'].contains(deprecatedItemValue)}">
+											<f:selectItem itemLabel="#{deprecatedItemValue}"
+												itemValue="#{deprecatedItemValue}" />
+										</c:if>
+									</h:selectOneMenu>
 
 
-			<br />
-			<!-- *** Workflow Actions **** -->
-			<c:forEach items="#{timesheetController.events}" var="activity">
-				<h:commandButton
-					actionListener="#{timesheetController.process(activity.item['numactivityid'])}"
-					action="/pages/workitems/workitem"
-					value="#{activity.item['txtname']}">
-					<f:ajax render=":#{tableComponent.clientId}"
-						execute=":#{tableComponent.clientId}"
-						onevent="updateTimesheetPanel" />
+								</dd>
+
+							</dl>
+						</h:panelGroup>
+						<h:panelGroup>
+							<dl>
+								<dt>
+									<h:outputText value="#{message['form.timesheet.duration']}: " />
+								</dt>
+								<dd>
+									<h:inputText id="ln"
+										value="#{timesheetController.workitem.item['_duration']}"
+										style="width:50px;">
+										<f:convertNumber minFractionDigits="2" locale="de" />
+									</h:inputText>
+								</dd>
+
+							</dl>
+						</h:panelGroup>
+
+					</h:panelGrid>
+				</div>
+
+				<div style="float: left; width: 330px;">
+					<dl>
+						<dt>
+							<h:outputText value="#{message['form.timesheet.subject']}: " />
+						</dt>
+						<dd>
+							<h:inputTextarea
+								value="#{timesheetController.workitem.item['_subject']}"
+								style="height:5.6em;width:100%" />
+						</dd>
+					</dl>
+				</div>
+				<div style="clear: left;" />
+
+				<h:panelGroup>
+					<h:outputText style="font-weight:bold;"
+						value="#{message['history']}:" />
+					<ui:repeat
+						value="#{timesheetController.workitem.itemListArray['txtworkflowhistorylog']}"
+						var="log">
+						<h:outputText value="#{log}" />
+						<br />
+					</ui:repeat>
+				</h:panelGroup>
+
+
+				<br />
+				<!-- *** Workflow Actions **** -->
+
+				<c:forEach items="#{timesheetController.events}" var="activity">
+					<h:commandButton
+						actionListener="#{timesheetController.process(activity.item['numactivityid'])}"
+						action="/pages/workitems/workitem"
+						value="#{activity.item['txtname']}">
+						<f:ajax render=":#{tableComponent.clientId}"
+							execute=":#{tableComponent.clientId}"
+							onevent="updateTimesheetPanel" />
+					</h:commandButton>
+				</c:forEach>
+
+				<h:commandButton value="#{message.close}"
+					action="/pages/workitems/workitem">
+					<f:ajax listener="#{timesheetController.clear}"
+						render="editorpanel" onevent="updateTimesheetPanel" />
 				</h:commandButton>
-			</c:forEach>
 
-			<h:commandButton value="#{message.close}"
-				action="/pages/workitems/workitem">
-				<f:ajax listener="#{timesheetController.clear}" render="editorpanel"
-					onevent="updateTimesheetPanel" />
-			</h:commandButton>
 
-		</h:panelGroup>
+			</h:panelGroup>
+		</c:if>
 	</h:panelGroup>
 
 </ui:composition>

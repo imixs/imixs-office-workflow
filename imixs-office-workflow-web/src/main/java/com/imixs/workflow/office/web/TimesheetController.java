@@ -37,19 +37,16 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.event.Observes;
-import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.imixs.marty.util.ErrorHandler;
 import org.imixs.marty.workflow.ChildWorkitemController;
 import org.imixs.marty.workflow.WorkflowEvent;
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.exceptions.AccessDeniedException;
-import org.imixs.workflow.exceptions.PluginException;
-import org.imixs.workflow.exceptions.ProcessingErrorException;
 import org.imixs.workflow.jee.ejb.EntityService;
 import org.imixs.workflow.jee.ejb.ModelService;
 import org.imixs.workflow.jee.faces.util.LoginController;
@@ -60,10 +57,9 @@ import org.imixs.workflow.jee.faces.util.LoginController;
  * @author rsoika
  * 
  */
-@Named("timesheetController")
-@SessionScoped
-public class TimesheetController extends ChildWorkitemController implements
-		Serializable {
+@Named
+@ConversationScoped
+public class TimesheetController extends ChildWorkitemController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -98,8 +94,7 @@ public class TimesheetController extends ChildWorkitemController implements
 
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
 	/**
@@ -120,7 +115,8 @@ public class TimesheetController extends ChildWorkitemController implements
 	/**
 	 * Reset the current users timeSheet selection
 	 */
-	public void reset(ActionEvent event) {
+	@Override
+	public void reset() {
 		super.reset();
 		myTimeSheet = null;
 		filterTimeSheet = null;
@@ -198,8 +194,7 @@ public class TimesheetController extends ChildWorkitemController implements
 
 			ItemCollection startProcess;
 			// current model Version
-			String sModelVersion = this.getParentWorkitem().getItemValueString(
-					"$modelversion");
+			String sModelVersion = this.getParentWorkitem().getItemValueString("$modelversion");
 			startProcess = modelService.getModel(sModelVersion).getTask(6100);
 
 			if (startProcess == null) {
@@ -207,8 +202,7 @@ public class TimesheetController extends ChildWorkitemController implements
 				return processSelection;
 			}
 
-			String sWorkflowGroup = startProcess
-					.getItemValueString("txtWorkflowGroup");
+			String sWorkflowGroup = startProcess.getItemValueString("txtWorkflowGroup");
 			List<ItemCollection> processList = modelService.getModel(sModelVersion).findTasksByGroup(sWorkflowGroup);
 			for (ItemCollection process : processList) {
 				processSelection.add(process);
@@ -223,18 +217,12 @@ public class TimesheetController extends ChildWorkitemController implements
 	}
 
 	@Override
-	public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent)
-			throws AccessDeniedException {
-
+	public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) throws AccessDeniedException {
 		super.onWorkflowEvent(workflowEvent);
-
 		// if workItem has changed, then reset the child list
-		if (workflowEvent != null
-				&& WorkflowEvent.WORKITEM_CHANGED == workflowEvent
-						.getEventType()) {
+		if (workflowEvent != null && WorkflowEvent.WORKITEM_CHANGED == workflowEvent.getEventType()) {
 			initFilter();
 		}
-
 	}
 
 	/**
@@ -249,10 +237,9 @@ public class TimesheetController extends ChildWorkitemController implements
 	private void loadMyTimeSheet() {
 		myTimeSheet = new ArrayList<ItemCollection>();
 		myTimeSheetSummary = new ItemCollection();
-		try {
 
-			if (getUniqueIdRef() == null || getUniqueIdRef().isEmpty())
-				return;
+		if (getParentWorkitem() != null) {
+			String uniqueIdRef = getParentWorkitem().getItemValueString(WorkflowKernel.UNIQUEID);
 
 			String sUser = loginController.getUserPrincipal();
 
@@ -266,11 +253,9 @@ public class TimesheetController extends ChildWorkitemController implements
 			// restrict type depending of a supporte ref id
 			sQuery += " WHERE wi.type = 'childworkitem' ";
 
-			sQuery += " AND tref.itemName = '$uniqueidref' and tref.itemValue = '"
-					+ getUniqueIdRef() + "' ";
+			sQuery += " AND tref.itemName = '$uniqueidref' and tref.itemValue = '" + uniqueIdRef + "' ";
 
-			sQuery += " AND tc.itemName = 'namcreator' and tc.itemValue = '"
-					+ sUser + "' ";
+			sQuery += " AND tc.itemName = 'namcreator' and tc.itemValue = '" + sUser + "' ";
 			// Process ID
 			sQuery += " AND tp.itemName = '$processid' AND tp.itemValue >=6100 AND tp.itemValue<=6999";
 
@@ -279,16 +264,12 @@ public class TimesheetController extends ChildWorkitemController implements
 			sQuery += " ORDER BY td.itemValue DESC";
 
 			logger.fine("TimeSheetMB loadMyTimeSheet - query=" + sQuery);
-			Collection<ItemCollection> col = entityService.findAllEntities(
-					sQuery, 0, -1);
+			Collection<ItemCollection> col = entityService.findAllEntities(sQuery, 0, -1);
 
 			for (ItemCollection aworkitem : col) {
 				myTimeSheet.add((this.cloneWorkitem(aworkitem)));
 				computeSummaryOfNumberValues(aworkitem, myTimeSheetSummary);
 			}
-		} catch (Exception ee) {
-			myTimeSheet = null;
-			ee.printStackTrace();
 		}
 
 	}
@@ -302,12 +283,11 @@ public class TimesheetController extends ChildWorkitemController implements
 		filterTimeSheet = new ArrayList<ItemCollection>();
 		filterTimeSheetSummary = new ItemCollection();
 
-		try {
-			if (filter == null)
-				return;
+		if (filter == null)
+			return;
 
-			if (getUniqueIdRef() == null || getUniqueIdRef().isEmpty())
-				return;
+		if (getParentWorkitem() != null) {
+			String uniqueIdRef = getParentWorkitem().getItemValueString(WorkflowKernel.UNIQUEID);
 
 			String sUser = filter.getItemValueString("namCreator");
 
@@ -334,23 +314,19 @@ public class TimesheetController extends ChildWorkitemController implements
 			// restrict type depending of a supporte ref id
 			sQuery += " WHERE wi.type IN ('childworkitem','childworkitemarchive') ";
 
-			sQuery += " AND tref.itemName = '$uniqueidref' and tref.itemValue = '"
-					+ getUniqueIdRef() + "' ";
+			sQuery += " AND tref.itemName = '$uniqueidref' and tref.itemValue = '" + uniqueIdRef + "' ";
 
 			if (!"".equals(sUser))
-				sQuery += " AND tc.itemName = 'namcreator' and tc.itemValue = '"
-						+ sUser + "' ";
+				sQuery += " AND tc.itemName = 'namcreator' and tc.itemValue = '" + sUser + "' ";
 			// Process ID
 			if (iProcessID > 0)
-				sQuery += " AND tp.itemName = '$processid' AND tp.itemValue ="
-						+ iProcessID;
+				sQuery += " AND tp.itemName = '$processid' AND tp.itemValue =" + iProcessID;
 
 			sQuery += " AND td.itemName = 'datdate' ";
 
 			if (datFrom != null)
 
-				sQuery += " AND td.itemValue >= '" + formatter.format(datFrom)
-						+ "' ";
+				sQuery += " AND td.itemValue >= '" + formatter.format(datFrom) + "' ";
 
 			if (datTo != null) {
 				// format '2008-09-15'
@@ -359,23 +335,18 @@ public class TimesheetController extends ChildWorkitemController implements
 				Calendar calTo = Calendar.getInstance();
 				calTo.setTime(datTo);
 				calTo.add(Calendar.DAY_OF_MONTH, 1);
-				sQuery += " AND td.itemValue < '"
-						+ formatter.format(calTo.getTime()) + "' ";
+				sQuery += " AND td.itemValue < '" + formatter.format(calTo.getTime()) + "' ";
 			}
 
 			sQuery += " ORDER BY td.itemValue DESC";
 
-			logger.info("TimeSheetMB loadFilterTimeSheet - query=" + sQuery);
-			Collection<ItemCollection> col = entityService.findAllEntities(
-					sQuery, 0, -1);
+			logger.fine("loadFilterTimeSheet - query=" + sQuery);
+			Collection<ItemCollection> col = entityService.findAllEntities(sQuery, 0, -1);
 
 			for (ItemCollection aworkitem : col) {
 				filterTimeSheet.add((this.cloneWorkitem(aworkitem)));
 				computeSummaryOfNumberValues(aworkitem, filterTimeSheetSummary);
 			}
-		} catch (Exception ee) {
-			filterTimeSheet = null;
-			ee.printStackTrace();
 		}
 
 	}
@@ -389,8 +360,7 @@ public class TimesheetController extends ChildWorkitemController implements
 	 * @param aworkitem
 	 * @param summaryWorkitem
 	 */
-	private void computeSummaryOfNumberValues(ItemCollection aworkitem,
-			ItemCollection summaryWorkitem) {
+	private void computeSummaryOfNumberValues(ItemCollection aworkitem, ItemCollection summaryWorkitem) {
 		// test if attributes can be summaries into the
 		// myTimeSheetSummary.
 		// iterate over all items
@@ -409,13 +379,11 @@ public class TimesheetController extends ChildWorkitemController implements
 					}
 					if (ff != 0) {
 						logger.fine("compute summary " + ff);
-						double dSummary = summaryWorkitem
-								.getItemValueDouble(key.toString());
+						double dSummary = summaryWorkitem.getItemValueDouble(key.toString());
 						for (Object d : v) {
 							dSummary += Double.valueOf(d.toString());
 						}
-						summaryWorkitem.replaceItemValue(key.toString(),
-								dSummary);
+						summaryWorkitem.replaceItemValue(key.toString(), dSummary);
 					}
 				}
 
@@ -439,45 +407,33 @@ public class TimesheetController extends ChildWorkitemController implements
 	 * after processing a child workItem to close the editor section. The method
 	 * also verifies if the property 'datdate' is provided.
 	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public String process(int id) throws AccessDeniedException,
-			ProcessingErrorException {
-
-		// !!! Migration of old history data !!!
-		// fix bug in old history log -validate txtworkflowhistorylog and remove
-		// empty entries
-		List<String> oldList = this.getWorkitem().getItemValue(
-				"txtworkflowhistorylog");
-		List<String> newList = new ArrayList<String>();
-		if (oldList.size() > 0) {
-			for (String oldEntry : oldList) {
-				if (!oldEntry.isEmpty() && oldEntry.contains(":"))
-					newList.add(oldEntry);
-			}
-			this.getWorkitem().replaceItemValue("txtworkflowhistorylog",
-					newList);
-		} else {
-			this.getWorkitem().removeItem("txtworkflowhistorylog");
-
-		}
-
-		// test if datdate is set
-		if (this.getWorkitem().getItemValueDate("datdate") == null)
-			this.getWorkitem().replaceItemValue("datdate", new Date());
-
-		// test if _duration is set
-		if ("".equals(this.getWorkitem().getItemValueString("_duration")))
-			this.getWorkitem().replaceItemValue("_duration", 0);
-
-		String result = null;
-		try {
-			result = super.process(id);
-		} catch (PluginException e) {
-			ErrorHandler.handlePluginException(e);
-		}
-		reset(null);
-		return result;
-	}
-
+	/*
+	 * @SuppressWarnings("unchecked")
+	 * 
+	 * @Override public String process(int id) throws AccessDeniedException,
+	 * ProcessingErrorException {
+	 * 
+	 * // !!! Migration of old history data !!! // fix bug in old history log
+	 * -validate txtworkflowhistorylog and remove // empty entries List<String>
+	 * oldList = this.getWorkitem().getItemValue("txtworkflowhistorylog");
+	 * List<String> newList = new ArrayList<String>(); if (oldList.size() > 0) {
+	 * for (String oldEntry : oldList) { if (!oldEntry.isEmpty() &&
+	 * oldEntry.contains(":")) newList.add(oldEntry); }
+	 * this.getWorkitem().replaceItemValue("txtworkflowhistorylog", newList); }
+	 * else { this.getWorkitem().removeItem("txtworkflowhistorylog");
+	 * 
+	 * }
+	 * 
+	 * // test if datdate is set if
+	 * (this.getWorkitem().getItemValueDate("datdate") == null)
+	 * this.getWorkitem().replaceItemValue("datdate", new Date());
+	 * 
+	 * // test if _duration is set if
+	 * ("".equals(this.getWorkitem().getItemValueString("_duration")))
+	 * this.getWorkitem().replaceItemValue("_duration", 0);
+	 * 
+	 * String result = null; try { result = super.process(id); } catch
+	 * (PluginException e) { ErrorHandler.handlePluginException(e); }
+	 * reset(null); return result; }
+	 */
 }

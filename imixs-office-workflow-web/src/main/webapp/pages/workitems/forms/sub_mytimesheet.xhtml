@@ -17,6 +17,9 @@
 .timeseetcollong {
 	width: 250px;
 }
+.timeseetcolfull {
+	width: 90%;
+}
 </style>
 
 	<script type="text/javascript">
@@ -70,12 +73,14 @@
 	</script>
 
 
+	<!-- show my timesheet entries -->
+	
 	<h:panelGroup id="timesheet_panel"
 		binding="#{mytimesheetListComponent}">
 		<!-- TimeSheet Data Table  -->
 		<h:dataTable id="timesheetdatatable" value="#{timesheetController.myTimeSheet}"
 			var="child" styleClass="imixsdatatable" style="width:100%"
-			columnClasses="timeseetcolmedium,timeseetcolshort,timeseetcollong,timeseetcolshort,timeseetcolshort">
+			columnClasses="timeseetcolmedium,timeseetcolshort,timeseetcolfull,timeseetcolshort,timeseetcolshort">
 
 			<h:column>
 				<f:facet name="header">
