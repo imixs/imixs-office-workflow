@@ -17,11 +17,15 @@
 				</div>
 				<div class="imixs-body">
 					<div class="imixs-form-panel">
-
 						<p>
 							#{message['login.authorization_error_help']}<br /> <br /> <br />
 						</p>
-						<h:commandButton value="#{message.prev}" action="home" />
+						<h:commandButton action="logout" immediate="true"
+							title="#{message['nav.logout']}" value="#{message['nav.logout']}"
+							actionListener="#{loginController.doLogout}">
+
+						</h:commandButton>
+
 					</div>
 				</div>
 			</div>

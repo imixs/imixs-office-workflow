@@ -1,7 +1,9 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	template="/layout/template.xhtml">
 
 	<ui:define name="content">
@@ -51,16 +53,54 @@
 								</f:facet>
 
 
-								<h:panelGroup styleClass="typcn typcn-tick imixs-state-success"
-									rendered="#{record.item['$processid'] ge 210}" />
+								
+<!--  compute access icon -->
+								<ui:fragment
+									rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Manager') gt -1}">
+									<h:panelGroup
+										styleClass="typcn typcn-spanner #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
 
-								<h:panelGroup styleClass="typcn typcn-warning imixs-state-error"
-									rendered="#{record.item['$processid'] lt 210}" />
+								</ui:fragment>
+								<ui:fragment
+									rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Manager') eq -1}">
+									<ui:fragment
+										rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Editor') gt -1}">
+										<h:panelGroup
+											styleClass="typcn typcn-pencil #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
+
+									</ui:fragment>
+									<ui:fragment
+										rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Editor') eq -1}">
+										<ui:fragment
+											rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Author') gt -1}">
+											<h:panelGroup
+												styleClass="typcn typcn-edit #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
+
+										</ui:fragment>
+										<ui:fragment
+											rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Author') eq -1}">
+											<ui:fragment
+												rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Reader') gt -1}">
+												<h:panelGroup
+													styleClass="typcn typcn-eye-outline #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
+
+											</ui:fragment>
+											<ui:fragment
+												rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Reader') eq -1}">
+												<h:panelGroup
+													styleClass="typcn typcn-lock-closed #{(record.item['$processid'] ge 210)?'imixs-state-warning':'imixs-state-error'} " />
+
+											</ui:fragment>
+										</ui:fragment>
+									</ui:fragment>
+								</ui:fragment>
 
 
 
 								<h:commandLink styleClass="imixs-viewentry-main-link"
 									action="#{workflowController.load(record.item['$uniqueid'],'profile')}">
+									<f:setPropertyActionListener value="/pages/admin/profilelist"
+										target="#{workflowController.defaultActionResult}" />
 									<h:outputText value="#{record.item['txtName']} " />
 								</h:commandLink>
 
@@ -75,7 +115,9 @@
 
 							<h:column>
 								<f:facet name="header">#{message['profile.deputy']}</f:facet>
-								<h:outputText value="#{userController.getUserName(record.item['namDeputy'])}" title="#{record.item['namDeputy']}" />
+								<h:outputText
+									value="#{userController.getUserName(record.item['namDeputy'])}"
+									title="#{record.item['namDeputy']}" />
 							</h:column>
 
 
