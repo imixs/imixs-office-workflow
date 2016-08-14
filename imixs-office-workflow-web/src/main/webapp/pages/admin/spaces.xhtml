@@ -8,10 +8,40 @@
 	<ui:define name="content">
 		<script type="text/javascript">
 			/*<![CDATA[*/
+			           
+			// The following code is used to layout the tables with the jquery datatable plugin.
+			$(document).ready(function() {
+				updateTableLayout();
+			});
+
+			
 			function updateTable(e) {
 				if (e.status == 'success') {
 					$('.imixsdatatable').layoutImixsTable()
 				}
+			}
+			
+			
+			function updateTableLayout() {
+				
+				$('[id$=spacetable]').each(function() {
+					console.log("layout table...");
+					// with the following line we test if the jsf datatable realy contains data 
+					// in cases with empty rows on default column is displayed.
+					//alert($('tbody tr:nth-child(1) td',adatatable).length);
+					if ($('tbody tr:nth-child(1) td', $(this)).length > 1)
+						$(this).dataTable({
+							"bRetrieve" : true,
+							"iDisplayLength" : 30,
+							"bLengthChange" : false,
+							"bSortable" : false,
+							"bJQueryUI" : true,
+							'aaSorting' : [] // no inital sorting 						
+						}
+						);
+				});
+				
+				
 			}
 			/*]]>*/
 		</script>
@@ -26,7 +56,7 @@
 					</div>
 
 					<div class="imixs-body">
-						<h:dataTable id="view_body"
+						<h:dataTable id="spacetable"
 							value="#{spaceViewController.workitems}" var="record"
 							styleClass="imixsdatatable">
 
@@ -34,21 +64,7 @@
 							<h:column>
 								<f:facet name="header">
 									<h:panelGroup>
-										<h:commandLink value="#{message.name}">
-											<f:setPropertyActionListener
-												target="#{spaceViewController.view}"
-												value="worklist.name.asc" />
-											<f:ajax render="view_body" onevent="updateTable" />
-
-
-											<h:panelGroup
-												styleClass="typcn typcn-arrow-sorted-down imixs-state-info"
-												rendered="#{spaceViewController.view == 'worklist.name.asc'}"></h:panelGroup>
-											<h:panelGroup
-												styleClass="typcn typcn-arrow-unsorted imixs-state-info"
-												rendered="#{spaceViewController.view ne 'worklist.name.asc'}"></h:panelGroup>
-
-										</h:commandLink>
+										<h:outputText value="#{message.name}"/>											
 									</h:panelGroup>
 								</f:facet>
 								<h:commandLink styleClass="imixs-viewentry-main-link"
@@ -65,23 +81,14 @@
 							<h:column >
 								<f:facet name="header">
 									<h:panelGroup>
-										<h:commandLink value="#{message.modified}">
-											<f:setPropertyActionListener
-												target="#{processViewController.view}"
-												value="worklist.modified.desc" />
-											<f:setPropertyActionListener value="/pages/admin/spaces" target="#{workflowController.defaultActionResult}"/>	
-											<f:ajax render="view_body" onevent="updateTable" />
-
-											<h:panelGroup
-												styleClass="typcn typcn-arrow-sorted-down imixs-state-info"
-												rendered="#{processViewController.view == 'worklist.modified.desc'}"></h:panelGroup>
-											<h:panelGroup
-												styleClass="typcn typcn-arrow-unsorted imixs-state-info"
-												rendered="#{processViewController.view ne 'worklist.modified.desc'}"></h:panelGroup>
-
-										</h:commandLink>
+										<h:outputText value="#{message.modified}"/>
 									</h:panelGroup>
 								</f:facet>
+								<!-- hidden sort field  -->
+								<h:outputText value="#{record.item['$modified']}" style="display:none">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="yyyyMMdd" />
+								</h:outputText>
 								<h:outputText value="#{record.item['$modified']}">
 									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 										pattern="#{message.dateTimePattern}" />
@@ -158,15 +165,6 @@
 
 
 					<div class="imixs-footer">
-						<h:commandButton
-							actionListener="#{spaceViewController.doLoadPrev}"
-							disabled="#{spaceViewController.row==0}" value="#{message.prev}">
-						</h:commandButton>
-						<h:commandButton
-							actionListener="#{spaceViewController.doLoadNext}"
-							disabled="#{spaceViewController.endOfList}"
-							value="#{message.next}">
-						</h:commandButton>
 						<h:commandButton value="#{message.add}"
 							action="/pages/admin/space"
 							actionListener="#{workflowController.create}">
