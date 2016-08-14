@@ -53,6 +53,7 @@
 								</f:facet>
 								<h:commandLink styleClass="imixs-viewentry-main-link"
 									action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/space.xhtml')}">
+									<f:setPropertyActionListener value="/pages/admin/spaces" target="#{workflowController.defaultActionResult}"/>
 									<h:outputText value="#{record.item['txtName']}" />
 									<h:outputText rendered="#{empty record.item['txtName']}"
 										value=" - no name - " />
@@ -68,6 +69,7 @@
 											<f:setPropertyActionListener
 												target="#{processViewController.view}"
 												value="worklist.modified.desc" />
+											<f:setPropertyActionListener value="/pages/admin/spaces" target="#{workflowController.defaultActionResult}"/>	
 											<f:ajax render="view_body" onevent="updateTable" />
 
 											<h:panelGroup
@@ -118,7 +120,7 @@
 								<h:commandLink title="#{message.edit}"
 									styleClass="imixs-viewentry-action-link"
 									action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/space.xhtml')}">
-
+									<f:setPropertyActionListener value="/pages/admin/spaces" target="#{workflowController.defaultActionResult}"/>
 									<span class="typcn typcn-pencil imixs-state-info"></span>
 									#{message.edit}
 								</h:commandLink>
@@ -128,11 +130,12 @@
 									title="#{message.add}"
 									actionListener="#{workflowController.create}"
 									action="/pages/admin/space.xhtml">
+									<f:setPropertyActionListener value="/pages/admin/spaces" target="#{workflowController.defaultActionResult}"/>
 									<span class="typcn typcn-flow-children imixs-state-info"></span>#{message.add}
 									
 									<f:setPropertyActionListener
 										target="#{workflowController.workitem.item['$modelVersion']}"
-										value="#{modelController.systemModelVersion}" />
+										value="#{app.workflowversion_system}" />
 									<f:setPropertyActionListener
 										target="#{workflowController.workitem.item['$ProcessID']}"
 										value="100" />

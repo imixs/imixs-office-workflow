@@ -53,6 +53,7 @@
 								</f:facet>
 								<h:commandLink styleClass="imixs-viewentry-main-link"
 									action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/process.xhtml')}">
+									<f:setPropertyActionListener value="/pages/admin/processlist" target="#{workflowController.defaultActionResult}"/>
 									<h:outputText value="#{record.item['txtName']}" />
 									<h:outputText rendered="#{empty record.item['txtName']}"
 										value=" - no name - " />
@@ -145,6 +146,7 @@
 								<h:commandLink title="#{message.edit}"
 									styleClass="imixs-viewentry-action-link"
 									action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/process.xhtml')}">
+									<f:setPropertyActionListener value="/pages/admin/processlist" target="#{workflowController.defaultActionResult}"/>
 									<span class="typcn typcn-pencil imixs-state-info"></span>
 								#{message.edit}
 								</h:commandLink>

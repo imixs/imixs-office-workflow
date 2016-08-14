@@ -57,10 +57,9 @@
 								<h:panelGroup styleClass="typcn typcn-warning imixs-state-error"
 									rendered="#{record.item['$processid'] lt 210}" />
 
-
-
 								<h:commandLink styleClass="imixs-viewentry-main-link"
 									action="#{workflowController.load(record.item['$uniqueid'],'profile')}">
+									<f:setPropertyActionListener value="/pages/admin/profilelist" target="#{workflowController.defaultActionResult}"/>
 									<h:outputText value="#{record.item['txtName']} " />
 								</h:commandLink>
 
