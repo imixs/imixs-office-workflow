@@ -14,7 +14,6 @@
 				<tr>
 					<th style="width: 50px;">Pos.</th>
 					<th>Leistungsbezeichnung</th>
-					<th style="width: 120px;">Kostenstelle</th>
 					<th style="width: 70px;">Einheit</th>
 					<th style="width: 70px;">Menge</th>
 					<th style="width: 140px;">Netto-Preis / ME in €</th>
@@ -33,14 +32,7 @@
 						<!-- Name -->
 						<td><h:outputText value="#{orderitem.item['name']}" /></td>
 						
-						<td>
-							<ui:param name="space"
-							value="#{processController.getSpaceById(orderitem.item['txtspaceref'])}"></ui:param>
-				
 						
-						<h:outputText 
-						value="#{space.item['txtname']}"></h:outputText>
-					</td>
 						<td><h:outputText value="#{orderitem.item['unit']}" /></td>
 
 						<td><h:outputText value="#{orderitem.item['ammount']}"
@@ -67,7 +59,7 @@
 				<!-- summary -->
 				<tr>
 					<td />
-					<td />
+				
 					<td />
 					<td />
 					<td />
