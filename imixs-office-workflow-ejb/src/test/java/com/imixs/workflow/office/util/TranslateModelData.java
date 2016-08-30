@@ -17,7 +17,7 @@ import javax.xml.bind.Marshaller;
 import junit.framework.Assert;
 
 import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.xml.EntityCollection;
+import org.imixs.workflow.xml.DocumentCollection;
 import org.imixs.workflow.xml.XMLItemCollectionAdapter;
 import org.junit.After;
 import org.junit.Before;
@@ -160,7 +160,7 @@ public class TranslateModelData {
 		modelData = translateModelData(modelData);
 
 		// create JAXB object
-		EntityCollection xmlCol = null;
+		DocumentCollection xmlCol = null;
 		try {
 			xmlCol = XMLItemCollectionAdapter.putCollection(modelData);
 		} catch (Exception e1) {
@@ -175,7 +175,7 @@ public class TranslateModelData {
 			String sTargetFile = setup.getProperty("org.imixs.model.target");
 			file = new File(sTargetFile);
 			JAXBContext jaxbContext = JAXBContext
-					.newInstance(EntityCollection.class);
+					.newInstance(DocumentCollection.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
 			// output pretty printed

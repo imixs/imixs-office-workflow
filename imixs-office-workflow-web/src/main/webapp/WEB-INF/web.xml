@@ -54,25 +54,37 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
-
-
-	<!-- Imixs REST Service -->
+	
+	
+	<!-- Imixs REST Service --> 
+	<context-param>
+	    <param-name>resteasy.scan</param-name>
+	    <param-value>true</param-value>
+	</context-param>	
+	<listener>
+	    <listener-class>
+	        org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
+	    </listener-class>
+	</listener>
 	<servlet>
-		<servlet-name>ImixsRestService</servlet-name>
-		<!-- GlassFish 3.2 -->
-		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-		<!-- GlassFish 4 
-		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
-		-->
-		<init-param>
-			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>org.imixs.workflow.jaxrs</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
+	    <servlet-name>ImixsRestService</servlet-name>
+	    <servlet-class>
+	        org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+	    </servlet-class>
+	    <init-param>
+	        <param-name>resteasy.resources</param-name>
+	        <param-value>
+	            org.imixs.workflow.jaxrs   
+	        </param-value>
+	    </init-param>
+	    <init-param>
+	        <param-name>resteasy.servlet.mapping.prefix</param-name>
+	        <param-value>/rest-service/</param-value>
+	  	</init-param>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>ImixsRestService</servlet-name>
-		<url-pattern>/rest-service/*</url-pattern>
+	    <servlet-name>ImixsRestService</servlet-name>
+	    <url-pattern>/rest-service/*</url-pattern>
 	</servlet-mapping>
 		
 	
@@ -99,18 +111,10 @@
 	</error-page>
 
 
-
-	<!-- Login Modul - Browser-Login 
-	<login-config>
-		<auth-method>BASIC</auth-method>
-		<realm-name>imixsrealm</realm-name>
-	</login-config>
-	-->
-
-	<!-- Login Modul - Formular-Login -->
+	<!-- Login Modul - Formular-Login  -->
 	 <login-config> 
 	 	<auth-method>FORM</auth-method> 
-		<realm-name>imixsrealm</realm-name> 
+		<realm-name>${imixs-office.realm}</realm-name> 
 		<form-login-config> 
 			<form-login-page>/login.jsf</form-login-page> 
 			<form-error-page>/loginerror.jsf</form-error-page> 

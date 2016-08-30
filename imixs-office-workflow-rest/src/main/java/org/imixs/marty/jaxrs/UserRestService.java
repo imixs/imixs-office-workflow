@@ -46,7 +46,8 @@ import javax.ws.rs.core.MediaType;
 
 import org.imixs.marty.ejb.ProfileService;
 import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.xml.EntityCollection;
+import org.imixs.workflow.engine.DocumentService;
+import org.imixs.workflow.xml.DocumentCollection;
 import org.imixs.workflow.xml.XMLItemCollectionAdapter;
 
 /**
@@ -67,7 +68,7 @@ public class UserRestService implements Serializable {
 	private static Logger logger = Logger.getLogger(UserRestService.class.getSimpleName());
 
 	@EJB
-	org.imixs.workflow.jee.ejb.EntityService entityService;
+	DocumentService documentService;
 
 	@EJB
 	ProfileService profileService;
@@ -79,7 +80,7 @@ public class UserRestService implements Serializable {
 	 */
 	@GET
 	@Path("/favorites")
-	public EntityCollection getFavorites(
+	public DocumentCollection getFavorites(
 			@Context HttpServletRequest servletRequest) {
 		Collection<ItemCollection> col = null;
 		try {
@@ -91,32 +92,34 @@ public class UserRestService implements Serializable {
 			// create a JPQL statement....
 
 			// create IN list
-			String inStatement = "";
+			String inStatement = "(";
 			for (String aID : favorites) {
-				inStatement = inStatement + "'" + aID + "',";
+				inStatement = inStatement + "\"$uniqueid:" + aID + "\" OR ";
 			}
 			// cut last ,
-			inStatement = inStatement.substring(0, inStatement.length() - 1);
+			inStatement = inStatement.substring(0, inStatement.length() - 3) + ")";
 
-			String sQuery = "SELECT DISTINCT wi FROM Entity AS wi ";
-			sQuery += " WHERE wi.type IN ('workitem','workitemarchive')";
-			sQuery += " AND wi.id IN (" + inStatement + ")";
-			sQuery += " ORDER BY wi.modified DESC";
+//			String sQuery = "SELECT DISTINCT wi FROM Entity AS wi ";
+//			sQuery += " WHERE wi.type IN ('workitem','workitemarchive')";
+//			sQuery += " AND wi.id IN (" + inStatement + ")";
+//			sQuery += " ORDER BY wi.modified DESC";
+			
+			String sQuery="( (type:\"workitem\" OR type:\"workitem\") AND " + inStatement + ")";
 
-			col = entityService.findAllEntities(sQuery, 0, -1);
+			col = documentService.find(sQuery,0,-1);
 
 			return XMLItemCollectionAdapter.putCollection(col);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new EntityCollection();
+		return new DocumentCollection();
 	}
 
 	@GET
 	@Path("/favorites.xml")
 	@Produces(MediaType.TEXT_XML)
-	public EntityCollection getFavoritesXML(
+	public DocumentCollection getFavoritesXML(
 			@Context HttpServletRequest servletRequest) {
 		try {
 			return getFavorites(servletRequest);
@@ -124,13 +127,13 @@ public class UserRestService implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new EntityCollection();
+		return new DocumentCollection();
 	}
 
 	@GET
 	@Path("/favorites.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public EntityCollection getFavoritesJSON(
+	public DocumentCollection getFavoritesJSON(
 			@Context HttpServletRequest servletRequest) {
 		try {
 			return getFavorites(servletRequest);
@@ -138,7 +141,7 @@ public class UserRestService implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new EntityCollection();
+		return new DocumentCollection();
 	}
 
 	/**
@@ -154,14 +157,15 @@ public class UserRestService implements Serializable {
 		if (user != null)
 			userid = user.getName();
 
-		String sQuery = "SELECT DISTINCT profile FROM Entity as profile "
-				+ " JOIN profile.textItems AS t2"
-				+ " WHERE  profile.type= 'profile' "
-				+ " AND t2.itemName = 'txtname' " + " AND t2.itemValue = '"
-				+ userid + "' ";
+//		String sQuery = "SELECT DISTINCT profile FROM Entity as profile "
+//				+ " JOIN profile.textItems AS t2"
+//				+ " WHERE  profile.type= 'profile' "
+//				+ " AND t2.itemName = 'txtname' " + " AND t2.itemValue = '"
+//				+ userid + "' ";
+		
+		String sQuery="(type:\"profile\" AND txtname:\"" + userid + "\")";
 
-		Collection<ItemCollection> col = entityService.findAllEntities(sQuery,
-				0, 1);
+		Collection<ItemCollection> col = documentService.find(sQuery,0, 1);
 
 		if (col.size() > 0)
 			profile= col.iterator().next();

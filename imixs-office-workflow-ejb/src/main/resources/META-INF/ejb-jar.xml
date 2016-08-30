@@ -9,7 +9,7 @@
 
 		<session>
 			<ejb-name>WorkflowService</ejb-name>
-			<ejb-class>org.imixs.workflow.jee.ejb.WorkflowService</ejb-class>
+			<ejb-class>org.imixs.workflow.engine.WorkflowService</ejb-class>
 			<session-type>Stateless</session-type>
 
 			<!-- Mail Configuration -->
@@ -35,16 +35,6 @@
 				<ejb-ref-name>ejb/UserGroupService</ejb-ref-name>
 				<ejb-ref-type>Session</ejb-ref-type>
 				<remote>org.imixs.marty.ejb.security.UserGroupService</remote>
-			</ejb-ref>
-			<ejb-ref>
-				<ejb-ref-name>ejb/PropertyService</ejb-ref-name>
-				<ejb-ref-type>Session</ejb-ref-type>
-				<remote>org.imixs.workflow.jee.util.PropertyService</remote>
-			</ejb-ref>
-			<ejb-ref>
-				<ejb-ref-name>ejb/LuceneUpdateService</ejb-ref-name>
-				<ejb-ref-type>Session</ejb-ref-type>
-				<remote>org.imixs.workflow.lucene.LuceneUpdateService</remote>
 			</ejb-ref>
 			<ejb-ref>
 				<ejb-ref-name>ejb/SystemWorkitemService</ejb-ref-name>
@@ -89,7 +79,7 @@
 		<!-- ImageInterceptor -->
 		<interceptor-binding>
 			<description>Intercepter to resize new uploaded photos if max size is exceeded.</description>
-			<ejb-name>EntityService</ejb-name>
+			<ejb-name>DocumentService</ejb-name>
 			<interceptor-class>org.imixs.marty.ejb.ImageInterceptor</interceptor-class>
 		</interceptor-binding>
 
