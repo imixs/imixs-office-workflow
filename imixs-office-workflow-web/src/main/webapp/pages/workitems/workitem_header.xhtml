@@ -5,11 +5,10 @@
 
 
 	<h1>
+		
 		<h:outputText
-			rendered="#{! empty workflowController.workitem.item['txtprocessname']}"
-			value="#{workflowController.workitem.item['txtprocessname']}: " />
-		<h:outputText
-			value="#{workflowController.workitem.item['txtworkflowgroup']}" />
+			value="#{workflowController.workitem.item['txtworkflowgroup']}" /> » <h:outputText
+			value=" #{workflowController.workitem.item['txtworkflowstatus']}" />
 		<!-- Display Deleted status -->
 		<h:outputText
 			rendered="#{workflowController.workitem.item['type'] eq 'workitemdeleted'}"
@@ -34,10 +33,14 @@
 			rendered="#{!empty workflowController.workitem.item['txtWorkflowSummary']}"
 			value="#{workflowController.workitem.item['txtWorkflowSummary']}" />
 		<br />
-		<h:outputLabel value="#{message.status}:" />
-		<h:outputText
-			value=" #{workflowController.workitem.item['txtworkflowstatus']}" />
-
+		<h:outputLabel value="#{message['process.title']}: " />
+			<h:commandLink action="/pages/workitems/worklist"
+							immediate="true" actionListener="#{searchController.doReset}">
+							<h:outputText value="#{workflowController.workitem.item['txtProcessName']}" />
+							<f:setPropertyActionListener
+								target="#{searchController.searchFilter.item['txtprocessRef']}"
+								value="#{workflowController.workitem.item['txtprocessRef']}" />
+			</h:commandLink>
 	</div>
 
 	<!-- sub navigation -->

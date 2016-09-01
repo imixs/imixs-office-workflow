@@ -18,14 +18,14 @@
 					<h:panelGroup
 						rendered="#{empty workitem.item['txtWorkflowSummary']}">
 						<h:outputText value="#{workitem.item['$modified']}"
-							style="font-weight: bold;">
+							styleClass="imixs-viewentry-title">
 							<f:convertDateTime timeZone="#{message.timeZone}"
 								pattern="#{message.dateTimePattern}" />
 						</h:outputText>
 						<h:outputText value=" #{workitem.item['_subject']}"
-							style="font-weight: bold;" />
+							styleClass="imixs-viewentry-title" />
 					</h:panelGroup>
-					<h:outputText style="font-weight: bold;" escape="false"
+					<h:outputText styleClass="imixs-viewentry-title"  escape="false"
 						value="#{workitem.item['txtWorkflowSummary']}" />
 				<f:param name="id" value="#{workitem.item['$uniqueid']}"/>
 			</h:link>
@@ -33,38 +33,38 @@
 			<br />
 			<!-- Status -->
 			<h:outputText style="font-weight: bold;"
-				value="#{workitem.item['txtworkflowgroup']}: " />
-			<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
+				value="#{workitem.item['txtworkflowgroup']}" />
+			<h:outputText value=" » #{workitem.item['txtworkflowstatus']}" />
 			<h:outputText value=" (#{workitem.item['txtprocessname']})" />
 
-			<!-- Created/ Modified -->
-			<br /> <span> <h:outputText style="font-weight: bold;"
-					value="#{message.created}: " /> <h:outputText
-					value="#{workitem.item['$created']}" style="font-weight: normal;">
-					<f:convertDateTime timeZone="#{message.timeZone}"
-						pattern="#{message.dateTimePattern}" />
-				</h:outputText> <h:outputText style="font-weight: bold;" value=" #{message.by}: " />
-				<h:outputText
-					value="#{userController.getUserName(workitem.item['namCreator'])}" />
-			</span> <span style="margin-left: 10px;"> <h:outputText
-					style="font-weight: bold;" value="#{message.modified}: " /> <h:outputText
-					value="#{workitem.item['$modified']}" style="font-weight: normal;">
-					<f:convertDateTime timeZone="#{message.timeZone}"
-						pattern="#{message.dateTimePattern}" />
-				</h:outputText> <h:outputText style="font-weight: bold;" value=" #{message.by}: " />
-				<h:outputText
-					value="#{userController.getUserName(workitem.item['namCurrentEditor'])}" />
-			</span>
+			
 
 			<!-- display owner -->
 			<h:panelGroup rendered="#{! empty workitem.item['namowner']}">
-				<br />
-				<h:outputText style="font-weight: bold; mxargin-left:16px;"
-					value="#{message.owner}: " />
+				<div style="clear:left;" />
 				<ui:repeat value="#{workitem.itemList['namowner']}" var="name">
-					<h:outputText value="#{userController.getUserName(name)}, " />
+
+					<ui:param name="profile" value="#{userController.getProfile(name)}"></ui:param>
+
+					<h:panelGroup layout="block" rendered="#{!empty profile}"
+						styleClass="imixs-user-icon" style="float: left;">
+
+						<div title=" ">
+							<h:graphicImage rendered="#{! empty profile.item['txtusericon']}"
+								value="/rest-service/workflow/workitem/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
+							</h:graphicImage>
+
+							<h:outputText rendered="#{empty profile.item['txtusericon']}"
+								value="#{profile.item['txtinitials']}" />
+						</div>
+						<!-- Tooltip -->
+						<h:panelGroup class="imixs-tooltip">
+							#{profile.item['txtusername']}
+						</h:panelGroup>
+					</h:panelGroup>
 				</ui:repeat>
 			</h:panelGroup>
+
 
 
 		</div>
