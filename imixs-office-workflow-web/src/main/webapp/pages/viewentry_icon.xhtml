@@ -27,6 +27,17 @@
 		</h:outputText>
 		<h:outputText
 			value=" #{message.by} #{userController.getUserName(workitem.item['namCreator'])}" />
+			
+		<!-- Modified --> 
+			<br /> <span> <h:outputText style="font-weight: bold;"
+					value="#{message.edited}: " /> <h:outputText
+					value="#{workitem.item['$modified']}" style="font-weight: normal;">
+					<f:convertDateTime timeZone="#{message.timeZone}"
+						pattern="#{message.dateTimePattern}" />
+				</h:outputText>
+				<h:outputText
+				value=" #{message.by} #{userController.getUserName(workitem.item['namCurrentEditor'])}" />
+			</span>
 		<hr />
 		<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
 			escape="false" />
