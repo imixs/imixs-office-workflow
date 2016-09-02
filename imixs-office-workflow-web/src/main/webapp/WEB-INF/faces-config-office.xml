@@ -27,7 +27,7 @@
 		<managed-property>
 			<property-name>query</property-name>
 			<property-class>java.lang.String</property-class>
-			<value>(type:"workitem" AND namowner:"rsoika")</value>
+			<value>(type:"workitem" AND namowner:"#{loginController.remoteUser}")</value>
 		</managed-property>
 	</managed-bean>
 
@@ -50,7 +50,7 @@
 		<managed-property>
 			<property-name>query</property-name>
 			<property-class>java.lang.String</property-class>
-			<value>(type:"workitem" AND namowner:"rsoika")</value>
+			<value>(type:"workitem" AND namcreator:"#{loginController.remoteUser}")</value>
 		</managed-property>
 	</managed-bean>
 	

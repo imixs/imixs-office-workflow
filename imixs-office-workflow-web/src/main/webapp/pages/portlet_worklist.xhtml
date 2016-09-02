@@ -28,7 +28,7 @@
 			<!-- single view mode -->
 			<h:panelGroup rendered="#{!tabMode}">
 				<ul>
-					<li class="active"><h:outputText value="??was soll hier stehen??" />
+					<li class="active"><h:outputText value="#{title}" />
 					</li>
 				</ul>
 			</h:panelGroup>
@@ -53,7 +53,7 @@
 			<h:panelGroup layout="block" id="portlet_worklist_nav"
 				class="imixs-footer">
 				<span style="margin-right: 10px;"> <h:commandLink
-						actionListener="#{view.doLoadPrev}" disabled="#{view.row == 0}"
+						actionListener="#{view.doLoadPrev}" disabled="#{view.pageIndex == 0}"
 						value="#{message.prev}">
 						<f:ajax render="portlet_worklist_body" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 					</h:commandLink>

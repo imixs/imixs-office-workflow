@@ -95,7 +95,13 @@
 		
 		<!-- imixs-github-repo on github - see ~/.m2/settings.xml -->
     	<github.global.server>imixs-github-repo</github.global.server>
+    	
+    	
+    	<!-- Wildfly unpack war -->
+    	<custom.unpackTypes>war</custom.unpackTypes>
 	</properties>
+
+
 
 
 	<!-- Imixs Repo -->
@@ -116,7 +122,10 @@
 			<id>glassfish4</id>
 			<properties>
 				<custom.webResources>src/main/webapp_glassfish4</custom.webResources>
+				<!-- do not unpack war -->
+    			<custom.unpackTypes></custom.unpackTypes>
 			</properties>
+			
 		</profile>
 	</profiles>
 
