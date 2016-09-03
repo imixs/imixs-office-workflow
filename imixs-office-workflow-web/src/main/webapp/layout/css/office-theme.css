@@ -84,7 +84,7 @@ dl dt {
 
 #imixs-header {
 	/* #ECF3F8; */
-	background-color: #F4F4F4;
+	background-color: #f9f9fB;
 	margin-top: 46px;
 	min-height: 60px;
 }
@@ -245,8 +245,7 @@ dl dt {
 }
 
 #imixs-historynav {
-	xmargin-bottom: 16px;
-	xborder-bottom: 1px solid #CCC;
+	border-bottom: 1px solid #aedff2;
 	padding: 5px 0 0 5px;
 }
 
@@ -401,6 +400,18 @@ dl dt {
 	border-radius: 4px;
 }
 
+.imixs-viewentry .imixs-viewentry-title {
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.imixs-viewentry .content-block {
+	font-size:0.9em;
+}
+
+
+
+
 /*  Imixs Portlet  */
 .imixs-portlet {
 	width: 33.3333%;
@@ -486,15 +497,6 @@ dl dt {
 	border-bottom: 1px solid #eee;
 }
 
-/* .imixs-portlet */ 
-.imixs-viewentry .imixs-viewentry-title {
-	font-weight: bold;
-	font-size: 16px;
-}
-
-.imixs-viewentry .content-block {
-	font-size:0.9em;
-}
 
 /*
  * Reports 
@@ -511,23 +513,31 @@ dl dt {
 	font-size: 20px;
 }
 
-
+ 
 /* 
  * Die Klasse viewentry wird für die Darstellung von Views verwendet.
  * die Klasse wird als RowClass im element rich:dataList  verwendet
  * 
  */
 .imixs-viewentry {
-	margin: 5px 0 20px;
+	margin: 5px 0 10px;	
+	min-height: 75px; 
+	border-bottom: 1px solid #eee;
+	border-top: 1px solid #fff;
+}
+
+/* #61B1D0 */
+.imixs-viewentry:HOVER {
+	background: #f9f9fB;
+	border-top: 1px solid #aedff2;
+	border-bottom: 1px solid #aedff2;
+	
 }
 
 .imixs-viewentry-nav {
 	border-top: 1px solid #FFD7A8;
 }
 
-.imixs-viewentry:HOVER {
-	background: #f3f3f3;
-}
 
 .imixs-viewentry-details h3 {
 	border-bottom: 1px solid silver;
@@ -851,9 +861,7 @@ dl dd  .imixs-datetime-picker select {
 .image-block {
 	float: left;
 	min-width: 40px;
-	margin-right: 2px;
-	margin-left: 2px;
-	margin-bottom: 0px;
+	margin: 4px 2px 0px 2px;
 	position: relative;
 }
 
@@ -866,7 +874,7 @@ dl dd  .imixs-datetime-picker select {
 
 .imixs-favorite {
 	position: absolute;
-	top: 40px;
+	top: 37px;
 	color: #999;
 	font-size: 24px;
 	line-height: 1em;
