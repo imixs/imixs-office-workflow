@@ -13,6 +13,7 @@ import org.imixs.marty.workflow.ChildWorkitemController;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ItemCollectionComparator;
 import org.imixs.workflow.WorkflowKernel;
+import org.imixs.workflow.exceptions.QueryException;
 
 /**
  * The MinuteController is a session scoped backing bean to provide a list of
@@ -57,10 +58,14 @@ public class MinuteController extends ChildWorkitemController implements Seriali
 				sQuery="( (type:\"workitem\" OR type:\"childworkitem\" OR type:\"workitemarchive\" OR type:\"childworkitemarchive\") ";
 				sQuery+=" AND ($uniqueidref:\"" + uniqueIdRef + "\") ";
 				
-				minutes = this.getDocumentService().find(sQuery, 0, -1);
+				try {
+					minutes = this.getDocumentService().find(sQuery, 999,0);
+					// sort by numsequencenumber
+					Collections.sort(minutes, new ItemCollectionComparator("numsequencenumber", true));
+				} catch (QueryException e) {
+					logger.warning("loadWorkitems - invalid query: " + e.getMessage());
+				}
 				
-				// sort by numsequencenumber
-				Collections.sort(minutes, new ItemCollectionComparator("numsequencenumber", true));
 			
 			}
 		}

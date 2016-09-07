@@ -48,6 +48,7 @@ import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
+import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.util.LoginController;
 import org.imixs.workflow.jee.ejb.EntityService;
 
@@ -262,12 +263,18 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 			sQuery += " ORDER BY td.itemValue DESC";
 
 			logger.fine("TimeSheetMB loadMyTimeSheet - query=" + sQuery);
-			Collection<ItemCollection> col =  getDocumentService().find(sQuery, 0, -1);
+			Collection<ItemCollection> col;
+			try {
+				col = getDocumentService().find(sQuery, 999,0);
 
-			for (ItemCollection aworkitem : col) {
-				myTimeSheet.add((this.cloneWorkitem(aworkitem)));
-				computeSummaryOfNumberValues(aworkitem, myTimeSheetSummary);
+				for (ItemCollection aworkitem : col) {
+					myTimeSheet.add((this.cloneWorkitem(aworkitem)));
+					computeSummaryOfNumberValues(aworkitem, myTimeSheetSummary);
+				}
+			} catch (QueryException e) {
+				logger.warning("loadMyTimeSheet - invalid query: " + e.getMessage());
 			}
+
 		}
 
 	}
@@ -339,12 +346,18 @@ logger.warning("TBD - migration jpql...");
 			sQuery += " ORDER BY td.itemValue DESC";
 
 			logger.fine("loadFilterTimeSheet - query=" + sQuery);
-			Collection<ItemCollection> col = getDocumentService().find(sQuery, 0, -1);
-
-			for (ItemCollection aworkitem : col) {
-				filterTimeSheet.add((this.cloneWorkitem(aworkitem)));
-				computeSummaryOfNumberValues(aworkitem, filterTimeSheetSummary);
+			Collection<ItemCollection> col;
+			try {
+				col = getDocumentService().find(sQuery, 999,0);
+				for (ItemCollection aworkitem : col) {
+					filterTimeSheet.add((this.cloneWorkitem(aworkitem)));
+					computeSummaryOfNumberValues(aworkitem, filterTimeSheetSummary);
+				}
+			} catch (QueryException e) {
+				logger.warning("loadFilterTimeSheet - invalid query: " + e.getMessage());
 			}
+
+			
 		}
 
 	}

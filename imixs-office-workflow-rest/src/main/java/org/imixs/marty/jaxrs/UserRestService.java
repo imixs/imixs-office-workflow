@@ -47,6 +47,7 @@ import javax.ws.rs.core.MediaType;
 import org.imixs.marty.ejb.ProfileService;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.DocumentService;
+import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.xml.DocumentCollection;
 import org.imixs.workflow.xml.XMLItemCollectionAdapter;
 
@@ -165,12 +166,15 @@ public class UserRestService implements Serializable {
 		
 		String sQuery="(type:\"profile\" AND txtname:\"" + userid + "\")";
 
-		Collection<ItemCollection> col = documentService.find(sQuery,0, 1);
-
-		if (col.size() > 0)
-			profile= col.iterator().next();
-		
-
+		Collection<ItemCollection> col;
+		try {
+			col = documentService.find(sQuery,1,0);
+			if (col.size() > 0) {
+				profile= col.iterator().next();
+			}
+		} catch (QueryException e) {
+			logger.warning("getFavoriteIds - invalid query: " + e.getMessage());
+		}
 		if (profile == null)
 			return new ArrayList<String>();
 		return profile.getItemValue("txtWorkitemRef");
