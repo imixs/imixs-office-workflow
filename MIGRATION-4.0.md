@@ -52,4 +52,29 @@ Redeploy the application to reset the model store
 	22:17:47,755 FINE  [org.imixs.workflow.jee.ejb.EntityService] (default task-34) [EntityService] findAllEntities - Startpos=0 maxcount=10
 	22:17:50,269 FINE  [org.imixs.workflow.jee.ejb.EntityService] (default task-34) [EntityService] findAllEntities - getResultList in 2512 ms
 
+-----------------------------------
+
+**DocumentService**
+
+
+	18:30:22,849 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene search: pageNumber=0 pageSize=10
+	18:30:22,850 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene createIndexSearcher...
+	18:30:22,850 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene createIndexDirectory...
+	18:30:22,855 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene DefaultOperator: AND
+	18:30:22,856 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene final searchTerm=(type:"workitem") AND ($uniqueidref:"14c1454c28f-1cb3e6dd" ) AND (txtworkflowgroup:"Angebot" ) AND ($processid:"1700" ) 
+	18:30:22,857 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene result sorted by score 
+	18:30:22,868 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene returned 10 documents in 12 ms - total hits=20644
+	18:30:22,868 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene lookup $uniqueid=15673b96c3e-6be2821
+	18:30:22,874 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene lookup $uniqueid=15673c2b95c-1d400a23
+	18:30:22,882 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene lookup $uniqueid=15673c1e7be-243dbb36
+	18:30:22,890 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene lookup $uniqueid=15673c2dbfe-104f3fc3
+	18:30:22,894 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene lookup $uniqueid=15673c1522b-447b93
+	18:30:22,899 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene lookup $uniqueid=15673c510d6-123c072d
+	18:30:22,904 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene lookup $uniqueid=15673c62b41-2e7ac8c5
+	18:30:22,908 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene lookup $uniqueid=15673c5e30b-19126e51
+	18:30:22,913 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene lookup $uniqueid=15673c30993-bb0f9e6
+	18:30:22,921 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene lookup $uniqueid=15673c4f3b8-158c14a2
+	18:30:22,929 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene search result computed in 79 ms
+
+
  
