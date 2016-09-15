@@ -15,8 +15,7 @@
 				#{message['form.subject']}<span class="imixs-required">*</span>
 			</dt>
 			<dd>
-				<h:inputText required="true"
-					value="#{workitem.item['_subject']}" />
+				<h:inputText required="true" value="#{workitem.item['_subject']}" />
 			</dd>
 		</dl>
 	</div>
@@ -26,46 +25,22 @@
 				<h:outputLabel value="#{message['form.customer']}" />
 			</dt>
 			<dd>
-				<h:inputText
-					value="#{workitem.item['_customer']}" />
+				<h:inputText value="#{workitem.item['_customer']}" />
 			</dd>
 
 		</dl>
-		
+
 		<dl>
-			<dt>
-				<h:outputLabel value="#{message['form.invoicenumber']}" />
-			</dt>
-			<dd>
-				<h:inputText
-					value="#{workitem.item['_invoicenumber']}" />
-			</dd>
-		</dl>
-		
-			<dl>
 			<dt>
 				<h:outputLabel value="#{message['form.customernumber']}" />
 			</dt>
 			<dd>
-				<h:inputText
-					value="#{workitem.item['_customernumber']}" />
+				<h:inputText value="#{workitem.item['_customernumber']}" />
 			</dd>
 		</dl>
-		<dl>
-			<dt>
-				<h:outputLabel value="#{message['form.invoicedate']}" />
-			</dt>
-			<dd>
-				<h:inputText
-					value="#{workitem.item['_invoicedate']}"
-					styleClass="imixs-date" >
-					<f:convertDateTime pattern="#{message.datePatternShort}" timeZone="#{message.timeZone}"/>
-					</h:inputText>
-			</dd>
-		</dl>
-	
-		
-		
+
+
+
 		<dl>
 
 			<dt>
@@ -85,59 +60,37 @@
 					filter="$processid:6..." />
 			</dd>
 		</dl>
-		
-		
-		<dl>
-			<dt>
-				<h:outputLabel value="#{message['form.contact']}" />
-			</dt>
-			<dd>
-				<marty:workitemLink workitem="#{workflowController.workitem}"
-					hidereferences="false" filter="$processid:9..." />
-			</dd>
-		</dl>
-		</div>
-		<div class="imixs-form-section-2">
-		<dl>
-			<dt>
-				<h:outputLabel value="#{message['form.amount']}" />
-			</dt>
-			<dd>
-				<h:inputText value="#{workitem.item['_amount']}">
-					<f:convertNumber minFractionDigits="2" locale="de" />
-				</h:inputText>
-			</dd>
-		</dl>
-		<dl>
-			<dt>
-				<h:outputLabel value="#{message['form.tax']}" />
-			</dt>
-			<dd>
-				<h:inputText value="#{workitem.item['_tax']}" />
-			</dd>
-		</dl>
-		<dl>
-			<dt>
-				<h:outputLabel value="#{message['form.amount_brutto']}" />
-			</dt>
-			<dd>
-				<h:inputText
-					value="#{workitem.item['_amount_brutto']}">
-					<f:convertNumber minFractionDigits="2" locale="de" />
-				</h:inputText>
-			</dd>
-		</dl>
+
+
 	</div>
-	<div class="imixs-form-section">
-		<dl>
-			<dt>
-				<h:outputLabel value="#{message['form.description']}" />
-			</dt>
-			<dd>
-				<h:inputTextarea
-					value="#{workitem.item['_description']}" />
-			</dd>
-		</dl>
+	
+	<div class="imixs-form-section-2">
+	
+		<h:panelGrid columns="2">
+			<h:outputLabel value="#{message['form.invoicedate']}" />
+			<h:inputText value="#{workitem.item['_invoicedate']}"
+				styleClass="imixs-date">
+				<f:convertDateTime pattern="#{message.datePatternShort}"
+					timeZone="#{message.timeZone}" />
+			</h:inputText>
+
+			<h:outputLabel value="#{message['form.amount']}" />
+			<h:inputText value="#{workitem.item['_amount']}">
+				<f:convertNumber minFractionDigits="2" locale="de" />
+			</h:inputText>
+
+			<h:outputLabel value="#{message['form.tax']}" />
+			<h:inputText value="#{workitem.item['_tax']}" />
+
+			<h:outputLabel value="#{message['form.amount_brutto']}" />
+
+			<h:inputText value="#{workitem.item['_amount_brutto']}">
+				<f:convertNumber minFractionDigits="2" locale="de" />
+			</h:inputText>
+		</h:panelGrid>
+		
+
 	</div>
+	
 </ui:composition>
 
