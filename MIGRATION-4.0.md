@@ -9,11 +9,17 @@
  
  3a. update lucene version to 5.5.2 
      remove lucene adapter project
+     
  3b. java compiler plugin version 1.7
+ 
  3c. change ejb-jar.xml - class 'org.imixs.workflow.engine.WorkflowService', 
      remove PropertyService and LucenService Refs
 	 change interceptor Binding tu DocumentService
+	 
  3d. change persistenc.xml - persistence-unit=org.imixs.workflow.jpa	 
+	 
+ 3e. Update web module resource bundle app with entry: 
+      workflowversion_system=system-de-1.0.0	 
 	 
  4. Restart Server and deploy new Application (with Imixs-Workflow 4.x) 
   
@@ -77,4 +83,12 @@ Redeploy the application to reset the model store
 	18:30:22,929 FINE  [org.imixs.workflow.engine.lucene.LuceneSearchService] (default task-36) lucene search result computed in 79 ms
 
 
+
+
+
+
+
+# Gregorian Calendar Bug
+
+Search for entity type 'Kernprozess' and remove
  
