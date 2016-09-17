@@ -223,6 +223,16 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 		if (workflowEvent != null && WorkflowEvent.WORKITEM_CHANGED == workflowEvent.getEventType()) {
 			initFilter();
 		}
+
+		if (workflowEvent != null && WorkflowEvent.CHILDWORKITEM_BEFORE_PROCESS == workflowEvent.getEventType()) {
+			// test if datdate is set
+			if (workflowEvent.getWorkitem().getItemValueDate("datdate") == null)
+				workflowEvent.getWorkitem().replaceItemValue("datdate", new Date());
+
+			// test if _duration is set
+			if ("".equals(workflowEvent.getWorkitem().getItemValueString("_duration")))
+				workflowEvent.getWorkitem().replaceItemValue("_duration", 0);
+		}
 	}
 
 	/**
@@ -402,38 +412,4 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 		return clone;
 	}
 
-	/**
-	 * Action Listener process() resets the current workItem and child view
-	 * after processing a child workItem to close the editor section. The method
-	 * also verifies if the property 'datdate' is provided.
-	 */
-	/*
-	 * @SuppressWarnings("unchecked")
-	 * 
-	 * @Override public String process(int id) throws AccessDeniedException,
-	 * ProcessingErrorException {
-	 * 
-	 * // !!! Migration of old history data !!! // fix bug in old history log
-	 * -validate txtworkflowhistorylog and remove // empty entries List<String>
-	 * oldList = this.getWorkitem().getItemValue("txtworkflowhistorylog");
-	 * List<String> newList = new ArrayList<String>(); if (oldList.size() > 0) {
-	 * for (String oldEntry : oldList) { if (!oldEntry.isEmpty() &&
-	 * oldEntry.contains(":")) newList.add(oldEntry); }
-	 * this.getWorkitem().replaceItemValue("txtworkflowhistorylog", newList); }
-	 * else { this.getWorkitem().removeItem("txtworkflowhistorylog");
-	 * 
-	 * }
-	 * 
-	 * // test if datdate is set if
-	 * (this.getWorkitem().getItemValueDate("datdate") == null)
-	 * this.getWorkitem().replaceItemValue("datdate", new Date());
-	 * 
-	 * // test if _duration is set if
-	 * ("".equals(this.getWorkitem().getItemValueString("_duration")))
-	 * this.getWorkitem().replaceItemValue("_duration", 0);
-	 * 
-	 * String result = null; try { result = super.process(id); } catch
-	 * (PluginException e) { ErrorHandler.handlePluginException(e); }
-	 * reset(null); return result; }
-	 */
 }
