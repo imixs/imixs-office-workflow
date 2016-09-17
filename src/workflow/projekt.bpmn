@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.3.0.Final-v20160602-2145-B47" targetNamespace="http://www.imixs.org/bpmn2">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.3.1.Final-v20160914-1606-B56" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
       <imixs:value><![CDATA[projekt-de-1.0.0]]></imixs:value>
@@ -8,9 +8,14 @@
     <imixs:item name="txtfieldmapping" type="xs:string">
       <imixs:value><![CDATA[Ersteller | namCreator]]></imixs:value>
       <imixs:value><![CDATA[Aktueller Bearbeiter | namCurrentEditor]]></imixs:value>
-      <imixs:value><![CDATA[Teilnehmer|namteam]]></imixs:value>
+      <imixs:value><![CDATA[Eigentümer | namowner]]></imixs:value>
+      <imixs:value><![CDATA[Prozess-Verantwortliche| namprocessmanager]]></imixs:value>
       <imixs:value><![CDATA[Prozess-Team | namprocessteam]]></imixs:value>
-      <imixs:value><![CDATA[Verantwortlich| namresponsible]]></imixs:value>
+      <imixs:value><![CDATA[Prozess-Assistenz | namprocessassist]]></imixs:value>
+      <imixs:value><![CDATA[Bereichs-Verantwortliche | namspacemanager]]></imixs:value>
+      <imixs:value><![CDATA[Bereichs-Team | namspaceteam]]></imixs:value>
+      <imixs:value><![CDATA[Bereichs-Assistenz | namspaceassist]]></imixs:value>
+      <imixs:value><![CDATA[Verantwortlich | namteam]]></imixs:value>
     </imixs:item>
     <imixs:item name="txttimefieldmapping" type="xs:string">
       <imixs:value><![CDATA[Wiedervorlage | datDate]]></imixs:value>
@@ -88,7 +93,7 @@
           <imixs:value><![CDATA[namCreator]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtactivityresult" type="xs:string">
-          <imixs:value><![CDATA[<item name="action">/pages/workitems/workitem</item>]]></imixs:value>
+          <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Speichern]]></imixs:value>
@@ -103,7 +108,7 @@
           <imixs:value><![CDATA[Gespeichert von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
+          <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:outgoing>SequenceFlow_50</bpmn2:outgoing>
@@ -138,7 +143,7 @@
           <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtactivityresult" type="xs:string">
-          <imixs:value><![CDATA[<item name="action">/pages/workitems/workitem</item>]]></imixs:value>
+          <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Abgeschlossen]]></imixs:value>
@@ -150,7 +155,7 @@
           <imixs:value><![CDATA[Abgeschlossen von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
+          <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_28</bpmn2:incoming>
@@ -195,7 +200,10 @@
           <imixs:value><![CDATA[Abgeschlossen von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
+          <imixs:value>false</imixs:value>
+        </imixs:item>
+        <imixs:item name="txtactivityresult" type="CDATA">
+          <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_30</bpmn2:incoming>
@@ -245,7 +253,7 @@
           <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtactivityresult" type="xs:string">
-          <imixs:value><![CDATA[<item name="action">/pages/workitems/workitem</item>]]></imixs:value>
+          <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Speichern]]></imixs:value>
@@ -260,7 +268,7 @@
           <imixs:value><![CDATA[Gespeichert von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
+          <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:outgoing>SequenceFlow_58</bpmn2:outgoing>
@@ -281,6 +289,13 @@
         </imixs:item>
         <imixs:item name="txtworkflowsummary" type="xs:string">
           <imixs:value><![CDATA[<itemvalue>_customer</itemvalue>: <itemvalue>_subject</itemvalue> (<itemvalue>numsequenceNumber</itemvalue>)]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyupdateacl" type="xs:boolean">
+          <imixs:value>true</imixs:value>
+        </imixs:item>
+        <imixs:item name="keyaddwritefields" type="xs:string">
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_33</bpmn2:incoming>
@@ -339,7 +354,7 @@
           <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtactivityresult" type="xs:string">
-          <imixs:value><![CDATA[<item name="action">/pages/notes</item>]]></imixs:value>
+          <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Planung abgeschlossen]]></imixs:value>
@@ -354,7 +369,7 @@
           <imixs:value><![CDATA[Planung abgeschlossen von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
+          <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_36</bpmn2:incoming>
@@ -376,6 +391,13 @@
         </imixs:item>
         <imixs:item name="txtworkflowsummary" type="xs:string">
           <imixs:value><![CDATA[<itemvalue>_customer</itemvalue>: <itemvalue>_subject</itemvalue> (<itemvalue>numsequenceNumber</itemvalue>)]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyupdateacl" type="xs:boolean">
+          <imixs:value>true</imixs:value>
+        </imixs:item>
+        <imixs:item name="keyaddwritefields" type="xs:string">
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_29</bpmn2:incoming>
@@ -399,6 +421,14 @@
         </imixs:item>
         <imixs:item name="txtworkflowsummary" type="xs:string">
           <imixs:value><![CDATA[<itemvalue>_customer</itemvalue>: <itemvalue>_subject</itemvalue> (<itemvalue>numsequenceNumber</itemvalue>)]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyupdateacl" type="xs:boolean">
+          <imixs:value>true</imixs:value>
+        </imixs:item>
+        <imixs:item name="keyownershipfields" type="xs:string"/>
+        <imixs:item name="keyaddwritefields" type="xs:string">
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_37</bpmn2:incoming>
@@ -447,7 +477,7 @@
           <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtactivityresult" type="xs:string">
-          <imixs:value><![CDATA[<item name="action">/pages/workitems/workitem</item>]]></imixs:value>
+          <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Speichern]]></imixs:value>
@@ -462,7 +492,7 @@
           <imixs:value><![CDATA[Gespeichert von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
+          <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:outgoing>SequenceFlow_51</bpmn2:outgoing>
@@ -508,7 +538,7 @@
           <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtactivityresult" type="xs:string">
-          <imixs:value><![CDATA[<item name="action">/pages/workitems/workitem</item>]]></imixs:value>
+          <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Speichern]]></imixs:value>
@@ -523,7 +553,7 @@
           <imixs:value><![CDATA[Gespeichert von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
+          <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:outgoing>SequenceFlow_52</bpmn2:outgoing>
@@ -544,6 +574,16 @@
         </imixs:item>
         <imixs:item name="txtworkflowsummary" type="xs:string">
           <imixs:value><![CDATA[<itemvalue>_customer</itemvalue>: <itemvalue>_subject</itemvalue> (<itemvalue>numsequenceNumber</itemvalue>)]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyupdateacl" type="xs:boolean">
+          <imixs:value>true</imixs:value>
+        </imixs:item>
+        <imixs:item name="keyownershipfields" type="xs:string">
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyaddwritefields" type="xs:string">
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_17">Verwaltung von Kundenprojekten</bpmn2:documentation>
@@ -600,7 +640,7 @@
           <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtactivityresult" type="xs:string">
-          <imixs:value><![CDATA[<item name="action">/pages/notes</item>]]></imixs:value>
+          <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Produktivnahme]]></imixs:value>
@@ -615,7 +655,7 @@
           <imixs:value><![CDATA[Produktiv genommen von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
+          <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_39</bpmn2:incoming>
@@ -690,7 +730,7 @@
           <imixs:value><![CDATA[Gespeichert von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
+          <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:outgoing>SequenceFlow_54</bpmn2:outgoing>
@@ -747,7 +787,7 @@
           <imixs:value><![CDATA[Abgerechnet von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
+          <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_41</bpmn2:incoming>
@@ -805,7 +845,7 @@
           <imixs:value><![CDATA[Gebucht von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
+          <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_43</bpmn2:incoming>
@@ -821,6 +861,12 @@
         </imixs:item>
         <imixs:item name="txttype" type="xs:string">
           <imixs:value><![CDATA[childworkitemarchive]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyupdateacl" type="xs:boolean">
+          <imixs:value>true</imixs:value>
+        </imixs:item>
+        <imixs:item name="keyaddwritefields" type="xs:string">
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_42</bpmn2:incoming>
@@ -880,7 +926,7 @@
           <imixs:value><![CDATA[Storneirt von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
+          <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_47</bpmn2:incoming>
@@ -893,6 +939,13 @@
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Gebucht]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyupdateacl" type="xs:boolean">
+          <imixs:value>true</imixs:value>
+        </imixs:item>
+        <imixs:item name="keyaddwritefields" type="xs:string">
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_44</bpmn2:incoming>
@@ -953,7 +1006,7 @@
           <imixs:value><![CDATA[Gespeichert von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
+          <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:outgoing>SequenceFlow_55</bpmn2:outgoing>
@@ -965,6 +1018,13 @@
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Erfasst]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyupdateacl" type="xs:boolean">
+          <imixs:value>true</imixs:value>
+        </imixs:item>
+        <imixs:item name="keyaddwritefields" type="xs:string">
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_46</bpmn2:incoming>
@@ -1025,7 +1085,7 @@
           <imixs:value><![CDATA[Gespeichert von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
+          <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:outgoing>SequenceFlow_56</bpmn2:outgoing>
