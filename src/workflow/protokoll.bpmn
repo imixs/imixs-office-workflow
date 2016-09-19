@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.2.4.CR1-v20160318-1302-B107" targetNamespace="http://www.imixs.org/bpmn2">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.3.1.Final-v20160914-1606-B56" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
       <imixs:value><![CDATA[protokoll-de-1.0.0]]></imixs:value>
@@ -8,9 +8,14 @@
     <imixs:item name="txtfieldmapping" type="xs:string">
       <imixs:value><![CDATA[Ersteller | namCreator]]></imixs:value>
       <imixs:value><![CDATA[Aktueller Bearbeiter | namCurrentEditor]]></imixs:value>
-      <imixs:value><![CDATA[Teilnehmer|namteam]]></imixs:value>
-      <imixs:value><![CDATA[Prozess-Team | namprocessteam]]></imixs:value>
+      <imixs:value><![CDATA[Teilnehmer|_team]]></imixs:value>
       <imixs:value><![CDATA[Verantwortlich| namresponsible]]></imixs:value>
+      <imixs:value><![CDATA[Prozess-Verantwortliche| namprocessmanager]]></imixs:value>
+      <imixs:value><![CDATA[Prozess-Team | namprocessteam]]></imixs:value>
+      <imixs:value><![CDATA[Prozess-Assistenz | namprocessassist]]></imixs:value>
+      <imixs:value><![CDATA[Bereichs-Verantwortliche | namspacemanager]]></imixs:value>
+      <imixs:value><![CDATA[Bereichs-Team | namspaceteam]]></imixs:value>
+      <imixs:value><![CDATA[Bereichs-Assistenz | namspaceassist]]></imixs:value>
     </imixs:item>
     <imixs:item name="txttimefieldmapping" type="xs:string">
       <imixs:value><![CDATA[Wiedervorlage | datDate]]></imixs:value>
@@ -51,19 +56,20 @@
     <bpmn2:task id="Task_1" imixs:processid="1000" name="Erstellung">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_simple#minutes/header]]></imixs:value>
+          <imixs:value><![CDATA[form_panel_instruction_right#minutes/header]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
         </imixs:item>
         <imixs:item name="keyownershipfields" type="xs:string">
           <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
+          <imixs:value><![CDATA[namCreator]]></imixs:value>
         </imixs:item>
-        <imixs:item name="keyaddreadfields" type="xs:string">
-          <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
-        </imixs:item>
+        <imixs:item name="keyaddreadfields" type="xs:string"/>
         <imixs:item name="keyaddwritefields" type="xs:string">
           <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
+          <imixs:value><![CDATA[namCreator]]></imixs:value>
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtimageurl" type="xs:string">
           <imixs:value><![CDATA[typcn-th-list-outline]]></imixs:value>
@@ -75,13 +81,31 @@
           <imixs:value><![CDATA[<itemvalue>_description</itemvalue>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
+      <bpmn2:documentation id="Documentation_1"><![CDATA[<h3>Der Protokollkopf</h3>
+<p>
+Erfassen Sie im Protokollkopf allgemeine Informationen wie Thema, Teilnehmer, Datum und eine Kurzbeschreibung.
+
+Klicken Sie dann auf den Button 'Protokoll anlegen', um mit der Erfassung der einzelnen Protokollpunkte zu beginnen.
+</p>
+
+
+
+
+<h3>Der Workflow</h3>
+
+<p>Nachdem der Protokollkopf angelegt wurde, können die einzelnen Protokollpunkte erfasst werden. Danach muss das Protokoll 
+freigegeben werden, um dieses automatisch an die Teilnehmer zu verteilen.
+</p><p>
+Einzelne Protokollpunkte können als Aufgaben einem Teilnehmer zur Bearbeitung zugewiesen werden.
+</p><p>
+Wird ein Protokoll zu einem späteren Zeitpunkt fortgesetzt, werden offene Aufgaben automatisch übertragen. </p>]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>
     </bpmn2:task>
     <bpmn2:task id="Task_2" imixs:processid="1100" name="Bearbeitung">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_simple#minutes/header|minutes/body]]></imixs:value>
+          <imixs:value><![CDATA[form_panel_instruction_right#minutes/header|minutes/body]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
@@ -90,15 +114,11 @@
           <imixs:value><![CDATA[namCreator]]></imixs:value>
           <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
         </imixs:item>
-        <imixs:item name="keyaddreadfields" type="xs:string">
-          <imixs:value><![CDATA[namCreator]]></imixs:value>
-          <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
-          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
-        </imixs:item>
+        <imixs:item name="keyaddreadfields" type="xs:string"/>
         <imixs:item name="keyaddwritefields" type="xs:string">
           <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
           <imixs:value><![CDATA[namCreator]]></imixs:value>
-          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtimageurl" type="xs:string">
           <imixs:value><![CDATA[typcn-th-list-outline||typcn-pencil,imixs-info]]></imixs:value>
@@ -110,6 +130,29 @@
           <imixs:value><![CDATA[<itemvalue>_description</itemvalue>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
+      <bpmn2:documentation id="Documentation_4"><![CDATA[<h3>Die Protokollpunkte</h3>
+<p>
+Fügen Sie einzelne Protokollpunkte über den Button 'Neuer Protokollpunkt' hinzu.
+</p><p>
+Sie können für jeden Protokollpunkt einen Termin sowie einen Verantwortlichen aus der Teilnehmerliste auswählen. 
+Über die Schaltfläche 'Beschluss' oder 'Aufgabe' bestimmen Sie den Typ des Protokollpunkts und speichern diesen.
+</p>
+
+<h3>Aufgaben und Beschlüsse</h3>
+<p>
+Eine Aufgabe wird bei Freigabe des Protokolls automatisch dem verantwortlichen Teilnehmer zugeordnet. 
+Dieser kann die Aufgabe dann bearbeiten und abschließen.
+</p>
+<p>
+Beschlüsse dienen der Dokumentation einzelner Punkte.
+</p>
+
+
+<h3>Freigabe</h3>
+<p>
+Durch die Freigabe schließen Sie das Protokoll ab und versenden dieses automatisch an alle Telnehmer. 
+Offene Aufgaben werden automatisch an die Verantworlichen zur Bearbeitung verteilt.
+</p>]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_4</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_12</bpmn2:incoming>
@@ -119,7 +162,7 @@
     <bpmn2:task id="Task_3" imixs:processid="1500" name="Freigegeben">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_simple#minutes/header|minutes/body]]></imixs:value>
+          <imixs:value><![CDATA[form_panel_instruction_right#minutes/header|minutes/body]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
@@ -140,19 +183,38 @@
           <imixs:value><![CDATA[<itemvalue>_description</itemvalue>]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddreadfields" type="xs:string">
-          <imixs:value><![CDATA[namCreator]]></imixs:value>
-          <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
-          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
           <imixs:value><![CDATA[namteam]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
+      <bpmn2:documentation id="Documentation_3"><![CDATA[<h3>Die Freigabe</h3>
+
+<p>
+Wurde ein Protokoll freigegeben, wird dieses automatisch an alle Teilnehmer verteilt. Diese können das Protokoll jeder Zeit online lesen und ausdrucken. 
+Ein freigegebenes Protokoll kann jeder Zeit nachbearbeitet oder fortgesetzt werden.
+</p>
+
+
+<h3>Ein Protokoll fortsetzen</h3>
+
+<p>
+Durch das Fortsetzen eines Protokolls wird eine Kopie erstellt, in die automatisch alle noch nicht abgeschlossenen Aufgaben übernommen werden. 
+Über die Versionsverwaltung kann jederzeit auf frühere Versionen eines Protokolls zugegriffen werden. Damit steht eine vollständige 
+Historie aller Protokolle aus einer Besprechung zur Verfügung.
+</p>
+
+<h3>Nachbearbeiten</h3>
+
+<p>
+Ein bereits freigegebenes Protokoll kann nachbearbeitet werden, um z.B. Änderungen an einzelnen Protokollpunkten vorzunehmen. 
+Danach muss das Protokoll erneut freigegeben werden.
+</p>]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_6</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_7</bpmn2:outgoing>
     </bpmn2:task>
     <bpmn2:task id="Task_4" imixs:processid="1900" name="Archiviert">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_simple#minutes/header|minutes/body]]></imixs:value>
+          <imixs:value><![CDATA[form_panel_instruction_right#minutes/header|minutes/body]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
@@ -171,9 +233,15 @@
         </imixs:item>
         <imixs:item name="keyaddreadfields" type="xs:string">
           <imixs:value><![CDATA[namteam]]></imixs:value>
-          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
+      <bpmn2:documentation id="Documentation_5"><![CDATA[<h3>Archiviert</h3>
+
+<p>
+Dieses Protkoll ist abgeschlossen und archiviert. Über die Versionsverwaltung kann jederzeit auf freigegebene oder frühere Versionen dieses Protokolls 
+zugegriffen werden. Damit steht eine vollständige 
+Historie aller Protokolle aus einer Besprechung zur Verfügung.
+</p>]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_9</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_14</bpmn2:outgoing>
     </bpmn2:task>
@@ -193,6 +261,9 @@
       <bpmn2:extensionElements>
         <imixs:item name="rtfresultlog" type="CDATA">
           <imixs:value><![CDATA[Aktualisiert von <username>namcurrenteditor</username>.]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyupdateacl" type="xs:boolean">
+          <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:outgoing>SequenceFlow_4</bpmn2:outgoing>
@@ -289,10 +360,7 @@
           <imixs:value><![CDATA[namCreator]]></imixs:value>
           <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
         </imixs:item>
-        <imixs:item name="keyaddreadfields" type="xs:string">
-          <imixs:value><![CDATA[namCreator]]></imixs:value>
-          <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
-        </imixs:item>
+        <imixs:item name="keyaddreadfields" type="xs:string"/>
         <imixs:item name="keyaddwritefields" type="xs:string">
           <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
           <imixs:value><![CDATA[namCreator]]></imixs:value>
@@ -334,6 +402,7 @@
         <imixs:item name="keyaddwritefields" type="xs:string">
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
           <imixs:value><![CDATA[namresponsible]]></imixs:value>
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtimageurl" type="xs:string">
           <imixs:value><![CDATA[typcn-edit]]></imixs:value>
@@ -345,11 +414,7 @@
           <imixs:value><![CDATA[workitem]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddreadfields" type="xs:string">
-          <imixs:value><![CDATA[namCreator]]></imixs:value>
-          <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
           <imixs:value><![CDATA[namteam]]></imixs:value>
-          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
-          <imixs:value><![CDATA[namresponsible]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_19</bpmn2:incoming>
@@ -368,7 +433,10 @@
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
         </imixs:item>
-        <imixs:item name="keyaddwritefields" type="xs:string"/>
+        <imixs:item name="keyaddwritefields" type="xs:string">
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+        </imixs:item>
         <imixs:item name="txtimageurl" type="xs:string">
           <imixs:value><![CDATA[typcn-edit|typcn-tick,imixs-success]]></imixs:value>
         </imixs:item>
@@ -379,11 +447,7 @@
           <imixs:value><![CDATA[workitemarchive]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddreadfields" type="xs:string">
-          <imixs:value><![CDATA[namCreator]]></imixs:value>
-          <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
           <imixs:value><![CDATA[namteam]]></imixs:value>
-          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
-          <imixs:value><![CDATA[namresponsible]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_21</bpmn2:incoming>
@@ -423,16 +487,11 @@
           <imixs:value><![CDATA[workitemarchive]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddreadfields" type="xs:string">
-          <imixs:value><![CDATA[namCreator]]></imixs:value>
-          <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
           <imixs:value><![CDATA[namteam]]></imixs:value>
-          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
-          <imixs:value><![CDATA[namresponsible]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
-          <imixs:value><![CDATA[namCreator]]></imixs:value>
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_23</bpmn2:incoming>
