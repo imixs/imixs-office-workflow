@@ -57,7 +57,7 @@
 		function openPrintWindow() {
 			fenster = window
 					.open(
-							"#{facesContext.externalContext.requestContextPath}/pages/workitems/workitem_print.jsf",
+							"#{facesContext.externalContext.requestContextPath}/pages/workitems/workitem_print.jsf?id=#{workflowController.workitem.item['$uniqueid']}",
 							"message.print",
 							"width=1100,height=700,status=no,scrollbars=yes,resizable=yes");
 			fenster.focus();
