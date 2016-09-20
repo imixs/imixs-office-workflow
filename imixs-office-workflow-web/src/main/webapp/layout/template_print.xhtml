@@ -47,6 +47,9 @@
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
 	<link
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/fonts/typicons.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
@@ -89,13 +92,71 @@
 	<!-- Load the marty component script -->
 	<script type="text/javascript"
 		src="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.js"></script>
+	<!-- Imixs-Office-Workflow  -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office-workflow.js?build=#{app.application_build_timestamp}"></script>
+
 
 	<ui:insert name="header">
 	</ui:insert>
 
+
+</h:head>
+
+
+<h:body>
+	<f:view locale="#{userController.locale}">
+
+		<div id="imixs-container">
+			
+			<div id="imixs-wrapper">
+
+				<div id="imixs-content">
+					<!-- 
+					<ui:insert name="historynav">
+						<ui:include src="historynav.xhtml" />
+					</ui:insert>
+					 -->
+					<ui:insert name="content">
+						<h1>Default Content</h1>
+					</ui:insert>
+				</div>
+
+			</div>
+
+			<!-- END container -->
+
+			<div id="footer">
+				<div id="footer1">
+					<ui:insert name="extra">
+						<ui:include src="/layout/extra.xhtml" />
+					</ui:insert>
+				</div>
+				<div id="footer2">
+					<ui:insert name="footer">
+						<ui:include src="/layout/footer.xhtml" />
+					</ui:insert>
+				</div>
+			</div>
+			<!-- END footer -->
+
+
+		</div>
+	</f:view>
+	
 		<script type="text/javascript">
 		/*<![CDATA[*/
+
+		/* Init Script */
+		var imixs = IMIXS.org.imixs.core, 
+			imixsOfficeWorkflow = IMIXS.com.imixs.workflow.office;
+
+		imixsOfficeWorkflow.contextPath="#{facesContext.externalContext.requestContextPath}";
+		
 		$(document).ready(function() {
+			imixsOfficeWorkflow.layout();
 			
 			/* This script replaces input fields with their values
 			 * we skip radio inputs and checkboxes.
@@ -130,83 +191,13 @@
 			
 			// autoprint 
 			window.print();
-		}
-
-		);
-
+		});
+		
+		
 		/*]]>*/
+	
+		
 	</script>
-
-
-
-</h:head>
-
-
-<h:body>
-	<f:view locale="#{userController.locale}">
-
-		<div id="imixs-container">
-			
-			<div id="imixs-wrapper">
-
-				<div id="imixs-content">
-					<!-- 
-					<ui:insert name="historynav">
-						<ui:include src="historynav.xhtml" />
-					</ui:insert>
-					 -->
-					<ui:insert name="content">
-						<h1>Default Content</h1>
-					</ui:insert>
-				</div>
-
-
-			</div>
-
-			<!-- 
-			<div id="imixs-navigation">
-				<c:if test="#{loginController.authenticated}">
-					<h:panelGroup layout="block" id="imixs-sidebar">
-
-						<ui:include src="commandbox_search.xhtml" />
-
-						<ui:include src="commandbox_processlist.xhtml" />
-
-
-
-						<c:if
-							test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
-							<ui:insert name="adminbox">
-								<ui:include src="commandbox_admin.xhtml" />
-							</ui:insert>
-						</c:if>
-					</h:panelGroup>
-				</c:if>
-
-
-			</div>
-			 -->
-
-
-			<!-- END container -->
-
-			<div id="footer">
-				<div id="footer1">
-					<ui:insert name="extra">
-						<ui:include src="/layout/extra.xhtml" />
-					</ui:insert>
-				</div>
-				<div id="footer2">
-					<ui:insert name="footer">
-						<ui:include src="/layout/footer.xhtml" />
-					</ui:insert>
-				</div>
-			</div>
-			<!-- END footer -->
-
-
-		</div>
-	</f:view>
 </h:body>
 
 </html>
