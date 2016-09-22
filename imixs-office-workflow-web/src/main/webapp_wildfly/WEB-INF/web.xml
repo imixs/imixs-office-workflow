@@ -88,11 +88,22 @@
 	</servlet-mapping>
 		
 	
-	<!-- Error handling -->
+	<!-- A custom error page org.jboss.weld.context.NonexistentConversationException  -->  
+    <error-page>   
+     	<exception-type>org.jboss.weld.context.NonexistentConversationException</exception-type>   
+     	<location>/conversationexpired.xhtml?nocid=true</location>   
+    </error-page>  
+    <error-page>   
+     	<exception-type>javax.faces.view.facelets.TagAttributeException</exception-type>   
+     	<location>/errorhandler.jsf</location>   
+    </error-page>  
+
+   	<!-- Error handling -->
 	<error-page>
 		<exception-type>java.lang.RuntimeException</exception-type>
 		<location>/error.jsf</location>
 	</error-page>
+
 	<error-page>
 		<error-code>401</error-code>
 		<location>/loginerror.jsf</location>
