@@ -6,6 +6,13 @@
 
 	<ui:define name="content">
 
+error: #{requestScope['javax.servlet.error.exception']}
+<hr />
+error.cause: #{requestScope['javax.servlet.error.exception'].cause.class.name}
+<hr />
+error.cause.cause: #{requestScope['javax.servlet.error.exception'].cause.cause.class.name}
+<hr />
+
 
 		<!-- Display only if error messages available -->
 		<h:panelGroup styleClass="ui-widget">

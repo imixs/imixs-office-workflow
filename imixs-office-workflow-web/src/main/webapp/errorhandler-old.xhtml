@@ -12,13 +12,7 @@
 		<!-- Handle WELD-000321: No conversation found to restore for .... -->
 		<c:when test="#{(!empty requestScope['javax.servlet.error.exception'].cause) and (!empty requestScope['javax.servlet.error.exception'].cause.cause) and (requestScope['javax.servlet.error.exception'].cause.cause.class.name eq 'org.jboss.weld.context.NonexistentConversationException')}">
 			<meta http-equiv="refresh"
-					content="0; URL=#{facesContext.externalContext.requestContextPath}/error_conversationexpired.xhtml?nocid=true" />
-		</c:when>
-		
-		<!-- Handle javax.persistence.OptimisticLockException .... -->
-		<c:when test="#{requestScope['javax.servlet.error.exception'].toString().contains('OptimisticLockException')}">
-			<meta http-equiv="refresh"
-					content="0; URL=#{facesContext.externalContext.requestContextPath}/error_optimisticlock.xhtml?nocid=true" />
+					content="0; URL=#{facesContext.externalContext.requestContextPath}/conversationexpired.xhtml?nocid=true" />
 		</c:when>
 		<c:otherwise>
 				
