@@ -7,11 +7,11 @@
 
 	<ui:define name="content">
 		<script type="text/javascript">
-		/*<![CDATA[*/
+			/*<![CDATA[*/
 			document.cookie = "imixs.office.navigation=/pages/workitems/worklist.jsf;path=#{facesContext.externalContext.requestContextPath};";
-		/*]]>*/
+			/*]]>*/
 		</script>
-		
+
 		<f:view>
 			<h:form>
 				<div class="imixs-view">
@@ -21,22 +21,39 @@
 						<ui:include src="/pages/workitems/worklist_header.xhtml" />
 					</div>
 
-
 					<h:panelGroup layout="block" class="imixs-body" id="worklist-body">
 
-						<h:panelGroup rendered="#{empty searchController.workitems}">
-							<h2>#{message.empty_worklist}</h2>
-						</h:panelGroup>
 
 
-						<!-- **** Workitems ***** -->
+
+						<!-- display search result  -->
 						<ui:repeat var="workitem" value="#{searchController.workitems}">
 							<ui:include src="worklist_viewentry.xhtml">
 								<ui:param name="workitem" value="#{workitem}" />
 							</ui:include>
-
 						</ui:repeat>
 
+		
+						<!-- display empty search result  -->
+						<h:panelGroup
+							rendered="#{(empty searchController.workitems) and (empty facesContext.maximumSeverity)}">
+							<h2>#{message.empty_worklist}</h2>
+						</h:panelGroup>
+
+
+						<!-- display parsing error -->
+						<h:panelGroup rendered="#{! empty facesContext.maximumSeverity}"
+							styleClass="ui-widget">
+							<div class="ui-state-error"
+								style="padding: .7em; margin-bottom: .7em; border:none; xbackground:none;">
+								<h3>
+									<span class="typcn typcn-warning-outline"></span> #{message.search_error_title} 
+								</h3>
+								<p>
+									<h:messages globalOnly="true" />
+								</p>
+							</div>
+						</h:panelGroup>
 
 					</h:panelGroup>
 

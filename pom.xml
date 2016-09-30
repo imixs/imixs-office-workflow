@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.imixs.workflow</groupId>
 	<artifactId>imixs-office-workflow</artifactId>
-	<version>2.9.1-SNAPSHOT</version>
+	<version>3.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Imixs Office Workflow</name>
 	<description>The Imixs Workflow Office Suite </description>
@@ -76,10 +76,11 @@
    		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
    
 		<!-- Workflow Versions -->
-		<org.imixs.workflow.version>3.9.1</org.imixs.workflow.version>
-		<org.imixs.marty.version>2.9.0</org.imixs.marty.version>
-		<org.imixs.adapters.version>1.4.6</org.imixs.adapters.version>
-		<lucene.version>4.10.4</lucene.version>
+		<org.imixs.workflow.version>4.0.0-SNAPSHOT</org.imixs.workflow.version>
+		<org.imixs.marty.version>3.0.0-SNAPSHOT</org.imixs.marty.version>
+		<org.imixs.adapters.version>1.4.5-SNAPSHOT</org.imixs.adapters.version>
+		<!-- 4.10.4, 5.5.2 (JDK-7), 6.2.0 (JDK-8) -->
+		<lucene.version>6.2.0</lucene.version>
 		<custom.webResources>src/main/webapp</custom.webResources>
 		<imixs-office.applicationname>imixs-office-workflow</imixs-office.applicationname>
 
@@ -90,11 +91,17 @@
 		<imixs-office.jta-data-source>jdbc/office</imixs-office.jta-data-source>
 		<imixs-office.IndexDir>office-workflow-index</imixs-office.IndexDir>
 		<!-- jndi Mail res-ref name -->
-		<imixs-mail-res-ref-name>mail/org.imixs.workflow.mail</imixs-mail-res-ref-name>
+		<imixs-mail-res-ref-name>java:/mail/org.imixs.workflow.mail</imixs-mail-res-ref-name>
 		
 		<!-- imixs-github-repo on github - see ~/.m2/settings.xml -->
     	<github.global.server>imixs-github-repo</github.global.server>
+    	
+    	
+    	<!-- Wildfly unpack war -->
+    	<custom.unpackTypes>war</custom.unpackTypes>
 	</properties>
+
+
 
 
 	<!-- Imixs Repo -->
@@ -110,27 +117,15 @@
 	</repositories>
 
 	<profiles>
-		<!-- wildfly profile -->
-		<profile>
-			<id>wildfly</id>
-			<properties>
-				<custom.webResources>src/main/webapp_wildfly</custom.webResources>
-				<custom.unpackTypes>war</custom.unpackTypes>
-				<!-- jndi Mail res-ref name -->
-				<imixs-mail-res-ref-name>java:/mail/org.imixs.workflow.mail</imixs-mail-res-ref-name>
-			</properties>
-
-
-		</profile>
-	
 		<!-- Glassfish4 profile -->
 		<profile>
 			<id>glassfish4</id>
 			<properties>
 				<custom.webResources>src/main/webapp_glassfish4</custom.webResources>
+				<!-- do not unpack war -->
+    			<custom.unpackTypes></custom.unpackTypes>
 			</properties>
-
-
+			
 		</profile>
 		
 		
@@ -148,7 +143,6 @@
 
 
 	<build>
-
 		<resources>
 			<!-- enable resource filtering for multi language version -->
 			<resource>
@@ -162,8 +156,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 
@@ -253,13 +247,6 @@
 				<artifactId>imixs-workflow-jax-rs</artifactId>
 				<version>${org.imixs.workflow.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.imixs.workflow</groupId>
-				<artifactId>imixs-adapters-lucene-ejb</artifactId>
-				<version>${org.imixs.adapters.version}</version>
-				<scope>provided</scope>
-			</dependency>
-
 
 
 			<!-- Marty -->

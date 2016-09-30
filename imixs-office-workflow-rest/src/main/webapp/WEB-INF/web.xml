@@ -4,25 +4,45 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 	<display-name>Imixs Office Workflow - REST API</display-name>
+	 
+	 <!-- Wilfly -->
+	<context-param>
+		<param-name>resteasy.scan</param-name>
+		<param-value>true</param-value>
+	</context-param>
+ 	<context-param>
+		<param-name>resteasy.servlet.mapping.prefix</param-name>
+		<param-value>/</param-value>
+	</context-param>
+	
+	
+	
+	
+ 	<listener>
+		<listener-class>
+			org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
+		</listener-class>
+	</listener>
 	<servlet>
 		<servlet-name>ImixsRestService</servlet-name>
-		<!-- GlassFish 3.2 -->
-		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-		
-		 <!-- GlassFish 4 
-		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
-		-->
+		<servlet-class>
+			org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+		</servlet-class>
+		<!--  
 		<init-param>
-			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<!-- add imixs jaxrs and marty jaxrs classes -->
-			<param-value>org.imixs.workflow.jaxrs org.imixs.marty.jaxrs</param-value>
+		  <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+		  <param-value>true</param-value>
 		</init-param>
-		<load-on-startup>1</load-on-startup>
+		-->
+		
 	</servlet>
+	 <!-- END Wilfly -->
+	
 	<servlet-mapping>
 		<servlet-name>ImixsRestService</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+	
 	<login-config>
 		<auth-method>BASIC</auth-method>
 		<realm-name>imixsrealm</realm-name>

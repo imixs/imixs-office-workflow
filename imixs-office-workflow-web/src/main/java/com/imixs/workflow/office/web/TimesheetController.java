@@ -46,10 +46,12 @@ import org.imixs.marty.workflow.ChildWorkitemController;
 import org.imixs.marty.workflow.WorkflowEvent;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
+import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
+import org.imixs.workflow.exceptions.QueryException;
+import org.imixs.workflow.faces.util.LoginController;
 import org.imixs.workflow.jee.ejb.EntityService;
-import org.imixs.workflow.jee.ejb.ModelService;
-import org.imixs.workflow.jee.faces.util.LoginController;
+
 
 /**
  ** This Bean acts a a front controller for the TimeSheet sub forms.
@@ -72,9 +74,6 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 
 	@Inject
 	protected LoginController loginController = null;
-
-	@EJB
-	protected EntityService entityService = null;
 
 	@EJB
 	ModelService modelService = null;
@@ -247,7 +246,7 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 	private void loadMyTimeSheet() {
 		myTimeSheet = new ArrayList<ItemCollection>();
 		myTimeSheetSummary = new ItemCollection();
-
+	logger.warning("TBD - migration jpql...");
 		if (getParentWorkitem() != null) {
 			String uniqueIdRef = getParentWorkitem().getItemValueString(WorkflowKernel.UNIQUEID);
 
@@ -274,12 +273,18 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 			sQuery += " ORDER BY td.itemValue DESC";
 
 			logger.fine("TimeSheetMB loadMyTimeSheet - query=" + sQuery);
-			Collection<ItemCollection> col = entityService.findAllEntities(sQuery, 0, -1);
+			Collection<ItemCollection> col;
+			try {
+				col = getDocumentService().find(sQuery, 999,0);
 
-			for (ItemCollection aworkitem : col) {
-				myTimeSheet.add((this.cloneWorkitem(aworkitem)));
-				computeSummaryOfNumberValues(aworkitem, myTimeSheetSummary);
+				for (ItemCollection aworkitem : col) {
+					myTimeSheet.add((this.cloneWorkitem(aworkitem)));
+					computeSummaryOfNumberValues(aworkitem, myTimeSheetSummary);
+				}
+			} catch (QueryException e) {
+				logger.warning("loadMyTimeSheet - invalid query: " + e.getMessage());
 			}
+
 		}
 
 	}
@@ -295,7 +300,7 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 
 		if (filter == null)
 			return;
-
+logger.warning("TBD - migration jpql...");
 		if (getParentWorkitem() != null) {
 			String uniqueIdRef = getParentWorkitem().getItemValueString(WorkflowKernel.UNIQUEID);
 
@@ -351,12 +356,18 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 			sQuery += " ORDER BY td.itemValue DESC";
 
 			logger.fine("loadFilterTimeSheet - query=" + sQuery);
-			Collection<ItemCollection> col = entityService.findAllEntities(sQuery, 0, -1);
-
-			for (ItemCollection aworkitem : col) {
-				filterTimeSheet.add((this.cloneWorkitem(aworkitem)));
-				computeSummaryOfNumberValues(aworkitem, filterTimeSheetSummary);
+			Collection<ItemCollection> col;
+			try {
+				col = getDocumentService().find(sQuery, 999,0);
+				for (ItemCollection aworkitem : col) {
+					filterTimeSheet.add((this.cloneWorkitem(aworkitem)));
+					computeSummaryOfNumberValues(aworkitem, filterTimeSheetSummary);
+				}
+			} catch (QueryException e) {
+				logger.warning("loadFilterTimeSheet - invalid query: " + e.getMessage());
 			}
+
+			
 		}
 
 	}

@@ -43,9 +43,10 @@ import javax.ws.rs.core.MediaType;
 
 import org.imixs.marty.ejb.ProcessService;
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.engine.DocumentService;
+import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.exceptions.ModelException;
-import org.imixs.workflow.jee.ejb.ModelService;
-import org.imixs.workflow.xml.EntityCollection;
+import org.imixs.workflow.xml.DocumentCollection;
 import org.imixs.workflow.xml.XMLItemCollectionAdapter;
 
 /**
@@ -69,7 +70,7 @@ public class ProcessRestService implements Serializable {
 
 
 	@EJB
-	org.imixs.workflow.jee.ejb.EntityService entityService;
+	DocumentService entityService;
 
 	@EJB
 	ModelService modelService;
@@ -79,7 +80,7 @@ public class ProcessRestService implements Serializable {
 
 	@GET
 	@Path("/processlist")
-	public EntityCollection getProcessList() {
+	public DocumentCollection getProcessList() {
 		Collection<ItemCollection> col = null;
 		try {
 			col = processService.getProcessList();
@@ -88,13 +89,13 @@ public class ProcessRestService implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new EntityCollection();
+		return new DocumentCollection();
 	}
 
 	@GET
 	@Path("/processlist.xml")
 	@Produces(MediaType.TEXT_XML)
-	public EntityCollection getProcessListXML() {
+	public DocumentCollection getProcessListXML() {
 		Collection<ItemCollection> col = null;
 		try {
 			col = processService.getProcessList();
@@ -103,13 +104,13 @@ public class ProcessRestService implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new EntityCollection();
+		return new DocumentCollection();
 	}
 
 	@GET
 	@Path("/processlist.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public EntityCollection getProcessListJSON() {
+	public DocumentCollection getProcessListJSON() {
 		Collection<ItemCollection> col = null;
 		try {
 			col = processService.getProcessList();
@@ -118,12 +119,12 @@ public class ProcessRestService implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new EntityCollection();
+		return new DocumentCollection();
 	}
 
 	@GET
 	@Path("/spaces")
-	public EntityCollection getSpaces() {
+	public DocumentCollection getSpaces() {
 		Collection<ItemCollection> col = null;
 		try {
 			col = processService.getSpaces();
@@ -132,13 +133,13 @@ public class ProcessRestService implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new EntityCollection();
+		return new DocumentCollection();
 	}
 
 	@GET
 	@Path("/spaces.xml")
 	@Produces(MediaType.TEXT_XML)
-	public EntityCollection getSpacesXML() {
+	public DocumentCollection getSpacesXML() {
 		Collection<ItemCollection> col = null;
 		try {
 			col = processService.getSpaces();
@@ -147,13 +148,13 @@ public class ProcessRestService implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new EntityCollection();
+		return new DocumentCollection();
 	}
 
 	@GET
 	@Path("/spaces.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public EntityCollection getSpacesJSON() {
+	public DocumentCollection getSpacesJSON() {
 		Collection<ItemCollection> col = null;
 		try {
 			col = processService.getProcessList();
@@ -162,7 +163,7 @@ public class ProcessRestService implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new EntityCollection();
+		return new DocumentCollection();
 	}
 
 	/**
@@ -174,7 +175,7 @@ public class ProcessRestService implements Serializable {
 	@GET
 	@Path("/workflowgroups.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public  EntityCollection getWorkflowGroupsJSON() throws ModelException {
+	public  DocumentCollection getWorkflowGroupsJSON() throws ModelException {
 		List<ItemCollection> col=new ArrayList<ItemCollection>();
 		List<String> result = new ArrayList<String>();
 		List<String> modelVersions = modelService.getVersions();
@@ -205,7 +206,7 @@ public class ProcessRestService implements Serializable {
 			e.printStackTrace();
 		}
 		
-		return new EntityCollection();
+		return new DocumentCollection();
 	}
 
 

@@ -12,174 +12,115 @@
 
 	<managed-bean>
 		<managed-bean-name>portletWorklistTasks</managed-bean-name>
-		<managed-bean-class>org.imixs.marty.view.PortletWorklistTasks</managed-bean-class>
+		<managed-bean-class>org.imixs.workflow.faces.workitem.ViewController</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 		<managed-property>
-			<property-name>maxResult</property-name>
+			<property-name>pageSize</property-name>
 			<property-class>int</property-class>
 			<value>5</value>
 		</managed-property>
 		<managed-property>
-			<property-name>sortOrder</property-name>
-			<property-class>int</property-class>
-			<!-- SORT_ORDER_MODIFIED_DESC -->
-			<value>2</value>
+			<property-name>sortBy</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>$modified</value>
 		</managed-property>
 		<managed-property>
-			<!-- default view -->
-			<property-name>view</property-name>
+			<property-name>sortReverse</property-name>
+			<property-class>boolean</property-class>
+			<value>true</value>
+		</managed-property>
+		<managed-property>
+			<property-name>query</property-name>
 			<property-class>java.lang.String</property-class>
-			<value>worklist.owner</value>
+			<value>(type:"workitem" AND namowner:"#{loginController.remoteUser}")</value>
 		</managed-property>
 	</managed-bean>
 
-	<managed-bean>
-		<managed-bean-name>portletWorklistFavorites</managed-bean-name>
-		<managed-bean-class>org.imixs.marty.view.PortletWorklistTasks</managed-bean-class>
-		<managed-bean-scope>view</managed-bean-scope>
-		<managed-property>
-			<property-name>maxResult</property-name>
-			<property-class>int</property-class>
-			<value>5</value>
-		</managed-property>
-		<managed-property>
-			<property-name>sortOrder</property-name>
-			<property-class>int</property-class>
-			<!-- SORT_ORDER_MODIFIED_DESC -->
-			<value>2</value>
-		</managed-property>
-		<managed-property>
-			<!-- default view -->
-			<property-name>view</property-name>
-			<property-class>java.lang.String</property-class>
-			<value>worklist.favorite</value>
-		</managed-property>
-	</managed-bean>
+
 	
 	<managed-bean>
 		<managed-bean-name>portletWorklistCreator</managed-bean-name>
-		<managed-bean-class>org.imixs.marty.view.PortletWorklistTasks</managed-bean-class>
+		<managed-bean-class>org.imixs.workflow.faces.workitem.ViewController</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 		<managed-property>
-			<property-name>maxResult</property-name>
+			<property-name>pageSize</property-name>
 			<property-class>int</property-class>
 			<value>5</value>
 		</managed-property>
 		<managed-property>
-			<property-name>sortOrder</property-name>
-			<property-class>int</property-class>
-			<!-- SORT_ORDER_MODIFIED_DESC -->
-			<value>2</value>
+			<property-name>sortBy</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>$modified</value>
 		</managed-property>
 		<managed-property>
-			<!-- default view -->
-			<property-name>view</property-name>
+			<property-name>sortReverse</property-name>
+			<property-class>boolean</property-class>
+			<value>true</value>
+		</managed-property>
+
+		<managed-property>
+			<property-name>query</property-name>
 			<property-class>java.lang.String</property-class>
-			<value>worklist.creator</value>
+			<value>(type:"workitem" AND namcreator:"#{loginController.remoteUser}")</value>
 		</managed-property>
 	</managed-bean>
+	
+	
+	
+	
 
 
 	<managed-bean>
 		<managed-bean-name>spaceViewController</managed-bean-name>
-		<managed-bean-class>org.imixs.workflow.jee.faces.workitem.ViewController</managed-bean-class>
+		<managed-bean-class>org.imixs.workflow.faces.workitem.ViewController</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 		<managed-property>
-			<property-name>maxResult</property-name>
+			<property-name>pageSize</property-name>
 			<property-class>int</property-class>
-			<value>-1</value>
+			<value>999</value>
 		</managed-property>
 		<managed-property>
-			<property-name>type</property-name>
+			<property-name>query</property-name>
 			<property-class>java.lang.String</property-class>
-			<value>space</value>
-		</managed-property>
-		<managed-property>
-			<property-name>view</property-name>
-			<property-class>java.lang.String</property-class>
-			<value>worklist.name.asc</value>
+			<value>(type:"space")</value>
 		</managed-property>
 	</managed-bean>
 
 
 	<managed-bean>
 		<managed-bean-name>processViewController</managed-bean-name>
-		<managed-bean-class>org.imixs.workflow.jee.faces.workitem.ViewController</managed-bean-class>
+		<managed-bean-class>org.imixs.workflow.faces.workitem.ViewController</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 		<managed-property>
-			<property-name>maxResult</property-name>
+			<property-name>pageSize</property-name>
 			<property-class>int</property-class>
-			<value>-1</value>
+			<value>999</value>
 		</managed-property>
 		<managed-property>
-			<property-name>type</property-name>
+			<property-name>query</property-name>
 			<property-class>java.lang.String</property-class>
-			<value>process</value>
-		</managed-property>
-		<managed-property>
-			<property-name>view</property-name>
-			<property-class>java.lang.String</property-class>
-			<value>worklist.name.asc</value>
-		</managed-property>
-	</managed-bean>
-
-
-
-	<managed-bean>
-		<managed-bean-name>profileController</managed-bean-name>
-		<managed-bean-class>org.imixs.workflow.jee.faces.workitem.WorkflowController</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-		<managed-property>
-			<property-name>type</property-name>
-			<property-class>java.lang.String</property-class>
-			<value>profile</value>
+			<value>(type:"process")</value>
 		</managed-property>
 	</managed-bean>
 
 	<managed-bean>
 		<managed-bean-name>profileViewController</managed-bean-name>
-		<managed-bean-class>org.imixs.workflow.jee.faces.workitem.ViewController</managed-bean-class>
+		<managed-bean-class>org.imixs.workflow.faces.workitem.ViewController</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 		<managed-property>
-			<property-name>maxResult</property-name>
+			<property-name>pageSize</property-name>
 			<property-class>int</property-class>
-			<value>-1</value>
+			<value>999</value>
 		</managed-property>
 		<managed-property>
-			<property-name>type</property-name>
+			<property-name>query</property-name>
 			<property-class>java.lang.String</property-class>
-			<value>profile</value>
+			<value>(type:"profile")</value>
 		</managed-property>
-		<managed-property>
-			<property-name>view</property-name>
-			<property-class>java.lang.String</property-class>
-			<value>worklist.name.asc</value>
-		</managed-property>
-
 
 	</managed-bean>
 
 
-	<managed-bean>
-		<managed-bean-name>adminPViewController</managed-bean-name>
-		<managed-bean-class>org.imixs.workflow.jee.faces.workitem.ViewController</managed-bean-class>
-		<managed-bean-scope>view</managed-bean-scope>
-		<managed-property>
-			<property-name>maxResult</property-name>
-			<property-class>int</property-class>
-			<value>30</value>
-		</managed-property>
-		<managed-property>
-			<property-name>type</property-name>
-			<property-class>java.lang.String</property-class>
-			<value>adminp</value>
-		</managed-property>
-		<managed-property>
-			<property-name>view</property-name>
-			<property-class>java.lang.String</property-class>
-			<value>worklist.modified.desc</value>
-		</managed-property>
-	</managed-bean>
 
 	<!-- Default navigation rules -->
 	<navigation-rule>
