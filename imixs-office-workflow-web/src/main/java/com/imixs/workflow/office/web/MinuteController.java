@@ -47,16 +47,9 @@ public class MinuteController extends ChildWorkitemController implements Seriali
 			String uniqueIdRef = getParentWorkitem().getItemValueString(WorkflowKernel.UNIQUEID);
 			if (!uniqueIdRef.isEmpty()) {
 				String sQuery = null;
-//				sQuery = "SELECT wi FROM Entity as wi ";
-//				sQuery += " JOIN wi.textItems as r ";
-//				sQuery += " JOIN wi.integerItems as n ";
-//				sQuery += " WHERE wi.type IN ('workitem','childworkitem','workitemarchive','childworkitemarchive')  ";
-//				sQuery += " AND r.itemName = '$uniqueidref' and r.itemValue = '" + uniqueIdRef + "'";
-//				sQuery += " AND n.itemName = 'numsequencenumber' ";
-//				sQuery += " ORDER BY n.itemValue";
 				
 				sQuery="( (type:\"workitem\" OR type:\"childworkitem\" OR type:\"workitemarchive\" OR type:\"childworkitemarchive\") ";
-				sQuery+=" AND ($uniqueidref:\"" + uniqueIdRef + "\") ";
+				sQuery+=" AND ($uniqueidref:\"" + uniqueIdRef + "\")) ";
 				
 				try {
 					minutes = this.getDocumentService().find(sQuery, 999,0);
