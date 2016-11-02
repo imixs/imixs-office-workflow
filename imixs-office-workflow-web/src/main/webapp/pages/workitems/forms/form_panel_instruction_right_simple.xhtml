@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<div class="row">
+		<div class="col-4 imixs-form-instruction-right">
+			<!-- Instruction Section -->
+			<!-- the following code computes the txtworktow abstract from the current modelversion and processid  -->
+			<div class="ui-state-highlight ui-corner-all imixs-instruction">
+				<h:outputText escape="false"
+					value="#{modelController.getProcessDescription(workflowController.workitem.item['$processID'],workflowController.workitem.item['$ModelVersion'],workflowController.workitem)}">
+				</h:outputText>
+			</div>
+		</div>
+		<div class="col-8 ">
+
+			<c:forEach items="#{workflowController.editorSections}" var="section">
+				<div class="imixs-form-panel">
+					<h1>
+						<h:outputText value="#{section.name}" />
+					</h1>
+					<f:subview>
+						<ui:include src="/pages/workitems/forms/#{section.url}.xhtml">
+							<ui:param name="workitem" value="#{workflowController.workitem}" />
+						</ui:include>
+					</f:subview>
+				</div>
+			</c:forEach>
+		
+		</div>
+	</div>
+
+</ui:composition>
