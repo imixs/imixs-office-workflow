@@ -6,32 +6,36 @@
 
 	<ui:define name="content">
 
-error: #{requestScope['javax.servlet.error.exception']}
-<hr />
-error.cause: #{requestScope['javax.servlet.error.exception'].cause.class.name}
-<hr />
-error.cause.cause: #{requestScope['javax.servlet.error.exception'].cause.cause.class.name}
-<hr />
-
-
 		<!-- Display only if error messages available -->
 		<h:panelGroup styleClass="ui-widget">
 			<div class="ui-state-error ui-corner-all"
 				style="padding: .7em; margin-bottom: .7em;">
-				
-				<h1>#{message.error_message_general_title}</h1>
+				<h3>
+					<span class="typcn typcn-weather-stormy"></span>
+					#{message.error_message_general_title}
+				</h3>
 				<p>#{message.error_message_general}</p>
-
-
-				<br /> <br />
-				<h2>
-					<a class="ui-button ui-widget  ui-corner-all"
-						href="#{facesContext.externalContext.requestContextPath}/">#{message.prev}</a>
-				</h2>
-
-
-				<h:messages globalOnly="true" />
+				<strong><h:outputText value="#{session.lastAccessedTime}">
+						<f:convertDateTime pattern="#{message.dateTimePatternLong}"
+							type="date" />
+					</h:outputText> :</strong> <br />
+				<!-- display exception details -->
+				<h:panelGroup layout="block"
+					style="background: #EEE;   padding: 10px; margin: 5px 0 20px 0;border: 1px solid #999;"
+					rendered="#{! empty requestScope['javax.servlet.error.exception']}">
+					<h:outputText
+						value="#{requestScope['javax.servlet.error.exception']}" />
+				</h:panelGroup>
+				
+				<h:outputText
+						value="#{requestScope['javax.ejb.EJBException']}" />
+				
 			</div>
+			<h:form>
+				<h:commandButton action="home" value="#{message.close}"
+					immediate="true" />
+			</h:form>
+
 		</h:panelGroup>
 	</ui:define>
 </ui:composition>
