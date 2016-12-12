@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<div class="imixs-form-section-2">
+		<dl>
+			<!-- ### Name ### -->
+			<dt>
+				<h:outputLabel value="Lieferant" />
+			</dt>
+			<dd>
+				<h:outputText value="#{workitem.item['_supplier']}" />
+			</dd>
+		</dl>
+		<dl>
+
+			<!-- ### Address ### -->
+			<dt>
+				<h:outputLabel value="#{message['form.address']}" />
+			</dt>
+			<dd>
+				<pre>
+					<h:outputText value="#{workitem.item['_address']}" />
+				</pre>
+			</dd>
+		</dl>
+	</div>
+
+</ui:composition>
+

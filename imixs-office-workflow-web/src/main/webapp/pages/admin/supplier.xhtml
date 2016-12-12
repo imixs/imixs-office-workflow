@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+		<f:view>
+
+			<h:form id="supplier_form">
+
+				<div class="imixs-form">
+					<div class="imixs-header">
+						<h1>Lieferant</h1>
+					</div>
+
+
+					<div class="imixs-body">
+						<ui:include src="/pages/error_message.xhtml" />
+
+						<div class="imixs-form-panel">
+							<div class="imixs-form-section">
+
+								<dl>
+									<!-- ### Name ### -->
+									<dt>
+										<h:outputLabel value="Lieferant" />
+										<span class="imixs-required">*</span>
+									</dt>
+									<dd>
+										<h:inputText required="true"
+											value="#{supplierController.workitem.item['txtname']}">
+										</h:inputText>
+									</dd>
+								</dl>
+								<dl>
+
+									<!-- ### Address ### -->
+									<dt>
+										<h:outputLabel value="#{message['form.address']}" />
+									</dt>
+									<dd>
+										<h:inputTextarea
+											value="#{supplierController.workitem.item['_address']}" />
+									</dd>
+								</dl>
+							</div>
+						</div>
+
+
+
+						<div class="imixs-footer">
+
+
+
+							<h:commandButton action="supplierlist"
+								actionListener="#{supplierController.save}"
+								value="#{message.save}">
+							</h:commandButton>
+
+							<h:commandButton action="supplierlist" immediate="true"
+								onclick="if (!confirm('#{message.help_delete}')) return false;"
+								actionListener="#{supplierController.delete(supplierController.workitem.item['$uniqueid'])}"
+								value="#{message.delete}">
+							</h:commandButton>
+
+							<h:commandButton value="#{message.close}" immediate="true"
+								action="supplierlist" />
+
+
+
+						</div>
+
+					</div>
+				</div>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+
+
+</ui:composition>

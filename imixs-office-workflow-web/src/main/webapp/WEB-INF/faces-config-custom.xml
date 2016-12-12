@@ -1,13 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<faces-config
-    xmlns="http://java.sun.com/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
-    version="2.1">
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
+	version="2.1">
 
-
-
-
-
+	<!-- View Controller für Lieferantenauswahl - supplierController ist direkt implementiert -->
+	<managed-bean>
+		<managed-bean-name>supplierViewController</managed-bean-name>
+		<managed-bean-class>org.imixs.workflow.faces.workitem.ViewController</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>pageSize</property-name>
+			<property-class>int</property-class>
+			<value>1000</value>
+		</managed-property>
+		
+		<managed-property>
+			<property-name>sortBy</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>txtname</value>
+		</managed-property>
+		<managed-property>
+			<property-name>sortReverse</property-name>
+			<property-class>boolean</property-class>
+			<value>false</value>
+		</managed-property>
+		<managed-property>
+			<property-name>query</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>(type:"supplier")</value>
+		</managed-property>
+		
+		
+	
+	</managed-bean>
+	
+	
+	
+	
 
 </faces-config>

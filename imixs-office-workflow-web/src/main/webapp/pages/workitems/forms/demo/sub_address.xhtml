@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:panelGroup layout="block" class="imixs-form-section-2" id="supplier_data_id">
+		<dl>
+			<!-- ### Name ### -->
+			<dt>
+				<h:outputLabel value="Lieferant" />
+				<span class="imixs-required">*</span>
+			</dt>
+			<dd>
+				<h:selectOneMenu value="#{workitem.item['_supplierid']}">
+					<f:selectItem itemLabel=""></f:selectItem>
+					<c:forEach items="#{supplierViewController.workitems}" var="record">
+						<f:selectItem itemLabel="#{record.item['txtName']}"
+							itemValue="#{record.item['$UniqueID']}">
+						</f:selectItem>
+					</c:forEach>
+					<f:ajax event="change" listener="#{supplierController.updateSupplierData}"
+						render="supplier_data_id" />
+				</h:selectOneMenu>
+				<br />
+				<h:inputText required="true" value="#{workitem.item['_supplier']}" />
+
+			</dd>
+		</dl>
+		<dl>
+
+			<!-- ### Address ### -->
+			<dt>
+				<h:outputLabel value="#{message['form.address']}" />
+			</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_address']}" />
+			</dd>
+		</dl>
+	</h:panelGroup>
+
+</ui:composition>
+
