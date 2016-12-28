@@ -50,7 +50,6 @@ import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.util.LoginController;
-import org.imixs.workflow.jee.ejb.EntityService;
 
 
 /**
@@ -246,36 +245,44 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 	private void loadMyTimeSheet() {
 		myTimeSheet = new ArrayList<ItemCollection>();
 		myTimeSheetSummary = new ItemCollection();
-	logger.warning("TBD - migration jpql...");
 		if (getParentWorkitem() != null) {
 			String uniqueIdRef = getParentWorkitem().getItemValueString(WorkflowKernel.UNIQUEID);
 
 			String sUser = loginController.getUserPrincipal();
 
-			// construct query
-			String sQuery = "SELECT DISTINCT wi FROM Entity AS wi ";
-			sQuery += " JOIN wi.textItems as tref ";
-			sQuery += " JOIN wi.integerItems as tp ";
-			sQuery += " JOIN wi.textItems as tc ";
-			sQuery += " JOIN wi.calendarItems as td ";
+//			// construct query
+//			String sQuery = "SELECT DISTINCT wi FROM Entity AS wi ";
+//			sQuery += " JOIN wi.textItems as tref ";
+//			sQuery += " JOIN wi.integerItems as tp ";
+//			sQuery += " JOIN wi.textItems as tc ";
+//			sQuery += " JOIN wi.calendarItems as td ";
+//
+//			// restrict type depending of a supporte ref id
+//			sQuery += " WHERE wi.type = 'childworkitem' ";
+//
+//			sQuery += " AND tref.itemName = '$uniqueidref' and tref.itemValue = '" + uniqueIdRef + "' ";
+//
+//			sQuery += " AND tc.itemName = 'namcreator' and tc.itemValue = '" + sUser + "' ";
+//			// Process ID
+//			sQuery += " AND tp.itemName = '$processid' AND tp.itemValue >=6100 AND tp.itemValue<=6999";
+//
+//			sQuery += " AND td.itemName = 'datdate' ";
+//
+//			sQuery += " ORDER BY td.itemValue DESC";
 
-			// restrict type depending of a supporte ref id
-			sQuery += " WHERE wi.type = 'childworkitem' ";
-
-			sQuery += " AND tref.itemName = '$uniqueidref' and tref.itemValue = '" + uniqueIdRef + "' ";
-
-			sQuery += " AND tc.itemName = 'namcreator' and tc.itemValue = '" + sUser + "' ";
-			// Process ID
-			sQuery += " AND tp.itemName = '$processid' AND tp.itemValue >=6100 AND tp.itemValue<=6999";
-
-			sQuery += " AND td.itemName = 'datdate' ";
-
-			sQuery += " ORDER BY td.itemValue DESC";
-
+			
+			
+			String sQuery="(type:\"childworkitem\") AND ($uniqueidref:\"" + uniqueIdRef + "\")"
+					+ " AND (namcreator:\"" + sUser + "\")"
+							+ " AND ($processid:[6100 TO 6999])";
+			
+			
+			
+			
 			logger.fine("TimeSheetMB loadMyTimeSheet - query=" + sQuery);
 			Collection<ItemCollection> col;
 			try {
-				col = getDocumentService().find(sQuery, 999,0);
+				col = getDocumentService().find(sQuery, 999, 0,"datdate",true);
 
 				for (ItemCollection aworkitem : col) {
 					myTimeSheet.add((this.cloneWorkitem(aworkitem)));
@@ -300,65 +307,72 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 
 		if (filter == null)
 			return;
-logger.warning("TBD - migration jpql...");
 		if (getParentWorkitem() != null) {
 			String uniqueIdRef = getParentWorkitem().getItemValueString(WorkflowKernel.UNIQUEID);
 
 			String sUser = filter.getItemValueString("namCreator");
 
 			Date datFrom = filter.getItemValueDate("datFrom"); // format
-																// '2008-09-15'
+																// '20080915'
+			if (datFrom==null) {
+				datFrom=new Date();
+			}
 			Date datTo = filter.getItemValueDate("datTo");
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			if (datTo==null) {
+				datTo=new Date();
+			}
+			DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
 
 			int iProcessID = filter.getItemValueInteger("$processid");
 
 			// construct query
-			String sQuery = "SELECT DISTINCT wi FROM Entity AS wi ";
-			sQuery += " JOIN wi.textItems as tref ";
+			String sQuery="";
+			//= "SELECT DISTINCT wi FROM Entity AS wi ";
+			//sQuery += " JOIN wi.textItems as tref ";
 
-			if (iProcessID > 0)
-				sQuery += " JOIN wi.integerItems as tp ";
+//			if (iProcessID > 0)
+//				sQuery += " JOIN wi.integerItems as tp ";
+//
+//			if (!"".equals(sUser))
+//				sQuery += " JOIN wi.textItems as tc ";
 
-			if (!"".equals(sUser))
-				sQuery += " JOIN wi.textItems as tc ";
-
-			if (datFrom != null || datTo != null)
-				sQuery += " JOIN wi.calendarItems as td ";
+//			if (datFrom != null || datTo != null)
+//				sQuery += " JOIN wi.calendarItems as td ";
 
 			// restrict type depending of a supporte ref id
-			sQuery += " WHERE wi.type IN ('childworkitem','childworkitemarchive') ";
+			//sQuery += " WHERE wi.type IN ('childworkitem','childworkitemarchive') ";
+			
+			sQuery += "(type:\"childworkitem\" OR type:\"childworkitemarchive\")";
 
-			sQuery += " AND tref.itemName = '$uniqueidref' and tref.itemValue = '" + uniqueIdRef + "' ";
+			//sQuery += " AND tref.itemName = '$uniqueidref' and tref.itemValue = '" + uniqueIdRef + "' ";
 
-			if (!"".equals(sUser))
-				sQuery += " AND tc.itemName = 'namcreator' and tc.itemValue = '" + sUser + "' ";
-			// Process ID
-			if (iProcessID > 0)
-				sQuery += " AND tp.itemName = '$processid' AND tp.itemValue =" + iProcessID;
-
-			sQuery += " AND td.itemName = 'datdate' ";
-
-			if (datFrom != null)
-
-				sQuery += " AND td.itemValue >= '" + formatter.format(datFrom) + "' ";
-
-			if (datTo != null) {
-				// format '2008-09-15'
-				// we need to adjust the day for 1 because time is set to
-				// 0:00:00 per default
-				Calendar calTo = Calendar.getInstance();
-				calTo.setTime(datTo);
-				calTo.add(Calendar.DAY_OF_MONTH, 1);
-				sQuery += " AND td.itemValue < '" + formatter.format(calTo.getTime()) + "' ";
+			sQuery += " AND ($uniqueidref:\"" + uniqueIdRef +"\")"; 
+			
+			if (!"".equals(sUser)) {
+				//sQuery += " AND tc.itemName = 'namcreator' and tc.itemValue = '" + sUser + "' ";
+				sQuery += " AND (namcreator:\"" + sUser + "\")";
 			}
-
-			sQuery += " ORDER BY td.itemValue DESC";
+			// Process ID
+			if (iProcessID > 0) {
+				//sQuery += " AND tp.itemName = '$processid' AND tp.itemValue =" + iProcessID;
+				sQuery += " AND ($processid:" + iProcessID + ")";
+			}
+			
+			//sQuery += " AND td.itemName = 'datdate' ";
+			// format '2008-09-15'
+			// we need to adjust the day for 1 because time is set to
+			// 0:00:00 per default
+			Calendar calTo = Calendar.getInstance();
+			calTo.setTime(datTo);
+			calTo.add(Calendar.DAY_OF_MONTH, 1);
+		
+			sQuery += " AND (datdate:["+formatter.format(datFrom) + " TO " + formatter.format(calTo.getTime()) + "])";
+			
 
 			logger.fine("loadFilterTimeSheet - query=" + sQuery);
 			Collection<ItemCollection> col;
 			try {
-				col = getDocumentService().find(sQuery, 999,0);
+				col = getDocumentService().find(sQuery, 999,0,"datdate", true);
 				for (ItemCollection aworkitem : col) {
 					filterTimeSheet.add((this.cloneWorkitem(aworkitem)));
 					computeSummaryOfNumberValues(aworkitem, filterTimeSheetSummary);
