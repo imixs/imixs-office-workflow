@@ -18,8 +18,11 @@
 	 
  3d. change persistenc.xml - persistence-unit=org.imixs.workflow.jpa	 
 	 
+	 
  3e. Update web module resource bundle app with entry: 
       workflowversion_system=system-de-1.0.0	 
+
+ 3f. Check pom.xm. build instructions if web module	 
 	 
  4. Restart Server and deploy new Application (with Imixs-Workflow 4.x) 
   
