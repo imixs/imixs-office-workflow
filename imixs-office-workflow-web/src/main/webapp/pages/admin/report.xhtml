@@ -67,9 +67,48 @@
 									</ui:repeat>
 								</div>
 							</div>
+
+
+							<div class="imixs-form-panel">
+								<h1>Result</h1>
+								<div class="imixs-form-section-2">
+								
+								
+									<dl>
+										<dt>Page Size:</dt>
+										<dd>
+											<input type="text" id="imixs-report-pagesize" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>Page Index:</dt>
+										<dd>
+											<input type="text" id="imixs-report-pageindex" />
+										</dd>
+									</dl>
+
+									<dl>
+										<dt>Sort By:</dt>
+										<dd>
+											<input type="text" id="imixs-report-sortby" />
+										</dd>
+									</dl>
+
+									<dl>
+										<dt>Sortorder reverse:</dt>
+										<dd>
+											<input type="text" id="imixs-report-sortreverse" />
+										</dd>
+									</dl>
+									
+									</div>
+							</div>
+
 							<div class="imixs-form-panel">
 								<h1>Format</h1>
 								<div class="imixs-form-section-2">
+
+
 
 									<dl>
 										<dt>Output:</dt>
@@ -81,13 +120,7 @@
 											</select>
 										</dd>
 									</dl>
-									<dl>
-										<dt>Count:</dt>
-										<dd>
-											<input type="text" id="imixs-report-count" />
-										</dd>
-									</dl>
-									
+
 									<dl>
 										<dt>Encoding:</dt>
 										<dd>
@@ -124,45 +157,63 @@
 			<script type="text/javascript">
 				/*<![CDATA[*/
 				var reportBaseURI = "#{facesContext.externalContext.requestContextPath}/rest-service/report/";
-				var reportName= "#{reportController.workitem.item['txtname']}";
-				
+				var reportName = "#{reportController.workitem.item['txtname']}";
+
 				// check of date input fields
 				$(document).ready(function() {
 					var paramList = $('.imixs-report-param');
-					$(paramList).each(
-							function(index, value) {
-								var paramName = $(this).attr("data-param");
-								// add datepicker
-								if (paramName.startsWith('date_')) {
-									$(this).addClass('imixs-date').datepicker({
-										showOtherMonths : true,
-										selectOtherMonths : true,
-										dateFormat : "yy-mm-dd"
-									});
-								}
+					$(paramList).each(function(index, value) {
+						var paramName = $(this).attr("data-param");
+						// add datepicker
+						if (paramName.startsWith('date_')) {
+							$(this).addClass('imixs-date').datepicker({
+								showOtherMonths : true,
+								selectOtherMonths : true,
+								dateFormat : "yymmdd"
 							});
+						}
+					});
 				});
-				
-				
+
 				// test if all params are provided and open URI
 				function openReport() {
 					var reportURI = "";
 					var encoding = $('#imixs-report-encoding').val();
-					var count = $('#imixs-report-count').val();
+					
+					var pageSize = $('#imixs-report-pagesize').val();
+					var pageIndex = $('#imixs-report-pageindex').val();
+					var sortBy = $('#imixs-report-sortby').val();
+					var sortReverse = $('#imixs-report-sortreverse').val();
+					
 					var outputFormat = $('#imixs-report-output').val();
 					var paramList = $('.imixs-report-param');
 					var paramsValid = true;
-					
-					// report name
-					if (reportName.indexOf(".")>-1) {
-						reportName = reportName.substring(0, reportName.indexOf('.'));
-					}
-					// default count?
-					if (!count) {
-						count="-1";
-					}
 
-					reportURI = reportURI+reportBaseURI + reportName + "." + outputFormat + "?count="+count;
+					// report name
+					if (reportName.indexOf(".") > -1) {
+						reportName = reportName.substring(0, reportName
+								.indexOf('.'));
+					}
+				
+					// pageindex?
+					if (!pageSize) {
+						pageSize = "100";
+					}
+					
+					reportURI = reportURI + reportBaseURI + reportName + "."
+							+ outputFormat + "?pageSize=" +pageSize;
+
+					
+					if (pageIndex) {
+						reportURI = reportURI + "&pageIndex=" + pageIndex;
+					}
+					
+					if (sortBy) {
+						reportURI = reportURI + "&sortBy=" + sortBy.toLowerCase();
+					}
+					if (sortReverse) {
+						reportURI = reportURI + "&sortReverse=" + sortReverse;
+					}
 					
 					if (encoding) {
 						reportURI = reportURI + "&encoding=" + encoding;
