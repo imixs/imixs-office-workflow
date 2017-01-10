@@ -101,6 +101,20 @@
 			</c:if>
 
 
+
+			<!-- DMS -->
+			<h:panelGroup layout="block" styleClass="toolbar login"
+				rendered="#{loginController.authenticated}">
+				
+				
+			<span class="dms-link">
+				<h:outputText value="DMS" />
+				<h:link outcome="/pages/workitems/archive" title="#{message['nav.my_settings']}">
+					<span class="typcn typcn-archive"></span>
+				</h:link>
+				</span>
+			</h:panelGroup>
+
 			
 			<ul class="imixs-about">
 				<li><a href="http://www.office-workflow.de" target="_blank"><h:outputText
