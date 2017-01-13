@@ -18,23 +18,25 @@
       <imixs:value><![CDATA[Datum | datDate]]></imixs:value>
     </imixs:item>
     <imixs:item name="txtplugins" type="xs:string">
-      <imixs:value><![CDATA[org.imixs.workflow.plugins.RulePlugin]]></imixs:value>
+      <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.VersionPlugin]]></imixs:value>
+      <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.RulePlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.plugins.ProfilePlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.plugins.SequenceNumberPlugin]]></imixs:value>
-      <imixs:value><![CDATA[de.bni.office.plugins.BNITeamPlugin]]></imixs:value>
+      <imixs:value><![CDATA[org.imixs.marty.plugins.TeamPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.plugins.DeputyPlugin]]></imixs:value>
-      <imixs:value><![CDATA[org.imixs.workflow.plugins.AccessPlugin]]></imixs:value>
+      <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.AccessPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.plugins.DMSPlugin]]></imixs:value>
-      <imixs:value><![CDATA[org.imixs.workflow.plugins.OwnerPlugin]]></imixs:value>
-      <imixs:value><![CDATA[org.imixs.workflow.plugins.jee.HistoryPlugin]]></imixs:value>
-      <imixs:value><![CDATA[org.imixs.workflow.plugins.LogPlugin]]></imixs:value>
+      <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.OwnerPlugin]]></imixs:value>
+      <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.HistoryPlugin]]></imixs:value>
+      <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.LogPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.plugins.ApplicationPlugin]]></imixs:value>
-      <imixs:value><![CDATA[org.imixs.workflow.plugins.ResultPlugin]]></imixs:value>
+      <imixs:value><![CDATA[org.imixs.marty.plugins.CommentPlugin]]></imixs:value>
+      <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.ResultPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.plugins.MailPlugin]]></imixs:value>
-      <imixs:value><![CDATA[org.imixs.workflow.lucene.LucenePlugin]]></imixs:value>
+      <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.IntervalPlugin]]></imixs:value>
     </imixs:item>
   </bpmn2:extensionElements>
-  <bpmn2:process id="dokumentation" name="Dokumentation" isExecutable="false">
+  <bpmn2:process id="dokumentation" name="Wiki" isExecutable="false">
     <bpmn2:startEvent id="StartEvent_1" name="Start">
       <bpmn2:outgoing>SequenceFlow_0</bpmn2:outgoing>
     </bpmn2:startEvent>
@@ -48,7 +50,7 @@
     <bpmn2:task id="Task_6000" imixs:processid="6000" name="Entwurf">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel#bni/basic_doc]]></imixs:value>
+          <imixs:value><![CDATA[form_panel_instruction_right#sub_wiki]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtimageurl" type="xs:string">
           <imixs:value><![CDATA[/layout/icons/vwicn229.png]]></imixs:value>
@@ -84,7 +86,7 @@
           <imixs:value><![CDATA[<itemvalue>_subject</itemvalue> ]]></imixs:value>
         </imixs:item>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel#bni/basic_doc_read]]></imixs:value>
+          <imixs:value><![CDATA[form_panel#sub_wiki_read]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtimageurl" type="xs:string">
           <imixs:value><![CDATA[/layout/icons/vwicn240.png]]></imixs:value>
@@ -111,7 +113,7 @@
           <imixs:value><![CDATA[workitemarchive]]></imixs:value>
         </imixs:item>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel#bni/basic_doc_read]]></imixs:value>
+          <imixs:value><![CDATA[form_panel#sub_wiki_read]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtimageurl" type="xs:string">
           <imixs:value><![CDATA[/layout/icons/vwicn235.png]]></imixs:value>
@@ -258,7 +260,7 @@
           <imixs:value><![CDATA[0]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyversion" type="xs:string">
-          <imixs:value><![CDATA[0]]></imixs:value>
+          <imixs:value><![CDATA[1]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
@@ -298,6 +300,9 @@
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>false</imixs:value>
+        </imixs:item>
+        <imixs:item name="numversionactivityid" type="xs:string">
+          <imixs:value><![CDATA[20]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_6010-10">Zum ändern des Textes</bpmn2:documentation>
