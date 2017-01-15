@@ -1,0 +1,15 @@
+postgresoffice:
+  image: postgres:9.6.1
+  environment:
+    POSTGRES_PASSWORD: adminadmin
+    POSTGRES_DB: office
+
+imixsofficeworkflow:
+  image: imixs/imixs-office-workflow
+  environment:
+    WILDFLY_PASS: adminadmin
+  ports:
+    - "8080:8080"
+    - "9990:9990"
+  links: 
+    - postgresoffice:postgres

@@ -1,5 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
-
 <server xmlns="urn:jboss:domain:4.0">
 
     <extensions>
@@ -149,27 +148,32 @@
                     </security>
                 </datasource>
               
+              
+              	<!-- imixs-workflow datasource -->
                 <datasource jta="true" jndi-name="java:/jdbc/office" pool-name="office" enabled="true" use-ccm="true">
                     <connection-url>jdbc:postgresql://postgres/office</connection-url>
                     <driver-class>org.postgresql.Driver</driver-class>
-                    <driver>postgresql-9.3-1102.jdbc41.jar</driver>
+                    <driver>postgresql</driver>
                     <security>
                         <user-name>postgres</user-name>
                         <password>adminadmin</password>
                     </security>
-                    <validation>
-                        <validate-on-match>false</validate-on-match>
+                     <validation>
+                        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
+                        <validate-on-match>true</validate-on-match>
                         <background-validation>false</background-validation>
-                    </validation>                  
+                    </validation>                
                     <statement>
                         <share-prepared-statements>false</share-prepared-statements>
                     </statement>
-                </datasource>
-                
+                </datasource>                
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
                     </driver>
+                    <driver name="postgresql" module="org.postgresql">
+                		<driver-class>org.postgresql.Driver</driver-class>
+            		</driver>
                 </drivers>
             </datasources>
         </subsystem>
