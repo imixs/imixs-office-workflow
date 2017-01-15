@@ -13,8 +13,6 @@ Technical information can be found on the [marty project home](http://www.imixs.
 
 
 
-
-
 <br /><br /><img src="small_h-trans.png" />
 
 
@@ -44,9 +42,36 @@ Note: this command will start two container, a postgreSQL server and a Wildfly S
 
 # Development
 
-During development you can build the docker image manually - run:
+During development the docker container can be used with mounting an external deployments/ folder:
 
-	docker build --tag=imixs/imixs-office-workflow .
+	docker run --name="imixs-office-workflow" -d -p 8080:8080 -p 9990:9990 \
+         -e WILDFLY_PASS="admin_password" \
+         -v ~/git/imixs-office-workflow/deployments:/opt/wildfly/standalone/deployments/:rw \
+         imixs/imixs-office-workflow
+
+## Docker-Compose
+
+Imixs-Office-Workflow needs a postgreSQL database to be run. To start both containers a docker-compose script is provided to simplify the startup. 
+The following example shows the docker-compose.yml for imixs-microservice. You can customize this .yml file to your needs:
+
+	postgresoffice:
+	  image: postgres:9.6.1
+	  environment:
+	    POSTGRES_PASSWORD: adminadmin
+	    POSTGRES_DB: office
+	
+	imixsofficeworkflow:
+	  image: imixs/imixs-office-workflow
+	  environment:
+	    WILDFLY_PASS: adminadmin
+	  ports:
+	    - "8080:8080"
+	    - "9990:9990"
+	  links: 
+	    - postgresoffice:postgres
+
+ 
+Take care about the link to the postgres container. The host name 'postgres' is needed to be used in the standalone.xml configuration file in wildfly to access the postgres server for the database pool configuration.
 
 
 For further details see the [imixs/wildfly docker image](https://hub.docker.com/r/imixs/wildfly/).
