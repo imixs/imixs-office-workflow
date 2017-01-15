@@ -9,8 +9,13 @@ You can find further information on the web site [Imixs-Office-Workflow](http://
 
 Technical information can be found on the [marty project home](http://www.imixs.org/marty).
 
+## Deplyoment
+Imixs-Office-Workflow is based on the Java EE stack and can be deployed on JBoss/Wildfly server.
+To build the Java EE artifact run the maven install command first:
 
+	mvn clean install
 
+To deploy the artifact the application server must provide a database pool named "java:/jdbc/office" and a security domain/realm named 'office'
 
 
 <br /><br /><img src="small_h-trans.png" />
