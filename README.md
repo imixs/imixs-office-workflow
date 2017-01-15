@@ -28,13 +28,13 @@ Imixs-Office-Workflow is based on maven. To build the Java EE artifact run:
 
 	mvn clean install
 
-## 2. Build the docker-compose
+## 2. Build the docker image
 To build the docker image run
 
 	docker build --tag=imixs/imixs-office-workflow .
 
 
-## 3. Run with docker-compose
+## 3. Run 
 You can start the Imixs-Office-Workflow docker container with the docker-compose command:
 
 	docker-compose up
