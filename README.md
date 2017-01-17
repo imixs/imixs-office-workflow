@@ -47,12 +47,22 @@ Note: this command will start two container, a postgreSQL server and a Wildfly S
 
 # Development
 
-During development the docker container can be used with mounting an external deployments/ folder:
+During development the docker container can be started with mounting a local deployments folder. 
+If you start the container manually, you need to provide first a PostgreSQL Database container with the database 'office':
 
-	docker run --name="imixs-office-workflow" -d -p 8080:8080 -p 9990:9990 \
+	docker run -d --name postgresoffice-dev -e POSTGRES_DB=office \
+	     -e POSTGRES_PASSWORD=adminadmin \
+	     postgres:9.6.1
+
+To start Imixs-Office-Workflow useing the postgre datbase container and mounting an external src/docker/.deployments folder, run:
+
+	docker run --name="imixs-office-workflow-dev" -p 8080:8080 -p 9990:9990 \
          -e WILDFLY_PASS="admin_password" \
-         -v ~/git/imixs-office-workflow/deployments:/opt/wildfly/standalone/deployments/:rw \
+         --link postgresoffice-dev:postgres \
+         -v ~/git/imixs-office-workflow/src/docker/.deployments:/opt/wildfly/standalone/deployments/:rw \
          imixs/imixs-office-workflow
+
+
 
 ## Docker-Compose
 
