@@ -8,8 +8,13 @@ imixsofficeworkflow:
   image: imixs/imixs-office-workflow
   environment:
     WILDFLY_PASS: adminadmin
+    DEBUG: "true"
   ports:
     - "8080:8080"
     - "9990:9990"
+    - "8787:8787"
   links: 
     - postgresoffice:postgres
+  volumes:
+      - ~/git/imixs-office-workflow/src/docker/.deployments:/opt/wildfly/standalone/deployments/
+    
