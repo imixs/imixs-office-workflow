@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.3.0.Final-v20160602-2145-B47" targetNamespace="http://www.imixs.org/bpmn2">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.3.2.Final-v20161020-1541-B59" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
       <imixs:value><![CDATA[rechnungseingang-1.1.0]]></imixs:value>
@@ -24,7 +24,7 @@
     </imixs:item>
     <imixs:item name="txtplugins" type="xs:string">
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.ResultPlugin]]></imixs:value>
-      <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.RulePlugin]]></imixs:value> 
+      <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.RulePlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.plugins.ProfilePlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.plugins.SequenceNumberPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.plugins.TeamPlugin]]></imixs:value>
@@ -43,7 +43,7 @@
   <bpmn2:process id="rechnungseingang" name="Rechnungseingang" isExecutable="false">
     <bpmn2:startEvent id="StartEvent_1" name="Start">
       <bpmn2:outgoing>SequenceFlow_0</bpmn2:outgoing>
-      <bpmn2:outgoing>SequenceFlow_47</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_4</bpmn2:outgoing>
     </bpmn2:startEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_0" sourceRef="StartEvent_1" targetRef="ExclusiveGateway_1"/>
     <bpmn2:sequenceFlow id="SequenceFlow_3" sourceRef="IntermediateCatchEvent_5000-20" targetRef="Task_5005"/>
@@ -80,6 +80,9 @@
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
+        <imixs:item name="txttype" type="xs:string">
+          <imixs:value><![CDATA[workitem]]></imixs:value>
+        </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_3"><![CDATA[<h3>Rechnungseingangskontrolle</h3>
 <p>Der Workflow 'Rechnungseingang' beschreibt beispielhaft einen Ablauf zur Prüfung von Eingangsrechnungen.<p>
@@ -99,9 +102,9 @@
 <h3>Der Workflow</h3>
 
 <p>Eingangsrechnungen können über eine E-Mailschnittstelle oder das Filesystem automatisch eingelesen werden. Eine Eingangsrechnung wird in diesem Beispiel vom zugewiesenen Mitarbeiter sowie den Prozessverantworltichen (Controlling) bearbeitet. </p>]]></bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_11</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_31</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_33</bpmn2:incoming>
-      <bpmn2:incoming>SequenceFlow_11</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
     </bpmn2:task>
     <bpmn2:task id="Task_5005" imixs:processid="5005" name="in Prüfung">
@@ -440,77 +443,6 @@ var team = workitem.get('namteam');
       <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_3</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_5000-100" imixs:activityid="100" name="(E-Mail Eingang)">
-      <bpmn2:extensionElements>
-        <imixs:item name="keyarchive" type="xs:string">
-          <imixs:value><![CDATA[0]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="txtmailsubject" type="xs:string">
-          <imixs:value><![CDATA[Automatischer Rechnungseingang per E-Mail]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyaccessmode" type="xs:string">
-          <imixs:value><![CDATA[0]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyscheduledactivity" type="xs:string">
-          <imixs:value><![CDATA[0]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="rtfmailbody" type="xs:string">
-          <imixs:value><![CDATA[Hallo,
-
-es wurde eine neue Eingangsrechnung per E-Mail empfangen.
-
-
-http://.....?workitem=<itemValue>$uniqueid</itemValue>]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keymailreceiverfields" type="xs:string">
-          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyversion" type="xs:string">
-          <imixs:value><![CDATA[0]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namCreator]]></imixs:value>
-          <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
-          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
-          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="numnextactivityid" type="xs:int">
-          <imixs:value><![CDATA[0]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyfollowup" type="xs:string">
-          <imixs:value><![CDATA[2]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keypublicresult" type="xs:string">
-          <imixs:value><![CDATA[0]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyownershipfields" type="xs:string">
-          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="numnextid" type="xs:int">
-          <imixs:value><![CDATA[5000]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="txtnextprocesstree" type="xs:string">
-          <imixs:value><![CDATA[]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="txtactivityresult" type="xs:string">
-          <imixs:value><![CDATA[<item name="process">Einkauf</item>]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="txtname" type="xs:string">
-          <imixs:value><![CDATA[(E-Mail Eingang)]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyownershipmode" type="xs:string">
-          <imixs:value><![CDATA[0]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="rtfresultlog" type="xs:string">
-          <imixs:value><![CDATA[Automatischer Rechnungeingangs per E-Mail von <itemvalue>_contact</itemvalue>]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>false</imixs:value>
-        </imixs:item>
-      </bpmn2:extensionElements>
-      <bpmn2:incoming>SequenceFlow_47</bpmn2:incoming>
-      <bpmn2:outgoing>SequenceFlow_35</bpmn2:outgoing>
-    </bpmn2:intermediateCatchEvent>
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_5000-101" imixs:activityid="101" name="(E-Mail Bestätigung)">
       <bpmn2:extensionElements>
         <imixs:item name="keyarchive" type="xs:string">
@@ -566,7 +498,7 @@ Bei Fragen wenden Sie sich bitte an info@imixs.com
           <imixs:value><![CDATA[Automatische Empfangsbestätigung versendet]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:incoming>SequenceFlow_35</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_4</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_34</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_5005-10" imixs:activityid="10" name="Speichern">
@@ -1152,7 +1084,6 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
     </bpmn2:exclusiveGateway>
     <bpmn2:sequenceFlow id="SequenceFlow_33" sourceRef="ExclusiveGateway_1" targetRef="Task_5000"/>
     <bpmn2:sequenceFlow id="SequenceFlow_34" sourceRef="IntermediateCatchEvent_5000-101" targetRef="ExclusiveGateway_1"/>
-    <bpmn2:sequenceFlow id="SequenceFlow_35" sourceRef="IntermediateCatchEvent_5000-100" targetRef="IntermediateCatchEvent_5000-101"/>
     <bpmn2:eventBasedGateway id="EventBasedGateway_2" gatewayDirection="Diverging">
       <bpmn2:incoming>SequenceFlow_37</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_8</bpmn2:outgoing>
@@ -1167,7 +1098,6 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
     <bpmn2:sequenceFlow id="SequenceFlow_41" sourceRef="ExclusiveGateway_3" targetRef="EndEvent_1"/>
     <bpmn2:sequenceFlow id="SequenceFlow_42" sourceRef="IntermediateCatchEvent_5010-10" targetRef="Task_5010"/>
     <bpmn2:sequenceFlow id="SequenceFlow_44" sourceRef="IntermediateCatchEvent_5080-10" targetRef="Task_5080"/>
-    <bpmn2:sequenceFlow id="SequenceFlow_47" sourceRef="StartEvent_1" targetRef="IntermediateCatchEvent_5000-100"/>
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_1" name="BEZAHLT">
       <bpmn2:outgoing>SequenceFlow_48</bpmn2:outgoing>
       <bpmn2:linkEventDefinition id="LinkEventDefinition_1" name="Link Event Definition 1"/>
@@ -1479,6 +1409,7 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
       <bpmn2:outgoing>SequenceFlow_28</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_28" sourceRef="IntermediateCatchEvent_5" targetRef="Task_1"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_4" sourceRef="StartEvent_1" targetRef="IntermediateCatchEvent_5000-101"/>
     <bpmn2:group id="Group_1"/>
     <bpmn2:textAnnotation id="TextAnnotation_1">
       <bpmn2:text>Prüfung durch Mitarbeiter</bpmn2:text>
@@ -1488,9 +1419,9 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_Process_1" bpmnElement="rechnungseingang">
       <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="StartEvent_1">
-        <dc:Bounds height="36.0" width="36.0" x="0.0" y="237.0"/>
+        <dc:Bounds height="36.0" width="36.0" x="61.0" y="237.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_1">
-          <dc:Bounds height="14.0" width="25.0" x="5.0" y="273.0"/>
+          <dc:Bounds height="14.0" width="25.0" x="66.0" y="273.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_Task_1" bpmnElement="Task_5000">
@@ -1539,12 +1470,6 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
         <dc:Bounds height="36.0" width="36.0" x="411.0" y="237.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_10">
           <dc:Bounds height="14.0" width="65.0" x="397.0" y="273.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_4" bpmnElement="IntermediateCatchEvent_5000-100">
-        <dc:Bounds height="36.0" width="36.0" x="60.0" y="130.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_12">
-          <dc:Bounds height="28.0" width="49.0" x="54.0" y="166.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_5" bpmnElement="IntermediateCatchEvent_5000-101">
@@ -1684,9 +1609,8 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_0" sourceElement="BPMNShape_StartEvent_1" targetElement="BPMNShape_ExclusiveGateway_1">
-        <di:waypoint xsi:type="dc:Point" x="36.0" y="255.0"/>
-        <di:waypoint xsi:type="dc:Point" x="83.0" y="255.0"/>
-        <di:waypoint xsi:type="dc:Point" x="83.0" y="255.0"/>
+        <di:waypoint xsi:type="dc:Point" x="97.0" y="255.0"/>
+        <di:waypoint xsi:type="dc:Point" x="118.0" y="255.0"/>
         <di:waypoint xsi:type="dc:Point" x="140.0" y="255.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_28"/>
       </bpmndi:BPMNEdge>
@@ -1745,12 +1669,6 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
         <di:waypoint xsi:type="dc:Point" x="165.0" y="230.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_62"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_36" bpmnElement="SequenceFlow_35" sourceElement="BPMNShape_IntermediateCatchEvent_4" targetElement="BPMNShape_IntermediateCatchEvent_5">
-        <di:waypoint xsi:type="dc:Point" x="96.0" y="148.0"/>
-        <di:waypoint xsi:type="dc:Point" x="121.0" y="148.0"/>
-        <di:waypoint xsi:type="dc:Point" x="147.0" y="148.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_63"/>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_38" bpmnElement="SequenceFlow_37" sourceElement="BPMNShape_Task_2" targetElement="BPMNShape_EventBasedGateway_2">
         <di:waypoint xsi:type="dc:Point" x="590.0" y="255.0"/>
         <di:waypoint xsi:type="dc:Point" x="615.0" y="255.0"/>
@@ -1786,12 +1704,6 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
         <di:waypoint xsi:type="dc:Point" x="537.0" y="759.0"/>
         <di:waypoint xsi:type="dc:Point" x="537.0" y="739.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_76"/>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_48" bpmnElement="SequenceFlow_47" sourceElement="BPMNShape_StartEvent_1" targetElement="BPMNShape_IntermediateCatchEvent_4">
-        <di:waypoint xsi:type="dc:Point" x="18.0" y="237.0"/>
-        <di:waypoint xsi:type="dc:Point" x="18.0" y="148.0"/>
-        <di:waypoint xsi:type="dc:Point" x="60.0" y="148.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_80"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_49" bpmnElement="SequenceFlow_48" sourceElement="BPMNShape_IntermediateCatchEvent_20" targetElement="BPMNShape_Task_7">
         <di:waypoint xsi:type="dc:Point" x="428.0" y="523.0"/>
@@ -1883,6 +1795,12 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
         <di:waypoint xsi:type="dc:Point" x="855.0" y="302.0"/>
         <di:waypoint xsi:type="dc:Point" x="855.0" y="280.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_78"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_4" bpmnElement="SequenceFlow_4" sourceElement="BPMNShape_StartEvent_1" targetElement="BPMNShape_IntermediateCatchEvent_5">
+        <di:waypoint xsi:type="dc:Point" x="79.0" y="237.0"/>
+        <di:waypoint xsi:type="dc:Point" x="79.0" y="148.0"/>
+        <di:waypoint xsi:type="dc:Point" x="147.0" y="148.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_6"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
