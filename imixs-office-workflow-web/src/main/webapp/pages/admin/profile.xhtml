@@ -201,7 +201,7 @@
 
 								<div class="imixs-form-panel imixs-form-section">
 									<dl>
-										<dt>#{message.comments}</dt>
+										<dt>#{message.description}</dt>
 										<dd>
 											<h:inputTextarea required="false"
 												value="#{workflowController.workitem.item['txtComments']}"
@@ -209,39 +209,6 @@
 											</h:inputTextarea>
 										</dd>
 
-										<dt>
-											<h:outputText value="#{message.history}" />
-										</dt>
-										<dd>
-											<div style="xmargin-left: 10px;">
-												<h:outputText value="#{message.created}: " />
-												<h:outputText
-													value="#{workflowController.workitem.item['$created']}">
-													<f:convertDateTime timeZone="#{message.timeZone}"
-														type="both" pattern="#{message.dateTimePattern}" />
-												</h:outputText>
-												<h:outputText
-													value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCreator'])}" />
-												<br />
-												<h:outputText value="#{message.modified}: " />
-												<h:outputText
-													value="#{workflowController.workitem.item['$modified']}">
-													<f:convertDateTime timeZone="#{message.timeZone}"
-														type="both" pattern="#{message.dateTimePattern}" />
-												</h:outputText>
-												<h:outputText
-													value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCurrentEditor'])}" />
-
-												<hr />
-												<ui:repeat
-													value="#{workflowController.workitem.itemListArray['txtworkflowhistorylog']}"
-													var="log">
-
-													<h:outputText value="#{log}" />
-													<br />
-												</ui:repeat>
-											</div>
-										</dd>
 									</dl>
 								</div>
 
@@ -249,14 +216,11 @@
 
 
 						</div>
-					</div>
-					<div class="imixs-footer">
-						<i:imixsWorkflowActions workflowController="#{workflowController}" />
-
-						<h:commandButton value="#{message.close}"
-							styleClass="imixs-close-action" immediate="true"
-							action="profilelist" />
-					</div>
+					</div> <!-- form-body end -->
+					<ui:include src="/pages/admin/sub_footer.xhtml" >
+						<ui:param name="action" value="/pages/admin/profilelist" />
+					</ui:include>
+					
 				</div>
 			</h:form>
 		</f:view>
