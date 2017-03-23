@@ -6,9 +6,9 @@
 
 	<div class="imixs-footer">
 
-		<h2>
+		<h1>
 			<h:outputText value="#{message.workflow}" />
-		</h2>
+		</h1>
 
 
 		<h:panelGrid columns="2">
@@ -22,7 +22,7 @@
 				<h:outputText
 					value="#{workflowController.workitem.item['$created']}">
 					<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-						pattern="#{message.dateTimePattern}" />
+						pattern="#{message.dateTimePatternShort}" />
 				</h:outputText>
 
 				<h:outputText
@@ -35,7 +35,7 @@
 				<h:outputText
 					value="#{workflowController.workitem.item['$modified']}">
 					<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-						pattern="#{message.dateTimePattern}" />
+						pattern="#{message.dateTimePatternShort}" />
 				</h:outputText>
 				<h:outputText
 					value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCurrentEditor'])}" />
@@ -63,7 +63,7 @@
 					<h:column>
 						<h:outputText value="#{log[0]}">
 							<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-								pattern="#{message.dateTimePattern}" />
+								pattern="#{message.dateTimePatternShort}" />
 						</h:outputText>
 					</h:column>
 					<h:column>
