@@ -9,7 +9,7 @@
 	<!-- Imixs Reports 
 	
 		For each report defined in the process entity we generate a Chart.js canvas and load the json data for the report  
-	
+	.imixs-report
 	-->
 
 
@@ -20,9 +20,9 @@
 
 			<!-- bulild a portlet for each report -->
 			<ui:repeat value="#{process.itemList['txtReportList']}" var="report">
-				<!--  We replace the sufix .ixr with -ixr so that we an use the report name as an ID -->
+				<!--  We replace the sufix .imixs-report with -imixs-report so that we an use the report name as an ID -->
 				<ui:param name="reportid"
-					value="#{fn:replace(report,'.ixr','-ixr')}"></ui:param>
+					value="#{fn:replace(report,'.imixs-report','-imixs-report')}"></ui:param>
 				<h:panelGroup layout="block" styleClass="imixs-reports col-3">
 					<!-- chart header -->
 					<div class="imixs-header" id="#{reportid}">
@@ -83,10 +83,10 @@
 			}
 			
 			//console.log("loading chart data '" + reportid + "'...'");
-			// get report name with .ixr extension form the reportid...
-			var report = reportid.replace("-ixr", ".ixr");
-			var request_url = "#{facesContext.externalContext.requestContextPath}/rest-service/report/" + report+"?count=-1";
-			// We replace the sufix .ixr with -ixr so that we an use the report name as an ID
+			// get report name with .imixs-report extension form the reportid...
+			var report = reportid+".imixs-report";
+			var request_url = "#{facesContext.externalContext.requestContextPath}/rest-service/report/" + report+"?pagesize=9999";
+			// We replace the sufix .imixs-report with -imixs-report so that we an use the report name as an ID
 			$.ajax({
 				url : request_url,
 				type : "GET",
