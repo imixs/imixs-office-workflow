@@ -89,15 +89,7 @@
 		escape="false" />
 
 
-	<!-- Load the marty component script -->
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.js"></script>
-	<!-- Imixs-Office-Workflow  -->
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office-workflow.js?build=#{app.application_build_timestamp}"></script>
-
+	
 
 	<ui:insert name="header">
 	</ui:insert>
@@ -146,8 +138,17 @@
 		</div>
 	</f:view>
 	
-		<script type="text/javascript">
-		/*<![CDATA[*/
+	<!-- Load the marty component script -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.js"></script>
+	<!-- Imixs-Office-Workflow  -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office-workflow.js?build=#{app.application_build_timestamp}"></script>
+	
+	<script type="text/javascript">
+	/*<![CDATA[*/
 
 		/* Init Script */
 		var imixs = IMIXS.org.imixs.core, 
@@ -156,7 +157,7 @@
 		imixsOfficeWorkflow.contextPath="#{facesContext.externalContext.requestContextPath}";
 		
 		$(document).ready(function() {
-			imixsOfficeWorkflow.layout();
+			imixsOfficeWorkflow.initLayout();
 			
 			/* This script replaces input fields with their values
 			 * we skip radio inputs and checkboxes.
@@ -194,9 +195,7 @@
 		});
 		
 		
-		/*]]>*/
-	
-		
+	/*]]>*/
 	</script>
 </h:body>
 

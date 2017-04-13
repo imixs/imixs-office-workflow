@@ -182,7 +182,9 @@
 		imixsOfficeWorkflow.contextPath="#{facesContext.externalContext.requestContextPath}";
 		
 		$(document).ready(function() {
-			imixsOfficeWorkflow.layout();
+			
+			// init layout
+			imixsOfficeWorkflow.initLayout();
 			
 			layoutOfficeEditor();
 			
@@ -196,10 +198,6 @@
 		
 		/* laest sich im moment nicht auslagern (script_url!) see issue #87 */
 		layoutOfficeEditor = function() {
-			
-			
-			//tinymce.init({ selector:'textarea.imixs-editor' });
-			
 			// Layout office default editor
 			tinymce.init({
 				  selector: 'textarea.imixs-editor',
@@ -211,9 +209,7 @@
 				  ],
 				  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
 				  content_css : "#{facesContext.externalContext.requestContextPath}/layout/css/tinymce.css"
-			
 				});
-			
 		};
 		
 		/*]]>*/
