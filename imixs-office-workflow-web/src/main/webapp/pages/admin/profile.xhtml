@@ -47,11 +47,6 @@
 												#{message['profile.userid']}<span class="imixs-required">*</span>
 											</dt>
 											<dd>
-												<!-- lower case input 
-												<h:inputText required="true" id="txtname_id" onblur="$(this).val($(this).val().toLowerCase());"
-													value="#{workflowController.workitem.item['txtName']}" />
-													
-													-->
 
 												<h:inputText required="true" id="txtname_id"
 													disabled="#{! empty workflowController.workitem.item['txtName']}"
@@ -84,6 +79,24 @@
 
 										</dd>
 									</dl>
+									
+									
+									<dl>
+										<dt>
+											<h:outputLabel value="#{message['profile.initials']}">
+											</h:outputLabel>
+											
+										</dt>
+										<dd>
+											<h:inputText required="false"
+												value="#{workflowController.workitem.item['txtInitials']}">
+											</h:inputText>
+
+
+										</dd>
+									</dl>
+									
+									
 									<dl>
 										<dt>
 											<h:outputLabel for="email_id"
