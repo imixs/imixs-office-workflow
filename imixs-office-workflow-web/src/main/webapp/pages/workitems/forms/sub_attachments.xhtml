@@ -37,67 +37,90 @@
 
 				<!-- **** DMS List ***** -->
 				<c:forEach var="attachment" items="#{dmsController.dmsList}">
-					<!-- image -->
-					<div style="float: left; height: 34px; margin: 0 2px 2px 0;">
-						<h:graphicImage url="/layout/icons/icon048.png"
-							rendered="#{!attachment.item['txtName'].contains('://')}"
-							style="border:0px;vertical-align: text-top;margin-right:0.5em" />
 
-						<h:graphicImage url="/layout/icons/icon001.png"
-							rendered="#{attachment.item['txtName'].contains('://')}"
-							style="border:0px;vertical-align: text-top;margin-right:0.5em" />
-					</div>
-					<!-- link -->
-					<div id="hyperlink"
-						style="border-bottom: 1px solid silver; margin: 0 0 10px 20px; padding: 0 0 5px 0;">
-
-						<!-- Attachment link -->
-						<h:panelGroup
-							rendered="#{!attachment.item['txtName'].contains('://')}">
-							<h:outputText escape="false"
-								value="&lt;a target='_blank' class='attachmentlink'" />
-							<h:outputText escape="false"
-								value=" href='#{facesContext.externalContext.requestContextPath}/rest-service/workflow/workitem/#{attachment.item['$uniqueIDRef']}/file/#{attachment.item['txtName']}" />
-							<h:outputText escape="false"
-								value="'&gt;#{attachment.item['txtName']}&lt;/a&gt;" />
-						</h:panelGroup>
-						<!-- URL link -->
-						<h:panelGroup
-							rendered="#{attachment.item['txtName'].contains('://')}">
-							<h:outputText escape="false" value="&lt;a target='_blank'" />
-							<h:outputText escape="false"
-								value=" href='#{attachment.item['txtName']}" />
-							<h:outputText escape="false"
-								value="'&gt;#{attachment.item['txtName']}&lt;/a&gt;" />
-						</h:panelGroup>
-
-						<br />
-						<!-- created by -->
-						<h:outputText value="#{attachment.item['$created']}">
-							<f:convertDateTime timeZone="#{message.timeZone}"
-								pattern="#{message.dateTimePattern}" />
-						</h:outputText>
-						<h:outputText
-							value=" - #{userController.getUserName(attachment.item['namCreator'])}" />
-						<br />
-
-						<!-- comment function (toggle feature) -->
-						<a onclick="$(this).next().toggle();"
-							class="imixs-action-dms-comment" style="cursor: pointer;">[#{message.comment}]</a>
-						<div class="dms-comment-panel" style="margin: 4px;">
-							<h:inputTextarea value="#{attachment.item['txtComment']}"
-								style="width: 100%; height: 50px;" />
+					<div class="imixs-viewentry">
+						<!-- image -->
+						<div class="image-block">
+							<h:panelGroup
+								styleClass="typcn #{! empty attachment.item['url']?'typcn-world':'typcn-document-text'}"></h:panelGroup>
 						</div>
+						<!-- link -->
+						<div id="hyperlink" class="content-block">
+							<!-- Attachment link -->
+							<h:panelGroup
+								rendered="#{!attachment.item['txtName'].contains('://')}">
+								<h:outputText escape="false"
+									value="&lt;a target='_blank' class='attachmentlink'" />
+								<h:outputText escape="false"
+									value=" href='#{facesContext.externalContext.requestContextPath}/rest-service/workflow/workitem/#{attachment.item['$uniqueIDRef']}/file/#{attachment.item['txtName']}" />
+								<h:outputText escape="false"
+									value="'&gt;#{attachment.item['txtName']}&lt;/a&gt;" />
+							</h:panelGroup>
+							<!-- URL link -->
+							<h:panelGroup
+								rendered="#{attachment.item['txtName'].contains('://')}">
+								<h:outputText escape="false" value="&lt;a target='_blank'" />
+								<h:outputText escape="false"
+									value=" href='#{attachment.item['txtName']}" />
+								<h:outputText escape="false"
+									value="'&gt;#{attachment.item['txtName']}&lt;/a&gt;" />
+							</h:panelGroup>
 
-						<!-- Delete function -->
-						<f:ajax render=":#{dmsListComponent.clientId}"
-							onevent="hideComments">
-							<h:commandLink styleClass="imixs-action-dms-remove"
-								actionListener="#{dmsController.removeFile(attachment.item['txtName'])}"
-								immediate="true">
-								<h:outputText value="[#{message.remove}]" />
-							</h:commandLink>
-						</f:ajax>
+							<br />
+							<!-- created by -->
+							<h:outputLabel value="#{message.created}: " />
+							<h:outputText value="#{attachment.item['$created']}">
+								<f:convertDateTime timeZone="#{message.timeZone}"
+									pattern="#{message.dateTimePattern}" />
+							</h:outputText>
+							<h:outputText
+								value=" - #{userController.getUserName(attachment.item['namCreator'])}" />
+							<br />
+							<!-- modified by -->
+							<ui:fragment
+								rendered="#{(!empty attachment.item['$modified']) and (empty attachment.item['url'])}">
+								<h:outputLabel value="#{message.modified}: " />
+								<h:outputText value="#{attachment.item['$modified']}">
+									<f:convertDateTime timeZone="#{message.timeZone}"
+										pattern="#{message.dateTimePattern}" />
+								</h:outputText>
+								<h:outputText
+									value=" - #{userController.getUserName(attachment.item['$Editor'])}" />
+								<br />
+							</ui:fragment>
+							<!-- MD5 -->
+							<ui:fragment
+								rendered="#{(!empty attachment.item['md5Checksum'])}">
+								<h:outputLabel value="#{message['form.attachments.checksum']}: " />
+								<h:outputText value="#{attachment.item['md5Checksum']}" />
+								<br />
+							</ui:fragment>
+
+
+							<div class="nav-block">
+								<!-- comment function (toggle feature) -->
+								<a onclick="$(this).next().toggle();" title="#{message.comment}"
+									class="imixs-action-dms-comment" style="cursor: pointer;"><span
+									class="typcn typcn-message"></span></a>
+								<div class="dms-comment-panel" style="margin: 4px;">
+									<h:inputTextarea value="#{attachment.item['txtComment']}"
+										style="width: 100%; height: 50px;" />
+								</div>
+
+								<!-- Delete function -->
+								<f:ajax render=":#{dmsListComponent.clientId}"
+									onevent="hideComments">
+									<h:commandLink
+										onclick="return confirm('#{message.help_delete}');"
+										styleClass="imixs-action-dms-remove" title="#{message.remove}"
+										actionListener="#{dmsController.removeFile(attachment.item['txtName'])}"
+										immediate="true">
+										<span class="typcn typcn-times"></span>
+									</h:commandLink>
+								</f:ajax>
+							</div>
+						</div>
+						<div style="clear: both"></div>
 					</div>
 				</c:forEach>
 			</h:panelGroup>
