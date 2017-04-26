@@ -56,37 +56,7 @@
 	</servlet-mapping>
 	
 	
-	<!-- Imixs REST Service --> 
-	<context-param>
-	    <param-name>resteasy.scan</param-name>
-	    <param-value>true</param-value>
-	</context-param>	
-	<listener>
-	    <listener-class>
-	        org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
-	    </listener-class>
-	</listener>
-	<servlet>
-	    <servlet-name>ImixsRestService</servlet-name>
-	    <servlet-class>
-	        org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
-	    </servlet-class>
-	    <init-param>
-	        <param-name>resteasy.resources</param-name>
-	        <param-value>
-	            org.imixs.workflow.jaxrs   
-	        </param-value>
-	    </init-param>
-	    <init-param>
-	        <param-name>resteasy.servlet.mapping.prefix</param-name>
-	        <param-value>/rest-service/</param-value>
-	  	</init-param>
-	</servlet>
-	<servlet-mapping>
-	    <servlet-name>ImixsRestService</servlet-name>
-	    <url-pattern>/rest-service/*</url-pattern>
-	</servlet-mapping>
-	
+
     
     <!-- A custom error page org.jboss.weld.context.NonexistentConversationException  -->  
     <error-page>   
