@@ -23,7 +23,7 @@
 				<!--  We replace the sufix .imixs-report with -imixs-report so that we an use the report name as an ID -->
 				<ui:param name="reportid"
 					value="#{fn:replace(report,'.imixs-report','-imixs-report')}"></ui:param>
-				<h:panelGroup layout="block" styleClass="imixs-reports col-3">
+				<div class="imixs-reports col-3">
 					<!-- chart header -->
 					<div class="imixs-header" id="#{reportid}">
 						<div align="right" style="float: right;">
@@ -36,8 +36,10 @@
 						<h1>...</h1>
 					</div>
 					<!-- the char canvas -->
-					<canvas id="canvas-#{reportid}"></canvas>
-				</h:panelGroup>
+					<div id="canvas-container-#{reportid}">
+						<canvas id="canvas-#{reportid}"></canvas>
+					</div>
+				</div>
 			</ui:repeat>
 		</h:panelGroup>
 	</ui:repeat>
@@ -127,6 +129,11 @@
 				$("#" + reportid + " h1").text(data.datasets[0].label);
 				// build chart...
 				var charttype = data.datasets[0].charttype;
+				
+				// clear old data (http://stackoverflow.com/questions/24815851/how-to-clear-a-chart-from-a-canvas-so-that-hover-events-cannot-be-triggered#25064035)
+				$('#canvas-'+reportid).remove(); // this is my <canvas> element
+				$("#canvas-container-"+reportid).append("<canvas id=\"canvas-"+reportid+"\"></canvas>");
+				
 				var ctx = document.getElementById("canvas-" + reportid)
 						.getContext("2d");
 				if (charttype == "Bar") {
