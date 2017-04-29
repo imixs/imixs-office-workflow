@@ -157,16 +157,17 @@ IMIXS.com.imixs.workflow.office = (function() {
 			}
 		}
 		if (data.status === 'success') {
-			// initLayout();
-
+			// refresh office layout....
 			if (context) {
 				$(context).removeClass("loading");
 				$(context).imixsLayout();
 				$(context).layoutTypIcons();
+				$("span.imixs-tooltip",context).layoutImixsTooltip();
 			} else {
 				$("body").removeClass("loading");
 				$(document).imixsLayout();
-				$(document).layoutTypIcons();
+				$(document).layoutTypIcons();				
+				$("span.imixs-tooltip",document).layoutImixsTooltip();
 			}
 		}
 	};
