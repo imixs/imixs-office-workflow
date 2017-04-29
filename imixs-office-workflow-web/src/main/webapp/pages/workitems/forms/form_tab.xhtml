@@ -41,7 +41,7 @@
 					<div class="imixs-tabs">
 						<ul>
 							<li><a href="#tab-comments">#{message.comments}</a></li>
-							<li><a href="#tab-documents">#{message.documents}</a></li>
+							<li><a href="#tab-documents">#{message.documents} <h:panelGroup rendered="#{! empty dmsController.dmsList}" styleClass="typcn typcn-input-checked"></h:panelGroup></a></li>
 							<li><a href="#tab-references">#{message.references}</a></li>
 						</ul>
 						<div id="tab-comments">
@@ -88,7 +88,7 @@
 				<div class="imixs-tabs" style="margin-top: 10px;">
 					<ul>
 						<li><a href="#tab-comments">#{message.comments}</a></li>
-						<li><a href="#tab-documents">#{message.documents}</a></li>
+						<li><a href="#tab-documents">#{message.documents} <h:panelGroup rendered="#{! empty dmsController.dmsList}" styleClass="typcn typcn-input-checked"></h:panelGroup></a></li>
 					</ul>
 					<div id="tab-comments">
 						<ui:include src="/pages/workitems/forms/sub_comment.xhtml" />

@@ -24,12 +24,10 @@
 		<h1>#{message.comments}</h1>
 		<ui:include src="/pages/workitems/forms/sub_comment.xhtml" />
 
-		<h1>#{message.documents}</h1>
-		<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
-
-
-		<h1>#{message.references}</h1>
-		<ui:include src="/pages/workitems/forms/sub_reference.xhtml" />
+		<ui:fragment rendered="#{! empty dmsController.dmsList}">
+			<h1>#{message.documents}</h1>
+			<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
+		</ui:fragment>
 
 	</div>
 
