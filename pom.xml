@@ -80,6 +80,7 @@
 		<org.imixs.marty.version>3.0.4-SNAPSHOT</org.imixs.marty.version>
 		<!-- 4.10.4, 5.5.2 (JDK-7), 6.2.1 (JDK-8) -->
 		<lucene.version>6.3.0</lucene.version>
+		<imixs.adapters.version>1.5.0-SNAPSHOT</imixs.adapters.version>
 		<custom.webResources>src/main/webapp</custom.webResources>
 		<imixs-office.applicationname>imixs-office-workflow</imixs-office.applicationname>
 
@@ -266,6 +267,14 @@
 				<groupId>org.apache.lucene</groupId>
 				<artifactId>lucene-queryparser</artifactId>
 				<version>${lucene.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<!-- QR-Code service -->
+			<dependency>
+				<groupId>org.imixs.workflow</groupId>
+				<artifactId>imixs-adapters-qrcode</artifactId>
+				<version>${imixs.adapters.version}</version>
 				<scope>provided</scope>
 			</dependency>
 
