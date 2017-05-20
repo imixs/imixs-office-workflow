@@ -15,9 +15,10 @@
 			</script>
 		
 			<h:form>
-				<div class="row">
+				<!-- reporting only rendered for desktop users -->
+				<h:panelGroup layout="block" styleClass="row" rendered="#{!userController.mobileUser}">
 					<ui:include src="/pages/reporting.xhtml" />
-				</div>
+				</h:panelGroup>
 
 				<div class="row">
 
