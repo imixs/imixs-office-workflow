@@ -333,7 +333,8 @@ dl dt {
 
 .imixs-form .imixs-body .imixs-form-instruction-right {
 	float: right;
-	margin-top: 10px;
+	padding-left: 10px;
+	padding-top: 10px;
 }
 
 .imixs-form .imixs-body .imixs-form-tabs .ui-tabs .ui-tabs-panel {
@@ -720,6 +721,8 @@ dl dt {
 
 .imixs-close-action {
 	margin: 0 4px 4px 0;
+	background: #faa732;
+    border-color: #faa732;
 }
 
 .imixs-delete-action {
@@ -728,6 +731,8 @@ dl dt {
 
 .imixs-print-action {
 	margin: 0 4px 4px 0;
+	background: #faa732;
+    border-color: #faa732;
 }
 
 .imixs-read-only {
@@ -1247,16 +1252,23 @@ dl dd  .imixs-datetime-picker select {
 	
 	.imixs-footer .imixs-delete-action, .imixs-footer .imixs-workflow-action,
 		.imixs-footer .imixs-close-action, .imixs-footer .imixs-print-action {
-		margin: 0 10px 0 0;
+		margin: 0 10px 10px 0;
     	font-size: 1.1em;
 	}
 }
-
-@media screen and (max-width: 868px) {
+/* 868 */
+@media screen and (max-width: 768px) {
+	
+	/* fix creatix*/
+	.stretch, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
+		max-width:none !important;
+	}
+	
 	.col-3 {
 		float: left;
 		width: 100% !important;
 	}
+	
 	#imixs-content {
 		padding: 10px;
 	}
@@ -1300,7 +1312,7 @@ dl dd  .imixs-datetime-picker select {
 
 	.imixs-footer .imixs-delete-action, .imixs-footer .imixs-workflow-action,
 		.imixs-footer .imixs-close-action, .imixs-footer .imixs-print-action {
-		margin: 0 10px 0 0;
+		margin: 0 10px 10px 0;
     	font-size: 1.1em;
 	}
 	
@@ -1308,8 +1320,13 @@ dl dd  .imixs-datetime-picker select {
 		display: none;
 	}
 	
+	.imixs-form .imixs-body .imixs-form-instruction-right {
+		padding-left: 0px;
+	}
+	
 }
 
+	
 @media screen and (max-width: 548px) {
 	#imixs-servicenav {
 		
@@ -1373,8 +1390,6 @@ dl dd  .imixs-datetime-picker select {
 	.imixs-historyentry .close .typcn {
 		font-size: 30px;
 	}
-	
-	
 	
 	 
 }
