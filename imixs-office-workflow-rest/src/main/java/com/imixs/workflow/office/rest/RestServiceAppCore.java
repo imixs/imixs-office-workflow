@@ -13,6 +13,6 @@ import javax.ws.rs.core.Application;
  *
  */
 @ApplicationPath("/")
-public class RestServiceApp extends Application {
+public class RestServiceAppCore extends Application {
 
 }
