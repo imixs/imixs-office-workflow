@@ -41,8 +41,21 @@
 				<ejb-ref-type>Session</ejb-ref-type>
 				<remote>org.imixs.marty.ejb.SystemWorkitemService</remote>
 			</ejb-ref>
+			
+			<!-- Hadoop resource 
+			<ejb-ref>
+				<ejb-ref-name>ejb/HadoopService</ejb-ref-name>
+				<ejb-ref-type>Session</ejb-ref-type>
+				<remote>org.imixs.workflow.archive.hadoop.HadoopService</remote>
+			</ejb-ref>
 
-
+			
+			<resource-ref>
+				<res-ref-name>java:/jca/HadoopFactory</res-ref-name>
+				
+				<res-sharing-scope>Shareable</res-sharing-scope>
+			</resource-ref>
+			-->
 			<!-- Mail resource -->
 			<resource-ref>
 				<res-ref-name>${imixs-mail-res-ref-name}</res-ref-name>
@@ -53,7 +66,23 @@
 
 
 		</session>
-
+		
+		
+		<!--  
+		<session>
+			<ejb-name>HadoopService</ejb-name>
+			<ejb-class>org.imixs.workflow.archive.hadoop.HadoopService</ejb-class>
+			<session-type>Stateless</session-type>
+		
+			<resource-ref>
+			  <res-ref-name>jca/HadoopFactory</res-ref-name>
+			  <res-type>javax.resource.cci.ConnectionFactory</res-type>
+			  <res-auth>Container</res-auth>
+			  <res-sharing-scope>Shareable</res-sharing-scope>
+			  <mapped-name>java:/jca/HadoopFactory</mapped-name>
+			</resource-ref>
+		</session>
+-->
 	</enterprise-beans>
 
 
