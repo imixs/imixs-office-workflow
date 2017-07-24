@@ -58,6 +58,9 @@ To start Imixs-Office-Workflow useing the postgre datbase container and mounting
 
 	docker run --name="imixs-office-workflow-dev" -p 8080:8080 -p 9990:9990 \
          -e WILDFLY_PASS="admin_password" \
+         -e POSTGRES_CONNECTION="jdbc:postgresql://postgres/office" \
+         -e POSTGRES_USER="postgres" \
+         -e POSTGRES_PASSWORD="adminadmin" \
          --link postgresoffice-dev:postgres \
          -v ~/git/imixs-office-workflow/src/docker/.deployments:/opt/wildfly/standalone/deployments/:rw \
          imixs/imixs-office-workflow
@@ -79,6 +82,9 @@ The following example shows the docker-compose.yml for imixs-microservice. You c
 	  image: imixs/imixs-office-workflow
 	  environment:
 	    WILDFLY_PASS: adminadmin
+	    POSTGRES_CONNECTION: "jdbc:postgresql://postgres/office" \
+	    POSTGRES_USER: "postgres" \
+	    POSTGRES_PASSWORD: "adminadmin" \
 	  ports:
 	    - "8080:8080"
 	    - "9990:9990"
