@@ -32,8 +32,8 @@
 			</h:panelGroup>
 			<br />
 			<!-- Status -->
-			<h:outputText style="font-weight: bold;"
-				value="#{workitem.item['txtworkflowgroup']}" />
+			<strong><h:outputText
+				value="#{workitem.item['txtworkflowgroup']}" /></strong>
 			<h:outputText value=" » #{workitem.item['txtworkflowstatus']}" />
 			<h:outputText value=" (#{workitem.item['txtprocessname']})" />
 
@@ -64,7 +64,15 @@
 					</h:panelGroup>
 				</ui:repeat>
 			</h:panelGroup>
+			<div class="pull-right">
 
+				<h:outputText value="#{workitem.item['$modified']}"
+					style="font-weight: normal;">
+					<f:convertDateTime timeZone="#{message.timeZone}"
+						pattern="#{message.dateTimePatternLong}" />
+				</h:outputText>
+
+			</div>
 
 
 		</div>
