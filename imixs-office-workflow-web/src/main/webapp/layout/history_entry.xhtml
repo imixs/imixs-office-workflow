@@ -5,59 +5,61 @@
 
 	<div
 		class="imixs-historyentry #{(historyController.currentId eq workitem.item['$uniqueID']) ? 'active' : ''}">
-		<!-- *** Image *** -->
-		<h:panelGroup layout="block" styleClass="image-block">
-			<h:link outcome="/pages/workitems/workitem">
-				<ui:include src="/pages/viewentry_icon.xhtml">
-					<ui:param name="workitem" value="#{workitem}" />
-				</ui:include>
-				<f:param name="id" value="#{workitem.item['$uniqueid']}" />
-			</h:link>
-
-		</h:panelGroup>
 
 
-		<!-- *** Standard Info *** -->
-		<div class="content-block">
-			<h:panelGroup>
+		<div class="imixs-historyentry-action"  onclick="window.location=$('a',this).first().attr('href'); ">
+			<!-- *** Image *** -->
+			<h:panelGroup layout="block" styleClass="image-block">
 				<h:link outcome="/pages/workitems/workitem">
-					<!-- summary empty ? -->
-					<h:panelGroup
-						rendered="#{empty workitem.item['txtWorkflowSummary']}">
-						<h:outputText value="#{workitem.item['$modified']}">
-							<f:convertDateTime timeZone="#{message.timeZone}"
-								pattern="#{message.dateTimePattern}" />
-						</h:outputText>
-						<h:outputText value=" #{workitem.item['_subject']}" />
-					</h:panelGroup>
-					<h:outputText escape="false"
-						value="#{workitem.item['txtWorkflowSummary']}" />
+					<ui:include src="/pages/viewentry_icon.xhtml">
+						<ui:param name="workitem" value="#{workitem}" />
+					</ui:include>
 					<f:param name="id" value="#{workitem.item['$uniqueid']}" />
 				</h:link>
 
 			</h:panelGroup>
 
-			<h:commandLink styleClass="close"
-				action="#{historyController.removeWorkitem(workitem.item['$uniqueID'])}">
-				<span class="typcn typcn-delete-outline pull-right"></span>
-			</h:commandLink>
 
+			<!-- *** Standard Info *** -->
+			<div class="content-block">
+				<h:panelGroup>
+					<h:link outcome="/pages/workitems/workitem">
+						<!-- summary empty ? -->
+						<h:panelGroup
+							rendered="#{empty workitem.item['txtWorkflowSummary']}">
+							<h:outputText value="#{workitem.item['$modified']}">
+								<f:convertDateTime timeZone="#{message.timeZone}"
+									pattern="#{message.dateTimePattern}" />
+							</h:outputText>
+							<h:outputText value=" #{workitem.item['_subject']}" />
+						</h:panelGroup>
+						<h:outputText escape="false"
+							value="#{workitem.item['txtWorkflowSummary']}" />
+						<f:param name="id" value="#{workitem.item['$uniqueid']}" />
+					</h:link>
 
+				</h:panelGroup>
+				<br />
+				<!-- Status -->
+				<h:outputText value="#{workitem.item['txtworkflowgroup']} » " />
+				<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
 
-
-			<br />
-			<!-- Status -->
-			<h:outputText value="#{workitem.item['txtworkflowgroup']} » " />
-			<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
+			</div>
 
 
 
 		</div>
-		<!-- clear floating problem from sidebar in ff and chrome.  -->
-		<div style="clear: left;" />
+		<div style="float: right;">
+			<h:commandLink styleClass="close"
+				action="#{historyController.removeWorkitem(workitem.item['$uniqueID'])}">
+				<span class="typcn typcn-delete-outline xxpull-right"></span>
+			</h:commandLink>
+		</div>
+
+
 
 	</div>
-	
+
 
 </f:subview>
 
