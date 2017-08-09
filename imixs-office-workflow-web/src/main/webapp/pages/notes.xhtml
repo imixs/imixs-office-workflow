@@ -61,7 +61,7 @@
 						</c:when>
 						<c:otherwise>
 							<c:if
-								test="#{(propertyController.getProperty('portlet.manager.admin') eq 'true'}) and (fn:indexOf(loginController.userNameList,'{space:manager}') gt -1) or (fn:indexOf(loginController.userNameList,'{process:manager}') gt -1)}">
+								test="#{(propertyController.getProperty('admin.manager.portlet') eq 'true') and (fn:indexOf(loginController.userNameList,'{space:manager}') gt -1) or (fn:indexOf(loginController.userNameList,'{process:manager}') gt -1)}">
 								<ui:include src="/pages/portlet_manager_admin.xhtml" />
 							</c:if>
 						</c:otherwise>

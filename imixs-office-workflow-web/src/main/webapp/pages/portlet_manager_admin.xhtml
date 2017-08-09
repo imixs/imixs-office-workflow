@@ -25,7 +25,7 @@
 					<ui:fragment rendered="#{record.item['isManager']}">
 
 						<li><h:commandLink styleClass="imixs-viewentry-main-link"
-								action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/process.xhtml')}">
+								action="#{workflowController.load(record.item['$UniqueID'],'/pages/process.xhtml')}">
 								<f:setPropertyActionListener value="/pages/admin/spaces"
 									target="#{workflowController.defaultActionResult}" />
 								<h:outputText value="#{record.item['txtName']}" />
@@ -50,7 +50,7 @@
 					<ui:fragment rendered="#{record.item['isManager']}">
 
 						<li><h:commandLink styleClass="imixs-viewentry-main-link"
-								action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/space.xhtml')}">
+								action="#{workflowController.load(record.item['$UniqueID'],'/pages/space.xhtml')}">
 								<f:setPropertyActionListener value="/pages/admin/spaces"
 									target="#{workflowController.defaultActionResult}" />
 								<h:outputText value="#{record.item['txtName']}" />
