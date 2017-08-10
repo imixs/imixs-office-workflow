@@ -11,10 +11,15 @@
 		<f:view>
 			<script type="text/javascript">
 				/*<![CDATA[*/
-				document.cookie = "imixs.office.navigation=/pages/notes.jsf;path=#{facesContext.externalContext.requestContextPath};";
+				$(document).ready(function() {
+					// set navigation cookie
+					document.cookie = "imixs.office.navigation=/pages/notes.jsf;path=#{facesContext.externalContext.requestContextPath};";
+					// refresh portlets all 60 seconds
+					setInterval(function(){$(".imixs-portlet-refresh").click()},60000);
+				}); 
+				
 				/*]]>*/
 			</script>
-
 			<h:form>
 				<!-- reporting only rendered for desktop users -->
 				<h:panelGroup layout="block" styleClass="row"
