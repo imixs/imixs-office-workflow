@@ -27,19 +27,19 @@
 			<div align="right" style="float: right;">
 
 				<!-- refresh -->
-				<h:commandLink actionListener="#{view.doReset}"
+				<h:commandLink actionListener="#{view.doReset}"  styleClass="imixs-portlet-refresh"
 					title="#{message.refresh}">
 					<span class="typcn typcn-arrow-sync"></span>
-					<f:ajax render="portlet_worklist"
+					<f:ajax render="portlet_worklist" 
 						onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
 				</h:commandLink>
-				<h:commandLink actionListener="#{view.doLoadPrev}"
+				<h:commandLink actionListener="#{view.doLoadPrev}"  styleClass="imixs-portlet-prev"
 					title="#{message.prev}"
 					disabled="#{(empty view.workitems) or (view.pageIndex == 0)}"><span class="typcn #{(view.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
 					<f:ajax render="portlet_worklist"
 						onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
 				</h:commandLink>
-				<h:commandLink actionListener="#{view.doLoadNext}"
+				<h:commandLink actionListener="#{view.doLoadNext}"  styleClass="imixs-portlet-next"
 					title="#{message.next}"
 					disabled="#{(empty view.workitems) or (view.endOfList)}"><span class="typcn #{(view.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
 					<f:ajax render="portlet_worklist"
@@ -97,7 +97,9 @@
 
 
 	</h:panelGroup>
-
+	
+	
+	
 
 </f:subview>
 
