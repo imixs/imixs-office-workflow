@@ -30,9 +30,8 @@ $.fn.layoutTypIcons = function(options) {
 									}
 
 									// only render typicons if data string
-									// starts with
-									// typicn
-									if (typClasses.startsWith('typcn-')) {
+									// starts with typicn
+									if (typClasses.indexOf('typcn-') === 0) {
 
 										var typiconElements = typClasses
 												.split('|');
@@ -52,8 +51,8 @@ $.fn.layoutTypIcons = function(options) {
 										}
 
 										if (subIconNe
-												&& subIconNe
-														.startsWith('typcn-')) {
+												&& subIconNe.indexOf('typcn-') === 0) {
+											
 											$(this).append(
 													"<span class=\"icon-sub icon-sub-ne typcn "
 															+ subIconNe
@@ -61,8 +60,7 @@ $.fn.layoutTypIcons = function(options) {
 										}
 
 										if (subIconSe
-												&& subIconSe
-														.startsWith('typcn-')) {
+												&& subIconSe.indexOf('typcn-') === 0) {
 											$(this).append(
 													"<span class=\"icon-sub icon-sub-se typcn "
 															+ subIconSe
@@ -70,8 +68,7 @@ $.fn.layoutTypIcons = function(options) {
 										}
 
 										if (subIconSw
-												&& subIconSw
-														.startsWith('typcn-')) {
+												&& subIconSw.indexOf('typcn-') === 0) {
 											$(this).append(
 													"<span class=\"icon-sub icon-sub-sw typcn "
 															+ subIconSw
@@ -79,8 +76,7 @@ $.fn.layoutTypIcons = function(options) {
 										}
 
 										if (subIconNw
-												&& subIconNw
-														.startsWith('typcn-')) {
+												&& subIconNw.indexOf('typcn-') === 0) {
 											$(this).append(
 													"<span class=\"icon-sub icon-sub-nw typcn "
 															+ subIconNw
