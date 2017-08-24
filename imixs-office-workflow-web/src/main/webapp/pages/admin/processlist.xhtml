@@ -107,7 +107,11 @@
 									value="#{record.itemListArray['namManager']}">
 									<ui:param name="displayname" value="#{userController.getUserName(grp)}"></ui:param>
 									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp}" />
-									<h:outputText value="#{grp}" class="imixs-important" rendered="#{(empty displayname) and (!empty grp)}"/>
+									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
+										<ui:param name="isrole" value="#{userInputController.isRole(grp)}"/>
+										<h:outputText value="#{grp}"  title="#{isrole?'Access Role':'Unknown User!'}"
+												  class="#{isrole?'imixs-warning':'imixs-important'}" />
+									</ui:fragment>
 									<br />
 								</ui:repeat>
 							</h:column>
@@ -118,7 +122,11 @@
 									value="#{record.itemListArray['namTeam']}">
 									<ui:param name="displayname" value="#{userController.getUserName(grp)}"></ui:param>
 									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp}" />
-									<h:outputText value="#{grp}" class="imixs-important" rendered="#{(empty displayname) and (!empty grp)}"/>
+									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
+										<ui:param name="isrole" value="#{userInputController.isRole(grp)}"/>
+										<h:outputText value="#{grp}"  title="#{isrole?'Access Role':'Unknown User!'}"
+												  class="#{isrole?'imixs-warning':'imixs-important'}" />
+									</ui:fragment>
 									<br />
 								</ui:repeat>
 							</h:column>
@@ -129,7 +137,11 @@
 									value="#{record.itemListArray['namAssist']}">
 									<ui:param name="displayname" value="#{userController.getUserName(grp)}"></ui:param>
 									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp}" />
-									<h:outputText value="#{grp}" class="imixs-important" rendered="#{(empty displayname) and (!empty grp)}"/>
+									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
+										<ui:param name="isrole" value="#{userInputController.isRole(grp)}"/>
+										<h:outputText value="#{grp}"  title="#{isrole?'Access Role':'Unknown User!'}"
+												  class="#{isrole?'imixs-warning':'imixs-important'}" />
+									</ui:fragment>
 									<br />
 								</ui:repeat>
 							</h:column>
