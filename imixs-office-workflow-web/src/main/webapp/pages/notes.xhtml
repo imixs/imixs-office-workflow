@@ -21,6 +21,19 @@
 				/*]]>*/
 			</script>
 			<h:form>
+			
+			
+				<!-- Password Reminder -->
+				<h:panelGroup styleClass="ui-widget" rendered="#{userController.workitem.item['$processid'] eq 220}">
+					<div class="ui-state-error ui-corner-all"
+						style="padding: .4em; margin-bottom: .7em;">
+						<h4>
+							<span class="typcn typcn-key-outline"></span>#{message['login.password_expired']}
+						</h4>
+					</div>
+				</h:panelGroup>
+				
+			
 				<!-- reporting only rendered for desktop users -->
 				<h:panelGroup layout="block" styleClass="row"
 					rendered="#{!userController.mobileUser}">
