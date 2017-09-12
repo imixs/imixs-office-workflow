@@ -17,7 +17,7 @@
 				<h:inputText value="#{workitem.item['_subject']}"
 					required="true" />
 			</dd>
-
+<!-- 
 			<dt>
 				<h:outputLabel value="#{message['form.customer']}" />
 			</dt>
@@ -25,20 +25,11 @@
 				<h:inputText
 					value="#{workitem.item['_customer']}" />
 			</dd>
-
+ -->
 		</dl>
 	</div>
 
 	<div class="imixs-form-section-2">
-		<dl>
-			<dt>
-				<h:outputLabel value="#{message['form.project']}" />
-			</dt>
-			<dd>
-				<marty:workitemLink workitem="#{workflowController.workitem}"
-					hidereferences="false" filter="$processid:6..." />
-			</dd>
-		</dl>
 		<dl>
 			<dt>
 				<h:outputLabel value="#{message['form.contact']}" />
@@ -48,6 +39,19 @@
 					hidereferences="false" filter="$processid:9..." />
 			</dd>
 		</dl>
+		
+		<!-- 
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.project']}" />
+			</dt>
+			<dd>
+				<marty:workitemLink workitem="#{workflowController.workitem}"
+					hidereferences="false" filter="$processid:6..." />
+			</dd>
+		</dl>
+		 -->
+	
 
 	</div>
 	<div class="imixs-form-section-2">
