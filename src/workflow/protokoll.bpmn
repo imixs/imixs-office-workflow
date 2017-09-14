@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.4.1.RC1-v20170818-1415-B1" targetNamespace="http://www.imixs.org/bpmn2">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.4.2.RC1-v20170907-1720-B1" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
       <imixs:value><![CDATA[protokoll-de-1.0.0]]></imixs:value>
@@ -53,6 +53,7 @@
     </bpmn2:startEvent>
     <bpmn2:endEvent id="EndEvent_1" name="Ende">
       <bpmn2:incoming>SequenceFlow_14</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_29</bpmn2:incoming>
     </bpmn2:endEvent>
     <bpmn2:task id="Task_1" imixs:processid="1000" name="Erstellung">
       <bpmn2:extensionElements>
@@ -289,6 +290,7 @@ Historie aller Protokolle aus einer Besprechung zur Verfügung.
       <bpmn2:outgoing>SequenceFlow_8</bpmn2:outgoing>
       <bpmn2:outgoing>SequenceFlow_10</bpmn2:outgoing>
       <bpmn2:outgoing>SequenceFlow_11</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_27</bpmn2:outgoing>
     </bpmn2:eventBasedGateway>
     <bpmn2:sequenceFlow id="SequenceFlow_7" sourceRef="Task_3" targetRef="EventBasedGateway_1"/>
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_4" imixs:activityid="90" name="[Archivieren]">
@@ -334,6 +336,56 @@ Historie aller Protokolle aus einer Besprechung zur Verfügung.
     <bpmn2:sequenceFlow id="SequenceFlow_12" sourceRef="IntermediateCatchEvent_5" targetRef="Task_2"/>
     <bpmn2:sequenceFlow id="SequenceFlow_13" sourceRef="IntermediateCatchEvent_6" targetRef="Task_2"/>
     <bpmn2:sequenceFlow id="SequenceFlow_14" sourceRef="Task_4" targetRef="EndEvent_1"/>
+    <bpmn2:task id="Task_9" imixs:processid="2300" name="Geschlossen">
+      <bpmn2:extensionElements>
+        <imixs:item name="txteditorid" type="xs:string">
+          <imixs:value><![CDATA[form_panel_instruction_right#minutes/header|minutes/body]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyupdateacl" type="xs:boolean">
+          <imixs:value>true</imixs:value>
+        </imixs:item>
+        <imixs:item name="txtimageurl" type="xs:string">
+          <imixs:value><![CDATA[typcn-th-list-outline||typcn-archive,imixs-success]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtworkflowsummary" type="xs:string">
+          <imixs:value><![CDATA[<itemvalue>_subject</itemvalue> ]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtworkflowabstract" type="CDATA">
+          <imixs:value><![CDATA[<itemvalue>_description</itemvalue>]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txttype" type="xs:string">
+          <imixs:value><![CDATA[workitemarchive]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyaddreadfields" type="xs:string">
+          <imixs:value><![CDATA[namteam]]></imixs:value>
+        </imixs:item>
+      </bpmn2:extensionElements>
+      <bpmn2:documentation id="Documentation_8"><![CDATA[<h3>Archiviert</h3>
+
+<p>
+Dieses Protkoll ist abgeschlossen und archiviert. Über die Versionsverwaltung kann jederzeit auf freigegebene oder frühere Versionen dieses Protokolls 
+zugegriffen werden. Damit steht eine vollständige 
+Historie aller Protokolle aus einer Besprechung zur Verfügung.
+</p>]]></bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_28</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_29</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_12" imixs:activityid="80" name="Abschließen">
+      <bpmn2:extensionElements>
+        <imixs:item name="rtfresultlog" type="CDATA">
+          <imixs:value><![CDATA[Protokoll abgeschlossen von <username>namcurrenteditor</username>.]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtactivityresult" type="CDATA">
+          <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
+        </imixs:item>
+      </bpmn2:extensionElements>
+      <bpmn2:documentation id="Documentation_19"><![CDATA[Protokoll abschließen und archivieren]]></bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_27</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_28</bpmn2:outgoing>
+    </bpmn2:intermediateCatchEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_27" sourceRef="EventBasedGateway_1" targetRef="IntermediateCatchEvent_12"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_28" sourceRef="IntermediateCatchEvent_12" targetRef="Task_9"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_29" sourceRef="Task_9" targetRef="EndEvent_1"/>
   </bpmn2:process>
   <bpmn2:process id="Process_2" name="Protokoll~Protokollpunkt" definitionalCollaborationRef="Collaboration_1" isExecutable="false">
     <bpmn2:endEvent id="EndEvent_2" name="Ende">
@@ -680,6 +732,18 @@ Historie aller Protokolle aus einer Besprechung zur Verfügung.
           <dc:Bounds height="14.0" width="56.0" x="587.0" y="684.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_9" bpmnElement="Task_9">
+        <dc:Bounds height="50.0" width="110.0" x="1140.0" y="217.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_56">
+          <dc:Bounds height="14.0" width="74.0" x="1158.0" y="235.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_12" bpmnElement="IntermediateCatchEvent_12">
+        <dc:Bounds height="36.0" width="36.0" x="982.0" y="224.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_57">
+          <dc:Bounds height="14.0" width="69.0" x="966.0" y="260.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1" sourceElement="BPMNShape_StartEvent_1" targetElement="BPMNShape_Task_1">
         <di:waypoint xsi:type="dc:Point" x="148.0" y="170.0"/>
         <di:waypoint xsi:type="dc:Point" x="184.0" y="170.0"/>
@@ -850,6 +914,26 @@ Historie aller Protokolle aus einer Besprechung zur Verfügung.
         <di:waypoint xsi:type="dc:Point" x="815.0" y="343.0"/>
         <di:waypoint xsi:type="dc:Point" x="815.0" y="301.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_55"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_27" bpmnElement="SequenceFlow_27" sourceElement="BPMNShape_EventBasedGateway_1" targetElement="BPMNShape_IntermediateCatchEvent_12">
+        <di:waypoint xsi:type="dc:Point" x="920.0" y="170.0"/>
+        <di:waypoint xsi:type="dc:Point" x="972.0" y="170.0"/>
+        <di:waypoint xsi:type="dc:Point" x="972.0" y="198.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1000.0" y="198.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1000.0" y="224.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_58"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_28" bpmnElement="SequenceFlow_28" sourceElement="BPMNShape_IntermediateCatchEvent_12" targetElement="BPMNShape_Task_9">
+        <di:waypoint xsi:type="dc:Point" x="1018.0" y="242.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1079.0" y="242.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1140.0" y="242.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_59"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_29" bpmnElement="SequenceFlow_29" sourceElement="BPMNShape_Task_9" targetElement="BPMNShape_EndEvent_1">
+        <di:waypoint xsi:type="dc:Point" x="1250.0" y="242.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1338.0" y="242.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1338.0" y="188.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_60"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
