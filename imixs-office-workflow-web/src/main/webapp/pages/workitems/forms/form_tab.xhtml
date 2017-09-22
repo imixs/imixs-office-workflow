@@ -15,9 +15,9 @@
 				<div class="col-8 " >
 					<div class="imixs-tabs">
 						<ul>
-							<c:forEach items="#{workflowController.editorSections}"
+							<c:forEach items="#{formController.formDefinition.sections}"
 								var="section">
-								<li><a href="#tab-#{section.url}">#{section.name}</a></li>
+								<li><a href="#tab-#{section.path}">#{section.name}</a></li>
 							</c:forEach>
 						</ul>
 
@@ -25,7 +25,7 @@
 							var="section">
 							<div id="tab-#{section.url}">
 								<f:subview>
-									<ui:include src="/pages/workitems/forms/#{section.url}.xhtml">
+									<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
 										<ui:param name="workitem"
 											value="#{workflowController.workitem}" />
 									</ui:include>

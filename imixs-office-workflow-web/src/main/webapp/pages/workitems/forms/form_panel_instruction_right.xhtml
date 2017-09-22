@@ -16,13 +16,13 @@
 		</div>
 		<div class="col-8 nested">
 
-			<c:forEach items="#{workflowController.editorSections}" var="section">
+			<c:forEach items="#{formController.formDefinition.sections}" var="section">
 				<div class="imixs-form-panel">
 					<h1>
 						<h:outputText value="#{section.name}" />
 					</h1>
 					<f:subview>
-						<ui:include src="/pages/workitems/forms/#{section.url}.xhtml">
+						<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
 							<ui:param name="workitem" value="#{workflowController.workitem}" />
 						</ui:include>
 					</f:subview>
