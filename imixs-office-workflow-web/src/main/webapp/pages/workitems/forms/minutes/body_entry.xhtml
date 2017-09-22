@@ -1,0 +1,163 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<!-- Read Block -->
+	<h:panelGroup layout="block" styleClass="imixs-viewentry">
+
+		<!-- *** Sequence Number -->
+		<div class="minute-number">
+			<span>#{workitem.item['numsequencenumber']}.</span>
+		</div>
+
+
+		<!--  Wir unterscheiden hier Edit udn Read mode des Gesammt Protokolls
+		      Im edit Mode ist der Link klickbar und tauscht dann die WOrkflowAbstract mit dem Editor aus.
+		 -->
+
+		<div class="minute-info">
+			<h:panelGroup styleClass="minute-summary">
+
+				<!-- Edit Mode -->
+				<h:panelGroup layout="block" rendered="#{editmode}">
+					<!-- Man kan auf den Link klicken um den editor zu öffnen oder zu schliessen -->
+					<h:commandLink onclick="closeMinuteEditor();"
+						actionListener="#{minuteController.toggleWorkitem(workitem.item['$uniqueid'])}">
+						<h1>
+							<!-- summary empty ? -->
+							<h:panelGroup
+								rendered="#{empty workitem.item['txtWorkflowSummary']}">
+								<h:outputText value="#{workitem.item['$modified']}"
+									style="font-weight: bold;">
+									<f:convertDateTime timeZone="#{message.timeZone}"
+										pattern="#{message.dateTimePattern}" />
+								</h:outputText>
+								<h:outputText value=" #{workitem.item['_subject']}"
+									style="font-weight: bold;" />
+							</h:panelGroup>
+							<h:outputText style="font-weight: bold;"
+								value="#{workitem.item['txtWorkflowSummary']}" />
+						</h1>
+						<!-- @form  -->
+						<f:ajax render=":#{minutesBody.clientId}"
+							onevent="layoutBodySection" />
+
+					</h:commandLink>
+				</h:panelGroup>
+
+				<!-- Read only Mode -->
+				<h:panelGroup rendered="#{!editmode}">
+					<!-- summary empty ? -->
+					<h1>
+						<h:panelGroup
+							rendered="#{empty workitem.item['txtWorkflowSummary']}">
+							<h:outputText value="#{workitem.item['$modified']}">
+								<f:convertDateTime timeZone="#{message.timeZone}"
+									pattern="#{message.dateTimePattern}" />
+							</h:outputText>
+							<h:outputText value=" #{workitem.item['_subject']}" />
+						</h:panelGroup>
+						<h:outputText value="#{workitem.item['txtWorkflowSummary']}" />
+					</h1>
+				</h:panelGroup>
+
+			</h:panelGroup>
+
+			<!-- *** Minute details *** 
+				Es wird per Default der Abstract angezeigt.
+				
+				Wenn wir uns jedoch im editomode befinden und das aktuelle Workitem das selbe ist wie das MinuteWorkitem 
+				dann blenden wir die maske des MinitWorkitems ein.
+			
+			-->
+			<h:panelGroup layout="block" class="minute-details">
+
+
+
+				<!-- Status -->
+				<h:outputText style="font-weight: bold;"
+					value="#{workitem.item['txtworkflowgroup']}: " />
+				<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
+
+
+				<!-- Edit Mode -->
+				<h:panelGroup layout="block" rendered="#{editmode}">
+					<ui:fragment
+						rendered="#{(empty minuteController.workitem) or (minuteController.workitem.item['$uniqueid'] ne workitem.item['$uniqueid'])}">
+						<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
+							escape="false"></h:outputText>
+					</ui:fragment>
+					<ui:fragment
+						rendered="#{(!empty minuteController.workitem) and (!empty minuteController.formDefinition) and (minuteController.workitem.item['$uniqueid'] eq workitem.item['$uniqueid'])}">
+
+						<c:forEach var="section"
+							items="#{minuteController.formDefinition.sections}">
+							seer3ffff
+							ich bin/pages/workitems/forms/#{section.path}.xhtml
+							<div class="imixs-form-panel">
+								<h1>
+									<h:outputText value="#{section.name}" />
+								</h1>
+
+								<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
+									<ui:param name="workitem" value="#{minuteController.workitem}" />
+								</ui:include>
+
+
+								<!-- Workflow Actions -->
+								<div class="imixs-form-section">
+									<ui:include src="/pages/error_message.xhtml" />
+
+									<ui:repeat var="activity" value="#{minuteController.events}">
+										<h:commandButton role="button" onclick="saveTinyMCE();"
+											class="imixs-workflow-action ui-button-warning" title=" "
+											actionListener="#{minuteController.process(activity.item['numactivityid'],true)}"
+											value="#{activity.item['txtname']}">
+											<f:ajax render=":#{minutesBody.clientId}"
+												execute=":#{minutesBody.clientId}"
+												onevent="layoutBodySection" />
+										</h:commandButton>
+									</ui:repeat>
+
+									<h:commandButton role="button" value="#{message.close}"
+										class="imixs-close-action ui-button"
+										onclick="closeMinuteEditor();"
+										actionListener="#{minuteController.reset}">
+										<f:ajax render=":#{minutesBody.clientId}"
+											execute=":#{minutesBody.clientId}"
+											onevent="layoutBodySection" />
+									</h:commandButton>
+
+								</div>
+							</div>
+						</c:forEach>
+
+
+					</ui:fragment>
+				</h:panelGroup>
+
+				<!-- Edit Mode -->
+				<h:panelGroup layout="block" rendered="#{!editmode}">
+					<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
+						escape="false"></h:outputText>
+				</h:panelGroup>
+				<!-- Show Body if not edit mode-->
+				<div class="imixs-form-section minute-abstract"></div>
+
+			</h:panelGroup>
+
+
+
+
+		</div>
+
+
+
+	</h:panelGroup>
+
+	<hr />
+
+</ui:composition>
+

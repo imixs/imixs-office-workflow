@@ -9,42 +9,7 @@
 		styleClass="imixs-subform minute_layout_region"
 		style="margin-bottom: 20px;">
 
-		<!-- Head -->
-		<h:panelGroup layout="block" style="margin: 5px 0 0 12px;"
-			rendered="#{(!minuteController.newWorkitem)}">
-			<!-- *** Sequence Number -->
-			<div class="minute-number">
-				<span>#{workitem.item['numsequencenumber']}.</span>
-			</div>
-
-			<div class="minute-info">
-				<!-- Status -->
-				<h:outputText style="font-weight: bold;"
-					value="#{workitem.item['txtworkflowgroup']}: " />
-				<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
-
-				<!-- Crated -->
-				<br /> <span> <h:outputText style="font-weight: bold;"
-						value="#{message.created}: " /> <h:outputText
-						value="#{workitem.item['$modified']}" style="font-weight: normal;">
-						<f:convertDateTime timeZone="#{message.timeZone}"
-							pattern="#{message.dateTimePatternShort}" />
-					</h:outputText> <h:outputText
-						value=" #{message.by} #{userController.getUserName(workitem.item['namcreator'])}" />
-				</span>
-
-				<!-- Modified -->
-				<br /> <span> <h:outputText style="font-weight: bold;"
-						value="#{message.modified}: " /> <h:outputText
-						value="#{workitem.item['$modified']}" style="font-weight: normal;">
-						<f:convertDateTime timeZone="#{message.timeZone}"
-							pattern="#{message.dateTimePatternShort}" />
-					</h:outputText> <h:outputText
-						value=" #{message.by} #{userController.getUserName(workitem.item['namcurrentEditor'])}" />
-				</span>
-
-			</div>
-		</h:panelGroup>
+	
 		
 		<!-- Edit section -->
 		<div class="imixs-form-section">
