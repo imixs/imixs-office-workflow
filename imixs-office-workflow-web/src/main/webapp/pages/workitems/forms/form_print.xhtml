@@ -22,7 +22,9 @@
 	<!-- Standard Tab Section --> 
 	<div>
 		<h1>#{message.comments}</h1>
-		<ui:include src="/pages/workitems/forms/sub_comment.xhtml" />
+		<ui:include src="/pages/workitems/forms/sub_comment.xhtml" >
+		<ui:param name="workitem" value="#{workflowController.workitem}" />
+		</ui:include>
 
 		<ui:fragment rendered="#{! empty dmsController.dmsList}">
 			<h1>#{message.documents}</h1>

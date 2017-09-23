@@ -35,7 +35,9 @@
 				<li><a href="#tab-documents">#{message.documents} <h:panelGroup rendered="#{! empty dmsController.dmsList}" styleClass="typcn typcn-input-checked"></h:panelGroup></a></li>
 			</ul>
 			<div id="tab-comments">
-				<ui:include src="/pages/workitems/forms/sub_comment.xhtml" />
+				<ui:include src="/pages/workitems/forms/sub_comment.xhtml" >
+				<ui:param name="workitem" value="#{workflowController.workitem}" />
+				</ui:include>
 			</div>
 			<div id="tab-documents">
 				<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
