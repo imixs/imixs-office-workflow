@@ -84,18 +84,19 @@
 
 				<!-- Edit Mode -->
 				<h:panelGroup layout="block" rendered="#{editmode}">
-					<ui:fragment
-						rendered="#{(empty minuteController.workitem) or (minuteController.workitem.item['$uniqueid'] ne workitem.item['$uniqueid'])}">
+
+					<ui:param name="showForm"
+						value="#{(!empty minuteController.workitem) and (!empty minuteController.formDefinition) and (minuteController.workitem.item['$uniqueid'] eq workitem.item['$uniqueid'])}"></ui:param>
+
+					<ui:fragment rendered="#{!showForm}">
 						<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
 							escape="false"></h:outputText>
 					</ui:fragment>
-					<ui:fragment
-						rendered="#{(!empty minuteController.workitem) and (!empty minuteController.formDefinition) and (minuteController.workitem.item['$uniqueid'] eq workitem.item['$uniqueid'])}">
+					<ui:fragment rendered="#{showForm}">
 
 						<c:forEach var="section"
 							items="#{minuteController.formDefinition.sections}">
-							seer3ffff
-							ich bin/pages/workitems/forms/#{section.path}.xhtml
+
 							<div class="imixs-form-panel">
 								<h1>
 									<h:outputText value="#{section.name}" />
