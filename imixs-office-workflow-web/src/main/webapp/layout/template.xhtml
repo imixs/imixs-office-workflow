@@ -200,6 +200,22 @@
 				  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
 				  content_css : "#{facesContext.externalContext.requestContextPath}/layout/css/tinymce.css"
 				});
+			
+			// layout tinymce for minutes
+			tinymce
+				.init({
+					selector : 'textarea.imixs-editor-basic',
+					height : 200,
+					menubar : false,
+					statusbar : true,
+					plugins : [ 'advlist autolink lists link image',
+							'searchreplace', 'contextmenu paste' ],
+					toolbar : 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+					content_css : "#{facesContext.externalContext.requestContextPath}/layout/css/tinymce.css"
+
+				});
+			
+			
 		};
 		
 		/*]]>*/

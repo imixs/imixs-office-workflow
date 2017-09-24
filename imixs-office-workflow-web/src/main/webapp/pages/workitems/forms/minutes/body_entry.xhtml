@@ -45,6 +45,7 @@
 							onevent="layoutBodySection" />
 
 					</h:commandLink>
+					<h2>Status: <h:outputText value="#{workitem.item['$workflowStatus']}" /></h2>
 				</h:panelGroup>
 
 				<!-- Read only Mode -->
@@ -61,6 +62,7 @@
 						</h:panelGroup>
 						<h:outputText value="#{workitem.item['txtWorkflowSummary']}" />
 					</h1>
+					<h2>Status: <h:outputText value="#{workitem.item['$workflowStatus']}" /></h2>
 				</h:panelGroup>
 
 			</h:panelGroup>
@@ -81,6 +83,8 @@
 						value="#{(!empty minuteController.workitem) and (!empty minuteController.formDefinition) and (minuteController.workitem.item['$uniqueid'] eq workitem.item['$uniqueid'])}"></ui:param>
 
 					<ui:fragment rendered="#{!showForm}">
+						
+					
 						<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
 							escape="false"></h:outputText>
 					</ui:fragment>
