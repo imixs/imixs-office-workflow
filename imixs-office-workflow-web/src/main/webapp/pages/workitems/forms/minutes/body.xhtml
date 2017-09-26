@@ -7,9 +7,44 @@
 
 
 
+
+	<!-- compute edit/read mode -->
+	<ui:param name="editmode"
+		value="#{(workitem.item['$processid'] lt 1500)?'true':'false'}" />
+	<!-- minutes body -->
+	<h:panelGroup layout="block"
+		styleClass="imixs-form-section minutes-body-section" id="minutes_body"
+		binding="#{minutesBody}">
+
+		<h:panelGroup id="minute_list">
+			<!-- minute list  -->
+			<c:forEach var="minute" items="#{minuteController.minutes}">
+				<ui:include src="/pages/workitems/forms/minutes/body_entry.xhtml">
+					<ui:param name="editmode" value="#{editmode}" />
+					<ui:param name="workitem" value="#{minute}" />
+					<ui:param name="minutesBody" value="#{minutesBody}" />
+				</ui:include>
+			</c:forEach>
+		</h:panelGroup>
+	</h:panelGroup>
+	
+	
+	
+	
 	<!--  Init script -->
 	<script type="text/javascript">
 		/*<![CDATA[*/
+			
+		$(document).ready(function() {
+			// jump to editor if open...
+			var element_to_scroll_to = document.getElementById("minute-editor-position");
+			if (element_to_scroll_to) {
+				// see https://stackoverflow.com/questions/3163615/how-to-scroll-html-page-to-given-anchor
+				element_to_scroll_to.scrollIntoView();
+			}
+		});
+		
+
 
 		// method to refresh create buttons 
 		function layoutBodySection(e) {
@@ -39,30 +74,5 @@
 
 		/*]]>*/
 	</script>
-
-	<!-- compute edit/read mode -->
-	<ui:param name="editmode"
-		value="#{(workitem.item['$processid'] lt 1500)?'true':'false'}" />
-
-	<!-- minutes body -->
-	<h:panelGroup layout="block"
-		styleClass="imixs-form-section minutes-body-section" id="minutes_body"
-		binding="#{minutesBody}">
-
-		<h:panelGroup id="minute_list">
-			<!-- minute list  -->
-			<ui:repeat var="child" value="#{minuteController.workitems}">
-				<ui:include src="/pages/workitems/forms/minutes/body_entry.xhtml">
-					<ui:param name="editmode" value="#{editmode}" />
-					<ui:param name="workitem" value="#{child}" />
-					<ui:param name="minutesBody" value="#{minutesBody}" />
-				</ui:include>
-			</ui:repeat>
-		</h:panelGroup>
-
-
-
-	</h:panelGroup>
-
 </ui:composition>
 
