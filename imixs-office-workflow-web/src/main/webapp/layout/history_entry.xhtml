@@ -3,20 +3,19 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
+	<ui:param name="isactive" value="#{historyController.currentId eq workitem.item['$uniqueID']}"></ui:param>
 	<div
-		class="imixs-historyentry #{(historyController.currentId eq workitem.item['$uniqueID']) ? 'active' : ''}">
+		class="imixs-historyentry #{isactive ? 'active' : ''}">
 
 
 		<div class="imixs-historyentry-action"  onclick="window.location=$('a',this).first().attr('href'); ">
 			<!-- *** Image *** -->
 			<h:panelGroup layout="block" styleClass="image-block">
-				<h:link outcome="/pages/workitems/workitem">
-					<ui:include src="/pages/viewentry_icon.xhtml">
-						<ui:param name="workitem" value="#{workitem}" />
-					</ui:include>
-					<f:param name="id" value="#{workitem.item['$uniqueid']}" />
-				</h:link>
-
+				<ui:include src="/layout/workitem_icon.xhtml">
+					<ui:param name="workitem" value="#{workitem}" />
+					<ui:param name="hidetooltip" value="#{isactive}" />
+					<ui:param name="showlink" value="#{false}" />
+				</ui:include>
 			</h:panelGroup>
 
 
@@ -52,7 +51,7 @@
 		<div style="float: right;">
 			<h:commandLink styleClass="close"
 				action="#{historyController.removeWorkitem(workitem.item['$uniqueID'])}">
-				<span class="typcn typcn-delete-outline xxpull-right"></span>
+				<span class="typcn typcn-delete-outline"></span>
 			</h:commandLink>
 		</div>
 

@@ -3,20 +3,14 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-
 	<!-- History Nav -->
 	<div id="imixs-historynav">
 		<h:form>
-
 			<ui:repeat value="#{historyController.workitems}" var="workitem">
 				<ui:include src="history_entry.xhtml">
 					<ui:param name="workitem" value="#{workitem}" />
 				</ui:include>
 			</ui:repeat>
-
-
-
-			<div style="clear: left;" />
 		</h:form>
 	</div>
 </f:subview>

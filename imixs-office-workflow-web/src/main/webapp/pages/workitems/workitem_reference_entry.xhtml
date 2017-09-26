@@ -12,7 +12,7 @@
 			<f:convertDateTime timeZone="#{message.timeZone}" pattern="yyyyMM" />
 		</h:outputText>
 
-		<div title=" ">
+		<div>
 			<p class="imixs-timeline-entry-date">
 				<h:outputText value="#{workitem.item['$created']}">
 					<f:convertDateTime timeZone="#{message.timeZone}"
@@ -21,9 +21,9 @@
 			</p>
 			<hr />
 			<!-- *** Image *** -->
-			<ui:include src="/pages/viewentry_imageblock.xhtml">
+			<ui:include src="/layout/workitem_icon.xhtml">
 				<ui:param name="workitem" value="#{workitem}" />
-				<ui:param name="hidefavorite" value="true" />
+				<ui:param name="showlink" value="#{true}" />
 			</ui:include>
 
 
@@ -57,22 +57,7 @@
 			</div>
 			<!-- clear floating problem from sidebar in ff and chrome.  -->
 			<div style="clear: left;" />
-
 		</div>
-		<!-- Tooltip -->
-		<h:panelGroup style="display:none;" class="imixs-tooltip">
-			<h:outputText value="#{message.modified}: " style="font-weight:bold;" />
-			<h:outputText value="#{workitem.item['$modified']}">
-				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-					pattern="#{message.dateTimePattern}" />
-			</h:outputText>
-			<h:outputText
-				value=" #{message.by} #{userController.getUserName(workitem.item['namcurrentEditor'])}" />
-			<hr />
-			<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
-				escape="false" />
-		</h:panelGroup>
-
 	</div>
 
 </f:subview>

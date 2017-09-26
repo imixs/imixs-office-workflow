@@ -10,23 +10,21 @@
 	<h:panelGroup layout="block" styleClass="image-block">
 
 		<!--  view icon  -->
-		<h:link outcome="/pages/workitems/workitem">
-			<ui:include src="viewentry_icon.xhtml">
-				<ui:param name="workitem" value="#{workitem}" />
-			</ui:include>
-			<f:param name="id" value="#{workitem.item['$uniqueid']}" />
-		</h:link>
+		<ui:include src="/layout/workitem_icon.xhtml">
+			<ui:param name="workitem" value="#{workitem}" />
+			<ui:param name="showlink" value="#{true}" />
+		</ui:include>
 
 		<!-- favorite marker -->
 		<h:panelGroup id="marked_id" layout="block" rendered="#{! hidefavorite}"
 			styleClass="imixs-favorite">
-			<h:commandLink
+			<h:commandLink title="#{message['worklist.favorite.help']}"
 				rendered="#{!userController.isFavorite(workitem.item['$uniqueid'])}"
 				actionListener="#{userController.addFavorite(workitem.item['$uniqueid'])}">
 				<span class="typcn typcn-star-outline"></span>
 				<f:ajax render="marked_id" />
 			</h:commandLink>
-			<h:commandLink
+			<h:commandLink title="#{message['worklist.favorite.help']}"
 				rendered="#{userController.isFavorite(workitem.item['$uniqueid'])}"
 				actionListener="#{userController.removeFavorite(workitem.item['$uniqueid'])}">
 				<span class="typcn typcn-star imixs-info"></span>
