@@ -40,6 +40,34 @@
 			</dd>
 		</dl>
 		
+		
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.reminder']}" />
+			</dt>
+			<dd>
+				<h:inputText styleClass="imixs-date"
+					value="#{workitem.item['datDate']}">
+					<f:convertDateTime pattern="#{message.datePatternShort}"
+						timeZone="#{message.timeZone}" />
+				</h:inputText>
+				
+				<h:selectOneMenu style="width:120px;margin-left:10px;"
+					value="#{workitem.item['keyIntervalDatDate']}">
+					<f:selectItem itemValue="" itemLabel="#{message['form.none']}" />
+					<f:selectItem itemValue="daily" itemLabel="Täglich" />
+					<f:selectItem itemValue="weekly"
+						itemLabel="#{message['form.weekly']}" />
+					<f:selectItem itemValue="monthly"
+						itemLabel="#{message['form.monthly']}" />
+					<f:selectItem itemValue="yearly"
+						itemLabel="#{message['form.yearly']}" />
+				</h:selectOneMenu>
+			</dd>
+		</dl>
+		
+		
+		
 		<!-- 
 		<dl>
 			<dt>
@@ -73,6 +101,11 @@
 					value="#{workitem.item['_ordernumber']}" />
 			</dd>
 		</dl>
+
+
+
+
+
 		<dl>
 			<dt>
 				<h:outputLabel value="#{message['form.orderdate']}" />
@@ -85,22 +118,6 @@
 	</div>
 
 
-	<div class="imixs-form-section">
-		<dl>
-			<dt>
-				<h:outputLabel value="#{message['form.description']}" />
-			</dt>
-			<dd>
-				<h:inputTextarea
-					value="#{workitem.item['_description']}"
-					style="" />
-			</dd>
-
-		</dl>
-
-	</div>
-
-
-
+	
 </ui:composition>
 
