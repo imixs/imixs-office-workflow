@@ -8,9 +8,9 @@
 	<div>
 		<div class="imixs-tabs">
 			<ul>
-				<c:forEach items="#{workflowController.editorSections}"
+				<c:forEach items="#{formController.formDefinition.sections}"
 					var="section">
-					<li><a href="#tab-#{section.url}">#{section.name}</a></li>
+					<li><a href="#tab-#{section.path}">#{section.name}</a></li>
 				</c:forEach>
 			</ul>
 
