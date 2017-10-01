@@ -21,14 +21,10 @@
 
 	<!-- creatix-css -->
 	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/creatix-basic.css"
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/imixs-basic.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/creatix-layout.css"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
-
-	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/creatix-forms.css"
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/imixs-layout.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
 
@@ -58,13 +54,6 @@
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
 	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/migration-office-forms.css"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
-
-
-
-
-	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 	<link
@@ -87,17 +76,6 @@
 	<h:outputText
 		value="&lt;!--[if IE 10]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
 		escape="false" />
-
-
-	<!-- Load the marty component script -->
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.js"></script>
-	<!-- Imixs-Office-Workflow  -->
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office-workflow.js?build=#{app.application_build_timestamp}"></script>
-
 
 	<ui:insert name="header">
 	</ui:insert>
@@ -146,8 +124,17 @@
 		</div>
 	</f:view>
 	
-		<script type="text/javascript">
-		/*<![CDATA[*/
+	<!-- Load the marty component script -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.js"></script>
+	<!-- Imixs-Office-Workflow  -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office-workflow.js?build=#{app.application_build_timestamp}"></script>
+	
+	<script type="text/javascript">
+	/*<![CDATA[*/
 
 		/* Init Script */
 		var imixs = IMIXS.org.imixs.core, 
@@ -156,7 +143,7 @@
 		imixsOfficeWorkflow.contextPath="#{facesContext.externalContext.requestContextPath}";
 		
 		$(document).ready(function() {
-			imixsOfficeWorkflow.layout();
+			imixsOfficeWorkflow.initLayout();
 			
 			/* This script replaces input fields with their values
 			 * we skip radio inputs and checkboxes.
@@ -194,9 +181,7 @@
 		});
 		
 		
-		/*]]>*/
-	
-		
+	/*]]>*/
 	</script>
 </h:body>
 

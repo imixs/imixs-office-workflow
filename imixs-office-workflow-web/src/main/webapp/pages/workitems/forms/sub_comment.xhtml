@@ -13,12 +13,12 @@
 			</dt>
 			<dd>
 				<h:inputTextarea
-					value="#{workflowController.workitem.item['txtComment']}" />
+					value="#{workitem.item['txtComment']}" />
 			</dd>
 		</dl>
 
 		<h:panelGroup
-			rendered="#{! empty workflowController.workitem.getItemValue('txtCommentLog')}">
+			rendered="#{! empty workitem.getItemValue('txtCommentLog')}">
 			<dl>
 				<dt>
 					<h:outputLabel value="#{message['form.comment.history']}:" />
@@ -26,7 +26,7 @@
 				<dd>
 					<h:panelGrid columns="3" rowClasses="topAligned" styleClass="imixs-commentlist">
 						<c:forEach
-							items="#{workflowController.workitem.getItemValue('txtCommentLog')}"
+							items="#{workitem.getItemValue('txtCommentLog')}"
 							var="comment">
 							<c:if test="#{!empty comment}">
 								<h:outputText value="#{comment.datcomment}"

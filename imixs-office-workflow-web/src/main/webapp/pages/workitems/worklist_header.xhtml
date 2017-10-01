@@ -12,7 +12,7 @@
 	<h:panelGroup id="worklist_filter_panel">
 
 		<div style="float: left">
-			<h1>
+			<h1 id="worklist-title">
 				<!-- Project Name -->
 				<h:outputText rendered="#{!empty process.item['txtName']}" value="#{process.item['txtName']}" />
 				<!-- Space Name -->
@@ -22,19 +22,7 @@
 					value="#{message.search}" />
 			</h1>
 		</div>
-		<div style="float: right">
-			<h:selectManyCheckbox id="view_filter"
-				value="#{searchController.searchFilter.itemListArray['type']}">
-				<f:selectItem itemLabel="#{message['worklist.in_progress']}"
-					itemValue="workitem" />
-				<f:selectItem itemLabel="#{message['worklist.archive']}"
-					itemValue="workitemarchive" />
-				<f:ajax event="change" listener="#{searchController.doResetSearchResult()}"
-					render="@form" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
-			</h:selectManyCheckbox>
-
-		</div>
-
+		
 		<div style="clear: both;" />
 
 
@@ -45,11 +33,23 @@
 
 		<ui:include src="/pages/workitems/worklist_search.xhtml" />
 
-		<h:commandButton value="#{message.search}"
+		<h:commandButton value="#{message.search}" style="float:left;margin-right:10px;"
 			actionListener="#{searchController.doResetSearchResult()}" >
 			
 		
 		</h:commandButton>
+		<div>
+			<h:selectManyCheckbox id="view_filter"  styleClass="imixs-checkbox-button ui-button ui-widget ui-state-default ui-corner-all"
+				value="#{searchController.searchFilter.itemListArray['type']}">
+				
+				<f:selectItem itemLabel="#{message['worklist.archive']}"
+					itemValue="workitemarchive" />
+				<f:ajax event="change" listener="#{searchController.doResetSearchResult()}"
+					render="@form" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
+			</h:selectManyCheckbox>
+
+		</div>
+		<div style="clear:both;"></div>
  
 
 	</h:panelGroup>

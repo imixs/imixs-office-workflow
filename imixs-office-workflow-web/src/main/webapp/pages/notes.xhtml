@@ -3,21 +3,42 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	template="/layout/template.xhtml">
 	<ui:define name="content">
-	
-		
+
+
 		<f:view>
 			<script type="text/javascript">
-			/*<![CDATA[*/
-				document.cookie = "imixs.office.navigation=/pages/notes.jsf;path=#{facesContext.externalContext.requestContextPath};";
-			/*]]>*/
+				/*<![CDATA[*/
+				$(document).ready(function() {
+					// set navigation cookie
+					document.cookie = "imixs.office.navigation=/pages/notes.jsf;path=#{facesContext.externalContext.requestContextPath};";
+					// refresh portlets all 60 seconds
+					setInterval(function(){$(".imixs-portlet-refresh").click()},60000);
+				}); 
+				
+				/*]]>*/
 			</script>
-		
 			<h:form>
-				<div class="row">
+			
+			
+				<!-- Password Reminder -->
+				<h:panelGroup styleClass="ui-widget" rendered="#{userController.workitem.item['$processid'] eq 220}">
+					<div class="ui-state-error ui-corner-all"
+						style="padding: .4em; margin-bottom: .7em;">
+						<h4>
+							<span class="typcn typcn-key-outline"></span>#{message['login.password_expired']}
+						</h4>
+					</div>
+				</h:panelGroup>
+				
+			
+				<!-- reporting only rendered for desktop users -->
+				<h:panelGroup layout="block" styleClass="row"
+					rendered="#{!userController.mobileUser}">
 					<ui:include src="/pages/reporting.xhtml" />
-				</div>
+				</h:panelGroup>
 
 				<div class="row">
 
@@ -48,10 +69,21 @@
 
 					<!--  Box 5 -->
 					<!-- Admin Menu -->
-					<c:if
-						test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
-						<ui:include src="/pages/portlet_admin.xhtml" />
-					</c:if>
+
+
+					<c:choose>
+
+						<c:when
+							test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
+							<ui:include src="/pages/portlet_admin.xhtml" />
+						</c:when>
+						<c:otherwise>
+							<c:if
+								test="#{(propertyController.getProperty('admin.manager.portlet') eq 'true') and (fn:indexOf(loginController.userNameList,'{space:manager}') gt -1) or (fn:indexOf(loginController.userNameList,'{process:manager}') gt -1)}">
+								<ui:include src="/pages/portlet_manager_admin.xhtml" />
+							</c:if>
+						</c:otherwise>
+					</c:choose>
 
 				</div>
 

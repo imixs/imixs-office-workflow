@@ -1,0 +1,76 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+
+	<!-- Admin Menu -->
+	<div class="imixs-portlet">
+		<div class="imixs-header">
+			<ul>
+				<li class="active"><h:outputText
+						value="#{message.administration}" /></li>
+			</ul>
+		</div>
+
+		<h:panelGroup layout="block"
+			rendered="#{fn:indexOf(loginController.userNameList,'{process:manager}') gt -1}">
+			<h3>#{message['nav.admin_processlist']}</h3>
+			<!-- show all processes to admin -->
+			<ul>
+				<ui:repeat value="#{processController.processList}" var="record">
+					<ui:fragment rendered="#{record.item['isManager']}">
+
+						<li><h:commandLink styleClass="imixs-viewentry-main-link"
+								action="#{workflowController.load(record.item['$UniqueID'],'/pages/process.xhtml')}">
+								<f:setPropertyActionListener value="/pages/admin/spaces"
+									target="#{workflowController.defaultActionResult}" />
+								<h:outputText value="#{record.item['txtName']}" />
+								<h:outputText rendered="#{empty record.item['txtName']}"
+									value=" - no name - " />
+
+
+							</h:commandLink></li>
+					</ui:fragment>
+				</ui:repeat>
+			</ul>
+		</h:panelGroup>
+
+
+
+		<h:panelGroup layout="block"
+			rendered="#{fn:indexOf(loginController.userNameList,'{space:manager}') gt -1}">
+			<h3>#{message['nav.admin_spaces']}</h3>
+			<!-- show all spaces to admin -->
+			<ul>
+				<ui:repeat value="#{processController.spaces}" var="record">
+					<ui:fragment rendered="#{record.item['isManager']}">
+
+						<li><h:commandLink styleClass="imixs-viewentry-main-link"
+								action="#{workflowController.load(record.item['$UniqueID'],'/pages/space.xhtml')}">
+								<f:setPropertyActionListener value="/pages/admin/spaces"
+									target="#{workflowController.defaultActionResult}" />
+								<h:outputText value="#{record.item['txtName']}" />
+								<h:outputText rendered="#{empty record.item['txtName']}"
+									value=" - no name - " />
+
+
+							</h:commandLink></li>
+					</ui:fragment>
+				</ui:repeat>
+			</ul>
+		</h:panelGroup>
+
+
+
+
+
+
+	</div>
+
+
+</f:subview>
+

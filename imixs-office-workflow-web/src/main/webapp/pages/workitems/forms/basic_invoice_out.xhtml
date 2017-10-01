@@ -18,8 +18,7 @@
 				<h:inputText required="true" value="#{workitem.item['_subject']}" />
 			</dd>
 		</dl>
-	</div>
-	<div class="imixs-form-section-2">
+		<!-- 
 		<dl>
 			<dt>
 				<h:outputLabel value="#{message['form.customer']}" />
@@ -27,24 +26,14 @@
 			<dd>
 				<h:inputText value="#{workitem.item['_customer']}" />
 			</dd>
-
 		</dl>
-
-		<dl>
-			<dt>
-				<h:outputLabel value="#{message['form.customernumber']}" />
-			</dt>
-			<dd>
-				<h:inputText value="#{workitem.item['_customernumber']}" />
-			</dd>
-		</dl>
-
-
-
+ -->
+	</div>
+	<div class="imixs-form-section-2">
 		<dl>
 
 			<dt>
-				<h:outputLabel value="#{message['form.order']}" />
+				<h:outputLabel value="#{message['form.incoming_order']}" />
 			</dt>
 			<dd>
 				<marty:workitemLink workitem="#{workflowController.workitem}"
@@ -66,6 +55,9 @@
 	
 	<div class="imixs-form-section-2">
 	
+	
+	<h:panelGroup  layout="block"
+		class="marty-workitemlink">
 		<h:panelGrid columns="2">
 			<h:outputLabel value="#{message['form.invoicedate']}" />
 			<h:inputText value="#{workitem.item['_invoicedate']}"
@@ -80,7 +72,9 @@
 			</h:inputText>
 
 			<h:outputLabel value="#{message['form.tax']}" />
-			<h:inputText value="#{workitem.item['_tax']}" />
+			<h:inputText value="#{workitem.item['_tax']}" >
+			<f:convertNumber minFractionDigits="2" locale="de" />
+			</h:inputText>
 
 			<h:outputLabel value="#{message['form.amount_brutto']}" />
 
@@ -88,7 +82,7 @@
 				<f:convertNumber minFractionDigits="2" locale="de" />
 			</h:inputText>
 		</h:panelGrid>
-		
+	</h:panelGroup>
 
 	</div>
 	

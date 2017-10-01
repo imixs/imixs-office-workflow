@@ -1,5 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
-
 <server xmlns="urn:jboss:domain:4.0">
 
     <extensions>
@@ -149,27 +148,32 @@
                     </security>
                 </datasource>
               
+              
+              	<!-- imixs-workflow datasource -->
                 <datasource jta="true" jndi-name="java:/jdbc/office" pool-name="office" enabled="true" use-ccm="true">
-                    <connection-url>jdbc:postgresql://postgres/office</connection-url>
-                    <driver-class>org.postgresql.Driver</driver-class>
-                    <driver>postgresql-9.3-1102.jdbc41.jar</driver>
-                    <security>
-                        <user-name>postgres</user-name>
-                        <password>adminadmin</password>
-                    </security>
-                    <validation>
-                        <validate-on-match>false</validate-on-match>
+                	<connection-url>${env.POSTGRES_CONNECTION}</connection-url>
+				    <driver-class>org.postgresql.Driver</driver-class>
+				    <driver>postgresql</driver>
+				    <security>
+				      <user-name>${env.POSTGRES_USER}</user-name>
+				      <password>${env.POSTGRES_PASSWORD}</password>
+				    </security>
+                     <validation>
+                        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
+                        <validate-on-match>true</validate-on-match>
                         <background-validation>false</background-validation>
-                    </validation>                  
+                    </validation>                
                     <statement>
                         <share-prepared-statements>false</share-prepared-statements>
                     </statement>
-                </datasource>
-                
+                </datasource>                
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
                     </driver>
+                    <driver name="postgresql" module="org.postgresql">
+                		<driver-class>org.postgresql.Driver</driver-class>
+            		</driver>
                 </drivers>
             </datasources>
         </subsystem>
@@ -313,7 +317,9 @@
             <mail-session name="default" jndi-name="java:jboss/mail/Default">
                 <smtp-server outbound-socket-binding-ref="mail-smtp"/>
             </mail-session>
-            <mail-session name="java:/mail/org.imixs.workflow.mail" jndi-name="java:/mail/org.imixs.workflow.mail" debug="true"/>
+            <mail-session name="java:/mail/org.imixs.workflow.mail" jndi-name="java:/mail/org.imixs.workflow.mail" debug="true">
+            	<smtp-server outbound-socket-binding-ref="mail-smtp"/>
+            </mail-session>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:naming:2.0">
             <remote-naming/>
@@ -383,7 +389,7 @@
                     </authentication>
                 </security-domain>
          
-                <security-domain name="office" cache-type="default">
+                <security-domain name="office">
                     <authentication>
                         <login-module code="Database" flag="required">
                             <module-option name="dsJndiName" value="java:/jdbc/office"/>
@@ -461,7 +467,7 @@
         <socket-binding name="txn-recovery-environment" port="4712"/>
         <socket-binding name="txn-status-manager" port="4713"/>
         <outbound-socket-binding name="mail-smtp">
-            <remote-destination host="localhost" port="25"/>
+            <remote-destination host="smarthost" port="25"/>
         </outbound-socket-binding>
     </socket-binding-group>
 

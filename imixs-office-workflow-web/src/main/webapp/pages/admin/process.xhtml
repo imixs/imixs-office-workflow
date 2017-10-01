@@ -207,28 +207,10 @@
 
 							</div>
 						</div>
-					</div>
-
-					<div class="imixs-footer">
-
-						<h1>
-							<h:outputText value="#{message.workflow}" />
-						</h1>
-						<h:outputText
-							value="#{message.modified}: #{workflowController.workitem.item['$modified']}">
-							<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-								pattern="#{message.dateTimePattern}" />
-						</h:outputText>
-						<h:outputText
-							value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCurrentEditor'])}" />
-						<br /> <br />
-						<i:imixsWorkflowActions workflowController="#{workflowController}" />
-
-						<h:commandButton immediate="true" value="#{message.close}"
-							styleClass="imixs-close-action" action="processlist" />
-
-					</div>
-
+					</div> <!-- form-body end -->
+					<ui:include src="/pages/admin/sub_footer.xhtml" >
+						<ui:param name="action" value="/pages/admin/processlist" />
+					</ui:include>
 				</div>
 			</h:form>
 		</f:view>

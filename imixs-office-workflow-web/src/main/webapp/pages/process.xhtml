@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+
+		<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
+		<f:view>
+
+
+			<h:form id="coreprocess_form_id">
+				
+				<div class="imixs-form">
+
+					<div class="imixs-header">
+						<h1>
+							<h:outputText value="#{message['process.title']}: " />
+							<h:outputText
+								value="#{workflowController.workitem.item['txtname']}" />
+						</h1>
+					</div>
+					<!-- ########## Error ########## -->
+					<ui:include src="/pages/error_message.xhtml" />
+
+					<div class="imixs-body">
+
+						<div class="imixs-tabs">
+							<ul>
+								<li><a href="#tab-2">#{message['process.sub_team']}</a></li>
+							</ul>
+
+
+
+							<!-- ******** coreprocess Members ********* -->
+							<div id="tab-2">
+
+								<div class="ui-state-highlight ui-corner-all"
+									style="margin-bottom: 10px; padding: .5em;">
+									<p>#{message['process.help_team']}</p>
+								</div>
+
+								<div class="imixs-form-panel">
+
+									<!-- ******** coreprocess Manager ********* -->
+									<dl class="columns-1">
+										<dt>#{message['process.manager']}</dt>
+										<dd>
+											<marty:userListInput
+												value="#{workflowController.workitem.itemList['nammanager']}"
+												editmode="true" />
+										</dd>
+									</dl>
+
+
+									<!-- ******** coreprocess Team ********* -->
+									<dl class="columns-1">
+										<dt>#{message['process.team']}</dt>
+										<dd>
+											<marty:userListInput
+												value="#{workflowController.workitem.itemList['namteam']}"
+												editmode="true" />
+										</dd>
+									</dl>
+
+									<!-- ******** coreprocess Assitenz ********* -->
+									<dl class="columns-1">
+										<dt>#{message['process.assist']}</dt>
+										<dd>
+											<marty:userListInput
+												value="#{workflowController.workitem.itemList['namassist']}"
+												editmode="true" />
+										</dd>
+									</dl>
+
+
+
+
+								</div>
+							</div>
+
+						
+
+
+						</div>
+					</div> <!-- form-body end -->
+					
+					
+						<!-- Custom Footer: workflow actions to overwrite the action result -->
+					<ui:repeat value="#{workflowController.events}" var="event">
+						<h:commandButton
+							actionListener="#{workflowController.process(event.item['numactivityid'])}"
+							action="notes" class="imixs-workflow-action" title=""
+							value="#{event.item['txtname']}">
+							<h:panelGroup class="imixs-tooltip">
+								<h:outputText value="#{event.item['rtfdescription']}"
+									escape="false" />
+							</h:panelGroup>
+						</h:commandButton>
+					</ui:repeat>
+					<h:commandButton immediate="true" value="#{message.close}"
+						styleClass="imixs-close-action" action="notes" />
+				</div>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+
+
+</ui:composition>
+

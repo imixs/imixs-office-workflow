@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+
+
+	<!--  Init script -->
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		/*]]>*/
+	</script>
+
+
+	<!-- minutes body -->
+	<h:panelGroup layout="block"
+		styleClass="imixs-form-section minutes-body-section" id="minutes_body"
+		binding="#{minutesBody}">
+		<h:panelGroup id="minute_list">
+
+
+			<div class="row nested">
+
+				<div class="col-4">
+					<h3>Zu bewerten</h3>
+				</div>
+				<div class="col-4">
+					<h3>Bemerkung</h3>
+				</div>
+				<div class="col-4">
+					<h3>Status</h3>
+				</div>
+			</div>
+			<hr />
+
+			<!-- minute list  -->
+			<c:forEach items="#{subWorkitemController.workitems}" var="child">
+
+			
+				<ui:include src="qs_body_entry.xhtml">
+					<ui:param name="workitem" value="#{child}" />
+				</ui:include>
+
+				<hr />
+			</c:forEach>
+		</h:panelGroup>
+
+
+
+
+	</h:panelGroup>
+
+</ui:composition>
+

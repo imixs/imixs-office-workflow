@@ -25,14 +25,10 @@
 
 	<!-- creatix-css -->
 	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/creatix-basic.css?build=#{app.application_build_timestamp}"
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/imixs-basic.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/creatix-layout.css?build=#{app.application_build_timestamp}"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
-
-	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/creatix-forms.css?build=#{app.application_build_timestamp}"
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/imixs-layout.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
 
@@ -58,9 +54,6 @@
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
 
-	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/migration-office-forms.css?build=#{app.application_build_timestamp}"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
 
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom.css?build=#{app.application_build_timestamp}"
@@ -82,29 +75,6 @@
 	<h:outputText
 		value="&lt;!--[if IE 10]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
 		escape="false" />
-
-
-	<!-- Load the marty component script -->
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.js?build=#{app.application_build_timestamp}"></script>
-
-
-	<!-- Load DatatablePlugin  -->
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/layout/js/jquery.dataTables.min.js?build=#{app.application_build_timestamp}"></script>
-
-
-	<!-- Imixs-Office-Workflow  -->
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office-workflow.js?build=#{app.application_build_timestamp}"></script>
-
-
-	<!-- Chart.js -->
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/Chart.min.js?build=#{app.application_build_timestamp}"></script>
-
 
 	<ui:insert name="header">
 	</ui:insert>
@@ -169,6 +139,29 @@
 	</f:view>
 
 
+
+	<!-- Load the marty component script -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.js?build=#{app.application_build_timestamp}"></script>
+
+
+	<!-- Load DatatablePlugin  -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/layout/js/jquery.dataTables.min.js?build=#{app.application_build_timestamp}"></script>
+
+
+	<!-- Imixs-Office-Workflow  -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office-workflow.js?build=#{app.application_build_timestamp}"></script>
+
+
+	<!-- Chart.js -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/Chart.min.js?build=#{app.application_build_timestamp}"></script>
+
+
 	<script type="text/javascript">
 		/*<![CDATA[*/
 
@@ -179,7 +172,9 @@
 		imixsOfficeWorkflow.contextPath="#{facesContext.externalContext.requestContextPath}";
 		
 		$(document).ready(function() {
-			imixsOfficeWorkflow.layout();
+			
+			// init layout
+			imixsOfficeWorkflow.initLayout();
 			
 			layoutOfficeEditor();
 			
@@ -193,10 +188,6 @@
 		
 		/* laest sich im moment nicht auslagern (script_url!) see issue #87 */
 		layoutOfficeEditor = function() {
-			
-			
-			//tinymce.init({ selector:'textarea.imixs-editor' });
-			
 			// Layout office default editor
 			tinymce.init({
 				  selector: 'textarea.imixs-editor',
@@ -206,10 +197,24 @@
 				    'searchreplace code fullscreen',
 				    'contextmenu paste code'
 				  ],
-				  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+				  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat',
 				  content_css : "#{facesContext.externalContext.requestContextPath}/layout/css/tinymce.css"
-			
 				});
+			
+			// layout tinymce for minutes
+			tinymce
+				.init({
+					selector : 'textarea.imixs-editor-basic',
+					height : 200,
+					menubar : false,
+					statusbar : true,
+					plugins : [ 'advlist autolink lists link image',
+							'searchreplace', 'contextmenu paste' ],
+					toolbar : 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat',
+					content_css : "#{facesContext.externalContext.requestContextPath}/layout/css/tinymce.css"
+
+				});
+			
 			
 		};
 		

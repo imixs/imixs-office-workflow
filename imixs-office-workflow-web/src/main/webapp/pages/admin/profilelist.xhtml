@@ -68,55 +68,70 @@
 
 								
 								<!--  compute access icon -->
-								<ui:fragment
-									rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Manager') gt -1}">
-									<h:panelGroup
-										styleClass="typcn typcn-spanner #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
-
-								</ui:fragment>
-								<ui:fragment
-									rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Manager') eq -1}">
+								<ui:fragment rendered="#{setupController.workitem.item['keyEnableUserDB']}">
+									
 									<ui:fragment
-										rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Editor') gt -1}">
+										rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Manager') gt -1}">
 										<h:panelGroup
-											styleClass="typcn typcn-pencil #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
-
+											styleClass="typcn typcn-spanner #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
 									</ui:fragment>
 									<ui:fragment
-										rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Editor') eq -1}">
+										rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Manager') eq -1}">
 										<ui:fragment
-											rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Author') gt -1}">
+											rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Editor') gt -1}">
 											<h:panelGroup
-												styleClass="typcn typcn-edit #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
-
+												styleClass="typcn typcn-pencil #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
+	
 										</ui:fragment>
 										<ui:fragment
-											rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Author') eq -1}">
+											rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Editor') eq -1}">
 											<ui:fragment
-												rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Reader') gt -1}">
+												rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Author') gt -1}">
 												<h:panelGroup
-													styleClass="typcn typcn-eye-outline #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
-
+													styleClass="typcn typcn-edit #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
+	
 											</ui:fragment>
 											<ui:fragment
-												rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Reader') eq -1}">
-												<h:panelGroup
-													styleClass="typcn typcn-lock-closed #{(record.item['$processid'] ge 210)?'imixs-state-warning':'imixs-state-error'} " />
-
+												rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Author') eq -1}">
+												<ui:fragment
+													rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Reader') gt -1}">
+													<h:panelGroup
+														styleClass="typcn typcn-eye-outline #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
+	
+												</ui:fragment>
+												<ui:fragment
+													rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Reader') eq -1}">
+													<h:panelGroup
+														styleClass="typcn typcn-lock-closed #{(record.item['$processid'] ge 210)?'imixs-state-warning':'imixs-state-error'} " />
+	
+												</ui:fragment>
 											</ui:fragment>
 										</ui:fragment>
 									</ui:fragment>
 								</ui:fragment>
+								<!-- disabled groups icon -->
+								<ui:fragment rendered="#{!setupController.workitem.item['keyEnableUserDB']}">
+									<h:panelGroup
+											styleClass="typcn typcn-user #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
+								
+								</ui:fragment>
 
 
 
-								<h:commandLink styleClass="imixs-viewentry-main-link"
+								<h:commandLink styleClass="imixs-viewentry-main-link" title=" "
 									action="#{workflowController.load(record.item['$uniqueid'],'profile')}">
 									<f:setPropertyActionListener value="/pages/admin/profilelist"
 										target="#{workflowController.defaultActionResult}" />
 									<h:outputText value="#{record.item['txtName']} " />
 								</h:commandLink>
-
+								<!-- Tooltip (disabled if userdb is disabled-->
+								<h:panelGroup style="display:none;" class="imixs-tooltip" rendered="#{setupController.workitem.item['keyEnableUserDB']}">
+									<ui:repeat var="grp"
+										value="#{record.itemListArray['txtGroups']}">
+										<h:outputText value="#{grp}" />
+										<br />
+									</ui:repeat>
+								</h:panelGroup>
 							</h:column>
 
 
@@ -134,7 +149,7 @@
 							</h:column>
 
 
-							<h:column width="110">
+							<h:column>
 								<f:facet name="header">
 									<h:panelGroup>
 										<h:outputText value="#{message.modified}" />
@@ -155,20 +170,9 @@
 
 							<h:column>
 								<f:facet name="header">#{message.status}</f:facet>
-
 								<div title=" ">
 									<h:outputText value="#{record.item['txtWorkflowStatus']}" />
 								</div>
-
-								<!-- Tooltip -->
-								<h:panelGroup style="display:none;" class="imixs-tooltip">
-									<ui:repeat var="grp"
-										value="#{record.itemListArray['txtGroups']}">
-										<h:outputText value="#{grp}" />
-										<br />
-									</ui:repeat>
-
-								</h:panelGroup>
 							</h:column>
 
 

@@ -15,7 +15,15 @@
 
 				// lowercase userid....
 				$("#j_username").blur(function() {
-					$(this).val($(this).val().toLowerCase());
+					
+					var mode="#{propertyController.getProperty('security.userid.input.mode')}";
+					if (!mode || mode==="" || mode==="LOWERCASE") {
+						$(this).val($(this).val().toLowerCase());
+					} else {
+						if (mode.indexOf("UPPERCASE")==0) {
+							$(this).val($(this).val().toUpperCase());
+						}
+					}
 				});
 			});
 			/*]]>*/

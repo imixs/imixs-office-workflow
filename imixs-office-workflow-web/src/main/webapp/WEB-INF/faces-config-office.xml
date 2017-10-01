@@ -98,6 +98,16 @@
 		<managed-bean-class>org.imixs.workflow.faces.workitem.ViewController</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 		<managed-property>
+			<property-name>sortBy</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>txtname</value>
+		</managed-property>
+		<managed-property>
+			<property-name>sortReverse</property-name>
+			<property-class>boolean</property-class>
+			<value>false</value>
+		</managed-property>
+		<managed-property>
 			<property-name>pageSize</property-name>
 			<property-class>int</property-class>
 			<value>999</value>
@@ -115,6 +125,16 @@
 		<managed-bean-class>org.imixs.workflow.faces.workitem.ViewController</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 		<managed-property>
+			<property-name>sortBy</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>txtname</value>
+		</managed-property>
+		<managed-property>
+			<property-name>sortReverse</property-name>
+			<property-class>boolean</property-class>
+			<value>false</value>
+		</managed-property>
+		<managed-property>
 			<property-name>pageSize</property-name>
 			<property-class>int</property-class>
 			<value>999</value>
@@ -130,6 +150,16 @@
 		<managed-bean-name>profileViewController</managed-bean-name>
 		<managed-bean-class>org.imixs.workflow.faces.workitem.ViewController</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>sortBy</property-name>
+			<property-class>java.lang.String</property-class>
+			<value>txtname</value>
+		</managed-property>
+		<managed-property>
+			<property-name>sortReverse</property-name>
+			<property-class>boolean</property-class>
+			<value>false</value>
+		</managed-property>
 		<managed-property>
 			<property-name>pageSize</property-name>
 			<property-class>int</property-class>
@@ -161,6 +191,12 @@
 		<navigation-case>
 			<from-outcome>search</from-outcome>
 			<to-view-id>/pages/workitems/worklist.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>search_dms</from-outcome>
+			<to-view-id>/pages/workitems/dms_search.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		

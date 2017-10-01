@@ -19,13 +19,7 @@
 						<h1>
 							<h:outputText
 								value="#{message['profile.title']}: #{workflowController.workitem.item['txtName']} " />
-
 						</h1>
-						<h2>
-							<h:outputText
-								value="#{message.status}: #{workflowController.workitem.item['txtWorkflowStatus']}" />
-
-						</h2>
 					</div>
 
 					<div class="imixs-body">
@@ -53,11 +47,6 @@
 												#{message['profile.userid']}<span class="imixs-required">*</span>
 											</dt>
 											<dd>
-												<!-- lower case input 
-												<h:inputText required="true" id="txtname_id" onblur="$(this).val($(this).val().toLowerCase());"
-													value="#{workflowController.workitem.item['txtName']}" />
-													
-													-->
 
 												<h:inputText required="true" id="txtname_id"
 													disabled="#{! empty workflowController.workitem.item['txtName']}"
@@ -90,6 +79,24 @@
 
 										</dd>
 									</dl>
+									
+									
+									<dl>
+										<dt>
+											<h:outputLabel value="#{message['profile.initials']}">
+											</h:outputLabel>
+											
+										</dt>
+										<dd>
+											<h:inputText required="false"
+												value="#{workflowController.workitem.item['txtInitials']}">
+											</h:inputText>
+
+
+										</dd>
+									</dl>
+									
+									
 									<dl>
 										<dt>
 											<h:outputLabel for="email_id"
@@ -201,7 +208,7 @@
 
 								<div class="imixs-form-panel imixs-form-section">
 									<dl>
-										<dt>#{message.comments}</dt>
+										<dt>#{message.description}</dt>
 										<dd>
 											<h:inputTextarea required="false"
 												value="#{workflowController.workitem.item['txtComments']}"
@@ -209,39 +216,6 @@
 											</h:inputTextarea>
 										</dd>
 
-										<dt>
-											<h:outputText value="#{message.history}" />
-										</dt>
-										<dd>
-											<div style="xmargin-left: 10px;">
-												<h:outputText value="#{message.created}: " />
-												<h:outputText
-													value="#{workflowController.workitem.item['$created']}">
-													<f:convertDateTime timeZone="#{message.timeZone}"
-														type="both" pattern="#{message.dateTimePattern}" />
-												</h:outputText>
-												<h:outputText
-													value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCreator'])}" />
-												<br />
-												<h:outputText value="#{message.modified}: " />
-												<h:outputText
-													value="#{workflowController.workitem.item['$modified']}">
-													<f:convertDateTime timeZone="#{message.timeZone}"
-														type="both" pattern="#{message.dateTimePattern}" />
-												</h:outputText>
-												<h:outputText
-													value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCurrentEditor'])}" />
-
-												<hr />
-												<ui:repeat
-													value="#{workflowController.workitem.itemListArray['txtworkflowhistorylog']}"
-													var="log">
-
-													<h:outputText value="#{log}" />
-													<br />
-												</ui:repeat>
-											</div>
-										</dd>
 									</dl>
 								</div>
 
@@ -249,14 +223,11 @@
 
 
 						</div>
-					</div>
-					<div class="imixs-footer">
-						<i:imixsWorkflowActions workflowController="#{workflowController}" />
-
-						<h:commandButton value="#{message.close}"
-							styleClass="imixs-close-action" immediate="true"
-							action="profilelist" />
-					</div>
+					</div> <!-- form-body end -->
+					<ui:include src="/pages/admin/sub_footer.xhtml" >
+						<ui:param name="action" value="/pages/admin/profilelist" />
+					</ui:include>
+					
 				</div>
 			</h:form>
 		</f:view>

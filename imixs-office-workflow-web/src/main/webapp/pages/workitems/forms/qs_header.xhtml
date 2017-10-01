@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<!--  Init script -->
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		$(document).ready(function() {
+
+		});
+
+		/*]]>*/
+	</script>
+	<ui:param name="editmode"
+		value="#{workitem.item['$processid'] lt 1500}" />
+
+		<div class="imixs-form-section-2">
+			<dl>
+				<dt>
+					Kunde: <span class="imixs-required">*</span>
+				</dt>
+				<dd>
+					<h:inputText title="#{message['form.minutes.help_subject']}"
+						required="true" value="#{workitem.item['_subject']}" />
+				</dd>
+			</dl>
+			
+			<dl>
+				<dt>
+					Projekt: <span class="imixs-required">*</span>
+				</dt>
+				<dd>
+					<h:inputText value="#{workitem.item['_project']}" required="true">
+					</h:inputText>
+				</dd>
+			</dl>
+			
+			
+			<dl>
+				<dt>
+					#{message['form.minutes.date']}: <span class="imixs-required">*</span>
+				</dt>
+				<dd>
+					<h:inputText value="#{workitem.item['datdate']}" required="true"
+						title="#{message['form.minutes.help_datdate']}" class="imixs-date">
+						<f:convertDateTime pattern="#{message.datePatternShort}"
+							timeZone="#{message.timeZone}" />
+					</h:inputText>
+				</dd>
+			</dl>
+			
+			
+			<dl>
+				<dt>
+					Version: 
+				</dt>
+				<dd>
+					<h:inputText value="#{workitem.item['_version']}" required="false">
+					</h:inputText>
+				</dd>
+			</dl>
+
+		</div>
+		
+
+	
+	<!-- ReadOnly Modus -->
+	<c:if test="#{workitem.item['$processid'] ge 1500}">
+		<!-- jQuery code to disable all input elements in read modus -->
+		<script type="text/javascript">
+			/*<![CDATA[*/
+			$(".imixs-body :input").attr("disabled", true);
+			
+			// hide owner links
+			
+			$("a[id$=remove_owner_link_id]").hide();
+			//workitem_form:j_idt593:j_idt612:j_idt616:0:remove_owner_link_id
+			
+			
+			/*]]>*/
+		</script>
+	</c:if>
+
+
+</ui:composition>

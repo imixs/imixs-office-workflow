@@ -5,9 +5,6 @@
 	xmlns:i="http://java.sun.com/jsf/composite/imixs"
 	xmlns:marty="http://java.sun.com/jsf/composite/marty">
 
-
-
-
 	<div class="imixs-timeline-entry #{entityclass}">
 		<!-- date marker -->
 		<h:outputText style="display:none;" class="datemark"
@@ -15,7 +12,7 @@
 			<f:convertDateTime timeZone="#{message.timeZone}" pattern="yyyyMM" />
 		</h:outputText>
 
-		<div title=" ">
+		<div>
 			<p class="imixs-timeline-entry-date">
 				<h:outputText value="#{workitem.item['$created']}">
 					<f:convertDateTime timeZone="#{message.timeZone}"
@@ -23,13 +20,10 @@
 				</h:outputText>
 			</p>
 			<hr />
-
 			<!-- *** Image *** -->
-			<ui:include src="/pages/viewentry_imageblock.xhtml">
+			<ui:include src="/layout/workitem_icon.xhtml">
 				<ui:param name="workitem" value="#{workitem}" />
-				<ui:param name="hidefavorite" value="true" />
-				
-				
+				<ui:param name="showlink" value="#{true}" />
 			</ui:include>
 
 
@@ -37,10 +31,7 @@
 			<div class="content-block">
 				<h:panelGroup>
 
-
-					<h:commandLink  immediate="true"
-						action="#{workflowController.load(workitem.item['$uniqueid'],'/pages/workitems/workitem')}">
-						<!-- summary empty ? -->
+					<h:link outcome="/pages/workitems/workitem">
 						<h:panelGroup
 							rendered="#{empty workitem.item['txtWorkflowSummary']}">
 							<h:outputText value="#{workitem.item['$modified']}"
@@ -53,7 +44,8 @@
 						</h:panelGroup>
 						<h:outputText style="font-weight: bold;" escape="false"
 							value="#{workitem.item['txtWorkflowSummary']}" />
-					</h:commandLink>
+						<f:param name="id" value="#{workitem.item['$uniqueid']}" />
+					</h:link>
 				</h:panelGroup>
 
 				<br />
@@ -62,29 +54,10 @@
 				<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
 				<h:outputText value=" (#{workitem.item['txtProcessName']})" />
 
-
-
-
-
 			</div>
 			<!-- clear floating problem from sidebar in ff and chrome.  -->
 			<div style="clear: left;" />
-
 		</div>
-		<!-- Tooltip -->
-		<h:panelGroup style="display:none;" class="imixs-tooltip">
-			<h:outputText value="#{message.modified}: " style="font-weight:bold;" />
-			<h:outputText value="#{workitem.item['$modified']}">
-				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-					pattern="#{message.dateTimePattern}" />
-			</h:outputText>
-			<h:outputText
-				value=" #{message.by} #{userController.getUserName(workitem.item['namcurrentEditor'])}" />
-			<hr />
-			<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
-				escape="false" />
-		</h:panelGroup>
-
 	</div>
 
 </f:subview>

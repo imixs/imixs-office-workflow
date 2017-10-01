@@ -40,10 +40,10 @@
 				</h:column>
 				<!-- open -->
 				<h:column>
-					<h:commandLink value="#{message.open}" immediate="true"
-						rendered="#{version.item['$uniqueid'] ne workflowController.workitem.item['$uniqueid']}"
-						action="#{workflowController.load(version.item['$uniqueid'],'/pages/workitems/workitem')}">
-					</h:commandLink>
+					<h:link outcome="/pages/workitems/workitem" rendered="#{version.item['$uniqueid'] ne workflowController.workitem.item['$uniqueid']}">
+						#{message.open}
+						<f:param name="id" value="#{version.item['$uniqueid']}" />
+					</h:link>
 					<h:panelGroup
 						rendered="#{version.item['$uniqueid'] eq workflowController.workitem.item['$uniqueid']}"
 						styleClass="imixs-required">*</h:panelGroup>

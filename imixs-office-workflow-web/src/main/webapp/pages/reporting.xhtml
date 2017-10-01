@@ -9,7 +9,7 @@
 	<!-- Imixs Reports 
 	
 		For each report defined in the process entity we generate a Chart.js canvas and load the json data for the report  
-	
+	.imixs-report
 	-->
 
 
@@ -20,10 +20,10 @@
 
 			<!-- bulild a portlet for each report -->
 			<ui:repeat value="#{process.itemList['txtReportList']}" var="report">
-				<!--  We replace the sufix .ixr with -ixr so that we an use the report name as an ID -->
+				<!--  We replace the sufix .imixs-report with -imixs-report so that we an use the report name as an ID -->
 				<ui:param name="reportid"
-					value="#{fn:replace(report,'.ixr','-ixr')}"></ui:param>
-				<h:panelGroup layout="block" styleClass="imixs-reports col-3">
+					value="#{fn:replace(report,'.imixs-report','-imixs-report')}"></ui:param>
+				<div class="imixs-reports col-3">
 					<!-- chart header -->
 					<div class="imixs-header" id="#{reportid}">
 						<div align="right" style="float: right;">
@@ -36,8 +36,10 @@
 						<h1>...</h1>
 					</div>
 					<!-- the char canvas -->
-					<canvas id="canvas-#{reportid}"></canvas>
-				</h:panelGroup>
+					<div id="canvas-container-#{reportid}">
+						<canvas id="canvas-#{reportid}"></canvas>
+					</div>
+				</div>
 			</ui:repeat>
 		</h:panelGroup>
 	</ui:repeat>
@@ -83,10 +85,10 @@
 			}
 			
 			//console.log("loading chart data '" + reportid + "'...'");
-			// get report name with .ixr extension form the reportid...
-			var report = reportid.replace("-ixr", ".ixr");
-			var request_url = "#{facesContext.externalContext.requestContextPath}/rest-service/report/" + report+"?count=-1";
-			// We replace the sufix .ixr with -ixr so that we an use the report name as an ID
+			// get report name with .imixs-report extension form the reportid...
+			var report = reportid+".imixs-report";
+			var request_url = "#{facesContext.externalContext.requestContextPath}/rest-service/report/" + report+"?pagesize=9999";
+			// We replace the sufix .imixs-report with -imixs-report so that we an use the report name as an ID
 			$.ajax({
 				url : request_url,
 				type : "GET",
@@ -127,6 +129,11 @@
 				$("#" + reportid + " h1").text(data.datasets[0].label);
 				// build chart...
 				var charttype = data.datasets[0].charttype;
+				
+				// clear old data (http://stackoverflow.com/questions/24815851/how-to-clear-a-chart-from-a-canvas-so-that-hover-events-cannot-be-triggered#25064035)
+				$('#canvas-'+reportid).remove(); // this is my <canvas> element
+				$("#canvas-container-"+reportid).append("<canvas id=\"canvas-"+reportid+"\"></canvas>");
+				
 				var ctx = document.getElementById("canvas-" + reportid)
 						.getContext("2d");
 				if (charttype == "Bar") {

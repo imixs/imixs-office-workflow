@@ -19,37 +19,32 @@
 			<!-- settings -->
 			<h:panelGroup layout="block" styleClass="toolbar settings"
 				rendered="#{loginController.authenticated}">
-
 				<h:commandLink actionListener="#{workflowController.reset}"
 					immediate="true" title="home" action="notes">
 					<span class="typcn typcn-home"></span>
 				</h:commandLink>
-
- 
 			</h:panelGroup>
 
 
 			<!-- Login -->
 			<h:panelGroup layout="block" styleClass="toolbar login"
 				rendered="#{loginController.authenticated}">
-				
-				<span class="login-name">
-				<h:outputText value="#{message.signed_in}: " />
-				<h:outputText
-					rendered="#{! empty userController.workitem.item['txtUserName']}"
-					value="#{userController.workitem.item['txtUserName']}" />
-				<h:outputText
-					rendered="#{empty userController.workitem.item['txtUserName']}"
-					value="#{userController.workitem.item['txtName']}" />
+
+				<span class="login-name"> <h:outputText
+						value="#{message.signed_in}: " /> <h:outputText
+						rendered="#{! empty userController.workitem.item['txtUserName']}"
+						value="#{userController.workitem.item['txtUserName']}" />
+					<h:outputText
+						rendered="#{empty userController.workitem.item['txtUserName']}"
+						value="#{userController.workitem.item['txtName']}" />
 				</span>
-				<h:link outcome="/pages/profile/settings" title="#{message['nav.my_settings']}">
-					<span class="typcn typcn-cog"></span>
+				<h:link outcome="/pages/profile/settings"
+					title="#{message['nav.my_settings']}"><span class="typcn typcn-cog"></span>
 				</h:link>
-				
+
 				<h:commandLink action="logout" immediate="true"
 					title="#{message['nav.logout']}"
-					actionListener="#{loginController.doLogout}">
-					<span class="typcn typcn-power"></span>
+					actionListener="#{loginController.doLogout}"><span class="typcn typcn-power"></span>
 				</h:commandLink>
 			</h:panelGroup>
 
@@ -58,72 +53,44 @@
 			<c:if test="#{loginController.authenticated}">
 
 				<h:panelGroup layout="block" styleClass="toolbar search">
-
-					<h:inputText
+					<h:inputText style="margin-right: 10px;"
 						value="#{searchController.searchFilter.item['txtSearch']}"
 						onfocus="this.value='';" />
 					<h:commandLink actionListener="#{searchController.doResetFilter}"
-						action="search" title="#{message.search}">
-						<span class="typcn typcn-zoom-outline"></span>
+						action="search" title="#{message.search}"><span class="typcn typcn-zoom-outline"></span>
 					</h:commandLink>
 
 					<!-- dummy botton to hit enter -->
 					<h:commandButton
 						style="visibility:hidden;display: none;width:1px;height:1px;"
-						actionListener="#{searchController.doResetFilter}"
-						action="search">
+						actionListener="#{searchController.doResetFilter}" action="search">
 					</h:commandButton>
-
-
-					<!-- Process Menu -->
-					<a href="#" class="process-menu-control" style="display:none;"
-						title="#{message['nav.processlist']}"><span
-						class="typcn typcn-flow-merge"></span><span
-						class="typcn typcn-arrow-sorted-down" style="font-size: 14px;"></span>
-					</a>
-					<ul id="process-menu" class="" style="display: none;">
-						<ui:repeat value="#{processController.processList}" var="process">
-
-							<li><h:commandLink action="/pages/workitems/worklist"
-									immediate="true" actionListener="#{searchController.doReset}">
-									<h:outputText value="#{process.item['txtName']}" />
-									<f:setPropertyActionListener
-										target="#{searchController.searchFilter.item['txtprocessRef']}"
-										value="#{process.item['$uniqueId']}" />
-								</h:commandLink></li>
-
-						</ui:repeat>
-					</ul>
-
-
-
 				</h:panelGroup>
+
+
+
+				<!-- DMS Search -->
+				<h:panelGroup layout="block" styleClass="toolbar"
+					rendered="#{propertyController.getProperty('dms.search') eq 'true'}">
+
+					<h:commandLink actionListener="#{searchController.doResetFilter}"
+						action="search_dms" title="#{message['nav.search_documents']}">
+						<span class="typcn typcn-archive"></span>
+
+						<f:setPropertyActionListener
+							target="#{searchController.searchFilter.item['dms_search']}"
+							value="#{true}" />
+					</h:commandLink>
+				</h:panelGroup>
+				
+				
+				<!-- Custom Section -->
+				<ui:include src="servicenav_custom.xhtml" />
 			</c:if>
 
 
-
-			<!-- DMS -->
-			<h:panelGroup layout="block" styleClass="toolbar login"
-				rendered="#{loginController.authenticated}">
-				
-				
-			<span class="dms-link">
-				<h:outputText value="DMS" />
-				<h:link outcome="/pages/workitems/archive" title="#{message['nav.my_settings']}">
-					<span class="typcn typcn-archive"></span>
-				</h:link>
-				</span>
-			</h:panelGroup>
-
-			
-			<ul class="imixs-about">
-				<li><a href="http://www.office-workflow.de" target="_blank"><h:outputText
-							value="#{message['nav.about']}" /></a></li>
-
-				<li><a href="http://www.imixs.com" target="_blank"><h:outputText
-							value="Imixs.com" /></a></li>
-
-			</ul>
+			<!-- About Section -->
+			<ui:include src="servicenav_about.xhtml" />
 
 		</h:form>
 	</f:view>

@@ -3,7 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<div class="imixs-portlet">
+	<div class="imixs-portlet startprocess">
 		<div class="imixs-header">
 			<ul>
 				<li class="active"><h:outputText
@@ -15,10 +15,9 @@
 			<h:panelGroup layout="block" styleClass="imixs-viewentry"
 				rendered="#{(loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isMember'])}">
 				<h1>
-					<h:commandLink action="search" immediate="true"
+					<h:commandLink action="search" immediate="true" styleClass="action-search"
 						actionListener="#{searchController.doReset}">
-						<h:outputText value="#{process.item['txtName']}" />
-						<span class="typcn typcn-zoom-outline"></span>
+						<h:outputText value="#{process.item['txtName']}" /><span class="typcn typcn-zoom-outline" style="margin-left:5px;"></span>
 						<f:setPropertyActionListener
 							target="#{searchController.searchFilter.item['txtprocessRef']}"
 							value="#{process.item['$uniqueId']}" />
@@ -42,11 +41,11 @@
 									value="#{(!empty model) and (!empty model.findTasksByGroup(group))?model.findTasksByGroup(group).get(0):null}" />
 
 							<li><h:panelGroup rendered="#{! empty initialTask}">
-									<h:commandLink title=" "
+									<h:commandLink title=" " styleClass="action-create"
 										actionListener="#{workflowController.create(model.version,initialTask.item['numprocessid'],process.item['$uniqueid'])}"
 										action="#{workflowController.init('/pages/workitems/workitem')}">
 
-										<h:outputText style="font-weight: bold;" value="#{group} »" />
+										<span class="typcn typcn-arrow-forward-outline" style="margin-right:10px;"></span> <h:outputText value="#{group} »" />
 									</h:commandLink>
 									<span class="imixs-tooltip"> <h:outputText
 											value="#{initialTask.item['rtfdescription']}" escape="false" />

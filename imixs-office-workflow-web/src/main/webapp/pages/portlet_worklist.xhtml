@@ -3,8 +3,9 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<div class="imixs-portlet">
-		<!-- ##### Portlet View  ######### 
+
+
+	<!-- ##### Portlet View  ######### 
 	
 	    Usage: 
 	    
@@ -13,37 +14,59 @@
 		/ui:include 
 	
 	-->
-		
 
 
-		<div class="imixs-header">
+
+	<h:panelGroup id="portlet_worklist" layout="block"
+		class="imixs-portlet">
+
+
+		<h:panelGroup id="portlet_worklist_header" layout="block"
+			class="imixs-header">
+
 			<div align="right" style="float: right;">
-				<h:commandLink actionListener="#{view.doReset}"
+
+				<!-- refresh -->
+				<h:commandLink actionListener="#{view.doReset}"  styleClass="imixs-portlet-refresh"
 					title="#{message.refresh}">
-					<span class="typcn typcn-arrow-sync"></span>  
-					<f:ajax render="portlet_worklist_body" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
+					<span class="typcn typcn-arrow-sync"></span>
+					<f:ajax render="portlet_worklist" 
+						onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
 				</h:commandLink>
+				<h:commandLink actionListener="#{view.doLoadPrev}"  styleClass="imixs-portlet-prev"
+					title="#{message.prev}"
+					disabled="#{(empty view.workitems) or (view.pageIndex == 0)}"><span class="typcn #{(view.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
+					<f:ajax render="portlet_worklist"
+						onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+				</h:commandLink>
+				<h:commandLink actionListener="#{view.doLoadNext}"  styleClass="imixs-portlet-next"
+					title="#{message.next}"
+					disabled="#{(empty view.workitems) or (view.endOfList)}"><span class="typcn #{(view.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
+					<f:ajax render="portlet_worklist"
+						onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+				</h:commandLink>
+
+
 			</div>
 
 			<!-- single view mode -->
 			<h:panelGroup rendered="#{!tabMode}">
 				<ul>
-					<li class="active"><h:outputText value="#{title}" />
-					</li>
+					<li class="active"><h:outputText value="#{title}" /></li>
 				</ul>
 			</h:panelGroup>
+		</h:panelGroup>
 
-		</div>
 
 		<h:panelGroup id="portlet_worklist_body" layout="block"
 			class="imixs-body">
 
 			<!-- **** Workitems ***** -->
-			<ui:repeat var="workitem" value="#{view.workitems}"> 
+			<ui:repeat var="workitem" value="#{view.workitems}">
 				<ui:include src="portlet_worklist_viewentry.xhtml">
 					<ui:param name="workitem" value="#{workitem}" />
 				</ui:include>
-			</ui:repeat> 
+			</ui:repeat>
 
 			<h3>
 				<h:outputText rendered="#{empty view.workitems}"
@@ -52,23 +75,31 @@
 			<!-- navigation -->
 			<h:panelGroup layout="block" id="portlet_worklist_nav"
 				class="imixs-footer">
-				<span style="margin-right: 10px;"> <h:commandLink
-						actionListener="#{view.doLoadPrev}" disabled="#{view.pageIndex == 0}"
-						value="#{message.prev}">
-						<f:ajax render="portlet_worklist_body" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
-					</h:commandLink>
-				</span>
-				<h:commandLink actionListener="#{view.doLoadNext}"
-					disabled="#{view.endOfList}" value="#{message.next}">
-					<f:ajax render="portlet_worklist_body" onevent="imixsOfficeWorkflow.layoutAjaxEvent"></f:ajax>
+				<h:commandLink actionListener="#{view.doLoadPrev}"
+					title="#{message.prev}"
+					disabled="#{(empty view.workitems) or (view.pageIndex == 0)}"><span class="typcn #{(view.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
+					<f:ajax render="portlet_worklist"
+						onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
 				</h:commandLink>
+				<h:commandLink actionListener="#{view.doLoadNext}"
+					title="#{message.next}"
+					disabled="#{(empty view.workitems) or (view.endOfList)}"><span class="typcn #{(view.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
+					<f:ajax render="portlet_worklist"
+						onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+				</h:commandLink>
+
+
 			</h:panelGroup>
 
 			<div style="clear: right;" />
 		</h:panelGroup>
 
 
-	</div>
+
+	</h:panelGroup>
+	
+	
+	
 
 </f:subview>
 

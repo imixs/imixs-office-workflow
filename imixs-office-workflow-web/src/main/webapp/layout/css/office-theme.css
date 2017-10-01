@@ -1,6 +1,5 @@
 body {
-	font-size: 14px;;
-	color: #414141;
+	font-size: 0.9em;
 }
 
 body.loading {
@@ -11,14 +10,18 @@ body.loading .imixs-wait {
 	display: block;
 }
 
+.loading {
+	background: rgba(255, 255, 255, .8) url(../icons/ajax-loader.gif) 50%
+		50% no-repeat;
+	color: #ccc;
+}
+
 button, html input[type="button"], input[type="reset"], input[type="submit"]
 	{
 	font-weight: bold;
 }
 
-input, textarea, select {
-	color: #666;
-}
+
 
 select {
 	background-color: #FFF;
@@ -83,14 +86,12 @@ dl dt {
 }
 
 #imixs-header {
-	/* #ECF3F8; */
-	background-color: #f9f9fB;
 	margin-top: 46px;
 	min-height: 60px;
 }
 
 #imixs-branding {
-	background-color: #61B1D0;
+	background-color: #145267;
 	background-image: url("../css/background.png");
 	background-repeat: no-repeat;
 	background-position: 10px 21px;
@@ -109,12 +110,11 @@ dl dt {
 }
 
 #footer1 {
-	background-color: #ECF3F8;
-	color: #333;
+	background-color: #206B87;
 }
 
 #footer2 {
-	background-color: #206B87;
+	background-color: #2e424a;
 	color: #fff;
 	text-align: right;
 }
@@ -126,11 +126,10 @@ dl dt {
 	z-index: 5;
 	width: 100%;
 	padding: 5px;
-	xtext-align: right;
 	color: #FFF;
 	border-bottom: 1px solid #fff;
 	margin: 0;
-	background-color: #61B1D0;
+	background-color: #145267;
 }
 
 .toolbar {
@@ -142,6 +141,9 @@ dl dt {
 	font-size: 16px;
 }
 
+.toolbar input {
+	font-size: 14px;
+}
 #process-menu {
 	padding: 10px 0;
 	min-width: 200px;
@@ -200,7 +202,6 @@ dl dt {
 	display: inline;
 	margin: 0em 0em 0em 2em;
 	padding: 0px;
-	xfont-size: 13px;
 	line-height: 18px;
 	color: #fff;
 }
@@ -230,6 +231,16 @@ dl dt {
 	padding-right: 5px;
 }
 
+.imixs-checkbox-button {
+	font-weight: bold;
+	line-height: 1.8em;
+}
+
+.imixs-checkbox-button td {
+	padding: 2px 10px 2px 10px;
+	
+}
+
 .imixs-commandbox {
 	background: #ECF3F8;
 	padding: 10px;
@@ -244,38 +255,58 @@ dl dt {
 	font-size: 1.45em;
 }
 
-#imixs-historynav {
-	border-bottom: 1px solid #aedff2;
-	padding: 5px 0 0 5px;
-}
 
 .imixs-historyentry {
 	float: left;
-	background-color: #fff;
-	color: #000;
-	margin-right: 5px;
-	margin-bottom: 5px;
+	color: #99b4cc;
+	background-color: #145267;
 	padding: 5px;
 	line-height: 1.4em;
 	font-size: 13px;
+	border-left: 1px solid #fff;
+    border-bottom: 1px solid #fff;
 }
+
+
+.imixs-historyentry:hover {
+	background-color: #206B87;
+	cursor: pointer;
+}
+
+.imixs-historyentry a {
+	color: #fff;
+}
+
+.imixs-historyentry-action {
+	float: left; 
+	padding-right:15px;
+} 
 
 .imixs-historyentry .image-block {
 	min-height: 10px;
 }
 
+.imixs-historyentry .image-block .imixs-typicon {
+	color: #ccc;
+}
+
 .imixs-historyentry .close {
-	float: right;
-	margin-left: 20px;
-	color: #000;
-	font-size: 14px;
+	font-size: 16px;
+	float:right;
 }
 
 .imixs-historyentry.active {
 	background-color: #faa732;
-	xborder: 1px solid #faa732;
-	color: #fff;
+	color: #333;
 }
+.imixs-historyentry.active a {
+	color: #145267;
+}
+.imixs-historyentry.active .image-block .imixs-typicon {
+	color: #145267;
+}
+
+
 
 #imixs-content {
 	padding: 20px;
@@ -291,7 +322,7 @@ dl dt {
 	background: #FAFAFA;
 }
 
-.imixs-form .imixs-header label {
+.imixs-form .imixs-header label, .imixs-form .imixs-footer label {
 	font-weight: bold;
 }
 
@@ -307,19 +338,18 @@ dl dt {
 	margin-bottom: 15px;
 }
 
-
 .imixs-form .imixs-body  label {
 	font-weight: bold;
 }
-
 
 .imixs-form .imixs-body .imixs-form-tabs {
 	
 }
 
 .imixs-form .imixs-body .imixs-form-instruction-right {
-	float: right; 
-	margin-top: 10px;
+	float: right;
+	padding-left: 10px;
+	padding-top: 10px;
 }
 
 .imixs-form .imixs-body .imixs-form-tabs .ui-tabs .ui-tabs-panel {
@@ -351,6 +381,15 @@ dl dt {
 	font-size: 2em;
 }
 
+.imixs-form .imixs-body h2 {
+	font-size: 1.5em;
+}
+
+.imixs-form .imixs-body h3 {
+	font-size: 1.3em;
+}
+
+
 .imixs-form .imixs-footer {
 	background: #FAFAFA;
 	padding: 10px 10px;
@@ -367,11 +406,13 @@ dl dt {
 	margin: 10px 0 0 0;
 }
 
-
 .imixs-form-section-2 table {
 	margin-bottom: 10px;
 }
 
+.imixs-form .ui-tabs-anchor {
+	width:100%;
+}
 
 .imixs-view {
 	
@@ -413,16 +454,26 @@ dl dt {
 }
 
 .imixs-viewentry .imixs-viewentry-title {
-	font-weight: bold;
+	font-weight: normal;
 	font-size: 16px;
+	
+}
+
+.imixs-viewentry a {
+	color: #666;
+}
+.imixs-viewentry a:hover {
+	color: #428bca;
+}
+
+
+.imixs-viewentry strong {
+	color: #666;
 }
 
 .imixs-viewentry .content-block {
-	font-size:0.9em;
+	font-size: 0.9em;
 }
-
-
-
 
 /*  Imixs Portlet  */
 .imixs-portlet {
@@ -460,9 +511,6 @@ dl dt {
 	display: inline;
 }
 
-.imixs-portlet .imixs-header li a {
-	color: #fff;
-}
 
 .imixs-portlet .imixs-header {
 	background-color: #fff;
@@ -471,9 +519,11 @@ dl dt {
 	color: #666;
 }
 
-.imixs-portlet .imixs-header ul li.active a {
-	
+.imixs-portlet .imixs-header .typcn {
+	margin-left: 5px;
+	font-size: 20px;
 }
+
 
 .imixs-portlet .imixs-viewentry h1 {
 	font-size: 21px;
@@ -482,58 +532,83 @@ dl dt {
 	margin-bottom: 0;
 }
 
-.imixs-portlet .imixs-viewentry h1 .typcn {
-	color: #428bca;
-}
+
+
+
+
 
 .imixs-portlet .imixs-viewentry p {
 	color: #666;
 	margin-left: 5px;
 }
 
-.imixs-portlet .imixs-viewentry h1 a, .imixs-portlet .imixs-viewentry h1 a:HOVER
-	{
-	color: #666;
-	text-decoration: none;
-}
-
 .imixs-portlet .imixs-viewentry li {
-	margin-left: 20px;
+	list-style: none;
 }
 
 .imixs-portlet .imixs-footer {
 	text-align: right;
 }
 
+.imixs-portlet .imixs-footer .typcn {
+	margin-left: 5px;
+	font-size: 20px;
+}
+
 .imixs-portlet .imixs-viewentry {
 	border-bottom: 1px solid #eee;
 }
+.imixs-portlet.startprocess a {
+	color: #428bca;
+}
 
+.imixs-portlet.startprocess .imixs-viewentry h1 a{
+	font-size:18px;
+	color: #666;
+}
+.imixs-portlet.startprocess .imixs-viewentry h1 a:hover{
+	font-size:18px;
+	color: #428bca;
+}
+.imixs-portlet.startprocess .action-create {
+}
+
+/*
+ * DMS Search
+ */
+ 
+.imixs-view.imixs-dms-search .dms-link a {
+	font-size:16px;
+} 
+
+.imixs-view.imixs-dms-search .dms-link .typcn {
+	font-size:18px;
+	margin-right:5px;
+}
 
 /*
  * Reports 
  */
-
 .imixs-reports .imixs-header {
 	font-size: 20px;
-    font-weight: bold;
-    color: #666;
+	font-weight: bold;
+	color: #666;
 	padding: 0 0 5px 0;
 	border-bottom: 1px solid #CCC;
 }
+
 .imixs-reports .imixs-header h1 {
 	font-size: 20px;
 }
 
- 
 /* 
  * Die Klasse viewentry wird für die Darstellung von Views verwendet.
  * die Klasse wird als RowClass im element rich:dataList  verwendet
  * 
  */
 .imixs-viewentry {
-	margin: 5px 0 10px;	
-	min-height: 75px; 
+	margin: 5px 0 10px;
+	min-height: 75px;
 	border-bottom: 1px solid #eee;
 	border-top: 1px solid #fff;
 }
@@ -543,13 +618,11 @@ dl dt {
 	background: #f9f9fB;
 	border-top: 1px solid #aedff2;
 	border-bottom: 1px solid #aedff2;
-	
 }
 
 .imixs-viewentry-nav {
 	border-top: 1px solid #FFD7A8;
 }
-
 
 .imixs-viewentry-details h3 {
 	border-bottom: 1px solid silver;
@@ -593,7 +666,7 @@ dl dt {
 }
 
 .imixsdatatable .DataTables_sort_icon {
-	float:left;
+	float: left;
 }
 
 /* #ECF3F8 #FFDF89 */
@@ -651,6 +724,30 @@ dl dt {
 	
 }
 
+.imixs-form-attachments .image-block {
+	float: left;
+	min-width: 25px;
+	margin: 0;
+}
+
+.imixs-form-attachments .content-block {
+	float: left;
+	border-bottom: 1px solid silver;
+	margin: 0 0 10px 0;
+	padding: 0;
+	width: 90%;
+}
+
+.imixs-form-attachments .nav-block .typcn {
+	
+}
+
+.imixs-form-attachments .typcn {
+	margin: 0;
+	font-size: 20px;
+	color: #428bca;
+}
+
 .imixs-instruction {
 	margin-bottom: 10px;
 	padding: 15px;
@@ -662,6 +759,8 @@ dl dt {
 
 .imixs-close-action {
 	margin: 0 4px 4px 0;
+	background: #faa732;
+    border-color: #faa732;
 }
 
 .imixs-delete-action {
@@ -670,6 +769,8 @@ dl dt {
 
 .imixs-print-action {
 	margin: 0 4px 4px 0;
+	background: #faa732;
+    border-color: #faa732;
 }
 
 .imixs-read-only {
@@ -727,6 +828,7 @@ dl dd  .imixs-datetime-picker select {
 	background-color: #999;
 }
 
+
 .imixs-label-important {
 	background-color: #b94a48
 }
@@ -766,6 +868,21 @@ dl dd  .imixs-datetime-picker select {
 .imixs-label-inverse[href] {
 	background-color: #1a1a1a
 }
+
+.imixs-important {
+	color: #b94a48
+}
+.imixs-info {
+	color: #3a87ad
+}
+.imixs-success {
+	color: #468847
+}
+.imixs-warning {
+	color: #f89406
+}
+
+
 
 .imixs-user-icon {
 	overflow: hidden;
@@ -819,10 +936,16 @@ dl dd  .imixs-datetime-picker select {
 	margin-bottom: 5px;
 }
 
+
+.imixsQrCode {
+	float:right;
+	max-width:150px;
+	background: #fff;
+}
+
+
 /** Customize Marty WorkitemLink Widget - see imixs-marty.css **/
 .marty-workitemlink {
-	xwidth: 320px;
-	xmargin: 2px 10px 0 0;
 	padding: 8px;
 	border: 1px solid #ccc;
 	-webkit-border-radius: 3px;
@@ -836,7 +959,6 @@ dl dd  .imixs-datetime-picker select {
 }
 
 .marty-workitemlink-inputbox input[type="text"] {
-	xwidth: 290px !important;
 	background: url(../icons/Search_16.png) no-repeat scroll left center
 		white;
 	padding-left: 20px;
@@ -844,7 +966,6 @@ dl dd  .imixs-datetime-picker select {
 
 /** Marty UserListInput Widget - see imixs-marty.css **/
 .marty-userlistinput {
-	xmargin: 2px 10px 0 0;
 	padding: 8px;
 	border: 1px solid #ccc;
 	-webkit-border-radius: 3px;
@@ -882,6 +1003,12 @@ dl dd  .imixs-datetime-picker select {
 	color: #666;
 	font-size: 32px;
 	line-height: 1em;
+}
+
+.imixs-typicon-link {
+  	width: 32px; 
+  	height: 32px;
+  	float:left;
 }
 
 .imixs-favorite {
@@ -1059,7 +1186,6 @@ dl dd  .imixs-datetime-picker select {
 .model-box .active {
 	background: #faa732;
 	border: 1px solid #FFFA;
-	xpadding: 0 5px;
 }
 
 /* c9ced1 */
@@ -1157,10 +1283,6 @@ dl dd  .imixs-datetime-picker select {
 }
 
 /* Minutes*/
-.minute-info {
-	margin-left: 50px;
-}
-
 .minute-number {
 	float: left;
 	border-right: 1px solid silver;
@@ -1170,6 +1292,11 @@ dl dd  .imixs-datetime-picker select {
 	line-height: 1.2em;
 	color: #888;
 }
+
+.minute-info {
+	margin-left: 55px;
+}
+
 
 .minute-summary {
 	
@@ -1205,13 +1332,27 @@ dl dd  .imixs-datetime-picker select {
 	.imixs-historyentry {
 		width: 49.0%;
 	}
-}
-
-@media screen and (max-width: 868px) {
-	.col-3 {
-		float: left;
-		width: 100% !important;
+	.imixs-historyentry-action {
+		width:80%;
 	}
+	
+	.imixs-form, .imixs-view {
+		font-size: 1.1em;
+	}
+	
+	.imixs-footer .imixs-delete-action, .imixs-footer .imixs-workflow-action,
+		.imixs-footer .imixs-close-action, .imixs-footer .imixs-print-action {
+		margin: 0 10px 10px 0;
+    	font-size: 1.1em;
+	}
+	
+	.imixs-reports {
+		display:none;
+	}
+}
+/* 868 */
+@media screen and (max-width: 768px) {
+	
 	#imixs-content {
 		padding: 10px;
 	}
@@ -1230,9 +1371,11 @@ dl dd  .imixs-datetime-picker select {
 	#imixs-servicenav .toolbar.search {
 		
 	}
+	
 	#imixs-header {
 		margin-top: 82px;
 	}
+
 	#imixs-branding {
 		min-height: 100px;
 		background-size: 250px;
@@ -1248,8 +1391,28 @@ dl dd  .imixs-datetime-picker select {
 	.imixs-historyentry .close .typcn {
 		font-size: 24px;
 	}
+	
+	.imixs-form, .imixs-view {
+		font-size: 1.2em;
+	}
+
+	.imixs-footer .imixs-delete-action, .imixs-footer .imixs-workflow-action,
+		.imixs-footer .imixs-close-action, .imixs-footer .imixs-print-action {
+		margin: 0 10px 10px 0;
+    	font-size: 1.1em;
+	}
+	
+	.imixsQrCode {
+		display: none;
+	}
+	
+	.imixs-form .imixs-body .imixs-form-instruction-right {
+		padding-left: 0px;
+	}
+	
 }
 
+	
 @media screen and (max-width: 548px) {
 	#imixs-servicenav {
 		
@@ -1292,9 +1455,17 @@ dl dd  .imixs-datetime-picker select {
 	.imixs-form-panel {
 		border: none;
 	}
+	
+	.imixs-form, .imixs-view {
+		font-size: 1.2em;
+	}
+	
+	
 	.imixs-footer .imixs-delete-action, .imixs-footer .imixs-workflow-action,
 		.imixs-footer .imixs-close-action, .imixs-footer .imixs-print-action {
 		width: 100%;
+		margin: 0 0 15px 0;
+    	font-size: 1.2em;
 	}
 	.imixs-tabs ul li {
 		width: 100%;
@@ -1305,6 +1476,8 @@ dl dd  .imixs-datetime-picker select {
 	.imixs-historyentry .close .typcn {
 		font-size: 30px;
 	}
+	
+	 
 }
 
 @media screen and (max-width: 1300px) {

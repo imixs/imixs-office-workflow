@@ -1,13 +1,15 @@
 ## Migration Guide
 
+This is a migration guide to migrate a existing Imixs-Office-Workflow instance from version 2.x to 3.x
 
- 1. Undeploy Application (with Imixs-Workflow 3.x)
+
+ 1. Undeploy Application (with Imixs-Office-Workflow 2.x)
 
  2. Shutdown server, remove Fulltextindex from Filesystem, and remove old artifacts
  
  3. Extend FieldListNoAnalyse (txtemail, datdate, datfrom, datto, numsequencenumber, txtUsername)
  
- 3a. update lucene version to 5.5.2 
+ 3a. update lucene version to 6.3.0 
      remove lucene adapter project
      
  3b. java compiler plugin version 1.7
