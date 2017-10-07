@@ -82,35 +82,30 @@
           <imixs:value><![CDATA[<itemvalue>_description</itemvalue>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_4"><![CDATA[<h3>Die Protokollpunkte</h3>
+      <bpmn2:documentation id="Documentation_4"><![CDATA[<h3>Die Aufgabenliste</h3>
 <p>
-Fügen Sie einzelne Protokollpunkte über den Button 'Neuer Protokollpunkt' hinzu.
+Fügen Sie einzelne Teilaufgaben über den Button 'Neuer Aufgabe' hinzu.
 </p><p>
-Sie können für jeden Protokollpunkt einen Termin sowie einen Verantwortlichen aus der Teilnehmerliste auswählen. 
-Über die Schaltfläche 'Beschluss' oder 'Aufgabe' bestimmen Sie den Typ des Protokollpunkts und speichern diesen.
+Sie können für jede Aufgabe einen Termin sowie einen Verantwortlichen aus der Teilnehmerliste auswählen. 
 </p>
 
-<h3>Aufgaben und Beschlüsse</h3>
+<h3>Aufgaben</h3>
 <p>
-Eine Aufgabe wird bei Freigabe des Protokolls automatisch dem verantwortlichen Teilnehmer zugeordnet. 
+Eine Aufgabe wird nach dem Verteilen automatisch dem verantwortlichen Teilnehmer zugeordnet. 
 Dieser kann die Aufgabe dann bearbeiten und abschließen.
 </p>
-<p>
-Beschlüsse dienen der Dokumentation einzelner Punkte.
-</p>
 
 
-<h3>Freigabe</h3>
+<h3>Vorlage</h3>
 <p>
-Durch die Freigabe schließen Sie das Protokoll ab und versenden dieses automatisch an alle Telnehmer. 
-Offene Aufgaben werden automatisch an die Verantworlichen zur Bearbeitung verteilt.
+Sie können eine Aufgabenliste jeder Zeit als Vorlage speichenr um daraus später neue Aufgabenlisten zu erstellen.
 </p>]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_36</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_60</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_11</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
     </bpmn2:task>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_2" imixs:activityid="1" name="Speichern">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_2" imixs:activityid="10" name="Speichern">
       <bpmn2:extensionElements>
         <imixs:item name="rtfresultlog" type="CDATA">
           <imixs:value><![CDATA[Aktualisiert von <username>namcurrenteditor</username>.]]></imixs:value>
@@ -122,7 +117,7 @@ Offene Aufgaben werden automatisch an die Verantworlichen zur Bearbeitung vertei
       <bpmn2:documentation id="Documentation_20"><![CDATA[Zwischenspeichern]]></bpmn2:documentation>
       <bpmn2:outgoing>SequenceFlow_38</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_5" imixs:activityid="10" name="Vorlage ändern">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_5" imixs:activityid="30" name="Vorlage ändern">
       <bpmn2:extensionElements>
         <imixs:item name="rtfresultlog" type="CDATA">
           <imixs:value><![CDATA[]]></imixs:value>
@@ -157,12 +152,10 @@ Offene Aufgaben werden automatisch an die Verantworlichen zur Bearbeitung vertei
           <imixs:value><![CDATA[namteam]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_8"><![CDATA[<h3>Archiviert</h3>
+      <bpmn2:documentation id="Documentation_8"><![CDATA[<h3>Abgeschlossen</h3>
 
 <p>
-Dieses Protkoll ist abgeschlossen und archiviert. Über die Versionsverwaltung kann jederzeit auf freigegebene oder frühere Versionen dieses Protokolls 
-zugegriffen werden. Damit steht eine vollständige 
-Historie aller Protokolle aus einer Besprechung zur Verfügung.
+Dieses Aufgabe ist abgeschlossen und archiviert. 
 </p>]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_28</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_29</bpmn2:outgoing>
@@ -188,11 +181,11 @@ Historie aller Protokolle aus einer Besprechung zur Verfügung.
     <bpmn2:sequenceFlow id="SequenceFlow_28" sourceRef="IntermediateCatchEvent_12" targetRef="Task_9"/>
     <bpmn2:sequenceFlow id="SequenceFlow_29" sourceRef="Task_9" targetRef="EndEvent_1"/>
     <bpmn2:sequenceFlow id="SequenceFlow_36" sourceRef="StartEvent_1" targetRef="Task_2"/>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_1" imixs:activityid="10" name="Aufgabe">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_1" imixs:activityid="1" name="Neue Aufgabe">
       <bpmn2:extensionElements>
         <imixs:item name="txtactivityresult" type="CDATA">
           <imixs:value><![CDATA[<item name="subprocess_create">
-    <processid>2100</processid>
+    <processid>100</processid>
     <activityid>100</activityid> 
     <items>txtprocessref,txtspaceref,namteam</items>
 </item>]]></imixs:value>
@@ -220,7 +213,7 @@ Historie aller Protokolle aus einer Besprechung zur Verfügung.
           <imixs:value><![CDATA[typcn-th-list-outline||typcn-tick,imixs-success]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowsummary" type="xs:string">
-          <imixs:value><![CDATA[<itemvalue>_subject</itemvalue> ]]></imixs:value>
+          <imixs:value><![CDATA[Vorlage <itemvalue>_subject</itemvalue>  ]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="CDATA">
           <imixs:value><![CDATA[<itemvalue>_description</itemvalue>]]></imixs:value>
@@ -232,25 +225,10 @@ Historie aller Protokolle aus einer Besprechung zur Verfügung.
       <bpmn2:documentation id="Documentation_1"><![CDATA[<h3>Die Vorlage</h3>
 
 <p>
-Wurde ein Protokoll freigegeben, wird dieses automatisch an alle Teilnehmer verteilt. Diese können das Protokoll jeder Zeit online lesen und ausdrucken. 
-Ein freigegebenes Protokoll kann jeder Zeit nachbearbeitet oder fortgesetzt werden.
+Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle Aufgaben aus der Vorlage übernommen.
 </p>
 
-
-<h3>Ein Protokoll fortsetzen</h3>
-
-<p>
-Durch das Fortsetzen eines Protokolls wird eine Kopie erstellt, in die automatisch alle noch nicht abgeschlossenen Aufgaben übernommen werden. 
-Über die Versionsverwaltung kann jederzeit auf frühere Versionen eines Protokolls zugegriffen werden. Damit steht eine vollständige 
-Historie aller Protokolle aus einer Besprechung zur Verfügung.
-</p>
-
-<h3>Nachbearbeiten</h3>
-
-<p>
-Ein bereits freigegebenes Protokoll kann nachbearbeitet werden, um z.B. Änderungen an einzelnen Protokollpunkten vorzunehmen. 
-Danach muss das Protokoll erneut freigegeben werden.
-</p>]]></bpmn2:documentation>
+]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_37</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_4</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_18</bpmn2:outgoing>
@@ -382,8 +360,9 @@ Danach muss das Protokoll erneut freigegeben werden.
       <bpmn2:incoming>SequenceFlow_5</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_19</bpmn2:outgoing>
       <bpmn2:outputSet id="OutputSet_1" name="Output Set 1"/>
+      <bpmn2:signalEventDefinition id="SignalEventDefinition_1"/>
     </bpmn2:intermediateCatchEvent>
-    <bpmn2:task id="Task_6" imixs:processid="2100" name="Erstellen">
+    <bpmn2:task id="Task_6" imixs:processid="100" name="Erstellen">
       <bpmn2:extensionElements>
         <imixs:item name="txtworkflowsummary" type="xs:string">
           <imixs:value><![CDATA[<itemvalue>_subject</itemvalue>]]></imixs:value>
@@ -406,7 +385,7 @@ Danach muss das Protokoll erneut freigegeben werden.
           <imixs:value><![CDATA[form_panel_simple#minutes/sub_minute_todo]]></imixs:value>
         </imixs:item>
         <imixs:item name="txttype" type="xs:string">
-          <imixs:value><![CDATA[workitem]]></imixs:value>
+          <imixs:value><![CDATA[childworkitem]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddreadfields" type="xs:string">
           <imixs:value><![CDATA[namteam]]></imixs:value>
@@ -417,7 +396,7 @@ Danach muss das Protokoll erneut freigegeben werden.
       <bpmn2:outgoing>SequenceFlow_16</bpmn2:outgoing>
     </bpmn2:task>
     <bpmn2:sequenceFlow id="SequenceFlow_19" sourceRef="IntermediateCatchEvent_7" targetRef="Task_6"/>
-    <bpmn2:task id="Task_7" imixs:processid="2300" name="Erledigt">
+    <bpmn2:task id="Task_7" imixs:processid="190" name="Erledigt">
       <bpmn2:extensionElements>
         <imixs:item name="txtworkflowsummary" type="xs:string">
           <imixs:value><![CDATA[<itemvalue>_subject</itemvalue>]]></imixs:value>
@@ -439,7 +418,7 @@ Danach muss das Protokoll erneut freigegeben werden.
           <imixs:value><![CDATA[form_panel_simple#minutes/sub_minute_todo]]></imixs:value>
         </imixs:item>
         <imixs:item name="txttype" type="xs:string">
-          <imixs:value><![CDATA[workitemarchive]]></imixs:value>
+          <imixs:value><![CDATA[childworkitemarchive]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddreadfields" type="xs:string">
           <imixs:value><![CDATA[namteam]]></imixs:value>
@@ -474,7 +453,7 @@ Danach muss das Protokoll erneut freigegeben werden.
     </bpmn2:intermediateCatchEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_25" sourceRef="IntermediateCatchEvent_10" targetRef="Task_6"/>
     <bpmn2:sequenceFlow id="SequenceFlow_5" sourceRef="StartEvent_2" targetRef="IntermediateCatchEvent_7"/>
-    <bpmn2:task id="Task_10" imixs:processid="2200" name="Offen">
+    <bpmn2:task id="Task_10" imixs:processid="110" name="Offen">
       <bpmn2:extensionElements>
         <imixs:item name="txtworkflowsummary" type="xs:string">
           <imixs:value><![CDATA[<itemvalue>_subject</itemvalue>]]></imixs:value>
@@ -513,7 +492,7 @@ Danach muss das Protokoll erneut freigegeben werden.
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_24" imixs:activityid="20" name="Verteilen">
       <bpmn2:extensionElements>
         <imixs:item name="rtfresultlog" type="CDATA">
-          <imixs:value><![CDATA[Erledigt von <username>namcurrenteditor</username>.]]></imixs:value>
+          <imixs:value><![CDATA[Verteilt von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtactivityresult" type="CDATA">
           <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
@@ -640,7 +619,7 @@ Danach muss das Protokoll erneut freigegeben werden.
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_1" bpmnElement="IntermediateCatchEvent_1">
         <dc:Bounds height="36.0" width="36.0" x="304.0" y="480.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_5">
-          <dc:Bounds height="14.0" width="45.0" x="300.0" y="516.0"/>
+          <dc:Bounds height="14.0" width="77.0" x="284.0" y="516.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_Task_1" bpmnElement="Task_1">
