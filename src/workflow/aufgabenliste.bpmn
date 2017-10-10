@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.4.2.RC1-v20170927-1906-B1" targetNamespace="http://www.imixs.org/bpmn2">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.4.2.RC1-v20171009-1836-B1" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
       <imixs:value><![CDATA[aufgabenliste-de-2.0.0]]></imixs:value>
@@ -42,6 +42,17 @@
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.SplitAndJoinPlugin]]></imixs:value>
     </imixs:item>
   </bpmn2:extensionElements>
+  <bpmn2:message id="Message_2" name="Info-Subject">
+    <bpmn2:documentation id="Documentation_15"><![CDATA[Aufgabe: <itemvalue>banf_numsequencenumber</itemvalue>]]></bpmn2:documentation>
+  </bpmn2:message>
+  <bpmn2:message id="Message_4" name="Info-Body">
+    <bpmn2:documentation id="Documentation_16"><![CDATA[
+Eine neue Aufgabe liegt für Dich im Workflow System bereit:
+
+<propertyvalue>application.url</propertyvalue>index.jsf?workitem=<itemvalue>$uniqueid</itemvalue>
+
+Das ist eine automatische generierte E-Mail. Bitte nicht auf diese E-Mail antworten.]]></bpmn2:documentation>
+  </bpmn2:message>
   <bpmn2:collaboration id="Collaboration_1" name="Default Collaboration">
     <bpmn2:participant id="Participant_1" name="Aufgabenliste" processRef="Process_1"/>
     <bpmn2:participant id="Participant_2" name="Aufgabe" processRef="Process_2"/>
@@ -497,6 +508,15 @@ Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle 
         <imixs:item name="txtactivityresult" type="CDATA">
           <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
         </imixs:item>
+        <imixs:item name="keymailreceiverfields" type="xs:string">
+          <imixs:value><![CDATA[namresponsible]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtmailsubject" type="xs:string">
+          <imixs:value><![CDATA[<bpmn2:message>Info-Subject</bpmn2:message>]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="rtfmailbody" type="CDATA">
+          <imixs:value><![CDATA[<bpmn2:message>Info-Body</bpmn2:message>]]></imixs:value>
+        </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_50"><![CDATA[Aufgabe verteilen]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_16</bpmn2:incoming>
@@ -527,9 +547,9 @@ Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle 
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="Participant_2" isHorizontal="true">
-        <dc:Bounds height="201.0" width="985.0" x="56.0" y="620.0"/>
+        <dc:Bounds height="271.0" width="985.0" x="56.0" y="620.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_2">
-          <dc:Bounds height="45.0" width="14.0" x="62.0" y="698.0"/>
+          <dc:Bounds height="45.0" width="14.0" x="62.0" y="733.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="StartEvent_1">
@@ -698,6 +718,18 @@ Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle 
         <dc:Bounds height="61.0" width="134.0" x="594.0" y="450.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_112">
           <dc:Bounds height="55.0" width="122.0" x="600.0" y="450.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Message_1" bpmnElement="Message_2">
+        <dc:Bounds height="20.0" width="30.0" x="126.0" y="830.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_7">
+          <dc:Bounds height="14.0" width="65.0" x="109.0" y="850.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Message_2" bpmnElement="Message_4">
+        <dc:Bounds height="20.0" width="30.0" x="210.0" y="831.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_8">
+          <dc:Bounds height="14.0" width="51.0" x="200.0" y="851.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_12" bpmnElement="SequenceFlow_12" sourceElement="BPMNShape_IntermediateCatchEvent_5" targetElement="BPMNShape_ExclusiveGateway_4">
@@ -874,8 +906,8 @@ Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle 
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_42" bpmnElement="SequenceFlow_42" sourceElement="BPMNShape_Task_7" targetElement="BPMNShape_IntermediateCatchEvent_24">
         <di:waypoint xsi:type="dc:Point" x="821.0" y="704.0"/>
-        <di:waypoint xsi:type="dc:Point" x="821.0" y="813.0"/>
-        <di:waypoint xsi:type="dc:Point" x="468.0" y="813.0"/>
+        <di:waypoint xsi:type="dc:Point" x="821.0" y="836.0"/>
+        <di:waypoint xsi:type="dc:Point" x="468.0" y="836.0"/>
         <di:waypoint xsi:type="dc:Point" x="468.0" y="697.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_109"/>
       </bpmndi:BPMNEdge>
