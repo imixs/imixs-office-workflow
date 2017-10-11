@@ -17,7 +17,7 @@
 			</dd>
 		</dl>
 
-		<h:panelGroup
+		<h:panelGroup styleClass="imixs-comments"
 			rendered="#{! empty workitem.getItemValue('txtCommentLog')}">
 			<dl>
 				<dt>
@@ -39,7 +39,12 @@
 									value="#{userController.getUserName(comment.nameditor)}" />
 
 
-								<h:outputText value="#{comment.txtcomment}" />
+								
+								<h:panelGroup styleClass="imixs-comments-entry">
+									<h:outputText value="#{comment.txtcomment}" />
+								</h:panelGroup>
+								
+								
 							</c:if>
 						</c:forEach>
 
