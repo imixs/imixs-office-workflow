@@ -5,108 +5,52 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 
-	<!-- different design for classic and app layout -->
-	<c:choose>
-		<c:when test="#{app.application_layout eq 'app'}">
 
+	<div class="row nested imixs-form-tabs">
 
-			<div class="row nested imixs-form-tabs">
-
-				<div class="col-8 " >
-					<div class="imixs-tabs">
-						<ul>
-							<c:forEach items="#{formController.formDefinition.sections}"
-								var="section">
-								<li><a href="#tab-#{section.path}">#{section.name}</a></li>
-							</c:forEach>
-						</ul>
-
-						<c:forEach items="#{formController.formDefinition.sections}"
-							var="section">
-							<div id="tab-#{section.path}">
-								<f:subview>
-									<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
-										<ui:param name="workitem"
-											value="#{workflowController.workitem}" />
-									</ui:include>
-								</f:subview>
-							</div>
-						</c:forEach>
-
-					</div>
-				</div>
-
-				<div class="col-4">
-					<!-- Standard Tab Section -->
-					<div class="imixs-tabs">
-						<ul>
-							<li><a href="#tab-comments">#{message.comments}</a></li>
-							<li><a href="#tab-documents">#{message.documents} <h:panelGroup rendered="#{! empty dmsController.dmsList}" styleClass="typcn typcn-input-checked"></h:panelGroup></a></li>
-							<li><a href="#tab-references">#{message.references}</a></li>
-						</ul>
-						<div id="tab-comments">
-							<ui:include src="/pages/workitems/forms/sub_comment.xhtml" >
-							<ui:param name="workitem" value="#{workflowController.workitem}" />
-							</ui:include>
-						</div>
-						<div id="tab-documents">
-							<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
-						</div>
-						<div id="tab-references">
-							<ui:include src="/pages/workitems/forms/sub_reference.xhtml" />
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</c:when>
-
-		<c:otherwise>
-
-			<div>
-				<div class="imixs-tabs">
-					<ul>
-						<c:forEach items="#{formController.formDefinition.sections}"
-							var="section">
-							<li><a href="#tab-#{section.path}">#{section.name}</a></li>
-						</c:forEach>
-					</ul>
-
+		<div class="col-8 ">
+			<div class="imixs-tabs">
+				<ul>
 					<c:forEach items="#{formController.formDefinition.sections}"
 						var="section">
-						<div id="tab-#{section.path}">
-							<f:subview>
-								<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
-									<ui:param name="workitem"
-										value="#{workflowController.workitem}" />
-								</ui:include>
-							</f:subview>
-						</div>
+						<li><a href="#tab-#{section.path}">#{section.name}</a></li>
 					</c:forEach>
+				</ul>
 
-				</div>
-
-				<!-- Standard Tab Section -->
-				<div class="imixs-tabs" style="margin-top: 10px;">
-					<ul>
-						<li><a href="#tab-comments">#{message.comments}</a></li>
-						<li><a href="#tab-documents">#{message.documents} <h:panelGroup rendered="#{! empty dmsController.dmsList}" styleClass="typcn typcn-input-checked"></h:panelGroup></a></li>
-					</ul>
-					<div id="tab-comments">
-						<ui:include src="/pages/workitems/forms/sub_comment.xhtml" >
-						<ui:param name="workitem" value="#{workflowController.workitem}" />
-						</ui:include>
+				<c:forEach items="#{formController.formDefinition.sections}"
+					var="section">
+					<div id="tab-#{section.path}">
+						<f:subview>
+							<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
+								<ui:param name="workitem" value="#{workflowController.workitem}" />
+							</ui:include>
+						</f:subview>
 					</div>
-					<div id="tab-documents">
-						<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
-					</div>
-				</div>
-
+				</c:forEach>
 
 			</div>
-		</c:otherwise>
-	</c:choose>
+		</div>
 
+		<div class="col-4">
+			<!-- Standard Tab Section -->
+			<div class="imixs-tabs">
+				<ul>
+					<li><a href="#tab-comments">#{message.comments}</a></li>
+					<li><a href="#tab-documents">#{message.documents} <h:panelGroup
+								rendered="#{! empty dmsController.dmsList}"
+								styleClass="typcn typcn-input-checked"></h:panelGroup></a></li>
+				</ul>
+				<div id="tab-comments">
+					<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
+						<ui:param name="workitem" value="#{workflowController.workitem}" />
+					</ui:include>
+				</div>
+				<div id="tab-documents">
+					<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
+				</div>
+			</div>
+		</div>
+	</div>
 
 </ui:composition>
 
