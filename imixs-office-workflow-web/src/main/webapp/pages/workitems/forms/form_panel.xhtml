@@ -23,22 +23,20 @@
 		</div>
 		<div class="col-4 ">
 			<!-- Standard Tab Section -->
-			<div class="imixs-form-panel">
-				<div class="imixs-tabs">
-					<ul>
-						<li><a href="#tab-comments">#{message.comments}</a></li>
-						<li><a href="#tab-documents">#{message.documents} <h:panelGroup
-									rendered="#{! empty dmsController.dmsList}"
-									styleClass="typcn typcn-input-checked"></h:panelGroup></a></li>
-					</ul>
-					<div id="tab-comments">
-						<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
-							<ui:param name="workitem" value="#{workflowController.workitem}" />
-						</ui:include>
-					</div>
-					<div id="tab-documents">
-						<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
-					</div>
+			<div class="imixs-tabs">
+				<ul>
+					<li><a href="#tab-comments">#{message.comments}</a></li>
+					<li><a href="#tab-documents">#{message.documents} <h:panelGroup
+								rendered="#{! empty dmsController.dmsList}"
+								styleClass="typcn typcn-input-checked"></h:panelGroup></a></li>
+				</ul>
+				<div id="tab-comments">
+					<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
+						<ui:param name="workitem" value="#{workflowController.workitem}" />
+					</ui:include>
+				</div>
+				<div id="tab-documents">
+					<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
 				</div>
 			</div>
 		</div>

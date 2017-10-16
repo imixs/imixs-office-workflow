@@ -2,7 +2,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
 	<f:view>
 		<h:form>
@@ -53,7 +54,7 @@
 			<c:if test="#{loginController.authenticated}">
 
 				<h:panelGroup layout="block" styleClass="toolbar search">
-					<h:inputText style="margin-right: 10px;"
+					<h:inputText style="margin-right: 10px;" a:placeholder="#{message.search}..."					
 						value="#{searchController.searchFilter.item['txtSearch']}"
 						onfocus="this.value='';" />
 					<h:commandLink actionListener="#{searchController.doResetFilter}"

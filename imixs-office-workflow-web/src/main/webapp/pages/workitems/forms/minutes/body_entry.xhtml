@@ -4,7 +4,6 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-
 	<!-- compute if minute should be opened in editor -->
 	<ui:param name="showForm"
 				value="#{(!empty minuteController.workitem) and (!empty minuteController.formDefinition) and (minuteController.workitem.item['$uniqueid'] eq workitem.item['$uniqueid'])}"></ui:param>
@@ -47,7 +46,7 @@
 							onevent="layoutBodySection" />
 
 					</h:commandLink>
-					<h2>Status: <h:outputText value="#{workitem.item['$workflowStatus']}" /></h2>
+					<h2>#{workitem.item['$workflowgroup']}: <h:outputText value="#{workitem.item['$workflowStatus']}" /></h2>
 				</h:panelGroup>
 
 				<!-- Read only Mode -->
@@ -167,7 +166,7 @@
 			</h:panelGroup>
 		</div>
 	</h:panelGroup>
-	<hr />
+	
 
 </ui:composition>
 

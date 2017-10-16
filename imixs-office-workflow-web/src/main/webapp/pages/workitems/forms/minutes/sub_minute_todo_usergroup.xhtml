@@ -2,17 +2,15 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:h="http://java.sun.com/jsf/html">
-
-
 
 
 	<!-- Edit section -->
 	<div class="imixs-form-section">
 		<dl>
 			<dt>
-				#{message['form.subject']}: <span
-					class="imixs-required">*</span>
+				#{message['form.subject']}: <span class="imixs-required">*</span>
 			</dt>
 			<dd>
 				<h:inputText title="#{message['form.minutes.help_subject']}"
@@ -23,8 +21,7 @@
 			<dt>#{message['form.minutes.description']}</dt>
 			<dd>
 				<h:inputTextarea id="tinymce-minute-editor"
-					class="imixs-editor-basic"
-					value="#{workitem.item['_description']}" />
+					class="imixs-editor-basic" value="#{workitem.item['_description']}" />
 			</dd>
 		</dl>
 	</div>
@@ -45,17 +42,9 @@
 		<dl>
 			<dt>#{message['form.minutes.responsible']}:</dt>
 			<dd>
-				<h:selectOneMenu value="#{workitem.item['namresponsible']}"
-					title="#{message['form.minutes.help_responsible']}">
-					<f:selectItem itemLabel=" - " itemValue=" "></f:selectItem>
-					<c:forEach items="#{workflowController.workitem.itemList['_Team']}"
-						var="member">
-						<f:selectItem itemLabel="#{userController.getUserName(member)}"
-							itemValue="#{member}"></f:selectItem>
-					</c:forEach>
-				</h:selectOneMenu>
+				<marty:userListInput value="#{workitem.itemList['namresponsible']}"
+					editmode="#{editmode}" />
 			</dd>
-
 		</dl>
 	</h:panelGroup>
 
