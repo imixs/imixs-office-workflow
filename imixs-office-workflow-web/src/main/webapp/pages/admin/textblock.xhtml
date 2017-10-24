@@ -1,0 +1,156 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+
+
+		<!-- Documentinfo: $UniqueID= #{reportController.workitem.item['$uniqueid']}-->
+		<f:view>
+			<h:form id="textblock_form_id">
+
+				<div class="imixs-form">
+					<div class="imixs-header">
+						<h1>
+							<h:outputText value="#{message['textblock.title']}: " />
+							<h:outputText
+								value="#{textBlockController.textBlock.item['txtname']} " />
+						</h1>
+					</div>
+
+
+					<!-- ########## Error message ########## -->
+					<div class="ui-widget" id="imixs-report-errormessage"
+						style="display: none;">
+						<div class="ui-state-error ui-corner-all"
+							style="padding: .7em; margin-bottom: .7em;">
+							<h2>
+								#{message.error_title} <span class="ui-icon ui-icon-alert"
+									style="float: left; margin-right: .3em;"> </span>
+							</h2>
+							<p>
+								<h:outputText sxtyle="color: red"
+									value="#{message.error_message}" />
+							</p>
+							<p>
+								<h:messages globalOnly="true" />
+							</p>
+						</div>
+					</div>
+
+
+					<div class="imixs-body">
+						<f:ajax event="change" render=":report_form_id:hidden_uri">
+
+
+
+							<div class="imixs-form-panel">
+								<h1>Result</h1>
+								<div class="imixs-form-section-2">
+
+									<dl>
+										<dt>ID:</dt>
+
+										<dd>
+											<h:inputText required="true" id="txtname_id"
+												value="#{textBlockController.textBlock.item['txtName']}" />
+										</dd>
+									</dl>
+
+
+									<dl>
+										<dt>Type:</dt>
+
+										<dd>
+											<h:selectOneRadio
+												value="#{textBlockController.textBlock.item['txtmode']}">
+
+												<f:selectItem itemLabel="HTML" itemValue="HTML"></f:selectItem>
+												<f:selectItem itemLabel="TEXT" itemValue="TEXT"></f:selectItem>
+												<f:ajax render="contentIputID" onevent="layoutEditor" />
+											</h:selectOneRadio>
+										</dd>
+									</dl>
+
+								</div>
+
+								<h:panelGroup layout="block" styleClass="imixs-form-section"
+									id="contentIputID">
+
+									<dl>
+										<dt>#{message['form.minutes.description']}</dt>
+										<dd>
+											<h:inputTextarea id="tinymce-minute-editor"
+												rendered="#{textBlockController.textBlock.item['txtmode'] eq 'HTML'}"
+												class="imixs-editor-basic"
+												value="#{textBlockController.textBlock.item['txtcontent']}" />
+
+											<h:inputTextarea
+												rendered="#{textBlockController.textBlock.item['txtmode'] ne 'HTML'}"
+												class=""
+												value="#{textBlockController.textBlock.item['txtcontent']}" />
+										</dd>
+									</dl>
+
+								</h:panelGroup>
+							</div>
+
+
+
+						</f:ajax>
+
+					</div>
+
+					<div class="imixs-footer">
+
+						<h:commandButton value="#{message.save}"
+							action="/pages/admin/textblocklist"
+							actionListener="#{textBlockController.save}">
+						</h:commandButton>
+
+
+						<h:commandButton action="/pages/admin/textblocklist"
+							value="#{message.close}">
+						</h:commandButton>
+					</div>
+
+				</div>
+			</h:form>
+
+
+
+
+			<!--  Init script -->
+			<script type="text/javascript">
+				/*<![CDATA[*/
+
+				$(document).ready(function() {
+
+				});
+
+				// method to refresh create buttons 
+				function layoutEditor(e) {
+					if (e.status == 'success') {
+						// Test
+						if (tinyMCE) {
+							tinymce.remove("textarea.imixs-editor-basic");
+						}
+						layoutOfficeEditor();
+					}
+				}
+
+				/*]]>*/
+			</script>
+
+		</f:view>
+	</ui:define>
+
+
+
+</ui:composition>
+
