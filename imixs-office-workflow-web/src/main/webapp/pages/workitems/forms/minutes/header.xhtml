@@ -17,67 +17,87 @@
 	<ui:param name="editmode"
 		value="#{workitem.item['$processid'] lt 1500}" />
 
-		<div class="imixs-form-section">
-			<dl>
-				<dt>
-					#{message['form.minutes.subject']}: <span class="imixs-required">*</span>
-				</dt>
-				<dd>
-					<h:inputText title="#{message['form.minutes.help_subject']}"
-						required="true" value="#{workitem.item['_subject']}" />
-				</dd>
-			</dl>
+	<div class="imixs-form-section">
+		<dl>
+			<dt>
+				#{message['form.minutes.subject']}: <span class="imixs-required">*</span>
+			</dt>
+			<dd>
+				<h:inputText title="#{message['form.minutes.help_subject']}"
+					required="true" value="#{workitem.item['_subject']}" />
+			</dd>
+		</dl>
 
 
-		</div>
-		<div class="imixs-form-section-2">
-			<dl>
-				<dt>#{message['form.minutes.team']}:</dt>
-				<dd>
-					<marty:userListInput
-						value="#{workflowController.workitem.itemList['_Team']}"
-						editmode="#{editmode}" />
-				</dd>
+	</div>
+	<div class="imixs-form-section-2">
+		<dl>
+			<dt>#{message['form.minutes.team']}:</dt>
+			<dd>
+				<marty:userListInput value="#{workitem.itemList['_Team']}"
+					editmode="#{editmode}" render="#{teilnehmer.clientId}" />
+			</dd>
 
-			</dl>
-			<dl>
-				<dt>
-					#{message['form.minutes.date']}: 
-				</dt>
-				<dd>
-					<h:inputText value="#{workitem.item['datdate']}" required="false"
-						title="#{message['form.minutes.help_datdate']}" class="imixs-date">
-						<f:convertDateTime pattern="#{message.datePatternShort}"
-							timeZone="#{message.timeZone}" />
-					</h:inputText>
-				</dd>
-			</dl>
-
-		</div>
-		<div class="imixs-form-section">
-			<dl>
-				<dt>#{message['form.description']}</dt>
-				<dd>
-					<h:inputTextarea value="#{workitem.item['_description']}" />
-				</dd>
-			</dl>
-		</div>
+		</dl>
 
 
+		<dl>
+			<dt>#{message['form.minutes.present']}:</dt>
+			<dd>
+				<h:panelGroup id="teilnehmerid" binding="#{teilnehmer}">
+					<ui:param name="profilelist" value="#{userInputController.getSortedProfilelist(workitem.itemList['_Team'])}" />
+
+					<h:selectManyCheckbox layout="pageDirection" enabledClass="imixs-normal"
+						value="#{workitem.itemListArray['_present']}">
+						<c:forEach var="user" items="#{profilelist}">
+
+							<f:selectItem itemLabel="#{user.item['txtuserName']}" 
+								itemValue="#{user.item['txtname']}"></f:selectItem>
+						</c:forEach>
+
+					</h:selectManyCheckbox>
+				</h:panelGroup>
+			</dd>
+		</dl>
 
 
-	
+		<dl>
+			<dt>#{message['form.minutes.date']}:</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['datdate']}" required="false"
+					title="#{message['form.minutes.help_datdate']}" class="imixs-date">
+					<f:convertDateTime pattern="#{message.datePatternShort}"
+						timeZone="#{message.timeZone}" />
+				</h:inputText>
+			</dd>
+		</dl>
+
+	</div>
+	<div class="imixs-form-section">
+		<dl>
+			<dt>#{message['form.description']}</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_description']}" />
+			</dd>
+		</dl>
+	</div>
+
+
 	<!-- ReadOnly Modus -->
-	<c:if test="#{workitem.item['$processid'] ge 1500}">
+	<c:if test="#{workitem.item['minuteslocked']}">
 		<!-- jQuery code to disable all input elements in read modus -->
 		<script type="text/javascript">
 			/*<![CDATA[*/
 			$(".imixs-body :input").attr("disabled", true);
 			
 			// hide owner links
-			
 			$("a[id$=remove_owner_link_id]").hide();
-			//workitem_form:j_idt593:j_idt612:j_idt616:0:remove_owner_link_id
+			
+			// fix disabled checkboxes, need to be enabled befor submit...
+			// https://stackoverflow.com/questions/12769664/how-to-make-html-select-element-look-like-disabled-but-pass-values#12769785
+			$('#workitem_form').submit(function() {
+				$(".imixs-body input:checkbox").removeAttr('disabled');
+			});
 			
 			
 			/*]]>*/
