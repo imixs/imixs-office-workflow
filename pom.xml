@@ -81,7 +81,13 @@
 		<!-- 4.10.4, 5.5.2 (JDK-7), 6.2.1 (JDK-8)  6.3.0 -->
 		<lucene.version>6.6.1</lucene.version>
 		<imixs.adapters.version>1.5.0</imixs.adapters.version>
+		
+		<!-- Imixs-Archive -->
 		<org.imixs.archive.version>0.0.2-SNAPSHOT</org.imixs.archive.version>
+		<apache.poi.version>3.17</apache.poi.version>
+		<apache.pdfbox.version>2.0.7</apache.pdfbox.version>
+		
+		
 		<custom.webResources>src/main/webapp</custom.webResources>
 		<imixs-office.applicationname>imixs-office-workflow</imixs-office.applicationname>
 
@@ -290,6 +296,37 @@
 				<version>${org.imixs.archive.version}</version>
 				<scope>provided</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.imixs.workflow</groupId>
+				<artifactId>imixs-archive-ui</artifactId>
+				<version>${org.imixs.archive.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi</artifactId>
+				<version>${apache.poi.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${apache.poi.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-scratchpad</artifactId>
+				<version>${apache.poi.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+			    <groupId>org.apache.pdfbox</groupId>
+			    <artifactId>pdfbox</artifactId>
+			    <version>${apache.pdfbox.version}</version>
+				<scope>provided</scope>
+			</dependency>
+		
 
 		</dependencies>
 	</dependencyManagement>
