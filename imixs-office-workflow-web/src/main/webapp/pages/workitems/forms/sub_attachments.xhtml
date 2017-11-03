@@ -31,12 +31,14 @@
 	<!-- **** General info ***** -->
 	<div class="row imixs-form-attachments">
 		<div class="col-6">
-
 			<h:panelGroup layout="block" id="dmslist"
 				binding="#{dmsListComponent}" style="margin-bottom:10px;">
 
 				<!-- **** DMS List ***** -->
 				<c:forEach var="attachment" items="#{dmsController.dmsList}">
+
+					<ui:param name="attachmentUniqueID"
+						value="#{!empty (attachment.item['$uniqueIDRef'])?attachment.item['$uniqueIDRef']:workflowController.workitem.item['$snapshotid']}"></ui:param>
 
 					<div class="imixs-viewentry">
 						<!-- image -->
@@ -52,7 +54,7 @@
 								<h:outputText escape="false"
 									value="&lt;a target='_blank' class='attachmentlink'" />
 								<h:outputText escape="false"
-									value=" href='#{facesContext.externalContext.requestContextPath}/rest-service/workflow/workitem/#{attachment.item['$uniqueIDRef']}/file/#{attachment.item['txtName']}" />
+									value=" href='#{facesContext.externalContext.requestContextPath}/rest-service/workflow/workitem/#{attachmentUniqueID}/file/#{attachment.item['txtName']}" />
 								<h:outputText escape="false"
 									value="'&gt;#{attachment.item['txtName']}&lt;/a&gt;" />
 							</h:panelGroup>
