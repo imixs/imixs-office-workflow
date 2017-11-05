@@ -64,6 +64,11 @@
 							<artifactId>imixs-archive-api</artifactId>
 							<bundleDir>/</bundleDir>
 						</JarModule>
+						<JarModule>
+							<groupId>org.imixs.workflow</groupId>
+							<artifactId>imixs-adapters-documents</artifactId>
+							<bundleDir>/</bundleDir>
+						</JarModule>
 
 					</modules>
 
@@ -136,14 +141,14 @@
 			<scope>compile</scope>
 		</dependency>
 
-
-
 		<!-- Imixs-Archive -->
 		<dependency>
 			<groupId>org.imixs.workflow</groupId>
 			<artifactId>imixs-archive-api</artifactId>
 			 <scope>compile</scope>
 		</dependency>
+		
+		<!-- Core Document Parser -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
@@ -163,6 +168,15 @@
 		    <groupId>org.apache.pdfbox</groupId>
 		    <artifactId>pdfbox</artifactId>
 		    <scope>compile</scope>
+		</dependency>
+	
+		
+		<!-- Imixs-Adapters -->
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-adapters-documents</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
 
 	</dependencies>

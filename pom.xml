@@ -77,16 +77,16 @@
    
 		<!-- Workflow Versions -->
 		<org.imixs.workflow.version>4.2.1</org.imixs.workflow.version>
-		<org.imixs.marty.version>3.1.1-SNAPSHOT</org.imixs.marty.version>
+		<org.imixs.marty.version>3.2.0-SNAPSHOT</org.imixs.marty.version>
 		<!-- 4.10.4, 5.5.2 (JDK-7), 6.2.1 (JDK-8)  6.3.0 -->
 		<lucene.version>6.6.1</lucene.version>
-		<imixs.adapters.version>1.5.0</imixs.adapters.version>
+		<imixs.adapters.version>1.5.2-SNAPSHOT</imixs.adapters.version>
 		
 		<!-- Imixs-Archive -->
 		<org.imixs.archive.version>0.0.2-SNAPSHOT</org.imixs.archive.version>
 		<apache.poi.version>3.17</apache.poi.version>
 		<apache.pdfbox.version>2.0.7</apache.pdfbox.version>
-		
+		<apache.tika.version>1.16</apache.tika.version>
 		
 		<custom.webResources>src/main/webapp</custom.webResources>
 		<imixs-office.applicationname>imixs-office-workflow</imixs-office.applicationname>
@@ -302,6 +302,8 @@
 				<version>${org.imixs.archive.version}</version>
 				<scope>provided</scope>
 			</dependency>
+			
+			<!-- Core Document Parser -->
 			<dependency>
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi</artifactId>
@@ -326,7 +328,14 @@
 			    <version>${apache.pdfbox.version}</version>
 				<scope>provided</scope>
 			</dependency>
+			
 		
+			<dependency>
+				<groupId>org.imixs.workflow</groupId>
+				<artifactId>imixs-adapters-documents</artifactId>
+				<version>${imixs.adapters.version}</version>
+				<scope>provided</scope>
+			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
