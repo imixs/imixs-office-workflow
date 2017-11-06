@@ -45,10 +45,10 @@
 		<dl>
 			<dt>#{message['form.minutes.responsible']}:</dt>
 			<dd>
-				<h:selectOneMenu value="#{workitem.item['namresponsible']}"
+				<h:selectOneMenu value="#{workitem.item['_minute_team']}"
 					title="#{message['form.minutes.help_responsible']}">
 					<f:selectItem itemLabel=" - " itemValue=" "></f:selectItem>
-					<c:forEach items="#{workflowController.workitem.itemList['_Team']}"
+					<c:forEach items="#{workitem.itemList['_Team']}"
 						var="member">
 						<f:selectItem itemLabel="#{userController.getUserName(member)}"
 							itemValue="#{member}"></f:selectItem>
@@ -58,14 +58,5 @@
 
 		</dl>
 	</h:panelGroup>
-
-	<!-- comment log -->
-	<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
-		<ui:param name="workitem" value="#{workitem}" />
-	</ui:include>
-
-
-
-
 
 </ui:composition>

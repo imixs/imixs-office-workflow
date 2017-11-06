@@ -42,16 +42,12 @@
 		<dl>
 			<dt>#{message['form.minutes.responsible']}:</dt>
 			<dd>
-				<marty:userListInput value="#{workitem.itemList['namresponsible']}"
+				<marty:userListInput value="#{workitem.itemList['_minute_team']}"
 					editmode="#{editmode}" />
 			</dd>
 		</dl>
 	</h:panelGroup>
 
-	<!-- comment log -->
-	<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
-		<ui:param name="workitem" value="#{workitem}" />
-	</ui:include>
 
 
 
