@@ -86,35 +86,18 @@
 
 						<hr />
 						<!-- Comment log -->
-						<h:panelGrid columns="3" rowClasses="topAligned"
-							styleClass="imixs-commentlist">
-							<c:forEach items="#{workitem.getItemValue('txtCommentLog')}"
-								var="comment">
-								<c:if test="#{!empty comment}">
-									<h:outputText value="#{comment.datcomment}"
-										style="margin-right:10px;">
-										<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-											pattern="#{message.dateTimePatternShort}" />
-									</h:outputText>
-
-									<h:outputText
-										value="#{userController.getUserName(comment.nameditor)}" />
-
-
-
-									<h:panelGroup styleClass="imixs-comments-entry">
-										<h:outputText value="#{comment.txtcomment}" />
-									</h:panelGroup>
-
-
-								</c:if>
-							</c:forEach>
-
-						</h:panelGrid>
+						<ui:include src="/pages/workitems/forms/minutes/sub_comment_read.xhtml">
+								<ui:param name="workitem" value="#{workitem}" />
+						</ui:include>
+						
+						<!-- Files -->
+						<ui:include src="/pages/workitems/forms/minutes/sub_files.xhtml">
+								<ui:param name="workitem" value="#{workitem}" />
+						</ui:include>
+						
+						
 					</ui:fragment>
 					<ui:fragment rendered="#{showForm}">
-
-
 						<c:forEach var="section"
 							items="#{minuteController.formDefinition.sections}">
 							<div class="imixs-form-panel">
@@ -132,9 +115,17 @@
 							</div>
 						</c:forEach>
 
-						<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
+						<ui:include src="/pages/workitems/forms/minutes/sub_comment.xhtml">
 							<ui:param name="workitem" value="#{minuteController.workitem}" />
 						</ui:include>
+						
+						
+						<!-- Files -->
+						<ui:include src="/pages/workitems/forms/minutes/sub_files.xhtml">
+								<ui:param name="workitem" value="#{workitem}" />
+						</ui:include>
+						
+						
 
 						<!-- Workflow Actions -->
 						<div class="imixs-form-section">
@@ -159,7 +150,7 @@
 							</h:commandButton>
 
 						</div>
-
+						
 
 					</ui:fragment>
 				</h:panelGroup>
@@ -170,39 +161,20 @@
 						escape="false"></h:outputText>
 
 					<!-- comment log -->
-					<h:panelGroup styleClass="imixs-form-comment"
-						rendered="#{! empty workitem.getItemValue('txtCommentLog')}">
-						<dl>
-							<dt>
-								<h:outputLabel value="#{message['form.comment.history']}:" />
-							</dt>
-
-							<dd>
-								<table class="imixs-commentlist">
-									<tbody>
-										<ui:repeat var="comment"
-											value="#{workitem.getItemValue('txtCommentLog')}">
-
-											<tr class="topAligned">
-												<td><h:outputText value="#{comment.datcomment}"
-														style="margin-right:10px;">
-
-														<f:convertDateTime timeZone="#{message.timeZone}"
-															type="both" pattern="#{message.dateTimePatternShort}" />
-													</h:outputText></td>
-												<td><h:outputText
-														value="#{userController.getUserName(comment.nameditor)}" />
-												</td>
-												<td><h:outputText value="#{comment.txtcomment}" /></td>
-											</tr>
-										</ui:repeat>
-									</tbody>
-								</table>
-							</dd>
-						</dl>
-					</h:panelGroup>
+					<ui:include src="/pages/workitems/forms/minutes/sub_comment_read.xhtml">
+							<ui:param name="workitem" value="#{workitem}" />
+					</ui:include>
+						
+				
+					<!-- Files -->
+					<ui:include src="/pages/workitems/forms/minutes/sub_files.xhtml">
+							<ui:param name="workitem" value="#{workitem}" />
+					</ui:include>
+						
+						
+					
 				</h:panelGroup>
-
+			
 			</h:panelGroup>
 		</div>
 	</h:panelGroup>
