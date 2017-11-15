@@ -10,7 +10,6 @@
 
 	<!-- Minute Block -->
 	<h:panelGroup layout="block" styleClass="imixs-viewentry">
-
 		<!-- *** Sequence Number and scrop position for onload -->
 		<div class="minute-number"
 			id="#{showForm?'minute-editor-position':''}">
@@ -26,37 +25,40 @@
 					<h:commandLink onclick="closeMinuteEditor();"
 						actionListener="#{minuteController.toggleWorkitem(workitem.item['$uniqueid'])}">
 						<h1>
+							
+							<h:outputText style="font-weight: bold;" value="#{workitem.item['$workflowStatus']}: " />
+							
 							<!-- summary empty ? -->
 							<h:panelGroup
 								rendered="#{empty workitem.item['txtWorkflowSummary']}">
 								<h:outputText value="#{workitem.item['$modified']}"
-									style="font-weight: bold;">
+									style="font-weight: normal;">
 									<f:convertDateTime timeZone="#{message.timeZone}"
 										pattern="#{message.dateTimePattern}" />
 								</h:outputText>
 								<h:outputText value=" #{workitem.item['_subject']}"
 									style="font-weight: bold;" />
 							</h:panelGroup>
-							<h:outputText style="font-weight: bold;"
+							<h:outputText style="font-weight: normal;"
 								value="#{workitem.item['txtWorkflowSummary']}" />
-
-
+						
+						
+						
+						
 						</h1>
 						<!-- @form  -->
 						<f:ajax render=":#{minutesBody.clientId}"
 							onevent="layoutBodySection" />
 
 					</h:commandLink>
-					<h2>
-						#{workitem.item['$workflowgroup']}:
-						<h:outputText value="#{workitem.item['$workflowStatus']}" />
-					</h2>
 				</h:panelGroup>
 
 				<!-- Read only Mode -->
 				<h:panelGroup rendered="#{!editmode}">
 					<!-- summary empty ? -->
 					<h1>
+						<h:outputText style="font-weight: bold;" value="#{workitem.item['$workflowStatus']}: " />
+							
 						<h:panelGroup
 							rendered="#{empty workitem.item['txtWorkflowSummary']}">
 							<h:outputText value="#{workitem.item['$modified']}">
@@ -67,10 +69,7 @@
 						</h:panelGroup>
 						<h:outputText value="#{workitem.item['txtWorkflowSummary']}" />
 					</h1>
-					<h2>
-						Status:
-						<h:outputText value="#{workitem.item['$workflowStatus']}" />
-					</h2>
+					
 				</h:panelGroup>
 
 			</h:panelGroup>
