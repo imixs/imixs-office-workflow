@@ -30,14 +30,14 @@
 
 			<!-- *** Standard Info *** -->
 			<div class="content-block">
-				<h:outputText styleClass="lead" escape="false"
+				<h2><h:outputText escape="false"
 					rendered="#{empty workflowController.workitem.item['txtWorkflowSummary']}"
 					value="#{message.new_workitem}" />
 
-				<h:outputText styleClass="lead" escape="false"
+				<h:outputText  escape="false"
 					rendered="#{!empty workflowController.workitem.item['txtWorkflowSummary']}"
 					value="#{workflowController.workitem.item['txtWorkflowSummary']}" />
-				<br />
+				</h2>
 				<h:outputLabel value="#{message['process.title']}: " />
 
 

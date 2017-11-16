@@ -13,7 +13,7 @@
 		<!-- *** Sequence Number and scrop position for onload -->
 		<div class="minute-number"
 			id="#{showForm?'minute-editor-position':''}">
-			<span>#{workitem.item['numsequencenumber']}.</span>
+			<h2>#{workitem.item['numsequencenumber']}.</h2>
 		</div>
 
 		<div class="minute-info">
@@ -24,7 +24,7 @@
 					<!-- Man kan auf den Link klicken um den editor zu öffnen oder zu schliessen -->
 					<h:commandLink onclick="closeMinuteEditor();"
 						actionListener="#{minuteController.toggleWorkitem(workitem.item['$uniqueid'])}">
-						<h1>
+						<h2>
 							
 							<h:outputText style="font-weight: bold;" value="#{workitem.item['$workflowStatus']}: " />
 							
@@ -41,11 +41,7 @@
 							</h:panelGroup>
 							<h:outputText style="font-weight: normal;"
 								value="#{workitem.item['txtWorkflowSummary']}" />
-						
-						
-						
-						
-						</h1>
+						</h2>
 						<!-- @form  -->
 						<f:ajax render=":#{minutesBody.clientId}"
 							onevent="layoutBodySection" />
@@ -56,7 +52,7 @@
 				<!-- Read only Mode -->
 				<h:panelGroup rendered="#{!editmode}">
 					<!-- summary empty ? -->
-					<h1>
+					<h2>
 						<h:outputText style="font-weight: bold;" value="#{workitem.item['$workflowStatus']}: " />
 							
 						<h:panelGroup
@@ -68,7 +64,7 @@
 							<h:outputText value=" #{workitem.item['_subject']}" />
 						</h:panelGroup>
 						<h:outputText value="#{workitem.item['txtWorkflowSummary']}" />
-					</h1>
+					</h2>
 					
 				</h:panelGroup>
 
@@ -83,7 +79,7 @@
 						<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
 							escape="false"></h:outputText>
 
-						<hr />
+						<p />
 						<!-- Comment log -->
 						<ui:include src="/pages/workitems/forms/minutes/sub_comment_read.xhtml">
 								<ui:param name="workitem" value="#{workitem}" />
@@ -177,7 +173,6 @@
 			</h:panelGroup>
 		</div>
 	</h:panelGroup>
-
 
 </ui:composition>
 
