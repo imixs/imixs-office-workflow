@@ -10,6 +10,11 @@
 
 	<xsl:template match="/">
 		{
+			"type" : "line",
+			"title" : "Zeitabrechnung",
+		    "options" : { 
+		    				"responsive": true
+		    			},
 			"labels" : [
 						<!--Select the first element of each group -->
 						<xsl:for-each select="/collection/document[generate-id() =generate-id(key('groups', item[@name='datdate']/value)[1])]" >
@@ -21,7 +26,7 @@
 					 ],
 			"datasets" : [
 			{
-				"label": "Zeitabrechnung",
+				"label": "Stunden",
 				"fillColor" : "rgba(151,187,205,0.5)",
 				"strokeColor" : "rgba(151,187,205,0.8)",
 				"highlightFill" : "rgba(151,187,205,0.75)",
