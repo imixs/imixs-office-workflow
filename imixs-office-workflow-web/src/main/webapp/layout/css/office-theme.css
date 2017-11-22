@@ -445,7 +445,6 @@ dl dt {
 .imixs-form-panel {
 	border-top: 1px solid #e0e4e7;
 	padding: 10px 10px;
-	margin: 10px 0px;
 }
 
 /* --- Imixs-Tabs ---------------------------------- */
@@ -758,6 +757,13 @@ dl dt {
 }
 
 /* --- Imixs Attachments ------------------------------ */
+
+.imixs-form-attachments .col-6 {
+	width: 100% !important;
+	margin: 0 0 15px 0;
+	padding: 0;
+}
+
 .imixs-form-attachments .image-block {
 	float: left;
 	min-width: 25px;
@@ -1339,6 +1345,30 @@ dl dd  .imixs-datetime-picker select {
 }
 
 /* RESPONSIVE BEHAVIOUR */
+
+
+@media screen and (max-width: 1400px) {
+	.imixs-form .imixs-body .imixs-form-tabs .col-8, .imixs-form .imixs-body .imixs-form-tabs .col-4
+		{
+		border-right: none;
+		width: 100% !important;
+		padding: 0;
+	}
+	
+	.imixs-form .imixs-body .row .col-8, .imixs-form .imixs-body .row .col-4
+		{
+		border-right: none;
+		width: 100% !important;
+		padding: 0;
+	}
+	
+	.imixs-form-attachments .col-6
+		{
+		width: 50% !important;
+	}
+}
+
+
 @media screen and (max-width: 1100px) {
 	.imixs-portlet {
 		width: 50%;
@@ -1356,7 +1386,6 @@ dl dd  .imixs-datetime-picker select {
 		border-right: none;
 	}
 	.imixs-historyentry {
-		width: 49.0%;
 	}
 	.imixs-historyentry-action {
 		width: 80%;
@@ -1406,8 +1435,8 @@ dl dd  .imixs-datetime-picker select {
 		margin-left: 280px;
 	}
 	.imixs-historyentry {
-		width: 49.0%;
 	}
+
 	.imixs-historyentry .close .typcn {
 		font-size: 24px;
 	}
@@ -1489,16 +1518,3 @@ dl dd  .imixs-datetime-picker select {
 	}
 }
 
-@media screen and (max-width: 1400px) {
-	.imixs-form .imixs-body .imixs-form-tabs .col-8, .imixs-form .imixs-body .imixs-form-tabs .col-4
-		{
-		border-right: none;
-		width: 100% !important;
-		padding: 0;
-	}
-	.imixs-form .imixs-body .imixs-form-tabs .imixs-form-attachments .col-6
-		{
-		width: 100% !important;
-		padding: 10px 0;
-	}
-}
