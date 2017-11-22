@@ -137,15 +137,33 @@
 				var ctx = document.getElementById("canvas-" + reportid)
 						.getContext("2d");
 				if (charttype == "Bar") {
-					window.report1 = new Chart(ctx).Bar(data, {
+					
+					window.report1 = new Chart(ctx, {
+		                type: 'bar',
+		                data: data,
+		                options: {
+		                    responsive: true
+		                }
+		            });
+					
+					/* window.report1 = new Chart(ctx).Bar(data, {
 						responsive : true
-					});
+					}); */
 				} else if (charttype == "Pie") {
 					window.myPie = new Chart(ctx).Pie(data.datasets[0].data,data.datasets[0].options);
 				} else {
-					window.report1 = new Chart(ctx).Line(data, {
+					// line chart
+					 window.report1 = new Chart(ctx,  {
+			                type: 'line',
+			                data: data,
+			                options: {
+			                    responsive: true
+			                }
+			        });
+					
+					/* window.report1 = new Chart(ctx).Line(data, {
 						responsive : true
-					});
+					 });*/
 				}
 			}
 			
