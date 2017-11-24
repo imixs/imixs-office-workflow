@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.4.2.SNAPSHOT-v20171016-1942-B1" targetNamespace="http://www.imixs.org/bpmn2">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.4.2.Final-v20171109-1930-B1" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
       <imixs:value><![CDATA[protokoll-de-2.0.0]]></imixs:value>
@@ -271,7 +271,7 @@ result={
           <imixs:value><![CDATA[
 Folgendes Protokoll wurde freigegeben:
 
-<propertyvalue>application.url</propertyvalue>index.jsf?workitem=<itemvalue>$uniqueid</itemvalue>
+<propertyvalue>application.url</propertyvalue>?workitem=<itemvalue>$uniqueid</itemvalue>
 
 Das ist eine automatische generierte E-Mail. Bitte nicht auf diese E-Mail antworten.]]></imixs:value>
         </imixs:item>
@@ -396,8 +396,12 @@ Historie aller Protokolle aus einer Besprechung zur Verfügung.
         <imixs:item name="txtbusinessrule" type="CDATA">
           <imixs:value><![CDATA[// unlock minutes
 var result={
-         'minuteslocked':false
+         'minuteslocked':false,
+         'txtworkflowhistory':''
 }; ]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="rtfresultlog" type="CDATA">
+          <imixs:value><![CDATA[Protokoll "<a href="<propertyvalue>application.url</propertyvalue>?workitem=<itemvalue>$uniqueidsource</itemvalue>"><itemvalue>$workflowsummary</itemvalue></a>" fortgesetzt von <username>namcurrenteditor</username>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_8</bpmn2:incoming>
