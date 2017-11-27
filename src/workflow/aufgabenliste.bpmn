@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.4.2.RC1-v20171009-1836-B1" targetNamespace="http://www.imixs.org/bpmn2">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.4.2.Final-v20171109-1930-B1" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
       <imixs:value><![CDATA[aufgabenliste-de-2.0.0]]></imixs:value>
     </imixs:item>
     <imixs:item name="txtfieldmapping" type="xs:string">
       <imixs:value><![CDATA[Ersteller | namCreator]]></imixs:value>
-      <imixs:value><![CDATA[Aktueller Bearbeiter | namCurrentEditor]]></imixs:value>
+      <imixs:value><![CDATA[Aktueller Bearbeiter | $Editor]]></imixs:value>
       <imixs:value><![CDATA[Teilnehmer|_team]]></imixs:value>
-      <imixs:value><![CDATA[Verantwortlich| namresponsible]]></imixs:value>
+      <imixs:value><![CDATA[Verantwortliche|_minute_team]]></imixs:value>
       <imixs:value><![CDATA[Prozess-Verantwortliche| namprocessmanager]]></imixs:value>
       <imixs:value><![CDATA[Prozess-Team | namprocessteam]]></imixs:value>
       <imixs:value><![CDATA[Prozess-Assistenz | namprocessassist]]></imixs:value>
@@ -68,7 +68,7 @@ Das ist eine automatische generierte E-Mail. Bitte nicht auf diese E-Mail antwor
     <bpmn2:task id="Task_2" imixs:processid="1100" name="Offen">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_instruction_right#minutes/header|minutes/body]]></imixs:value>
+          <imixs:value><![CDATA[form_panel_instruction_right#minutes/header_spaceselector|minutes/body]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
@@ -76,12 +76,27 @@ Das ist eine automatische generierte E-Mail. Bitte nicht auf diese E-Mail antwor
         <imixs:item name="keyownershipfields" type="xs:string">
           <imixs:value><![CDATA[namCreator]]></imixs:value>
           <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
+          <imixs:value><![CDATA[namspaceteam]]></imixs:value>
+          <imixs:value><![CDATA[_team]]></imixs:value>
+          <imixs:value><![CDATA[$Editor]]></imixs:value>
         </imixs:item>
-        <imixs:item name="keyaddreadfields" type="xs:string"/>
+        <imixs:item name="keyaddreadfields" type="xs:string">
+          <imixs:value><![CDATA[namCreator]]></imixs:value>
+          <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
+          <imixs:value><![CDATA[namspaceteam]]></imixs:value>
+          <imixs:value><![CDATA[_team]]></imixs:value>
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
+          <imixs:value><![CDATA[$Editor]]></imixs:value>
+        </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
           <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
           <imixs:value><![CDATA[namCreator]]></imixs:value>
+          <imixs:value><![CDATA[_team]]></imixs:value>
+          <imixs:value><![CDATA[namspaceteam]]></imixs:value>
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+          <imixs:value><![CDATA[$Editor]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtimageurl" type="xs:string">
           <imixs:value><![CDATA[typcn-clipboard||typcn-pencil,imixs-info]]></imixs:value>
@@ -142,7 +157,7 @@ Sie können eine Aufgabenliste jeder Zeit als Vorlage speichenr um daraus späte
     <bpmn2:task id="Task_9" imixs:processid="1900" name="Abgeschlossen">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_instruction_right#minutes/header|minutes/body]]></imixs:value>
+          <imixs:value><![CDATA[form_panel_instruction_right#minutes/header_spaceselector|minutes/body]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
@@ -161,6 +176,21 @@ Sie können eine Aufgabenliste jeder Zeit als Vorlage speichenr um daraus späte
         </imixs:item>
         <imixs:item name="keyaddreadfields" type="xs:string">
           <imixs:value><![CDATA[namteam]]></imixs:value>
+          <imixs:value><![CDATA[namCreator]]></imixs:value>
+          <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+          <imixs:value><![CDATA[_team]]></imixs:value>
+          <imixs:value><![CDATA[namspaceteam]]></imixs:value>
+          <imixs:value><![CDATA[$Editor]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyaddwritefields" type="xs:string">
+          <imixs:value><![CDATA[_team]]></imixs:value>
+          <imixs:value><![CDATA[$Editor]]></imixs:value>
+          <imixs:value><![CDATA[namCreator]]></imixs:value>
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+          <imixs:value><![CDATA[namspaceteam]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_8"><![CDATA[<h3>Abgeschlossen</h3>
@@ -198,7 +228,7 @@ Diese Aufgabenliste ist abgeschlossen und archiviert.
           <imixs:value><![CDATA[<item name="subprocess_create">
     <processid>100</processid>
     <activityid>100</activityid> 
-    <items>txtprocessref,txtspaceref,namteam</items>
+    <items>txtprocessref,txtspaceref,_team</items>
 </item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
@@ -209,7 +239,7 @@ Diese Aufgabenliste ist abgeschlossen und archiviert.
     <bpmn2:task id="Task_1" imixs:processid="1700" name="Vorlage">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_instruction_right#minutes/header|minutes/body]]></imixs:value>
+          <imixs:value><![CDATA[form_panel_instruction_right#minutes/header_spaceselector|minutes/body]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
@@ -251,7 +281,16 @@ Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle 
           <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtactivityresult" type="CDATA">
-          <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
+          <imixs:value><![CDATA[<item name="action">home</item>
+<item name="process">Vorlagen</item>]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtbusinessrule" type="CDATA">
+          <imixs:value><![CDATA[// unlock minutes
+var result={
+         'minuteslocked':true
+}; 
+
+result.txtproccessref_origin=workitem.txtprocessref;]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_2"><![CDATA[Aufgabenliste als Vorlage speichern]]></bpmn2:documentation>
@@ -302,6 +341,9 @@ Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle 
         <imixs:item name="rtfresultlog" type="CDATA">
           <imixs:value><![CDATA[Protokoll aus Vorlage '<itemvalue>_subject</itemvalue>' angelegt von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
+        <imixs:item name="txtactivityresult" type="CDATA">
+          <imixs:value><![CDATA[<item name="process"><itemvalue>txtproccessref_origin</itemvalue></item>]]></imixs:value>
+        </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_53</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_56</bpmn2:outgoing>
@@ -351,6 +393,10 @@ Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle 
       <bpmn2:text>Schließt alle Teilaufgaben ab</bpmn2:text>
     </bpmn2:textAnnotation>
     <bpmn2:association id="Association_1" sourceRef="TextAnnotation_1" targetRef="IntermediateCatchEvent_12"/>
+    <bpmn2:textAnnotation id="TextAnnotation_2">
+      <bpmn2:text>Die Aufgabenliste ist für alle Teilnehmer und Teammitglieder sichtbar und änderbar.</bpmn2:text>
+    </bpmn2:textAnnotation>
+    <bpmn2:association id="Association_2" sourceRef="TextAnnotation_2" targetRef="StartEvent_1"/>
   </bpmn2:process>
   <bpmn2:process id="Process_2" name="Aufgabe" definitionalCollaborationRef="Collaboration_1" isExecutable="false">
     <bpmn2:endEvent id="EndEvent_2" name="Ende">
@@ -373,71 +419,106 @@ Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle 
       <bpmn2:outputSet id="OutputSet_1" name="Output Set 1"/>
       <bpmn2:signalEventDefinition id="SignalEventDefinition_1"/>
     </bpmn2:intermediateCatchEvent>
-    <bpmn2:task id="Task_6" imixs:processid="100" name="Erstellen">
+    <bpmn2:task id="Task_6" imixs:processid="100" name="Aufgabe offen">
       <bpmn2:extensionElements>
         <imixs:item name="txtworkflowsummary" type="xs:string">
           <imixs:value><![CDATA[<itemvalue>_subject</itemvalue>]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="CDATA">
-          <imixs:value><![CDATA[<itemvalue>_description</itemvalue>]]></imixs:value>
+          <imixs:value><![CDATA[<itemvalue>_description</itemvalue>
+<br />
+<strong>Termin:</strong> <itemvalue format="dd. MMM. yyyy" locale="de_DE">datdate</itemvalue>
+<br />
+<strong>Verantwortlich:</strong>  <username separator=", ">_minute_team</username>  ]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
         </imixs:item>
-        <imixs:item name="keyownershipfields" type="xs:string"/>
+        <imixs:item name="keyownershipfields" type="xs:string">
+          <imixs:value><![CDATA[namresponsible]]></imixs:value>
+          <imixs:value><![CDATA[_minute_team]]></imixs:value>
+        </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
+          <imixs:value><![CDATA[namresponsible]]></imixs:value>
+          <imixs:value><![CDATA[namspaceteam]]></imixs:value>
+          <imixs:value><![CDATA[namCreator]]></imixs:value>
+          <imixs:value><![CDATA[$Editor]]></imixs:value>
+          <imixs:value><![CDATA[_team]]></imixs:value>
+          <imixs:value><![CDATA[_minute_team]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtimageurl" type="xs:string">
           <imixs:value><![CDATA[typcn-edit]]></imixs:value>
         </imixs:item>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_simple#minutes/sub_minute_todo_usergroup]]></imixs:value>
+          <imixs:value><![CDATA[form_panel#minutes/sub_minute_todo_usergroup]]></imixs:value>
         </imixs:item>
         <imixs:item name="txttype" type="xs:string">
-          <imixs:value><![CDATA[childworkitem]]></imixs:value>
+          <imixs:value><![CDATA[workitem]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddreadfields" type="xs:string">
           <imixs:value><![CDATA[namteam]]></imixs:value>
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
+          <imixs:value><![CDATA[_team]]></imixs:value>
+          <imixs:value><![CDATA[namspaceteam]]></imixs:value>
+          <imixs:value><![CDATA[namCreator]]></imixs:value>
+          <imixs:value><![CDATA[$Editor]]></imixs:value>
+          <imixs:value><![CDATA[_minute_team]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_19</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_25</bpmn2:incoming>
-      <bpmn2:outgoing>SequenceFlow_16</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_41</bpmn2:outgoing>
     </bpmn2:task>
     <bpmn2:sequenceFlow id="SequenceFlow_19" sourceRef="IntermediateCatchEvent_7" targetRef="Task_6"/>
-    <bpmn2:task id="Task_7" imixs:processid="190" name="Erledigt">
+    <bpmn2:task id="Task_7" imixs:processid="190" name="Aufgabe erledigt">
       <bpmn2:extensionElements>
         <imixs:item name="txtworkflowsummary" type="xs:string">
           <imixs:value><![CDATA[<itemvalue>_subject</itemvalue>]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="CDATA">
-          <imixs:value><![CDATA[<itemvalue>_description</itemvalue>]]></imixs:value>
+          <imixs:value><![CDATA[<itemvalue>_description</itemvalue>
+<br />
+<strong>Termin:</strong> <itemvalue format="dd. MMM. yyyy" locale="de_DE">datdate</itemvalue>
+<br />
+<strong>Verantwortlich:</strong>  <username separator=", ">_minute_team</username>  ]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
         </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
+          <imixs:value><![CDATA[_minute_team]]></imixs:value>
+          <imixs:value><![CDATA[_team]]></imixs:value>
+          <imixs:value><![CDATA[$Editor]]></imixs:value>
+          <imixs:value><![CDATA[namCreator]]></imixs:value>
+          <imixs:value><![CDATA[namspaceteam]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtimageurl" type="xs:string">
           <imixs:value><![CDATA[typcn-edit|typcn-tick,imixs-success]]></imixs:value>
         </imixs:item>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_simple#minutes/sub_minute_todo_usergroup]]></imixs:value>
+          <imixs:value><![CDATA[form_panel#minutes/sub_minute_todo_usergroup]]></imixs:value>
         </imixs:item>
         <imixs:item name="txttype" type="xs:string">
           <imixs:value><![CDATA[childworkitemarchive]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddreadfields" type="xs:string">
           <imixs:value><![CDATA[namteam]]></imixs:value>
+          <imixs:value><![CDATA[namCreator]]></imixs:value>
+          <imixs:value><![CDATA[$Editor]]></imixs:value>
+          <imixs:value><![CDATA[_team]]></imixs:value>
+          <imixs:value><![CDATA[_minute_team]]></imixs:value>
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+          <imixs:value><![CDATA[namspaceteam]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_21</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_22</bpmn2:outgoing>
-      <bpmn2:outgoing>SequenceFlow_42</bpmn2:outgoing>
     </bpmn2:task>
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_9" imixs:activityid="20" name="Erledigt">
       <bpmn2:extensionElements>
@@ -459,84 +540,23 @@ Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle 
         <imixs:item name="rtfresultlog" type="CDATA">
           <imixs:value><![CDATA[Aktualisiert von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
+        <imixs:item name="txtbusinessrule" type="CDATA">
+          <imixs:value><![CDATA[var result={}; 
+
+if (workitem._minute_team && workitem._minute_team.length===1 && workitem._minute_team[0]==="") {
+	result._minute_team=workitem.$editor; 
+}]]></imixs:value>
+        </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:outgoing>SequenceFlow_25</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_25" sourceRef="IntermediateCatchEvent_10" targetRef="Task_6"/>
     <bpmn2:sequenceFlow id="SequenceFlow_5" sourceRef="StartEvent_2" targetRef="IntermediateCatchEvent_7"/>
-    <bpmn2:task id="Task_10" imixs:processid="110" name="Offen">
-      <bpmn2:extensionElements>
-        <imixs:item name="txtworkflowsummary" type="xs:string">
-          <imixs:value><![CDATA[<itemvalue>_subject</itemvalue>]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="txtworkflowabstract" type="CDATA">
-          <imixs:value><![CDATA[<itemvalue>_description</itemvalue>]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>true</imixs:value>
-        </imixs:item>
-        <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
-          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
-          <imixs:value><![CDATA[namresponsible]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="txtimageurl" type="xs:string">
-          <imixs:value><![CDATA[typcn-edit|typcn-tick,imixs-success]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_simple#minutes/sub_minute_basic]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="txttype" type="xs:string">
-          <imixs:value><![CDATA[workitem]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyaddreadfields" type="xs:string">
-          <imixs:value><![CDATA[namteam]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyownershipfields" type="xs:string">
-          <imixs:value><![CDATA[namresponsible]]></imixs:value>
-        </imixs:item>
-      </bpmn2:extensionElements>
-      <bpmn2:incoming>SequenceFlow_39</bpmn2:incoming>
-      <bpmn2:incoming>SequenceFlow_43</bpmn2:incoming>
-      <bpmn2:outgoing>SequenceFlow_41</bpmn2:outgoing>
-    </bpmn2:task>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_24" imixs:activityid="20" name="Verteilen">
-      <bpmn2:extensionElements>
-        <imixs:item name="rtfresultlog" type="CDATA">
-          <imixs:value><![CDATA[Verteilt von <username>namcurrenteditor</username>.]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="txtactivityresult" type="CDATA">
-          <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keymailreceiverfields" type="xs:string">
-          <imixs:value><![CDATA[namresponsible]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="txtmailsubject" type="xs:string">
-          <imixs:value><![CDATA[<bpmn2:message>Info-Subject</bpmn2:message>]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="rtfmailbody" type="CDATA">
-          <imixs:value><![CDATA[<bpmn2:message>Info-Body</bpmn2:message>]]></imixs:value>
-        </imixs:item>
-      </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_50"><![CDATA[Aufgabe verteilen]]></bpmn2:documentation>
-      <bpmn2:incoming>SequenceFlow_16</bpmn2:incoming>
-      <bpmn2:incoming>SequenceFlow_42</bpmn2:incoming>
-      <bpmn2:outgoing>SequenceFlow_39</bpmn2:outgoing>
-      <bpmn2:messageEventDefinition id="MessageEventDefinition_2"/>
-    </bpmn2:intermediateCatchEvent>
-    <bpmn2:sequenceFlow id="SequenceFlow_16" sourceRef="Task_6" targetRef="IntermediateCatchEvent_24"/>
-    <bpmn2:sequenceFlow id="SequenceFlow_39" sourceRef="IntermediateCatchEvent_24" targetRef="Task_10"/>
-    <bpmn2:sequenceFlow id="SequenceFlow_41" sourceRef="Task_10" targetRef="IntermediateCatchEvent_9"/>
-    <bpmn2:sequenceFlow id="SequenceFlow_42" sourceRef="Task_7" targetRef="IntermediateCatchEvent_24"/>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_25" imixs:activityid="10" name="Speichern">
-      <bpmn2:extensionElements>
-        <imixs:item name="rtfresultlog" type="CDATA">
-          <imixs:value><![CDATA[Aktualisiert von <username>namcurrenteditor</username>.]]></imixs:value>
-        </imixs:item>
-      </bpmn2:extensionElements>
-      <bpmn2:outgoing>SequenceFlow_43</bpmn2:outgoing>
-    </bpmn2:intermediateCatchEvent>
-    <bpmn2:sequenceFlow id="SequenceFlow_43" sourceRef="IntermediateCatchEvent_25" targetRef="Task_10"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_41" sourceRef="Task_6" targetRef="IntermediateCatchEvent_9"/>
+    <bpmn2:textAnnotation id="TextAnnotation_3">
+      <bpmn2:text>Eine Teilaufgabe ist für alle Teinehmer und Teamitglieder sichbar und Bearbeiter. 
+Die Aufgabe kann einem bestimmten Anwender zugeordnet werden.</bpmn2:text>
+    </bpmn2:textAnnotation>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1" name="Default Collaboration Diagram">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
@@ -603,19 +623,19 @@ Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle 
       <bpmndi:BPMNShape id="BPMNShape_Task_6" bpmnElement="Task_6">
         <dc:Bounds height="50.0" width="110.0" x="300.0" y="654.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_40">
-          <dc:Bounds height="14.0" width="49.0" x="330.0" y="672.0"/>
+          <dc:Bounds height="14.0" width="75.0" x="317.0" y="672.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_Task_7" bpmnElement="Task_7">
         <dc:Bounds height="50.0" width="110.0" x="766.0" y="654.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_42">
-          <dc:Bounds height="14.0" width="42.0" x="800.0" y="672.0"/>
+          <dc:Bounds height="14.0" width="89.0" x="776.0" y="672.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_9" bpmnElement="IntermediateCatchEvent_9">
-        <dc:Bounds height="36.0" width="36.0" x="699.0" y="661.0"/>
+        <dc:Bounds height="36.0" width="36.0" x="570.0" y="661.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_43">
-          <dc:Bounds height="14.0" width="42.0" x="696.0" y="697.0"/>
+          <dc:Bounds height="14.0" width="42.0" x="567.0" y="697.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_10" bpmnElement="IntermediateCatchEvent_10">
@@ -696,24 +716,6 @@ Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle 
           <dc:Bounds height="14.0" width="36.0" x="770.0" y="277.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_Task_10" bpmnElement="Task_10">
-        <dc:Bounds height="50.0" width="110.0" x="530.0" y="654.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_77">
-          <dc:Bounds height="14.0" width="29.0" x="570.0" y="672.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_24" bpmnElement="IntermediateCatchEvent_24">
-        <dc:Bounds height="36.0" width="36.0" x="450.0" y="661.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_91">
-          <dc:Bounds height="14.0" width="47.0" x="445.0" y="697.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_25" bpmnElement="IntermediateCatchEvent_25">
-        <dc:Bounds height="36.0" width="36.0" x="567.0" y="750.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_110">
-          <dc:Bounds height="14.0" width="56.0" x="557.0" y="786.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_1" bpmnElement="TextAnnotation_1">
         <dc:Bounds height="61.0" width="134.0" x="594.0" y="450.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_112">
@@ -732,6 +734,18 @@ Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle 
           <dc:Bounds height="14.0" width="51.0" x="200.0" y="851.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_2" bpmnElement="TextAnnotation_2">
+        <dc:Bounds height="71.0" width="179.0" x="106.0" y="181.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_9">
+          <dc:Bounds height="65.0" width="167.0" x="112.0" y="181.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_3" bpmnElement="TextAnnotation_3">
+        <dc:Bounds height="91.0" width="205.0" x="506.0" y="750.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_17">
+          <dc:Bounds height="85.0" width="193.0" x="512.0" y="750.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_12" bpmnElement="SequenceFlow_12" sourceElement="BPMNShape_IntermediateCatchEvent_5" targetElement="BPMNShape_ExclusiveGateway_4">
         <di:waypoint xsi:type="dc:Point" x="643.0" y="98.0"/>
         <di:waypoint xsi:type="dc:Point" x="322.0" y="98.0"/>
@@ -745,8 +759,8 @@ Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle 
         <bpmndi:BPMNLabel id="BPMNLabel_41"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_21" bpmnElement="SequenceFlow_21" sourceElement="BPMNShape_IntermediateCatchEvent_9" targetElement="BPMNShape_Task_7">
-        <di:waypoint xsi:type="dc:Point" x="735.0" y="679.0"/>
-        <di:waypoint xsi:type="dc:Point" x="750.0" y="679.0"/>
+        <di:waypoint xsi:type="dc:Point" x="606.0" y="679.0"/>
+        <di:waypoint xsi:type="dc:Point" x="686.0" y="679.0"/>
         <di:waypoint xsi:type="dc:Point" x="766.0" y="679.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_45"/>
       </bpmndi:BPMNEdge>
@@ -886,42 +900,24 @@ Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle 
         <di:waypoint xsi:type="dc:Point" x="510.0" y="396.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_76"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_16" bpmnElement="SequenceFlow_16" sourceElement="BPMNShape_Task_6" targetElement="BPMNShape_IntermediateCatchEvent_24">
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_41" bpmnElement="SequenceFlow_41" sourceElement="BPMNShape_Task_6" targetElement="BPMNShape_IntermediateCatchEvent_9">
         <di:waypoint xsi:type="dc:Point" x="410.0" y="679.0"/>
-        <di:waypoint xsi:type="dc:Point" x="430.0" y="679.0"/>
-        <di:waypoint xsi:type="dc:Point" x="450.0" y="679.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_106"/>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_39" bpmnElement="SequenceFlow_39" sourceElement="BPMNShape_IntermediateCatchEvent_24" targetElement="BPMNShape_Task_10">
-        <di:waypoint xsi:type="dc:Point" x="486.0" y="679.0"/>
-        <di:waypoint xsi:type="dc:Point" x="508.0" y="679.0"/>
-        <di:waypoint xsi:type="dc:Point" x="530.0" y="679.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_107"/>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_41" bpmnElement="SequenceFlow_41" sourceElement="BPMNShape_Task_10" targetElement="BPMNShape_IntermediateCatchEvent_9">
-        <di:waypoint xsi:type="dc:Point" x="640.0" y="679.0"/>
-        <di:waypoint xsi:type="dc:Point" x="669.0" y="679.0"/>
-        <di:waypoint xsi:type="dc:Point" x="699.0" y="679.0"/>
+        <di:waypoint xsi:type="dc:Point" x="490.0" y="679.0"/>
+        <di:waypoint xsi:type="dc:Point" x="570.0" y="679.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_108"/>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_42" bpmnElement="SequenceFlow_42" sourceElement="BPMNShape_Task_7" targetElement="BPMNShape_IntermediateCatchEvent_24">
-        <di:waypoint xsi:type="dc:Point" x="821.0" y="704.0"/>
-        <di:waypoint xsi:type="dc:Point" x="821.0" y="836.0"/>
-        <di:waypoint xsi:type="dc:Point" x="468.0" y="836.0"/>
-        <di:waypoint xsi:type="dc:Point" x="468.0" y="697.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_109"/>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_43" bpmnElement="SequenceFlow_43" sourceElement="BPMNShape_IntermediateCatchEvent_25" targetElement="BPMNShape_Task_10">
-        <di:waypoint xsi:type="dc:Point" x="585.0" y="750.0"/>
-        <di:waypoint xsi:type="dc:Point" x="585.0" y="727.0"/>
-        <di:waypoint xsi:type="dc:Point" x="585.0" y="704.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_111"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_Association_1" bpmnElement="Association_1" sourceElement="BPMNShape_TextAnnotation_1" targetElement="BPMNShape_IntermediateCatchEvent_12">
         <di:waypoint xsi:type="dc:Point" x="594.0" y="480.0"/>
         <di:waypoint xsi:type="dc:Point" x="528.0" y="480.0"/>
         <di:waypoint xsi:type="dc:Point" x="528.0" y="414.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_113"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_2" bpmnElement="Association_2" sourceElement="BPMNShape_TextAnnotation_2" targetElement="BPMNShape_StartEvent_1">
+        <di:waypoint xsi:type="dc:Point" x="195.0" y="252.0"/>
+        <di:waypoint xsi:type="dc:Point" x="195.0" y="315.0"/>
+        <di:waypoint xsi:type="dc:Point" x="158.0" y="315.0"/>
+        <di:waypoint xsi:type="dc:Point" x="158.0" y="378.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_15"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
