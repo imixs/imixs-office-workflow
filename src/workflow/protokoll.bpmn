@@ -218,12 +218,7 @@ Danach muss das Protokoll erneut freigegeben werden.
           <imixs:value><![CDATA[_team]]></imixs:value>
           <imixs:value><![CDATA[namCreator]]></imixs:value>
         </imixs:item>
-        <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namCreator]]></imixs:value>
-          <imixs:value><![CDATA[_team]]></imixs:value>
-          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
-          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
-        </imixs:item>
+        <imixs:item name="keyaddwritefields" type="xs:string"/>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_5"><![CDATA[<h3>Archiviert</h3>
 
@@ -365,12 +360,7 @@ var result={
           <imixs:value><![CDATA[_team]]></imixs:value>
           <imixs:value><![CDATA[namCreator]]></imixs:value>
         </imixs:item>
-        <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namCreator]]></imixs:value>
-          <imixs:value><![CDATA[_team]]></imixs:value>
-          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
-          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
-        </imixs:item>
+        <imixs:item name="keyaddwritefields" type="xs:string"/>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_8"><![CDATA[<h3>Archiviert</h3>
 
@@ -533,6 +523,7 @@ Danach muss das Protokoll erneut freigegeben werden.
 </p>]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_37</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_4</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_48</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_18</bpmn2:outgoing>
       <bpmn2:outgoing>SequenceFlow_50</bpmn2:outgoing>
     </bpmn2:task>
@@ -706,6 +697,23 @@ var result={
     </bpmn2:intermediateCatchEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_20" sourceRef="IntermediateCatchEvent_3" targetRef="IntermediateCatchEvent_27"/>
     <bpmn2:sequenceFlow id="SequenceFlow_41" sourceRef="IntermediateCatchEvent_27" targetRef="Task_3"/>
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_34" imixs:activityid="210" name="Archivieren">
+      <bpmn2:extensionElements>
+        <imixs:item name="rtfresultlog" type="CDATA">
+          <imixs:value><![CDATA[Archiviert von <username>namcurrenteditor</username>.]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyupdateacl" type="xs:boolean">
+          <imixs:value>false</imixs:value>
+        </imixs:item>
+        <imixs:item name="txtactivityresult" type="CDATA">
+          <imixs:value><![CDATA[<item name="action">home</item>
+<item name="type">workitemarchive</item>]]></imixs:value>
+        </imixs:item>
+      </bpmn2:extensionElements>
+      <bpmn2:documentation id="Documentation_11"><![CDATA[Vorlage ins Archiv verschieben]]></bpmn2:documentation>
+      <bpmn2:outgoing>SequenceFlow_48</bpmn2:outgoing>
+    </bpmn2:intermediateCatchEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_48" sourceRef="IntermediateCatchEvent_34" targetRef="Task_1"/>
     <bpmn2:textAnnotation id="TextAnnotation_2">
       <bpmn2:text>Protokollpunkte sperren</bpmn2:text>
     </bpmn2:textAnnotation>
@@ -1767,6 +1775,12 @@ Das ist eine automatische generierte E-Mail. Bitte nicht auf diese E-Mail antwor
           <dc:Bounds height="14.0" width="69.0" x="804.0" y="1347.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_34" bpmnElement="IntermediateCatchEvent_34">
+        <dc:Bounds height="36.0" width="36.0" x="732.0" y="80.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_84">
+          <dc:Bounds height="14.0" width="60.0" x="720.0" y="116.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_7" bpmnElement="SequenceFlow_7" sourceElement="BPMNShape_Task_3" targetElement="BPMNShape_EventBasedGateway_1">
         <di:waypoint xsi:type="dc:Point" x="753.0" y="396.0"/>
         <di:waypoint xsi:type="dc:Point" x="767.0" y="396.0"/>
@@ -2197,6 +2211,12 @@ Das ist eine automatische generierte E-Mail. Bitte nicht auf diese E-Mail antwor
         <di:waypoint xsi:type="dc:Point" x="918.0" y="1329.0"/>
         <di:waypoint xsi:type="dc:Point" x="980.0" y="1329.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_136"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_48" bpmnElement="SequenceFlow_48" sourceElement="BPMNShape_IntermediateCatchEvent_34" targetElement="BPMNShape_Task_1">
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="116.0"/>
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="176.0"/>
+        <di:waypoint xsi:type="dc:Point" x="716.0" y="176.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_137"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
     <bpmndi:BPMNLabelStyle id="BPMNLabelStyle_1">
