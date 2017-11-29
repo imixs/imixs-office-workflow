@@ -830,15 +830,7 @@ dl dt {
 	border-color: #faa732;
 }
 
-.imixs-read-only {
-	padding: 5px 10px;
-	color: #555;
-	font-style: italic;
-}
-
-.imixs-input-disabled {
-	background: #EBEBE4;
-}
+/* --- TinyMCE --------------------------------- */
 
 .mceEditor>table {
 	width: 690px !important;
@@ -1038,7 +1030,7 @@ dl dd  .imixs-datetime-picker select {
 
 /** Marty UserListInput Widget - see imixs-marty.css **/
 .marty-userlistinput {
-	padding: 8px;
+	padding: 8px 0 0 8px;
 	border: 1px solid #ccc;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -1341,6 +1333,38 @@ dl dd  .imixs-datetime-picker select {
 .minute-details {
 	clear: left;
 	margin-bottom: 15px;
+}
+
+
+
+/* --- Read Mode -----------------------------------------*/
+.imixs-read-only {
+	padding: 5px 10px;
+	color: #555;
+	font-style: italic;
+}
+
+
+
+input:disabled, textarea:disabled {
+   background: #fafafa;
+   border:none;
+}
+ input:disabled.imixs-date {
+	padding-left: 0.25em !important;
+	background: none;
+}
+.marty-userlistinput-read  {
+	padding: 0em;
+	border: none;
+}
+
+.marty-userlistinput-read .marty-userlistinput-inputbox {
+	display: none;
+}
+
+.imixs-input-disabled {
+	background: #EBEBE4;
 }
 
 /* RESPONSIVE BEHAVIOUR */
