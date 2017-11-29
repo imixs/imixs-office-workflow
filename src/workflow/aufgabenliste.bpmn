@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.4.2.Final-v20171109-1930-B1" targetNamespace="http://www.imixs.org/bpmn2">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.3.3.Final-v20170518-2017-B66" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
       <imixs:value><![CDATA[aufgabenliste-de-2.0.0]]></imixs:value>
@@ -249,6 +249,7 @@ Diese Aufgabenliste ist abgeschlossen und archiviert.
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
           <imixs:value><![CDATA[namCreator]]></imixs:value>
           <imixs:value><![CDATA[namCurrentEditor]]></imixs:value>
+          <imixs:value><![CDATA[$Editor]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtimageurl" type="xs:string">
           <imixs:value><![CDATA[typcn-clipboard||typcn-tick,imixs-success]]></imixs:value>
@@ -272,6 +273,7 @@ Aus einer Vorlage können Sie eine neue Aufgabenliste erstellen. Es werden alle 
 ]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_37</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_4</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_6</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_18</bpmn2:outgoing>
       <bpmn2:outgoing>SequenceFlow_50</bpmn2:outgoing>
     </bpmn2:task>
@@ -389,6 +391,23 @@ result.txtproccessref_origin=workitem.txtprocessref;]]></imixs:value>
     <bpmn2:sequenceFlow id="SequenceFlow_4" sourceRef="IntermediateCatchEvent_23" targetRef="Task_1"/>
     <bpmn2:sequenceFlow id="SequenceFlow_11" sourceRef="IntermediateCatchEvent_1" targetRef="Task_2"/>
     <bpmn2:sequenceFlow id="SequenceFlow_13" sourceRef="EventBasedGateway_2" targetRef="IntermediateCatchEvent_12"/>
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_3" imixs:activityid="210" name="Archivieren">
+      <bpmn2:extensionElements>
+        <imixs:item name="rtfresultlog" type="CDATA">
+          <imixs:value><![CDATA[Archiviert von <username>namcurrenteditor</username>.]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyupdateacl" type="xs:boolean">
+          <imixs:value>false</imixs:value>
+        </imixs:item>
+        <imixs:item name="txtactivityresult" type="CDATA">
+          <imixs:value><![CDATA[<item name="action">home</item>
+<item name="type">workitemarchive</item>]]></imixs:value>
+        </imixs:item>
+      </bpmn2:extensionElements>
+      <bpmn2:documentation id="Documentation_6"><![CDATA[Vorlage ins Archiv verschieben]]></bpmn2:documentation>
+      <bpmn2:outgoing>SequenceFlow_6</bpmn2:outgoing>
+    </bpmn2:intermediateCatchEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_6" sourceRef="IntermediateCatchEvent_3" targetRef="Task_1"/>
     <bpmn2:textAnnotation id="TextAnnotation_1">
       <bpmn2:text>Schließt alle Teilaufgaben ab</bpmn2:text>
     </bpmn2:textAnnotation>
@@ -746,6 +765,12 @@ Die Aufgabe kann einem bestimmten Anwender zugeordnet werden.</bpmn2:text>
           <dc:Bounds height="85.0" width="193.0" x="512.0" y="750.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_3" bpmnElement="IntermediateCatchEvent_3">
+        <dc:Bounds height="36.0" width="36.0" x="770.0" y="80.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_18">
+          <dc:Bounds height="14.0" width="60.0" x="758.0" y="116.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_12" bpmnElement="SequenceFlow_12" sourceElement="BPMNShape_IntermediateCatchEvent_5" targetElement="BPMNShape_ExclusiveGateway_4">
         <di:waypoint xsi:type="dc:Point" x="643.0" y="98.0"/>
         <di:waypoint xsi:type="dc:Point" x="322.0" y="98.0"/>
@@ -918,6 +943,12 @@ Die Aufgabe kann einem bestimmten Anwender zugeordnet werden.</bpmn2:text>
         <di:waypoint xsi:type="dc:Point" x="158.0" y="315.0"/>
         <di:waypoint xsi:type="dc:Point" x="158.0" y="378.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_15"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_6" bpmnElement="SequenceFlow_6" sourceElement="BPMNShape_IntermediateCatchEvent_3" targetElement="BPMNShape_Task_1">
+        <di:waypoint xsi:type="dc:Point" x="770.0" y="98.0"/>
+        <di:waypoint xsi:type="dc:Point" x="679.0" y="98.0"/>
+        <di:waypoint xsi:type="dc:Point" x="679.0" y="160.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_19"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
