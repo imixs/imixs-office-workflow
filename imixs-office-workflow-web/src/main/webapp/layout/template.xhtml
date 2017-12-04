@@ -135,7 +135,6 @@
 			<!-- empty -->
 		</div>
 
-
 	</f:view>
 
 
@@ -197,6 +196,13 @@
 				    'searchreplace code fullscreen',
 				    'contextmenu paste code'
 				  ],
+					paste_data_images: true,
+					paste_preprocess : function(pl, o) {
+					    if (o.content.length>160000) {
+					 		alert("#{message.error_message_mce_image_size}");
+					 		o.content="";
+					    }
+					},
 				  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat',
 				  content_css : "#{facesContext.externalContext.requestContextPath}/layout/css/tinymce.css"
 				});
@@ -210,6 +216,13 @@
 					statusbar : true,
 					plugins : [ 'advlist autolink lists link image',
 							'searchreplace', 'contextmenu paste' ],
+					paste_data_images: true,
+					paste_preprocess : function(pl, o) {
+					    if (o.content.length>160000) {
+					 		alert("#{message.error_message_mce_image_size}");
+					 		o.content="";
+					    }
+					},
 					toolbar : 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat',
 					content_css : "#{facesContext.externalContext.requestContextPath}/layout/css/tinymce.css"
 
