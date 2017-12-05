@@ -4,7 +4,8 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 
-	<div class="row nested">
+
+	<div class="row nested ">
 
 		<div class="col-8 ">
 			<c:forEach items="#{formController.formDefinition.sections}"
@@ -20,15 +21,17 @@
 					</f:subview>
 				</div>
 			</c:forEach>
+
 		</div>
-		<div class="col-4 ">
+
+		<div class="col-4">
 			<!-- Standard Tab Section -->
-			<div class="imixs-tabs">
+			<div class="imixs-tabs imixs-comment-tabs">
 				<ul>
 					<li><a href="#tab-comments">#{message.comments}</a></li>
 					<li><a href="#tab-documents">#{message.documents} <h:panelGroup
 								rendered="#{! empty dmsController.dmsList}"
-								styleClass="typcn typcn-input-checked"></h:panelGroup></a></li>
+								styleClass="typcn typcn-input-checked imixs-documents-available"></h:panelGroup></a></li>
 				</ul>
 				<div id="tab-comments">
 					<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
@@ -41,7 +44,4 @@
 			</div>
 		</div>
 	</div>
-
-
-
 </ui:composition>
