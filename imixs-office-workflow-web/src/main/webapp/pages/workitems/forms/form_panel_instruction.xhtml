@@ -12,43 +12,35 @@
 			value="#{modelController.getProcessDescription(workflowController.workitem.item['$processID'],workflowController.workitem.item['$ModelVersion'],workflowController.workitem)}">
 		</h:outputText>
 	</div>
-	<div class="row nested ">
-
-		<div class="col-8 ">
-			<c:forEach items="#{formController.formDefinition.sections}"
-				var="section">
-				<div class="imixs-form-panel">
-					<h1>
-						<h:outputText value="#{section.name}" />
-					</h1>
-					<f:subview>
-						<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
-							<ui:param name="workitem" value="#{workflowController.workitem}" />
-						</ui:include>
-					</f:subview>
-				</div>
-			</c:forEach>
-
+	<c:forEach items="#{formController.formDefinition.sections}"
+		var="section">
+		<div class="imixs-form-panel">
+			<h1>
+				<h:outputText value="#{section.name}" />
+			</h1>
+			<f:subview>
+				<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
+					<ui:param name="workitem" value="#{workflowController.workitem}" />
+				</ui:include>
+			</f:subview>
 		</div>
+	</c:forEach>
 
-		<div class="col-4">
-			<!-- Standard Tab Section -->
-			<div class="imixs-tabs imixs-comment-tabs">
-				<ul>
-					<li><a href="#tab-comments">#{message.comments}</a></li>
-					<li><a href="#tab-documents">#{message.documents} <h:panelGroup
-								rendered="#{! empty dmsController.dmsList}"
-								styleClass="typcn typcn-input-checked imixs-documents-available"></h:panelGroup></a></li>
-				</ul>
-				<div id="tab-comments">
-					<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
-						<ui:param name="workitem" value="#{workflowController.workitem}" />
-					</ui:include>
-				</div>
-				<div id="tab-documents">
-					<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
-				</div>
-			</div>
+	<!-- Standard Tab Section -->
+	<div class="imixs-tabs imixs-comment-tabs">
+		<ul>
+			<li><a href="#tab-comments">#{message.comments}</a></li>
+			<li><a href="#tab-documents">#{message.documents} <h:panelGroup
+						rendered="#{! empty dmsController.dmsList}"
+						styleClass="typcn typcn-input-checked imixs-documents-available"></h:panelGroup></a></li>
+		</ul>
+		<div id="tab-comments">
+			<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
+				<ui:param name="workitem" value="#{workflowController.workitem}" />
+			</ui:include>
+		</div>
+		<div id="tab-documents">
+			<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
 		</div>
 	</div>
 </ui:composition>
