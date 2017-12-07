@@ -7,7 +7,10 @@ The goal of this project is to provide a powerfull and simple to use business pr
 
 You can find further information on the web site [Imixs-Office-Workflow](http://www.office-workflow.de).
 
-Technical information can be found on the [marty project home](http://www.imixs.org/marty).
+* **Technical information** can be found on the [marty project home](http://www.imixs.org/marty).
+
+* **Migration notes** can be found [here](MIGRATION-NOTES.md)
+
 
 ## Deployment
 Imixs-Office-Workflow is based on the Java EE stack and can be deployed on JBoss/Wildfly server.
