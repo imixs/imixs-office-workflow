@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>imixs-office-workflow</artifactId>
 		<groupId>com.imixs.workflow</groupId>
-		<version>3.1.2-SNAPSHOT</version>
+		<version>3.1.2</version>
 	</parent>
 	<artifactId>imixs-office-workflow-ear</artifactId>
 	<packaging>ear</packaging>
@@ -65,20 +65,17 @@
 										<exec executable="docker">
 											<arg value="build" />
 											<arg value="-t" />
-											<arg
-												value="imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg value="imixs/${imixs-office.applicationname}:${project.version}" />
 											<arg value="../." />
 										</exec>
 										<exec executable="docker">
 											<arg value="tag" />
 											<arg value="imixs/${imixs-office.applicationname}:${project.version}" />
-											<arg
-												value="${org.imixs.docker.registry}/imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg value="${org.imixs.docker.registry}/imixs/${imixs-office.applicationname}:${project.version}" />
 										</exec>
 										<exec executable="docker">
 											<arg value="push" />
-											<arg
-												value="${org.imixs.docker.registry}/imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg value="${org.imixs.docker.registry}/imixs/${imixs-office.applicationname}:${project.version}" />
 										</exec>
 									</target>
 								</configuration>
@@ -110,14 +107,12 @@
 										<exec executable="docker">
 											<arg value="build" />
 											<arg value="-t" />
-											<arg
-												value="imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg value="imixs/${imixs-office.applicationname}:${project.version}" />
 											<arg value="../." />
 										</exec>
 										<exec executable="docker">
 											<arg value="push" />
-											<arg
-												value="imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg value="imixs/${imixs-office.applicationname}:${project.version}" />
 										</exec>
 									</target>
 								</configuration>
