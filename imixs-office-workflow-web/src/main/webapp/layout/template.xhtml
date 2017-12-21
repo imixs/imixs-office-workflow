@@ -235,25 +235,6 @@
 			
 			
 
-			// layout full tinymce for the document composer
-			tinymce
-				.init({
-					  selector: 'textarea.imixs-editor-composer',
-					  height: 800,
-					  menubar: true,
-					  plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists  wordcount imagetools contextmenu  textpattern help contextmenu paste',
-					  paste_data_images: true,
-					  paste_preprocess : function(pl, o) {
-						    if (o.content.length>160000) {
-						 		alert("#{message.error_message_mce_image_size}");
-						 		o.content="";
-						    }
-					  },
-					  toolbar1: 'formatselect | bold italic strikethrough forecolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
-					  content_css : "#{facesContext.externalContext.requestContextPath}/layout/css/tinymce.css"
-  
-				 });
-			
 			
 		};
 		
@@ -262,10 +243,6 @@
 		
 	</script>
 	
-	
-	 plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists  wordcount imagetools contextmenu  textpattern help',
-					  toolbar1: 'formatselect | bold italic strikethrough forecolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
-					 
 
 
 </h:body>

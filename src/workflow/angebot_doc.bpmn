@@ -57,7 +57,7 @@
     <bpmn2:task id="Task_7000" imixs:processid="7000" name="Erstellung">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel#sub_document_composer|sub_dispatch]]></imixs:value>
+          <imixs:value><![CDATA[form_panel#sub_dispatch|sub_document_composer]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<b>Firma:</b> <itemvalue>_subject</itemvalue>
@@ -112,7 +112,7 @@
     <bpmn2:task id="Task_7010" imixs:processid="7010" name="Prüfung">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_instruction#sub_dispatch|basic_contact|sub_orderitems_read]]></imixs:value>
+          <imixs:value><![CDATA[form_panel#sub_dispatch|sub_document_composer]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<b>Firma:</b> <itemvalue>_subject</itemvalue>]]></imixs:value>
@@ -1018,6 +1018,131 @@ Vereinbarung: <itemvalue>_startdate</itemvalue> - <itemvalue>_enddate</itemvalue
     <bpmn2:sequenceFlow id="SequenceFlow_14" sourceRef="Task_7030" targetRef="IntermediateCatchEvent_1"/>
     <bpmn2:sequenceFlow id="SequenceFlow_17" sourceRef="IntermediateCatchEvent_1" targetRef="Task_1"/>
     <bpmn2:sequenceFlow id="SequenceFlow_18" sourceRef="Task_1" targetRef="EndEvent_2"/>
+    <bpmn2:dataObject id="DataObject_2" name="Vorlage">
+      <bpmn2:documentation id="Documentation_1"><![CDATA[<!DOCTYPE html><html><head><base href="http://localhost:8080/office/pages/workitems/"><link type="text/css" rel="stylesheet" href="http://localhost:8080/office/js/tinymce/skins/lightgray/content.min.css"><link type="text/css" rel="stylesheet" href="http://localhost:8080/office/layout/css/tinymce.css"></head><body id="tinymce" class="mce-content-body "><!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<table style="height: 54px; width: 100%; border-collapse: collapse; border-style: none;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 63.1763%; height: 54px; text-align: left;" rowspan="3"><img src="http://www.tinymce.com/images/glyph-tinymce@2x.png" alt="TinyMCE Logo" width="66" height="58" /></td>
+<td style="width: 0.70922%; height: 18px;">Author:</td>
+<td style="width: 5.24823%; height: 18px; text-align: right;">info@imixs.com</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 0.70922%; height: 18px;">Docktype:</td>
+<td style="width: 5.24823%; height: 18px; text-align: right;">Rechnung</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 0.70922%; height: 18px;">Page</td>
+<td style="width: 5.24823%; height: 18px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<table style="height: 155px;" width="334" cellspacing="0" cellpadding="0"><colgroup><col width="334" /> </colgroup>
+<tbody>
+<tr style="height: 35px;">
+<td style="border: none; padding: 0cm; height: 35px;" valign="top" width="334">
+<p align="left"><span style="font-family: Arial, sans-serif;"><span style="font-size: xx-small;"><u><em><strong>Imixs</strong></em><span style="font-style: normal;"><span style="font-weight: normal;"> Software Solutions GmbH - Agnes-Pockels-Bogen 1 - 80992 M&uuml;nchen</span></span></u></span></span></p>
+</td>
+</tr>
+<tr style="height: 120px;">
+<td style="border: none; padding: 0cm; height: 120px;" valign="top" width="334">
+<p style="margin-bottom: 0cm;">Max MustermannGmbH<span style="font-family: Arial, sans-serif;"><span style="font-size: medium;"><br /></span></span><span style="font-family: Arial, sans-serif;"><span style="font-size: medium;">Robert-Bosch-Str. 1a<br /></span></span></p>
+<p><span style="font-family: Arial, sans-serif;"><span style="font-size: medium;"><strong><strong><span style="color: #000000;"><span lang="en-US"><span style="text-decoration: none;">80000&nbsp;</span></span></span></strong><strong><span style="color: #000000;"><span lang="en-US"><span style="text-decoration: none;">M&uuml;nchen</span></span></span></strong></strong></span></span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<div><code></code></div>
+<p style="margin-bottom: 0cm;"><span style="font-family: Arial, sans-serif;"><span style="font-size: small;">Sehr geehrte Damen und Herren,</span></span></p>
+<p style="margin-bottom: 0cm;"><span style="font-family: Arial, sans-serif;"><span style="font-size: small;">f&uuml;r die Leistung &bdquo;Evaluierung Imixs Office Workflow&ldquo; erlauben wir uns, die unten aufgef&uuml;hrte Rechnung zu stellen.</span></span></p>
+<p style="margin-bottom: 0cm;">&nbsp;</p>
+<p style="margin-bottom: 0cm;"><span style="font-family: Arial, sans-serif;"><span style="font-size: small;">Lieferdatum: 31.10.2017</span></span></p>
+<p style="margin-bottom: 0cm;"><span style="font-family: Arial, sans-serif;"><span style="font-size: small;">Leistungszeitraum: 01.08.2017 - 31.10.2017</span></span></p>
+<p style="margin-bottom: 0cm;"><span style="font-family: Arial, sans-serif;"><span style="font-size: small;">Vertragsnummer: E-Mail vom 19.07.2017</span></span></p>
+<p style="margin-bottom: 0cm;">&nbsp;</p>
+<table style="width: 850px; height: 208px;" border="0" cellspacing="0"><colgroup span="2" width="69"></colgroup> <colgroup width="218"></colgroup> <colgroup width="63"></colgroup> <colgroup width="82"></colgroup> <colgroup width="120"></colgroup>
+<tbody>
+<tr>
+<td style="width: 525px;" colspan="2" align="left" bgcolor="#FFFFCC" height="23"><strong><span style="font-size: medium;">Rechnungs-Nr:&nbsp;</span></strong><strong>2017-405</strong></td>
+<td style="width: 101px;" align="left" bgcolor="#FFFFCC">&nbsp;</td>
+<td style="width: 167px;" align="left" bgcolor="#FFFFCC">&nbsp;</td>
+<td style="width: 163px;" align="right" bgcolor="#FFFFCC"><strong>19.12.2017</strong></td>
+</tr>
+<tr>
+<td style="width: 72px;" align="left" height="22"><strong>Position</strong></td>
+<td style="width: 453px;" align="left"><strong>Leistungsbeschreibung</strong></td>
+<td style="width: 101px;" align="right"><strong>&euro;/Stunde</strong></td>
+<td style="width: 167px;" align="right"><strong>Stunden</strong></td>
+<td style="width: 163px;" align="right"><strong>Euro</strong></td>
+</tr>
+<tr>
+<td style="width: 72px;" align="center" height="20"><span style="font-size: xx-small;">1</span></td>
+<td style="width: 453px;" align="left"><span style="font-size: xx-small;">Evaluierung Workflow &ndash; Hosting&nbsp;</span></td>
+<td style="width: 101px;" align="right"><span style="font-size: xx-small;">125,00 &euro;</span></td>
+<td style="width: 167px;" align="right"><span style="font-size: xx-small;">8</span></td>
+<td style="width: 163px;" align="right"><span style="font-size: xx-small;">1.000,00 &euro;</span></td>
+</tr>
+<tr>
+<td style="width: 72px;" align="center" height="20"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 453px;" align="left"><span style="font-size: xx-small;">Konzeption, Modellierung &amp; Implementierung</span></td>
+<td style="width: 101px;" align="left"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 167px;" align="left"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 163px;" align="left"><span style="font-size: xx-small;">&nbsp;</span></td>
+</tr>
+<tr>
+<td style="width: 72px;" align="center" height="20"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 453px;" align="left"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 101px;" align="left">&nbsp;</td>
+<td style="width: 167px;" align="left">&nbsp;</td>
+<td style="width: 163px;" align="left"><span style="font-size: xx-small;">&nbsp;</span></td>
+</tr>
+<tr>
+<td style="width: 72px;" align="center" height="20"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 453px;" align="left"><span style="font-size: xx-small;">Zwischensumme</span></td>
+<td style="width: 101px;" align="left"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 167px;" align="left"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 163px;" align="right"><span style="font-size: xx-small;">1.000,00 &euro;</span></td>
+</tr>
+<tr>
+<td style="width: 72px;" align="center" height="19"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 453px;" align="left"><span style="font-size: xx-small;">19% Mehrwertsteuer</span></td>
+<td style="width: 101px;" align="left"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 167px;" align="left"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 163px;" align="right"><span style="font-size: xx-small;">190,00 &euro;</span></td>
+</tr>
+<tr>
+<td style="width: 72px;" align="center" height="20"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 453px;" align="left"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 101px;" align="left"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 167px;" align="left"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 163px;" align="left"><span style="font-size: xx-small;">&nbsp;</span></td>
+</tr>
+<tr>
+<td style="width: 72px;" align="center" height="20"><span style="font-size: xx-small;">&nbsp;</span></td>
+<td style="width: 453px;" align="left"><strong>Summe</strong></td>
+<td style="width: 101px;" align="left">&nbsp;</td>
+<td style="width: 167px;" align="left">&nbsp;</td>
+<td style="width: 163px;" align="right"><strong>1.190,00 &euro;</strong></td>
+</tr>
+</tbody>
+</table>
+<p style="margin-bottom: 0cm;">&nbsp;</p>
+<p style="margin-bottom: 0cm;"><span style="font-family: Arial, sans-serif;"><span style="font-size: small;">Bitte &uuml;berweisen Sie den Rechnungsbetrag auf unten stehendes Konto.</span></span></p>
+<p style="margin-bottom: 0cm; font-weight: normal; text-decoration: none;">&nbsp;</p>
+<p style="margin-bottom: 0cm;"><span style="font-size: small;"><span style="font-family: Arial, sans-serif;">Wir bedanken uns</span>&nbsp;<span style="font-family: Arial, sans-serif;">f&uuml;r</span> <span style="font-family: Arial, sans-serif;">Ihr</span> <span style="font-family: Arial, sans-serif;">Vertrauen</span> <span style="font-family: Arial, sans-serif;">und</span> <span style="font-family: Arial, sans-serif;">die</span> <span style="font-family: Arial, sans-serif;">gute Zusammenarbeit.</span></span></p>
+<p style="margin-bottom: 0cm;">&nbsp;</p>
+<p style="margin-bottom: 0cm;">&nbsp;</p>
+<p>&nbsp;</p>
+<p style="margin-bottom: 0cm;">&nbsp;</p>
+</body>
+</html>]]></bpmn2:documentation>
+    </bpmn2:dataObject>
     <bpmn2:textAnnotation id="TextAnnotation_1">
       <bpmn2:text>Automatischer Versand des Angebots an Kunde - z.b. via E-Mail</bpmn2:text>
     </bpmn2:textAnnotation>
@@ -1030,6 +1155,7 @@ Vereinbarung: <itemvalue>_startdate</itemvalue> - <itemvalue>_enddate</itemvalue
       <bpmn2:text>Angebotsfrist endet 14 Tage nach Freigabe</bpmn2:text>
     </bpmn2:textAnnotation>
     <bpmn2:association id="Association_3" sourceRef="TextAnnotation_3" targetRef="IntermediateCatchEvent_7030-20"/>
+    <bpmn2:association id="Association_4" sourceRef="DataObject_2" targetRef="Task_7000"/>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_Process_1" bpmnElement="auftrag">
@@ -1171,6 +1297,12 @@ Vereinbarung: <itemvalue>_startdate</itemvalue> - <itemvalue>_enddate</itemvalue
         <dc:Bounds height="50.0" width="110.0" x="1289.0" y="193.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_48">
           <dc:Bounds height="14.0" width="78.0" x="1305.0" y="211.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_DataObject_1" bpmnElement="DataObject_2">
+        <dc:Bounds height="50.0" width="36.0" x="90.0" y="190.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_24">
+          <dc:Bounds height="14.0" width="41.0" x="88.0" y="240.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_0" sourceElement="BPMNShape_StartEvent_1" targetElement="BPMNShape_Task_1">
@@ -1316,6 +1448,12 @@ Vereinbarung: <itemvalue>_startdate</itemvalue> - <itemvalue>_enddate</itemvalue
         <di:waypoint xsi:type="dc:Point" x="1414.0" y="218.0"/>
         <di:waypoint xsi:type="dc:Point" x="1430.0" y="218.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_52"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_4" bpmnElement="Association_4" sourceElement="BPMNShape_DataObject_1" targetElement="BPMNShape_Task_1">
+        <di:waypoint xsi:type="dc:Point" x="108.0" y="240.0"/>
+        <di:waypoint xsi:type="dc:Point" x="108.0" y="313.0"/>
+        <di:waypoint xsi:type="dc:Point" x="136.0" y="313.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_29"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
