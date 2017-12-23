@@ -42,6 +42,9 @@
 	<script type="text/javascript"
 		src="#{facesContext.externalContext.requestContextPath}/js/tinymce/tinymce.min.js?build=#{app.application_build_timestamp}"></script>
 	
+	
+	
+	
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
@@ -52,6 +55,8 @@
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+
 
 
 
@@ -135,7 +140,6 @@
 			<!-- empty -->
 		</div>
 
-
 	</f:view>
 
 
@@ -159,7 +163,7 @@
 
 	<!-- Chart.js -->
 	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/Chart.min.js?build=#{app.application_build_timestamp}"></script>
+		src="#{facesContext.externalContext.requestContextPath}/js/chartjs/Chart.bundle.min.js?build=#{app.application_build_timestamp}"></script>
 
 
 	<script type="text/javascript">
@@ -197,6 +201,13 @@
 				    'searchreplace code fullscreen',
 				    'contextmenu paste code'
 				  ],
+					paste_data_images: true,
+					paste_preprocess : function(pl, o) {
+					    if (o.content.length>160000) {
+					 		alert("#{message.error_message_mce_image_size}");
+					 		o.content="";
+					    }
+					},
 				  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat',
 				  content_css : "#{facesContext.externalContext.requestContextPath}/layout/css/tinymce.css"
 				});
@@ -210,11 +221,20 @@
 					statusbar : true,
 					plugins : [ 'advlist autolink lists link image',
 							'searchreplace', 'contextmenu paste' ],
+					paste_data_images: true,
+					paste_preprocess : function(pl, o) {
+					    if (o.content.length>160000) {
+					 		alert("#{message.error_message_mce_image_size}");
+					 		o.content="";
+					    }
+					},
 					toolbar : 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat',
 					content_css : "#{facesContext.externalContext.requestContextPath}/layout/css/tinymce.css"
 
 				});
 			
+			
+
 			
 		};
 		
@@ -222,8 +242,6 @@
 	
 		
 	</script>
-	
-	
 	
 
 

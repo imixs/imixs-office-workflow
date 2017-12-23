@@ -10,6 +10,11 @@
 
 	<xsl:template match="/">
 		{
+			"type" : "line",
+			"title" : "Invest-Antraege",
+		    "options" : { 
+		    				"responsive": true
+		    			},
 			"labels" : [
 						<!--Select the first element of each group -->
 						<xsl:for-each select="/collection/document[generate-id() =generate-id(key('groups', item[@name='_invoicedate']/value)[1])]" >
@@ -21,7 +26,7 @@
 					 ],
 			"datasets" : [
 			{
-				"label": "Invest-Antraege",
+				"label": "Anzahl",
 				"fillColor" : "rgba(220,220,220,0.2)",
 				"strokeColor" : "rgba(220,220,220,1)",
 				"pointColor" : "rgba(220,220,220,1)",

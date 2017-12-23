@@ -15,7 +15,7 @@
 			<c:forEach var="minute" items="#{minuteController.minutes}">
 				<ui:include src="/pages/workitems/forms/minutes/body_entry.xhtml">
 					<!-- compute edit/read mode -->
-					<ui:param name="editmode" value="#{(workitem.item['minuteslocked'])?false:true}" />
+					<ui:param name="editmode" value="#{(workitem.item['minuteslocked'] or !minute.item['$isauthor'])?false:true}" />
 					<!-- bind data workitem and component -->
 					<ui:param name="workitem" value="#{minute}" />
 					<ui:param name="minutesBody" value="#{minutesBody}" />

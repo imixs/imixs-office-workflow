@@ -1,4 +1,4 @@
-FROM imixs/wildfly:1.1.0
+FROM imixs/wildfly:1.2.0
 
 # Setup configuration
 COPY ./src/docker/configuration/imixsrealm.properties ${WILDFLY_CONFIG}/

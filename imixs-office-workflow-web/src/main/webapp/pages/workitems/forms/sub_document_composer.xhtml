@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/tinymce/plugins/colorpicker/plugin.min.js?build=#{app.application_build_timestamp}"></script>
+<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/tinymce/plugins/textcolor/plugin.min.js?build=#{app.application_build_timestamp}"></script>
+
+
+	<h:inputTextarea id="imixs-editor-composer_id" class="imixs-editor-composer"
+		value="#{workitem.item['htmldocumentation']}" />
+
+
+
+
+	<ui:param name="task" value="#{modelController.getProcessEntity(workitem.item['$processid'],workitem.item['$modelversion'])}"></ui:param>
+	<ui:param name="dataObjects" value="#{(!empty task)?task.itemList['dataObjects'].get(0):null}" />
+	<ui:param name="dataObjectsTemplate" value="#{(!empty dataObjects)?dataObjects[1]:null}" />
+	<input type="hidden" id="imixs-editor-composer-template" name="country" value="#{dataObjectsTemplate}" />
+
+
+	<script type="text/javascript">
+	/*<![CDATA[*/
+		
+		$(document).ready(function() {	
+			// test if content is available or if we should load default content....
+			var content=$('.imixs-editor-composer').val();
+			if (content==='') {
+				var templateContent=$('#imixs-editor-composer-template').val();
+				$('.imixs-editor-composer').val(templateContent);	
+			}
+			
+		
+			// layout full tinymce for the document composer
+			tinymce
+				.init({
+					  selector: 'textarea.imixs-editor-composer',
+					  theme: 'modern',
+					  height: 800,
+					  menubar: true,
+					  plugins: 'print preview fullpage searchreplace autolink directionality textcolor visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists  wordcount imagetools contextmenu textpattern help contextmenu paste colorpicker',
+					  paste_data_images: true,
+					  paste_preprocess : function(pl, o) {
+						    if (o.content.length>160000) {
+						 		alert("#{message.error_message_mce_image_size}");
+						 		o.content="";
+						    }
+					  },
+					  toolbar1: 'undo redo | formatselect | bold italic underline forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | link image  | removeformat',
+					  content_css : "#{facesContext.externalContext.requestContextPath}/layout/css/tinymce.css"
+  
+				 }); 
+		});
+	/*]]>*/
+	
+		
+	</script>
+		
+
+</ui:composition>
+

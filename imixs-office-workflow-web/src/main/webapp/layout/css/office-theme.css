@@ -328,6 +328,24 @@ dl dt {
 	padding: 20px;
 }
 
+
+
+.content-block {
+	margin-left: 45px;
+	margin-bottom: 0.4em;
+}
+.content-block h2 {
+	margin-bottom: 0em;
+}
+.content-block:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+
 /* --- Imixs-Form --------------------------- */
 .imixs-form {
 	margin: 0 20px;
@@ -370,7 +388,6 @@ dl dt {
 .imixs-form .imixs-body .imixs-form-instruction-right {
 	float: right;
 	padding-left: 10px;
-	padding-top: 10px;
 }
 
 .imixs-form .imixs-body .imixs-form-tabs .ui-tabs .ui-tabs-panel {
@@ -427,7 +444,6 @@ dl dt {
 .imixs-form-panel {
 	border-top: 1px solid #e0e4e7;
 	padding: 10px 10px;
-	margin: 10px 0px;
 }
 
 /* --- Imixs-Tabs ---------------------------------- */
@@ -740,6 +756,13 @@ dl dt {
 }
 
 /* --- Imixs Attachments ------------------------------ */
+
+.imixs-form-attachments .col-6 {
+	width: 100% !important;
+	margin: 0 0 15px 0;
+	padding: 0;
+}
+
 .imixs-form-attachments .image-block {
 	float: left;
 	min-width: 25px;
@@ -807,15 +830,7 @@ dl dt {
 	border-color: #faa732;
 }
 
-.imixs-read-only {
-	padding: 5px 10px;
-	color: #555;
-	font-style: italic;
-}
-
-.imixs-input-disabled {
-	background: #EBEBE4;
-}
+/* --- TinyMCE --------------------------------- */
 
 .mceEditor>table {
 	width: 690px !important;
@@ -1015,7 +1030,7 @@ dl dd  .imixs-datetime-picker select {
 
 /** Marty UserListInput Widget - see imixs-marty.css **/
 .marty-userlistinput {
-	padding: 8px;
+	padding: 8px 0 0 8px;
 	border: 1px solid #ccc;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -1175,19 +1190,6 @@ dl dd  .imixs-datetime-picker select {
 	color: #fff;
 }
 
-.content-block {
-	margin-left: 45px;
-	margin-bottom: 0.4em;
-}
-
-.content-block:after {
-	visibility: hidden;
-	display: block;
-	font-size: 0;
-	content: " ";
-	clear: both;
-	height: 0;
-}
 
 /** Process Model **/
 .model-box {
@@ -1336,10 +1338,10 @@ dl dd  .imixs-datetime-picker select {
 	float: left;
 	border-right: 1px solid silver;
 	padding-right: 7px;
-	font-size: 30px;
-	font-weight: bold;
-	line-height: 1.2em;
 	color: #888;
+}
+
+.minutes-body-section h2 {
 }
 
 .imixs-form-section.minutes-body-section .imixs-viewentry:hover {
@@ -1347,7 +1349,7 @@ dl dd  .imixs-datetime-picker select {
 }
 
 .minute-info {
-	margin-left: 55px;
+	margin-left: 45px;
 }
 
 .minute-summary {
@@ -1364,7 +1366,63 @@ dl dd  .imixs-datetime-picker select {
 	margin-bottom: 15px;
 }
 
+
+
+/* --- Read Mode -----------------------------------------*/
+.imixs-read-only {
+	padding: 5px 10px;
+	color: #555;
+	font-style: italic;
+}
+
+
+
+input:disabled, textarea:disabled {
+   background: #fafafa;
+   border:none;
+}
+ input:disabled.imixs-date {
+	padding-left: 0.25em !important;
+	background: none;
+}
+.marty-userlistinput-read  {
+	padding: 0em;
+	border: none;
+}
+
+.marty-userlistinput-read .marty-userlistinput-inputbox {
+	display: none;
+}
+
+.imixs-input-disabled {
+	background: #EBEBE4;
+}
+
 /* RESPONSIVE BEHAVIOUR */
+
+
+@media screen and (max-width: 1400px) {
+	.imixs-form .imixs-body .imixs-form-tabs .col-8, .imixs-form .imixs-body .imixs-form-tabs .col-4
+		{
+		border-right: none;
+		width: 100% !important;
+		padding: 0;
+	}
+	
+	.imixs-form .imixs-body .row .col-8, .imixs-form .imixs-body .row .col-4
+		{
+		border-right: none;
+		width: 100% !important;
+		padding: 0;
+	}
+	
+	.imixs-form-attachments .col-6
+		{
+		width: 50% !important;
+	}
+}
+
+
 @media screen and (max-width: 1100px) {
 	.imixs-portlet {
 		width: 50%;
@@ -1382,7 +1440,6 @@ dl dd  .imixs-datetime-picker select {
 		border-right: none;
 	}
 	.imixs-historyentry {
-		width: 49.0%;
 	}
 	.imixs-historyentry-action {
 		width: 80%;
@@ -1432,8 +1489,8 @@ dl dd  .imixs-datetime-picker select {
 		margin-left: 280px;
 	}
 	.imixs-historyentry {
-		width: 49.0%;
 	}
+
 	.imixs-historyentry .close .typcn {
 		font-size: 24px;
 	}
@@ -1515,16 +1572,3 @@ dl dd  .imixs-datetime-picker select {
 	}
 }
 
-@media screen and (max-width: 1400px) {
-	.imixs-form .imixs-body .imixs-form-tabs .col-8, .imixs-form .imixs-body .imixs-form-tabs .col-4
-		{
-		border-right: none;
-		width: 100% !important;
-		padding: 0;
-	}
-	.imixs-form .imixs-body .imixs-form-tabs .imixs-form-attachments .col-6
-		{
-		width: 100% !important;
-		padding: 10px 0;
-	}
-}

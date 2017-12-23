@@ -6,14 +6,14 @@
 
 	<!-- compute if minute should be opened in editor -->
 	<ui:param name="showForm"
-				value="#{(!empty minuteController.workitem) and (!empty minuteController.formDefinition) and (minuteController.workitem.item['$uniqueid'] eq workitem.item['$uniqueid'])}"></ui:param>
+		value="#{(!empty minuteController.workitem) and (!empty minuteController.formDefinition) and (minuteController.workitem.item['$uniqueid'] eq workitem.item['$uniqueid'])}"></ui:param>
 
 	<!-- Minute Block -->
 	<h:panelGroup layout="block" styleClass="imixs-viewentry">
-						
 		<!-- *** Sequence Number and scrop position for onload -->
-		<div class="minute-number"  id="#{showForm?'minute-editor-position':''}">
-			<span>#{workitem.item['numsequencenumber']}.</span>
+		<div class="minute-number"
+			id="#{showForm?'minute-editor-position':''}">
+			<h2>#{workitem.item['numsequencenumber']}.</h2>
 		</div>
 
 		<div class="minute-info">
@@ -24,35 +24,37 @@
 					<!-- Man kan auf den Link klicken um den editor zu öffnen oder zu schliessen -->
 					<h:commandLink onclick="closeMinuteEditor();"
 						actionListener="#{minuteController.toggleWorkitem(workitem.item['$uniqueid'])}">
-						<h1>
+						<h2>
+							
+							<h:outputText style="font-weight: bold;" value="#{workitem.item['$workflowStatus']}: " />
+							
 							<!-- summary empty ? -->
 							<h:panelGroup
 								rendered="#{empty workitem.item['txtWorkflowSummary']}">
 								<h:outputText value="#{workitem.item['$modified']}"
-									style="font-weight: bold;">
+									style="font-weight: normal;">
 									<f:convertDateTime timeZone="#{message.timeZone}"
 										pattern="#{message.dateTimePattern}" />
 								</h:outputText>
 								<h:outputText value=" #{workitem.item['_subject']}"
 									style="font-weight: bold;" />
 							</h:panelGroup>
-							<h:outputText style="font-weight: bold;"
+							<h:outputText style="font-weight: normal;"
 								value="#{workitem.item['txtWorkflowSummary']}" />
-								
-							
-						</h1>
+						</h2>
 						<!-- @form  -->
 						<f:ajax render=":#{minutesBody.clientId}"
 							onevent="layoutBodySection" />
 
 					</h:commandLink>
-					<h2>#{workitem.item['$workflowgroup']}: <h:outputText value="#{workitem.item['$workflowStatus']}" /></h2>
 				</h:panelGroup>
 
 				<!-- Read only Mode -->
 				<h:panelGroup rendered="#{!editmode}">
 					<!-- summary empty ? -->
-					<h1>
+					<h2>
+						<h:outputText style="font-weight: bold;" value="#{workitem.item['$workflowStatus']}: " />
+							
 						<h:panelGroup
 							rendered="#{empty workitem.item['txtWorkflowSummary']}">
 							<h:outputText value="#{workitem.item['$modified']}">
@@ -62,8 +64,8 @@
 							<h:outputText value=" #{workitem.item['_subject']}" />
 						</h:panelGroup>
 						<h:outputText value="#{workitem.item['txtWorkflowSummary']}" />
-					</h1>
-					<h2>Status: <h:outputText value="#{workitem.item['$workflowStatus']}" /></h2>
+					</h2>
+					
 				</h:panelGroup>
 
 			</h:panelGroup>
@@ -76,13 +78,26 @@
 					<ui:fragment rendered="#{!showForm}">
 						<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
 							escape="false"></h:outputText>
+
+						<p />
+						<!-- Comment log -->
+						<ui:include src="/pages/workitems/forms/minutes/sub_comment_read.xhtml">
+								<ui:param name="workitem" value="#{workitem}" />
+						</ui:include>
+						
+						<!-- Files -->
+						<ui:include src="/pages/workitems/forms/minutes/sub_files.xhtml">
+								<ui:param name="workitem" value="#{workitem}" />
+						</ui:include>
+						
+						
 					</ui:fragment>
 					<ui:fragment rendered="#{showForm}">
-						
 						<c:forEach var="section"
 							items="#{minuteController.formDefinition.sections}">
-						
 							<div class="imixs-form-panel">
+
+
 								<h1>
 									<h:outputText value="#{section.name}" />
 								</h1>
@@ -92,34 +107,45 @@
 								</ui:include>
 
 
-								<!-- Workflow Actions -->
-								<div class="imixs-form-section">
-									<ui:include src="/pages/error_message.xhtml" />
-
-									<ui:repeat var="activity" value="#{minuteController.events}">
-										<h:commandButton role="button" onclick="saveTinyMCE();"
-											class="imixs-workflow-action ui-button-warning" title=" "
-											actionListener="#{minuteController.process(activity.item['numactivityid'],true)}"
-											value="#{activity.item['txtname']}">
-											<f:ajax render=":#{minutesBody.clientId}"
-												execute=":#{minutesBody.clientId}"
-												onevent="layoutBodySection" />
-										</h:commandButton>
-									</ui:repeat>
-
-									<h:commandButton role="button" value="#{message.close}" immediate="true"
-										class="imixs-close-action ui-button"
-										onclick="closeMinuteEditor();"
-										actionListener="#{minuteController.reset}">
-										<f:ajax render=":#{minutesBody.clientId}"
-											execute=":#{minutesBody.clientId}"
-											onevent="layoutBodySection" />
-									</h:commandButton>
-
-								</div>
 							</div>
 						</c:forEach>
 
+						<ui:include src="/pages/workitems/forms/minutes/sub_comment.xhtml">
+							<ui:param name="workitem" value="#{minuteController.workitem}" />
+						</ui:include>
+						
+						
+						<!-- Files -->
+						<ui:include src="/pages/workitems/forms/minutes/sub_files.xhtml">
+								<ui:param name="workitem" value="#{workitem}" />
+						</ui:include>
+						
+						
+
+						<!-- Workflow Actions -->
+						<div class="imixs-form-section">
+							<ui:include src="/pages/error_message.xhtml" />
+
+							<ui:repeat var="activity" value="#{minuteController.events}">
+								<h:commandButton role="button" onclick="saveTinyMCE();"
+									class="imixs-workflow-action ui-button-warning" title=" "
+									actionListener="#{minuteController.process(activity.item['numactivityid'],true)}"
+									value="#{activity.item['txtname']}">
+									<f:ajax render=":#{minutesBody.clientId}"
+										execute=":#{minutesBody.clientId}" onevent="layoutBodySection" />
+								</h:commandButton>
+							</ui:repeat>
+
+							<h:commandButton role="button" value="#{message.close}"
+								immediate="true" class="imixs-close-action ui-button"
+								onclick="closeMinuteEditor();"
+								actionListener="#{minuteController.reset}">
+								<f:ajax render=":#{minutesBody.clientId}"
+									execute=":#{minutesBody.clientId}" onevent="layoutBodySection" />
+							</h:commandButton>
+
+						</div>
+						
 
 					</ui:fragment>
 				</h:panelGroup>
@@ -130,43 +156,23 @@
 						escape="false"></h:outputText>
 
 					<!-- comment log -->
-					<h:panelGroup styleClass="imixs-form-comment"
-						rendered="#{! empty workitem.getItemValue('txtCommentLog')}">
-						<dl>
-							<dt>
-								<h:outputLabel value="#{message['form.comment.history']}:" />
-							</dt>
-
-							<dd>
-								<table class="imixs-commentlist">
-									<tbody>
-										<ui:repeat var="comment"
-											value="#{workitem.getItemValue('txtCommentLog')}">
-
-											<tr class="topAligned">
-												<td><h:outputText value="#{comment.datcomment}"
-														style="margin-right:10px;">
-
-														<f:convertDateTime timeZone="#{message.timeZone}"
-															type="both" pattern="#{message.dateTimePatternShort}" />
-													</h:outputText></td>
-												<td><h:outputText
-														value="#{userController.getUserName(comment.nameditor)}" />
-												</td>
-												<td><h:outputText value="#{comment.txtcomment}" /></td>
-											</tr>
-										</ui:repeat>
-									</tbody>
-								</table>
-							</dd>
-						</dl>
-					</h:panelGroup>
+					<ui:include src="/pages/workitems/forms/minutes/sub_comment_read.xhtml">
+							<ui:param name="workitem" value="#{workitem}" />
+					</ui:include>
+						
+				
+					<!-- Files -->
+					<ui:include src="/pages/workitems/forms/minutes/sub_files.xhtml">
+							<ui:param name="workitem" value="#{workitem}" />
+					</ui:include>
+						
+						
+					
 				</h:panelGroup>
-
+			
 			</h:panelGroup>
 		</div>
 	</h:panelGroup>
-	
 
 </ui:composition>
 

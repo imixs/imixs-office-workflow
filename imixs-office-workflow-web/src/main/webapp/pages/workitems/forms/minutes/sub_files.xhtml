@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+	<h:panelGroup styleClass="imixs-form-comment"
+		rendered="#{! empty workitem.getItemValue('dms_names')}">
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.attachments.files']}:" />
+			</dt>
+			<dd>
+				<table class="imixs-commentlist">
+					<tbody>
+						<ui:repeat var="file"
+							value="#{workitem.getItemValue('dms_names')}">
+
+							<tr class="topAligned">
+								<td><h:outputText escape="false"
+										value="&lt;a target='_blank' class='attachmentlink'" /> <h:outputText
+										escape="false"
+										value=" href='#{facesContext.externalContext.requestContextPath}/rest-service/workflow/workitem/#{workitem.item['$blobworkitem']}/file/#{file}" />
+									<h:outputText escape="false" value="'&gt;#{file}&lt;/a&gt;" />
+								</td>
+							</tr>
+						</ui:repeat>
+					</tbody>
+				</table>
+			</dd>
+		</dl>
+	</h:panelGroup>
+
+
+</ui:composition>
+

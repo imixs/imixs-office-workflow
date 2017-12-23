@@ -10,6 +10,14 @@
 
 	<xsl:template match="/">
 		{
+		    "type" : "bar",
+		    "title" : "Investitionen",
+		    "options" : { 
+		    				"responsive" : true,
+		    				"legend" : {
+		    				           "position": "top"
+                             }
+		    			},
 			"labels" : [
 						<!--Select the first element of each group -->
 						<xsl:for-each select="/collection/document[generate-id() =generate-id(key('groups', item[@name='_invoicedate']/value)[1])]" >
@@ -21,12 +29,12 @@
 					 ],
 			"datasets" : [
 			{
-				"label": "Investitionen",
+				"label": "EUR",
 				"fillColor" : "rgba(151,187,205,0.5)",
 				"strokeColor" : "rgba(151,187,205,0.8)",
 				"highlightFill" : "rgba(151,187,205,0.75)",
 				"highlightStroke" : "rgba(151,187,205,1)",
-				"charttype": "Bar",
+				"type": "bar",
 				"data" : [
 			<xsl:apply-templates
 					select="/collection/document[generate-id() = generate-id(key('groups', item[@name='_invoicedate']/value)[1])]" >

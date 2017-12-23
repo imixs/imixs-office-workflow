@@ -14,9 +14,7 @@
 
 		/*]]>*/
 	</script>
-	<ui:param name="editmode"
-		value="#{workitem.item['$processid'] lt 1500}" />
-
+	
 	<div class="imixs-form-section">
 		<dl>
 			<dt>
@@ -35,7 +33,8 @@
 			<dt>#{message['form.minutes.team']}:</dt>
 			<dd>
 				<marty:userListInput value="#{workitem.itemList['_Team']}"
-					editmode="#{editmode}" render="#{teilnehmer.clientId}" />
+				     editmode="#{(!workitem.item['minuteslocked']) and (empty workitem.item['$isauthor'] or workitem.item['$isauthor'])}"
+					 render="#{teilnehmer.clientId}" />
 			</dd>
 
 		</dl>

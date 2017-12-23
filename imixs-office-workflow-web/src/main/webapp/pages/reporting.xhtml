@@ -126,9 +126,7 @@
 			refreshChartDiagramm = function(reportid,data) {
 				//console.log("building chart.js diagramm '" + reportid + "'...");
 				// update h1 with label
-				$("#" + reportid + " h1").text(data.datasets[0].label);
-				// build chart...
-				var charttype = data.datasets[0].charttype;
+				$("#" + reportid + " h1").text(data.title);
 				
 				// clear old data (http://stackoverflow.com/questions/24815851/how-to-clear-a-chart-from-a-canvas-so-that-hover-events-cannot-be-triggered#25064035)
 				$('#canvas-'+reportid).remove(); // this is my <canvas> element
@@ -136,17 +134,18 @@
 				
 				var ctx = document.getElementById("canvas-" + reportid)
 						.getContext("2d");
-				if (charttype == "Bar") {
-					window.report1 = new Chart(ctx).Bar(data, {
-						responsive : true
-					});
-				} else if (charttype == "Pie") {
-					window.myPie = new Chart(ctx).Pie(data.datasets[0].data,data.datasets[0].options);
+			
+				if (data.type) {
+					// line chart
+					 window.report1 = new Chart(ctx,  {
+			                type: data.type,
+			                data: data,
+			                options: data.options
+			        });
 				} else {
-					window.report1 = new Chart(ctx).Line(data, {
-						responsive : true
-					});
+					alert('chart type for report ' + data.datasets[0].label +' is undefined!');
 				}
+				
 			}
 			
 			
