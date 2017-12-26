@@ -1,9 +1,9 @@
 # Imixs-Office-Workflow
 
-'imixs-offcie-workflow' provides a open source workflow suite for small, medium and large enterprises.
-The Project is build on top of the '[Imixs-Marty](https://github.com/imixs/imixs-marty)' project and is licenced under the GPL.  
+'Imixs-Office-Workflow' provides a open source workflow suite for small, medium and large enterprises.
+The Project is build on top of the '[Imixs-Marty](https://github.com/imixs/imixs-marty)' project and is licensed under the GPL.  
 
-The goal of this project is to provide a powerfull and simple to use business process management suite. The project can be extended with custom plugins and modules. 
+The goal of this project is to provide a powerful and simple to use business process management suite. The project can be extended with custom plugins and modules. 
 
 You can find further information on the web site [Imixs-Office-Workflow](http://www.office-workflow.de).
 
@@ -74,5 +74,5 @@ where 'localhost:5000' need to be replaced with the host of a private registry. 
 
 ### docker-hub
 
-Imixs-Office-Workflow is also available on [Docker-Hub](https://hub.docker.com/r/imixs/imixs-office-workflow/tags/). The public docker images can be used for development and production. If you need technical support please conntact [imixs.com](http://www.imixs.com) 
+Imixs-Office-Workflow is also available on [Docker-Hub](https://hub.docker.com/r/imixs/imixs-office-workflow/tags/). The public docker images can be used for development and production. If you need technical support please contact [imixs.com](http://www.imixs.com) 
 
