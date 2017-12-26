@@ -68,7 +68,7 @@ With the profile '_docker-build_' a docker container based on the current versio
 
 With the '_docker-push_' profile the current version of Imixs-Office-Workflow can be pushed to a remote repository:
 
-	mvn clean install -Pdocker-push -Dmyorg.imixs.docker.registry=localhost:5000
+	mvn clean install -Pdocker-push -Dorg.imixs.docker.registry=localhost:5000
 
 where 'localhost:5000' need to be replaced with the host of a private registry. See the [docker-push command](https://docs.docker.com/docker-cloud/builds/push-images/) for more details.
 
