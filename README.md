@@ -12,90 +12,67 @@ You can find further information on the web site [Imixs-Office-Workflow](http://
 * **Migration notes** can be found [here](MIGRATION-NOTES.md)
 
 
-## Deployment
-Imixs-Office-Workflow is based on the Java EE stack and can be deployed on JBoss/Wildfly server.
+## Build
+Imixs-Office-Workflow is based on maven and runs on the Java EE stack. Imixs-Office-Workflow can be deployed on JBoss/Wildfly server or other Java EE application servers.
 To build the Java EE artifact run the maven install command first:
 
 	mvn clean install
 
-To deploy the artifact the application server must provide a database pool named "java:/jdbc/office" and a security domain/realm named 'office'
+To deploy the artifact the application server must provide a database pool named "java:/jdbc/office" and a security domain/realm named 'office'. See also the [Imixs-Workflow Deployment Guide](http://www.imixs.org/doc/deployment/index.html).
+
+As an alternative to setup a server environment by yourself you can use docker to run Imixs-Office-Workflow locally or in production. 
 
 
 <br /><br /><img src="small_h-trans.png" />
 
 
-Imixs-Office-Workflow provides a Docker Container to be used to run the service on a Docker host. 
+Imixs-Office-Workflow provides a Docker Container to run the service on any Docker host. 
 The docker image is based on the docker image [imixs/wildfly](https://hub.docker.com/r/imixs/wildfly/).
 
-
-## 1. Build Imixs-Office-Workflow
-
-Imixs-Office-Workflow is based on maven. To build the Java EE artifact run:
+## Docker for Development
+Developers can use a docker image for testing and the development of new features. To build a new container first build the maven artefact running: 
 
 	mvn clean install
 
-## 2. Build the docker image
-To build the docker image run
+Next the docker container can be build with the docker command:
 
 	docker build --tag=imixs/imixs-office-workflow .
 
-
-## 3. Run 
-You can start the Imixs-Office-Workflow docker container with the docker-compose command:
+To start Imixs-Office-Workflow with docker the docker-compose command can be used:
 
 	docker-compose up
 
-Note: this command will start two container, a postgreSQL server and a Wildfly Server. 
+Note: this command will start two containers, a postgreSQL server and a Wildfly Server. See the docker-compose.yml file for the configuration details.
+
+### Mount Points
+The default configuration sets a local mount point at the following location:
+
+	~/git/imixs-office-workflow/src/docker/.deployments
+
+Make sure that this directory exits. During development new versions can easily deployed into this directory which is the auto-deployment folder of Wildfly. For further details see the [imixs/wildfly docker image](https://hub.docker.com/r/imixs/wildfly/).
 
 
-# Development
+## Docker for Production
 
-During development the docker container can be started with mounting a local deployments folder. 
-If you start the container manually, you need to provide first a PostgreSQL Database container with the database 'office':
-
-	docker run -d --name postgresoffice-dev -e POSTGRES_DB=office \
-	     -e POSTGRES_PASSWORD=adminadmin \
-	     postgres:9.6.1
-
-To start Imixs-Office-Workflow useing the postgre datbase container and mounting an external src/docker/.deployments folder, run:
-
-	docker run --name="imixs-office-workflow-dev" -p 8080:8080 -p 9990:9990 \
-         -e WILDFLY_PASS="admin_password" \
-         -e POSTGRES_CONNECTION="jdbc:postgresql://postgres/office" \
-         -e POSTGRES_USER="postgres" \
-         -e POSTGRES_PASSWORD="adminadmin" \
-         --link postgresoffice-dev:postgres \
-         -v ~/git/imixs-office-workflow/src/docker/.deployments:/opt/wildfly/standalone/deployments/:rw \
-         imixs/imixs-office-workflow
+To run Imixs-Office-Workflow in a Docker production environment the project proveds serveral additional maven profiles:
 
 
+### docker-build
 
-## Docker-Compose
-
-Imixs-Office-Workflow needs a postgreSQL database to be run. To start both containers a docker-compose script is provided to simplify the startup. 
-The following example shows the docker-compose.yml for imixs-microservice. You can customize this .yml file to your needs:
-
-	postgresoffice:
-	  image: postgres:9.6.1
-	  environment:
-	    POSTGRES_PASSWORD: adminadmin
-	    POSTGRES_DB: office
-	
-	imixsofficeworkflow:
-	  image: imixs/imixs-office-workflow
-	  environment:
-	    WILDFLY_PASS: adminadmin
-	    POSTGRES_CONNECTION: "jdbc:postgresql://postgres/office" \
-	    POSTGRES_USER: "postgres" \
-	    POSTGRES_PASSWORD: "adminadmin" \
-	  ports:
-	    - "8080:8080"
-	    - "9990:9990"
-	  links: 
-	    - postgresoffice:postgres
-
+With the profile '_docker-build_' a docker container based on the current version of Imixs-Office-Workflow is created locally
  
-Take care about the link to the postgres container. The host name 'postgres' is needed to be used in the standalone.xml configuration file in wildfly to access the postgres server for the database pool configuration.
+	mvn clean install -Pdocker-build
 
 
-For further details see the [imixs/wildfly docker image](https://hub.docker.com/r/imixs/wildfly/).
+### docker-push
+
+With the '_docker-push_' profile the current version of Imixs-Office-Workflow can be pushed to a remote repository:
+
+	mvn clean install -Pdocker-push -Dmyorg.imixs.docker.registry=localhost:5000
+
+where 'localhost:5000' need to be replaced with the host of a private registry. See the [docker-push command](https://docs.docker.com/docker-cloud/builds/push-images/) for more details.
+
+### docker-hub
+
+Imixs-Office-Workflow is also available on [Docker-Hub](https://hub.docker.com/r/imixs/imixs-office-workflow/tags/). The public docker images can be used for development and production. If you need technical support please conntact [imixs.com](http://www.imixs.com) 
+
