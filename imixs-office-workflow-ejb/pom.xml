@@ -29,7 +29,7 @@
 					<archive>
 						<!-- add the EJB module imixs-workflow-jee-impl - !DO NOT format this line! -->
 						<manifestEntries>
-							<Class-Path>imixs-workflow-engine-${org.imixs.workflow.version}.jar imixs-workflow-core-${org.imixs.workflow.version}.jar imixs-marty-ejb-${org.imixs.marty.version}.jar imixs-archive-api-${org.imixs.archive.version}.jar imixs-adapters-documents-${imixs.adapters.version}.jar</Class-Path>
+							<Class-Path>imixs-workflow-engine-${org.imixs.workflow.version}.jar imixs-workflow-core-${org.imixs.workflow.version}.jar imixs-workflow-jax-rs-${org.imixs.workflow.version}.jar imixs-marty-ejb-${org.imixs.marty.version}.jar imixs-archive-api-${org.imixs.archive.version}.jar imixs-adapters-documents-${imixs.adapters.version}.jar</Class-Path>
 						</manifestEntries>
 					</archive>
 				</configuration>
@@ -44,6 +44,11 @@
 			<artifactId>imixs-workflow-engine</artifactId>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-workflow-jax-rs</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.imixs.marty</groupId>
 			<artifactId>imixs-marty-ejb</artifactId>
