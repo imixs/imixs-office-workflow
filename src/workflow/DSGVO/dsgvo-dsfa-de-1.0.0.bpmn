@@ -3,7 +3,7 @@
 <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.4.2.Final-v20171109-1930-B1" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
-      <imixs:value><![CDATA[dsgvo-folgeabschaetzung-de-1.0.0]]></imixs:value>
+      <imixs:value><![CDATA[dsgvo-dsfa-de-1.0.0]]></imixs:value>
     </imixs:item>
     <imixs:item name="txtfieldmapping" type="xs:string">
       <imixs:value><![CDATA[Ersteller | namCreator]]></imixs:value>
@@ -40,7 +40,7 @@
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.SplitAndJoinPlugin]]></imixs:value>
     </imixs:item>
   </bpmn2:extensionElements>
-  <bpmn2:process id="auftrag" name="Folgeabschätzung" isExecutable="false">
+  <bpmn2:process id="auftrag" name="DSGVO Folgeabschätzung" isExecutable="false">
     <bpmn2:startEvent id="StartEvent_1" name="Start">
       <bpmn2:outgoing>SequenceFlow_34</bpmn2:outgoing>
     </bpmn2:startEvent>
@@ -49,7 +49,7 @@
     <bpmn2:task id="Task_7000" imixs:processid="1000" name="DSFA Erfassung">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_tab_instruction_right#dsgvo/basic|dsgvo/sub_risk|dsgvo/sub_action]]></imixs:value>
+          <imixs:value><![CDATA[dsgvo/dsfa]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<b>Thema:</b> <itemvalue>_subject</itemvalue>
@@ -79,13 +79,16 @@
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
           <imixs:value><![CDATA[namCreator]]></imixs:value>
         </imixs:item>
+        <imixs:item name="txttype" type="xs:string">
+          <imixs:value><![CDATA[workitem]]></imixs:value>
+        </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_7000"><![CDATA[<h2>DATENSCHUTZ-FOLGENABSCHÄTZUNG</h2>
 
 <p>
-Der folgende Abschnitt dient der Erfassung einer Datenschutz Folgeabschätzung (DSFA)  im Sinne der DSVGO. 
-
-Eine DSFA bezieht sich auf einen einzelnen Datenverarbeitungsprozess. 
+Dieses Dokument dient der Erfassung einer <a href="https://dsgvo-gesetz.de/art-35-dsgvo/" target="_blank">Datenschutz Folgeabschätzung (DSFA)</a>  im Sinne der DSVGO. 
+</p><p>
+Die DSFA bezieht sich auf einen einzelnen Datenverarbeitungsprozess. 
 Werden mit ähnlicher Technologie dieselbe Art von Daten zum selben Zweck verarbeitet werden, können diese hier zusammgenfasst werden.
 </p>
 <p>
@@ -139,7 +142,7 @@ z.B. die Beurteilung der Kreditwürdigkeit durch eine Bank vor der Vergabe eines
     <bpmn2:task id="Task_7010" imixs:processid="1010" name="DSFA Freigabe">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_tab_instruction_right#dsgvo/basic|dsgvo/sub_risk|dsgvo/sub_action]]></imixs:value>
+          <imixs:value><![CDATA[dsgvo/dsfa]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<b>Thema:</b> <itemvalue>_subject</itemvalue>
@@ -175,9 +178,9 @@ z.B. die Beurteilung der Kreditwürdigkeit durch eine Bank vor der Vergabe eines
       <bpmn2:documentation id="Documentation_14"><![CDATA[<h2>DATENSCHUTZ-FOLGENABSCHÄTZUNG</h2>
 
 <p>
-Der folgende Abschnitt dient der Erfassung einer Datenschutz Folgeabschätzung (DSFA)  im Sinne der DSVGO. 
-
-Eine DSFA bezieht sich auf einen einzelnen Datenverarbeitungsprozess. 
+<strong>Dieses Dokument dient der Erfassung einer <a href="https://dsgvo-gesetz.de/art-35-dsgvo/" target="_blank">Datenschutz Folgeabschätzung (DSFA)</a>  im Sinne der DSVGO. </strong>
+</p><p>
+Die DSFA bezieht sich auf einen einzelnen Datenverarbeitungsprozess. 
 Werden mit ähnlicher Technologie dieselbe Art von Daten zum selben Zweck verarbeitet werden, können diese hier zusammgenfasst werden.
 </p>
 <p>
@@ -231,7 +234,7 @@ z.B. die Beurteilung der Kreditwürdigkeit durch eine Bank vor der Vergabe eines
     <bpmn2:task id="Task_7020" imixs:processid="1020" name="Gültig">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_tab_instruction_right#dsgvo/basic|dsgvo/sub_risk|dsgvo/sub_action]]></imixs:value>
+          <imixs:value><![CDATA[dsgvo/dsfa]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<b>Thema:</b> <itemvalue>_subject</itemvalue>
@@ -261,14 +264,58 @@ z.B. die Beurteilung der Kreditwürdigkeit durch eine Bank vor der Vergabe eines
         </imixs:item>
         <imixs:item name="keyownershipfields" type="xs:string"/>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_15"><![CDATA[<h3>Arbeitsanweisung</h3>
-<ol>
-	<li>Angebot ist Gültig.</li>
-	<li>Bei Annahme durch Kunde bitte bestätigen.</li>
-</ol>
+      <bpmn2:documentation id="Documentation_15"><![CDATA[<h2>DATENSCHUTZ-FOLGENABSCHÄTZUNG</h2>
+
 <p>
- 	Der Workflow wird über ein BPMN 2.0 Prozessmodell beschrieben und kann an die individuellen Bedürfnisse angepasst werden. 
-</p>]]></bpmn2:documentation>
+<strong>Dieses Dokument dient der Erfassung einer <a href="https://dsgvo-gesetz.de/art-35-dsgvo/" target="_blank">Datenschutz Folgeabschätzung (DSFA)</a>  im Sinne der DSVGO. </strong>
+</p><p>
+Die DSFA bezieht sich auf einen einzelnen Datenverarbeitungsprozess. 
+Werden mit ähnlicher Technologie dieselbe Art von Daten zum selben Zweck verarbeitet werden, können diese hier zusammgenfasst werden.
+</p>
+<p>
+Um das Vorliegen eines „hohen Risikos“ im Sinne der "DSGVO Risiko Folenabschätzung" zu konkretisieren, werden 10 Kriterien aufgelistet. 
+Je mehr von diesen zutreffen, desto wahrscheinlicher ist das Vorliegen eines hohen Risikos. 
+Als Faustregel dabei gilt, dass eine Folgenabschätzung bei Erfüllung von zwei oder mehr Kriterien durchgeführt werden muss.
+</p>
+
+
+<h3>KRITERIEN ZUR RISIKOBEURTEILUNG</h3>
+<p>
+
+
+Eine DSFA ist auf jeden Fall erforderlich, wenn biometrische Daten oder die Daten von Kindern verarbeitet werden!
+</p>
+<ul>
+<li>Bewertung und Einstufung (Scoring) einschließlich Prognosen und Profilerstellung
+(z. B. Einschätzung der Kreditwürdigkeit, Behavioral Marketing etc.)
+</li>
+
+<li>Automatisch erfolgende Entscheidungen mit rechtlichen oder ähnlich signifikanten Auswirkungen für Betroffene</li>
+
+<li>Systematisches Monitoring</li>
+
+<li>Sensitive, insbesondere personenbezogene Daten (Verarbeitung sensibler Daten)</li>
+
+<li>Umfangreiche Datenverarbeitungen (bezogen auf die Anzahl betroffener Personen und Datenkategorien, die Dauer der Verarbeitung, 
+       die geographische Ausdehnung)
+</li>
+
+<li>Vergleich oder Kombination von Datensätzen (z.b. das Zusammenführen oder Abgleichen von Datenbeständen, wenn Betroffene nicht damit rechnen können</li>
+
+<li>Daten ungeschützter Betroffener (z.B. die Verarbeitung von Daten von Kindern)</li>
+
+<li>Einsatz innovativer Technologien oder neuartiger organisatorischer Lösungen (bspw. Fingerabdrucksensoren oder Gesichtserkennung)</li>
+
+<li>Datentransfers in Länder außerhalb der EU (Übermittlung von personenbezogenen Daten an Empfänger außerhalb der EU)</li>
+
+<li>Verarbeitungen, die es betroffenen Personen erschweren, ihre Rechte auszuüben oder eine Leistung in Anspruch zu nehmen, 
+z.B. die Beurteilung der Kreditwürdigkeit durch eine Bank vor der Vergabe eines Darlehens.
+</li>
+</ul>
+<p>
+
+</p>
+]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_6</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_29</bpmn2:outgoing>
       <bpmn2:outgoing>SequenceFlow_36</bpmn2:outgoing>
@@ -276,7 +323,7 @@ z.B. die Beurteilung der Kreditwürdigkeit durch eine Bank vor der Vergabe eines
     <bpmn2:task id="Task_7030" imixs:processid="1030" name="DSFA Prüfung">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_tab_instruction_right#dsgvo/basic|dsgvo/sub_risk|dsgvo/sub_action]]></imixs:value>
+          <imixs:value><![CDATA[dsgvo/dsfa]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<b>Thema:</b> <itemvalue>_subject</itemvalue>
@@ -309,13 +356,58 @@ z.B. die Beurteilung der Kreditwürdigkeit durch eine Bank vor der Vergabe eines
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_26"><![CDATA[<h3>Arbeitsanweisung</h3>
-<ol>
-	<li>Auftrag erstellen.</li>
-</ol>
+      <bpmn2:documentation id="Documentation_26"><![CDATA[<h2>DATENSCHUTZ-FOLGENABSCHÄTZUNG</h2>
+
 <p>
- 	Der Workflow wird über ein BPMN 2.0 Prozessmodell beschrieben und kann an die individuellen Bedürfnisse angepasst werden. 
-</p>]]></bpmn2:documentation>
+<strong>Dieses Dokument dient der Erfassung einer <a href="https://dsgvo-gesetz.de/art-35-dsgvo/" target="_blank">Datenschutz Folgeabschätzung (DSFA)</a>  im Sinne der DSVGO. </strong>
+</p><p>
+Die DSFA bezieht sich auf einen einzelnen Datenverarbeitungsprozess. 
+Werden mit ähnlicher Technologie dieselbe Art von Daten zum selben Zweck verarbeitet werden, können diese hier zusammgenfasst werden.
+</p>
+<p>
+Um das Vorliegen eines „hohen Risikos“ im Sinne der "DSGVO Risiko Folenabschätzung" zu konkretisieren, werden 10 Kriterien aufgelistet. 
+Je mehr von diesen zutreffen, desto wahrscheinlicher ist das Vorliegen eines hohen Risikos. 
+Als Faustregel dabei gilt, dass eine Folgenabschätzung bei Erfüllung von zwei oder mehr Kriterien durchgeführt werden muss.
+</p>
+
+
+<h3>KRITERIEN ZUR RISIKOBEURTEILUNG</h3>
+<p>
+
+
+Eine DSFA ist auf jeden Fall erforderlich, wenn biometrische Daten oder die Daten von Kindern verarbeitet werden!
+</p>
+<ul>
+<li>Bewertung und Einstufung (Scoring) einschließlich Prognosen und Profilerstellung
+(z. B. Einschätzung der Kreditwürdigkeit, Behavioral Marketing etc.)
+</li>
+
+<li>Automatisch erfolgende Entscheidungen mit rechtlichen oder ähnlich signifikanten Auswirkungen für Betroffene</li>
+
+<li>Systematisches Monitoring</li>
+
+<li>Sensitive, insbesondere personenbezogene Daten (Verarbeitung sensibler Daten)</li>
+
+<li>Umfangreiche Datenverarbeitungen (bezogen auf die Anzahl betroffener Personen und Datenkategorien, die Dauer der Verarbeitung, 
+       die geographische Ausdehnung)
+</li>
+
+<li>Vergleich oder Kombination von Datensätzen (z.b. das Zusammenführen oder Abgleichen von Datenbeständen, wenn Betroffene nicht damit rechnen können</li>
+
+<li>Daten ungeschützter Betroffener (z.B. die Verarbeitung von Daten von Kindern)</li>
+
+<li>Einsatz innovativer Technologien oder neuartiger organisatorischer Lösungen (bspw. Fingerabdrucksensoren oder Gesichtserkennung)</li>
+
+<li>Datentransfers in Länder außerhalb der EU (Übermittlung von personenbezogenen Daten an Empfänger außerhalb der EU)</li>
+
+<li>Verarbeitungen, die es betroffenen Personen erschweren, ihre Rechte auszuüben oder eine Leistung in Anspruch zu nehmen, 
+z.B. die Beurteilung der Kreditwürdigkeit durch eine Bank vor der Vergabe eines Darlehens.
+</li>
+</ul>
+<p>
+
+</p>
+]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_23</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_35</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_37</bpmn2:outgoing>
@@ -326,7 +418,7 @@ z.B. die Beurteilung der Kreditwürdigkeit durch eine Bank vor der Vergabe eines
           <imixs:value><![CDATA[workitem]]></imixs:value>
         </imixs:item>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_tab_instruction_right#dsgvo/basic|dsgvo/sub_risk|dsgvo/sub_action]]></imixs:value>
+          <imixs:value><![CDATA[dsgvo/dsfa]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<b>Thema:</b> <itemvalue>_subject</itemvalue>
@@ -353,6 +445,58 @@ z.B. die Beurteilung der Kreditwürdigkeit durch eine Bank vor der Vergabe eines
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
+      <bpmn2:documentation id="Documentation_2"><![CDATA[<h2>DATENSCHUTZ-FOLGENABSCHÄTZUNG</h2>
+
+<p>
+<strong>Dieses Dokument dient der Erfassung einer <a href="https://dsgvo-gesetz.de/art-35-dsgvo/" target="_blank">Datenschutz Folgeabschätzung (DSFA)</a>  im Sinne der DSVGO. </strong>
+</p><p>
+Die DSFA bezieht sich auf einen einzelnen Datenverarbeitungsprozess. 
+Werden mit ähnlicher Technologie dieselbe Art von Daten zum selben Zweck verarbeitet werden, können diese hier zusammgenfasst werden.
+</p>
+<p>
+Um das Vorliegen eines „hohen Risikos“ im Sinne der "DSGVO Risiko Folenabschätzung" zu konkretisieren, werden 10 Kriterien aufgelistet. 
+Je mehr von diesen zutreffen, desto wahrscheinlicher ist das Vorliegen eines hohen Risikos. 
+Als Faustregel dabei gilt, dass eine Folgenabschätzung bei Erfüllung von zwei oder mehr Kriterien durchgeführt werden muss.
+</p>
+
+
+<h3>KRITERIEN ZUR RISIKOBEURTEILUNG</h3>
+<p>
+
+
+Eine DSFA ist auf jeden Fall erforderlich, wenn biometrische Daten oder die Daten von Kindern verarbeitet werden!
+</p>
+<ul>
+<li>Bewertung und Einstufung (Scoring) einschließlich Prognosen und Profilerstellung
+(z. B. Einschätzung der Kreditwürdigkeit, Behavioral Marketing etc.)
+</li>
+
+<li>Automatisch erfolgende Entscheidungen mit rechtlichen oder ähnlich signifikanten Auswirkungen für Betroffene</li>
+
+<li>Systematisches Monitoring</li>
+
+<li>Sensitive, insbesondere personenbezogene Daten (Verarbeitung sensibler Daten)</li>
+
+<li>Umfangreiche Datenverarbeitungen (bezogen auf die Anzahl betroffener Personen und Datenkategorien, die Dauer der Verarbeitung, 
+       die geographische Ausdehnung)
+</li>
+
+<li>Vergleich oder Kombination von Datensätzen (z.b. das Zusammenführen oder Abgleichen von Datenbeständen, wenn Betroffene nicht damit rechnen können</li>
+
+<li>Daten ungeschützter Betroffener (z.B. die Verarbeitung von Daten von Kindern)</li>
+
+<li>Einsatz innovativer Technologien oder neuartiger organisatorischer Lösungen (bspw. Fingerabdrucksensoren oder Gesichtserkennung)</li>
+
+<li>Datentransfers in Länder außerhalb der EU (Übermittlung von personenbezogenen Daten an Empfänger außerhalb der EU)</li>
+
+<li>Verarbeitungen, die es betroffenen Personen erschweren, ihre Rechte auszuüben oder eine Leistung in Anspruch zu nehmen, 
+z.B. die Beurteilung der Kreditwürdigkeit durch eine Bank vor der Vergabe eines Darlehens.
+</li>
+</ul>
+<p>
+
+</p>
+]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_40</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_27</bpmn2:outgoing>
       <bpmn2:outgoing>SequenceFlow_46</bpmn2:outgoing>
