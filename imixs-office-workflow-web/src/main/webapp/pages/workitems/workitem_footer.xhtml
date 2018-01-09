@@ -52,6 +52,10 @@
 	<!-- ** Print ** -->
 	<input type="button" value="#{message.print}"  class="imixs-print-action"
 		onclick="openPrintWindow();" />
+		
+	<!-- Rest API URI -->
+	<a class="pull-right" style="color: transparent;" href="#{facesContext.externalContext.requestContextPath}/rest-service/documents/#{workflowController.workitem.item['$uniqueid']}" target="_blank">Rest-API</a>
+		
 	<script type="text/javascript">
 		function openPrintWindow() {
 			fenster = window
