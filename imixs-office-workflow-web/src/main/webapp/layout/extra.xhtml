@@ -2,8 +2,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
- 
-	<span>Build: #{app.application_marty_build}-#{app.application_workflow_build}</span>
+
+	Build: <h:panelGroup rendered="#{! empty app.application_office_build}"> Imixs-Office-Workflow-#{app.application_office_build} | </h:panelGroup>
+	<span>Imixs-Workflow-#{app.application_workflow_build}</span>
+
 </ui:composition>
-
-
