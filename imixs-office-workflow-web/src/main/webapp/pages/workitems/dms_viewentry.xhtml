@@ -48,7 +48,8 @@
 			<h:panelGroup rendered="#{! empty dmsList}">
 				<ui:repeat var="dmsEntry" value="#{dmsList}">
 					<ui:include src="dms_doclink.xhtml">
-						<ui:param name="attachment" value="#{dmsEntry}" />
+						<ui:param name="uniqueid" value="#{workitem.item['$uniqueid']}" />
+						<ui:param name="dmsentry" value="#{dmsEntry}" />
 					</ui:include>
 				</ui:repeat>
 			</h:panelGroup>

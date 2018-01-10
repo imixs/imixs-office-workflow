@@ -14,7 +14,6 @@
 			/* reqlace special characters in attachemnt url */
 			$(document).ready(
 					function() {
-						
 						// change search title...
 						$("#worklist-title").text("#{message['nav.search_documents']}");
 					});
@@ -22,10 +21,9 @@
 			/* Method to update document preview */
 			function updateIframe(uniqueid,filename) {
 				$("#imixs-dms-title").text(filename);
-				
 				//console.log(docurl);
 				var iframe = document.getElementById('imixs_dms_iframe');
-				iframe.src = '#{facesContext.externalContext.requestContextPath}/rest-service/workflow/workitem/'
+				iframe.src = '#{facesContext.externalContext.requestContextPath}/rest-service/snapshot/'
 						+ uniqueid + "/file/"+ filename;
 			}
 

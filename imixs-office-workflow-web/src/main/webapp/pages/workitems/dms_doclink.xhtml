@@ -5,23 +5,17 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 	<div>
-		
 		<!-- link -->
 		<div class="dms-link" >
 			<!-- Attachment link -->
 			<h:panelGroup  style="font-size:17px;"
-				rendered="#{empty attachment.item['url']}">
-				<a href="javascript:updateIframe('#{attachment.item['$uniqueIDRef']}','#{attachment.item['txtName']}')"><span class="typcn typcn-document-text"></span>#{attachment.item['txtName']}</a>
+				rendered="#{empty dmsentry.item['url']}">
+				<a href="javascript:updateIframe('#{uniqueid}','#{dmsentry.item['txtName']}')"><span class="typcn typcn-document-text"></span>#{dmsentry.item['txtName']}</a>
 			</h:panelGroup>
-
 			<br />
-			
-
-			
 		</div>
 		<div style="clear: both"></div>
 	</div>
-
 
 </f:subview>
 
