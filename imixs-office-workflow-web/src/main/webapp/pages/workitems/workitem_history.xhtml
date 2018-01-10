@@ -3,8 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" id="sub_history_form">
 
-<hr />
-	<h:panelGrid columns="2">
+	<h:panelGrid columns="2" columnClasses="imixs-history-col1 imixs-history-col2">
 		<h:outputLabel value="#{message.created}: " />
 		<h:panelGroup>
 			<h:outputText value="#{workflowController.workitem.item['$created']}">
@@ -40,16 +39,17 @@
 			</ui:repeat>
 		</h:panelGroup>
 
-
+		
+	</h:panelGrid>
 
 		
-		<h:outputLabel value="#{message.history}:" />
+		<h:outputLabel value="#{message.course}:" />
 
 		<h:panelGroup>
 			<!--  new log format -->
 			<ui:fragment
 				rendered="#{!empty workflowController.workitem.item['txtworkflowhistory']}">
-				<h:dataTable var="log"
+				<h:dataTable var="log" columnClasses="imixs-history-col1 imixs-history-col2"
 					value="#{workflowController.workitem.itemListArray['txtworkflowhistory']}">
 					<h:column>
 						<h:outputText value="#{log[0]}">
@@ -79,7 +79,6 @@
 		
 		
 		
-		
-	</h:panelGrid>
+
 </f:subview>
 

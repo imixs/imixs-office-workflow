@@ -5,8 +5,9 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 
-	<c:forEach items="#{formController.formDefinition.sections}" var="section">
-		<div>
+	<c:forEach items="#{formController.formDefinition.sections}"
+		var="section">
+		<div class="imixs-form-panel">
 			<h1>
 				<h:outputText value="#{section.name}" />
 			</h1>
@@ -14,23 +15,32 @@
 				<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
 					<ui:param name="workitem" value="#{workflowController.workitem}" />
 				</ui:include>
-			</f:subview> 
+			</f:subview>
 		</div>
-	</c:forEach> 
+	</c:forEach>
 
 
-	<!-- Standard Tab Section --> 
-	<div>
+	<!-- Standard Tab Section -->
+	<div class="imixs-form-panel">
 		<h1>#{message.comments}</h1>
-		<ui:include src="/pages/workitems/forms/sub_comment.xhtml" >
-		<ui:param name="workitem" value="#{workflowController.workitem}" />
+		<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
+			<ui:param name="workitem" value="#{workflowController.workitem}" />
 		</ui:include>
+	</div>
 
-		<ui:fragment rendered="#{! empty dmsController.dmsList}">
+
+
+	<ui:fragment rendered="#{! empty dmsController.dmsList}">
+		<div class="imixs-form-panel">
 			<h1>#{message.documents}</h1>
 			<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
-		</ui:fragment>
+		</div>
+	</ui:fragment>
 
+	<div class="imixs-form-panel">
+		<!-- *** History **** -->
+		<h1>#{message.history}</h1>
+		<ui:include src="/pages/workitems/workitem_history.xhtml" />
 	</div>
 
 
