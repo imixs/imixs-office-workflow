@@ -3,13 +3,13 @@
 The following section contains migration notes for Imixs-Office-Workflow. 
 
 
-## Imixs-Office-Workflow 3.2.0
+### Imixs-Office-Workflow 3.2.0
 
 Version 3.2.0 introduces the new [Imixs-Archive](https://github.com/imixs/imixs-archive) concept. A migration of data is not necessary. But some configuration issues:
 
-1. DMS Plugin is deprecated and can be removed from custom models.
+### 1. DMS Plugin is deprecated and can be removed from custom models.
 
-2. New Maven dependencies: 
+### 2. New Maven dependencies: 
 
 	<!-- Workflow Versions -->
 	<org.imixs.workflow.version>4.2.4</org.imixs.workflow.version>
@@ -72,19 +72,24 @@ Version 3.2.0 introduces the new [Imixs-Archive](https://github.com/imixs/imixs-
 				<scope>provided</scope>
 			</dependency>
    
-3. New imixs.properties:
+### 3. New imixs.properties:
 
 	snapshot.history=1
 	snapshot.overwriteFileContent=false 
 
  Take care about the lucene index field txtUsername
  
+	lucence.indexFieldListAnalyze=txtUsername
  
- 
-4. EAR pom.xml
+### 4. EAR pom.xml
 
    new Jar Moduels:
    
+	<JarModule>
+		<groupId>org.imixs.workflow</groupId>
+		<artifactId>imixs-workflow-jax-rs</artifactId>
+		<bundleDir>/</bundleDir>
+	</JarModule>
 	<JarModule>
 		<groupId>org.imixs.workflow</groupId>
 		<artifactId>imixs-archive-api</artifactId>
@@ -96,8 +101,15 @@ Version 3.2.0 introduces the new [Imixs-Archive](https://github.com/imixs/imixs-
 		<bundleDir>/</bundleDir>
 	</JarModule> 
  
-   add dependencies
+
+and add dependencies....
    
+   
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-workflow-jax-rs</artifactId>
+			<type>jar</type>
+		</dependency>
 	 <!-- Imixs-Archive -->
 		<dependency>
 			<groupId>org.imixs.workflow</groupId>
@@ -138,9 +150,9 @@ Version 3.2.0 introduces the new [Imixs-Archive](https://github.com/imixs/imixs-
  
  also add the imixs-workflow-jax-rs dependencies
  
-5.) EJB pom.xml  
+### 5.) EJB pom.xml  
 
- add dependencies:
+in the ejb pom.xml, the add dependencies:
  
  
 		<dependency>
@@ -155,10 +167,13 @@ Version 3.2.0 introduces the new [Imixs-Archive](https://github.com/imixs/imixs-
  
  add EJB MANIFEST entries:
  
-       ...imixs-workflow-jax-rs-${org.imixs.workflow.version}.jar.... imixs-archive-api-${org.imixs.archive.version}.jar imixs-adapters-documents-${org.imixs.adapters.version}.jar...
+       ...imixs-workflow-jax-rs-${org.imixs.workflow.version}.jar imixs-archive-api-${org.imixs.archive.version}.jar imixs-adapters-documents-${org.imixs.adapters.version}.jar...
  
+### 6.) Web Modules
+
+remove the web.xml if possible... (jax-rs servlets no longer needed)
   
-## Imixs-Office-Workflow 3.1.1
+# Imixs-Office-Workflow 3.1.1
 
 * Update  properties _lucence.indexFieldListAnalyze_ - txtusername - moved from  properties _lucence.indexFieldListNoAnalyze_
 
@@ -168,7 +183,7 @@ Version 3.2.0 introduces the new [Imixs-Archive](https://github.com/imixs/imixs-
 
 
 
-## General Migration Guide for Imixs-Workflow Version 4.x
+# General Migration Guide for Imixs-Workflow Version 4.x
 
 This is a migration guide to migrate a existing Imixs-Office-Workflow instance from Imixs-Workflow Version 3.x to 4.x
 
