@@ -18,8 +18,9 @@
 		<h:outputLabel value="#{message.last_edit}: " />
 
 		<h:panelGroup>
+			<ui:param name="modified" value="#{! empty workflowController.workitem.item['$lasteventdate']?workflowController.workitem.item['$lasteventdate']:(! empty workflowController.workitem.item['timworkflowlastaccess']?workflowController.workitem.item['timworkflowlastaccess']:workflowController.workitem.item['$modified'])}"></ui:param>
 			<h:outputText
-				value="#{workflowController.workitem.item['$modified']}">
+				value="#{modified}">
 				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 					pattern="#{message.dateTimePattern}" />
 			</h:outputText>

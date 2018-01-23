@@ -16,7 +16,8 @@
 					<f:facet name="header">
 						<h:outputText value="#{message.modified}" />
 					</f:facet>
-					<h:outputText value="#{version.item['$modified']}">
+					<ui:param name="modified" value="#{! empty version.item['$lasteventdate']?version.item['$lasteventdate']:(! empty version.item['timworkflowlastaccess']?version.item['timworkflowlastaccess']:version.item['$modified'])}"></ui:param>
+					<h:outputText value="#{modified}">
 						<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 							pattern="#{message.dateTimePattern}" />
 					</h:outputText>
