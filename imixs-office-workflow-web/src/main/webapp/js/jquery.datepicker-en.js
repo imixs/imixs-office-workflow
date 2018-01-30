@@ -1,4 +1,4 @@
 /* English/US 
  * 
- * We simply use the defaults provided from jquery 
+ * Empty Default - We simply use the defaults provided from jquery 
  **/
