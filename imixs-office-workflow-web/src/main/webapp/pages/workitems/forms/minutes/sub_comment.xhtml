@@ -24,7 +24,8 @@
 					<h:outputLabel value="#{message['form.comment.history']}:" />
 				</dt>
 				<dd>
-					<h:panelGrid columns="3" rowClasses="topAligned" styleClass="imixs-commentlist">
+					<h:panelGrid columns="3" rowClasses="topAligned" 
+								columnClasses="imixs-history-col1,imixs-history-col2" styleClass="imixs-commentlist">
 						<c:forEach
 							items="#{workitem.getItemValue('txtCommentLog')}"
 							var="comment">
