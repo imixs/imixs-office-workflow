@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.4.2.Final-v20171109-1930-B1" targetNamespace="http://www.imixs.org/bpmn2">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.4.2.SNAPSHOT-v20180116-1616-B1" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
       <imixs:value><![CDATA[protokoll-de-2.0.0]]></imixs:value>
@@ -926,6 +926,18 @@ Das ist eine automatische generierte E-Mail. Bitte nicht auf diese E-Mail antwor
         <imixs:item name="rtfresultlog" type="CDATA">
           <imixs:value><![CDATA[Aktualisiert von <username>namcurrenteditor</username>.]]></imixs:value>
         </imixs:item>
+        <imixs:item name="txtbusinessrule" type="CDATA">
+          <imixs:value><![CDATA[var result={}; 
+
+if (workitem._minute_team && workitem._minute_team.length===1 && workitem._minute_team[0]==="") {
+	result._minute_team=workitem.$editor; 
+}
+
+if (workitem._subject[0]==="") {
+	result.isValid=false;
+	result.errorMessage='Bitte geben Sie ein Thema ein.';
+}]]></imixs:value>
+        </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:outgoing>SequenceFlow_25</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
@@ -934,6 +946,14 @@ Das ist eine automatische generierte E-Mail. Bitte nicht auf diese E-Mail antwor
       <bpmn2:extensionElements>
         <imixs:item name="rtfresultlog" type="CDATA">
           <imixs:value><![CDATA[Aktualisiert von <username>namcurrenteditor</username>.]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtbusinessrule" type="CDATA">
+          <imixs:value><![CDATA[var result={}; 
+
+if (workitem._subject[0]==="") {
+	result.isValid=false;
+	result.errorMessage='Bitte geben Sie ein Thema ein.';
+}]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:outgoing>SequenceFlow_26</bpmn2:outgoing>
@@ -1003,6 +1023,14 @@ Das ist eine automatische generierte E-Mail. Bitte nicht auf diese E-Mail antwor
       <bpmn2:extensionElements>
         <imixs:item name="rtfresultlog" type="CDATA">
           <imixs:value><![CDATA[Aktualisiert von <username>namcurrenteditor</username>.]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtbusinessrule" type="CDATA">
+          <imixs:value><![CDATA[var result={}; 
+
+if (workitem._subject[0]==="") {
+	result.isValid=false;
+	result.errorMessage='Bitte geben Sie ein Thema ein.';
+}]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:outgoing>SequenceFlow_49</bpmn2:outgoing>
@@ -1133,6 +1161,18 @@ Das ist eine automatische generierte E-Mail. Bitte nicht auf diese E-Mail antwor
         </imixs:item>
         <imixs:item name="keymailreceiverfields" type="xs:string">
           <imixs:value><![CDATA[_minute_team]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtbusinessrule" type="CDATA">
+          <imixs:value><![CDATA[var result={}; 
+
+if (workitem._minute_team && workitem._minute_team.length===1 && workitem._minute_team[0]==="") {
+	result._minute_team=workitem.$editor; 
+}
+
+if (workitem._subject[0]==="") {
+	result.isValid=false;
+	result.errorMessage='Bitte geben Sie ein Thema ein.';
+}]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_16</bpmn2:incoming>
@@ -1341,7 +1381,12 @@ Das ist eine automatische generierte E-Mail. Bitte nicht auf diese E-Mail antwor
           <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtbusinessrule" type="CDATA">
-          <imixs:value><![CDATA[]]></imixs:value>
+          <imixs:value><![CDATA[var result={}; 
+
+if (workitem._subject[0]==="") {
+	result.isValid=false;
+	result.errorMessage='Bitte geben Sie ein Thema ein.';
+}]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_44</bpmn2:incoming>
@@ -1394,7 +1439,12 @@ Das ist eine automatische generierte E-Mail. Bitte nicht auf diese E-Mail antwor
           <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtbusinessrule" type="CDATA">
-          <imixs:value><![CDATA[]]></imixs:value>
+          <imixs:value><![CDATA[var result={}; 
+
+if (workitem._subject[0]==="") {
+	result.isValid=false;
+	result.errorMessage='Bitte geben Sie ein Thema ein.';
+}]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_65</bpmn2:incoming>
