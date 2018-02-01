@@ -46,8 +46,10 @@
 					<div class="imixs-body">
 						<f:ajax event="change" render=":report_form_id:hidden_uri">
 
-							<div class="imixs-form-panel">
-								<h1>Parameter</h1>
+							<h:panelGroup layout="block" styleClass="imixs-form-panel" rendered="#{!empty reportController.params.keySet().toArray()}">
+
+							
+								<h1>#{message['report.parameters']}</h1>
 								<div class="imixs-form-section-2">
 
 									<ui:repeat
@@ -66,38 +68,38 @@
 
 									</ui:repeat>
 								</div>
-							</div>
-
+							
+							</h:panelGroup>
 
 							<div class="imixs-form-panel">
-								<h1>Result</h1>
+								<h1>#{message['report.result']}</h1>
 								<div class="imixs-form-section-2">
 								
 								
 									<dl>
-										<dt>Page Size:</dt>
+										<dt>#{message['report.page_size']}:</dt>
 										<dd>
-											<input type="text" id="imixs-report-pagesize" />
+											<input type="text" placeholder="100" id="imixs-report-pagesize" />
 										</dd>
 									</dl>
 									<dl>
-										<dt>Page Index:</dt>
+										<dt>#{message['report.page_index']}:</dt>
 										<dd>
-											<input type="text" id="imixs-report-pageindex" />
+											<input type="text" placeholder="0" id="imixs-report-pageindex" />
 										</dd>
 									</dl>
 
 									<dl>
-										<dt>Sort By:</dt>
+										<dt>#{message['report.sort_by']}:</dt>
 										<dd>
 											<input type="text" id="imixs-report-sortby" />
 										</dd>
 									</dl>
 
 									<dl>
-										<dt>Sortorder reverse:</dt>
+										<dt>#{message['report.sortorder_reverse']}:</dt>
 										<dd>
-											<input type="text" id="imixs-report-sortreverse" />
+											<input type="text"  placeholder="false" id="imixs-report-sortreverse" />
 										</dd>
 									</dl>
 									
@@ -111,7 +113,7 @@
 
 
 									<dl>
-										<dt>Output:</dt>
+										<dt>#{message['report.output']}:</dt>
 										<dd>
 											<select id="imixs-report-output">
 												<option value="html">HTML</option>
@@ -122,7 +124,7 @@
 									</dl>
 
 									<dl>
-										<dt>Encoding:</dt>
+										<dt>#{message['report.encoding']}:</dt>
 										<dd>
 											<input type="text" id="imixs-report-encoding" />
 										</dd>
