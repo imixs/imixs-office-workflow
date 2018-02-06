@@ -1,33 +1,69 @@
-version: "3"
+version: '3.1'
+
 services:
-
-  postgresoffice:
-    image: postgres:9.6.1
-    environment:
-      POSTGRES_PASSWORD: adminadmin
-      POSTGRES_DB: office
-
-  imixsofficeworkflow:
-    image: imixs/imixs-office-workflow
+  app:
+    image: my-registry.com:8300/imixs/imixs-office-workflow:3.1.2-SNAPSHOT
     environment:
       WILDFLY_PASS: adminadmin
-      DEBUG: "true"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "adminadmin"
-      POSTGRES_CONNECTION: "jdbc:postgresql://postgresoffice/office"
-    ports:
-      - "8080:8080"
-      - "9990:9990"
-      - "8787:8787"
-    volumes:
-        - ~/git/imixs-office-workflow/src/docker/.deployments:/opt/wildfly/standalone/deployments/
+      POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
+
+    deploy:
+      labels:
+        traefik.port: "8080"
+        traefik.frontend.rule: "Host:office-demo.muc"
+        traefik.traefik.docker.network: "imixs-proxy-net"
+    volumes: 
+      - appdata:/home/imixs
+    networks:
+      - frontend
+      - backend
+
+  db:
+    image: postgres:9.6.1
+    environment:
+      POSTGRES_PASSWORD_FILE: "/run/secrets/postgres_password"
+      POSTGRES_DB: office
+    volumes: 
+      - dbdata:/var/lib/postgresql/data
+    networks:
+      - backend
+    secrets:
+      - postgres_password
 
   backup:
-    image: imixs/backup
+    image: imixs/backup:1.0.3
     environment:
-      SETUP_CRON: "*/5 * * * *"
+      SETUP_CRON: "0 3 * * *"
+      BACKUP_SERVICE_NAME: "office-demo"
       BACKUP_POSTGRES_USER: "postgres"
-      BACKUP_POSTGRES_PASSWORD: "adminadmin"
-      BACKUP_POSTGRES_HOST: "postgresoffice"
+      BACKUP_POSTGRES_PASSWORD_FILE: "/run/secrets/postgres_password"
+      BACKUP_POSTGRES_HOST: "db"
       BACKUP_POSTGRES_DB: "office"
       BACKUP_POSTGRES_ROLLING: "5"
+      BACKUP_FTP_HOST: "u26457.your-backup.de"
+      BACKUP_FTP_USER: "u26457"
+      BACKUP_FTP_PASSWORD_FILE: "/run/secrets/ftp_password"
+    secrets:
+      - postgres_password
+      - ftp_password
+    networks:
+      - backend
+
+secrets:
+   postgres_password:
+     external: true
+   ftp_password:
+     external: true
+
+
+volumes:
+  dbdata:
+  appdata:
+
+networks:
+  frontend:
+    external:
+      name: imixs-proxy-net 
+  backend: 
