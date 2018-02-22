@@ -591,7 +591,7 @@ dl dt {
 
 /* --- Imixs-Portlet ---------------------------------- */
 .imixs-portlet {
-	width: 33.3333%;
+	width: 25%;
 	display: inline-block;
 	float: left;
 	min-height: 1px;
@@ -601,11 +601,11 @@ dl dt {
 	margin-bottom: 30px;
 }
 
-.imixs-portlet:nth-child(3n+3) {
+.imixs-portlet:nth-child(4n+4) {
 	border-right: none;
 }
 
-.imixs-portlet:nth-child(4n+4) {
+.imixs-portlet:nth-child(5n+5) {
 	clear: left;
 }
 
@@ -684,6 +684,8 @@ dl dt {
 	
 }
 
+
+
 /*
  * DMS Search
  */
@@ -694,6 +696,15 @@ dl dt {
 .imixs-view.imixs-dms-search .dms-link .typcn {
 	font-size: 18px;
 	margin-right: 5px;
+}
+
+.imixs-board {
+	
+}
+
+
+.imixs-board h2 {
+	border-bottom: 2px solid #428bca;
 }
 
 /*
@@ -1411,6 +1422,22 @@ input:disabled, textarea:disabled {
 /* RESPONSIVE BEHAVIOUR */
 
 
+@media screen and (max-width: 1500px) {
+	.imixs-portlet {
+		width: 33.3333%;
+		float: left;
+	}
+	.imixs-portlet:nth-child(3n+3) {
+		border-right: none;
+	}
+	.imixs-portlet:nth-child(5n+5) {
+		clear: none;
+	}
+	.imixs-portlet:nth-child(4n+4) {
+		clear: left;
+	}
+}
+
 @media screen and (max-width: 1400px) {
 	.imixs-form .imixs-body .imixs-form-tabs .col-8, .imixs-form .imixs-body .imixs-form-tabs .col-4
 		{
@@ -1448,6 +1475,9 @@ input:disabled, textarea:disabled {
 	}
 	.imixs-portlet:nth-child(2n+2) {
 		border-right: none;
+	}
+	.imixs-portlet:nth-child(5n+5) {
+		float:right;
 	}
 	.imixs-historyentry {
 	}

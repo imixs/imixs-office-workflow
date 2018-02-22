@@ -34,18 +34,19 @@
 				<span class="login-name"> <h:outputText
 						value="#{message.signed_in}: " /> <h:outputText
 						rendered="#{! empty userController.workitem.item['txtUserName']}"
-						value="#{userController.workitem.item['txtUserName']}" />
-					<h:outputText
+						value="#{userController.workitem.item['txtUserName']}" /> <h:outputText
 						rendered="#{empty userController.workitem.item['txtUserName']}"
 						value="#{userController.workitem.item['txtName']}" />
 				</span>
 				<h:link outcome="/pages/profile/settings"
-					title="#{message['nav.my_settings']}"><span class="typcn typcn-cog"></span>
+					title="#{message['nav.my_settings']}">
+					<span class="typcn typcn-cog"></span>
 				</h:link>
 
 				<h:commandLink action="logout" immediate="true"
 					title="#{message['nav.logout']}"
-					actionListener="#{loginController.doLogout}"><span class="typcn typcn-power"></span>
+					actionListener="#{loginController.doLogout}">
+					<span class="typcn typcn-power"></span>
 				</h:commandLink>
 			</h:panelGroup>
 
@@ -54,11 +55,13 @@
 			<c:if test="#{loginController.authenticated}">
 
 				<h:panelGroup layout="block" styleClass="toolbar search">
-					<h:inputText style="margin-right: 10px;" a:placeholder="#{message.search}..."					
+					<h:inputText style="margin-right: 10px;"
+						a:placeholder="#{message.search}..."
 						value="#{searchController.searchFilter.item['txtSearch']}"
 						onfocus="this.value='';" />
 					<h:commandLink actionListener="#{searchController.doResetFilter}"
-						action="search" title="#{message.search}"><span class="typcn typcn-zoom-outline"></span>
+						action="search" title="#{message.search}">
+						<span class="typcn typcn-zoom-outline"></span>
 					</h:commandLink>
 
 					<!-- dummy botton to hit enter -->
@@ -69,7 +72,13 @@
 				</h:panelGroup>
 
 
-
+				<h:panelGroup layout="block" styleClass="toolbar">
+					<!-- board -->
+					<h:link outcome="/pages/notes_board">
+						<span class="typcn typcn-th-large-outline"></span>
+					</h:link>
+				</h:panelGroup>
+				
 				<!-- DMS Search -->
 				<h:panelGroup layout="block" styleClass="toolbar"
 					rendered="#{propertyController.getProperty('dms.search') eq 'true'}">
@@ -83,8 +92,8 @@
 							value="#{true}" />
 					</h:commandLink>
 				</h:panelGroup>
-				
-				
+
+
 				<!-- Custom Section -->
 				<ui:include src="servicenav_custom.xhtml" />
 			</c:if>

@@ -26,6 +26,8 @@
 
 			<div align="right" style="float: right;">
 
+				
+				
 				<!-- refresh -->
 				<h:commandLink actionListener="#{view.doReset}"  styleClass="imixs-portlet-refresh"
 					title="#{message.refresh}">
@@ -49,10 +51,17 @@
 
 			</div>
 
-			<!-- single view mode -->
-			<h:panelGroup rendered="#{!tabMode}">
+			<!-- Title -->
+			<h:panelGroup>
 				<ul>
-					<li class="active"><h:outputText value="#{title}" /></li>
+					<li class="active"><h:outputText value="#{title}" />
+					
+					<!-- board -->
+					<h:link outcome="/pages/notes_board" rendered="#{showBoardView}">
+						<span class="typcn typcn-th-large-outline"></span>
+					</h:link>
+					
+					</li>
 				</ul>
 			</h:panelGroup>
 		</h:panelGroup>
