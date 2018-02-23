@@ -15,13 +15,19 @@
 			<h:panelGroup layout="block" styleClass="imixs-viewentry"
 				rendered="#{(loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isMember'])}">
 				<h1>
-					<h:commandLink action="search" immediate="true" styleClass="action-search"
-						actionListener="#{searchController.doReset}">
-						<h:outputText value="#{process.item['txtName']}" /><span class="typcn typcn-zoom-outline" style="margin-left:5px;"></span>
+					<h:commandLink action="notes_board" immediate="true" styleClass="action-search"
+						actionListener="#{boardController.reset}"><span class="typcn typcn-th-large-outline" style="margin-right:5px;"></span><h:outputText value="#{process.item['txtName']}" />
+						<f:setPropertyActionListener
+							target="#{boardController.ref}"	value="#{process.item['$uniqueId']}" />
+						<f:setPropertyActionListener
+							target="#{boardController.title}" value="#{process.item['txtname']}" />
+					</h:commandLink><h:commandLink action="search" immediate="true" styleClass="action-search"
+						actionListener="#{searchController.doReset}"><span class="typcn typcn-zoom-outline" style="margin-left:8px;"></span>
 						<f:setPropertyActionListener
 							target="#{searchController.searchFilter.item['txtprocessRef']}"
 							value="#{process.item['$uniqueId']}" />
 					</h:commandLink>
+					
 				</h1>
 				<p>
 					<h:outputText value="#{process.item['txtdescription']}" />

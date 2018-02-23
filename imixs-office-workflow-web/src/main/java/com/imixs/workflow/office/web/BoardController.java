@@ -38,9 +38,11 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.imixs.marty.config.SetupController;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.engine.DocumentService;
@@ -49,16 +51,19 @@ import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.util.LoginController;
 
 /**
- ** The BoardController provides a logic to split up the tasklist into workflow
- * groups and stati.
+ ** The BoardController provides a logic to split up the worklist by there
+ * workflow groups and status. The board contoller can select a worklist based
+ * on a unqiueIdRef or if not defined by the current user (task list).
  * 
- * The controller holds a cache map storing all tasks by status
+ * The controller holds a cache map storing all tasks by workflow group and
+ * status.
  * 
  * @author rsoika
  * 
  */
 @Named
-@ConversationScoped
+//@ConversationScoped
+@SessionScoped
 public class BoardController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -70,9 +75,15 @@ public class BoardController implements Serializable {
 
 	private int maxResult;
 	private int pageSize;
+	private String query;
+	private String ref;
+	private String title;
 
 	@Inject
 	protected LoginController loginController = null;
+
+	@Inject
+	SetupController setupController;
 
 	private static Logger logger = Logger.getLogger(BoardController.class.getName());
 
@@ -94,8 +105,8 @@ public class BoardController implements Serializable {
 	}
 
 	public int getPageSize() {
-		if (pageSize<=0) {
-			pageSize=DEFAULT_PAGE_SIZE;
+		if (pageSize <= 0) {
+			pageSize = DEFAULT_PAGE_SIZE;
 		}
 		return pageSize;
 	}
@@ -104,66 +115,107 @@ public class BoardController implements Serializable {
 		this.pageSize = pageSize;
 	}
 
-	
+	public String getRef() {
+		return ref;
+	}
+
+	public void setRef(String ref) {
+		this.ref = ref;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	/**
-	 * This method returns the current page of workitems for the 
-	 * given category. 
+	 * This method computes the search query based on the property ref. If no ref is
+	 * defined, the search query selects the task list for the current user.
+	 * 
+	 * @return
+	 */
+	public String getQuery() {
+		// set default query
+		if (ref == null || ref.isEmpty()) {
+			query = "(type:\"workitem\" AND namowner:\"" + loginController.getRemoteUser() + "\")";
+		} else {
+			query = "(type:\"workitem\" AND $uniqueidref:\"" + ref + "\")";
+		}
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
+	}
+
+	/**
+	 * This method returns the current page of workitems for the given category.
 	 * 
 	 * @param category
 	 * @return
 	 */
 	public List<ItemCollection> getWorkitems(BoardCategory category) {
 		List<ItemCollection> temp = cacheTasks.get(category);
-		
-		int iStart=category.getPageIndex()*getPageSize();
-		int iEnd=iStart+(getPageSize());
-		if (iEnd>temp.size()) {
-			iEnd=temp.size();
+
+		int iStart = category.getPageIndex() * getPageSize();
+		int iEnd = iStart + (getPageSize());
+		if (iEnd > temp.size()) {
+			iEnd = temp.size();
 		}
-		
+
 		// return sublist
-		return temp.subList(iStart,iEnd);
+		return temp.subList(iStart, iEnd);
 	}
-	
-	
+
 	/**
 	 * Loads the next page for a category
 	 */
 	public void doLoadNext(BoardCategory category) {
 		if (!isEndOfList(category)) {
-			category.setPageIndex(category.pageIndex+1);
+			category.setPageIndex(category.pageIndex + 1);
 		}
 	}
+
 	/**
 	 * Loads the prev page for a category
 	 */
 	public void doLoadPrev(BoardCategory category) {
-		if (category.pageIndex>0) {
-			category.setPageIndex(category.pageIndex-1);
+		if (category.pageIndex > 0) {
+			category.setPageIndex(category.pageIndex - 1);
 		}
-		
+
 	}
-	
+
 	public boolean isEndOfList(BoardCategory category) {
 		List<ItemCollection> temp = cacheTasks.get(category);
-		int i=(category.getPageIndex()+1)*getPageSize();
-		
-		if (i>temp.size()) {
+		int i = (category.getPageIndex() + 1) * getPageSize();
+
+		if (i >= temp.size()) {
 			return true;
 		}
-		
+
 		return false;
-		
+
 	}
 
 	/**
-	 * Returns a list of all workflow groups out of a worklfow task list
+	 * Returns a list of all workflow groups out of the current worklist. 
+	 * If no worklist is yet selected, the method triggers the method readWorkList();
 	 * 
 	 * @return
 	 */
 	public List<BoardCategory> getCategories() {
 		if (cacheTasks == null) {
-			reset();
+			// initalize the task list...
+			try {
+				readWorkList();
+			} catch (QueryException e) {
+				logger.warning("failed to read task list: " + e.getMessage());
+			}
+
 		}
 		List<BoardCategory> result = new ArrayList<BoardCategory>();
 		result.addAll(cacheTasks.keySet());
@@ -180,15 +232,12 @@ public class BoardController implements Serializable {
 		return result;
 	}
 
+	/**
+	 * This method discards the cache an reset the current ref.
+	 */
 	public void reset() {
-
-		// initalize the task list...
-		try {
-			readTaskList();
-		} catch (QueryException e) {
-			logger.warning("failed to read task list: " + e.getMessage());
-		}
-
+		cacheTasks = null;
+		ref = null;
 	}
 
 	/**
@@ -198,11 +247,13 @@ public class BoardController implements Serializable {
 	 * @throws QueryException
 	 * 
 	 */
-	private void readTaskList() throws QueryException {
+	private void readWorkList() throws QueryException {
 
 		cacheTasks = new HashMap<>();
-		String query = "(type:\"workitem\" AND namowner:\"" + loginController.getRemoteUser() + "\")";
-		List<ItemCollection> taskList = documentService.find(query, getMaxResult(), 0);
+
+		String sortBy = setupController.getSortBy();
+		boolean bReverse = setupController.getSortReverse();
+		List<ItemCollection> taskList = documentService.find(getQuery(), getMaxResult(), 0, sortBy, bReverse);
 
 		// now split up the result into groups and tasks....
 

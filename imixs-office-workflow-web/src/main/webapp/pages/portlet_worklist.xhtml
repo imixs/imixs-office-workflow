@@ -54,13 +54,16 @@
 			<!-- Title -->
 			<h:panelGroup>
 				<ul>
-					<li class="active"><h:outputText value="#{title}" />
-					
+					<li class="active">
 					<!-- board -->
-					<h:link outcome="/pages/notes_board" rendered="#{showBoardView}">
-						<span class="typcn typcn-th-large-outline"></span>
-					</h:link>
+						<h:commandLink action="notes_board" immediate="true" styleClass="action-search"
+							actionListener="#{boardController.reset}" rendered="#{showBoardView}">
+							<span class="typcn typcn-th-large-outline" style="margin-right:8px;"></span>
+							<f:setPropertyActionListener
+								target="#{boardController.title}"	value="#{message['worklist.owner']}" />
+						</h:commandLink><h:outputText value="#{title}" />
 					
+						
 					</li>
 				</ul>
 			</h:panelGroup>

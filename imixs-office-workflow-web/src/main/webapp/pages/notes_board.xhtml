@@ -4,9 +4,9 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
 	template="/layout/template.xhtml">
 	<ui:define name="content">
-
 
 		<f:view>
 			<script type="text/javascript">
@@ -21,7 +21,6 @@
 										$(".imixs-portlet-refresh").click()
 									}, 300000);
 								});
-
 				/*]]>*/
 			</script>
 			<h:form>
@@ -42,13 +41,38 @@
 					<div class="row imixs-board">
 						<div class="col-12">
 							<h2>
-								#{message['worklist.owner']}
-								<!-- board -->
+								<!-- notes -->
 								<h:link outcome="/pages/notes">
 									<span class="typcn typcn-th-menu-outline"></span>
 								</h:link>
-
-
+								#{boardController.title}
+								<!-- Search box -->
+								<h:panelGroup styleClass="search">
+									<h:inputText a:placeholder="#{message.search}..."
+										value="#{searchController.searchFilter.item['txtSearch']}"
+										onfocus="this.value='';" /><h:commandLink
+										actionListener="#{searchController.doResetFilter}"
+										action="search" title="#{message.search}"><span class="typcn typcn-zoom-outline" style="margin-left:5px;"></span>
+										<f:setPropertyActionListener
+											target="#{searchController.searchFilter.item['txtprocessRef']}"
+											value="#{boardController.ref}" />
+									</h:commandLink>
+									<h:commandLink action="search" immediate="true"
+										styleClass="action-search"
+										actionListener="#{searchController.doReset}">
+										<f:setPropertyActionListener
+											target="#{searchController.searchFilter.item['txtprocessRef']}"
+											value="#{boardController.ref}" />
+									</h:commandLink><!-- dummy botton to hit enter -->
+									<h:commandButton
+										style="visibility:hidden;display: none;width:1px;height:1px;"
+										actionListener="#{searchController.doResetFilter}"
+										action="search">
+										<f:setPropertyActionListener
+											target="#{searchController.searchFilter.item['txtprocessRef']}"
+											value="#{boardController.ref}" />
+									</h:commandButton>
+								</h:panelGroup>
 
 
 								<!-- navigation -->
@@ -57,21 +81,11 @@
 
 									<!-- refresh -->
 									<h:commandLink actionListener="#{boardController.reset()}"
-										styleClass="imixs-portlet-refresh" title="#{message.refresh}">
-										<span class="typcn typcn-arrow-sync"></span>
+										styleClass="imixs-portlet-refresh" title="#{message.refresh}"><span class="typcn typcn-arrow-sync"></span>
 										<f:ajax render="portlet_board"
 											onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
-									</h:commandLink>
-
-									<h:commandLink title="#{message.prev}">
-										<span class="typcn typcn-media-rewind-outline"></span>
-
-									</h:commandLink>
-									<h:commandLink title="#{message.next}">
-										<span class="typcn typcn-media-fast-forward-outline"></span>
-
-									</h:commandLink>
-
+									</h:commandLink><h:commandLink title="#{message.prev}" style="margin-left:8px;"><span class="typcn typcn-media-rewind-outline"></span></h:commandLink>
+									<h:commandLink title="#{message.next}" style="margin-left:8px;"><span class="typcn typcn-media-fast-forward-outline"></span></h:commandLink>
 								</h:panelGroup>
 							</h2>
 						</div>
