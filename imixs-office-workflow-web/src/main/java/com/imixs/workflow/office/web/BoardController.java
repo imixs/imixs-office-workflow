@@ -33,16 +33,22 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Observes;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.imixs.marty.config.SetupController;
+import org.imixs.marty.workflow.WorkflowEvent;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.engine.DocumentService;
@@ -62,7 +68,6 @@ import org.imixs.workflow.faces.util.LoginController;
  * 
  */
 @Named
-//@ConversationScoped
 @SessionScoped
 public class BoardController implements Serializable {
 
@@ -75,6 +80,8 @@ public class BoardController implements Serializable {
 
 	private int maxResult;
 	private int pageSize;
+	private int pageIndex = 0;
+	private boolean endOfList = false;
 	private String query;
 	private String ref;
 	private String title;
@@ -104,6 +111,18 @@ public class BoardController implements Serializable {
 		this.maxResult = maxResult;
 	}
 
+	/***************************************************************************
+	 * Navigation
+	 */
+
+	public int getPageIndex() {
+		return pageIndex;
+	}
+
+	public void setPageIndex(int pageIndex) {
+		this.pageIndex = pageIndex;
+	}
+
 	public int getPageSize() {
 		if (pageSize <= 0) {
 			pageSize = DEFAULT_PAGE_SIZE;
@@ -123,7 +142,28 @@ public class BoardController implements Serializable {
 		this.ref = ref;
 	}
 
+	/**
+	 * Get the board title. The default board title is message['worklist.owner']
+	 * 
+	 * @return
+	 */
 	public String getTitle() {
+		if (title == null || title.isEmpty()) {
+			// get default title...
+			// #{message['worklist.owner']}
+			try {
+				Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+				ResourceBundle rb = null;
+				if (locale != null)
+					rb = ResourceBundle.getBundle("bundle.messages", locale);
+				else
+					rb = ResourceBundle.getBundle("bundle.messages");
+				title = rb.getString("worklist.owner");
+			} catch (java.util.MissingResourceException eb) {
+				title = "";
+			}
+		}
+
 		return title;
 	}
 
@@ -133,7 +173,7 @@ public class BoardController implements Serializable {
 
 	/**
 	 * This method computes the search query based on the property ref. If no ref is
-	 * defined, the search query selects the task list for the current user.
+	 * defined, the default query selects the task list for the current user.
 	 * 
 	 * @return
 	 */
@@ -202,8 +242,8 @@ public class BoardController implements Serializable {
 	}
 
 	/**
-	 * Returns a list of all workflow groups out of the current worklist. 
-	 * If no worklist is yet selected, the method triggers the method readWorkList();
+	 * Returns a list of all workflow groups out of the current worklist. If no
+	 * worklist is yet selected, the method triggers the method readWorkList();
 	 * 
 	 * @return
 	 */
@@ -238,6 +278,69 @@ public class BoardController implements Serializable {
 	public void reset() {
 		cacheTasks = null;
 		ref = null;
+		pageIndex = 0;
+		endOfList = false;
+	}
+
+	/**
+	 * This method discards the cache.
+	 */
+	public void refresh() {
+		cacheTasks = null;
+		pageIndex = 0;
+		endOfList = false;
+	}
+
+	public void doLoadNext() {
+		pageIndex++;
+		cacheTasks = null;
+	}
+
+	public void doLoadNext(ActionEvent event) {
+		doLoadNext();
+	}
+
+	public void doLoadNext(AjaxBehaviorEvent event) {
+		doLoadNext();
+	}
+
+	public void doLoadPrev() {
+		pageIndex--;
+		if (pageIndex < 0) {
+			pageIndex = 0;
+		}
+		cacheTasks = null;
+	}
+
+	public void doLoadPrev(ActionEvent event) {
+		doLoadPrev();
+	}
+
+	public void doLoadPrev(AjaxBehaviorEvent event) {
+		doLoadPrev();
+	}
+
+	public boolean isEndOfList() {
+		return endOfList;
+	}
+
+	public void setEndOfList(boolean endOfList) {
+		this.endOfList = endOfList;
+	}
+
+	/**
+	 * WorkflowEvent listener listens to WORKITEM events and reset the result list
+	 * after changing a workitem.
+	 * 
+	 * @param workflowEvent
+	 **/
+	public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) {
+		if (workflowEvent == null || workflowEvent.getWorkitem() == null) {
+			return;
+		}
+		if (WorkflowEvent.WORKITEM_AFTER_PROCESS == workflowEvent.getEventType()) {
+			refresh();
+		}
 	}
 
 	/**
@@ -253,7 +356,10 @@ public class BoardController implements Serializable {
 
 		String sortBy = setupController.getSortBy();
 		boolean bReverse = setupController.getSortReverse();
-		List<ItemCollection> taskList = documentService.find(getQuery(), getMaxResult(), 0, sortBy, bReverse);
+		List<ItemCollection> taskList = documentService.find(getQuery(), getMaxResult(), getPageIndex(), sortBy,
+				bReverse);
+
+		endOfList = (taskList.size() < pageSize);
 
 		// now split up the result into groups and tasks....
 

@@ -80,12 +80,24 @@
 									id="portlet_worklist_nav">
 
 									<!-- refresh -->
-									<h:commandLink actionListener="#{boardController.reset()}"
+									<h:commandLink actionListener="#{boardController.refresh()}"
 										styleClass="imixs-portlet-refresh" title="#{message.refresh}"><span class="typcn typcn-arrow-sync"></span>
 										<f:ajax render="portlet_board"
 											onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
-									</h:commandLink><h:commandLink title="#{message.prev}" style="margin-left:8px;"><span class="typcn typcn-media-rewind-outline"></span></h:commandLink>
-									<h:commandLink title="#{message.next}" style="margin-left:8px;"><span class="typcn typcn-media-fast-forward-outline"></span></h:commandLink>
+									</h:commandLink>
+									<!-- prev -->
+									<h:commandLink title="#{message.prev}" 
+													actionListener="#{boardController.doLoadPrev}"
+													disabled="#{boardController.pageIndex==0}" 
+													style="margin-left:8px;"><span class="typcn #{(boardController.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span></h:commandLink>
+									<!-- next -->
+									<h:commandLink title="#{message.next}" 
+													actionListener="#{boardController.doLoadNext}"
+													disabled="#{boardController.endOfList}" 
+													style="margin-left:8px;"><span class="typcn #{(boardController.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span></h:commandLink>
+									
+							
+									
 								</h:panelGroup>
 							</h2>
 						</div>
