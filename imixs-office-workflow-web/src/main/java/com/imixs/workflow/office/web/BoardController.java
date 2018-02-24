@@ -73,12 +73,12 @@ public class BoardController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final int DEFAULT_MAX_RESULT = 100;
-	private static final int DEFAULT_PAGE_SIZE = 5;
+	private static final int DEFAULT_PAGE_SIZE = 100;
+	private static final int DEFAULT_CATEGORY_PAGE_SIZE = 5;
 
 	private Map<BoardCategory, List<ItemCollection>> cacheTasks;
 
-	private int maxResult;
+	private int categoryPageSize;
 	private int pageSize;
 	private int pageIndex = 0;
 	private boolean endOfList = false;
@@ -100,17 +100,9 @@ public class BoardController implements Serializable {
 	@EJB
 	DocumentService documentService;
 
-	public int getMaxResult() {
-		if (maxResult <= 0) {
-			maxResult = DEFAULT_MAX_RESULT;
-		}
-		return maxResult;
-	}
-
-	public void setMaxResult(int maxResult) {
-		this.maxResult = maxResult;
-	}
-
+	
+	
+	
 	/***************************************************************************
 	 * Navigation
 	 */
@@ -192,87 +184,6 @@ public class BoardController implements Serializable {
 	}
 
 	/**
-	 * This method returns the current page of workitems for the given category.
-	 * 
-	 * @param category
-	 * @return
-	 */
-	public List<ItemCollection> getWorkitems(BoardCategory category) {
-		List<ItemCollection> temp = cacheTasks.get(category);
-
-		int iStart = category.getPageIndex() * getPageSize();
-		int iEnd = iStart + (getPageSize());
-		if (iEnd > temp.size()) {
-			iEnd = temp.size();
-		}
-
-		// return sublist
-		return temp.subList(iStart, iEnd);
-	}
-
-	/**
-	 * Loads the next page for a category
-	 */
-	public void doLoadNext(BoardCategory category) {
-		if (!isEndOfList(category)) {
-			category.setPageIndex(category.pageIndex + 1);
-		}
-	}
-
-	/**
-	 * Loads the prev page for a category
-	 */
-	public void doLoadPrev(BoardCategory category) {
-		if (category.pageIndex > 0) {
-			category.setPageIndex(category.pageIndex - 1);
-		}
-
-	}
-
-	public boolean isEndOfList(BoardCategory category) {
-		List<ItemCollection> temp = cacheTasks.get(category);
-		int i = (category.getPageIndex() + 1) * getPageSize();
-
-		if (i >= temp.size()) {
-			return true;
-		}
-
-		return false;
-
-	}
-
-	/**
-	 * Returns a list of all workflow groups out of the current worklist. If no
-	 * worklist is yet selected, the method triggers the method readWorkList();
-	 * 
-	 * @return
-	 */
-	public List<BoardCategory> getCategories() {
-		if (cacheTasks == null) {
-			// initalize the task list...
-			try {
-				readWorkList();
-			} catch (QueryException e) {
-				logger.warning("failed to read task list: " + e.getMessage());
-			}
-
-		}
-		List<BoardCategory> result = new ArrayList<BoardCategory>();
-		result.addAll(cacheTasks.keySet());
-
-		// sort result
-
-		Collections.sort(result, new Comparator<BoardCategory>() {
-			@Override
-			public int compare(BoardCategory p1, BoardCategory p2) {
-				return p1.toString().compareTo(p2.toString());
-			}
-		});
-
-		return result;
-	}
-
-	/**
 	 * This method discards the cache an reset the current ref.
 	 */
 	public void reset() {
@@ -289,6 +200,32 @@ public class BoardController implements Serializable {
 		cacheTasks = null;
 		pageIndex = 0;
 		endOfList = false;
+	}
+
+	/**
+	 * Returns a list of all workflow groups out of the current worklist. If no
+	 * worklist is yet selected, the method triggers the method readWorkList();
+	 * 
+	 * @return
+	 */
+	public List<BoardCategory> getCategories() {
+		if (cacheTasks == null) {
+			// initalize the task list...
+			readWorkList();
+		}
+
+		List<BoardCategory> result = new ArrayList<BoardCategory>();
+		result.addAll(cacheTasks.keySet());
+	
+		// sort result
+		Collections.sort(result, new Comparator<BoardCategory>() {
+			@Override
+			public int compare(BoardCategory p1, BoardCategory p2) {
+				return p1.toString().compareTo(p2.toString());
+			}
+		});
+	
+		return result;
 	}
 
 	public void doLoadNext() {
@@ -321,6 +258,10 @@ public class BoardController implements Serializable {
 	}
 
 	public boolean isEndOfList() {
+		if (cacheTasks == null) {
+			// initalize the task list...
+			readWorkList();
+		}
 		return endOfList;
 	}
 
@@ -343,6 +284,67 @@ public class BoardController implements Serializable {
 		}
 	}
 
+	public int getCategoryPageSize() {
+		if (categoryPageSize <= 0) {
+			categoryPageSize=DEFAULT_CATEGORY_PAGE_SIZE;
+		}
+		return categoryPageSize;
+	}
+
+	public void setCategoryPageSize(int categoryPageSize) {
+		this.categoryPageSize = categoryPageSize;
+	}
+
+	/**
+	 * This method returns the current page of workitems for the given category.
+	 * 
+	 * @param category
+	 * @return
+	 */
+	public List<ItemCollection> getWorkitems(BoardCategory category) {
+		List<ItemCollection> temp = cacheTasks.get(category);
+	
+		int iStart = category.getPageIndex() * category.getPageSize();
+		int iEnd = iStart + (category.getPageSize());
+		if (iEnd > temp.size()) {
+			iEnd = temp.size();
+		}
+	
+		// return sublist
+		return temp.subList(iStart, iEnd);
+	}
+
+	/**
+	 * Loads the next page for a category
+	 */
+	public void doLoadNext(BoardCategory category) {
+		if (!isEndOfList(category)) {
+			category.setPageIndex(category.pageIndex + 1);
+		}
+	}
+
+	/**
+	 * Loads the prev page for a category
+	 */
+	public void doLoadPrev(BoardCategory category) {
+		if (category.pageIndex > 0) {
+			category.setPageIndex(category.pageIndex - 1);
+		}
+	
+	}
+
+	public boolean isEndOfList(BoardCategory category) {
+		List<ItemCollection> temp = cacheTasks.get(category);
+		int i = (category.getPageIndex() + 1) * category.getPageSize();
+	
+		if (i >= temp.size()) {
+			return true;
+		}
+	
+		return false;
+	
+	}
+
 	/**
 	 * This method reads the first 100 elements form the task list and puts them
 	 * into a cache.
@@ -350,14 +352,20 @@ public class BoardController implements Serializable {
 	 * @throws QueryException
 	 * 
 	 */
-	private void readWorkList() throws QueryException {
-
+	private void readWorkList()  {
+		long l=System.currentTimeMillis();
 		cacheTasks = new HashMap<>();
-
+		
 		String sortBy = setupController.getSortBy();
 		boolean bReverse = setupController.getSortReverse();
-		List<ItemCollection> taskList = documentService.find(getQuery(), getMaxResult(), getPageIndex(), sortBy,
-				bReverse);
+		List<ItemCollection> taskList;
+		try {
+			taskList = documentService.find(getQuery(), getPageSize(), getPageIndex(), sortBy,
+					bReverse);
+		} catch (QueryException e) {
+			logger.warning("failed to read task list: " + e.getMessage());
+			taskList=new ArrayList<>();
+		}
 
 		endOfList = (taskList.size() < pageSize);
 
@@ -366,7 +374,7 @@ public class BoardController implements Serializable {
 		for (ItemCollection workitem : taskList) {
 
 			BoardCategory tmpCat = new BoardCategory(workitem.getItemValueString(WorkflowKernel.WORKFLOWGROUP),
-					workitem.getItemValueString(WorkflowKernel.WORKFLOWSTATUS), workitem.getProcessID());
+					workitem.getItemValueString(WorkflowKernel.WORKFLOWSTATUS), workitem.getProcessID(),getCategoryPageSize());
 
 			// did we already have a cached list?
 			List<ItemCollection> tasksByCategory = cacheTasks.get(tmpCat);
@@ -378,6 +386,8 @@ public class BoardController implements Serializable {
 
 			cacheTasks.put(tmpCat, tasksByCategory);
 		}
+
+		logger.info("read worklist in " + (System.currentTimeMillis()-l) +"ms");
 
 	}
 

@@ -30,6 +30,12 @@
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/imixs-layout.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
+	<!-- imixsHeader (must be loaded before office-css! -->
+	<i:imixsHeader disablecss="false"
+		dateformat="#{message.datePatternShort}"
+		build="#{app.application_workflow_build}"
+		theme="#{facesContext.externalContext.requestContextPath}/layout/themes/#{app.application_theme}" />
+
 	<!--  font icons -->
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/fonts/typicons.css?build=#{app.application_build_timestamp}"
@@ -42,8 +48,7 @@
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
-
-	<!-- custom cs -->
+	<!-- custom css -->
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
@@ -68,13 +73,6 @@
 		value="&lt;!--[if IE 10]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
 		escape="false" />
 		
-
-	<!-- imixsHeader -->
-	<i:imixsHeader disablecss="false"
-		dateformat="#{message.datePatternShort}"
-		build="#{app.application_workflow_build}"
-		theme="#{facesContext.externalContext.requestContextPath}/layout/themes/#{app.application_theme}" />
-
 
 	<!-- *** SCRIPTS *** -->
 
@@ -103,8 +101,6 @@
 		src="#{facesContext.externalContext.requestContextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
 	<script type="text/javascript"
 		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office-workflow.js?build=#{app.application_build_timestamp}"></script>
-
-
 
 	<ui:insert name="header">
 		<!-- default  -->

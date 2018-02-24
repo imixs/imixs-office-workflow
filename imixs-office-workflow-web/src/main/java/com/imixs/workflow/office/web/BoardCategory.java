@@ -9,18 +9,21 @@ package com.imixs.workflow.office.web;
  *
  */
 public class BoardCategory {
+	
+	private static final int DEFAULT_PAGE_SIZE = 5;
+
 	String workflowGroup;
 	String workflowStatus;
 	int processID;
 	int pageIndex=0;
+	int pageSize=DEFAULT_PAGE_SIZE;
 	
-	public BoardCategory(String workflowGroup, String workfowStatus, int processID) {
+	public BoardCategory(String workflowGroup, String workfowStatus, int processID, int pageSize) {
 		super();
 		this.workflowGroup = workflowGroup;
 		this.workflowStatus = workfowStatus;
 		this.processID = processID;
-		
-		
+		this.pageSize = pageSize;
 	}
 	
 	
@@ -74,6 +77,18 @@ public class BoardCategory {
 
 	public void setPageIndex(int pageIndex) {
 		this.pageIndex = pageIndex;
+	}
+
+
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
 	}
 	
 	
