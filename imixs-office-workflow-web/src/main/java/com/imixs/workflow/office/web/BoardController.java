@@ -387,7 +387,7 @@ public class BoardController implements Serializable {
 			cacheTasks.put(tmpCat, tasksByCategory);
 		}
 
-		logger.info("read worklist in " + (System.currentTimeMillis()-l) +"ms");
+		logger.fine("read worklist in " + (System.currentTimeMillis()-l) +"ms");
 
 	}
 
