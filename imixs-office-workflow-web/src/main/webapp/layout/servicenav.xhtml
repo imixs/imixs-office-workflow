@@ -39,14 +39,11 @@
 						value="#{userController.workitem.item['txtName']}" />
 				</span>
 				<h:link outcome="/pages/profile/settings"
-					title="#{message['nav.my_settings']}">
-					<span class="typcn typcn-cog"></span>
+					title="#{message['nav.my_settings']}"><span class="typcn typcn-cog"></span>
 				</h:link>
-
 				<h:commandLink action="logout" immediate="true"
 					title="#{message['nav.logout']}"
-					actionListener="#{loginController.doLogout}">
-					<span class="typcn typcn-power"></span>
+					actionListener="#{loginController.doLogout}"><span class="typcn typcn-power"></span>
 				</h:commandLink>
 			</h:panelGroup>
 
@@ -60,8 +57,7 @@
 						value="#{searchController.searchFilter.item['txtSearch']}"
 						onfocus="this.value='';" />
 					<h:commandLink actionListener="#{searchController.doResetFilter}"
-						action="search" title="#{message.search}">
-						<span class="typcn typcn-zoom-outline"></span>
+						action="search" title="#{message.search}"><span class="typcn typcn-zoom-outline"></span>
 					</h:commandLink>
 
 					<!-- dummy botton to hit enter -->
