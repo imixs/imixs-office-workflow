@@ -42,16 +42,19 @@
 
 	</c:choose>
 
+	<!-- *** Custom Actions 1 -->
+	<ui:include src="/pages/workitems/workitem_footer_custom_actions1.xhtml" />		
 	<!-- *** Close  *** -->
 	<h:commandButton immediate="true" action="home"
 		value="#{message.close}" styleClass="imixs-close-action"
 		actionListener="#{historyController.closeCurrentWorkitem}">
 	</h:commandButton>
-
-
 	<!-- ** Print ** -->
 	<input type="button" value="#{message.print}"  class="imixs-print-action"
 		onclick="openPrintWindow();" />
+	<!-- *** Custom Actions 2 -->
+	<ui:include src="/pages/workitems/workitem_footer_custom_actions2.xhtml" />		
+		
 		
 	<!-- Rest API URI -->
 	<a class="pull-right" style="color: transparent;" href="#{facesContext.externalContext.requestContextPath}/rest-service/documents/#{workflowController.workitem.item['$uniqueid']}" target="_blank">Rest-API</a>
