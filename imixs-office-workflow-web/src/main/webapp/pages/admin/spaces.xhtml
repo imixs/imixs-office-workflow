@@ -25,10 +25,8 @@
 			function updateTableLayout() {
 				
 				$('[id$=spacetable]').each(function() {
-					console.log("layout table...");
 					// with the following line we test if the jsf datatable realy contains data 
 					// in cases with empty rows on default column is displayed.
-					//alert($('tbody tr:nth-child(1) td',adatatable).length);
 					if ($('tbody tr:nth-child(1) td', $(this)).length > 1)
 						$(this).dataTable({
 							"bRetrieve" : true,
