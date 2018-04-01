@@ -1,4 +1,4 @@
-#Docker
+# Docker
 
 Imixs-Office-Workflow is provided as a Docker image. You can use the imixs/office-workflow image also for development or custom builds. 
 For this purpose you can mount custom standalone.xml configuration and the /deploymetns/ folder as external volumes
