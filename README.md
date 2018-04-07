@@ -47,7 +47,7 @@ Note: this command will start two containers, a postgreSQL server and a Wildfly 
 ### Mount Points
 The default configuration sets a local mount point at the following location:
 
-	~/git/imixs-office-workflow/src/docker/.deployments
+	~/git/imixs-office-workflow/src/docker/deployments
 
 Make sure that this directory exits. During development new versions can easily deployed into this directory which is the auto-deployment folder of Wildfly. For further details see the [imixs/wildfly docker image](https://hub.docker.com/r/imixs/wildfly/).
 
