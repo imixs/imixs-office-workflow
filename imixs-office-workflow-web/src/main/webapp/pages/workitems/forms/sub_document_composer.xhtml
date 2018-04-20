@@ -5,22 +5,13 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 
-<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/tinymce/plugins/colorpicker/plugin.min.js?build=#{app.application_build_timestamp}"></script>
-<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/tinymce/plugins/textcolor/plugin.min.js?build=#{app.application_build_timestamp}"></script>
-
-
 	<h:inputTextarea id="imixs-editor-composer_id" class="imixs-editor-composer"
 		value="#{workitem.item['htmldocumentation']}" />
-
-
-
 
 	<ui:param name="task" value="#{modelController.getProcessEntity(workitem.item['$processid'],workitem.item['$modelversion'])}"></ui:param>
 	<ui:param name="dataObjects" value="#{(!empty task)?task.itemList['dataObjects'].get(0):null}" />
 	<ui:param name="dataObjectsTemplate" value="#{(!empty dataObjects)?dataObjects[1]:null}" />
-	<input type="hidden" id="imixs-editor-composer-template" name="country" value="#{dataObjectsTemplate}" />
+	<input type="hidden" id="imixs-editor-composer-template" name="htmlcomposertemplate" value="#{dataObjectsTemplate}" />
 
 
 	<script type="text/javascript">
