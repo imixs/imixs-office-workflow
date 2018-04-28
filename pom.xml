@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.imixs.workflow</groupId>
 	<artifactId>imixs-office-workflow</artifactId>
@@ -44,8 +46,8 @@
 		<connection>scm:git:https://github.com/imixs/imixs-office-workflow.git</connection>
 		<developerConnection>scm:git:https://github.com/imixs/imixs-office-workflow.git</developerConnection>
 		<url>https://github.com/imixs/imixs-office-workflow/</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 
 
 	<licenses>
@@ -78,7 +80,7 @@
 
 		<!-- Dependency Versions -->
 		<org.imixs.workflow.version>4.2.6</org.imixs.workflow.version>
-		<org.imixs.marty.version>3.2.2-SNAPSHOT</org.imixs.marty.version>
+		<org.imixs.marty.version>3.2.2</org.imixs.marty.version>
 		<org.imixs.office.version />
 		<lucene.version>6.6.1</lucene.version>
 		<org.imixs.adapters.version>1.5.2</org.imixs.adapters.version>
@@ -86,7 +88,7 @@
 		<apache.poi.version>3.17</apache.poi.version>
 		<apache.pdfbox.version>2.0.7</apache.pdfbox.version>
 		<apache.tika.version>1.16</apache.tika.version>
-		
+
 		<custom.webResources>src/main/webapp</custom.webResources>
 		<imixs-office.applicationname>imixs-office-workflow</imixs-office.applicationname>
 
@@ -174,10 +176,18 @@
 				</configuration>
 			</plugin>
 
-			<!-- relase management -->
+
+			<!-- release management -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<useReleaseProfile>false</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
+					<goals>deploy</goals>
+				</configuration>
 			</plugin>
 
 			<!-- Maven Deployment to Github -->
@@ -222,6 +232,7 @@
 					</execution>
 				</executions>
 			</plugin>
+
 
 		</plugins>
 	</build>
@@ -301,7 +312,7 @@
 				<version>${org.imixs.archive.version}</version>
 				<scope>provided</scope>
 			</dependency>
-			
+
 			<!-- Core Document Parser -->
 			<dependency>
 				<groupId>org.apache.poi</groupId>
@@ -322,13 +333,13 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
-			    <groupId>org.apache.pdfbox</groupId>
-			    <artifactId>pdfbox</artifactId>
-			    <version>${apache.pdfbox.version}</version>
+				<groupId>org.apache.pdfbox</groupId>
+				<artifactId>pdfbox</artifactId>
+				<version>${apache.pdfbox.version}</version>
 				<scope>provided</scope>
 			</dependency>
-			
-		
+
+
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-adapters-documents</artifactId>
