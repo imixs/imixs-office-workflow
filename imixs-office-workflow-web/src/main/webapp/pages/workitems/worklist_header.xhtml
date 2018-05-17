@@ -14,15 +14,19 @@
 		<div style="float: left">
 			<h1 id="worklist-title">
 				<!-- Project Name -->
-				<h:outputText rendered="#{!empty process.item['txtName']}" value="#{process.item['txtName']}" />
+				<h:outputText rendered="#{!empty process.item['txtName']}"
+					value="#{process.item['txtName']}" />
 				<!-- Space Name -->
- 				<h:outputText  rendered="#{!empty space.item['txtName'] and empty process.item['txtName']}" value="#{space.item['txtName']}" />
+				<h:outputText
+					rendered="#{!empty space.item['txtName'] and empty process.item['txtName']}"
+					value="#{space.item['txtName']}" />
 				<!-- Search -->
-				<h:outputText rendered="#{empty process.item['txtName'] and empty space.item['txtName']}"
+				<h:outputText
+					rendered="#{empty process.item['txtName'] and empty space.item['txtName']}"
 					value="#{message.search}" />
 			</h1>
 		</div>
-		
+
 		<div style="clear: both;" />
 
 
@@ -33,24 +37,44 @@
 
 		<ui:include src="/pages/workitems/worklist_search.xhtml" />
 
-		<h:commandButton value="#{message.search}" style="float:left;margin-right:10px;"
-			actionListener="#{searchController.doResetSearchResult()}" >
-			
-		
+		<h:commandButton value="#{message.search}"
+			style="float:left;margin-right:10px;"
+			actionListener="#{searchController.doResetSearchResult()}">
 		</h:commandButton>
-		<div>
-			<h:selectManyCheckbox id="view_filter"  styleClass="imixs-checkbox-button ui-button ui-widget ui-state-default ui-corner-all"
+		<!-- archive -->
+		<div style="float: left;">
+			<h:selectManyCheckbox id="view_filter"
+				styleClass="imixs-checkbox-button ui-button ui-widget ui-state-default ui-corner-all"
 				value="#{searchController.searchFilter.itemListArray['type']}">
-				
+
 				<f:selectItem itemLabel="#{message['worklist.archive']}"
 					itemValue="workitemarchive" />
-				<f:ajax event="change" listener="#{searchController.doResetSearchResult()}"
-					render="@form" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
+				<f:ajax event="change"
+					listener="#{searchController.doResetSearchResult()}" render="@form"
+					onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 			</h:selectManyCheckbox>
 
 		</div>
-		<div style="clear:both;"></div>
- 
+		<!-- date range -->
+		<div style="float: left; padding-left: 10px;">
+			#{message['worklist.date_range']}:
+			<h:inputText value="#{searchController.searchFilter.item['datfrom']}"
+				required="false" title="#{message['worklist.date_range_help']}"
+				class="imixs-date">
+				<f:convertDateTime pattern="#{message.datePatternShort}"
+					timeZone="#{message.timeZone}" />
+			</h:inputText>
+			-
+			<h:inputText value="#{searchController.searchFilter.item['datto']}"
+				required="false" title="#{message['worklist.date_range_help']}"
+				class="imixs-date">
+				<f:convertDateTime pattern="#{message.datePatternShort}"
+					timeZone="#{message.timeZone}" />
+			</h:inputText>
+		</div>
+
+		<div style="clear: both;"></div>
+
 
 	</h:panelGroup>
 
