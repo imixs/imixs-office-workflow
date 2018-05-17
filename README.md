@@ -74,5 +74,5 @@ where 'localhost:5000' need to be replaced with the host of a private registry. 
 
 ### docker-hub
 
-Imixs-Office-Workflow is also available on [Docker-Hub](https://hub.docker.com/r/imixs/imixs-office-workflow/tags/). The public docker images can be used for development and production. If you need technical support please contact [imixs.com](http://www.imixs.com) 
+Imixs-Office-Workflow is also available on [Docker-Hub](https://hub.docker.com/r/imixs/imixs-microservice/). The public docker images can be used for development and production. If you need technical support please contact [imixs.com](http://www.imixs.com) 
 
