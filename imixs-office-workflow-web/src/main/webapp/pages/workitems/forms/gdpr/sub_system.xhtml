@@ -1,0 +1,142 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+	<ui:param name="dsgvoTextblock" value="#{textBlockController.load('DSGVO - Art. 30: System')}" />
+
+	<!-- **** System **** -->
+
+	<div class="imixs-form-section">
+		<div class="ui-state-highlight ui-corner-all imixs-instruction">
+		
+			<!-- *** textblock *** -->
+			<h:outputText value="#{dsgvoTextblock.item['txtcontent']}" escape="false" />
+
+		</div>
+	</div>
+	<div  class="imixs-form-section-2">
+		<dl>
+			<dt>
+				Name der Verarbeitungstätigkeit <span class="imixs-required">*</span>
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_subject']}" required="true" />
+			</dd>
+		</dl>
+		<!-- Dispatch Form -->
+		<dl>
+			<dt>Verantwortliche Stelle <span class="imixs-required">*</span></dt>
+			<dd>
+				<h:selectOneMenu style="width:20em;" required="false"
+					value="#{workflowController.workitem.item['txtSpaceRef']}">
+					<f:selectItem itemLabel=""></f:selectItem>
+					<c:forEach items="#{processController.getSpacesByProcessId(workflowController.workitem.item['txtProcessRef'])}" var="space">
+						<f:selectItem itemLabel="#{space.item['txtName']}"
+							itemValue="#{space.item['$UniqueID']}">
+						</f:selectItem>
+					</c:forEach>
+				</h:selectOneMenu>
+			</dd>
+		</dl>
+	</div>
+	
+	<div  class="imixs-form-section-2">
+		<dl>
+			<dt>
+				Gesetzlicher Vertreter
+			</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_responsible_deputy']}" required="false" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				Vertreter in der EU 
+			</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_responsible_eu']}" required="false" />
+			</dd>
+		</dl>
+	</div>
+	<div  class="imixs-form-section-2">
+		
+		<dl>
+			<dt>Gemeinsame Verantwortlichkeit</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_responsible_team']}" />
+			</dd>
+		</dl>
+	</div>
+	<!-- 
+	<div  class="imixs-form-section-2">
+		<dl>
+			<dt>Status</dt>
+			<dd>
+				<h:selectOneMenu style="width:20em;" required="false"
+					value="#{workflowController.workitem.item['_system_status']}">
+					<f:selectItem itemLabel=""></f:selectItem>
+					<f:selectItem itemLabel="Planung" itemValue="Planung" />
+					<f:selectItem itemLabel="In Betrieb" itemValue="In Betrieb" />
+					<f:selectItem itemLabel="Eingestellt" itemValue="Eingestellt" />
+				</h:selectOneMenu>
+			</dd>
+		</dl>
+	</div>
+	-->
+	
+	<div class="imixs-form-section">
+		<dl>
+			<dt>Art der Verarbeitung</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_description']}" />
+			</dd>
+		</dl>
+		
+		<dl>
+			<dt>Ort der Verarbeitung</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_description']}" />
+			</dd>
+		</dl>
+	</div>
+	<div class="imixs-form-section-2">
+		<dl>
+			<!-- ### date ### -->
+			<dt>
+				<h:outputLabel value="#{message['form.appointment']}" />
+			</dt>
+			<dd>
+				<i:imixsDateInput value="#{workitem.item['datDate']}"
+					showtime="false" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.followup']}" />
+			</dt>
+			<dd>
+				<h:selectOneRadio layout="pageDirection"
+					value="#{workitem.item['keyIntervalDatDate']}">
+					<f:selectItem itemValue="" itemLabel="#{message['form.none']}" />
+					<f:selectItem itemValue="daily" itemLabel="Täglich" />
+					<f:selectItem itemValue="weekly"
+						itemLabel="#{message['form.weekly']}" />
+					<f:selectItem itemValue="monthly"
+						itemLabel="#{message['form.monthly']}" />
+					<f:selectItem itemValue="yearly"
+						itemLabel="#{message['form.yearly']}" />
+				</h:selectOneRadio>
+			</dd>
+		</dl>
+	</div>
+
+
+
+
+
+</ui:composition>
+

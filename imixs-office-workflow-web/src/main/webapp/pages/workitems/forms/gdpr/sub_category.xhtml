@@ -1,0 +1,114 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+	<ui:param name="dsgvoTextblock"
+		value="#{textBlockController.load('DSGVO - Art. 30: Kategorie')}" />
+
+	<!-- **** Categories **** -->
+	<div class="imixs-form-section">
+
+		<div class="ui-state-highlight ui-corner-all imixs-instruction">
+			<!-- *** textblock *** -->
+			<h:outputText value="#{dsgvoTextblock.item['txtcontent']}"
+				escape="false" />
+
+		</div>
+	</div>
+
+	<div class="imixs-form-section-2">
+		<dl>
+			<dt>Betroffene Personengruppe</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_data_subject']}"
+					required="false" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>Datenkategorien</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_category']}"
+					required="false" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>Herkunft der Daten</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_source']}"
+					required="false" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>Interne Empfänger (innerhalb verantwortlicher Stelle)</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_recipient_intern']}"
+					required="false" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>Externe Empfänger / Dritte(keine Auftragsverarbeiter)</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_recipient_extern']}"
+					required="false" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>Regelfristen für die Löschung der Daten Speicherdauer</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_data_storage_time']}"
+					required="false" />
+			</dd>
+		</dl>
+
+
+
+	</div>
+
+
+	<div class="imixs-form-section">
+		<dl>
+			<dt>Datenübermittlung in Drittstaaten</dt>
+			<dd>
+				<h:inputTextarea class=""
+					value="#{workitem.item['_data_transfer']}" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>Drittstaaten / internationale Organisationen</dt>
+			<dd>
+				<h:inputTextarea class=""
+					value="#{workitem.item['_third_countries']}" />
+			</dd>
+		</dl>
+	</div>
+	<div class="imixs-form-section-2">
+		<dl>
+			<dt>Angemessenes Datenschutzniveau durch</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_privacy_level']}" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>Zugriffsberechtigte Personen</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_authorised']}" />
+			</dd>
+		</dl>
+	</div>
+
+	<div class="imixs-form-section">
+		<dl>
+			<dt>Nachweis</dt>
+			<dd>
+				<h:inputTextarea class="imixs-editor"
+					value="#{workitem.item['_proof']}" />
+			</dd>
+		</dl>
+	</div>
+
+</ui:composition>
+

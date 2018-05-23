@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+
+	<!-- **** dsr **** -->
+	<div class="imixs-form-section">
+		<dl>
+			<dt>
+				System
+			</dt>
+			<dd>
+				<h:outputText value="#{workitem.item['_system_subject']}" />
+			</dd>
+		</dl>
+	</div>
+	
+	
+
+	<div class="imixs-form-section">
+		<dl>
+			<dt>
+				Betroffene Person<span class="imixs-required">*</span>
+			</dt>
+			<dd>
+				<h:outputText value="#{workitem.item['_subject']}" />
+			</dd>
+		</dl>
+	</div>
+	<div class="imixs-form-section-2">
+		<dl>
+			<!-- ### Contact ### -->
+			<dt>Recht</dt>
+			<dd>
+				<h:outputText value="#{workitem.item['_dsr_type']}" />
+					
+			</dd>
+		</dl>
+	</div>
+	<div class="imixs-form-section">
+		<dl>
+			<dt>Grund Anfrage</dt>
+			<dd>
+				<h:outputText value="#{workitem.item['_description']}" />
+			</dd>
+		</dl>
+	</div>
+
+
+</ui:composition>
+

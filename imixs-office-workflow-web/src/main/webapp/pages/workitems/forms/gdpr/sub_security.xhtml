@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+	<ui:param name="dsgvoTextblock" value="#{textBlockController.load('DSGVO - Art. 32: Sicherheit der Verarbeitung')}" />
+	
+	<!-- **** Security **** -->
+	<div class="imixs-form-section">
+
+		<div class="ui-state-highlight ui-corner-all imixs-instruction">
+			<!-- *** textblock *** -->
+			<h:outputText value="#{dsgvoTextblock.item['txtcontent']}" escape="false" />
+
+		</div>
+		
+		<dl>
+			<dt>Allgemeine Beschreibung der TOM (Art. 30 Abs. 1 lit. g, Art. 32 Abs. 1 DS­GVO)</dt>
+			<dd>
+				<h:inputTextarea class="" value="#{workitem.item['_security']}" />
+			</dd>
+		</dl>
+		
+		<dl>
+			<dt>Verbleibendes Risiko unter Berücksichtigung der eingesetzten TOM</dt>
+			<dd>
+				<h:inputTextarea class="" value="#{workitem.item['_lrisk']}" />
+			</dd>
+		</dl>
+
+	</div>
+
+
+</ui:composition>
+

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.4.2.Final-v20171109-1930-B1" targetNamespace="http://www.imixs.org/bpmn2">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.4.2.SNAPSHOT-v20180116-1616-B1" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
       <imixs:value><![CDATA[dsgvo-dsfa-de-1.0.0]]></imixs:value>
@@ -37,7 +37,7 @@
       <imixs:value><![CDATA[org.imixs.marty.plugins.CommentPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.plugins.MailPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.IntervalPlugin]]></imixs:value>
-      <imixs:value><![CDATA[org.imixs.office.plugins.gdpr.GDPRPlugin]]></imixs:value>
+      <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.SplitAndJoinPlugin]]></imixs:value>
     </imixs:item>
   </bpmn2:extensionElements>
   <bpmn2:process id="auftrag" name="DSGVO Folgenabschätzung" isExecutable="false">
@@ -1381,7 +1381,7 @@ Vereinbarung: <itemvalue>_startdate</itemvalue> - <itemvalue>_enddate</itemvalue
       <bpmndi:BPMNShape id="BPMNShape_Task_2" bpmnElement="Task_7010">
         <dc:Bounds height="50.0" width="110.0" x="539.0" y="177.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_3" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="14.0" width="82.0" x="553.0" y="195.0"/>
+          <dc:Bounds height="14.0" width="81.0" x="553.0" y="195.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_Task_3" bpmnElement="Task_7020">
@@ -1393,7 +1393,7 @@ Vereinbarung: <itemvalue>_startdate</itemvalue> - <itemvalue>_enddate</itemvalue
       <bpmndi:BPMNShape id="BPMNShape_Task_4" bpmnElement="Task_7030">
         <dc:Bounds height="50.0" width="110.0" x="539.0" y="377.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_5" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="14.0" width="76.0" x="556.0" y="395.0"/>
+          <dc:Bounds height="14.0" width="75.0" x="556.0" y="395.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_Task_5" bpmnElement="Task_7040">
@@ -1429,7 +1429,7 @@ Vereinbarung: <itemvalue>_startdate</itemvalue> - <itemvalue>_enddate</itemvalue
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_10" bpmnElement="IntermediateCatchEvent_7030-20">
         <dc:Bounds height="36.0" width="36.0" x="984.0" y="273.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_17" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="14.0" width="63.0" x="971.0" y="309.0"/>
+          <dc:Bounds height="14.0" width="62.0" x="971.0" y="309.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_EventBasedGateway_1" bpmnElement="EventBasedGateway_1" isMarkerVisible="true">
@@ -1467,13 +1467,13 @@ Vereinbarung: <itemvalue>_startdate</itemvalue> - <itemvalue>_enddate</itemvalue
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_12" bpmnElement="IntermediateCatchEvent_3">
         <dc:Bounds height="36.0" width="36.0" x="450.0" y="384.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_30" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="28.0" width="71.0" x="433.0" y="420.0"/>
+          <dc:Bounds height="28.0" width="70.0" x="433.0" y="420.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_13" bpmnElement="IntermediateCatchEvent_4">
         <dc:Bounds height="36.0" width="36.0" x="699.0" y="98.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_58" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="14.0" width="53.0" x="691.0" y="134.0"/>
+          <dc:Bounds height="14.0" width="52.0" x="691.0" y="134.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_1" bpmnElement="ExclusiveGateway_1" isMarkerVisible="true">
@@ -1493,31 +1493,31 @@ Vereinbarung: <itemvalue>_startdate</itemvalue> - <itemvalue>_enddate</itemvalue
       <bpmndi:BPMNShape id="BPMNShape_IntermediateThrowEvent_1" bpmnElement="IntermediateThrowEvent_1">
         <dc:Bounds height="36.0" width="36.0" x="795.0" y="98.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_73" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="14.0" width="74.0" x="776.0" y="134.0"/>
+          <dc:Bounds height="14.0" width="73.0" x="777.0" y="134.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_15" bpmnElement="IntermediateCatchEvent_6">
         <dc:Bounds height="36.0" width="36.0" x="129.0" y="273.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_75" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="14.0" width="74.0" x="110.0" y="309.0"/>
+          <dc:Bounds height="14.0" width="73.0" x="111.0" y="309.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateThrowEvent_2" bpmnElement="IntermediateThrowEvent_2">
         <dc:Bounds height="36.0" width="36.0" x="1090.0" y="273.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_77" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="14.0" width="74.0" x="1071.0" y="309.0"/>
+          <dc:Bounds height="14.0" width="73.0" x="1072.0" y="309.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_16" bpmnElement="IntermediateCatchEvent_7">
         <dc:Bounds height="36.0" width="36.0" x="699.0" y="470.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_79" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="14.0" width="53.0" x="691.0" y="506.0"/>
+          <dc:Bounds height="14.0" width="52.0" x="691.0" y="506.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateThrowEvent_3" bpmnElement="IntermediateThrowEvent_3">
         <dc:Bounds height="36.0" width="36.0" x="795.0" y="470.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_81" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="14.0" width="74.0" x="776.0" y="506.0"/>
+          <dc:Bounds height="14.0" width="73.0" x="777.0" y="506.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_6" bpmnElement="SequenceFlow_5" sourceElement="BPMNShape_EventBasedGateway_1" targetElement="BPMNShape_IntermediateCatchEvent_4">

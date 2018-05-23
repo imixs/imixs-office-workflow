@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+	<ui:param name="dsgvoTextblock"
+		value="#{textBlockController.load('DSGVO - Stellungnahme')}" />
+
+	<!-- **** Stellungnahme **** -->
+
+	<div class="imixs-form-section">
+		<div class="ui-state-highlight ui-corner-all imixs-instruction">
+
+			<!-- *** textblock *** -->
+			<h:outputText value="#{dsgvoTextblock.item['txtcontent']}"
+				escape="false" />
+
+		</div>
+	</div>
+
+
+	<div class="imixs-form-section">
+		<dl>
+			<dt>Besteht weiterer Handlungsbedarf?</dt>
+			<dd>
+				<h:selectOneRadio value="#{workitem.item['keyfurther_action']}">
+					<f:selectItem itemLabel="nein" itemValue="nein"></f:selectItem>
+					<f:selectItem itemLabel="ja" itemValue="ja"></f:selectItem>
+				</h:selectOneRadio>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>Offene Maßnahmen</dt>
+			<dd>
+				<h:inputTextarea class="" value="#{workitem.item['_statement']}" />
+			</dd>
+		</dl>
+	</div>
+
+
+</ui:composition>
+

@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+
+	<!-- **** dsr **** -->
+	<div class="imixs-form-section">
+		<dl>
+			<dt>
+				Betroffene Person<span class="imixs-required">*</span>
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_subject']}" required="true" />
+			</dd>
+		</dl>
+	</div>
+	<div class="imixs-form-section-2">
+		<dl>
+			<!-- ### Contact ### -->
+			<dt>Recht</dt>
+			<dd>
+				<h:selectOneMenu value="#{workitem.item['_dsr_type']}">
+					<f:selectItem itemValue="" itemLabel=" - bitte wählen - " />
+					<f:selectItem itemValue="Auskunftsrecht" itemLabel="Auskunftsrecht" />
+					<f:selectItem itemValue="Recht auf Berichtigung"
+						itemLabel="Recht auf Berichtigung" />
+					<f:selectItem itemValue="Recht auf Löschung"
+						itemLabel="Recht auf Löschung" />
+					<f:selectItem itemValue="Recht auf Datenübertragbarkeit"
+						itemLabel="Recht auf Datenübertragbarkeit" />
+					<f:selectItem itemValue="Widerspruchsrecht"
+						itemLabel="Widerspruchsrecht" />
+				</h:selectOneMenu>
+			</dd>
+		</dl>
+	</div>
+	<div class="imixs-form-section">
+		<dl>
+			<dt>Grund Anfrage</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_description']}" />
+			</dd>
+		</dl>
+	</div>
+
+</ui:composition>
+

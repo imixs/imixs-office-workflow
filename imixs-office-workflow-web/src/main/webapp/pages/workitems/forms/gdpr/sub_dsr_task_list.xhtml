@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+
+	<!-- 
+	 define query to select sub tasks
+	 -->
+    <ui:param name="query" value="(type:&quot;workitem&quot; OR type:&quot;workitemarchive&quot;) AND $uniqueidref:&quot;#{workitem.item['$uniqueid']}&quot;"></ui:param>
+	<div class="imixs-form-section">
+
+		<h:dataTable id="datatable" value="#{workflowController.getDocumentService().find(query, 999,0)}"
+			var="record" styleClass="imixsdatatable">
+
+
+			<h:column pt:style="">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="#{message.name}" />
+					</h:panelGroup>
+				</f:facet>
+				<h:link outcome="/pages/workitems/workitem">
+					<h:outputText value="#{record.item['_system_subject']}" />
+					<f:param name="id" value="#{record.item['$uniqueid']}" />
+				</h:link>
+			</h:column>
+
+
+			<h:column pt:style="">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="#{message['form.responsible']}" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:repeat var="userid"
+					value="#{record.itemList['namowner']}">
+					#{userController.getUserName(userid)}<br />
+				</ui:repeat>
+			</h:column>
+
+			<h:column pt:style="text-align:center;">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="#{message.status}" />
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText value="#{record.item['$workflowstatus']}">
+				</h:outputText>
+			</h:column>
+
+
+			<h:column pt:style="">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="#{message.comments}" />
+					</h:panelGroup>
+				</f:facet>
+
+
+
+				<ui:repeat value="#{record.itemList['txtcommentlog']}" var="comment">
+					<h:panelGrid columns="3" rowClasses="topAligned"
+						styleClass="imixs-commentlist">
+						<ui:fragment
+							rendered="#{! empty comment}">
+							<h:outputText value="#{comment.datcomment}">
+								<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+									pattern="#{message.dateTimePatternShort}" />
+							</h:outputText>
+
+							<h:outputText
+								value="#{userController.getUserName(comment.nameditor)}" />
+
+							<h:panelGroup styleClass="imixs-comments-entry">
+								<h:outputText value="#{comment.txtcomment}" />
+							</h:panelGroup>
+						</ui:fragment>
+
+					</h:panelGrid>
+
+				</ui:repeat>
+
+
+
+
+			</h:column>
+
+
+			<h:column pt:style="text-align:left;">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="#{message.documents}" />
+					</h:panelGroup>
+				</f:facet>
+
+				<ui:repeat value="#{record.getFileNames()}" var="attachment">
+
+					<a
+						href="#{facesContext.externalContext.requestContextPath}/rest-service/snapshot/#{record.item['$uniqueid']}/file/#{attachment}">#{attachment}</a>
+
+				</ui:repeat>
+			</h:column>
+
+
+		</h:dataTable>
+
+	</div>
+
+
+</ui:composition>
+
