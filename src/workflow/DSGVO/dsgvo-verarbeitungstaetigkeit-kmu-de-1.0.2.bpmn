@@ -598,7 +598,7 @@ Vereinbarung: <itemvalue>_startdate</itemvalue> - <itemvalue>_enddate</itemvalue
     </bpmn2:eventBasedGateway>
     <bpmn2:sequenceFlow id="SequenceFlow_5" sourceRef="EventBasedGateway_1" targetRef="IntermediateCatchEvent_9"/>
     <bpmn2:sequenceFlow id="SequenceFlow_15" sourceRef="EventBasedGateway_1" targetRef="IntermediateCatchEvent_3"/>
-    <bpmn2:task id="Task_6" imixs:processid="1600" name="Genehmigung durch Geschäftsleitung">
+    <bpmn2:task id="Task_6" imixs:processid="1600" name="In Freigabe">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
           <imixs:value><![CDATA[form_tab_instruction_right#gdpr/sub_system_kmu|gdpr/sub_purpose|gdpr/sub_category|gdpr/sub_processor|gdpr/sub_security|gdpr/sub_statement]]></imixs:value>
@@ -664,7 +664,7 @@ wenn möglich, die vorgesehenen Fristen für die Löschung der verschiedenen Dat
       <bpmn2:outgoing>SequenceFlow_38</bpmn2:outgoing>
       <bpmn2:outgoing>SequenceFlow_40</bpmn2:outgoing>
     </bpmn2:task>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_10" imixs:activityid="50" name="Geschäftsleitung vorlegen">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_10" imixs:activityid="50" name="Zur Freigabe vorlegen">
       <bpmn2:extensionElements>
         <imixs:item name="keylogtimeformat" type="xs:string">
           <imixs:value><![CDATA[2]]></imixs:value>
@@ -1146,13 +1146,13 @@ var result={};
       <bpmndi:BPMNShape id="BPMNShape_Task_4" bpmnElement="Task_6">
         <dc:Bounds height="50.0" width="121.0" x="720.0" y="436.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_35">
-          <dc:Bounds height="28.0" width="120.0" x="720.0" y="447.0"/>
+          <dc:Bounds height="14.0" width="62.0" x="749.0" y="454.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_12" bpmnElement="IntermediateCatchEvent_10">
         <dc:Bounds height="36.0" width="36.0" x="761.0" y="298.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_60">
-          <dc:Bounds height="28.0" width="94.0" x="732.0" y="334.0"/>
+          <dc:Bounds height="28.0" width="76.0" x="741.0" y="334.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_14" bpmnElement="IntermediateCatchEvent_12">
