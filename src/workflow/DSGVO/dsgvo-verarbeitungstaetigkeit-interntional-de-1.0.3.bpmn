@@ -52,9 +52,8 @@ Das ist eine automatische generierte E-Mail. Bitte nicht auf diese E-Mail antwor
   </bpmn2:message>
   <bpmn2:collaboration id="Collaboration_1" name="Collaboration 1">
     <bpmn2:participant id="Participant_1" name="DSGVO Verarbeitungstätigkeit" processRef="Process_1"/>
-    <bpmn2:participant id="Participant_2" name="DSGVO Verarbeitungstätigkeit Pool" processRef="auftrag"/>
+    <bpmn2:participant id="Participant_2" name="DSGVO Verarbeitungstätigkeit Pool"/>
   </bpmn2:collaboration>
-  <bpmn2:process id="auftrag" name="DSGVO Verarbeitungstätigkeit" isExecutable="false"/>
   <bpmn2:process id="Process_1" name="DSGVO Verarbeitungstätigkeit" definitionalCollaborationRef="Collaboration_1" isExecutable="false">
     <bpmn2:laneSet id="LaneSet_1" name="Lane Set 1">
       <bpmn2:lane id="Lane_1" name="DSGVO Team">
@@ -76,9 +75,9 @@ Das ist eine automatische generierte E-Mail. Bitte nicht auf diese E-Mail antwor
         <bpmn2:flowNodeRef>ExclusiveGateway_2</bpmn2:flowNodeRef>
       </bpmn2:lane>
       <bpmn2:lane id="Lane_2" name="Vertriebsteam">
-        <bpmn2:flowNodeRef>Task_4</bpmn2:flowNodeRef>
         <bpmn2:flowNodeRef>IntermediateCatchEvent_7</bpmn2:flowNodeRef>
         <bpmn2:flowNodeRef>IntermediateCatchEvent_2</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_4</bpmn2:flowNodeRef>
       </bpmn2:lane>
       <bpmn2:lane id="Lane_3" name="Geschäftsleitung">
         <bpmn2:flowNodeRef>IntermediateCatchEvent_12</bpmn2:flowNodeRef>
@@ -1721,11 +1720,11 @@ var result={};
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_9" bpmnElement="SequenceFlow_9" sourceElement="BPMNShape_ExclusiveGateway_1" targetElement="BPMNShape_Task_1">
         <di:waypoint xsi:type="dc:Point" x="436.0" y="268.0"/>
-        <di:waypoint xsi:type="dc:Point" x="436.0" y="380.0"/>
-        <di:waypoint xsi:type="dc:Point" x="366.0" y="380.0"/>
+        <di:waypoint xsi:type="dc:Point" x="436.0" y="390.0"/>
+        <di:waypoint xsi:type="dc:Point" x="366.0" y="390.0"/>
         <di:waypoint xsi:type="dc:Point" x="366.0" y="513.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_26">
-          <dc:Bounds height="14.0" width="19.0" x="382.0" y="381.0"/>
+          <dc:Bounds height="14.0" width="19.0" x="392.0" y="391.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_10" bpmnElement="SequenceFlow_10" sourceElement="BPMNShape_ExclusiveGateway_1" targetElement="BPMNShape_ExclusiveGateway_2">
