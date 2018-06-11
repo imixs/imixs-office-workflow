@@ -10,6 +10,7 @@ To follow the installation guide make sure that you have already installed [Dock
 1. Create a working directory on you machine (e.g. /office-workflow/)
 2. Copy the [docker-compose.yml](docker-compose.yml) file into work working directory
 
+docker-compose.yml
 
 	version: '3.1'
 	
@@ -44,7 +45,7 @@ To follow the installation guide make sure that you have already installed [Dock
 
 ## Run the Application
 
-To start Imixs-Office-Workflow run the following docker command: 
+To start Imixs-Office-Workflow run the following docker command from your working directory: 
 
 
 	docker-compose up
@@ -70,16 +71,17 @@ To upload a model go to "Administration >> Models" and add a BPMN file to your m
 <img src="setup-02.png" width="800px">
 
 
-Next you can create a new Process in the section "Aminisration >> Processes" and assign the uploaded workflow model with your new process:
+Next create a new Process in the section "Administration >> Processes" and assign the uploaded workflow model with your new process:
 
 
 <img src="setup-03.png" width="800px">
 
 
-Now you will see the new process and its workflow in the section 'Processes' and you can start the corresponding workflow:
+Now you will see the new process and its workflow in the home screen under the section 'Processes'. 
+You can start the corresponding workflow:
 
 
-<img src="setup-03.png" width="800px">
+<img src="setup-04.png" width="800px">
 
 
 Imixs-Office-Workflow provides a huge list of features to setup a professional Process Management Platform. You will find information in the several sub-projects of [Imixs-Workflow](https://github.com/imixs).
