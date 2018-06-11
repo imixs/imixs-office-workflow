@@ -137,7 +137,7 @@ public class GDPRPlugin extends AbstractPlugin {
 
 				subWorkitem.replaceItemValue(WorkflowKernel.MODELVERSION, workItem.getModelVersion());
 				subWorkitem.replaceItemValue(WorkflowKernel.PROCESSID, processID);
-				subWorkitem.replaceItemValue(WorkflowKernel.ACTIVITYID, activityID);
+				subWorkitem.setEventID(activityID);
 
 				subWorkitem.replaceItemValue("$uniqueidref", workItem.getUniqueID());
 				subWorkitem.replaceItemValue("txtprocessref", workItem.getItemValueString("txtprocessRef"));
@@ -179,9 +179,9 @@ public class GDPRPlugin extends AbstractPlugin {
 		List<ItemCollection> subTasks = findSubTasks(workItem.getItemValueString(WorkflowService.UNIQUEIDREF));
 
 		for (ItemCollection subtask : subTasks) {
-			if (processID == subtask.getProcessID()) {
+			if (processID == subtask.getTaskID()) {
 
-				subtask.replaceItemValue(WorkflowKernel.ACTIVITYID, activityID);
+				subtask.setEventID(activityID);
 				// now clone the field list...
 				copyItemList(processingData.getItemValueString("items"), workItem, subtask);
 				try {
