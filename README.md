@@ -13,12 +13,13 @@ You can find further information on the web site [Imixs-Office-Workflow](http://
 
 
 ## Build
-Imixs-Office-Workflow is based on maven and runs on the Java EE stack. Imixs-Office-Workflow can be deployed on JBoss/Wildfly server or other Java EE application servers.
-To build the Java EE artifact run the maven install command first:
+Imixs-Office-Workflow is based on [Maven](http://maven.apache.org/) and runs on the Java EE stack. Imixs-Office-Workflow can be deployed on JBoss/Wildfly server or other Java EE application servers.
+To build the Java EE artifact from sources, run the maven install command first:
 
 	mvn clean install
 
-To deploy the artifact the application server must provide a database pool named "java:/jdbc/office" and a security domain/realm named 'office'. See also the [Imixs-Workflow Deployment Guide](http://www.imixs.org/doc/deployment/index.html).
+Please check the pom.xml file for depencencies and versions. The master-branch of the project is always in development and is using the latest snapshot releases. You can build a [tagged version](https://github.com/imixs/imixs-office-workflow/releases) to build a stable version. 
+To deploy the artifact the application server must provide a database pool named "java:/jdbc/office" and a security domain/realm named 'office'. See also the [Imixs-Workflow Deployment Guide](http://www.imixs.org/doc/deployment/index.html) for further details.
 
 As an alternative to setup a server environment by yourself you can use docker to run Imixs-Office-Workflow locally or in production. 
 
@@ -28,6 +29,12 @@ As an alternative to setup a server environment by yourself you can use docker t
 
 Imixs-Office-Workflow provides a Docker Container to run the service on any Docker host. 
 The docker image is based on the docker image [imixs/wildfly](https://hub.docker.com/r/imixs/wildfly/).
+
+## Quick Installation
+
+To run Imixs-Office-Workflow in a local test you can follow the [Quick-Installation Guide](src/docker/install/README.md). This is a good starting point if you just want to setup a local demo version. 
+But please note that Imixs-Office-Workflow is an comprehensive open source project designed for productive enterprise use. A professional use requires a detailed planning of architecture. 
+
 
 ## Docker for Development
 Developers can use a docker image for testing and the development of new features. To build a new container first build the maven artefact running: 
