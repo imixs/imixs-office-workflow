@@ -31,32 +31,33 @@ With a pull request on GitHub you can share your ideas or improvements that you 
 <br /><br /><img src="small_h-trans.png" />
 
 
-Imixs-Office-Workflow provides a Docker Container to run the service on any Docker host. 
-The docker image is based on the docker image [imixs/wildfly](https://hub.docker.com/r/imixs/wildfly/).
+**Imixs-Office-Workflow** provides a Docker Image to run the service on any Docker host. 
+The docker image is based on the docker image [imixs/wildfly](https://hub.docker.com/r/imixs/wildfly/) which can be used for development as also for production.
 
 ## Quick Installation
 
-To run Imixs-Office-Workflow in a local test you can follow the [Quick-Installation Guide](src/docker/install/README.md). This is a good starting point if you just want to setup a local demo version. 
+To run Imixs-Office-Workflow in a local test environment you can follow the [Quick-Installation Guide](src/docker/install/README.md). This is a good starting point if you just want to setup a local demo version. 
 But please note that Imixs-Office-Workflow is an comprehensive open source project designed for productive enterprise use. A professional use requires a detailed planning of architecture. 
 
 
 ## Docker for Development
 Developers can use a docker image for testing and the development of new features. To build a new container first build the maven artefact running: 
 
-	mvn clean install
+	mvn clean install -Pdocker
 
-Next the docker container can be build with the docker command:
+To start Imixs-Office-Workflow with docker, the docker-compose file 'docker-compose-dev.yml can be used:
 
-	docker build --tag=imixs/imixs-office-workflow .
+	docker-compose -f docker-compose-dev.yml up
 
-To start Imixs-Office-Workflow with docker the docker-compose command can be used:
+Note: this command will start several containers, 
 
-	docker-compose up
+* a Postgre SQL database server 
+* a Wildfly Server running Imixs-Office-Workflow
+* and a Wildfly Server funning the [Imixs-Admin tool](https://www.imixs.org/doc/administration.html) 
 
-Note: this command will start two containers, a postgreSQL server and a Wildfly Server. See the docker-compose.yml file for the configuration details.
 
 ### Mount Points
-The default configuration sets a local mount point at the following location:
+The development configuration sets a local mount point at the following location:
 
 	~/git/imixs-office-workflow/src/docker/deployments
 
@@ -65,7 +66,7 @@ Make sure that this directory exits. During development new versions can easily 
 
 ## Docker for Production
 
-To run Imixs-Office-Workflow in a Docker production environment the project proveds serveral additional maven profiles:
+To run Imixs-Office-Workflow in a Docker production environment the project provides several additional maven profiles:
 
 
 ### docker-build
@@ -85,12 +86,12 @@ where 'localhost:5000' need to be replaced with the host of a private registry. 
 
 ### docker-hub
 
-Imixs-Office-Workflow is also available on [Docker-Hub](https://hub.docker.com/r/imixs/imixs-microservice/). The public docker images can be used for development and production. If you need technical support please contact [imixs.com](http://www.imixs.com) 
+Imixs-Office-Workflow is also available on [Docker-Hub](https://hub.docker.com/r/imixs/imixs-office-workflow/). The public docker images can be used for development and production. If you need technical support please contact [imixs.com](http://www.imixs.com) 
 
 
 
 
-## Build
+## Maven Build
 Imixs-Office-Workflow is based on [Maven](http://maven.apache.org/) and runs on the Jakarta EE stack. Imixs-Office-Workflow can be deployed on JBoss/Wildfly server or other Java EE application servers.
 To build the application from sources, run the maven install command first:
 
@@ -100,4 +101,3 @@ Please check the pom.xml file for dependencies and versions. The master-branch o
 against the latest snapshot releases form the Imixs-Workflow project. To run a stable version please build a [tagged version](https://github.com/imixs/imixs-office-workflow/releases). 
 To deploy the artifact the application server must provide a database pool named "java:/jdbc/office" and a security domain/realm named 'office'. See also the [Imixs-Workflow Deployment Guide](http://www.imixs.org/doc/deployment/index.html) for further details.
 
-As an alternative to setup a server environment by yourself you can use docker to run Imixs-Office-Workflow locally or in production.

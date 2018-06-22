@@ -19,3 +19,11 @@ services:
       - "8080:8080"
       - "9990:9990"
       - "8787:8787"
+    volumes:
+        - ~/git/imixs-office-workflow/src/docker/deployments:/opt/wildfly/standalone/deployments/
+
+  imixsadmin:
+    image: imixs/imixs-admin
+    ports:
+      - "8888:8080"
+ 
