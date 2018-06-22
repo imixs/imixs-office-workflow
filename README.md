@@ -11,19 +11,19 @@ Imixs-Workflow is a free and open source technology. Therefore, this solution ca
 You can find further information on the web site [Imixs-Office-Workflow](http://www.office-workflow.de).
 
 * **Technical information** can be found on the [marty project home](http://www.imixs.org/marty).
-* **Release notes ** can be read [here](https://github.com/imixs/imixs-office-workflow/releases).
+* **Release notes** can be read [here](https://github.com/imixs/imixs-office-workflow/releases).
 * **Migration notes** can be found [here](MIGRATION-NOTES.md)
 
 ## Contribute
-The source code is free available on [Github](https://github.com/imixs/imixs-office-workflow). 
-
-If you have any questions about how Imixs-Office-Worklfow works and how you can use it in your own project, you can ask your question on the [GitHub Issue Tracker](https://github.com/imixs/imixs-office-workflow/issues). With a pull request on GitHub you can tell about your ideas and changes you would like to contribute.
+The source code of Imixs-Office-Workflow is free available on [Github](https://github.com/imixs/imixs-office-workflow). 
+If you have any questions about how Imixs-Office-Worklfow works and how you can use it in your own project, you can ask your question on the [GitHub Issue Tracker](https://github.com/imixs/imixs-office-workflow/issues). 
+With a pull request on GitHub you can share your ideas or improvements that you want to contribute.
 
  
 
 ## Need Help?
 
-[Imixs Software Solutions GmbH](http://www.imixs.com) is an open source company and we are specialized in business process management solutions (BPMS).  If you need professional services and consulting for your individual software project [please contact us](mailto:info@imixs.com). 
+[Imixs Software Solutions GmbH](http://www.imixs.com) is an open source company and we are specialized in business process management solutions (BPMS). If you need professional services or consulting for your own individual software project [please contact us](mailto:info@imixs.com). 
 
  
 
