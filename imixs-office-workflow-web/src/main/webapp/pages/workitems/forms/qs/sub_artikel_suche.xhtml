@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+	<ui:param name="jkarat"
+		value="#{jKaratObjectController.get(workitem.item['jkarat-response'])}"></ui:param>
+
+	<div class="imixs-form-section-3">
+		<dl>
+			<dt>
+				Artikel-Nr.: <span class="imixs-required">*</span>
+			</dt>
+			<dd>
+				<h:inputText required="true" value="#{workitem.item['_artikel_nr']}" />
+			</dd>
+		</dl>
+	</div>
+
+</ui:composition>

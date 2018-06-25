@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+
+		<div class="imixs-form-section-3">
+			<dl>
+				<dt>
+					Artikel-Nr.: <span class="imixs-required">*</span>
+				</dt>
+				<dd>
+					<h:outputText required="true" value="#{workitem.item['_artikel_nr']}" />
+				</dd>
+			</dl>
+			
+			<dl>
+				<dt>
+					Benennung: 
+				</dt>
+				<dd>
+					<h:outputText value="#{workitem.item['_artikel_name']}" required="false" />
+				</dd>
+			</dl>
+						
+			<dl>
+				<dt>
+					Zeichnungs-Nr.: 
+				</dt>
+				<dd>
+					<h:outputText value="#{workitem.item['_artikel_zeichnung']}" required="false" />
+				</dd>
+			</dl>
+									
+			<dl>
+				<dt>
+					Auftrags-Nr.:
+				</dt>
+				<dd>
+					<h:outputText value="#{workitem.item['_artikel_auftrag']}" required="false" />
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					Bemerkung:
+				</dt>
+				<dd>
+					<h:outputText value="#{workitem.item['_artikel_bemerkung']}" required="false" />
+				</dd>
+			</dl>
+
+		</div>
+		
+
+	
+
+
+</ui:composition>

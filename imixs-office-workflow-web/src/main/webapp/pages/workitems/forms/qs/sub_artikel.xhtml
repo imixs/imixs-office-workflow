@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+	<div class="imixs-form-section-3">
+		<dl>
+			<dt>
+				Artikel-Nr.: 
+			</dt>
+			<dd>
+				<h:inputText  value="#{workitem.item['_artikel_nr']}" />
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>Benennung:</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_description1']}" />
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>Zeichnungs-Nr.:</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_jkarat_data_drawingnumber']}" />
+			</dd>
+		</dl>
+	</div>
+	<div class="imixs-form-section-3">
+		<dl>
+			<dt>Auftrags-Nr.:</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_artikel_auftrag']}"
+					required="false">
+				</h:inputText>
+			</dd>
+		</dl>
+		
+
+	</div>
+
+
+
+
+
+</ui:composition>

@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<div class="imixs-form-section-2">
+
+		<dl>
+			<dt>#{message['form.space']}:</dt>
+			<dd>
+				<h:selectOneMenu style="width:20em;" required="false"
+					value="#{workflowController.workitem.item['txtSpaceRef']}">
+					<f:selectItem itemLabel=""></f:selectItem>
+					<c:forEach
+						items="#{processController.getSpaces()}"
+						var="space">
+						<f:selectItem itemLabel="#{space.item['txtName']}"
+							itemValue="#{space.item['$UniqueID']}">
+						</f:selectItem>
+					</c:forEach>
+				</h:selectOneMenu>
+			</dd>
+		</dl>
+		<dl>
+
+			<dt>Grund der Prüfung</dt>
+			<dd>
+				<h:selectOneMenu value="#{workitem.item['_pruefung_grund']}">
+
+					<f:selectItem itemLabel="Einrichten einer Maschine"
+						itemValue="Einrichten einer Maschine"></f:selectItem>
+					<f:selectItem itemLabel="Reparatur Stanzwerkzeug"
+						itemValue="Reparatur Stanzwerkzeug"></f:selectItem>
+					<f:selectItem itemLabel="Neue Material-Charge"
+						itemValue="Neue Material-Charge"></f:selectItem>
+					<f:selectItem itemLabel="Reparatur Maschine"
+						itemValue="Reparatur Maschine"></f:selectItem>
+					<f:selectItem itemLabel="Sonstiges" itemValue="Sonstige"></f:selectItem>
+
+				</h:selectOneMenu>
+			</dd>
+		</dl>
+
+
+
+	</div>
+
+
+</ui:composition>
+
