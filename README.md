@@ -1,4 +1,6 @@
 # Imixs-Office-Workflow
+[![Join the chat at https://gitter.im/imixs/imixs-workflow](https://badges.gitter.im/imixs/imixs-workflow.svg)](https://gitter.im/imixs/imixs-workflow?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![License](https://img.shields.io/aur/license/yaourt.svg)](https://github.com/imixs/imixs-office-workflow/blob/master/LICENSE)
 
 'Imixs-Office-Workflow' provides a **Open Source Workflow Suite** for small, medium and large enterprises.
 The Project is build on top of the '[Imixs-Workflow](https://www.imixs.org)' project and is licensed under the GPL.  
