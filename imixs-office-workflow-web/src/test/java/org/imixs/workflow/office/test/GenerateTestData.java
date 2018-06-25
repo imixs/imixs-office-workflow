@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.services.rest.RestClient;
-import org.imixs.workflow.xml.XMLItemCollectionAdapter;
+import org.imixs.workflow.xml.XMLDocumentAdapter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -47,7 +47,7 @@ public class GenerateTestData {
 
 			try {
 				int iHTTPResult = restClient.postEntity(URI,
-						XMLItemCollectionAdapter.putItemCollection(workitem));
+						XMLDocumentAdapter.getDocument(workitem));
 
 				Assert.assertTrue(iHTTPResult >= 200 && iHTTPResult < 300);
 
