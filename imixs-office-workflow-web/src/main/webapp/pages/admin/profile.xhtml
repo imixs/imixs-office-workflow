@@ -11,7 +11,7 @@
 
 		<f:view>
 			<h:form>
-				
+
 				<div class="imixs-form">
 
 
@@ -79,13 +79,13 @@
 
 										</dd>
 									</dl>
-									
-									
+
+
 									<dl>
 										<dt>
 											<h:outputLabel value="#{message['profile.initials']}">
 											</h:outputLabel>
-											
+
 										</dt>
 										<dd>
 											<h:inputText required="false"
@@ -95,8 +95,8 @@
 
 										</dd>
 									</dl>
-									
-									
+
+
 									<dl>
 										<dt>
 											<h:outputLabel for="email_id"
@@ -144,7 +144,10 @@
 									<h:panelGroup layout="block" styleClass="imixs-form-section"
 										style="clear: none; width:80%;">
 
-										<i:imixsFileUpload id="file_upload_id" hideattachments="false" />
+						 				<i:imixsFileUpload id="file_upload_id"
+											workitem="#{workflowController.workitem}"
+											hideattachments="false" />
+
 										<div style="clear: left;" />
 
 										<h:commandButton value="#{message.remove}"
@@ -223,11 +226,12 @@
 
 
 						</div>
-					</div> <!-- form-body end -->
-					<ui:include src="/pages/admin/sub_footer.xhtml" >
+					</div>
+					<!-- form-body end -->
+					<ui:include src="/pages/admin/sub_footer.xhtml">
 						<ui:param name="action" value="/pages/admin/profilelist" />
 					</ui:include>
-					
+
 				</div>
 			</h:form>
 		</f:view>
