@@ -2,6 +2,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	template="/layout/template.xhtml">
 
 
@@ -65,9 +66,16 @@
 										<h:outputText value="#{message.name}"/>											
 									</h:panelGroup>
 								</f:facet>
+								
 								<h:commandLink styleClass="imixs-viewentry-main-link"
 									action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/space.xhtml')}">
 									<f:setPropertyActionListener value="/pages/admin/spaces" target="#{workflowController.defaultActionResult}"/>
+									
+									<h:panelGroup rendered="#{(record.item['$processid'] eq 100)}"
+											styleClass="typcn typcn-tick imixs-state-success" pt:title="#{record.item['$workflowstatus']}" />
+									<h:panelGroup rendered="#{(record.item['$processid'] eq 180)}"  pt:title="#{record.item['$workflowstatus']}" 
+											styleClass="typcn typcn-delete-outline imixs-state-warning" />
+								
 									<h:outputText value="#{record.item['txtName']}" />
 									<h:outputText rendered="#{empty record.item['txtName']}"
 										value=" - no name - " />
