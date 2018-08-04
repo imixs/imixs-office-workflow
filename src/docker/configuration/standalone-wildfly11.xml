@@ -421,6 +421,9 @@
             <mail-session name="default" jndi-name="java:jboss/mail/Default">
                 <smtp-server outbound-socket-binding-ref="mail-smtp"/>
             </mail-session>
+            <mail-session name="java:/mail/org.imixs.workflow.mail" jndi-name="java:/mail/org.imixs.workflow.mail" debug="false">
+            	<smtp-server outbound-socket-binding-ref="mail-smtp"/>
+            </mail-session>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:naming:2.0">
             <remote-naming/>
