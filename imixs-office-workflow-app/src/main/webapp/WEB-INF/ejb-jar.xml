@@ -5,8 +5,6 @@
          version="3.2">
 	<enterprise-beans>
 		<!--Imixs JEE EJBs -->
-
-
 		<session>
 			<ejb-name>WorkflowService</ejb-name>
 			<ejb-class>org.imixs.workflow.engine.WorkflowService</ejb-class>
@@ -43,14 +41,14 @@
 			</ejb-ref>
 
 
-			<!-- Mail resource -->
+			<!-- Mail resource No longer necessary in jee7
 			<resource-ref>
 				<res-ref-name>${imixs-mail-res-ref-name}</res-ref-name>
 				<res-type>javax.mail.Session</res-type>
 				<res-auth>Container</res-auth>
 				<res-sharing-scope>Shareable</res-sharing-scope>
 			</resource-ref>
-
+			-->
 
 		</session>
 
@@ -73,6 +71,7 @@
 	</interceptors>
 
 	<assembly-descriptor>
+	
 		<!-- TeamInterceptor -->
 		<interceptor-binding> 
 		    <description>Intercepter to add orgunit-role mapping into EJB Context Data</description> 
@@ -94,7 +93,5 @@
 			<interceptor-class>org.imixs.marty.ejb.PropertyInterceptor</interceptor-class>
 		</interceptor-binding>
 	</assembly-descriptor>
-
-
 
 </ejb-jar>

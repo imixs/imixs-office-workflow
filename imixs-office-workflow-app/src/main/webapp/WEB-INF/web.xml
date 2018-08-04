@@ -8,6 +8,8 @@
 	<welcome-file-list>
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
+	
+	<!--  -->
 	<context-param>
 		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
 		<param-value>server</param-value>
@@ -18,22 +20,28 @@
 			/WEB-INF/faces-config.xml,/WEB-INF/faces-config-office.xml,/WEB-INF/faces-config-custom.xml
 		</param-value>
 	</context-param>
+	
+	
+	
 	<!-- Change to "Production" when you are ready to deploy
 	     Change to "Development" during development -->
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Production</param-value>
 	</context-param>
+	
+	 <!-- Session Timeout 3h -->
 	<session-config> 
-		<!-- 3h -->
 		<session-timeout>180</session-timeout> 
 	</session-config> 	
+	
+	<!-- 
  	<listener>
         <listener-class>
             com.sun.faces.config.ConfigureListener
         </listener-class>
     </listener>
-
+ -->
 	
 	<!-- Facelets -->
 	<servlet>
@@ -60,8 +68,13 @@
 
     
     <!-- A custom error page org.jboss.weld.context.NonexistentConversationException  -->  
-    <error-page>   
-     	<exception-type>org.jboss.weld.context.NonexistentConversationException</exception-type>   
+   
+	<!-- Error handling -->
+	 <error-page>   
+	 	<!-- WIldfly 11 
+     	<exception-type>org.jboss.weld.context.NonexistentConversationException</exception-type>  
+     	--> 
+     	<exception-type>javax.enterprise.context.NonexistentConversationException</exception-type>
      	<location>/conversationexpired.xhtml?nocid=true</location>   
     </error-page>  
     
@@ -70,15 +83,11 @@
      	<exception-type>javax.faces.view.facelets.TagAttributeException</exception-type>   
      	<location>/errorhandler.jsf</location>   
     </error-page>  
-    
-    
-    <error-page>   
+  	<error-page>   
      	<exception-type>javax.servlet.ServletException</exception-type>   
      	<location>/errorhandler.jsf</location>   
     </error-page>  
     
-    
-	<!-- Error handling -->
 	<error-page>
 		<exception-type>java.lang.RuntimeException</exception-type>
 		<location>/error.jsf</location>
