@@ -1,4 +1,4 @@
-FROM imixs/wildfly:1.2.1
+FROM imixs/wildfly:1.2.3
 
 # Setup configuration
 COPY ./src/docker/configuration/imixsrealm.properties ${WILDFLY_CONFIG}/
@@ -8,4 +8,4 @@ COPY ./src/docker/configuration/standalone.xml ${WILDFLY_CONFIG}/
 #COPY ./src/docker/configuration/standalone.conf ${WILDFLY_HOME}/bin/
 
 # Deploy artefact
-COPY ./imixs-office-workflow-ear/target/imixs-office-workflow-ear-*.ear ${WILDFLY_DEPLOYMENT}/
+COPY ./imixs-office-workflow-app/target/imixs-office-workflow-app-*.war ${WILDFLY_DEPLOYMENT}/
