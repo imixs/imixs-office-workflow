@@ -14,7 +14,6 @@
 				function() {
 					$(".imixs-form-attachments .attachmentlink-iframe").each(
 							function(index, element) {
-								
 								$(this).click();
 								return false;
 							});
@@ -30,8 +29,9 @@
 	</script>
 
 
+
 	<div class="imixs-form-section imixs-form-attachments">
-		
+
 		<!-- **** DMS List ***** -->
 		<c:forEach var="attachment" items="#{dmsController.dmsList}">
 			<!-- link -->
@@ -43,10 +43,14 @@
 
 			</span>
 		</c:forEach>
-		<iframe id="imixs_dms_iframe" src="" width="100%" height="400px"></iframe>
 
+		<ui:fragment rendered="#{! empty dmsController.dmsList}">
+			<iframe id="imixs_dms_iframe" src="" width="100%" height="800px"></iframe>
+		</ui:fragment>
+
+		<h:panelGroup layout="block" rendered="#{empty dmsController.dmsList}"
+			 style="margin-bottom:30px;">Keine Dokumente verfügbar</h:panelGroup>
 	</div>
-
 
 
 </ui:composition>
