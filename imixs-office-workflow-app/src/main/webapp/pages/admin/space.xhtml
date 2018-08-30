@@ -37,11 +37,13 @@
 					<ui:include src="/pages/error_message.xhtml" />
 
 					<div class="imixs-body">
-
 						<div class="imixs-tabs">
 							<ul>
 								<li><a href="#tab-1">#{message['space.sub_general']}</a></li>
 								<li><a href="#tab-2">#{message['space.sub_team']}</a></li>
+								<ui:fragment rendered="#{app.containsKey('space.sub_custom')}">
+									<li><a href="#tab-3">#{app['space.sub_custom']}</a></li>
+								</ui:fragment>
 							</ul>
 
 							<div id="tab-1">
@@ -130,6 +132,20 @@
 									</dl>
 
 								</div>
+							</div>
+							
+							
+							
+							
+							<!-- ******** space custom ********* -->
+							<div id="tab-3">
+								<div class="ui-state-highlight ui-corner-all"
+									style="margin-bottom: 10px; padding: .5em;">
+									<p>#{app['space.help_custom']}</p>
+								</div>
+								<ui:include src="/pages/admin/sub_space_custom.xhtml">
+									<ui:param name="workitem" value="#{workflowController.workitem}" />
+								</ui:include>
 							</div>
 
 						</div>
