@@ -6,12 +6,12 @@ import javax.ws.rs.core.Application;
 /**
  * RestServiceApp is the main service class for the rest-service interface.
  * 
- * Resource = /rest-service
+ * Resource = /api
  * 
  * @author rsoika
  *
  */
-@ApplicationPath("/rest-service")
+@ApplicationPath("/api")
 public class RestServiceApp extends Application {
 
 }
