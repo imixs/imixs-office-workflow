@@ -87,7 +87,7 @@
 			//console.log("loading chart data '" + reportid + "'...'");
 			// get report name with .imixs-report extension form the reportid...
 			var report = reportid+".imixs-report";
-			var request_url = "#{facesContext.externalContext.requestContextPath}/rest-service/report/" + report+"?pagesize=9999";
+			var request_url = "#{facesContext.externalContext.requestContextPath}/api/report/" + report+"?pagesize=9999";
 			// We replace the sufix .imixs-report with -imixs-report so that we an use the report name as an ID
 			$.ajax({
 				url : request_url,

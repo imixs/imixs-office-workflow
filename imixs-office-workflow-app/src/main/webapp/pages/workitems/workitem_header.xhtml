@@ -102,11 +102,11 @@
 		</div>
 		
 		
-		<!-- QR-Code if property 'qr-code.url.prafix' is filled -->
-		<h:panelGroup layout="block" styleClass="col-2" rendered="#{!userController.mobileUser}">
-			<ui:param name="qrprafix" value="#{propertyController.getProperty('qr-code.url.prafix')}"></ui:param>
+		<!-- QR-Code if property 'qr-code.url.prafix' is filled --> 
+		<ui:param name="qrprafix" value="#{propertyController.getProperty('qr-code.url.prafix')}"></ui:param>
+		<h:panelGroup layout="block" styleClass="col-2" rendered="#{(!userController.mobileUser) and (!empty qrprafix)}">
 			<a href="#" onclick="printQRCode();"><h:graphicImage rendered="#{!empty qrprafix}" styleClass="imixsQrCode"
-				url="/rest-service/qr-code?size=130&amp;key=#{qrprafix}#{workflowController.workitem.uniqueID}"></h:graphicImage></a>
+				url="/api/qr-code?size=130&amp;key=#{qrprafix}#{workflowController.workitem.uniqueID}"></h:graphicImage></a>
 		</h:panelGroup>
 	</div>
 	

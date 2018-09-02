@@ -87,10 +87,9 @@
 							value="#{propertyController.getProperty('qr-code.url.prafix')}"></ui:param>
 						<h:graphicImage rendered="#{!empty qrprafix}"
 							styleClass="imixsQrCode"
-							url="/rest-service/qr-code?size=130&amp;key=#{qrprafix}#{workflowController.workitem.uniqueID}"></h:graphicImage>
+							url="/api/qr-code?size=130&amp;key=#{qrprafix}#{workflowController.workitem.uniqueID}"></h:graphicImage>
 							<br />
-#{workflowController.workitem.uniqueID}
-
+							#{workflowController.workitem.uniqueID}
 					</f:view>
 				</div>
 			</div>

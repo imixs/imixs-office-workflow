@@ -51,7 +51,7 @@
 								<h:outputText escape="false"
 									value="&lt;a target='_blank' class='attachmentlink'" />
 								<h:outputText escape="false"
-									value=" href='#{facesContext.externalContext.requestContextPath}/rest-service/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{attachment.item['txtName']}" />
+									value=" href='#{facesContext.externalContext.requestContextPath}/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{attachment.item['txtName']}" />
 								<h:outputText escape="false"
 									value="'&gt;#{attachment.item['txtName']}&lt;/a&gt;" />
 							</h:panelGroup>
@@ -139,7 +139,7 @@
 			</div>
 			<i:imixsFileUpload id="file_upload_id"
 				workitem="#{workflowController.workitem}"
-				context_url="#{facesContext.externalContext.requestContextPath}/rest-service/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}"
+				context_url="#{facesContext.externalContext.requestContextPath}/api/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}"
 				hideatachments="true" />
 		</div>
 	</div>
