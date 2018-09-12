@@ -5,13 +5,12 @@
 	template="/layout/template.xhtml">
 
 	<ui:define name="content">
-
 		<!-- Display only if error messages available -->
 		<h:panelGroup styleClass="ui-widget">
 			<div class="ui-state-error ui-corner-all"
 				style="padding: .7em; margin-bottom: .7em;">
 				<h3>
-					<span class="typcn typcn-weather-stormy"></span>
+					<span class="typcn typcn-weather-partly-sunny"></span>
 					#{message.error_message_general_title}
 				</h3>
 				<p>#{message.error_message_general}</p>
@@ -25,7 +24,7 @@
 					rendered="#{! empty requestScope['javax.servlet.error.exception']}">
 					<h:outputText
 						value="#{requestScope['javax.servlet.error.exception']}" />
-				</h:panelGroup>
+				</h:panelGroup>	
 			</div>
 			<h:form>
 				<h:commandButton action="home" value="#{message.close}"
