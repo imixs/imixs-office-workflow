@@ -4,7 +4,9 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.services.rest.BasicAuthenticator;
 import org.imixs.workflow.services.rest.RestClient;
+import org.imixs.workflow.xml.XMLDocument;
 import org.imixs.workflow.xml.XMLDocumentAdapter;
 import org.junit.Assert;
 import org.junit.Before;
@@ -33,7 +35,7 @@ public class GenerateTestData {
 	public void setUp() throws Exception {
 		generator = new Random(19580427);
 		restClient = new RestClient();
-		restClient.setCredentials(USERID, PASSWORD);
+		restClient.registerRequestFilter(new BasicAuthenticator(USERID, PASSWORD));
 	}
 
 	@Ignore
@@ -46,10 +48,10 @@ public class GenerateTestData {
 			ItemCollection workitem = createRandomWorkitem(i);
 
 			try {
-				int iHTTPResult = restClient.postEntity(URI,
+				XMLDocument xmlDoc = restClient.postXMLDocument(URI,
 						XMLDocumentAdapter.getDocument(workitem));
 
-				Assert.assertTrue(iHTTPResult >= 200 && iHTTPResult < 300);
+				Assert.assertNotNull(xmlDoc);
 
 			} catch (Exception e) {
 
