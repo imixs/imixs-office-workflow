@@ -138,15 +138,17 @@
 							
 							
 							<!-- ******** space custom ********* -->
-							<div id="tab-3">
-								<div class="ui-state-highlight ui-corner-all"
-									style="margin-bottom: 10px; padding: .5em;">
-									<p>#{app['space.help_custom']}</p>
+							<ui:fragment rendered="#{app.containsKey('space.sub_custom')}">
+								<div id="tab-3">
+									<div class="ui-state-highlight ui-corner-all"
+										style="margin-bottom: 10px; padding: .5em;">
+										<p>#{app['space.help_custom']}</p>
+									</div>
+									<ui:include src="/pages/admin/sub_space_custom.xhtml">
+										<ui:param name="workitem" value="#{workflowController.workitem}" />
+									</ui:include>
 								</div>
-								<ui:include src="/pages/admin/sub_space_custom.xhtml">
-									<ui:param name="workitem" value="#{workflowController.workitem}" />
-								</ui:include>
-							</div>
+							</ui:fragment>
 
 						</div>
 					</div> <!-- form-body end -->
