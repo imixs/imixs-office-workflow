@@ -1,7 +1,9 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
 	template="/layout/template.xhtml">
 
 
@@ -65,6 +67,24 @@
 
 
 					<div class="imixs-footer">
+					
+					<!--  Error Messages -->
+						<c:if test="#{! empty facesContext.maximumSeverity}">
+							<p>
+								<h:messages styleClass="messages" id="errorMessages"
+									layout="table" />
+							</p>
+						</c:if>
+
+
+						<i:imixsFileUpload id="file_upload_id"
+							workitem="#{reportController.reportUploads}"
+							hideattachments="true" />
+						<div style="clear: left;" />
+						<h:commandButton value="#{message.refresh}"
+							actionListener="#{reportController.doUploadReport}"
+							action="reports" />
+							
 						
 						<h:commandButton action="home" value="#{message.close}">
 						</h:commandButton>
