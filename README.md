@@ -45,11 +45,11 @@ But please note that Imixs-Office-Workflow is an comprehensive open source proje
 ## Docker for Development
 Developers can use a docker image for testing and the development of new features. To build a new container first build the maven artefact running: 
 
-	mvn clean install -Pdocker
+	$ mvn clean install -Pdocker
 
 To start Imixs-Office-Workflow with docker, the docker-compose file 'docker-compose-dev.yml can be used:
 
-	docker-compose -f docker-compose-dev.yml up
+	$ docker-compose -f docker-compose-dev.yml up
 
 Note: this command will start several containers, 
 
@@ -75,14 +75,14 @@ To run Imixs-Office-Workflow in a Docker production environment the project prov
 
 With the profile '_docker-build_' a docker container based on the current version of Imixs-Office-Workflow is created locally
  
-	mvn clean install -Pdocker-build
+	$ mvn clean install -Pdocker-build
 
 
 ### docker-push
 
 With the '_docker-push_' profile the current version of Imixs-Office-Workflow can be pushed to a remote repository:
 
-	mvn clean install -Pdocker-push -Dorg.imixs.docker.registry=localhost:5000
+	$ mvn clean install -Pdocker-push -Dorg.imixs.docker.registry=localhost:5000
 
 where 'localhost:5000' need to be replaced with the host of a private registry. See the [docker-push command](https://docs.docker.com/docker-cloud/builds/push-images/) for more details.
 
@@ -97,7 +97,7 @@ Imixs-Office-Workflow is also available on [Docker-Hub](https://hub.docker.com/r
 Imixs-Office-Workflow is based on [Maven](http://maven.apache.org/) and runs on the Jakarta EE stack. Imixs-Office-Workflow can be deployed on JBoss/Wildfly server or other Java EE application servers.
 To build the application from sources, run the maven install command first:
 
-	mvn clean install
+	$ mvn clean install
 
 Please check the pom.xml file for dependencies and versions. The master-branch of the project is continuously under development and is typically 
 against the latest snapshot releases form the Imixs-Workflow project. To run a stable version please build a [tagged version](https://github.com/imixs/imixs-office-workflow/releases). 
