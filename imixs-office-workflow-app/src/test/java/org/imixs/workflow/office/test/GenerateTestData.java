@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.services.rest.BasicAuthenticator;
 import org.imixs.workflow.services.rest.RestClient;
-import org.imixs.workflow.xml.XMLDocument;
 import org.imixs.workflow.xml.XMLDocumentAdapter;
 import org.junit.Assert;
 import org.junit.Before;
@@ -48,10 +47,10 @@ public class GenerateTestData {
 			ItemCollection workitem = createRandomWorkitem(i);
 
 			try {
-				XMLDocument xmlDoc = restClient.postXMLDocument(URI,
+				ItemCollection doc = restClient.postXMLDocument(URI,
 						XMLDocumentAdapter.getDocument(workitem));
 
-				Assert.assertNotNull(xmlDoc);
+				Assert.assertNotNull(doc);
 
 			} catch (Exception e) {
 
