@@ -21,12 +21,14 @@
 
 
 	<!-- Standard Tab Section -->
-	<div class="imixs-form-panel">
-		<h1>#{message.comments}</h1>
-		<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
-			<ui:param name="workitem" value="#{workflowController.workitem}" />
-		</ui:include>
-	</div>
+	<ui:fragment  rendered="#{! empty workitem.getItemValue('txtCommentLog')}">
+		<div class="imixs-form-panel">
+			<h1>#{message.comments}</h1>
+			<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
+				<ui:param name="workitem" value="#{workflowController.workitem}" />
+			</ui:include>
+		</div>
+	</ui:fragment>
 
 
 
