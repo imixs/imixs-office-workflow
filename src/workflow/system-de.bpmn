@@ -23,7 +23,7 @@
       <imixs:value><![CDATA[org.imixs.marty.plugins.MailPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.ResultPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.LogPlugin]]></imixs:value>
-      <imixs:value><![CDATA[org.imixs.marty.plugins.ApplicationPlugin]]></imixs:value>
+      <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.ApplicationPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.ejb.security.UserGroupPlugin]]></imixs:value>
     </imixs:item>
   </bpmn2:extensionElements>
@@ -91,7 +91,7 @@
         <imixs:item name="txtbusinessrule" type="xs:string">
           <imixs:value><![CDATA[var result={};
 
-if (workitem.$processid[0]==220 && workitem.$activityid[0]==10 && (!workitem.txtpassword || workitem.txtpassword[0]=="") ) {
+if (workitem.$processid[0]==220 && workitem.$eventid[0]==10 && (!workitem.txtpassword || workitem.txtpassword[0]=="") ) {
     result.isValid=false;
     result.errorMessage='Bitte ändern Sie Ihr Passwort!';
 }]]></imixs:value>
