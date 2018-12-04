@@ -21,7 +21,7 @@
 
 
 	<!-- Standard Tab Section -->
-	<ui:fragment  rendered="#{! empty workitem.getItemValue('txtCommentLog')}">
+	<ui:fragment  rendered="#{! empty workflowController.workitem.getItemValue('txtCommentLog')}">
 		<div class="imixs-form-panel">
 			<h1>#{message.comments}</h1>
 			<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
