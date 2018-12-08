@@ -1,0 +1,41 @@
+version: "3.1"
+services:
+
+  postgresoffice:
+    image: postgres:9.6.1
+    environment:
+      POSTGRES_PASSWORD: adminadmin
+      POSTGRES_DB: office
+
+  imixsofficeworkflow:
+    image: imixs/imixs-office-workflow
+    environment:
+      WILDFLY_PASS: adminadmin
+      DEBUG: "true"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "adminadmin"
+      POSTGRES_CONNECTION: "jdbc:postgresql://postgresoffice/office"
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+      - "8787:8787"
+    volumes:
+        - ~/git/imixs-office-workflow/src/docker/deployments:/opt/wildfly/standalone/deployments/
+
+  imixsadmin:
+    image: imixs/imixs-admin
+    ports:
+      - "8888:8080"
+      
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ~/git/imixs-office-workflow/src/docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml 
+  
+  grafana:
+    image: grafana/grafana
+    ports: 
+      - "3000:3000" 
+   
