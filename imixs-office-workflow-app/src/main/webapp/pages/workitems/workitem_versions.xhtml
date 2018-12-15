@@ -5,12 +5,12 @@
 
 
 	<!--  Workitem Version History -->
-	<ui:fragment rendered="#{! empty workflowController.versions}">
+	<ui:fragment rendered="#{! empty versionController.versions}">
 	<hr />
 		<div class="imixs-form-section">
 				<h:outputLabel value="#{message.versions}:" />
 			<h:dataTable id="minute_versionlist_id" columns="4"
-				value="#{workflowController.versions}" var="version">
+				value="#{versionController.versions}" var="version">
 
 				<h:column>
 					<f:facet name="header">
