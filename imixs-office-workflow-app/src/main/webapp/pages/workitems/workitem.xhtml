@@ -9,21 +9,21 @@
 	<h:head>
 		<!-- support deep link for workitems to be loaded by the WorkflowController (optional params 'id' and 'workitem' supported) -->
 		<f:metadata>
-			<f:viewParam name="workitem" value="#{workflowController.deepLinkId}" />
-			<f:viewParam name="id" value="#{workflowController.deepLinkId}" />
+			<f:viewAction action="#{workflowController.onLoad()}" />
 		</f:metadata>
 	</h:head>
 
 	<ui:define name="content">
 
 		<!--  Redirect if workitem is null or no editor was found -->
-		<ui:fragment rendered="#{(empty workflowController.workitem) or (workflowController.workitem.processID le 0)}">	
+		<ui:fragment
+			rendered="#{(empty workflowController.workitem) or (workflowController.workitem.processID le 0)}">
 			<script type="text/javascript">
 				/*<![CDATA[*/
-						document.location="#{facesContext.externalContext.requestContextPath}/pages/notes.jsf";
+				document.location = "#{facesContext.externalContext.requestContextPath}/pages/notes.jsf";
 				/*]]>*/
 			</script>
-		</ui:fragment>	
+		</ui:fragment>
 
 		<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
 		<f:view>

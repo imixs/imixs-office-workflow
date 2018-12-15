@@ -1,8 +1,11 @@
-<f:subview xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" id="sub_history_form">
-
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 	<h:panelGrid columns="2" columnClasses="imixs-history-col1 imixs-history-col2">
 		<h:outputLabel value="#{message.created}: " />
 		<h:panelGroup>
@@ -78,8 +81,5 @@
 
 		</h:panelGroup>
 		
-		
-		
-
-</f:subview>
+</ui:composition>
 

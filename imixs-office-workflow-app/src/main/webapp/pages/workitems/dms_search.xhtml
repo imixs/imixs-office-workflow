@@ -42,14 +42,14 @@
 
 						<h:panelGroup layout="block" class="imixs-body" id="worklist-body">
 							<!-- display search result  -->
-							<ui:repeat var="workitem" value="#{searchController.workitems}">
+							<ui:repeat var="workitem" value="#{searchController.data}">
 								<ui:include src="dms_viewentry.xhtml">
 									<ui:param name="workitem" value="#{workitem}" />
 								</ui:include>
 							</ui:repeat>
 							<!-- display empty search result  -->
 							<h:panelGroup
-								rendered="#{(empty searchController.workitems) and (empty facesContext.maximumSeverity)}">
+								rendered="#{(empty searchController.data) and (empty facesContext.maximumSeverity)}">
 								<h2>#{message.empty_worklist}</h2>
 							</h:panelGroup>
 							<!-- display parsing error -->

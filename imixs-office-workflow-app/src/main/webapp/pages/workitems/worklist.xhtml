@@ -22,13 +22,13 @@
 					</div>
 
 					<ui:param name="noresult"
-						value="#{(empty searchController.workitems) and (empty searchController.searchFilter.item['txtSearch'])}"></ui:param>
+						value="#{(empty searchController.data) and (empty searchController.searchFilter.item['txtSearch'])}"></ui:param>
 
 					<ui:fragment rendered="#{!noresult}">
 						<h:panelGroup layout="block" class="imixs-body" id="worklist-body">
 
 							<!-- display search result  -->
-							<ui:repeat var="workitem" value="#{searchController.workitems}">
+							<ui:repeat var="workitem" value="#{searchController.data}">
 								<ui:include src="worklist_viewentry.xhtml">
 									<ui:param name="workitem" value="#{workitem}" />
 								</ui:include>
@@ -37,7 +37,7 @@
 
 							<!-- display empty search result  -->
 							<h:panelGroup
-								rendered="#{(empty searchController.workitems) and (empty facesContext.maximumSeverity)}">
+								rendered="#{(empty searchController.data) and (empty facesContext.maximumSeverity)}">
 								<h2>#{message.empty_worklist}</h2>
 							</h:panelGroup>
 

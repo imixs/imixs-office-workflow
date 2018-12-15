@@ -61,11 +61,9 @@
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom-print.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
-
 	<!-- support deep link for workitems to be loaded by the WorkflowController (optional params 'id' and 'workitem' supported) -->
 	<f:metadata>
-		<f:viewParam name="workitem" value="#{workflowController.deepLinkId}" />
-		<f:viewParam name="id" value="#{workflowController.deepLinkId}" />
+		<f:viewAction action="#{workflowController.onLoad()}" />
 	</f:metadata>
 </h:head>
 

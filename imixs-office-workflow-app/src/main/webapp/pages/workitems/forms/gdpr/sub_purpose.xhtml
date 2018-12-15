@@ -1,38 +1,39 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:i="http://java.sun.com/jsf/composite/imixs"
-	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
-	<ui:param name="dsgvoTextblock" value="#{textBlockController.load('DSGVO - Art. 6: Rechtmäßigkeit')}" />
+	<ui:param name="dsgvoTextblock"
+		value="#{textBlockController.load('DSGVO - Art. 6: Rechtmäßigkeit')}" />
 
 	<!-- **** Zweckbestimmung **** -->
 
 	<div class="imixs-form-section">
 		<div class="ui-state-highlight ui-corner-all imixs-instruction">
-		
+
 			<!-- *** textblock *** -->
-			<h:outputText value="#{dsgvoTextblock.item['txtcontent']}" escape="false" />
+			<h:outputText value="#{dsgvoTextblock.item['txtcontent']}"
+				escape="false" />
 
 		</div>
 	</div>
-	<div  class="imixs-form-section">
+	<div class="imixs-form-section">
 		<dl>
-			<dt>
-				Zweckbestimmung
-			</dt>
+			<dt>Zweckbestimmung</dt>
 			<dd>
-				<h:inputTextarea class="" value="#{workitem.item['_purpose']}" required="false" />
+				<h:inputTextarea class="" value="#{workitem.item['_purpose']}"
+					required="false" />
 			</dd>
 		</dl>
 		<dl>
-			<dt>
-				Zweckänderung
-			</dt>
+			<dt>Zweckänderung</dt>
 			<dd>
-				<h:inputTextarea class="" value="#{workitem.item['_purpose_change']}" required="false" />
+				<h:inputTextarea class=""
+					value="#{workitem.item['_purpose_change']}" required="false" />
 			</dd>
 		</dl>
 	</div>
@@ -44,20 +45,15 @@
 			</dd>
 		</dl>
 	</div>
-	
+
 	<div class="imixs-form-section">
 		<dl>
-			<dt>Risikobetrachtung und Datenschutz Folgeabschätzung Art 35 DSGVO</dt>
+			<dt>Risikobetrachtung und Datenschutz Folgeabschätzung Art 35
+				DSGVO</dt>
 			<dd>
-				<h:inputTextarea class="" value="#{workitem.item['htmlprotectionimpact']}" />
+				<h:inputTextarea class=""
+					value="#{workitem.item['htmlprotectionimpact']}" />
 			</dd>
 		</dl>
 	</div>
-	
-	
-
-
-
-
 </ui:composition>
-
