@@ -43,12 +43,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.imixs.marty.workflow.ChildWorkitemController;
-import org.imixs.marty.workflow.WorkflowEvent;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
+import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.QueryException;
+import org.imixs.workflow.faces.data.WorkflowEvent;
 import org.imixs.workflow.faces.util.LoginController;
 
 
@@ -76,6 +77,9 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 
 	@EJB
 	ModelService modelService = null;
+	
+	@EJB 
+	DocumentService documentService;
 
 	/**
 	 * Initializes the search filter
@@ -124,7 +128,7 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 	 * reset the current child workItem
 	 */
 	public void clear() {
-		this.setWorkitem(null);
+		//this.setWorkitem(null);
 	}
 
 	/**
@@ -222,15 +226,15 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 			initFilter();
 		}
 
-		if (workflowEvent != null && WorkflowEvent.CHILDWORKITEM_BEFORE_PROCESS == workflowEvent.getEventType()) {
-			// test if datdate is set
-			if (workflowEvent.getWorkitem().getItemValueDate("datdate") == null)
-				workflowEvent.getWorkitem().replaceItemValue("datdate", new Date());
-
-			// test if _duration is set
-			if ("".equals(workflowEvent.getWorkitem().getItemValueString("_duration")))
-				workflowEvent.getWorkitem().replaceItemValue("_duration", 0);
-		}
+//		if (workflowEvent != null && WorkflowEvent.WORKITEM_BEFORE_PROCESS == workflowEvent.getEventType()) {
+//			// test if datdate is set
+//			if (workflowEvent.getWorkitem().getItemValueDate("datdate") == null)
+//				workflowEvent.getWorkitem().replaceItemValue("datdate", new Date());
+//
+//			// test if _duration is set
+//			if ("".equals(workflowEvent.getWorkitem().getItemValueString("_duration")))
+//				workflowEvent.getWorkitem().replaceItemValue("_duration", 0);
+//		}
 	}
 
 	/**
@@ -282,7 +286,7 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 			logger.fine("TimeSheetMB loadMyTimeSheet - query=" + sQuery);
 			Collection<ItemCollection> col;
 			try {
-				col = getDocumentService().find(sQuery, 999, 0,"datdate",true);
+				col = documentService.find(sQuery, 999, 0,"datdate",true);
 
 				for (ItemCollection aworkitem : col) {
 					myTimeSheet.add((this.cloneWorkitem(aworkitem)));
@@ -372,7 +376,7 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 			logger.fine("loadFilterTimeSheet - query=" + sQuery);
 			Collection<ItemCollection> col;
 			try {
-				col = getDocumentService().find(sQuery, 999,0,"datdate", true);
+				col = documentService.find(sQuery, 999,0,"datdate", true);
 				for (ItemCollection aworkitem : col) {
 					filterTimeSheet.add((this.cloneWorkitem(aworkitem)));
 					computeSummaryOfNumberValues(aworkitem, filterTimeSheetSummary);
