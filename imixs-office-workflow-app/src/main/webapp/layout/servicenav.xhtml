@@ -9,8 +9,8 @@
 		<h:form>
 			<!-- Branding -->
 			<h:panelGroup layout="block" styleClass="toolbar branding">
-				<h:commandLink actionListener="#{workflowController.reset}"
-					immediate="true" title="home" action="notes">
+				<h:commandLink actionListener="#{workflowController.close}"
+					immediate="true" title="home" action="/pages/notes?faces-redirect=true">
 					<span>#{app.application_title}</span>
 				</h:commandLink>
 			</h:panelGroup>
@@ -20,8 +20,8 @@
 			<!-- settings -->
 			<h:panelGroup layout="block" styleClass="toolbar settings"
 				rendered="#{loginController.authenticated}">
-				<h:commandLink actionListener="#{workflowController.reset}"
-					immediate="true" title="home" action="notes">
+				<h:commandLink actionListener="#{workflowController.close}"
+					immediate="true" title="home" action="/pages/notes?faces-redirect=true">
 					<span class="typcn typcn-home"></span>
 				</h:commandLink>
 			</h:panelGroup>
@@ -57,7 +57,7 @@
 						value="#{searchController.searchFilter.item['txtSearch']}"
 						onfocus="this.value='';" />
 					<h:commandLink actionListener="#{searchController.doResetFilter}"
-						action="search" title="#{message.search}"><span class="typcn typcn-zoom-outline"></span>
+						action="/pages/workitems/worklist?faces-redirect=true" title="#{message.search}"><span class="typcn typcn-zoom-outline"></span>
 					</h:commandLink>
 
 					<!-- dummy botton to hit enter -->
@@ -70,7 +70,7 @@
 
 				<h:panelGroup layout="block" styleClass="toolbar">
 					<!-- board -->
-					<h:commandLink action="notes_board" immediate="true" 
+					<h:commandLink action="/pages/notes_board?faces-redirect=true" immediate="true" 
 						actionListener="#{boardController.reset}"><span class="typcn typcn-th-large-outline"></span>
 						<f:setPropertyActionListener
 								target="#{boardController.title}"	value="#{message['worklist.owner']}" />
@@ -82,7 +82,7 @@
 					rendered="#{propertyController.getProperty('dms.search') eq 'true'}">
 
 					<h:commandLink actionListener="#{searchController.doResetFilter}"
-						action="search_dms" title="#{message['nav.search_documents']}">
+						action="/pages/workitems/dms_search?faces-redirect=true" title="#{message['nav.search_documents']}">
 						<span class="typcn typcn-archive"></span>
 
 						<f:setPropertyActionListener

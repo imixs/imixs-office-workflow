@@ -9,6 +9,7 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	template="/layout/template.xhtml">
 	<ui:define name="content">
+	
 
 		<f:view>
 			<script type="text/javascript">
@@ -50,16 +51,16 @@
 								#{boardController.title}
 								<!-- Search box -->
 								<h:panelGroup styleClass="search">
-									<h:inputText a:placeholder="#{message.search}..."
+									<h:inputText pt:placeholder="#{message.search}..."
 										value="#{searchController.searchFilter.item['txtSearch']}"
 										onfocus="this.value='';" /><h:commandLink
 										actionListener="#{searchController.doResetFilter}"
-										action="search" title="#{message.search}"><span class="typcn typcn-zoom-outline" style="margin-left:5px;"></span>
+										action="/pages/workitems/worklist?faces-redirect=true" title="#{message.search}"><span class="typcn typcn-zoom-outline" style="margin-left:5px;"></span>
 										<f:setPropertyActionListener
 											target="#{searchController.searchFilter.item['txtprocessRef']}"
 											value="#{boardController.ref}" />
 									</h:commandLink>
-									<h:commandLink action="search" immediate="true"
+									<h:commandLink action="/pages/workitems/worklist?faces-redirect=true" immediate="true"
 										styleClass="action-search"
 										actionListener="#{searchController.doReset}">
 										<f:setPropertyActionListener
@@ -69,7 +70,7 @@
 									<h:commandButton
 										style="visibility:hidden;display: none;width:1px;height:1px;"
 										actionListener="#{searchController.doResetFilter}"
-										action="search">
+										action="/pages/workitems/worklist?faces-redirect=true">
 										<f:setPropertyActionListener
 											target="#{searchController.searchFilter.item['txtprocessRef']}"
 											value="#{boardController.ref}" />

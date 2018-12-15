@@ -37,13 +37,13 @@
 					<f:ajax render="portlet_worklist" 
 						onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
 				</h:commandLink>
-				<h:commandLink actionListener="#{view.doLoadPrev}"  styleClass="imixs-portlet-prev"
+				<h:commandLink actionListener="#{view.back()}"  styleClass="imixs-portlet-prev"
 					title="#{message.prev}"
 					disabled="#{(empty view.data) or (view.pageIndex == 0)}"><span class="typcn #{(view.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
 					<f:ajax render="portlet_worklist"
 						onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
 				</h:commandLink>
-				<h:commandLink actionListener="#{view.doLoadNext}"  styleClass="imixs-portlet-next"
+				<h:commandLink actionListener="#{view.forward()}"  styleClass="imixs-portlet-next"
 					title="#{message.next}"
 					disabled="#{(empty view.data) or (view.endOfList)}"><span class="typcn #{(view.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
 					<f:ajax render="portlet_worklist"
@@ -89,13 +89,13 @@
 			<!-- navigation -->
 			<h:panelGroup layout="block" id="portlet_worklist_nav"
 				class="imixs-footer">
-				<h:commandLink actionListener="#{view.doLoadPrev}"
+				<h:commandLink actionListener="#{view.back()}"
 					title="#{message.prev}"
 					disabled="#{(empty view.data) or (view.pageIndex == 0)}"><span class="typcn #{(view.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
 					<f:ajax render="portlet_worklist"
 						onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
 				</h:commandLink>
-				<h:commandLink actionListener="#{view.doLoadNext}"
+				<h:commandLink actionListener="#{view.forward()}"
 					title="#{message.next}"
 					disabled="#{(empty view.data) or (view.endOfList)}"><span class="typcn #{(view.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
 					<f:ajax render="portlet_worklist"

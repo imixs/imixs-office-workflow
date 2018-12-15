@@ -17,11 +17,11 @@
 	<c:choose>
 		<c:when test="#{! empty workitem}">
 			<meta http-equiv="refresh"
-				content="0; URL=#{facesContext.externalContext.requestContextPath}/pages/workitems/workitem.jsf?workitem=#{workitem}" />
+				content="0; URL=#{facesContext.externalContext.requestContextPath}/pages/workitems/workitem.xhtml?workitem=#{workitem}" />
 		</c:when>
 		<c:otherwise>
 			<meta http-equiv="refresh"
-				content="0; URL=#{facesContext.externalContext.requestContextPath}/pages/notes.jsf" />
+				content="0; URL=#{facesContext.externalContext.requestContextPath}/pages/notes.xhtml" />
 		</c:otherwise>
 	</c:choose>
 </h:head>
