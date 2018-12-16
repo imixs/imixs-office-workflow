@@ -22,7 +22,7 @@ public class TextBlockViewController extends ViewController {
 	@PostConstruct
 	public void init() {
 		super.init();
-		this.setQuery("(type:\"profile\")");
+		this.setQuery("(type:\"textblock\")");
 		this.setSortBy("txtname");
 		this.setSortReverse(false);
 		this.setPageSize(999);

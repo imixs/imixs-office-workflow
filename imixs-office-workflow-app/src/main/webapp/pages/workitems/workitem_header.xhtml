@@ -6,7 +6,7 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
-	
+
 	<div class="row nested">
 		<div class="col-10">
 			<h1>
@@ -33,25 +33,44 @@
 
 			<!-- *** Standard Info *** -->
 			<div class="content-block">
-				<h2><h:outputText escape="false"
-					rendered="#{empty workflowController.workitem.item['txtWorkflowSummary']}"
-					value="#{message.new_workitem}" />
+				<h2>
+					<h:outputText escape="false"
+						rendered="#{empty workflowController.workitem.item['txtWorkflowSummary']}"
+						value="#{message.new_workitem}" />
 
-				<h:outputText  escape="false"
-					rendered="#{!empty workflowController.workitem.item['txtWorkflowSummary']}"
-					value="#{workflowController.workitem.item['txtWorkflowSummary']}" />
+					<h:outputText escape="false"
+						rendered="#{!empty workflowController.workitem.item['txtWorkflowSummary']}"
+						value="#{workflowController.workitem.item['txtWorkflowSummary']}" />
 				</h2>
 				<h:outputLabel value="#{message['process.title']}: " />
-
-
-				<h:commandLink action="search" immediate="true"
-					actionListener="#{searchController.doReset}">
+			
+			
+			<ui:param name="myref" value="#{workflowController.workitem.item['txtprocessRef']}"></ui:param>
+			
+			die ref is #{myref}
+			
+			<ui:param name="dreck" value="/pages/notes_board.xhtml?faces-redirect=true&amp;ref=#{myref}"></ui:param>
+			
+			dreck = #{dreck}
+				<h:commandLink
+					action="/pages/notes_board.xhtml?faces-redirect=true&amp;ref=#{workflowController.workitem.item['txtprocessRef']}"
+					actionListener="#{workflowController.close()}" immediate="true">
+					<f:param name="ref" value="#{myref}"></f:param>
+					
+					
 					<h:outputText
 						value="#{workflowController.workitem.item['txtProcessName']}" />
-					<f:setPropertyActionListener
-						target="#{searchController.searchFilter.item['txtprocessRef']}"
-						value="#{workflowController.workitem.item['txtprocessRef']}" />
-				</h:commandLink>
+					
+					</h:commandLink>
+
+				<h:link outcome="/pages/notes_board" >
+					<h:outputText
+						value="#{workflowController.workitem.item['txtProcessName']}" />
+					<f:param name="ref"
+						value="#{workflowController.workitem.item['txtprocessRef']}"></f:param>
+						
+					
+				</h:link>
 			</div>
 
 
@@ -103,19 +122,22 @@
 
 
 		</div>
-		
-		
-		<!-- QR-Code if property 'qr-code.url.prafix' is filled --> 
-		<ui:param name="qrprafix" value="#{propertyController.getProperty('qr-code.url.prafix')}"></ui:param>
-		<h:panelGroup layout="block" styleClass="col-2" rendered="#{(!userController.mobileUser) and (!empty qrprafix)}">
-			<a href="#" onclick="printQRCode();"><h:graphicImage rendered="#{!empty qrprafix}" styleClass="imixsQrCode"
-				url="/api/qr-code?size=130&amp;key=#{qrprafix}#{workflowController.workitem.uniqueID}"></h:graphicImage></a>
+
+
+		<!-- QR-Code if property 'qr-code.url.prafix' is filled -->
+		<ui:param name="qrprafix"
+			value="#{propertyController.getProperty('qr-code.url.prafix')}"></ui:param>
+		<h:panelGroup layout="block" styleClass="col-2"
+			rendered="#{(!userController.mobileUser) and (!empty qrprafix)}">
+			<a href="#" onclick="printQRCode();"><h:graphicImage
+					rendered="#{!empty qrprafix}" styleClass="imixsQrCode"
+					url="/api/qr-code?size=130&amp;key=#{qrprafix}#{workflowController.workitem.uniqueID}"></h:graphicImage></a>
 		</h:panelGroup>
 	</div>
-	
-	
-	
-	
+
+
+
+
 	<!-- row end -->
 	<script type="text/javascript">
 		/*<![CDATA[*/
@@ -147,7 +169,7 @@
 				}).addClass('active');
 			}
 		}
-		
+
 		function printQRCode() {
 			fenster = window
 					.open(
