@@ -37,43 +37,17 @@
 					<h:outputText escape="false"
 						rendered="#{empty workflowController.workitem.item['txtWorkflowSummary']}"
 						value="#{message.new_workitem}" />
-
 					<h:outputText escape="false"
 						rendered="#{!empty workflowController.workitem.item['txtWorkflowSummary']}"
 						value="#{workflowController.workitem.item['txtWorkflowSummary']}" />
 				</h2>
 				<h:outputLabel value="#{message['process.title']}: " />
-			
-			
-			<ui:param name="myref" value="#{workflowController.workitem.item['txtprocessRef']}"></ui:param>
-			
-			die ref is #{myref}
-			
-			<ui:param name="dreck" value="/pages/notes_board.xhtml?faces-redirect=true&amp;ref=#{myref}"></ui:param>
-			
-			dreck = #{dreck}
-				<h:commandLink
-					action="/pages/notes_board.xhtml?faces-redirect=true&amp;ref=#{workflowController.workitem.item['txtprocessRef']}"
-					actionListener="#{workflowController.close()}" immediate="true">
-					<f:param name="ref" value="#{myref}"></f:param>
-					
-					
+				<h:link
+					outcome="/pages/notes_board?ref=#{workflowController.workitem.item['txtprocessRef']}">
 					<h:outputText
 						value="#{workflowController.workitem.item['txtProcessName']}" />
-					
-					</h:commandLink>
-
-				<h:link outcome="/pages/notes_board" >
-					<h:outputText
-						value="#{workflowController.workitem.item['txtProcessName']}" />
-					<f:param name="ref"
-						value="#{workflowController.workitem.item['txtprocessRef']}"></f:param>
-						
-					
 				</h:link>
 			</div>
-
-
 			<!-- sub navigation -->
 			<div class="imixs-subnav">
 				<h:panelGroup rendered="#{! workflowController.newWorkitem}"

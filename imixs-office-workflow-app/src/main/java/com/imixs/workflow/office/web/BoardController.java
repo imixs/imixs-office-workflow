@@ -162,6 +162,16 @@ public class BoardController implements Serializable {
 
 	public void setRef(String ref) {
 		this.ref = ref;
+		
+		// try to load ref...
+		if (ref!=null && !ref.isEmpty()) {
+			ItemCollection process=documentService.load(ref);
+			if (process!=null) {
+				String title=process.getItemValueString("txtname");
+				setTitle(title);
+			}
+		}
+		
 	}
 
 	/**

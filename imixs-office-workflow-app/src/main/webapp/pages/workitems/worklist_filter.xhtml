@@ -22,7 +22,7 @@
 					<c:forEach items="#{modelController.workflowGroups}" var="workflow">
 						<f:selectItem itemValue="#{workflow}" itemLabel="#{workflow}" />
 					</c:forEach>
-					<f:ajax event="change" listener="#{searchController.doRefreshWorkflowGroup}"
+					<f:ajax event="change"
 						render="@form" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 				</h:selectOneMenu>
 			</dd>
@@ -45,7 +45,7 @@
 							<f:selectItem itemValue="#{processentity.item['numProcessID']}"
 								itemLabel="#{processentity.item['txtname']}" />
 						</c:forEach>
-						<f:ajax event="change" listener="#{searchController.doResetSearchResult()}"
+						<f:ajax event="change" 
 							render="@form" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 					</h:selectOneMenu>
 				</dd>

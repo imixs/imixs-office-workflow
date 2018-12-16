@@ -41,26 +41,24 @@
 		<ui:include src="/pages/workitems/worklist_search.xhtml" />
 
 		<h:commandButton value="#{message.search}"
-			style="float:left;margin-right:10px;"
-			actionListener="#{searchController.doResetSearchResult()}">
+			style="float:left;margin-right:10px;">
 		</h:commandButton>
 		<!-- archive -->
 		<div style="float: left;">
 			<h:selectManyCheckbox id="view_filter"
 				styleClass="imixs-checkbox-button ui-button ui-widget ui-state-default ui-corner-all"
 				value="#{searchController.searchFilter.itemListArray['type']}">
-
 				<f:selectItem itemLabel="#{message['worklist.archive']}"
 					itemValue="workitemarchive" />
-				<f:ajax event="change"
-					listener="#{searchController.doResetSearchResult()}" render="@form"
+				<f:ajax event="change" render="@form"
 					onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 			</h:selectManyCheckbox>
 
 		</div>
 		<!-- date range -->
 		<div style="float: left; padding-left: 10px;">
-			<h:outputText title="#{message['worklist.date_range_help']}" value="#{message['worklist.date_range']}: "/>
+			<h:outputText title="#{message['worklist.date_range_help']}"
+				value="#{message['worklist.date_range']}: " />
 			<h:inputText value="#{searchController.searchFilter.item['datfrom']}"
 				required="false" title="#{message['worklist.date_range_help']}"
 				class="imixs-date">
