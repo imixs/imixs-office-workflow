@@ -50,8 +50,11 @@
 		actionListener="#{historyController.closeCurrentWorkitem}">
 	</h:commandButton>
 	<!-- ** Print ** -->
-	<input type="button" value="#{message.print}"  class="imixs-print-action"
-		onclick="openPrintWindow();" />
+	<ui:fragment rendered="#{!empty workflowController.workitem.item['$lastevent']}" >
+		<input type="button" value="#{message.print}" 
+			 class="imixs-print-action"
+			 onclick="openPrintWindow();" />
+		</ui:fragment>
 	<!-- *** Custom Actions 2 -->
 	<ui:include src="/pages/workitems/workitem_footer_custom_actions2.xhtml" />		
 		
