@@ -17,7 +17,9 @@
 				onfocus="this.value='';"
 				style="font-size:13px;width:130px;margin:2px 5px 0 0;float:left;" />
 
-			<h:commandLink actionListener="#{searchController.doResetFilter}"
+
+			<h:link outcome="/pages/workitems/worklist?phrase=searchController.searchFilter.item['txtSearch']"></h:link>
+			<h:commandLink 
 				action="/pages/workitems/worklist">
 				<h:graphicImage url="/layout/icons/Search_24.png"
 					style="height:20px"></h:graphicImage>
@@ -25,7 +27,6 @@
 
 			<!-- dummy botton to hit enter -->
 			<h:commandButton style="visibility:hidden;width:1px;height:1px;"
-				actionListener="#{searchController.doResetFilter}"
 				action="/pages/workitems/worklist">
 			</h:commandButton>
 

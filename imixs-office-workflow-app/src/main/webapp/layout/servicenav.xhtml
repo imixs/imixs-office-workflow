@@ -56,9 +56,12 @@
 						a:placeholder="#{message.search}..."
 						value="#{searchController.searchFilter.item['txtSearch']}"
 						onfocus="this.value='';" />
-					<h:commandLink actionListener="#{searchController.doResetFilter}"
-						action="/pages/workitems/worklist?faces-redirect=true" title="#{message.search}"><span class="typcn typcn-zoom-outline"></span>
-					</h:commandLink>
+						
+						
+					<h:link outcome="/pages/workitems/worklist?phrase=#{searchController.searchFilter.item['txtSearch']}"><span class="typcn typcn-zoom-outline"></span></h:link>
+					
+					
+					
 
 					<!-- dummy botton to hit enter -->
 					<h:commandButton

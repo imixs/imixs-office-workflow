@@ -21,10 +21,7 @@
 				<h1>
 					<h:link outcome="/pages/notes_board?ref=#{process.item['$uniqueId']}"><span class="typcn typcn-th-large-outline" style="margin-right:5px;"></span><h:outputText value="#{process.item['txtName']}" /></h:link>
 					
-					
-					
-					
-					<h:link outcome="/pages/workitems/worklist?ref=#{process.item['$uniqueId']}"><span class="typcn typcn-zoom-outline" style="margin-left:8px;"></span></h:link>
+					<h:link outcome="/pages/workitems/worklist?_processref=#{process.item['$uniqueId']}"><span class="typcn typcn-zoom-outline" style="margin-left:8px;"></span></h:link>
 				</h1>
 				<p>
 					<h:outputText value="#{process.item['txtdescription']}" />
