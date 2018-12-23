@@ -106,6 +106,7 @@ public class SearchController extends ViewController implements Serializable {
 		Map<String, String> paramMap = fc.getExternalContext().getRequestParameterMap();
 		searchFilter.replaceItemValue("_processref", paramMap.get("_processref"));
 		searchFilter.replaceItemValue("_spaceref", paramMap.get("_spaceref"));
+		searchFilter.replaceItemValue("_phrase", paramMap.get("_phrase"));
 
 		// try to load process/space objects
 		process = processController.getEntityById(searchFilter.getItemValueString("_processref"));
@@ -361,7 +362,7 @@ public class SearchController extends ViewController implements Serializable {
 
 		// test if a seach query was finally defined....
 		if (sSearchTerm.equals(emptySearchTerm)) {
-			// now query defined
+			// no query defined
 			sSearchTerm = null;
 		}
 

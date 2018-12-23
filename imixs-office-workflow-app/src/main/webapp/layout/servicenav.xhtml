@@ -10,7 +10,8 @@
 			<!-- Branding -->
 			<h:panelGroup layout="block" styleClass="toolbar branding">
 				<h:commandLink actionListener="#{workflowController.close}"
-					immediate="true" title="home" action="/pages/notes?faces-redirect=true">
+					immediate="true" title="home"
+					action="/pages/notes?faces-redirect=true">
 					<span>#{app.application_title}</span>
 				</h:commandLink>
 			</h:panelGroup>
@@ -21,7 +22,8 @@
 			<h:panelGroup layout="block" styleClass="toolbar settings"
 				rendered="#{loginController.authenticated}">
 				<h:commandLink actionListener="#{workflowController.close}"
-					immediate="true" title="home" action="/pages/notes?faces-redirect=true">
+					immediate="true" title="home"
+					action="/pages/notes?faces-redirect=true">
 					<span class="typcn typcn-home"></span>
 				</h:commandLink>
 			</h:panelGroup>
@@ -39,12 +41,12 @@
 						value="#{userController.workitem.item['txtName']}" />
 				</span>
 				<h:link outcome="/pages/profile/settings"
-					title="#{message['nav.my_settings']}"><span class="typcn typcn-cog"></span>
+					title="#{message['nav.my_settings']}">
+					<span class="typcn typcn-cog"></span>
 				</h:link>
 				<h:commandLink action="logout" immediate="true"
 					title="#{message['nav.logout']}"
-					actionListener="#{loginController.doLogout}"><span class="typcn typcn-power"></span>
-				</h:commandLink>
+					actionListener="#{loginController.doLogout}"><span class="typcn typcn-power"></span></h:commandLink>
 			</h:panelGroup>
 
 
@@ -52,41 +54,30 @@
 			<c:if test="#{loginController.authenticated}">
 
 				<h:panelGroup layout="block" styleClass="toolbar search">
-					<h:inputText style="margin-right: 10px;"
-						a:placeholder="#{message.search}..."
-						value="#{searchController.searchFilter.item['txtSearch']}"
-						onfocus="this.value='';" />
-						
-						
-					<h:link outcome="/pages/workitems/worklist?phrase=#{searchController.searchFilter.item['txtSearch']}"><span class="typcn typcn-zoom-outline"></span></h:link>
-					
-					
-					
-
-					<!-- dummy botton to hit enter -->
-					<h:commandButton
-						style="visibility:hidden;display: none;width:1px;height:1px;"
-						actionListener="#{searchController.doResetFilter}" action="search">
-					</h:commandButton>
+					<input type="text" style="margin-right: 10px;" id="search_input"
+						placeholder="#{message.search}..." onfocus="this.value='';" /><a id="search_link" href="#"><span
+						class="typcn typcn-zoom-outline"></span></a>
 				</h:panelGroup>
 
 
 				<!-- Tasklist Board -->
 				<h:panelGroup layout="block" styleClass="toolbar">
 					<!-- board -->
-					<h:commandLink action="board" immediate="true" 
-						actionListener="#{boardController.reset}"><span class="typcn typcn-th-large-outline"></span>
-						<f:setPropertyActionListener
-								target="#{boardController.title}"	value="#{message['worklist.owner']}" />
+					<h:commandLink action="board" immediate="true"
+						actionListener="#{boardController.reset}">
+						<span class="typcn typcn-th-large-outline"></span>
+						<f:setPropertyActionListener target="#{boardController.title}"
+							value="#{message['worklist.owner']}" />
 					</h:commandLink>
 				</h:panelGroup>
-				
+
 				<!-- DMS Search -->
 				<h:panelGroup layout="block" styleClass="toolbar"
 					rendered="#{propertyController.getProperty('dms.search') eq 'true'}">
 
 					<h:commandLink actionListener="#{searchController.doResetFilter}"
-						action="/pages/workitems/dms_search?faces-redirect=true" title="#{message['nav.search_documents']}">
+						action="/pages/workitems/dms_search?faces-redirect=true"
+						title="#{message['nav.search_documents']}">
 						<span class="typcn typcn-archive"></span>
 
 						<f:setPropertyActionListener
@@ -105,7 +96,30 @@
 			<ui:include src="servicenav_about.xhtml" />
 
 		</h:form>
+
 	</f:view>
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+			
+		$(document).ready(function() {
+			$("#search_link").click(function(e) {
+				e.preventDefault();
+				var phrase = $("#search_input").val();
+				var url = "/pages/workitems/worklist.xhtml?_phrase=" + phrase;
+				window.location.href= url;
+			});
+			
+			$("#search_input").keydown(function(e){
+			    if(e.keyCode == 13) {
+			    	$("#search_link").click();
+			    	return false;
+			    }
+			});
+		});
+
+		/*]]>*/
+	</script>
 </ui:composition>
 
 
