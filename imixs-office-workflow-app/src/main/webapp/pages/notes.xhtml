@@ -8,27 +8,31 @@
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	template="/layout/template.xhtml">
-	
-	<ui:define name="content">
 
+	<ui:define name="content">
 
 		<f:view>
 			<script type="text/javascript">
 				/*<![CDATA[*/
-				$(document).ready(function() {
-					// set navigation cookie
-					document.cookie = "imixs.office.navigation=/pages/notes.jsf;path=#{facesContext.externalContext.requestContextPath};";
-					// refresh portlets every 5 minutes
-					setInterval(function(){$(".imixs-portlet-refresh").click()},300000);
-				}); 
-				
+				$(document)
+						.ready(
+								function() {
+									// set navigation cookie
+									document.cookie = "imixs.office.navigation=/pages/notes.jsf;path=#{facesContext.externalContext.requestContextPath};";
+									// refresh portlets every 5 minutes
+									setInterval(function() {
+										$(".imixs-portlet-refresh").click()
+									}, 300000);
+								});
+
 				/*]]>*/
 			</script>
-			<h:form>
-			
-			
+			<h:form id="notes_form">
+
+
 				<!-- Password Reminder -->
-				<h:panelGroup styleClass="ui-widget" rendered="#{userController.workitem.item['$processid'] eq 220}">
+				<h:panelGroup styleClass="ui-widget"
+					rendered="#{userController.workitem.item['$processid'] eq 220}">
 					<div class="ui-state-error ui-corner-all"
 						style="padding: .4em; margin-bottom: .7em;">
 						<h4>
@@ -36,8 +40,8 @@
 						</h4>
 					</div>
 				</h:panelGroup>
-				
-			
+
+
 				<!-- reporting only rendered for desktop users -->
 				<h:panelGroup layout="block" styleClass="row"
 					rendered="#{!userController.mobileUser}">
@@ -47,40 +51,39 @@
 				<div class="row imixs-notes">
 
 					<!--  Box 1 -->
-					<ui:include src="/pages/portlet_worklist.xhtml">
-						<ui:param name="view" value="#{portletWorklistTasks}" />
-						<ui:param name="title" value="#{message['worklist.owner']}" />
-						<ui:param name="showBoardView" value="#{true}" />
-					</ui:include>
+					<f:subview id="portlet_owner">
+						<ui:include src="/pages/portlet_worklist.xhtml">
+							<ui:param name="view" value="#{portletWorklistTasks}" />
+							<ui:param name="title" value="#{message['worklist.owner']}" />
+							<ui:param name="showBoardView" value="#{true}" />
+						</ui:include>
+					</f:subview>
 
 					<!--  Box 2 -->
-					<!-- -->
-					<ui:include src="/pages/portlet_worklist.xhtml">
-						<ui:param name="view" value="#{portletWorklistCreator}" />
-						<ui:param name="title" value="#{message['worklist.creator']}" />
-						<ui:param name="showBoardView" value="#{false}" />
-					</ui:include>
-					
-					
+					<f:subview id="portlet_creator">
+						<ui:include src="/pages/portlet_worklist.xhtml">
+							<ui:param name="view" value="#{portletWorklistCreator}" />
+							<ui:param name="title" value="#{message['worklist.creator']}" />
+							<ui:param name="showBoardView" value="#{false}" />
+						</ui:include>
+					</f:subview>
+
+
 					<!--  Box 4 -->
-					<ui:include src="/pages/portlet_worklist.xhtml">
-						<ui:param name="view" value="#{portletWorklistFavorites}" />
-						<ui:param name="title" value="#{message['worklist.favorite']}" />
-					</ui:include>
-
-
+					<f:subview id="portlet_favorites">
+						<ui:include src="/pages/portlet_worklist.xhtml">
+							<ui:param name="view" value="#{portletWorklistFavorites}" />
+							<ui:param name="title" value="#{message['worklist.favorite']}" />
+						</ui:include>
+					</f:subview>
 
 					<!--  Box 3 -->
 					<ui:include src="/pages/portlet_startprocess.xhtml" />
 
 
-				
 					<!--  Box 5 -->
-					<!-- Admin Menu -->
-
-
 					<c:choose>
-
+						<!-- Admin Menu -->
 						<c:when
 							test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
 							<ui:include src="/pages/portlet_admin.xhtml" />
@@ -92,7 +95,6 @@
 							</c:if>
 						</c:otherwise>
 					</c:choose>
-
 				</div>
 
 			</h:form>

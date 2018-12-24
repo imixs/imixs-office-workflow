@@ -1,4 +1,4 @@
-<f:subview xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
@@ -26,16 +26,14 @@
 				</h:commandLink>
 				<h:commandLink actionListener="#{viewHandler.back(view)}"
 					styleClass="imixs-portlet-prev" title="#{message.prev}"
-					disabled="#{(view.pageIndex == 0)}">
-					<span
+					disabled="#{(view.pageIndex == 0)}"><span
 						class="typcn #{(view.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
 					<f:ajax render="portlet_worklist"
 						onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
 				</h:commandLink>
 				<h:commandLink actionListener="#{viewHandler.forward(view)}"
 					styleClass="imixs-portlet-next" title="#{message.next}"
-					disabled="#{(view.endOfList)}">
-					<span
+					disabled="#{(view.endOfList)}"><span
 						class="typcn #{(view.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
 					<f:ajax render="portlet_worklist"
 						onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
@@ -78,16 +76,14 @@
 			<!-- navigation -->
 			<h:panelGroup layout="block" id="portlet_worklist_nav"
 				class="imixs-footer">
-				<h:commandLink actionListener="#{view.back()}"
-					title="#{message.prev}" disabled="#{(view.pageIndex == 0)}">
-					<span
+				<h:commandLink actionListener="#{viewHandler.back(view)}"
+					title="#{message.prev}" disabled="#{(view.pageIndex == 0)}"><span
 						class="typcn #{(view.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
 					<f:ajax render="portlet_worklist"
 						onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
 				</h:commandLink>
-				<h:commandLink actionListener="#{view.forward()}"
-					title="#{message.next}" disabled="#{(view.endOfList)}">
-					<span
+				<h:commandLink actionListener="#{viewHandler.forward(view)}"
+					title="#{message.next}" disabled="#{(view.endOfList)}"><span
 						class="typcn #{(view.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
 					<f:ajax render="portlet_worklist"
 						onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
@@ -103,5 +99,5 @@
 
 	</h:panelGroup>
 
-</f:subview>
+</ui:composition>
 

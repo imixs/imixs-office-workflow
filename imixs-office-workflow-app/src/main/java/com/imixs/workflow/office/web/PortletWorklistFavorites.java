@@ -9,7 +9,7 @@ import org.imixs.marty.profile.FavoritesViewController;
 
 @Named
 @ViewScoped
-public class PortletWorklistFavorietes extends FavoritesViewController {
+public class PortletWorklistFavorites extends FavoritesViewController {
 
 	private static final long serialVersionUID = 1L;
 	
