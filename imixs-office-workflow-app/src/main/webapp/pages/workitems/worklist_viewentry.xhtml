@@ -6,8 +6,8 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+	
 	<div class="imixs-viewentry">
-		
 		<!-- image block  -->
 		<ui:include src="/layout/workitem_marker.xhtml">
 			<ui:param name="workitem" value="#{workitem}" />
@@ -15,7 +15,7 @@
 		
 		<!-- Standard Info  -->
 		<div class="content-block">
-			<h:panelGroup>
+			<span>
 				<h:link outcome="/pages/workitems/workitem" >
 					<!-- summary empty ? -->
 					<h:panelGroup
@@ -32,7 +32,7 @@
 						value="#{workitem.item['txtWorkflowSummary']}" />
 				<f:param name="id" value="#{workitem.item['$uniqueid']}"/>
 			</h:link>
-			</h:panelGroup>
+			</span>
 			<br />
 			<!-- Status -->
 			<strong><h:outputText
@@ -56,28 +56,23 @@
 							<h:graphicImage rendered="#{! empty profile.item['txtusericon']}"
 								value="/api/snapshot/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
 							</h:graphicImage>
-
 							<h:outputText rendered="#{empty profile.item['txtusericon']}"
 								value="#{profile.item['txtinitials']}" />
 						</div>
 						<!-- Tooltip -->
-						<h:panelGroup class="imixs-tooltip">
+						<span class="imixs-tooltip">
 							#{profile.item['txtusername']}
-						</h:panelGroup>
+						</span>
 					</h:panelGroup>
 				</ui:repeat>
 			</h:panelGroup>
 			<div class="pull-right">
-
 				<h:outputText value="#{workitem.item['$modified']}"
 					style="font-weight: normal;">
 					<f:convertDateTime timeZone="#{message.timeZone}"
 						pattern="#{message.dateTimePatternLong}" />
 				</h:outputText>
-
 			</div>
-
-
 		</div>
 
 		<!-- clear floating problem from sidebar in ff and chrome.  -->

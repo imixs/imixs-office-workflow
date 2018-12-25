@@ -4,22 +4,17 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
-	
+
 	<!-- Header depends on history mode -->
 	<c:choose>
 		<c:when
 			test="#{(!loginController.authenticated) or (empty historyController.workitems)}">
-
 			<div id="imixs-branding">
 				<div id="imixs-branding-text">#{app.application_title}</div>
 			</div>
-
 		</c:when>
-
 		<c:otherwise>
-
 			<ui:include src="/layout/historynav.xhtml" />
-
 		</c:otherwise>
 	</c:choose>
 </ui:composition>

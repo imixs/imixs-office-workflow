@@ -11,7 +11,7 @@
 	<!-- 
 		The ProcessList provides all process for all available projects
 	 -->
-	<h:panelGroup layout="block" styleClass="imixs-commandbox">
+	<div class="imixs-commandbox">
 		<!-- *** Workfow Groups *** -->
 
 		<h1>#{message['nav.processlist']}</h1>
@@ -28,12 +28,10 @@
 								target="#{searchController.searchFilter.item['txtprocessRef']}"
 								value="#{process.item['$uniqueId']}" />
 						</h:commandLink></li>
-
 				</h:panelGroup>
 			</ui:repeat>
 		</ul>
-
-	</h:panelGroup>
+	</div>
 </ui:composition>
 
 

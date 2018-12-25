@@ -43,7 +43,7 @@
 							<li><h:panelGroup rendered="#{! empty initialTask}">
 									<h:commandLink title=" " styleClass="action-create"
 										actionListener="#{workflowController.create(model.version,initialTask.item['numprocessid'],process.item['$uniqueid'])}"
-										action="#{workflowController.init('/pages/workitems/workitem')}">
+										action="/pages/workitems/workitem">
 
 										<span class="typcn typcn-arrow-forward-outline" style="margin-right:10px;"></span> <h:outputText value="#{group} »" />
 									</h:commandLink>
@@ -53,14 +53,10 @@
 								</h:panelGroup> <h:outputText style="color:red" rendered="#{empty initialTask}"
 									value="	Missing Model Definition: #{group}"></h:outputText></li>
 
-
 						</ui:repeat>
 					</ul>
 				</h:panelGroup>
-
 			</h:panelGroup>
-
-
 		</ui:repeat>
 	</div>
 

@@ -8,13 +8,13 @@
 	<f:view>
 		<h:form>
 			<!-- Branding -->
-			<h:panelGroup layout="block" styleClass="toolbar branding">
+			<div class="toolbar branding">
 				<h:commandLink actionListener="#{workflowController.close}"
 					immediate="true" title="home"
 					action="/pages/notes?faces-redirect=true">
 					<span>#{app.application_title}</span>
 				</h:commandLink>
-			</h:panelGroup>
+			</div>
 
 
 
@@ -53,15 +53,15 @@
 			<!-- Search -->
 			<c:if test="#{loginController.authenticated}">
 
-				<h:panelGroup layout="block" styleClass="toolbar search">
+				<div class="toolbar search">
 					<input type="text" style="margin-right: 10px;" id="search_input"
 						placeholder="#{message.search}..." onfocus="this.value='';" /><a id="search_link" href="#"><span
 						class="typcn typcn-zoom-outline"></span></a>
-				</h:panelGroup>
+				</div>
 
 
 				<!-- Tasklist Board -->
-				<h:panelGroup layout="block" styleClass="toolbar">
+				<div class="toolbar">
 					<!-- board -->
 					<h:commandLink action="board" immediate="true"
 						actionListener="#{boardController.reset}">
@@ -69,7 +69,7 @@
 						<f:setPropertyActionListener target="#{boardController.title}"
 							value="#{message['worklist.owner']}" />
 					</h:commandLink>
-				</h:panelGroup>
+				</div>
 
 				<!-- DMS Search -->
 				<h:panelGroup layout="block" styleClass="toolbar"

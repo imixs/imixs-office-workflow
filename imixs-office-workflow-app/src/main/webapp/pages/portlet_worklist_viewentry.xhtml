@@ -6,7 +6,7 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
-	
+
 	<div class="imixs-viewentry">
 
 		<!-- image block  -->
@@ -14,26 +14,22 @@
 			<ui:param name="workitem" value="#{workitem}" />
 		</ui:include>
 
-
 		<!-- content-block -->
 		<div class="content-block">
-			<h:panelGroup>
-				<h:link outcome="/pages/workitems/workitem">
-					<!-- summary empty ? -->
-					<h:panelGroup styleClass="imixs-viewentry-title"
-						rendered="#{empty workitem.item['txtWorkflowSummary']}">
-						<h:outputText value="#{workitem.item['$modified']}">
-							<f:convertDateTime timeZone="#{message.timeZone}"
-								pattern="#{message.dateTimePattern}" />
-						</h:outputText>
-						<h:outputText value=" #{workitem.item['_subject']}" />
-					</h:panelGroup>
-					<h:outputText styleClass="imixs-viewentry-title" escape="false"
-						value="#{workitem.item['txtWorkflowSummary']}" />
-					<f:param name="id" value="#{workitem.item['$uniqueid']}" />
-				</h:link>
-
-			</h:panelGroup>
+			<h:link outcome="/pages/workitems/workitem">
+				<!-- summary empty ? -->
+				<h:panelGroup styleClass="imixs-viewentry-title"
+					rendered="#{empty workitem.item['txtWorkflowSummary']}">
+					<h:outputText value="#{workitem.item['$modified']}">
+						<f:convertDateTime timeZone="#{message.timeZone}"
+							pattern="#{message.dateTimePattern}" />
+					</h:outputText>
+					<h:outputText value=" #{workitem.item['_subject']}" />
+				</h:panelGroup>
+				<h:outputText styleClass="imixs-viewentry-title" escape="false"
+					value="#{workitem.item['txtWorkflowSummary']}" />
+				<f:param name="id" value="#{workitem.item['$uniqueid']}" />
+			</h:link> 
 
 			<br />
 			<!-- Status -->
@@ -63,9 +59,9 @@
 								value="#{profile.item['txtinitials']}" />
 						</div>
 						<!-- Tooltip -->
-						<h:panelGroup class="imixs-tooltip">
+						<span class="imixs-tooltip">
 							#{profile.item['txtusername']}
-						</h:panelGroup>
+						</span>
 					</h:panelGroup>
 				</ui:repeat>
 			</h:panelGroup>
@@ -87,5 +83,5 @@
 
 	</div>
 
-</f:subview	>
+</f:subview>
 

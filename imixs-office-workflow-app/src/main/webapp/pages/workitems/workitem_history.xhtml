@@ -6,6 +6,7 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+	
 	<h:panelGrid columns="2" columnClasses="imixs-history-col1 imixs-history-col2">
 		<h:outputLabel value="#{message.created}: " />
 		<h:panelGroup>
@@ -45,10 +46,7 @@
 
 		
 	</h:panelGrid>
-
-		
 		<h:outputLabel value="#{message.course}:" />
-
 		<h:panelGroup>
 			<!--  new log format -->
 			<ui:fragment
@@ -67,7 +65,6 @@
 				</h:dataTable>
 			</ui:fragment>
 
-
 			<!--  old log format -->
 			<ui:fragment
 				rendered="#{empty workflowController.workitem.item['txtworkflowhistory']}">
@@ -78,8 +75,6 @@
 					<br />
 				</ui:repeat>
 			</ui:fragment>
-
 		</h:panelGroup>
-		
 </ui:composition>
 

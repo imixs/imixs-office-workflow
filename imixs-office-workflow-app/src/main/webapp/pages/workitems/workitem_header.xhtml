@@ -24,12 +24,12 @@
 
 			<!-- Workitem Info Header -->
 			<!-- *** Image *** -->
-			<h:panelGroup layout="block" styleClass="image-block">
+			<div class="image-block">
 				<ui:include src="/layout/workitem_icon.xhtml">
 					<ui:param name="workitem" value="#{workflowController.workitem}" />
 					<ui:param name="hidetooltip" value="#{true}" />
 				</ui:include>
-			</h:panelGroup>
+			</div>
 
 			<!-- *** Standard Info *** -->
 			<div class="content-block">
@@ -69,15 +69,11 @@
 			</div>
 
 
-
-
 			<div style="clear: left;" />
 			<!-- Workflow History -->
 			<div id="history-panel" style="display: none;">
 				<ui:include src="/pages/workitems/workitem_history.xhtml" />
 			</div>
-
-
 
 			<!-- References -->
 			<div id="reference-panel" style="display: none;">

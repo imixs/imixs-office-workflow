@@ -7,23 +7,12 @@
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
-	<h:form>
-
-		<ul>
-
-			<li>Version: #{app.application_build}</li>
-		
-			<li><h:commandLink immediate="true" action="/contact">
-					<h:outputText value="Help" />
-				</h:commandLink></li>
-
-			<li><a href="http://www.imixs.com/impressum" target="_blank">Impressum</a></li>
-
-			<li><a href="http://www.imixs.com/agb" target="_blank">AGBs</a></li>
-
-		</ul>
-
-	</h:form>
+	<ul>
+		<li>Version: #{app.application_build}</li>
+		<li><h:link outcome="/contact">Help</h:link></li>
+		<li><a href="http://www.imixs.com/impressum" target="_blank">Impressum</a></li>
+		<li><a href="http://www.imixs.com/agb" target="_blank">AGBs</a></li>
+	</ul>
 </ui:composition>
 
 

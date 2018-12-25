@@ -14,18 +14,18 @@
 
 		<div class="imixs-historyentry-action"  onclick="window.location=$('.content-block a',this).first().attr('href'); ">
 			<!-- *** Image *** -->
-			<h:panelGroup layout="block" styleClass="image-block">
+			<div class="image-block">
 				<ui:include src="/layout/workitem_icon.xhtml">
 					<ui:param name="workitem" value="#{workitem}" />
 					<ui:param name="hidetooltip" value="#{isactive}" />
 					<ui:param name="showlink" value="#{false}" />
 				</ui:include>
-			</h:panelGroup>
+			</div>
 
 
 			<!-- *** Standard Info *** -->
 			<div class="content-block">
-				<h:panelGroup>
+				<span>
 					<h:link outcome="/pages/workitems/workitem">
 						<!-- summary empty ? -->
 						<h:panelGroup
@@ -41,7 +41,7 @@
 						<f:param name="id" value="#{workitem.item['$uniqueid']}" />
 					</h:link>
 
-				</h:panelGroup>
+				</span>
 				<br />
 				<!-- Status -->
 				<h:outputText value="#{workitem.item['txtworkflowgroup']} » " />
