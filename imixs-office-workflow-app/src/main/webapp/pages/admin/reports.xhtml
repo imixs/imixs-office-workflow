@@ -59,10 +59,12 @@
 								<!-- Delete -->
 								<h:commandLink title="#{message.delete}"
 									rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}"
-									action="#{reportController.delete(record.item['$UniqueID'],'/pages/admin/reports.xhtml')}"
+									action="/pages/admin/reports?faces-redirect=true"
+									actionListener="#{documentController.delete(record.item['$UniqueID'])}"
 									onclick="if (!confirm('#{message.help_delete}')) return false;">
 									<span class="typcn typcn-trash imixs-state-error"></span>#{message.delete}
 								</h:commandLink>
+								
 							</h:column>
 						</h:dataTable>
 					</div>
@@ -85,8 +87,8 @@
 							hideattachments="true" />
 						<div style="clear: left;" />
 						<h:commandButton value="#{message.refresh}"
-							actionListener="#{reportController.doUploadReport}"
-							action="reports" />
+							actionListener="#{reportController.uploadReport()}"
+							action="/pages/admin/reports?faces-redirect=true" />
 							
 						
 						<h:commandButton action="home" value="#{message.close}">

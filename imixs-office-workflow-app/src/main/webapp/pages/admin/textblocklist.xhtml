@@ -126,8 +126,8 @@
 							
 								<!-- Delete -->
 								<h:commandLink title="#{message.delete}"
-									action="/pages/admin/textblocklist.xhtml')}"
-									actionListener="#{reportController.delete(record.item['$UniqueID'])}"
+									action="/pages/admin/textblocklist?faces-redirect=true"
+									actionListener="#{documentController.delete(record.item['$UniqueID'])}"
 									onclick="if (!confirm('#{message.help_delete}')) return false;">
 									<span class="typcn typcn-trash imixs-state-error"></span>#{message.delete}
 								</h:commandLink>

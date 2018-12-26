@@ -6,6 +6,7 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	template="/layout/template.xhtml">
 
 	<ui:define name="content">
@@ -58,7 +59,7 @@
 					<div class="imixs-body">
 
 						<h:dataTable id="profilelisttable" styleClass="imixsdatatable"
-							value="#{profileViewController.data}" var="record">
+							value="#{viewHandler.getData(profileViewController)}" var="record">
 
 							<h:column>
 								<f:facet name="header">
@@ -120,12 +121,14 @@
 
 
 
-								<h:commandLink styleClass="imixs-viewentry-main-link" title=" "
-									action="#{workflowController.load(record.item['$uniqueid'],'profile')}">
-									<f:setPropertyActionListener value="/pages/admin/profilelist"
-										target="#{workflowController.defaultActionResult}" />
+								
+								<h:link outcome="/pages/admin/profile?faces-redirect=true" styleClass="imixs-viewentry-main-link" title=" ">
 									<h:outputText value="#{record.item['txtName']} " />
-								</h:commandLink>
+									<f:param name="id" value="#{record.item['$uniqueid']}" />
+								</h:link>
+								
+								
+								
 								<!-- Tooltip (disabled if userdb is disabled-->
 								<h:panelGroup style="display:none;" class="imixs-tooltip" rendered="#{setupController.workitem.item['keyEnableUserDB']}">
 									<ui:repeat var="grp"

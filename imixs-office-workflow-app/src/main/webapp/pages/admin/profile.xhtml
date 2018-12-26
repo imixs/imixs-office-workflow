@@ -4,16 +4,18 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	template="/layout/template.xhtml">
 
-	<ui:define name="content">
 
+	<f:metadata>
+		<f:viewAction action="#{workflowController.onLoad()}" />
+	</f:metadata>
+
+	<ui:define name="content">
 		<f:view>
 			<h:form>
-
 				<div class="imixs-form">
-
-
 					<div class="imixs-header">
 						<h1>
 							<h:outputText
@@ -143,9 +145,10 @@
 									<h:panelGroup layout="block" styleClass="imixs-form-section"
 										style="clear: none; width:80%;">
 
-						 				<i:imixsFileUpload id="file_upload_id"
+										<i:imixsFileUpload id="file_upload_id"
 											workitem="#{workflowController.workitem}"
-											hideattachments="false" />
+											context_url="#{facesContext.externalContext.requestContextPath}/api/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}"
+											hideatachments="true" />
 
 										<div style="clear: left;" />
 
@@ -157,7 +160,6 @@
 
 									</h:panelGroup>
 								</div>
-
 
 
 								<!-- end form-section -->
