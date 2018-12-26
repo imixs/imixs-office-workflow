@@ -11,7 +11,7 @@ import org.imixs.workflow.faces.util.LoginController;
 
 @Named
 @ViewScoped
-public class SpacesViewController extends ViewController {
+public class SpaceViewController extends ViewController {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,7 +22,7 @@ public class SpacesViewController extends ViewController {
 	@PostConstruct
 	public void init() {
 		super.init();
-		this.setQuery("(type:\"textblock\")");
+		this.setQuery("(type:\"space\")");
 		this.setSortBy("txtname");
 		this.setSortReverse(false);
 		this.setPageSize(999);

@@ -71,16 +71,13 @@
 										
 									</h:panelGroup>
 								</f:facet>
-								<h:commandLink styleClass="imixs-viewentry-main-link"
-									action="/pages/admin/textblock"
-									actionListener="#{textBlockController.load(record.item['$UniqueID'])}">
-									
+								<h:link outcome="/pages/admin/textblock?faces-redirect=true" styleClass="imixs-viewentry-main-link">
 									<h:outputText value="#{record.item['txtName']}" />
 									<h:outputText rendered="#{empty record.item['txtName']}"
 										value=" - no name - " />
-								</h:commandLink>
+									<f:param name="id" value="#{record.item['$uniqueid']}" />
+								</h:link>
 							</h:column>
-
 
 							<h:column >
 								<f:facet name="header">
@@ -89,16 +86,10 @@
 											
 									</h:panelGroup>
 								</f:facet>
-								
-							
-								
 								<h:outputText value="#{record.item['txtmode']}"/>
 							</h:column>
 
-
-
-
-							<h:column >
+							<h:column>
 								<f:facet name="header">
 									<h:panelGroup>
 										<h:outputText value="#{message.modified}"/>
@@ -125,13 +116,12 @@
 							<h:column>
 								<f:facet name="header">#{message.action}</f:facet>
 								<!-- Edit -->
-								<h:commandLink title="#{message.edit}"
-									styleClass="imixs-viewentry-action-link"
-									action="/pages/admin/textblock"
-									actionListener="#{textBlockController.load(record.item['$UniqueID'])}">
+								<h:link outcome="/pages/admin/textblock?faces-redirect=true" styleClass="imixs-viewentry-main-link">
+						
 									<span class="typcn typcn-pencil imixs-state-info"></span>
-								#{message.edit}
-								</h:commandLink>
+									#{message.edit}
+								<f:param name="id" value="#{record.item['$uniqueid']}" />
+								</h:link>
 							
 							
 								<!-- Delete -->
@@ -151,7 +141,9 @@
 						
 						<h:commandButton value="#{message.add}"
 							action="/pages/admin/textblock" 
-							actionListener="#{textBlockController.create}">
+							actionListener="#{documentController.create}">
+							<f:setPropertyActionListener
+						target="#{documentController.document.item['type']}" value="textblock" />
 						</h:commandButton>
 
 

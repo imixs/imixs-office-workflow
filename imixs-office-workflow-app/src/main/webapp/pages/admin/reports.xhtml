@@ -27,12 +27,13 @@
 							styleClass="imixsdatatable">
 							<h:column>
 								<f:facet name="header">#{message.name}</f:facet>
-								<h:commandLink
-									action="#{reportController.load(record.item['$UniqueID'],'/pages/admin/report.xhtml')}">
+								<h:link outcome="/pages/admin/report?faces-redirect=true" styleClass="imixs-viewentry-main-link">
+						
 									<h:outputText value="#{record.item['txtName']}" />
 									<h:outputText rendered="#{empty record.item['txtName']}"
 										value=" - no name - " />
-								</h:commandLink>
+								<f:param name="id" value="#{record.item['$uniqueid']}" />
+								</h:link>
 							</h:column>
 
 

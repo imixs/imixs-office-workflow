@@ -81,11 +81,12 @@
 		<i:imixsWorkflowActions workflowController="#{workflowController}" />
 
 
-		<h:commandButton immediate="true" value="#{message.close}"
-			styleClass="imixs-close-action" action="#{action.toString()}" />
 
-
-
+		<h:commandButton value="#{message.close}"
+			immediate="true"
+			action="#{action.toString()}"
+			actionListener="#{workflowController.close()}" />
+	
 	</div>
 
 	<script type="text/javascript">

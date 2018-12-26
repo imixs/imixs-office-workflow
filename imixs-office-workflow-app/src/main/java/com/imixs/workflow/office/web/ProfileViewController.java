@@ -22,7 +22,7 @@ public class ProfileViewController extends ViewController {
 	@PostConstruct
 	public void init() {
 		super.init();
-		this.setQuery("(type:\"space\") OR (type:\"spacearchive\")");
+		this.setQuery("(type:\"profile\") OR (type:\"profilearchive\")");
 		this.setSortBy("txtname");
 		this.setSortReverse(false);
 		this.setPageSize(999);

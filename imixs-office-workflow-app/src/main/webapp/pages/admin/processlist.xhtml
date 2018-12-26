@@ -71,16 +71,13 @@
 										
 									</h:panelGroup>
 								</f:facet>
-								<h:commandLink styleClass="imixs-viewentry-main-link"
-									action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/process.xhtml')}">
-									<f:setPropertyActionListener value="/pages/admin/processlist" target="#{workflowController.defaultActionResult}"/>
+								<h:link outcome="/pages/admin/process?faces-redirect=true" styleClass="imixs-viewentry-main-link">
 									<h:outputText value="#{record.item['txtName']}" />
 									<h:outputText rendered="#{empty record.item['txtName']}"
 										value=" - no name - " />
-								</h:commandLink>
+									<f:param name="id" value="#{record.item['$uniqueid']}" />
+								</h:link>
 							</h:column>
-
-
 
 							<h:column >
 								<f:facet name="header">
@@ -89,7 +86,6 @@
 											
 									</h:panelGroup>
 								</f:facet>
-								
 								<!-- hidden sort field  -->
 								<h:outputText value="#{record.item['$modified']}" style="display:none">
 									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
@@ -102,8 +98,6 @@
 								</h:outputText>
 								<h:outputText value=" #{message.by} #{userController.getUserName(record.item['namcurrentEditor'])}" title="#{record.item['namcurrentEditor']}" />
 							</h:column>
-
-
 
 							<h:column>
 								<f:facet name="header">Manager</f:facet>
@@ -179,13 +173,11 @@
 							<h:column>
 								<f:facet name="header">#{message.action}</f:facet>
 								<!-- Edit -->
-								<h:commandLink title="#{message.edit}"
-									styleClass="imixs-viewentry-action-link"
-									action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/process.xhtml')}">
-									<f:setPropertyActionListener value="/pages/admin/processlist" target="#{workflowController.defaultActionResult}"/>
+								<h:link outcome="/pages/admin/process?faces-redirect=true" styleClass="imixs-viewentry-main-link">
 									<span class="typcn typcn-pencil imixs-state-info"></span>
-								#{message.edit}
-								</h:commandLink>
+									#{message.edit}
+									<f:param name="id" value="#{record.item['$uniqueid']}" />
+								</h:link>
 							</h:column>
 						</h:dataTable>
 					</div>

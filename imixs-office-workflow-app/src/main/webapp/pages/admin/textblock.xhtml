@@ -8,10 +8,14 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	template="/layout/template.xhtml">
 
+
+
+	<f:metadata>
+		<f:viewAction action="#{documentController.onLoad()}" />
+	</f:metadata>
+
 	<ui:define name="content">
 
-
-		<!-- Documentinfo: $UniqueID= #{reportController.workitem.item['$uniqueid']}-->
 		<f:view>
 			<h:form id="textblock_form_id">
 
@@ -20,7 +24,7 @@
 						<h1>
 							<h:outputText value="#{message['textblock.title']}: " />
 							<h:outputText
-								value="#{textBlockController.textBlock.item['txtname']} " />
+								value="#{documentController.document.item['txtname']} " />
 						</h1>
 					</div>
 
@@ -56,7 +60,7 @@
 
 										<dd>
 											<h:inputText required="true" id="txtname_id"
-												value="#{textBlockController.textBlock.item['txtName']}" />
+												value="#{documentController.document.item['txtName']}" />
 										</dd>
 									</dl>
 
@@ -66,7 +70,7 @@
 
 										<dd>
 											<h:selectOneRadio
-												value="#{textBlockController.textBlock.item['txtmode']}">
+												value="#{documentController.document.item['txtmode']}">
 
 												<f:selectItem itemLabel="HTML" itemValue="HTML"></f:selectItem>
 												<f:selectItem itemLabel="TEXT" itemValue="TEXT"></f:selectItem>
@@ -84,14 +88,14 @@
 										<dt>#{message['form.minutes.description']}</dt>
 										<dd>
 											<h:inputTextarea id="tinymce-minute-editor"
-												rendered="#{textBlockController.textBlock.item['txtmode'] eq 'HTML'}"
+												rendered="#{documentController.document.item['txtmode'] eq 'HTML'}"
 												class="imixs-editor-basic"
-												value="#{textBlockController.textBlock.item['txtcontent']}" />
+												value="#{documentController.document.item['txtcontent']}" />
 
 											<h:inputTextarea
-												rendered="#{textBlockController.textBlock.item['txtmode'] ne 'HTML'}"
+												rendered="#{documentController.document.item['txtmode'] ne 'HTML'}"
 												class=""
-												value="#{textBlockController.textBlock.item['txtcontent']}" />
+												value="#{documentController.document.item['txtcontent']}" />
 										</dd>
 									</dl>
 
@@ -105,16 +109,15 @@
 					</div>
 
 					<div class="imixs-footer">
+						<h:commandButton
+							action="/pages/admin/textblocklist?faces-redirect=true"
+							actionListener="#{documentController.save()}"
+							value="#{message.save}"/>
 
-						<h:commandButton value="#{message.save}"
-							action="/pages/admin/textblocklist"
-							actionListener="#{textBlockController.save}">
-						</h:commandButton>
-
-
-						<h:commandButton action="/pages/admin/textblocklist"
-							value="#{message.close}">
-						</h:commandButton>
+						<h:commandButton value="#{message.close}"
+							immediate="true"
+							action="/pages/admin/textblocklist?faces-redirect=true"
+							actionListener="#{documentController.close()}" />
 					</div>
 
 				</div>

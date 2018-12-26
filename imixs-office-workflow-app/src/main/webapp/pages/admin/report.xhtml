@@ -6,10 +6,13 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	template="/layout/template.xhtml">
 
+
+
+	<f:metadata>
+		<f:viewAction action="#{documentController.onLoad()}" />
+	</f:metadata>
+
 	<ui:define name="content">
-
-
-		<!-- Documentinfo: $UniqueID= #{reportController.workitem.item['$uniqueid']}-->
 		<f:view>
 			<h:form id="report_form_id">
 				<div class="imixs-form">
@@ -17,7 +20,7 @@
 						<h1>
 							<h:outputText value="#{message['report.title']}: " />
 							<h:outputText
-								value="#{reportController.workitem.item['txtname']} " />
+								value="#{documentController.document.item['txtname']} " />
 						</h1>
 					</div>
 
@@ -141,13 +144,15 @@
 						<input type="button" onclick="openReport();"
 							value="#{message.open}" />
 
-						<h:commandButton immediate="true" value="#{message.close}"
-							action="reports" />
+							
+						<h:commandButton value="#{message.close}" immediate="true"
+							action="/pages/admin/reports?faces-redirect=true"
+							actionListener="#{documentController.close()}" />
 
 						<h:commandButton action="reports" immediate="true"
 							rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}"
 							onclick="if (!confirm('#{message.help_delete}')) return false;"
-							actionListener="#{reportController.delete(reportController.workitem.item['$uniqueid'])}"
+							actionListener="#{reportController.delete(documentController.document.item['$uniqueid'])}"
 							value="#{message.delete}">
 						</h:commandButton>
 					</div>
@@ -158,7 +163,7 @@
 			<script type="text/javascript">
 				/*<![CDATA[*/
 				var reportBaseURI = "#{facesContext.externalContext.requestContextPath}/api/report/";
-				var reportName = "#{reportController.workitem.item['txtname']}";
+				var reportName = "#{documentController.document.item['txtname']}";
 
 				// check of date input fields
 				$(document).ready(function() {

@@ -12,7 +12,8 @@
 
 		<!-- pre-compute: #{viewHandler.onLoad(view)}  -->
 
-		<div class="imixs-header">
+		<h:panelGroup id="portlet_worklist_header" layout="block"
+			class="imixs-header">
 
 			<div align="right" style="float: right;">
 				<h:commandLink actionListener="#{view.reset()}"
@@ -50,7 +51,7 @@
 					</h:commandLink> <h:outputText value="#{title}" />
 				</li>
 			</ul>
-		</div>
+		</h:panelGroup>
 
 		<div class="imixs-body">
 
@@ -65,7 +66,8 @@
 					value="#{message.empty_worklist}" />
 			</h3>
 			<!-- navigation -->
-			<div class="imixs-footer">
+			<h:panelGroup layout="block" id="portlet_worklist_nav"
+				class="imixs-footer">
 				<h:commandLink actionListener="#{viewHandler.back(view)}"
 					title="#{message.prev}" disabled="#{(view.pageIndex == 0)}"><span
 						class="typcn #{(view.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
@@ -78,7 +80,7 @@
 					<f:ajax render="portlet_worklist"
 						onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
 				</h:commandLink>
-			</div>
+			</h:panelGroup>
 			<div style="clear: right;" />
 		</div>
 

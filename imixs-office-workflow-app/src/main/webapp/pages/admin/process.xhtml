@@ -4,14 +4,16 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	template="/layout/template.xhtml">
 
+
+	<f:metadata>
+		<f:viewAction action="#{workflowController.onLoad()}" />
+	</f:metadata>
+
 	<ui:define name="content">
-
-		<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
 		<f:view>
-
-
 			<h:form id="coreprocess_form_id">
 				
 				<div class="imixs-form">
@@ -198,11 +200,7 @@
 										</dd>
 
 									</dl>
-
-
-
 								</div>
-
 
 							</div>
 						</div>
@@ -214,8 +212,6 @@
 			</h:form>
 		</f:view>
 	</ui:define>
-
-
 
 </ui:composition>
 

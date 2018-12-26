@@ -59,7 +59,7 @@
 
 					<div class="imixs-body">
 						<h:dataTable id="spacetable"
-							value="#{spaceViewController.workitems}" var="record"
+							value="#{viewHandler.getData(spaceViewController)}" var="record"
 							styleClass="imixsdatatable">
 
 
@@ -70,10 +70,7 @@
 									</h:panelGroup>
 								</f:facet>
 								
-								<h:commandLink styleClass="imixs-viewentry-main-link"
-									action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/space.xhtml')}">
-									<f:setPropertyActionListener value="/pages/admin/spaces" target="#{workflowController.defaultActionResult}"/>
-									
+								<h:link outcome="/pages/admin/space?faces-redirect=true" styleClass="imixs-viewentry-main-link">
 									<h:panelGroup rendered="#{(record.item['$processid'] eq 100)}"
 											styleClass="typcn typcn-tick imixs-state-success" pt:title="#{record.item['$workflowstatus']}" />
 									<h:panelGroup rendered="#{(record.item['$processid'] eq 180)}"  pt:title="#{record.item['$workflowstatus']}" 
@@ -82,10 +79,9 @@
 									<h:outputText value="#{record.item['txtName']}" />
 									<h:outputText rendered="#{empty record.item['txtName']}"
 										value=" - no name - " />
-								</h:commandLink>
+									<f:param name="id" value="#{record.item['$uniqueid']}" />
+								</h:link>
 							</h:column>
-
-
 
 							<h:column >
 								<f:facet name="header">
@@ -154,13 +150,11 @@
 							<h:column>
 								<f:facet name="header">#{message.action}</f:facet>
 								<!-- Edit -->
-								<h:commandLink title="#{message.edit}"
-									styleClass="imixs-viewentry-action-link"
-									action="#{workflowController.load(record.item['$UniqueID'],'/pages/admin/space.xhtml')}">
-									<f:setPropertyActionListener value="/pages/admin/spaces" target="#{workflowController.defaultActionResult}"/>
+								<h:link outcome="/pages/admin/space?faces-redirect=true" styleClass="imixs-viewentry-main-link">
 									<span class="typcn typcn-pencil imixs-state-info"></span>
 									#{message.edit}
-								</h:commandLink>
+									<f:param name="id" value="#{record.item['$uniqueid']}" />
+								</h:link>
 
 								<!-- Subspace -->
 								<h:commandLink styleClass="imixs-viewentry-action-link"
@@ -197,19 +191,9 @@
 					<div class="imixs-footer">
 						<h:commandButton value="#{message.add}"
 							action="/pages/admin/space"
-							actionListener="#{workflowController.create}">
-							<f:setPropertyActionListener
-								target="#{workflowController.workitem.item['$modelversion']}"
-								value="#{app.workflowversion_system}" />
-							<f:setPropertyActionListener
-								target="#{workflowController.workitem.item['$ProcessID']}"
-								value="100" />
-							<f:setPropertyActionListener
-								target="#{workflowController.workitem.item['type']}"
-								value="space" />
-
-
+							actionListener="#{workflowController.create(app.workflowversion_system,100,space)}">
 						</h:commandButton>
+
 						<h:commandButton action="home" value="#{message.close}">
 						</h:commandButton>
 
