@@ -16,7 +16,9 @@ docker-compose.yml
 	
 	services:
 	  app:
-	    image: imixs/imixs-office-workflow:3.2.4
+	    image: imixs/imixs-office-workflow:3.4.3
+	    depends_on:
+          - db	    
 	    environment:
 	      WILDFLY_PASS: "adminadmin"
 	      POSTGRES_USER: "imixs"
