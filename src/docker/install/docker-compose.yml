@@ -3,6 +3,8 @@ version: '3.1'
 services:
   app:
     image: imixs/imixs-office-workflow:3.2.4
+    depends_on:
+      - db
     environment:
       WILDFLY_PASS: "adminadmin"
       POSTGRES_USER: "imixs"

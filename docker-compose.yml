@@ -9,6 +9,8 @@ services:
 
   imixsofficeworkflow:
     image: imixs/imixs-office-workflow
+    depends_on:
+      - postgresoffice
     environment:
       WILDFLY_PASS: adminadmin
       DEBUG: "true"
