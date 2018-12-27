@@ -75,11 +75,10 @@
 				<h:panelGroup layout="block" styleClass="toolbar"
 					rendered="#{propertyController.getProperty('dms.search') eq 'true'}">
 
-					<h:commandLink actionListener="#{searchController.doResetFilter}"
+					<h:commandLink actionListener="#{searchController.resetFilter()}"
 						action="/pages/workitems/dms_search?faces-redirect=true"
 						title="#{message['nav.search_documents']}">
 						<span class="typcn typcn-archive"></span>
-
 						<f:setPropertyActionListener
 							target="#{searchController.searchFilter.item['dms_search']}"
 							value="#{true}" />

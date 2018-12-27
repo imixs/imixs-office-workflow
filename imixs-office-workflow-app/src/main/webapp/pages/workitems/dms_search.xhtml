@@ -42,14 +42,14 @@
 
 						<h:panelGroup layout="block" class="imixs-body" id="worklist-body">
 							<!-- display search result  -->
-							<ui:repeat var="workitem" value="#{searchController.data}">
+							<ui:repeat var="workitem" value="#{viewHandler.getData(searchController)}">
 								<ui:include src="dms_viewentry.xhtml">
 									<ui:param name="workitem" value="#{workitem}" />
 								</ui:include>
 							</ui:repeat>
 							<!-- display empty search result  -->
 							<h:panelGroup
-								rendered="#{(empty searchController.data) and (empty facesContext.maximumSeverity)}">
+								rendered="#{(empty viewHandler.getData(searchController)) and (empty facesContext.maximumSeverity)}">
 								<h2>#{message.empty_worklist}</h2>
 							</h:panelGroup>
 							<!-- display parsing error -->
@@ -70,10 +70,10 @@
 						</h:panelGroup>
 
 						<div class="imixs-footer">
-							<h:commandButton actionListener="#{searchController.doLoadPrev}"
-								disabled="#{worklistController.row==0}" value="#{message.prev}">
+							<h:commandButton actionListener="#{viewHandler.back(searchController)}"
+								disabled="#{searchController.pageIndex==0}" value="#{message.prev}">
 							</h:commandButton>
-							<h:commandButton actionListener="#{searchController.doLoadNext}"
+							<h:commandButton actionListener="#{viewHandler.forward(searchController)}"
 								disabled="#{searchController.endOfList}" value="#{message.next}">
 							</h:commandButton>
 						</div>
