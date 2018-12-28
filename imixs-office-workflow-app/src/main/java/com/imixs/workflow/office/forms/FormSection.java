@@ -28,8 +28,8 @@
 package com.imixs.workflow.office.forms;
 
 /**
- * This Class is provided as a property of the WorkitemMB to provide informations about EditorSections 
- * defined in the Model (txtWorkflowEditorID) 
+ * This Class provides the informations about EditorSections defined in the
+ * Model (txtWorkflowEditorID)
  * 
  * <code>
  *     <c:forEach items="#{workitemMB.editorSections}" var="section">
@@ -67,7 +67,6 @@ public class FormSection {
 	public void setPath(String path) {
 		this.path = path;
 	}
-
 
 	public String getName() {
 		return name;

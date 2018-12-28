@@ -33,8 +33,9 @@ import java.util.ArrayList;
  * A FormDefinition holds the information about the form parts defined by a
  * workitem. This object is created by the FormController.
  * 
+ * @see FormController
  * @author rsoika
- *
+ * @version 1.0
  */
 public class FormDefinition {
 	String path;
