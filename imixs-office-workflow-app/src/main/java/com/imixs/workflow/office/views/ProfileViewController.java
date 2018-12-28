@@ -1,4 +1,4 @@
-package com.imixs.workflow.office.web;
+package com.imixs.workflow.office.views;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -11,7 +11,7 @@ import org.imixs.workflow.faces.util.LoginController;
 
 @Named
 @ViewScoped
-public class PortletWorklistTasks extends ViewController {
+public class ProfileViewController extends ViewController {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,10 +22,10 @@ public class PortletWorklistTasks extends ViewController {
 	@PostConstruct
 	public void init() {
 		super.init();
-		this.setQuery("(type:\"workitem\" AND namowner:\"" + loginController.getRemoteUser() + "\")");
-		this.setSortBy("$modified");
-		this.setSortReverse(true);
-		this.setPageSize(5);
+		this.setQuery("(type:\"profile\") OR (type:\"profilearchive\")");
+		this.setSortBy("txtname");
+		this.setSortReverse(false);
+		this.setPageSize(999);
 	}
 
 

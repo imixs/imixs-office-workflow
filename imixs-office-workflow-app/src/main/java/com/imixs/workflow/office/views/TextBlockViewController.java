@@ -1,4 +1,4 @@
-package com.imixs.workflow.office.web;
+package com.imixs.workflow.office.views;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -11,7 +11,7 @@ import org.imixs.workflow.faces.util.LoginController;
 
 @Named
 @ViewScoped
-public class ProcessViewController extends ViewController {
+public class TextBlockViewController extends ViewController {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,7 +22,7 @@ public class ProcessViewController extends ViewController {
 	@PostConstruct
 	public void init() {
 		super.init();
-		this.setQuery("(type:\"process\")");
+		this.setQuery("(type:\"textblock\")");
 		this.setSortBy("txtname");
 		this.setSortReverse(false);
 		this.setPageSize(999);

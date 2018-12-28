@@ -25,7 +25,7 @@
  *  	Ralph Soika - Software Developer
  *******************************************************************************/
 
-package com.imixs.workflow.office.web;
+package com.imixs.workflow.office.views;
 
 import java.io.Serializable;
 import java.util.ArrayList;

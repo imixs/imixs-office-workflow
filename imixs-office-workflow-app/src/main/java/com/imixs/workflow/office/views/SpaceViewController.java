@@ -1,4 +1,4 @@
-package com.imixs.workflow.office.web;
+package com.imixs.workflow.office.views;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;

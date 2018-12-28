@@ -1,4 +1,4 @@
-package com.imixs.workflow.office.web;
+package com.imixs.workflow.office.views;
 
 /**
  * This class builds a category used by the BoardController
