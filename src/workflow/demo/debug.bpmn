@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.4.2.SNAPSHOT-v20171016-1942-B1" targetNamespace="http://www.imixs.org/bpmn2">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.5.0.Final-v20180515-1642-B1" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
       <imixs:value><![CDATA[debug-1.0.0]]></imixs:value>
@@ -54,7 +54,7 @@
     <bpmn2:task id="Task_2000" imixs:processid="2000" name="Offen">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_instruction#basic_plus]]></imixs:value>
+          <imixs:value><![CDATA[form_panel_instruction#custom]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<itemvalue>_description</itemvalue>]]></imixs:value>
@@ -109,6 +109,13 @@
       <bpmn2:incoming>SequenceFlow_18</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_21</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_22</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_1">
+        <bpmn2:dataInput id="DataInput_1" name="input1"/>
+        <bpmn2:inputSet id="InputSet_1" name="Input Set 1">
+          <bpmn2:dataInputRefs>DataInput_1</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_1" name="Output Set 1"/>
+      </bpmn2:ioSpecification>
     </bpmn2:task>
     <bpmn2:task id="Task_2020" imixs:processid="2020" name="In Bearbeitung">
       <bpmn2:extensionElements>
@@ -840,9 +847,30 @@ if (1==2) {
     <bpmn2:sequenceFlow id="SequenceFlow_29" sourceRef="EventBasedGateway_3" targetRef="IntermediateCatchEvent_5"/>
     <bpmn2:sequenceFlow id="SequenceFlow_30" sourceRef="IntermediateCatchEvent_5" targetRef="ExclusiveGateway_3"/>
     <bpmn2:sequenceFlow id="SequenceFlow_35" sourceRef="IntermediateCatchEvent_2020-50" targetRef="Task_2020"/>
+    <bpmn2:dataObject id="DataObject_1" name="custom-form">
+      <bpmn2:documentation id="Documentation_1"><![CDATA[<?xml version="1.0"?>
+<imixs-form>
+
+	<imixs-form-section columns="2" label="Product IDs">
+		<item name="namproduct1" type="text" label="Product 1" />
+		<item name="namproduct2" type="text" label="Product 2" />
+
+	</imixs-form-section>
+
+	<imixs-form-section>
+		<item name="_descripton" type="textarea"
+			label="Short Description" />
+	</imixs-form-section>
+
+	<imixs-form-section>
+		<item name="_details" type="html" label="Description" />
+	</imixs-form-section>
+</imixs-form>]]></bpmn2:documentation>
+    </bpmn2:dataObject>
     <bpmn2:textAnnotation id="TextAnnotation_2">
       <bpmn2:text>Debug Workflow der verwendet wird um verschiedene Situationen zu prüfen.</bpmn2:text>
     </bpmn2:textAnnotation>
+    <bpmn2:association id="Association_1" sourceRef="DataObject_1" targetRef="Task_2000"/>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_Process_1" bpmnElement="todo">
@@ -879,7 +907,7 @@ if (1==2) {
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_1" bpmnElement="IntermediateCatchEvent_2000-10">
         <dc:Bounds height="36.0" width="36.0" x="510.0" y="353.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_9">
-          <dc:Bounds height="14.0" width="47.0" x="505.0" y="389.0"/>
+          <dc:Bounds height="14.0" width="48.0" x="504.0" y="389.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_4" bpmnElement="IntermediateCatchEvent_2020-20">
@@ -941,13 +969,19 @@ if (1==2) {
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_14" bpmnElement="IntermediateCatchEvent_5">
         <dc:Bounds height="36.0" width="36.0" x="505.0" y="260.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_52">
-          <dc:Bounds height="28.0" width="70.0" x="488.0" y="296.0"/>
+          <dc:Bounds height="28.0" width="71.0" x="488.0" y="296.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_3" bpmnElement="ExclusiveGateway_3" isMarkerVisible="true">
         <dc:Bounds height="50.0" width="50.0" x="590.0" y="345.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_53">
-          <dc:Bounds height="28.0" width="57.0" x="587.0" y="395.0"/>
+          <dc:Bounds height="28.0" width="58.0" x="586.0" y="395.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_DataObject_1" bpmnElement="DataObject_1">
+        <dc:Bounds height="50.0" width="36.0" x="163.0" y="266.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_3">
+          <dc:Bounds height="14.0" width="67.0" x="148.0" y="316.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_7" sourceElement="BPMNShape_IntermediateCatchEvent_4" targetElement="BPMNShape_Task_1">
@@ -1059,6 +1093,12 @@ if (1==2) {
         <di:waypoint xsi:type="dc:Point" x="779.0" y="408.0"/>
         <di:waypoint xsi:type="dc:Point" x="779.0" y="396.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_76"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_1" bpmnElement="Association_1" sourceElement="BPMNShape_DataObject_1" targetElement="BPMNShape_Task_1">
+        <di:waypoint xsi:type="dc:Point" x="181.0" y="316.0"/>
+        <di:waypoint xsi:type="dc:Point" x="181.0" y="362.0"/>
+        <di:waypoint xsi:type="dc:Point" x="222.0" y="362.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_5"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
     <bpmndi:BPMNLabelStyle id="BPMNLabelStyle_1">
