@@ -114,34 +114,25 @@ public class CustomFormController implements Serializable {
 	}
 
 	/**
-	 * Computes an new Cusotm Field Definition based on a given workitem.
-	 * 
+	 * Computes an new custom Field Definition based on a given workitem. The method
+	 * first looks if the model contains a custom definition. If not the method
+	 * checks the workitem field txtWorkflowEditorCustomForm which holds the last
+	 * parsed custom form definition
 	 * 
 	 * @return
 	 * @throws ModelException
 	 */
-	@SuppressWarnings("unchecked")
-	public void computeFieldDefinition(ItemCollection aworkitem) {
-
+	public void computeFieldDefinition(ItemCollection workitem) {
 		sections = new ArrayList<CustomFormSection>();
-		Model model;
-		ItemCollection task;
-		try {
-			model = modelService.getModelByWorkitem(aworkitem);
-			task = model.getTask(aworkitem.getTaskID());
-		} catch (ModelException e) {
-			logger.warning("unable to pase data object in model: " + e.getMessage());
-			return;
+		String content = fetchFormDefinitionFromModel(workitem);
+		if (content.isEmpty()) {
+			// lets see if we already have a custom form definition
+			content = workitem.getItemValueString("txtWorkflowEditorCustomForm");
 		}
 
-		List<List<String>> dataObjects = task.getItemValue("dataObjects");
-		if (dataObjects.size() > 0) {
-			List<String> firstDataObject = (List<String>) dataObjects.get(0);
-			String templateName = firstDataObject.get(0);
-			String content = firstDataObject.get(1);
-			logger.finest("......DataObject name=" + templateName);
-			logger.finest("......DataObject content=" + content);
-
+		if (!content.isEmpty()) {
+			// start parsing....
+			logger.finest("......start parsing custom form definition");
 			try {
 				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder builder = factory.newDocumentBuilder();
@@ -160,19 +151,51 @@ public class CustomFormController implements Serializable {
 						customSection.setItems(findItems(eElement));
 						sections.add(customSection);
 					}
-
 				}
-
 			} catch (ParserConfigurationException | SAXException | IOException e) {
-				e.printStackTrace();
-			}
+				logger.warning("Unable to parse custom form definition: " + e.getMessage());
+				return;
 
+			}
+			// store the new content
+			workitem.replaceItemValue("txtWorkflowEditorCustomForm", content);
 		}
 
 	}
 
 	/**
+	 * read the form definition from a dataObject if defined.
+	 * 
+	 * @param workitem
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private String fetchFormDefinitionFromModel(ItemCollection workitem) {
+		Model model;
+		ItemCollection task;
+		try {
+			model = modelService.getModelByWorkitem(workitem);
+			task = model.getTask(workitem.getTaskID());
+		} catch (ModelException e) {
+			logger.warning("unable to pase data object in model: " + e.getMessage());
+			return "";
+		}
+
+		List<List<String>> dataObjects = task.getItemValue("dataObjects");
+		if (dataObjects.size() > 0) {
+			List<String> firstDataObject = (List<String>) dataObjects.get(0);
+			String templateName = firstDataObject.get(0);
+			String content = firstDataObject.get(1);
+			logger.finest("......DataObject name=" + templateName);
+			logger.finest("......DataObject content=" + content);
+			return content;
+		}
+		return "";
+	}
+
+	/**
 	 * This method parses the item nods with a section element
+	 * 
 	 * @param sectionElement
 	 * @return
 	 */

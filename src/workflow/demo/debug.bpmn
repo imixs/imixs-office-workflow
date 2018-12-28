@@ -31,11 +31,10 @@
       <imixs:value><![CDATA[org.imixs.marty.plugins.TeamPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.plugins.DeputyPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.AccessPlugin]]></imixs:value>
-      <imixs:value><![CDATA[org.imixs.marty.plugins.DMSPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.OwnerPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.HistoryPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.LogPlugin]]></imixs:value>
-      <imixs:value><![CDATA[org.imixs.marty.plugins.ApplicationPlugin]]></imixs:value>
+      <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.ApplicationPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.plugins.CommentPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.plugins.MailPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.IntervalPlugin]]></imixs:value>
@@ -263,13 +262,7 @@
           <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtbusinessrule" type="xs:string">
-          <imixs:value><![CDATA[ var refField="namteam"; 
- var result={isValid:true};
-
- if (  workitem.refField == null || ''==workitem.refField[0]   ) {
-     result.isValid=false;
-     result.errorMessage='Bitte geben Sie den Verantwortlichen an!';
-  }]]></imixs:value>
+          <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyownershipfields" type="xs:string">
           <imixs:value><![CDATA[namteam]]></imixs:value>
@@ -697,7 +690,6 @@ for (var i = 0; i < managerList.length; i++) {
     <bpmn2:eventBasedGateway id="EventBasedGateway_3" gatewayDirection="Diverging">
       <bpmn2:incoming>SequenceFlow_22</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_25</bpmn2:outgoing>
-      <bpmn2:outgoing>SequenceFlow_29</bpmn2:outgoing>
     </bpmn2:eventBasedGateway>
     <bpmn2:sequenceFlow id="SequenceFlow_22" sourceRef="Task_2000" targetRef="EventBasedGateway_3"/>
     <bpmn2:sequenceFlow id="SequenceFlow_25" sourceRef="EventBasedGateway_3" targetRef="IntermediateCatchEvent_2000-10"/>
@@ -767,94 +759,19 @@ for (var i = 0; i < managerList.length; i++) {
       <bpmn2:outgoing>SequenceFlow_26</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_26" sourceRef="IntermediateCatchEvent_4" targetRef="Task_2020"/>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_5" imixs:activityid="70" name="InvalidRule Validation">
-      <bpmn2:extensionElements>
-        <imixs:item name="numactivitydelay" type="xs:string">
-          <imixs:value><![CDATA[]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyarchive" type="xs:string">
-          <imixs:value><![CDATA[0]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyaccessmode" type="xs:string">
-          <imixs:value><![CDATA[0]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyscheduledactivity" type="xs:string">
-          <imixs:value><![CDATA[0]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyversion" type="xs:string">
-          <imixs:value><![CDATA[0]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
-          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
-          <imixs:value><![CDATA[namteam]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="numnextactivityid" type="xs:int">
-          <imixs:value><![CDATA[0]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyfollowup" type="xs:string">
-          <imixs:value><![CDATA[2]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keypublicresult" type="xs:string">
-          <imixs:value><![CDATA[1]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="txtbusinessruleengine" type="xs:string">
-          <imixs:value><![CDATA[]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="txtscheduledview" type="xs:string">
-          <imixs:value><![CDATA[]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="txtbusinessrule" type="xs:string">
-          <imixs:value><![CDATA[ var result={};
-// force some rule error
-
-if (1==2) {
-]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyownershipfields" type="xs:string">
-          <imixs:value><![CDATA[namteam]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="numnextid" type="xs:int">
-          <imixs:value><![CDATA[2020]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="txtnextprocesstree" type="xs:string">
-          <imixs:value><![CDATA[]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="txtactivityresult" type="xs:string">
-          <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyownershipmode" type="xs:string">
-          <imixs:value><![CDATA[0]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="rtfresultlog" type="xs:string">
-          <imixs:value><![CDATA[An <username>namteam</username> weitergeleitet von <username>namcurrenteditor</username>.]]></imixs:value>
-        </imixs:item>
-        <imixs:item name="keyupdateacl" type="xs:boolean">
-          <imixs:value>false</imixs:value>
-        </imixs:item>
-      </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_28">Aufgabe an Verantwortlichen weiterleiten.</bpmn2:documentation>
-      <bpmn2:incoming>SequenceFlow_29</bpmn2:incoming>
-      <bpmn2:outgoing>SequenceFlow_30</bpmn2:outgoing>
-    </bpmn2:intermediateCatchEvent>
     <bpmn2:exclusiveGateway id="ExclusiveGateway_3" name="Exclusive Gateway 3" gatewayDirection="Converging">
       <bpmn2:incoming>SequenceFlow_27</bpmn2:incoming>
-      <bpmn2:incoming>SequenceFlow_30</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_28</bpmn2:outgoing>
     </bpmn2:exclusiveGateway>
     <bpmn2:sequenceFlow id="SequenceFlow_27" sourceRef="IntermediateCatchEvent_2000-10" targetRef="ExclusiveGateway_3"/>
     <bpmn2:sequenceFlow id="SequenceFlow_28" sourceRef="ExclusiveGateway_3" targetRef="Task_2020"/>
-    <bpmn2:sequenceFlow id="SequenceFlow_29" sourceRef="EventBasedGateway_3" targetRef="IntermediateCatchEvent_5"/>
-    <bpmn2:sequenceFlow id="SequenceFlow_30" sourceRef="IntermediateCatchEvent_5" targetRef="ExclusiveGateway_3"/>
     <bpmn2:sequenceFlow id="SequenceFlow_35" sourceRef="IntermediateCatchEvent_2020-50" targetRef="Task_2020"/>
     <bpmn2:dataObject id="DataObject_1" name="custom-form">
       <bpmn2:documentation id="Documentation_1"><![CDATA[<?xml version="1.0"?>
 <imixs-form>
-
-	<imixs-form-section columns="2" label="Product IDs">
-		<item name="namproduct1" type="text" label="Product 1" />
-		<item name="namproduct2" type="text" label="Product 2" />
-
+	<imixs-form-section columns="2" label="Product">
+		<item name="namproduct1" type="text" label="Procuct Code"  required="true" />
+		<item name="namproduct2" type="text" label="Product ID (optional)" />
 	</imixs-form-section>
 
 	<imixs-form-section>
@@ -966,12 +883,6 @@ if (1==2) {
           <dc:Bounds height="14.0" width="56.0" x="751.0" y="309.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_14" bpmnElement="IntermediateCatchEvent_5">
-        <dc:Bounds height="36.0" width="36.0" x="505.0" y="260.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_52">
-          <dc:Bounds height="28.0" width="71.0" x="488.0" y="296.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_3" bpmnElement="ExclusiveGateway_3" isMarkerVisible="true">
         <dc:Bounds height="50.0" width="50.0" x="590.0" y="345.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_53">
@@ -1075,18 +986,6 @@ if (1==2) {
         <di:waypoint xsi:type="dc:Point" x="682.0" y="371.0"/>
         <di:waypoint xsi:type="dc:Point" x="724.0" y="371.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_55"/>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_29" bpmnElement="SequenceFlow_29" sourceElement="BPMNShape_EventBasedGateway_3" targetElement="BPMNShape_IntermediateCatchEvent_14">
-        <di:waypoint xsi:type="dc:Point" x="410.0" y="345.0"/>
-        <di:waypoint xsi:type="dc:Point" x="410.0" y="278.0"/>
-        <di:waypoint xsi:type="dc:Point" x="505.0" y="278.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_61"/>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_30" bpmnElement="SequenceFlow_30" sourceElement="BPMNShape_IntermediateCatchEvent_14" targetElement="BPMNShape_ExclusiveGateway_3">
-        <di:waypoint xsi:type="dc:Point" x="541.0" y="278.0"/>
-        <di:waypoint xsi:type="dc:Point" x="615.0" y="278.0"/>
-        <di:waypoint xsi:type="dc:Point" x="615.0" y="345.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_62"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_36" bpmnElement="SequenceFlow_35" sourceElement="BPMNShape_IntermediateCatchEvent_7" targetElement="BPMNShape_Task_3">
         <di:waypoint xsi:type="dc:Point" x="779.0" y="420.0"/>
