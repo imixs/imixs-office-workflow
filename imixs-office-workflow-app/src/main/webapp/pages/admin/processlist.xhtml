@@ -186,21 +186,12 @@
 
 
 					<div class="imixs-footer">
-						
+					
 						<h:commandButton value="#{message.add}"
-							action="/pages/admin/process" 
-							actionListener="#{workflowController.create}">
-							<f:setPropertyActionListener
-								target="#{workflowController.workitem.item['$modelversion']}"
-								value="#{app.workflowversion_system}" />
-							<f:setPropertyActionListener
-								target="#{workflowController.workitem.item['$ProcessID']}"
-								value="300" />
-							<f:setPropertyActionListener
-								target="#{workflowController.workitem.item['type']}"
-								value="process" />
-
+							action="/pages/admin/process"
+							actionListener="#{workflowController.create(app.workflowversion_system,300,null)}">
 						</h:commandButton>
+						
 
 
 						<h:commandButton action="home" value="#{message.close}">
