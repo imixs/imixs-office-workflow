@@ -35,19 +35,29 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.ejb.EJB;
+import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.event.Observes;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
+import org.imixs.marty.model.ModelController;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.ModelService;
+import org.imixs.workflow.engine.WorkflowService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
+import org.imixs.workflow.exceptions.ModelException;
+import org.imixs.workflow.exceptions.PluginException;
+import org.imixs.workflow.exceptions.ProcessingErrorException;
 import org.imixs.workflow.exceptions.QueryException;
+import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.data.WorkflowEvent;
 import org.imixs.workflow.faces.util.LoginController;
 
@@ -55,12 +65,34 @@ import org.imixs.workflow.faces.util.LoginController;
 /**
  ** This Bean acts a a front controller for the TimeSheet sub forms.
  * 
+ * This class is deprecated and can be remove when sub_timesheeteditor is removed
+ * 
  * @author rsoika
  * 
  */
+@Deprecated
 @Named
 @ConversationScoped
-public class TimesheetController extends ChildWorkitemController implements Serializable {
+public class TimesheetController  implements Serializable {
+	@Inject
+	private Conversation conversation;
+
+	@Inject
+	protected ModelController modelController;
+
+	@Inject
+	protected WorkflowController workflowController;
+
+	@EJB
+	WorkflowService workflowService;
+	
+
+	public static Logger logger = Logger.getLogger(TimesheetController.class.getName());
+
+	
+	private List<ItemCollection> childList = null;
+
+	private int sortOrder = 1;
 
 	private static final long serialVersionUID = 1L;
 
@@ -70,6 +102,9 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 	private ItemCollection filterTimeSheetSummary = null;
 	private List<ItemCollection> filterTimeSheet = null;
 	private List<ItemCollection> processSelection = null;
+	
+	private ItemCollection workitem;
+
 
 	@Inject
 	protected LoginController loginController = null;
@@ -114,11 +149,55 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 	}
 
 	/**
+	 * Sort order for child workitem list
+	 * 
+	 * @return
+	 */
+	public int getSortOrder() {
+		return sortOrder;
+	}
+
+	public void setSortOrder(int sortOrder) {
+		this.sortOrder = sortOrder;
+	}
+
+	/**
+	 * Returns the parentWorkitem
+	 * 
+	 * @return - itemCollection
+	 */
+	public ItemCollection getParentWorkitem() {
+		return workflowController.getWorkitem();
+	}
+
+	/**
+	 * Override process to reset the child list
+	 * 
+	 * @throws ModelException
+	 */
+	
+	public String process() throws AccessDeniedException, ProcessingErrorException, PluginException, ModelException {
+		String result = workflowController.process();
+		return result;
+	}
+
+	
+	public ItemCollection getWorkitem() {
+		if (workitem==null) {
+			workitem=new ItemCollection();
+		}
+		return workitem;
+	}
+
+	public void setWorkitem(ItemCollection workitem) {
+		this.workitem = workitem;
+	}
+
+	/**
 	 * Reset the current users timeSheet selection
 	 */
-	@Override
 	public void reset() {
-		super.reset();
+		
 		myTimeSheet = null;
 		filterTimeSheet = null;
 	}
@@ -217,9 +296,29 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 
 	}
 
-	@Override
+
 	public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) throws AccessDeniedException {
-		super.onWorkflowEvent(workflowEvent);
+		if (workflowEvent == null)
+			return;
+
+		// skip if not a workItem...
+		if (workflowEvent.getWorkitem() != null
+				&& !workflowEvent.getWorkitem().getItemValueString("type").startsWith("workitem"))
+			return;
+
+		if (WorkflowEvent.WORKITEM_CHANGED == workflowEvent.getEventType()) {
+			reset();
+			// start now the new conversation
+			if (conversation.isTransient()) {
+				conversation.setTimeout(
+						((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+								.getSession().getMaxInactiveInterval() * 1000);
+				conversation.begin();
+				logger.fine("start new conversation, id=" + conversation.getId());
+			}
+
+		}
+		
 		// if workItem has changed, then reset the child list
 		if (workflowEvent != null && WorkflowEvent.WORKITEM_CHANGED == workflowEvent.getEventType()) {
 			initFilter();
@@ -431,13 +530,57 @@ public class TimesheetController extends ChildWorkitemController implements Seri
 		}
 	}
 
-	@Override
+	
 	public ItemCollection cloneWorkitem(ItemCollection aWorkitem) {
-		ItemCollection clone = super.cloneWorkitem(aWorkitem);
+		ItemCollection clone = aWorkitem;
 		clone.replaceItemValue("_duration", aWorkitem.getItemValue("_duration"));
 		clone.replaceItemValue("_subject", aWorkitem.getItemValue("_subject"));
 		clone.replaceItemValue("_category", aWorkitem.getItemValue("_category"));
 		return clone;
 	}
+	
+	
+	
+
+	/**
+	 * this method returns a list of all child workitems for the current workitem.
+	 * The workitem list is cached. Subclasses can overwrite the method
+	 * loadWorkitems() to return a custom result set.
+	 * 
+	 * @return - list of file meta data objects
+	 */
+	public List<ItemCollection> getWorkitems() {
+		if (childList == null) {
+			childList = loadWorkitems();
+		}
+		return childList;
+
+	}
+
+	/**
+	 * This method loads the list of childWorkitems from the EntityService. The
+	 * method can be overwritten by subclasses.
+	 * 
+	 * @return
+	 */
+	public List<ItemCollection> loadWorkitems() {
+		List<ItemCollection> resultList = new ArrayList<ItemCollection>();
+
+		if (getParentWorkitem() != null) {
+			String uniqueIdRef = getParentWorkitem().getItemValueString(WorkflowKernel.UNIQUEID);
+			// getWorkListByRef(String aref, String type, int pageSize, int pageIndex, int
+			// sortorder) {
+			List<ItemCollection> col = workflowService.getWorkListByRef(uniqueIdRef,
+					"workitemchild", 0, -1, null, false);
+			for (ItemCollection aWorkitem : col) {
+				resultList.add(cloneWorkitem(aWorkitem));
+			}
+		}
+
+		return resultList;
+
+	}
+
+	
 
 }
