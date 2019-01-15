@@ -144,6 +144,10 @@ public class DMSController implements Serializable {
 	private void putDmsList(ItemCollection workitem, List<ItemCollection> dmsList) {
 		for (ItemCollection dmsEntry : dmsList) {
 			String filename = dmsEntry.getItemValueString("txtname");
+			if (filename.isEmpty()) {
+				logger.warning("Invalid DMS entry: txtname is empty!");
+				return;
+			}
 			FileData fileData = workitem.getFileData(filename);
 			fileData.setAttributes(dmsEntry.getAllItems());
 			workitem.addFileData(fileData);
