@@ -10,7 +10,7 @@
 		<c:when
 			test="#{(!loginController.authenticated) or (empty historyController.workitems)}">
 			<div id="imixs-branding">
-				<div id="imixs-branding-text">#{app.application_title}</div>
+				<div id="imixs-branding-text">#{app.application_title} <span style="color:red;">#{propertyController.getProperty('application.mode')}</span></div>
 			</div>
 		</c:when>
 		<c:otherwise>
