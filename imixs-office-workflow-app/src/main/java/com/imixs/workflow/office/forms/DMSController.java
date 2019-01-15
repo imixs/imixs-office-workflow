@@ -33,10 +33,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.event.Observes;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -44,6 +43,7 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.imixs.workflow.FileData;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ItemCollectionComparator;
 import org.imixs.workflow.exceptions.AccessDeniedException;
@@ -56,24 +56,17 @@ import org.imixs.workflow.faces.util.LoginController;
  * additional properties for attached files and can also manage information
  * about file references to external file servers
  * 
- * 
- * The DmsController observes WorkflowEvents and manages the file uploads during
- * the Processing events.
- * 
- * NOTE: if a plug-in adds a new file (like the reportPlugIn), and the plug-in
- * also updates the $file information of the parent WorkItem, then the DMS
- * property will be updated by the DmsController.
- * 
- * 
  * @see org.imixs.workflow.jee.faces.fileupload.FileUploadController
  * @author rsoika
  * 
  */
 @Named("dmsController")
-@SessionScoped
-public class DmsController implements Serializable {
+//@SessionScoped
+//@ViewScoped
+@ConversationScoped
+public class DMSController implements Serializable {
 
-	public final static String DMS_ITEM = "dms";
+	// public final static String DMS_ITEM = "dms";
 
 	@Inject
 	protected LoginController loginController = null;
@@ -86,7 +79,7 @@ public class DmsController implements Serializable {
 	private List<ItemCollection> dmsList = null;
 	private String link = null;
 
-	private static Logger logger = Logger.getLogger(DmsController.class.getName());
+	private static Logger logger = Logger.getLogger(DMSController.class.getName());
 
 	public String getLink() {
 		return link;
@@ -131,35 +124,30 @@ public class DmsController implements Serializable {
 		}
 
 		// if workItem has changed, then update the dms list
-		if (WorkflowEvent.WORKITEM_CHANGED == eventType || WorkflowEvent.WORKITEM_AFTER_PROCESS == eventType) {
-			// convert dms property into a list of ItemCollection
-			dmsList = getDmsListByWorkitem(workflowEvent.getWorkitem());
-		}
+//		if (WorkflowEvent.WORKITEM_CHANGED == eventType || WorkflowEvent.WORKITEM_AFTER_PROCESS == eventType) {
+//			// convert dms property into a list of ItemCollection
+//			dmsList = getDmsListByWorkitem(workflowEvent.getWorkitem());
+//		}
 
 	}
 
 	/**
-	 * This method converts a list of ItemCollections for DMS elements into Map
-	 * objects and updates the workitem property 'dms'.
+	 * This method updates the attributes of the FileData objects stored in the
+	 * current workitem.
 	 * 
-	 * The method is used by the DmsController to update dms data provided by the
-	 * user.
-	 * 
-	 * @param workitem - the workitem to be updated
-	 * @param dmsList  - the dms metha data to be put into the workitem
+	 * @param workitem
+	 *            - the workitem to be updated
+	 * @param dmsList
+	 *            - the dms metha data to be put into the workitem
 	 * @version 1.0
 	 */
-	@SuppressWarnings("rawtypes")
-	public static void putDmsList(ItemCollection workitem, List<ItemCollection> dmsList) {
-		// convert the List<ItemCollection> into a List<Map>
-		List<Map> vDMSnew = new ArrayList<Map>();
-		if (dmsList != null) {
-			for (ItemCollection dmsEntry : dmsList) {
-				vDMSnew.add(dmsEntry.getAllItems());
-			}
+	private void putDmsList(ItemCollection workitem, List<ItemCollection> dmsList) {
+		for (ItemCollection dmsEntry : dmsList) {
+			String filename = dmsEntry.getItemValueString("txtname");
+			FileData fileData = workitem.getFileData(filename);
+			fileData.setAttributes(dmsEntry.getAllItems());
+			workitem.addFileData(fileData);
 		}
-		// update the workitem
-		workitem.replaceItemValue(DMS_ITEM, vDMSnew);
 	}
 
 	/**
@@ -169,41 +157,39 @@ public class DmsController implements Serializable {
 	 * @return - list of file meta data objects
 	 */
 	public List<ItemCollection> getDmsList() {
-		if (dmsList == null)
-			dmsList = new ArrayList<ItemCollection>();
+		if (dmsList == null) {
+			dmsList = getDmsListByWorkitem(workflowController.getWorkitem());
+		}
+			
+		//dmsList = new ArrayList<ItemCollection>();
 		return dmsList;
 
 	}
 
 	/**
-	 * This method returns a list of ItemCollections for all DMS elements attached
-	 * to the current workitem. The DMS meta data is read from the property 'dms'.
-	 * 
-	 * The dms property is updated in the run() method of this plug-in.
-	 * 
+	 * This method returns a list of ItemCollections for all custom attributes of
+	 * attached files.
+	 * <p>
 	 * The method is used by the DmsController to display the dms meta data.
 	 * 
-	 * @param workitem - source of meta data, sorted by $creation
+	 * @param workitem
+	 *            - source of meta data, sorted by $creation
 	 * @version 1.0
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static List<ItemCollection> getDmsListByWorkitem(ItemCollection workitem) {
-		// build a new fileList and test if each file contained in the $files is
-		// listed
+	private List<ItemCollection> getDmsListByWorkitem(ItemCollection workitem) {
+		// build a new dms List 
 		List<ItemCollection> dmsList = new ArrayList<ItemCollection>();
-		if (workitem == null)
+		if (workitem == null) {
 			return dmsList;
-
-		List<Map> vDMS = workitem.getItemValue(DMS_ITEM);
-		// first we add all existing dms informations
-		for (Map aMetadata : vDMS) {
-			dmsList.add(new ItemCollection(aMetadata));
 		}
 
-		// sort list by name
-		// Collections.sort(dmsList, new ItemCollectionComparator("txtname",
-		// true));
-		// sort list by $modified
+		List<FileData> files = workitem.getFileData();
+		for (FileData fileData : files) {
+
+			dmsList.add(new ItemCollection(fileData.getAttributes()));
+		}
+
+		// sort list by $created
 		Collections.sort(dmsList, new ItemCollectionComparator("$created", true));
 
 		return dmsList;
@@ -264,16 +250,17 @@ public class DmsController implements Serializable {
 	}
 
 	/**
-	 * This method adds a new entry into the dms property. The method returns the
-	 * updated DMS List.
-	 * 
+	 * This method adds a new entry and returns the updated DMS List.
+	 * <p>
 	 * The method is used by the DMSController to add links.
 	 * 
-	 * @param aworkitem - the workitem to be updated
-	 * @param dmsEntity - the metha data to be added into the dms item
+	 * @param aworkitem
+	 *            - the workitem to be updated
+	 * @param dmsEntity
+	 *            - the metha data to be added into the dms item
 	 * @version 1.0
 	 */
-	public static List<ItemCollection> addDMSEntry(ItemCollection aworkitem, ItemCollection dmsEntity) {
+	private List<ItemCollection> addDMSEntry(ItemCollection aworkitem, ItemCollection dmsEntity) {
 		List<ItemCollection> dmsList = getDmsListByWorkitem(aworkitem);
 		String sNewName = dmsEntity.getItemValueString("txtName");
 		String sNewUrl = dmsEntity.getItemValueString("url");
