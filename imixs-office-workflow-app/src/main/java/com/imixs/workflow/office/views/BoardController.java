@@ -41,6 +41,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.event.Observes;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -54,6 +55,7 @@ import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.engine.PropertyService;
+import org.imixs.workflow.engine.lucene.LuceneSearchService;
 import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.data.WorkflowEvent;
 import org.imixs.workflow.faces.util.LoginController;
@@ -90,6 +92,7 @@ public class BoardController implements Serializable {
 	private boolean endOfList = false;
 	private String query;
 	private String ref;
+	private String phrase;
 	private String title;
 
 	@Inject
@@ -162,16 +165,24 @@ public class BoardController implements Serializable {
 
 	public void setRef(String ref) {
 		this.ref = ref;
-		
+
 		// try to load ref...
-		if (ref!=null && !ref.isEmpty()) {
-			ItemCollection process=documentService.load(ref);
-			if (process!=null) {
-				String title=process.getItemValueString("txtname");
+		if (ref != null && !ref.isEmpty()) {
+			ItemCollection process = documentService.load(ref);
+			if (process != null) {
+				String title = process.getItemValueString("txtname");
 				setTitle(title);
 			}
 		}
-		
+
+	}
+
+	public String getPhrase() {
+		return phrase;
+	}
+
+	public void setPhrase(String phrase) {
+		this.phrase = phrase;
 	}
 
 	/**
@@ -216,6 +227,29 @@ public class BoardController implements Serializable {
 		} else {
 			query = "(type:\"workitem\" AND $uniqueidref:\"" + ref + "\")";
 		}
+
+		// Search phrase....
+		String searchphrase = phrase;
+		if (searchphrase != null && !searchphrase.isEmpty()) {
+			// escape search phrase
+			try {
+				searchphrase = LuceneSearchService.normalizeSearchTerm(searchphrase);
+			} catch (QueryException e) {
+				// add a new FacesMessage into the FacesContext
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_WARN, e.getLocalizedMessage(), null);
+				FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+				return null;
+			}
+
+			if (searchphrase != null && !"".equals(searchphrase)) {
+				// trim
+				searchphrase = searchphrase.trim();
+				// lower case....
+				searchphrase = searchphrase.toLowerCase();
+				query = query + " AND (" + searchphrase + ") ";
+			}
+		}
+
 		return query;
 	}
 
