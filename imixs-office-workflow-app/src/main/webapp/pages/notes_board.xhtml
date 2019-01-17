@@ -62,7 +62,6 @@
 										value="#{boardController.phrase}"
 										onfocus="this.value='';" />
 										
-										
 									<h:commandLink actionListener="#{boardController.refresh()}"><span class="typcn typcn-zoom" style="margin-left:4px;"></span>
 										<f:ajax render="portlet_board" execute="search_box"
 											onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
@@ -72,6 +71,8 @@
 									<h:commandButton
 										style="visibility:hidden;display: none;width:1px;height:1px;"
 										actionListener="#{boardController.refresh()}" >
+										<f:ajax render="portlet_board" execute="search_box"
+											onevent="function(data) { imixsOfficeWorkflow.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
 									</h:commandButton>
 									
 									<span class="extended-search">
