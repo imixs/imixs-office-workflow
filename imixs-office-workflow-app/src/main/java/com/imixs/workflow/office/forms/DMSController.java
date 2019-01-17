@@ -207,14 +207,17 @@ public class DMSController implements Serializable {
 	 */
 	public void removeFile(String aFile) {
 		// remove file from dms list
-		for (ItemCollection aEntry : dmsList) {
-			if (aFile.equals(aEntry.getItemValueString("txtname"))) {
-				dmsList.remove(aEntry);
-				break;
-			}
-		}
-
+		
 		workflowController.getWorkitem().removeFile(aFile);
+		dmsList=null;
+//		for (ItemCollection aEntry : dmsList) {
+//			if (aFile.equals(aEntry.getItemValueString("txtname"))) {
+//				dmsList.remove(aEntry);
+//				break;
+//			}
+//		}
+
+//		workflowController.getWorkitem().removeFile(aFile);
 	}
 
 	/**
@@ -286,4 +289,40 @@ public class DMSController implements Serializable {
 		return dmsList;
 	}
 
+	/**
+	 * Computes the file size into a user friendly format
+	 * @param size
+	 * @return
+	 */
+	public String userFriendlyBytes(int bytes) {
+		boolean si=true;
+		int unit = si ? 1000 : 1024;
+	    if (bytes < unit) return bytes + " B";
+	    int exp = (int) (Math.log(bytes) / Math.log(unit));
+	    String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
+	    return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
+	}
+	
+	public String documentType(String name) {
+		name=name.toLowerCase();
+		if (name.endsWith(".doc") || name.endsWith(".docx")|| name.endsWith(".xls")|| name.endsWith(".xlsx") ) {
+			return "win";
+		}
+		
+		if (name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".gif") || name.endsWith(".tif")|| name.endsWith(".tiff")) {
+			return "pic";
+		}
+
+		if (name.endsWith(".pdf")) {
+			return "pdf";
+		}
+
+		if (name.endsWith(".eml")) {
+			return "eml";
+		}
+		
+		return "doc";
+	}
+	
+	
 }

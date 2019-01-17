@@ -107,6 +107,7 @@
       <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_18</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_21</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_22</bpmn2:outgoing>
       <bpmn2:ioSpecification id="InputOutputSpecification_1">
         <bpmn2:dataInput id="DataInput_1" name="input1"/>
@@ -785,6 +786,82 @@ for (var i = 0; i < managerList.length; i++) {
 	</imixs-form-section>
 </imixs-form>]]></bpmn2:documentation>
     </bpmn2:dataObject>
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_1" imixs:activityid="70" name="Mail-Test">
+      <bpmn2:extensionElements>
+        <imixs:item name="numactivitydelay" type="xs:string">
+          <imixs:value><![CDATA[]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyarchive" type="xs:string">
+          <imixs:value><![CDATA[0]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyaccessmode" type="xs:string">
+          <imixs:value><![CDATA[0]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyscheduledactivity" type="xs:string">
+          <imixs:value><![CDATA[0]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyversion" type="xs:string">
+          <imixs:value><![CDATA[0]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyaddwritefields" type="xs:string">
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
+          <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
+          <imixs:value><![CDATA[namteam]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="numnextactivityid" type="xs:int">
+          <imixs:value><![CDATA[0]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyfollowup" type="xs:string">
+          <imixs:value><![CDATA[2]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keypublicresult" type="xs:string">
+          <imixs:value><![CDATA[1]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtbusinessruleengine" type="xs:string">
+          <imixs:value><![CDATA[]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtscheduledview" type="xs:string">
+          <imixs:value><![CDATA[]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtbusinessrule" type="xs:string">
+          <imixs:value><![CDATA[]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyownershipfields" type="xs:string">
+          <imixs:value><![CDATA[namteam]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="numnextid" type="xs:int">
+          <imixs:value><![CDATA[2020]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtnextprocesstree" type="xs:string">
+          <imixs:value><![CDATA[]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="txtactivityresult" type="xs:string">
+          <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyownershipmode" type="xs:string">
+          <imixs:value><![CDATA[0]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="rtfresultlog" type="xs:string">
+          <imixs:value><![CDATA[An <username>namteam</username> weitergeleitet von <username>namcurrenteditor</username>.]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keyupdateacl" type="xs:boolean">
+          <imixs:value>false</imixs:value>
+        </imixs:item>
+        <imixs:item name="txtmailsubject" type="xs:string">
+          <imixs:value><![CDATA[Debug Test Mail]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="rtfmailbody" type="CDATA">
+          <imixs:value><![CDATA[This is a short message....]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="keymailreceiverfields" type="xs:string">
+          <imixs:value><![CDATA[namCreator]]></imixs:value>
+        </imixs:item>
+      </bpmn2:extensionElements>
+      <bpmn2:documentation id="Documentation_2">Aufgabe an Verantwortlichen weiterleiten.</bpmn2:documentation>
+      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+      <bpmn2:messageEventDefinition id="MessageEventDefinition_2"/>
+    </bpmn2:intermediateCatchEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" sourceRef="IntermediateCatchEvent_1" targetRef="Task_2000"/>
     <bpmn2:textAnnotation id="TextAnnotation_2">
       <bpmn2:text>Debug Workflow der verwendet wird um verschiedene Situationen zu prüfen.</bpmn2:text>
     </bpmn2:textAnnotation>
@@ -894,6 +971,12 @@ for (var i = 0; i < managerList.length; i++) {
           <dc:Bounds height="14.0" width="67.0" x="148.0" y="316.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_2" bpmnElement="IntermediateCatchEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="167.0" y="441.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_10">
+          <dc:Bounds height="14.0" width="49.0" x="161.0" y="477.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_7" sourceElement="BPMNShape_IntermediateCatchEvent_4" targetElement="BPMNShape_Task_1">
         <di:waypoint xsi:type="dc:Point" x="941.0" y="558.0"/>
         <di:waypoint xsi:type="dc:Point" x="277.0" y="558.0"/>
@@ -998,6 +1081,12 @@ for (var i = 0; i < managerList.length; i++) {
         <di:waypoint xsi:type="dc:Point" x="181.0" y="362.0"/>
         <di:waypoint xsi:type="dc:Point" x="222.0" y="362.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_5"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1" sourceElement="BPMNShape_IntermediateCatchEvent_2" targetElement="BPMNShape_Task_1">
+        <di:waypoint xsi:type="dc:Point" x="185.0" y="441.0"/>
+        <di:waypoint xsi:type="dc:Point" x="185.0" y="383.0"/>
+        <di:waypoint xsi:type="dc:Point" x="222.0" y="383.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_11"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
     <bpmndi:BPMNLabelStyle id="BPMNLabelStyle_1">

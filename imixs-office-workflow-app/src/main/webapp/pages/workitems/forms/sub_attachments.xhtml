@@ -1,9 +1,12 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:i="http://java.sun.com/jsf/composite/imixs">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 
 
@@ -40,8 +43,17 @@
 					<div class="imixs-viewentry">
 						<!-- image -->
 						<div class="image-block">
-							<h:panelGroup
-								styleClass="typcn #{! empty attachment.item['url']?'typcn-world':'typcn-document-text'}"></h:panelGroup>
+							<h:panelGroup rendered="#{! empty attachment.item['url']}"
+								styleClass="typcn typcn-world"/>
+							<ui:fragment  rendered="#{empty attachment.item['url']}">
+								<ui:param name="doctyp" value="#{dmsController.documentType(attachment.item['txtname'])}"></ui:param>
+								<h:panelGroup rendered="#{'pdf' eq doctyp}"	styleClass="typcn typcn-document-text"/>
+								<h:panelGroup rendered="#{'win' eq doctyp}"	styleClass="typcn typcn-vendor-microsoft"/>
+								<h:panelGroup rendered="#{'pic' eq doctyp}"	styleClass="typcn typcn-image"/>
+								<h:panelGroup rendered="#{'eml' eq doctyp}"	styleClass="typcn typcn-mail"/>
+								<h:panelGroup rendered="#{'doc' eq doctyp}"	styleClass="typcn typcn-document"/>
+							</ui:fragment>
+							
 						</div>
 						<!-- link -->
 						<div id="hyperlink" class="content-block">
@@ -54,6 +66,8 @@
 									value=" href='#{facesContext.externalContext.requestContextPath}/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{attachment.item['txtName']}" />
 								<h:outputText escape="false"
 									value="'&gt;#{attachment.item['txtName']}&lt;/a&gt;" />
+									
+								<h:outputText value=" (#{dmsController.userFriendlyBytes(attachment.item['size'])})" />
 							</h:panelGroup>
 							<!-- URL link -->
 							<h:panelGroup
@@ -84,23 +98,16 @@
 										pattern="#{message.dateTimePattern}" />
 								</h:outputText>
 								<h:outputText
-									value=" - #{userController.getUserName(attachment.item['$Editor'])}" />
-								<br />
+									value=" - #{userController.getUserName(attachment.item['$Editor'])}" />					
 							</ui:fragment>
-							<!-- MD5 -->
-							<ui:fragment
-								rendered="#{(!empty attachment.item['md5Checksum'])}">
-								<h:outputLabel value="#{message['form.attachments.checksum']}: " />
-								<h:outputText value="#{attachment.item['md5Checksum']}" />
-								<br />
-							</ui:fragment>
+							<!-- MD5 #{attachment.item['md5Checksum']} -->
 
 
 							<div class="nav-block">
 								<!-- comment function (toggle feature) -->
 								<a onclick="$(this).next().toggle();" title="#{message.comment}"
 									class="imixs-action-dms-comment" style="cursor: pointer;"><span
-									class="typcn typcn-message"></span></a>
+									class="typcn typcn-info-large#{(empty attachment.item['txtComment'])?'-outline':''}"></span></a>
 								<div class="dms-comment-panel" style="margin: 4px;">
 									<h:inputTextarea value="#{attachment.item['txtComment']}"
 										style="width: 100%; height: 50px;" />
@@ -114,7 +121,7 @@
 										styleClass="imixs-action-dms-remove" title="#{message.remove}"
 										actionListener="#{dmsController.removeFile(attachment.item['txtName'])}"
 										immediate="true">
-										<span class="typcn typcn-times"></span>
+										<span class="typcn typcn-trash"></span>
 									</h:commandLink>
 								</f:ajax>
 							</div>
