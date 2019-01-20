@@ -7,9 +7,9 @@
 
 	<c:forEach items="#{formController.formDefinition.sections}" var="section">
 		<div class="imixs-form-panel">
-			<h1>
+			<h3>
 				<h:outputText value="#{section.name}" />
-			</h1>
+			</h3>
 			<f:subview>
 				<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
 					<ui:param name="workitem" value="#{workflowController.workitem}" />

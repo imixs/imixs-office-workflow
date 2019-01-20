@@ -8,9 +8,9 @@
 	<c:forEach items="#{formController.formDefinition.sections}"
 		var="section">
 		<div class="imixs-form-panel">
-			<h1>
+			<h3>
 				<h:outputText value="#{section.name}" />
-			</h1>
+			</h3>
 			<f:subview>
 				<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
 					<ui:param name="workitem" value="#{workflowController.workitem}" />
@@ -23,7 +23,7 @@
 	<!-- Standard Tab Section -->
 	<ui:fragment  rendered="#{! empty workflowController.workitem.getItemValue('txtCommentLog')}">
 		<div class="imixs-form-panel">
-			<h1>#{message.comments}</h1>
+			<h3>#{message.comments}</h3>
 			<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
 				<ui:param name="workitem" value="#{workflowController.workitem}" />
 			</ui:include>
@@ -34,14 +34,14 @@
 
 	<ui:fragment rendered="#{! empty dmsController.dmsList}">
 		<div class="imixs-form-panel">
-			<h1>#{message.documents}</h1>
+			<h3>#{message.documents}</h3>
 			<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
 		</div>
 	</ui:fragment>
 
 	<div class="imixs-form-panel">
 		<!-- *** History **** -->
-		<h1>#{message.history}</h1>
+		<h3>#{message.history}</h3>
 		<ui:include src="/pages/workitems/workitem_history.xhtml" />
 	</div>
 
