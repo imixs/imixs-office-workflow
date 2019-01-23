@@ -198,26 +198,11 @@
 						</h:dataTable>
 					</div>
 
-
-
-
-
 					<div class="imixs-footer">
-						
 						<h:commandButton value="#{message.add}"
 							rendered="#{setupController.workitem.item['keyEnableUserDB']}"
 							action="/pages/admin/profile"
-							actionListener="#{workflowController.create}">
-							<f:setPropertyActionListener
-								target="#{workflowController.workitem.item['$modelversion']}"
-								value="#{app.workflowversion_system}" />
-							<f:setPropertyActionListener
-								target="#{workflowController.workitem.item['$ProcessID']}"
-								value="210" />
-							<f:setPropertyActionListener
-								target="#{workflowController.workitem.item['type']}"
-								value="profile" />
-
+							actionListener="#{workflowController.create(app.workflowversion_system,210,null)}">
 						</h:commandButton>
 
 						<h:commandButton action="home" value="#{message.close}">
@@ -225,8 +210,6 @@
 
 					</div>
 				</div>
-
-
 
 			</h:form>
 		</f:view>
