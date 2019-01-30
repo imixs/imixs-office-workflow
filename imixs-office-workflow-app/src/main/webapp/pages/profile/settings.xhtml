@@ -128,7 +128,7 @@
 						<!-- User Icon -->
 						<div class="imixs-form-panel">
 
-							<h1>User Icon</h1>
+							<h2>User Icon</h2>
 
 
 							<h:panelGroup layout="block" id="usericonpanel"
@@ -160,18 +160,14 @@
 						<div class="imixs-footer">
 
 							<!-- workflow save command -->
-							<h:commandButton action="#{workflowController.process()}"
+							<h:commandButton action="home" 
+								actionListener="#{workflowController.process(10)}"
 								onclick="return passwordCheck();" class="imixs-workflow-action"
 								value="#{message.save}">
-								<f:setPropertyActionListener
-									target="#{workflowController.workitem.item['$ActivityID']}"
-									value="10" />
-								<f:setPropertyActionListener
-									target="#{workflowController.action}" value="notes" />
 							</h:commandButton>
 
 							<h:commandButton value="#{message.close}"
-								class="imixs-close-action" action="notes" />
+								class="imixs-close-action" action="home" />
 
 						</div>
 					</div>
