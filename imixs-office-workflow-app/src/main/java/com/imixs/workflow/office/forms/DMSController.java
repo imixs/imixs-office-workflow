@@ -180,7 +180,7 @@ public class DMSController implements Serializable {
 	 *            - source of meta data, sorted by $creation
 	 * @version 1.0
 	 */
-	private List<ItemCollection> getDmsListByWorkitem(ItemCollection workitem) {
+	public List<ItemCollection> getDmsListByWorkitem(ItemCollection workitem) {
 		// build a new dms List 
 		List<ItemCollection> dmsList = new ArrayList<ItemCollection>();
 		if (workitem == null) {

@@ -74,17 +74,10 @@
 				<!-- DMS Search -->
 				<h:panelGroup layout="block" styleClass="toolbar"
 					rendered="#{propertyController.getProperty('dms.search') eq 'true'}">
-
-					<h:commandLink actionListener="#{searchController.resetFilter()}"
-						action="/pages/workitems/dms_search?faces-redirect=true"
-						title="#{message['nav.search_documents']}">
+					<h:link outcome="/pages/workitems/dms_search" title="#{message['nav.search_documents']}">
 						<span class="typcn typcn-archive"></span>
-						<f:setPropertyActionListener
-							target="#{searchController.searchFilter.item['dms_search']}"
-							value="#{true}" />
-					</h:commandLink>
+					</h:link>
 				</h:panelGroup>
-
 
 				<!-- Custom Section -->
 				<ui:include src="servicenav_custom.xhtml" />

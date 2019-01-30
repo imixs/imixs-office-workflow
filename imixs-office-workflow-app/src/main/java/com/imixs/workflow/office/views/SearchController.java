@@ -175,6 +175,14 @@ public class SearchController extends ViewController implements Serializable {
 	}
 
 	/**
+	 * Can be set to true to restrict the result to workitems containing attachments. 
+	 * @param dms
+	 */
+	public void setDMSMode(boolean dms) {
+		this.searchFilter.replaceItemValue("dms_search", dms);	
+	}
+	
+	/**
 	 * Returns a Lucene search query based on the define searchFilter parameter set
 	 * 
 	 * Depending on the view type the method restricts the result set by namcreator
