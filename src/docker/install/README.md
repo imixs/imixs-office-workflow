@@ -16,7 +16,7 @@ docker-compose.yml
 	
 	services:
 	  app:
-	    image: imixs/imixs-office-workflow:3.4.3
+	    image: imixs/imixs-office-workflow
 	    depends_on:
           - db	    
 	    environment:
