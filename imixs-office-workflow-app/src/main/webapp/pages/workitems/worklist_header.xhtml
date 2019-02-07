@@ -7,7 +7,6 @@
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
-	
 	<h:panelGroup id="worklist_filter_panel">
 
 		<div style="float: left">
@@ -26,7 +25,7 @@
 
 
 		<!-- show filter section only in core process selection -->
-		<c:if test="#{!empty process.item['txtName']}">
+		<c:if test="#{!empty searchController.process}">
 			<ui:include src="/pages/workitems/worklist_filter.xhtml" />
 		</c:if>
 
@@ -34,6 +33,7 @@
 
 		<h:commandButton value="#{message.search}"
 			style="float:left;margin-right:10px;">
+			<f:ajax render="@form" execute="@form" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 		</h:commandButton>
 		<!-- archive -->
 		<div style="float: left;">
@@ -52,14 +52,14 @@
 			<h:outputText title="#{message['worklist.date_range_help']}"
 				value="#{message['worklist.date_range']}: " />
 			<h:inputText value="#{searchController.searchFilter.item['datfrom']}"
-				required="false" title="#{message['worklist.date_range_help']}"
+				title="#{message['worklist.date_range_help']}"
 				class="imixs-date">
 				<f:convertDateTime pattern="#{message.datePatternShort}"
 					timeZone="#{message.timeZone}" />
 			</h:inputText>
 			-
 			<h:inputText value="#{searchController.searchFilter.item['datto']}"
-				required="false" title="#{message['worklist.date_range_help']}"
+				title="#{message['worklist.date_range_help']}"
 				class="imixs-date">
 				<f:convertDateTime pattern="#{message.datePatternShort}"
 					timeZone="#{message.timeZone}" />

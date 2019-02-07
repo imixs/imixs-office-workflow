@@ -16,7 +16,7 @@
 			<dt>#{message['worklist.workflowgroup']}:</dt>
 			<dd>
 				<h:selectOneMenu
-					value="#{searchController.searchFilter.item['txtWorkflowGroup']}">
+					value="#{searchController.searchFilter.item['$WorkflowGroup']}">
 					<f:selectItem itemValue="" itemLabel=" " />
 					<!-- Optional process.itemList['txtWorkflowList']  -->
 					<c:forEach items="#{modelController.workflowGroups}" var="workflow">
@@ -29,15 +29,15 @@
 		</dl>
 
 
-		<ui:param name="model" value="#{modelController.getModelByGroup(searchController.searchFilter.item['txtWorkflowGroup'])}" />
+		<ui:param name="model" value="#{modelController.getModelByGroup(searchController.searchFilter.item['$WorkflowGroup'])}" />
 		<h:panelGroup rendered="#{! empty model}">
-			<ui:param name="tasks" value="#{model.findTasksByGroup(searchController.searchFilter.item['txtWorkflowGroup'])}" />
+			<ui:param name="tasks" value="#{model.findTasksByGroup(searchController.searchFilter.item['$WorkflowGroup'])}" />
 			<dl>
 				<dt>#{message['worklist.workflowstatus']}:</dt>
 				<dd>
 					
 					<h:selectOneMenu id="processid_selection"
-						value="#{searchController.searchFilter.item['$processid']}">
+						value="#{searchController.searchFilter.item['$taskid']}">
 						<f:selectItem itemValue="" itemLabel=" " />
 						<c:forEach
 							items="#{tasks}"
