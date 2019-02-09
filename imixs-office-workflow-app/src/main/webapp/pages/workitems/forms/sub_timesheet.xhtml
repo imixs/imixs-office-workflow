@@ -102,7 +102,7 @@
 					<h:commandLink
 						action="#{timesheetController.load(child.item['$uniqueid'],'/pages/workitems/workitem')}">
 						<!-- hidden sort field  -->
-						<h:outputText value="#{record.item['$modified']}" style="display:none">
+						<h:outputText value="#{record.item['$lasteventdate']}" style="display:none">
 							<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 								pattern="yyyyMMdd" />
 						</h:outputText>

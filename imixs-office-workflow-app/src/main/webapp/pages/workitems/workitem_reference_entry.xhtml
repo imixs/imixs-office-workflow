@@ -36,7 +36,7 @@
 					<h:link outcome="/pages/workitems/workitem">
 						<h:panelGroup
 							rendered="#{empty workitem.item['txtWorkflowSummary']}">
-							<h:outputText value="#{workitem.item['$modified']}"
+							<h:outputText value="#{workitem.item['$lasteventdate']}"
 								style="font-weight: bold;">
 								<f:convertDateTime timeZone="#{message.timeZone}"
 									pattern="#{message.dateTimePattern}" />

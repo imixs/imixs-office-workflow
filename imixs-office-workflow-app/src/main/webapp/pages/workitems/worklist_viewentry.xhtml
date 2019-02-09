@@ -20,7 +20,7 @@
 					<!-- summary empty ? -->
 					<h:panelGroup
 						rendered="#{empty workitem.item['txtWorkflowSummary']}">
-						<h:outputText value="#{workitem.item['$modified']}"
+						<h:outputText value="#{workitem.item['$lasteventdate']}"
 							styleClass="imixs-viewentry-title">
 							<f:convertDateTime timeZone="#{message.timeZone}"
 								pattern="#{message.dateTimePattern}" />
@@ -67,7 +67,7 @@
 				</ui:repeat>
 			</h:panelGroup>
 			<div class="pull-right">
-				<h:outputText value="#{workitem.item['$modified']}"
+				<h:outputText value="#{workitem.item['$lasteventdate']}"
 					style="font-weight: normal;">
 					<f:convertDateTime timeZone="#{message.timeZone}"
 						pattern="#{message.dateTimePatternLong}" />

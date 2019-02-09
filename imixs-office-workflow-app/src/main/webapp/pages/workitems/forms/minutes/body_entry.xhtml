@@ -35,7 +35,7 @@
 							<!-- summary empty ? -->
 							<h:panelGroup
 								rendered="#{empty workitem.item['txtWorkflowSummary']}">
-								<h:outputText value="#{workitem.item['$modified']}"
+								<h:outputText value="#{workitem.item['$lasteventdate']}"
 									style="font-weight: normal;">
 									<f:convertDateTime timeZone="#{message.timeZone}"
 										pattern="#{message.dateTimePattern}" />
@@ -61,7 +61,7 @@
 							
 						<h:panelGroup
 							rendered="#{empty workitem.item['txtWorkflowSummary']}">
-							<h:outputText value="#{workitem.item['$modified']}">
+							<h:outputText value="#{workitem.item['$lasteventdate']}">
 								<f:convertDateTime timeZone="#{message.timeZone}"
 									pattern="#{message.dateTimePattern}" />
 							</h:outputText>
