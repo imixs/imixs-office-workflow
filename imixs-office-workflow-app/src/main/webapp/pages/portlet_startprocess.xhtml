@@ -39,17 +39,23 @@
 									value="#{(!empty model) and (!empty model.findTasksByGroup(group))?model.findTasksByGroup(group).get(0):null}" />
 
 							<li><h:panelGroup rendered="#{! empty initialTask}">
-									<h:commandLink title=" " styleClass="action-create"
+									<h:commandLink title=" " styleClass="action-create" 
 										actionListener="#{workflowController.create(model.version,initialTask.item['numprocessid'],process.item['$uniqueid'])}"
 										action="/pages/workitems/workitem">
-
-										<span class="typcn typcn-arrow-forward-outline" style="margin-right:10px;"></span> <h:outputText value="#{group} »" />
+										<span class="typcn typcn-folder-add"></span> <h:outputText value="#{group}" />
 									</h:commandLink>
 									<span class="imixs-tooltip"> <h:outputText
 											value="#{initialTask.item['rtfdescription']}" escape="false" />
 									</span>
 								</h:panelGroup> <h:outputText style="color:red" rendered="#{empty initialTask}"
-									value="	Missing Model Definition: #{group}"></h:outputText></li>
+									value="	Missing Model Definition: #{group}"></h:outputText>
+									
+									
+									
+								
+									
+									
+									</li>
 
 						</ui:repeat>
 					</ul>
