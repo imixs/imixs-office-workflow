@@ -12,7 +12,7 @@ With the help of '[Imixs-BPMN](https://www.imixs.org/sub_modeler.html)', busines
 Imixs-Workflow is a free and open source technology. Therefore, this solution can be easily customized and extended with custom plugins and modules. 
 You can find further information on the web site [Imixs-Office-Workflow](https://www.office-workflow.com).
 
-* **Technical information** can be found on the [marty project home](http://www.imixs.org/marty).
+* **Blog & News** can be found on the [home page](https://www.office-workflow.com).
 * **Release notes** can be read [here](https://github.com/imixs/imixs-office-workflow/releases).
 * **Migration notes** can be found [here](MIGRATION-NOTES.md)
 
