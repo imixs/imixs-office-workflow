@@ -12,22 +12,20 @@
 	<ui:define name="content">
 		<script type="text/javascript">
 			/*<![CDATA[*/
-			           
+
 			// The following code is used to layout the tables with the jquery datatable plugin.
 			$(document).ready(function() {
 				updateTableLayout();
 			});
 
-			
 			function updateTable(e) {
 				if (e.status == 'success') {
 					$('.imixsdatatable').layoutImixsTable()
 				}
-			} 
-			
-			
+			}
+
 			function updateTableLayout() {
-				
+
 				$('[id$=spacetable]').each(function() {
 					// with the following line we test if the jsf datatable realy contains data 
 					// in cases with empty rows on default column is displayed.
@@ -38,12 +36,11 @@
 							"bLengthChange" : false,
 							"bSortable" : false,
 							"bJQueryUI" : true,
-							'aaSorting' : [] // no inital sorting 						
-						}
-						);
+							'aaSorting' : []
+						// no inital sorting 						
+						});
 				});
-				
-				
+
 			}
 			/*]]>*/
 		</script>
@@ -66,16 +63,19 @@
 							<h:column>
 								<f:facet name="header">
 									<h:panelGroup>
-										<h:outputText value="#{message.name}"/>											
+										<h:outputText value="#{message.name}" />
 									</h:panelGroup>
 								</f:facet>
-								
-								<h:link outcome="/pages/admin/space?faces-redirect=true" styleClass="imixs-viewentry-main-link">
+
+								<h:link outcome="/pages/admin/space?faces-redirect=true"
+									styleClass="imixs-viewentry-main-link">
 									<h:panelGroup rendered="#{(record.item['$processid'] eq 100)}"
-											styleClass="typcn typcn-tick imixs-state-success" pt:title="#{record.item['$workflowstatus']}" />
-									<h:panelGroup rendered="#{(record.item['$processid'] eq 180)}"  pt:title="#{record.item['$workflowstatus']}" 
-											styleClass="typcn typcn-delete-outline imixs-state-warning" />
-								
+										styleClass="typcn typcn-tick imixs-state-success"
+										pt:title="#{record.item['$workflowstatus']}" />
+									<h:panelGroup rendered="#{(record.item['$processid'] eq 180)}"
+										pt:title="#{record.item['$workflowstatus']}"
+										styleClass="typcn typcn-delete-outline imixs-state-warning" />
+
 									<h:outputText value="#{record.item['txtName']}" />
 									<h:outputText rendered="#{empty record.item['txtName']}"
 										value=" - no name - " />
@@ -83,14 +83,15 @@
 								</h:link>
 							</h:column>
 
-							<h:column >
+							<h:column>
 								<f:facet name="header">
 									<h:panelGroup>
-										<h:outputText value="#{message.modified}"/>
+										<h:outputText value="#{message.modified}" />
 									</h:panelGroup>
 								</f:facet>
 								<!-- hidden sort field  -->
-								<h:outputText value="#{record.item['$modified']}" style="display:none">
+								<h:outputText value="#{record.item['$modified']}"
+									style="display:none">
 									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 										pattern="yyyyMMdd" />
 								</h:outputText>
@@ -98,7 +99,9 @@
 									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 										pattern="#{message.dateTimePattern}" />
 								</h:outputText>
-								<h:outputText value=" #{message.by} #{userController.getUserName(record.item['namcurrentEditor'])}" title="#{record.item['namcurrentEditor']}" />
+								<h:outputText
+									value=" #{message.by} #{userController.getUserName(record.item['namcurrentEditor'])}"
+									title="#{record.item['namcurrentEditor']}" />
 							</h:column>
 
 
@@ -107,12 +110,16 @@
 								<f:facet name="header">Manager</f:facet>
 								<ui:repeat var="grp"
 									value="#{record.itemListArray['namManager']}">
-									<ui:param name="displayname" value="#{userController.getUserName(grp)}"></ui:param>
-									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp}" />
+									<ui:param name="displayname"
+										value="#{userController.getUserName(grp)}"></ui:param>
+									<h:outputText value="#{userController.getUserName(grp)}"
+										title="#{grp}" />
 									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
-										<ui:param name="isrole" value="#{userInputController.isRole(grp)}"/>
-										<h:outputText value="#{grp}"  title="#{isrole?'Access Role':'Unknown User!'}"
-												  class="#{isrole?'imixs-warning':'imixs-important'}" />
+										<ui:param name="isrole"
+											value="#{userInputController.isRole(grp)}" />
+										<h:outputText value="#{grp}"
+											title="#{isrole?'Access Role':'Unknown User!'}"
+											class="#{isrole?'imixs-warning':'imixs-important'}" />
 									</ui:fragment>
 									<br />
 								</ui:repeat>
@@ -120,14 +127,17 @@
 
 							<h:column>
 								<f:facet name="header">Team</f:facet>
-								<ui:repeat var="grp"
-									value="#{record.itemListArray['namTeam']}">
-									<ui:param name="displayname" value="#{userController.getUserName(grp)}"></ui:param>
-									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp}" />
+								<ui:repeat var="grp" value="#{record.itemListArray['namTeam']}">
+									<ui:param name="displayname"
+										value="#{userController.getUserName(grp)}"></ui:param>
+									<h:outputText value="#{userController.getUserName(grp)}"
+										title="#{grp}" />
 									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
-										<ui:param name="isrole" value="#{userInputController.isRole(grp)}"/>
-										<h:outputText value="#{grp}"  title="#{isrole?'Access Role':'Unknown User!'}"
-												  class="#{isrole?'imixs-warning':'imixs-important'}" />
+										<ui:param name="isrole"
+											value="#{userInputController.isRole(grp)}" />
+										<h:outputText value="#{grp}"
+											title="#{isrole?'Access Role':'Unknown User!'}"
+											class="#{isrole?'imixs-warning':'imixs-important'}" />
 									</ui:fragment>
 									<br />
 								</ui:repeat>
@@ -137,12 +147,16 @@
 								<f:facet name="header">Assist</f:facet>
 								<ui:repeat var="grp"
 									value="#{record.itemListArray['namAssist']}">
-									<ui:param name="displayname" value="#{userController.getUserName(grp)}"/>
-									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp}" />
+									<ui:param name="displayname"
+										value="#{userController.getUserName(grp)}" />
+									<h:outputText value="#{userController.getUserName(grp)}"
+										title="#{grp}" />
 									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
-										<ui:param name="isrole" value="#{userInputController.isRole(grp)}"/>
-										<h:outputText value="#{grp}"  title="#{isrole?'Access Role':'Unknown User!'}"
-												  class="#{isrole?'imixs-warning':'imixs-important'}" />
+										<ui:param name="isrole"
+											value="#{userInputController.isRole(grp)}" />
+										<h:outputText value="#{grp}"
+											title="#{isrole?'Access Role':'Unknown User!'}"
+											class="#{isrole?'imixs-warning':'imixs-important'}" />
 									</ui:fragment>
 									<br />
 								</ui:repeat>
@@ -150,7 +164,8 @@
 							<h:column>
 								<f:facet name="header">#{message.action}</f:facet>
 								<!-- Edit -->
-								<h:link outcome="/pages/admin/space?faces-redirect=true" styleClass="imixs-viewentry-main-link">
+								<h:link outcome="/pages/admin/space?faces-redirect=true"
+									styleClass="imixs-viewentry-main-link">
 									<span class="typcn typcn-pencil imixs-state-info"></span>
 									#{message.edit}
 									<f:param name="id" value="#{record.item['$uniqueid']}" />
@@ -158,29 +173,13 @@
 
 								<!-- Subspace -->
 								<h:commandLink styleClass="imixs-viewentry-action-link"
-									title="#{message.add}"
-									actionListener="#{workflowController.create}"
-									action="/pages/admin/space.xhtml">
-									<f:setPropertyActionListener value="/pages/admin/spaces" target="#{workflowController.defaultActionResult}"/>
+									title="#{message.add}" action="/pages/admin/space"
+									actionListener="#{workflowController.create(app.workflowversion_system,100,record.item['$uniqueid'])}">
 									<span class="typcn typcn-flow-children imixs-state-info"></span>#{message.add}
-									
-									<f:setPropertyActionListener
-										target="#{workflowController.workitem.item['$modelVersion']}"
-										value="#{app.workflowversion_system}" />
-									<f:setPropertyActionListener
-										target="#{workflowController.workitem.item['$ProcessID']}"
-										value="100" />
-									<f:setPropertyActionListener
-										target="#{workflowController.workitem.item['type']}"
-										value="space" />
-									<f:setPropertyActionListener
-										target="#{workflowController.workitem.item['$uniqueidRef']}"
-										value="#{record.item['$uniqueid']}" />
 									<f:setPropertyActionListener
 										target="#{workflowController.workitem.item['txtparentname']}"
 										value="#{record.item['txtname']}" />
 								</h:commandLink>
-
 
 							</h:column>
 						</h:dataTable>
