@@ -2,7 +2,7 @@
 [![Join the chat at https://gitter.im/imixs/imixs-workflow](https://badges.gitter.im/imixs/imixs-workflow.svg)](https://gitter.im/imixs/imixs-workflow?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License](https://img.shields.io/aur/license/yaourt.svg)](https://github.com/imixs/imixs-office-workflow/blob/master/LICENSE)
 
-'Imixs-Office-Workflow' provides a **Open Source Workflow Suite** for small, medium and large enterprises.
+'[Imixs-Office-Workflow](https://www.office-workflow.com)' provides a **Open Source Workflow Suite** for small, medium and large enterprises.
 The Project is build on top of the '[Imixs-Workflow](https://www.imixs.org)' project and is licensed under the GPL.  
 
 The goal of the project is to provide a powerful and easy-to-use business process management suite for companies and organizations.
@@ -10,9 +10,9 @@ With the help of '[Imixs-BPMN](https://www.imixs.org/sub_modeler.html)', busines
 
 ## Open Source
 Imixs-Workflow is a free and open source technology. Therefore, this solution can be easily customized and extended with custom plugins and modules. 
-You can find further information on the web site [Imixs-Office-Workflow](http://www.office-workflow.de).
+You can find further information on the web site [Imixs-Office-Workflow](https://www.office-workflow.com).
 
-* **Technical information** can be found on the [marty project home](http://www.imixs.org/marty).
+* **Blog & News** can be found on the [home page](https://www.office-workflow.com).
 * **Release notes** can be read [here](https://github.com/imixs/imixs-office-workflow/releases).
 * **Migration notes** can be found [here](MIGRATION-NOTES.md)
 
