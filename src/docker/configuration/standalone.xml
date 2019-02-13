@@ -169,12 +169,9 @@
 				    </security>
                      <validation>
                         <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
-                        <validate-on-match>true</validate-on-match>
-                        <background-validation>false</background-validation>
+                        <!-- any background-validation-millis > 0 will enable background validation. See https://jira.jboss.org/browse/JBAS-4088. -->
+                        <background-validation-millis>60000</background-validation-millis>
                     </validation>                
-                    <statement>
-                        <share-prepared-statements>false</share-prepared-statements>
-                    </statement>
                 </datasource>                
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
