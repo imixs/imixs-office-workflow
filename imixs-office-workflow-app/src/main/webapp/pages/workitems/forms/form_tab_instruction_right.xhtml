@@ -22,7 +22,7 @@
 					<ul>
 						<c:forEach items="#{formController.formDefinition.sections}"
 							var="section">
-							<li><a href="#tab-#{section.path}">#{section.name}</a></li>
+							<li><a href="#tab-#{section.path}">#{(empty section.name)?app.basic:section.name}</a></li>
 						</c:forEach>
 					</ul>
 
