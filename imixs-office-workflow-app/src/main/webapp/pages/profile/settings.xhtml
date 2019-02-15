@@ -142,9 +142,12 @@
 								style="clear: none; width:80%;">
 
 								<i:imixsFileUpload id="file_upload_id"
+									labelButton="#{message['form.attachments.fileupload.button']}"
+									labelHelp="#{message['form.attachments.fileupload.help']}"
 									workitem="#{workflowController.workitem}"
 									context_url="#{facesContext.externalContext.requestContextPath}/api/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}"
 									hideatachments="true" />
+
 
 								<div style="clear: left;" />
 
@@ -160,7 +163,7 @@
 						<div class="imixs-footer">
 
 							<!-- workflow save command -->
-							<h:commandButton action="home" 
+							<h:commandButton action="home"
 								actionListener="#{workflowController.process(10)}"
 								onclick="return passwordCheck();" class="imixs-workflow-action"
 								value="#{message.save}">
