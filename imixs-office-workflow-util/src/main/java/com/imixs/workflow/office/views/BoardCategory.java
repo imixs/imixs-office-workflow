@@ -9,15 +9,15 @@ package com.imixs.workflow.office.views;
  *
  */
 public class BoardCategory {
-	
+
 	private static final int DEFAULT_PAGE_SIZE = 5;
 
 	String workflowGroup;
 	String workflowStatus;
 	int processID;
-	int pageIndex=0;
-	int pageSize=DEFAULT_PAGE_SIZE;
-	
+	int pageIndex = 0;
+	int pageSize = DEFAULT_PAGE_SIZE;
+
 	public BoardCategory(String workflowGroup, String workfowStatus, int processID, int pageSize) {
 		super();
 		this.workflowGroup = workflowGroup;
@@ -25,8 +25,6 @@ public class BoardCategory {
 		this.processID = processID;
 		this.pageSize = pageSize;
 	}
-	
-	
 
 	@Override
 	public String toString() {
@@ -67,30 +65,20 @@ public class BoardCategory {
 		this.processID = processID;
 	}
 
-
-
 	public int getPageIndex() {
 		return pageIndex;
 	}
-
-
 
 	public void setPageIndex(int pageIndex) {
 		this.pageIndex = pageIndex;
 	}
 
-
-
 	public int getPageSize() {
 		return pageSize;
 	}
 
-
-
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 	}
-	
-	
 
 }

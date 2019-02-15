@@ -5,6 +5,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.imixs.marty.config.SetupController;
 import org.imixs.workflow.faces.data.ViewController;
 import org.imixs.workflow.faces.util.LoginController;
 
@@ -18,14 +19,20 @@ public class PortletWorklistTasks extends ViewController {
 	@Inject
 	LoginController loginController;
 	
+	@Inject
+	SetupController setupController;
+
+	/**
+	 * Initialize default behavior configured by the BASIC configuration entity.
+	 */
 	@Override
 	@PostConstruct
 	public void init() {
 		super.init();
 		this.setQuery("(type:\"workitem\" AND namowner:\"" + loginController.getRemoteUser() + "\")");
-		this.setSortBy("$modified");
-		this.setSortReverse(true);
-		this.setPageSize(5);
+		this.setPageSize(setupController.getPortletSize());
+		this.setSortBy(setupController.getSortBy());
+		this.setSortReverse(setupController.getSortReverse());
 	}
 
 

@@ -22,36 +22,49 @@
 
 					<div class="imixs-body">
 
-						<div class="imixs-form-panel">
+						<div class="imixs-form-panel row">
 							<h1>#{message['config.views']}</h1>
 							<!-- **** Worklist / View  info ***** -->
+							<div class="col-6 nested">
+								<div class="imixs-form-section-2">
+									<dl>
+										<dt>#{message['config.sortby']}</dt>
+										<dd>
+											<h:selectOneMenu required="true"
+												value="#{setupController.workitem.item['sortby']}">
+												<f:selectItem itemValue="$created" itemLabel="created" />
+												<f:selectItem itemValue="$lasteventdate"
+													itemLabel="modified" />
+											</h:selectOneMenu>
+										</dd>
+									</dl>
+									<dl>
+										<dt>#{message['config.sortorder']}</dt>
+										<dd>
+											<h:selectOneMenu required="true"
+												value="#{setupController.workitem.item['sortorder']}">
+												<f:selectItem itemValue="0" itemLabel="Descanding" />
+												<f:selectItem itemValue="1" itemLabel="Ascending" />
 
 
-							<div class="imixs-form-section-2">
-								<dl>
-									<dt>#{message['config.sortby']}</dt>
-									<dd>
-										<h:selectOneMenu required="true"
-											value="#{setupController.workitem.item['sortby']}">
-											<f:selectItem itemValue="$created" itemLabel="created" />
-											<f:selectItem itemValue="$modified" itemLabel="modified" />
-										</h:selectOneMenu>
-									</dd>
-								</dl>
-								<dl>
-									<dt>#{message['config.sortorder']}</dt>
-									<dd>
-										<h:selectOneMenu required="true"
-											value="#{setupController.workitem.item['sortorder']}">
-											<f:selectItem itemValue="0" itemLabel="Descanding" />
-											<f:selectItem itemValue="1" itemLabel="Ascending" />
+											</h:selectOneMenu>
+										</dd>
+									</dl>
 
-
-										</h:selectOneMenu>
-									</dd>
-								</dl>
-
+								</div>
 							</div>
+							<div class="col-6 nested">
+								<div class=" imixs-form-section-2">
+								<dl>
+										<dt>#{message['config.portlet.viewcount']}</dt>
+										<dd>
+											<h:inputText value="#{setupController.workitem.item['portletViewCount']}"/>
+										</dd>
+									</dl>
+								</div>
+							</div>
+
+
 						</div>
 						<div class="imixs-form-panel">
 							<h1>#{message['config.workflow']}</h1>
@@ -69,6 +82,16 @@
 								</dl>
 							</div>
 						</div>
+						
+						<div class="imixs-form-panel">
+							<h1>#{message['config.additionalproperties']}</h1>
+							<h:inputTextarea required="false"
+								converter="org.imixs.VectorConverter"
+								style="height: 16em; width: 100%;"
+								value="#{setupController.workitem.itemList['properties']}">
+							</h:inputTextarea>
+						</div>
+						
 						<div class="imixs-form-panel">
 							<h1>#{message['config.security']}</h1>
 							<div class="imixs-form-section-2">
@@ -93,14 +116,6 @@
 								</dl>
 							</div>
 						</div>
-						<div class="imixs-form-panel">
-							<h1>#{message['config.additionalproperties']}</h1>
-							<h:inputTextarea required="false"
-								converter="org.imixs.VectorConverter"
-								style="height: 16em; width: 100%;"
-								value="#{setupController.workitem.itemList['properties']}">
-							</h:inputTextarea>
-						</div>
 					</div>
 					<div class="imixs-footer">
 						<!-- **** save ***** -->
@@ -110,7 +125,6 @@
 						<h:commandButton value="#{message.close}" action="home" />
 					</div>
 				</div>
-
 			</h:form>
 		</f:view>
 	</ui:define>
