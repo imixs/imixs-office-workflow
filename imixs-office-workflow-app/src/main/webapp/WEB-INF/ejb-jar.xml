@@ -57,10 +57,7 @@
 
 	<!-- Interceptors -->
 	<interceptors>
-		<interceptor>
-			<interceptor-class>org.imixs.marty.ejb.TeamInterceptor</interceptor-class>
-		</interceptor>
-		
+			
 		<interceptor>
 			<interceptor-class>org.imixs.marty.ejb.ImageInterceptor</interceptor-class>
 		</interceptor>
@@ -71,13 +68,6 @@
 	</interceptors>
 
 	<assembly-descriptor>
-	
-		<!-- TeamInterceptor -->
-		<interceptor-binding> 
-		    <description>Intercepter to add orgunit-role mapping into EJB Context Data</description> 
-		    <ejb-name>DocumentService</ejb-name> 
-			<interceptor-class>org.imixs.marty.ejb.TeamInterceptor</interceptor-class> 
-		</interceptor-binding>
 
 		<!-- ImageInterceptor -->
 		<interceptor-binding>
