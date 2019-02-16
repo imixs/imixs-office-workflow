@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+
+	<!-- Invoice Form -->
+
+	<div class="imixs-form-section-2">
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.contract']}" />
+			</dt>
+			<dd>
+				<marty:workitemLink workitem="#{workflowController.workitem}"
+					filter="$processid:4..." />
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.contact']}" />
+			</dt>
+			<dd>
+				<marty:workitemLink workitem="#{workflowController.workitem}"
+					hidereferences="false" filter="$processid:9..." />
+			</dd>
+		</dl>
+		<dl>
+
+			<dt>
+				<h:outputLabel value="#{message['form.invoicenumber']}" />
+			</dt>
+			<dd>
+				<h:inputText
+					value="#{workitem.item['_invoicenumber']}" />
+			</dd>
+		</dl>
+		<dl>
+
+			<dt>
+				<h:outputLabel value="#{message['form.invoicedate']}" />
+			</dt>
+			<dd>
+				<h:inputText
+					value="#{workitem.item['_invoicedate']}"
+					styleClass="imixs-date" >
+				<f:convertDateTime pattern="#{message.datePatternShort}" timeZone="#{message.timeZone}" />
+				</h:inputText>
+			</dd>
+		</dl>
+		
+		<dl>
+
+
+			<dt>
+				<h:outputLabel value="#{message['form.amount']}" />
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_amount']}">
+					<f:convertNumber minFractionDigits="2" locale="de" />
+				</h:inputText>
+			</dd>
+		</dl>
+		<dl>
+
+			<dt>
+				<h:outputLabel value="#{message['form.tax']}" />
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_tax']}" />
+			</dd>
+		</dl>
+		<dl>
+
+			<dt>
+				<h:outputLabel value="#{message['form.amount_brutto']}" />
+			</dt>
+			<dd>
+				<h:inputText
+					value="#{workitem.item['_amount_brutto']}">
+					<f:convertNumber minFractionDigits="2" locale="de" />
+				</h:inputText>
+			</dd>
+
+		</dl>
+	</div>
+	
+</ui:composition>
+

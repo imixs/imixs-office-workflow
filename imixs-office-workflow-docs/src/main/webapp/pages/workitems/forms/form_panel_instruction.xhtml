@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
+	<!-- the following code computes the txtworktow abstract from the current modelversion and processid  -->
+	<div class="imixs-instruction">
+		<h:outputText escape="false"
+			value="#{modelController.getProcessDescription(workflowController.workitem.item['$processID'],workflowController.workitem.item['$ModelVersion'],workflowController.workitem)}">
+		</h:outputText>
+	</div>
+	<c:forEach items="#{formController.formDefinition.sections}"
+		var="section">
+		<div class="imixs-form-panel">
+			<h3>
+				<h:outputText value="#{section.name}" />
+			</h3>
+			<f:subview>
+				<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
+					<ui:param name="workitem" value="#{workflowController.workitem}" />
+				</ui:include>
+			</f:subview>
+		</div>
+	</c:forEach>
+
+	<!-- Standard Tab Section -->
+	<div class="imixs-tabs imixs-comment-tabs">
+		<ul>
+			<li><a href="#tab-comments">#{message.comments}</a></li>
+			<li><a href="#tab-documents">#{message.documents} <h:panelGroup
+						rendered="#{! empty dmsController.dmsList}"
+						styleClass="typcn typcn-input-checked imixs-documents-available"></h:panelGroup></a></li>
+		</ul>
+		<div id="tab-comments">
+			<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
+				<ui:param name="workitem" value="#{workflowController.workitem}" />
+			</ui:include>
+		</div>
+		<div id="tab-documents">
+			<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
+		</div>
+	</div>
+</ui:composition>

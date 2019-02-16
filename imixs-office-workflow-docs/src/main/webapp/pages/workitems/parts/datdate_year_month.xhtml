@@ -1,0 +1,110 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+	<dl class="imixs-date-year-month">
+		<dt>
+			<h:outputLabel
+				value="#{empty label?message['form.appointment']:label}" />
+			<h:panelGroup rendered="#{empty required?false:required}"
+				class="imixs-required">*</h:panelGroup>
+		</dt>
+		<dd>
+
+			<select name="year" id="datdate_year" style="width:70px"
+				    onchange="calculateDate()">
+				<option value=""></option>
+				<!-- calculated by js -->
+			</select>
+			
+			<select name="month" id="datdate_month" style="width:100px"
+			        onchange="calculateDate()">
+				<option value=""></option>
+				<option value="01">Januar</option>
+				<option value="02">Februar</option>
+				<option value="03">März</option>
+				<option value="04">April</option>
+				<option value="05">Mai</option>
+				<option value="06">Juni</option>
+				<option value="07">Juli</option>
+				<option value="08">August</option>
+				<option value="09">September</option>
+				<option value="10">Oktober</option>
+				<option value="11">November</option>
+				<option value="12">Dezember</option>
+			</select>
+
+			<h:inputHidden value="#{empty itemname?workflowController.workitem.item['datdate']:workflowController.workitem.item[itemname]}"
+						id="datdate_year_month"
+						required="#{empty required?false:required}">
+				<f:convertDateTime pattern="#{message.datePatternShort}"
+					timeZone="#{message.timeZone}" />
+			</h:inputHidden>
+		</dd>
+	</dl>
+	
+	
+	
+	
+	
+	
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		// update options
+		$(document).ready(function() {
+			calculateSelection();
+		});
+
+		// set the current selection of comboboxes and 
+		// add the next 10 yerars into the year combobox
+		function calculateSelection() {
+			var year, month;
+			var context=$('.imixs-date-year-month');
+			var yearCombo=$('[id=datdate_year]',context);
+			var monthCombo=$('[id=datdate_month]',context);
+			var currentinput = $("[id$=datdate_year_month]",context).val();
+			
+			year=new Date().getFullYear()-1;
+			for (i = 0; i < 10; i++) { 
+				$(yearCombo).append(new Option(i+year, i+year));
+			}
+			
+			if (currentinput && currentinput.length==10) {
+				month=currentinput.substring(3,5);
+				year=currentinput.substring(6,10);
+				yearCombo.val(year);
+				monthCombo.val(month);
+			}
+			
+		}
+
+		// calculates the date
+		function calculateDate() {
+			var context=$('.imixs-date-year-month');
+			var yearCombo=$('[id=datdate_year]',context).val();
+			var monthCombo=$('[id=datdate_month]',context).val();
+			var input = $("[id$=datdate_year_month]",context);
+			var dateString="";
+			//console.log(yearCombo + "  " + monthCombo);
+			if (yearCombo) {
+				if (!monthCombo) {
+					monthCombo=1;
+				}
+				dateString="01."+monthCombo + "."+yearCombo;
+				console.log("Date=" + dateString);
+				input.val(dateString);
+			}
+		}
+
+		
+		/*]]>*/
+	</script>
+
+	
+</ui:composition>
+

@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+
+	<!-- the following code computes the txtworktow abstract from the current modelversion and processid  -->
+	<div class="ui-state-highlight ui-corner-all"
+		style="margin-bottom: 10px; padding: .5em;">
+		<p>
+			<h:outputText escape="false"
+				value="#{modelController.getProcessDescription(workitem.item['$processID'],workitem.item['$ModelVersion'],workitem)}">
+			</h:outputText>
+		</p>
+	</div>
+
+</ui:composition>
+

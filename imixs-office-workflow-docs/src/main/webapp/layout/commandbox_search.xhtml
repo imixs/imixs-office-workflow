@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
+	<div class="imixs-commandbox">
+		<h1>#{message.search}</h1>
+		<div>
+			<h:inputText
+				value="#{searchController.searchFilter.item['txtSearch']}"
+				onfocus="this.value='';"
+				style="font-size:13px;width:130px;margin:2px 5px 0 0;float:left;" />
+
+
+			<h:link outcome="/pages/workitems/worklist?phrase=searchController.searchFilter.item['txtSearch']"></h:link>
+			<h:commandLink 
+				action="/pages/workitems/worklist">
+				<h:graphicImage url="/layout/icons/Search_24.png"
+					style="height:20px"></h:graphicImage>
+			</h:commandLink>
+
+			<!-- dummy botton to hit enter -->
+			<h:commandButton style="visibility:hidden;width:1px;height:1px;"
+				action="/pages/workitems/worklist">
+			</h:commandButton>
+		</div>
+	</div>
+
+</ui:composition>
+
+

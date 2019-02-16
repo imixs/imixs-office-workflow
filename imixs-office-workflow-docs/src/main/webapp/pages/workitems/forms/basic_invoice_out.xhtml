@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+
+	<!-- Invoice Out Form -->
+
+	<div class="imixs-form-section">
+		<dl>
+			<dt>
+				#{message['form.subject']}<span class="imixs-required">*</span>
+			</dt>
+			<dd>
+				<h:inputText required="true" value="#{workitem.item['_subject']}" />
+			</dd>
+		</dl>
+		<!-- 
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.customer']}" />
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_customer']}" />
+			</dd>
+		</dl>
+ -->
+	</div>
+	<div class="imixs-form-section-2">
+		<dl>
+
+			<dt>
+				<h:outputLabel value="#{message['form.incoming_order']}" />
+			</dt>
+			<dd>
+				<marty:workitemLink workitem="#{workflowController.workitem}"
+					filter="$processid:7..." />
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.project']}" />
+			</dt>
+			<dd>
+				<marty:workitemLink workitem="#{workflowController.workitem}"
+					filter="$processid:6..." />
+			</dd>
+		</dl>
+
+
+	</div>
+	
+	<div class="imixs-form-section-2">
+	
+	
+	<h:panelGroup  layout="block"
+		class="marty-workitemlink">
+		<h:panelGrid columns="2">
+			<h:outputLabel value="#{message['form.invoicedate']}" />
+			<h:inputText value="#{workitem.item['_invoicedate']}"
+				styleClass="imixs-date">
+				<f:convertDateTime pattern="#{message.datePatternShort}"
+					timeZone="#{message.timeZone}" />
+			</h:inputText>
+
+			<h:outputLabel value="#{message['form.amount']}" />
+			<h:inputText value="#{workitem.item['_amount']}">
+				<f:convertNumber minFractionDigits="2" locale="de" />
+			</h:inputText>
+
+			<h:outputLabel value="#{message['form.tax']}" />
+			<h:inputText value="#{workitem.item['_tax']}" >
+			<f:convertNumber minFractionDigits="2" locale="de" />
+			</h:inputText>
+
+			<h:outputLabel value="#{message['form.amount_brutto']}" />
+
+			<h:inputText value="#{workitem.item['_amount_brutto']}">
+				<f:convertNumber minFractionDigits="2" locale="de" />
+			</h:inputText>
+		</h:panelGrid>
+	</h:panelGroup>
+
+	</div>
+	
+</ui:composition>
+

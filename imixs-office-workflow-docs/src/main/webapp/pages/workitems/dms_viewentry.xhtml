@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+	
+	<div class="imixs-viewentry">
+
+		<!-- image block  -->
+		<ui:include src="/layout/workitem_marker.xhtml">
+			<ui:param name="workitem" value="#{workitem}" />
+		</ui:include>
+
+		<!-- Standard Info  -->
+		<div class="content-block">
+			<h:panelGroup>
+				<h:link outcome="/pages/workitems/workitem">
+					<!-- summary empty ? -->
+					<h:panelGroup
+						rendered="#{empty workitem.item['txtWorkflowSummary']}">
+						<h:outputText value="#{workitem.item['$modified']}"
+							styleClass="imixs-viewentry-title">
+							<f:convertDateTime timeZone="#{message.timeZone}"
+								pattern="#{message.dateTimePattern}" />
+						</h:outputText>
+						<h:outputText value=" #{workitem.item['_subject']}"
+							styleClass="imixs-viewentry-title" />
+					</h:panelGroup>
+					<h:outputText styleClass="imixs-viewentry-title" escape="false"
+						value="#{workitem.item['txtWorkflowSummary']}" />
+					<f:param name="id" value="#{workitem.item['$uniqueid']}" />
+				</h:link>
+			</h:panelGroup>
+			<br />
+			<!-- Status -->
+			<h:outputText style="font-weight: bold;"
+				value="#{workitem.item['txtworkflowgroup']}" />
+			<h:outputText value=" » #{workitem.item['txtworkflowstatus']}" />
+			<h:outputText value=" (#{workitem.item['txtprocessname']})" />
+
+
+			<br />
+			<h:outputText style="font-weight: bold;"
+				value="#{message.documents}:" />
+			<!-- display files -->
+			<ui:param name="dmsList"
+				value="#{dmsController.getDmsListByWorkitem(workitem)}" />
+			<h:panelGroup rendered="#{! empty dmsList}">
+				<ui:repeat var="dmsEntry" value="#{dmsList}">
+					<ui:include src="dms_doclink.xhtml">
+						<ui:param name="uniqueid" value="#{workitem.item['$uniqueid']}" />
+						<ui:param name="dmsentry" value="#{dmsEntry}" />
+					</ui:include>
+				</ui:repeat>
+			</h:panelGroup>
+
+
+
+		</div>
+
+		<!-- clear floating problem from sidebar in ff and chrome.  -->
+		<div style="clear: left;" />
+
+	</div>
+
+</ui:composition>
+

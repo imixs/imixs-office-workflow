@@ -1,0 +1,178 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
+
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		/* reqlace special characters in attachemnt url */
+		$(document).ready(
+				function() {
+					$(".imixs-form-attachments .attachmentlink").each(
+							function(index, element) {
+								var link = $(this).attr("href");
+								if (link.indexOf('+') > -1) {
+									link = link.replace('+', '%2B');
+									$(this).attr("href", link);
+								}
+							});
+				});
+
+		/*]]>*/
+	</script>
+
+
+
+	<!-- **** General info ***** -->
+	<div class="row imixs-form-attachments">
+		<div class="col-6">
+			<h:panelGroup layout="block" id="dmslist"
+				binding="#{dmsListComponent}" style="margin-bottom:10px;">
+
+				<!-- **** DMS List ***** -->
+				<c:forEach var="attachment" items="#{dmsController.dmsList}">
+
+					<div class="imixs-viewentry">
+						<!-- image -->
+						<div class="image-block">
+							<h:panelGroup rendered="#{! empty attachment.item['url']}"
+								styleClass="typcn typcn-world"/>
+							<ui:fragment  rendered="#{empty attachment.item['url']}">
+								<ui:param name="doctyp" value="#{dmsController.documentType(attachment.item['txtname'])}"></ui:param>
+								<h:panelGroup rendered="#{'pdf' eq doctyp}"	styleClass="typcn typcn-document-text"/>
+								<h:panelGroup rendered="#{'win' eq doctyp}"	styleClass="typcn typcn-vendor-microsoft"/>
+								<h:panelGroup rendered="#{'pic' eq doctyp}"	styleClass="typcn typcn-image"/>
+								<h:panelGroup rendered="#{'eml' eq doctyp}"	styleClass="typcn typcn-mail"/>
+								<h:panelGroup rendered="#{'doc' eq doctyp}"	styleClass="typcn typcn-document"/>
+							</ui:fragment>
+							
+						</div>
+						<!-- link -->
+						<div id="hyperlink" class="content-block">
+							<!-- Attachment link -->
+							<h:panelGroup
+								rendered="#{!attachment.item['txtName'].contains('://')}">
+								<h:outputText escape="false"
+									value="&lt;a target='_blank' class='attachmentlink'" />
+								<h:outputText escape="false"
+									value=" href='#{facesContext.externalContext.requestContextPath}/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{attachment.item['txtName']}" />
+								<h:outputText escape="false"
+									value="'&gt;#{attachment.item['txtName']}&lt;/a&gt;" />
+									
+								<h:outputText value=" (#{dmsController.userFriendlyBytes(attachment.item['size'])})" />
+							</h:panelGroup>
+							<!-- URL link -->
+							<h:panelGroup
+								rendered="#{attachment.item['txtName'].contains('://')}">
+								<h:outputText escape="false" value="&lt;a target='_blank'" />
+								<h:outputText escape="false"
+									value=" href='#{attachment.item['txtName']}" />
+								<h:outputText escape="false"
+									value="'&gt;#{attachment.item['txtName']}&lt;/a&gt;" />
+							</h:panelGroup>
+
+							<br />
+							<!-- created by -->
+							<h:outputLabel value="#{message.created}: " />
+							<h:outputText value="#{attachment.item['$created']}">
+								<f:convertDateTime timeZone="#{message.timeZone}"
+									pattern="#{message.dateTimePattern}" />
+							</h:outputText>
+							<h:outputText
+								value=" - #{userController.getUserName(attachment.item['namCreator'])}" />
+							<br />
+							<!-- modified by -->
+							<ui:fragment
+								rendered="#{(!empty attachment.item['$modified']) and (empty attachment.item['url'])}">
+								<h:outputLabel value="#{message.modified}: " />
+								<h:outputText value="#{attachment.item['$modified']}">
+									<f:convertDateTime timeZone="#{message.timeZone}"
+										pattern="#{message.dateTimePattern}" />
+								</h:outputText>
+								<h:outputText
+									value=" - #{userController.getUserName(attachment.item['$Editor'])}" />					
+							</ui:fragment>
+							<!-- MD5 #{attachment.item['md5Checksum']} -->
+
+
+							<div class="nav-block">
+								<!-- comment function (toggle feature) -->
+								<a onclick="$(this).next().toggle();" title="#{message.comment}"
+									class="imixs-action-dms-comment" style="cursor: pointer;"><span
+									class="typcn typcn-info-large#{(empty attachment.item['txtComment'])?'-outline':''}"></span></a>
+								<div class="dms-comment-panel" style="margin: 4px;">
+									<h:inputTextarea value="#{attachment.item['txtComment']}"
+										style="width: 100%; height: 50px;" />
+								</div>
+
+								<!-- Delete function -->
+								<f:ajax render=":#{dmsListComponent.clientId}"
+									onevent="hideComments">
+									<h:commandLink
+										onclick="return confirm('#{message.help_delete}');"
+										styleClass="imixs-action-dms-remove" title="#{message.remove}"
+										actionListener="#{dmsController.removeFile(attachment.item['txtName'])}"
+										immediate="true">
+										<span class="typcn typcn-trash"></span>
+									</h:commandLink>
+								</f:ajax>
+							</div>
+						</div>
+						<div style="clear: both"></div>
+					</div>
+				</c:forEach>
+			</h:panelGroup>
+
+
+		</div>
+		<div class="col-6" id="">
+			<div class="imixsLinkWidget">
+				<f:ajax render=":#{dmsListComponent.clientId} link_input"
+					onevent="hideComments">
+					<h:commandLink styleClass="imixsLink_button"
+						value="#{message['form.attachments.addlink']}"
+						actionListener="#{dmsController.addLink}" />
+					<h:inputText value="#{dmsController.link}" style="width:180px;"
+						id="link_input" />
+				</f:ajax>
+			</div>
+			<i:imixsFileUpload id="file_upload_id"
+				labelButton="#{message['form.attachments.fileupload.button']}"
+				labelHelp="#{message['form.attachments.fileupload.help']}"
+				workitem="#{workflowController.workitem}"
+				context_url="#{facesContext.externalContext.requestContextPath}/api/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}"
+				hideatachments="true" />
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		$(document).ready(function() {
+			// init...
+			hideComments(null);
+			$('.imixsLink_button').button({
+				icons : {
+					primary : "ui-icon-extlink"
+				}
+			});
+		});
+
+		function hideComments(event) {
+			$('.dms-comment-panel').hide();
+		}
+
+		/*]]>*/
+	</script>
+
+</ui:composition>
+

@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+		<f:view>
+			<h:form>
+				<div class="imixs-form">
+					<div class="imixs-body">
+						<h1>#{message['config.workflowmodellist']}</h1>
+
+
+
+						<!--  Workflow Versions -->
+						<table class="imixsdatatable">
+							<tr>
+								<th>Version</th>
+								<th>Workflow Groups</th>
+								<th>Uploaded</th>
+								<th></th>
+							</tr>
+
+							<ui:repeat var="version" value="#{modelController.versions}">
+
+								<ui:param name="modelEntity"
+									value="#{modelController.getModelEntity(version)}" />
+
+								<tr>
+									<td><h:outputLink
+											value="#{facesContext.externalContext.requestContextPath}/api/model/#{version}/bpmn"
+											target="_blank">#{version}</h:outputLink></td>
+
+									<!-- workflow groups.... -->
+									<td><ui:repeat var="group"
+											value="#{modelController.getGroups(version)}">
+											<h:outputText value="#{group}" />
+											<br />
+										</ui:repeat></td>
+
+									<!-- uploaded -->
+									<td><h:outputText value="#{modelEntity.item['$modified']}">
+											<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+												pattern="#{message.dateTimePatternLong}" />
+										</h:outputText> <h:outputText
+											value=" #{message.by} #{userController.getUserName(modelEntity.item['namcreator'])}" />
+									</td>
+
+
+									<!-- delete version -->
+									<td><h:commandLink
+											action="#{modelController.deleteModel(version)}">
+											<h:outputText value="delete" />
+										</h:commandLink></td>
+								</tr>
+
+
+
+
+							</ui:repeat>
+
+						</table>
+
+
+						<!--  Error Messages -->
+						<c:if test="#{! empty facesContext.maximumSeverity}">
+							<p>
+								<h:messages styleClass="messages" id="errorMessages"
+									layout="table" />
+							</p>
+						</c:if>
+
+
+						<i:imixsFileUpload id="file_upload_id"
+							workitem="#{modelUploadHandler.modelUploads}"
+							hideattachments="true" />
+						<div style="clear: left;" />
+						<h:commandButton value="#{message.refresh}"
+							actionListener="#{modelController.doUploadModel}"
+							action="modellist" />
+							
+							
+						<h:commandButton immediate="true" value="#{message.close}"
+							action="home" />
+						
+					</div>
+				</div>
+
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>

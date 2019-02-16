@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
+	<div>
+		<div class="imixs-tabs">
+			<ul>
+				<c:forEach items="#{formController.formDefinition.sections}"
+					var="section">
+					<li><a href="#tab-#{section.path}">#{(empty section.name)?app.basic:section.name}</a></li>
+				</c:forEach>
+			</ul>
+
+			<c:forEach items="#{formController.formDefinition.sections}" var="section">
+				<div id="tab-#{section.path}">
+					<f:subview>
+						<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
+							<ui:param name="workitem" value="#{workflowController.workitem}" />
+						</ui:include>
+					</f:subview>
+				</div>
+			</c:forEach>
+
+		</div>
+
+
+
+	</div>
+
+
+
+</ui:composition>
+

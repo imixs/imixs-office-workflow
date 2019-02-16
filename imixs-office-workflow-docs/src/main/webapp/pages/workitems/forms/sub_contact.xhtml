@@ -1,0 +1,127 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+	<div class="imixs-form-section">
+		<dl>
+			<dt>
+				#{message['form.company']}
+			</dt>
+			<dd>
+				<h:inputText required="false" value="#{workitem.item['_Subject']}"
+					id="company_id">
+				</h:inputText>
+			</dd>
+		</dl>
+
+	</div>
+	<div class="imixs-form-section-2">
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.firstname']}">
+				</h:outputLabel>
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_FirstName']}"
+					id="firstname_id">
+				</h:inputText>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.lastname']}">
+				</h:outputLabel>
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_LastName']}" id="lastname_id">
+				</h:inputText>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.phone1']}">
+				</h:outputLabel>
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_Phone1']}">
+				</h:inputText>
+			</dd>
+
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.phone2']}">
+				</h:outputLabel>
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_Phone2']}">
+				</h:inputText>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.phone3']}">
+				</h:outputLabel>
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_Phone3']}">
+				</h:inputText>
+			</dd>
+
+
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.department']}" />
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_department']}" />
+			</dd>
+
+
+		</dl>
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.email']}" />
+				<!-- mailto -->
+				<h:panelGroup style="margin-left:5px;"
+					rendered="#{! empty workitem.item['_Email']}">
+					<h:outputLink value="mailto:#{workitem.item['_Email']}">
+						<h:graphicImage url="/layout/icons/icon042.png" />
+					</h:outputLink>
+				</h:panelGroup>
+
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_Email']}" id="email_id">
+				</h:inputText>
+			</dd>
+
+		</dl>
+		<dl>
+			<!-- ### Internet ### -->
+			<dt>
+				<h:outputLabel value="#{message['form.internet']}" />
+				<!-- hyperlink -->
+				<h:panelGroup style="margin-left:5px;"
+					rendered="#{! empty workitem.item['_Internet']}">
+					<h:outputLink target="_blank" value="#{workitem.item['_Internet']}">
+						<h:graphicImage url="/layout/icons/icon001.png" />
+					</h:outputLink>
+				</h:panelGroup>
+			</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['_Internet']}" />
+
+
+			</dd>
+		</dl>
+	</div>
+	
+
+</ui:composition>
+

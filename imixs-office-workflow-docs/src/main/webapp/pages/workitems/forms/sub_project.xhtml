@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+	<div class="imixs-form-section-2">
+		<dl>
+
+			<!-- ### Projectnumber ### -->
+			<dt>
+				<h:outputLabel value="#{message['form.projectnumber']}" />
+			</dt>
+
+			<dd>
+				<h:inputText
+					value="#{workitem.item['_projectnumber']}" />
+			</dd>
+
+
+			<!-- ### date ### -->
+			<dt>
+				<h:outputLabel value="#{message['form.projectdate']}" />
+			</dt>
+			<dd>
+				<h:inputText
+					value="#{workitem.item['datDate']}"
+					styleClass="imixs-date">
+					<f:convertDateTime pattern="#{message.datePatternShort}"
+						timeZone="#{message.timeZone}" />
+				</h:inputText>
+			</dd>
+
+			<!-- ### Name ### -->
+			<dt>
+				<h:outputLabel value="#{message['form.projectname']}" />
+			</dt>
+
+			<dd>
+				<h:inputText
+					value="#{workitem.item['_projectname']}" />
+			</dd>
+
+
+
+		</dl>
+	</div>
+
+
+
+</ui:composition>
+

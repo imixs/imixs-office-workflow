@@ -1,0 +1,184 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	template="/layout/template.xhtml">
+
+
+
+	<ui:define name="content">
+		<f:view>
+			<f:event type="preRenderComponent"
+				listener="#{workflowController.load(userController.workitem.item['$uniqueid'])}" />
+
+			<script type="text/javascript">
+				/*<![CDATA[*/
+				function passwordCheck() {
+					var dbEnabled=#{setupController.workitem.item['keyEnableUserDB']};
+					if (!dbEnabled)
+						return true;
+					var password1=$(':password[id$=password1]').val();
+					var password2=$(':password[id$=password2]').val();
+					if (password1!=password2) {
+						alert("#{message['profile.passworderror']}");
+						return false;
+					} else
+						return true;
+				}
+
+				/*]]>*/
+			</script>
+
+
+			<h:form>
+				<div class="imixs-form">
+					<div class="imixs-header">
+						<h1>#{message['myprofile.title']}</h1>
+
+					</div>
+					<div class="imixs-body">
+
+						<!-- ########## Error ########## -->
+						<ui:include src="/pages/error_message.xhtml" />
+
+						<div class="imixs-form-panel">
+							<div class="imixs-form-section-2">
+								<dl>
+									<dt>
+										<h:outputLabel value="#{message['profile.displayname']}" />
+									</dt>
+									<dd>
+										<h:outputText
+											value="#{workflowController.workitem.item['txtUserName']}" />
+									</dd>
+								</dl>
+
+								<dl>
+									<dt>
+										<h:outputLabel value="#{message['profile.email']}" />
+									</dt>
+									<dd>
+										<h:outputText
+											value="#{workflowController.workitem.item['txtEmail']}" />
+									</dd>
+								</dl>
+
+
+							</div>
+							<div class="imixs-form-section-2">
+
+								<dl>
+									<dt>#{message['profile.deputy']}</dt>
+									<dd>
+										<marty:userInput
+											value="#{workflowController.workitem.item['namDeputy']}"
+											editmode="true" />
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<h:outputLabel value="#{message['myprofile.locale']}" />
+									</dt>
+									<dd>
+										<h:selectOneMenu id="locale_id" layout="pageDirection"
+											value="#{workflowController.workitem.item['txtLocale']}">
+											<f:selectItem itemLabel="Deutsch" itemValue="de_DE" />
+											<f:selectItem itemLabel="English" itemValue="en_EN" />
+										</h:selectOneMenu>
+									</dd>
+								</dl>
+
+
+							</div>
+
+
+
+
+							<!-- set new password -->
+							<h:panelGroup layout="block" styleClass="imixs-form-section-2"
+								rendered="#{setupController.workitem.item['keyEnableUserDB']}">
+								<dl>
+									<dt>
+										<h:outputLabel value="#{message['profile.newpassword']}" />
+									</dt>
+									<dd>
+										<h:inputSecret id="password1"
+											value="#{workflowController.workitem.item['txtpassword']}" />
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<h:outputLabel value="#{message['profile.repeatpassword']}" />
+									</dt>
+									<dd>
+										<h:inputSecret id="password2"
+											value="#{workflowController.workitem.item['txtpassword2']}" />
+									</dd>
+								</dl>
+
+							</h:panelGroup>
+
+						</div>
+
+
+						<!-- User Icon -->
+						<div class="imixs-form-panel">
+
+							<h2>User Icon</h2>
+
+
+							<h:panelGroup layout="block" id="usericonpanel"
+								style="float: left; margin-right: 20px;">
+								<h:graphicImage styleClass="imixs-user-icon"
+									rendered="#{! empty workflowController.workitem.item['txtusericon']}"
+									value="/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{workflowController.workitem.item['txtusericon']}">
+								</h:graphicImage>
+							</h:panelGroup>
+							<h:panelGroup layout="block" styleClass="imixs-form-section"
+								style="clear: none; width:80%;">
+
+								<i:imixsFileUpload id="file_upload_id"
+									labelButton="#{message['form.attachments.fileupload.button']}"
+									labelHelp="#{message['form.attachments.fileupload.help']}"
+									workitem="#{workflowController.workitem}"
+									context_url="#{facesContext.externalContext.requestContextPath}/api/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}"
+									hideatachments="true" />
+
+
+								<div style="clear: left;" />
+
+								<h:commandButton value="#{message.remove}"
+									rendered="#{! empty workflowController.workitem.item['txtusericon']}"
+									actionListener="#{userController.removeUserIcon()}">
+									<f:ajax render="usericonpanel"></f:ajax>
+								</h:commandButton>
+
+							</h:panelGroup>
+						</div>
+
+						<div class="imixs-footer">
+
+							<!-- workflow save command -->
+							<h:commandButton action="home"
+								actionListener="#{workflowController.process(10)}"
+								onclick="return passwordCheck();" class="imixs-workflow-action"
+								value="#{message.save}">
+							</h:commandButton>
+
+							<h:commandButton value="#{message.close}"
+								class="imixs-close-action" action="home" />
+
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+
+</ui:composition>
+

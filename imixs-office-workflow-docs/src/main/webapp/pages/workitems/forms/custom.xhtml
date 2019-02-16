@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+
+	<c:forEach items="#{customFormController.sections}" var="section">
+
+
+		<div
+			class="imixs-form-section#{(empty section.columns)?'':'-'.concat(section.columns)}">
+
+			<c:if test="#{! empty section.label}">
+				<h2>#{section.label}</h2>
+			</c:if>
+
+			<c:forEach items="#{section.items}" var="item">
+				<dl>
+					<dt>
+						#{item.label}
+						<c:if test="#{item.required}">
+							<span class="imixs-required">*</span>
+						</c:if>
+					</dt>
+					<dd>
+						<c:if test="#{item.type eq 'text'}">
+							<h:inputText value="#{workitem.item[item.name]}"
+								required="#{item.required}" />
+						</c:if>
+						<c:if test="#{item.type eq 'textarea'}">
+							<h:inputTextarea value="#{workitem.item[item.name]}"
+								required="#{item.required}" />
+						</c:if>
+
+
+						<c:if test="#{item.type eq 'html'}">
+							<h:inputTextarea 
+								required="#{item.required}" class="imixs-editor-basic"
+								value="#{workitem.item[item.name]}" />
+						</c:if>
+
+					</dd>
+				</dl>
+			</c:forEach>
+		</div>
+
+	</c:forEach>
+</ui:composition>
+

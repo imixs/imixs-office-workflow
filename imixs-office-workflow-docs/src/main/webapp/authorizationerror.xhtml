@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/layout/template.xhtml">
+
+
+
+	<ui:define name="content">
+
+		<h:form id="logoutform">
+
+			<div class="imixs-form">
+				<div class="imixs-header">
+					<h1>#{message['login.authorization_error']}</h1>
+				</div>
+				<div class="imixs-body">
+					<div class="imixs-form-panel">
+						<p>
+							#{message['login.authorization_error_help']}<br /> <br /> <br />
+						</p>
+						<h:commandButton action="logout" immediate="true"
+							title="#{message['nav.logout']}" value="#{message['nav.logout']}"
+							actionListener="#{loginController.doLogout}">
+
+						</h:commandButton>
+
+					</div>
+				</div>
+			</div>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

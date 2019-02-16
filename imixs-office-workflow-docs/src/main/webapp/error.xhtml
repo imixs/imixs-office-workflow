@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+		<!-- Display only if error messages available -->
+		<h:panelGroup styleClass="ui-widget">
+			<div class="ui-state-error ui-corner-all"
+				style="padding: .7em; margin-bottom: .7em;">
+				<h3>
+					<span class="typcn typcn-weather-partly-sunny"></span>
+					#{message.error_message_general_title}
+				</h3>
+				<p>#{message.error_message_general}</p>
+				<strong><h:outputText value="#{session.lastAccessedTime}">
+						<f:convertDateTime pattern="#{message.dateTimePatternLong}"
+							type="date" />
+					</h:outputText> :</strong> <br />
+				<!-- display exception details -->
+				<h:panelGroup layout="block"
+					style="background: #EEE;   padding: 10px; margin: 5px 0 20px 0;border: 1px solid #999;"
+					rendered="#{! empty requestScope['javax.servlet.error.exception']}">
+					<h:outputText
+						value="#{requestScope['javax.servlet.error.exception']}" />
+				</h:panelGroup>	
+			</div>
+			<h:form>
+				<h:commandButton action="home" value="#{message.close}"
+					immediate="true" />
+			</h:form>
+
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,217 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	template="/layout/template.xhtml">
+
+
+	<f:metadata>
+		<f:viewAction action="#{workflowController.onLoad()}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<f:view>
+			<h:form id="coreprocess_form_id">
+				
+				<div class="imixs-form">
+
+					<div class="imixs-header">
+						<h1>
+							<h:outputText value="#{message['process.title']}: " />
+							<h:outputText
+								value="#{workflowController.workitem.item['txtname']}" />
+						</h1>
+					</div>
+					<!-- ########## Error ########## -->
+					<ui:include src="/pages/error_message.xhtml" />
+
+					<div class="imixs-body">
+
+						<div class="imixs-tabs">
+							<ul>
+								<li><a href="#tab-1">#{message['process.sub_general']}</a></li>
+								<li><a href="#tab-2">#{message['process.sub_team']}</a></li>
+								<li><a href="#tab-3">#{message['process.sub_spaces']}</a></li>
+								<li><a href="#tab-4">#{message['process.sub_processlist']}</a></li>
+								<li><a href="#tab-5">#{message['process.sub_reports']}</a></li>
+
+							</ul>
+
+							<div id="tab-1">
+
+								<div class="ui-state-highlight ui-corner-all"
+									style="margin-bottom: 10px; padding: .5em;">
+									<p>#{message['process.help_general']}</p>
+								</div>
+
+								<div class="imixs-form-panel">
+									<dl class="columns-1">
+										<dt>
+											<h:outputLabel for="name_id" value="#{message.name}">
+												<h:message style="color: red" for="name_id"
+													showSummary="true" showDetail="false" />
+											</h:outputLabel>
+										</dt>
+										<dd>
+											<h:inputText style="width: 20em;" required="true"
+												value="#{workflowController.workitem.item['txtName']}"
+												id="name_id">
+											</h:inputText>
+										</dd>
+
+										<dt>
+											<h:outputLabel for="description_id"
+												value="#{message.description}">
+												<h:message style="color: red" for="description_id"
+													showDetail="false" showSummary="true" />
+											</h:outputLabel>
+										</dt>
+
+										<dd>
+											<h:inputTextarea required="false"
+												value="#{workflowController.workitem.item['txtdescription']}"
+												id="description_id" style="height: 5em; width: 95%">
+											</h:inputTextarea>
+										</dd>
+
+									</dl>
+								</div>
+							</div>
+
+
+
+							<!-- ******** coreprocess Members ********* -->
+							<div id="tab-2">
+
+								<div class="ui-state-highlight ui-corner-all"
+									style="margin-bottom: 10px; padding: .5em;">
+									<p>#{message['process.help_team']}</p>
+								</div>
+
+								<div class="imixs-form-panel">
+
+									<!-- ******** coreprocess Manager ********* -->
+									<dl class="columns-1">
+										<dt>#{message['process.manager']}</dt>
+										<dd>
+											<marty:userListInput
+												value="#{workflowController.workitem.itemList['nammanager']}"
+												editmode="true" />
+										</dd>
+									</dl>
+
+
+									<!-- ******** coreprocess Team ********* -->
+									<dl class="columns-1">
+										<dt>#{message['process.team']}</dt>
+										<dd>
+											<marty:userListInput
+												value="#{workflowController.workitem.itemList['namteam']}"
+												editmode="true" />
+										</dd>
+									</dl>
+
+									<!-- ******** coreprocess Assitenz ********* -->
+									<dl class="columns-1">
+										<dt>#{message['process.assist']}</dt>
+										<dd>
+											<marty:userListInput
+												value="#{workflowController.workitem.itemList['namassist']}"
+												editmode="true" />
+										</dd>
+									</dl>
+
+
+
+
+								</div>
+							</div>
+
+							<!-- ******** Spaces List ********* -->
+							<div id="tab-3">
+								<div class="ui-state-highlight ui-corner-all"
+									style="margin-bottom: 10px; padding: .5em;">
+									<p>#{message['process.help_spaces']}</p>
+								</div>
+
+								<div class="imixs-form-panel">
+									<dl class="columns-1">
+										<dt>#{message['process.spaces']}</dt>
+										<dd>
+											<h:selectManyCheckbox layout="pageDirection"
+												value="#{workflowController.workitem.itemListArray['$UniqueIDRef']}">
+												<c:forEach items="#{processController.spaces}" var="project">
+													<f:selectItem itemValue="#{project.item['$UniqueID']}"
+														itemLabel="#{project.item['txtName']}"></f:selectItem>
+												</c:forEach>
+											</h:selectManyCheckbox>
+										</dd>
+									</dl>
+								</div>
+							</div>
+
+
+							<!-- ******** Workflow List ********* -->
+							<div id="tab-4">
+								<div class="ui-state-highlight ui-corner-all"
+									style="margin-bottom: 10px; padding: .5em;">
+									<p>#{message['process.help_processlist']}</p>
+								</div>
+								<div class="imixs-form-panel">
+									<dl>
+										<dt>Workflows</dt>
+										<dd>
+											<h:selectManyCheckbox layout="pageDirection"
+												value="#{workflowController.workitem.itemListArray['txtWorkflowList']}">
+
+												<c:forEach items="#{modelController.workflowGroups}"
+													var="group">
+													<f:selectItem itemLabel="#{group}" itemValue="#{group}" />
+												</c:forEach>
+											</h:selectManyCheckbox>
+										</dd>
+									</dl>
+								</div>
+
+							</div>
+							<!-- ******** Reports List ********* -->
+							<div id="tab-5">
+								<div class="ui-state-highlight ui-corner-all"
+									style="margin-bottom: 10px; padding: .5em;">
+									<p>#{message['process.help_reports']}</p>
+								</div>
+
+								<div class="imixs-form-panel">
+									<dl>
+										<dt>Reports</dt>
+										<dd>
+											<h:selectManyCheckbox layout="pageDirection"
+												value="#{workflowController.workitem.itemListArray['txtReportList']}">
+
+												<c:forEach items="#{reportController.reports}"
+													var="report">
+													<f:selectItem itemLabel="#{report.item['txtname']}"
+														itemValue="#{report.item['txtname']}" />
+												</c:forEach>
+											</h:selectManyCheckbox>
+										</dd>
+
+									</dl>
+								</div>
+
+							</div>
+						</div>
+					</div> <!-- form-body end -->
+					<ui:include src="/pages/admin/sub_footer.xhtml" >
+						<ui:param name="action" value="/pages/admin/processlist" />
+					</ui:include>
+				</div>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>
+

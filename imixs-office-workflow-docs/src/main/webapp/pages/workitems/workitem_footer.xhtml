@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+	<!-- *** Workflow (Author) **** -->
+
+	<h1>#{message.workflow}</h1>
+
+	<c:choose>
+		<c:when
+			test="#{workflowController.workitem.item['$isAuthor'] or workflowController.newWorkitem}">
+			<h:panelGroup
+				rendered="#{workflowController.workitem.item['type'] ne 'workitemdeleted'}">
+				<i:imixsWorkflowActions workflowController="#{workflowController}" />
+			</h:panelGroup>
+
+		</c:when>
+
+		<!-- ReadOnly Modus -->
+		<c:otherwise>
+			<!-- jQuery code to disable all input elements in read modus -->
+			<script type="text/javascript">
+				/*<![CDATA[*/
+				$(document).ready(function() {				
+					$(".imixs-body :input").attr("disabled", true);
+					
+					// remove imixs-data class
+					$(".imixs-date").removeClass("imixs-date");
+					$("#imixs_file_upload, #imixs-add-file-link").hide();
+					$(".imixs-action-dms-comment, .imixs-action-dms-remove, .marty-workitemlink-entry-remove, .marty-workitemlink-inputbox").hide();
+	
+					// imixs link input
+					$('.marty-workitemlink').addClass("imixs-input-disabled");
+				 });
+				/*]]>*/
+			</script>
+		</c:otherwise>
+
+	</c:choose>
+
+	<!-- *** Custom Actions 1 -->
+	<ui:include src="/pages/workitems/workitem_footer_custom_actions1.xhtml" />		
+	<!-- *** Close  *** -->
+	<h:commandButton immediate="true" action="home"
+		value="#{message.close}" styleClass="imixs-close-action"
+		actionListener="#{historyController.closeCurrentWorkitem}">
+	</h:commandButton>
+	<!-- ** Print ** -->
+	<ui:fragment rendered="#{!empty workflowController.workitem.item['$lastevent']}" >
+		<input type="button" value="#{message.print}" 
+			 class="imixs-print-action"
+			 onclick="openPrintWindow();" />
+		</ui:fragment>
+	<!-- *** Custom Actions 2 -->
+	<ui:include src="/pages/workitems/workitem_footer_custom_actions2.xhtml" />		
+		
+		
+	<!-- Rest API URI -->
+	<a class="pull-right" style="color: transparent;" href="#{facesContext.externalContext.requestContextPath}/api/documents/#{workflowController.workitem.item['$uniqueid']}" target="_blank">Rest-API</a>
+		
+	<script type="text/javascript">
+		function openPrintWindow() {
+			fenster = window
+					.open(
+							"#{facesContext.externalContext.requestContextPath}/pages/workitems/workitem_print.jsf?id=#{workflowController.workitem.item['$uniqueid']}",
+							"message.print",
+							"width=1100,height=700,status=no,scrollbars=yes,resizable=yes");
+			fenster.focus();
+		}
+	</script>
+</ui:composition>

@@ -1,0 +1,284 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.imixs.workflow</groupId>
+		<artifactId>imixs-office-workflow</artifactId>
+		<version>3.5.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>imixs-office-workflow-docs</artifactId>
+	<packaging>war</packaging>
+	<name>Imixs Office Workflow App</name>
+
+
+	<properties>
+		<imixs-office.applicationname>imixs-office-documents</imixs-office.applicationname>
+
+	</properties>
+	<profiles>
+		<profile>
+			<id>docker</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
+							<execution>
+								<phase>install</phase>
+								<configuration>
+									<target>
+										<exec executable="docker">
+											<arg value="build" />
+											<arg value="-t" />
+											<arg value="imixs/${imixs-office.applicationname}" />
+											<arg value="./." />
+										</exec>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>docker-build</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
+							<execution>
+								<phase>install</phase>
+								<configuration>
+
+									<target>
+										<exec executable="docker">
+											<arg value="build" />
+											<arg value="-t" />
+											<arg
+												value="imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg value="./." />
+										</exec>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+
+
+		<profile>
+			<id>docker-push</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
+							<execution>
+								<phase>install</phase>
+								<configuration>
+									<target>
+										<exec executable="docker">
+											<arg value="build" />
+											<arg value="-t" />
+											<arg
+												value="imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg value="./." />
+										</exec>
+										<exec executable="docker">
+											<arg value="tag" />
+											<arg
+												value="imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg
+												value="${org.imixs.docker.registry}/imixs/${imixs-office.applicationname}:${project.version}" />
+										</exec>
+										<exec executable="docker">
+											<arg value="push" />
+											<arg
+												value="${org.imixs.docker.registry}/imixs/${imixs-office.applicationname}:${project.version}" />
+										</exec>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+
+
+		<profile>
+			<id>docker-hub</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
+							<execution>
+								<phase>install</phase>
+								<configuration>
+									<target>
+										<exec executable="docker">
+											<arg value="build" />
+											<arg value="-t" />
+											<arg
+												value="imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg value="./." />
+										</exec>
+										<exec executable="docker">
+											<arg value="push" />
+											<arg
+												value="imixs/${imixs-office.applicationname}:${project.version}" />
+										</exec>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<webResources>
+						<resource>
+							<filtering>true</filtering>
+							<!-- this is relative to the pom.xml directory -->
+							<directory>${custom.webResources}</directory>
+							<includes>
+								<include>**/WEB-INF/*</include>
+								<include>/src/main/resources/*</include>
+								<!-- include any other file types you want to filter -->
+							</includes>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<!-- Imixs Workflow -->
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-workflow-core</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-workflow-engine</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-workflow-jax-rs</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-workflow-faces</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- Marty -->
+		<dependency>
+			<groupId>org.imixs.marty</groupId>
+			<artifactId>imixs-marty-ejb</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.imixs.marty</groupId>
+			<artifactId>imixs-marty-util</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- Apache Lucene -->
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-common</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-queryparser</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+
+		<!-- QR-Code service -->
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-adapters-qrcode</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Imixs-Archive -->
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-archive-api</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+
+
+
+		<dependency>
+			<groupId>com.imixs.workflow</groupId>
+			<artifactId>imixs-office-workflow-util</artifactId>
+			<scope>compile</scope>
+			<version>${project.parent.version}</version>
+		</dependency>
+
+		<!-- Imixs-Adapter Prometheus <dependency> <groupId>org.imixs.workflow</groupId> 
+			<artifactId>imixs-adapters-prometheus</artifactId> <version>1.5.6-SNAPSHOT</version> 
+			<scope>compile</scope> </dependency> -->
+
+
+	</dependencies>
+</project>

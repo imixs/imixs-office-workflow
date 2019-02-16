@@ -1,0 +1,263 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	template="/layout/template.xhtml">
+
+
+
+	<f:metadata>
+		<f:viewAction action="#{documentController.onLoad()}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<f:view>
+			<h:form id="report_form_id">
+				<div class="imixs-form">
+					<div class="imixs-header">
+						<h1>
+							<h:outputText value="#{message['report.title']}: " />
+							<h:outputText
+								value="#{documentController.document.item['txtname']} " />
+						</h1>
+					</div>
+
+
+					<!-- ########## Error message ########## -->
+					<div class="ui-widget" id="imixs-report-errormessage"
+						style="display: none;">
+						<div class="ui-state-error ui-corner-all"
+							style="padding: .7em; margin-bottom: .7em;">
+							<h2>
+								#{message.error_title} <span class="ui-icon ui-icon-alert"
+									style="float: left; margin-right: .3em;"> </span>
+							</h2>
+							<p>
+								<h:outputText sxtyle="color: red"
+									value="#{message.error_message}" />
+							</p>
+							<p>
+								<h:messages globalOnly="true" />
+							</p>
+						</div>
+					</div>
+
+
+					<div class="imixs-body">
+						<f:ajax event="change" render=":report_form_id:hidden_uri">
+
+							<h:panelGroup layout="block" styleClass="imixs-form-panel" rendered="#{!empty reportController.params.keySet().toArray()}">
+
+							
+								<h1>#{message['report.parameters']}</h1>
+								<div class="imixs-form-section-2">
+
+									<ui:repeat
+										value="#{reportController.params.keySet().toArray()}"
+										var="key">
+										<dl>
+											<dt>
+												<h:outputLabel value="#{key}:" />
+												<span class="imixs-required">*</span>
+											</dt>
+											<dd>
+												<input type="text" data-param="#{key}"
+													class="imixs-report-param" />
+											</dd>
+										</dl>
+
+									</ui:repeat>
+								</div>
+							
+							</h:panelGroup>
+
+							<div class="imixs-form-panel">
+								<h1>#{message['report.result']}</h1>
+								<div class="imixs-form-section-2">
+								
+								
+									<dl>
+										<dt>#{message['report.page_size']}:</dt>
+										<dd>
+											<input type="text" placeholder="100" id="imixs-report-pagesize" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>#{message['report.page_index']}:</dt>
+										<dd>
+											<input type="text" placeholder="0" id="imixs-report-pageindex" />
+										</dd>
+									</dl>
+
+									<dl>
+										<dt>#{message['report.sort_by']}:</dt>
+										<dd>
+											<input type="text" id="imixs-report-sortby" />
+										</dd>
+									</dl>
+
+									<dl>
+										<dt>#{message['report.sortorder_reverse']}:</dt>
+										<dd>
+											<input type="text"  placeholder="false" id="imixs-report-sortreverse" />
+										</dd>
+									</dl>
+									
+									</div>
+							</div>
+
+							<div class="imixs-form-panel">
+								<h1>Format</h1>
+								<div class="imixs-form-section-2">
+
+
+
+									<dl>
+										<dt>#{message['report.output']}:</dt>
+										<dd>
+											<select id="imixs-report-output">
+												<option value="html">HTML</option>
+												<option value="xml">XML</option>
+												<option value="json">JSON</option>
+											</select>
+										</dd>
+									</dl>
+
+									<dl>
+										<dt>#{message['report.encoding']}:</dt>
+										<dd>
+											<input type="text" id="imixs-report-encoding" />
+										</dd>
+									</dl>
+								</div>
+							</div>
+
+						</f:ajax>
+
+					</div>
+
+					<div class="imixs-footer">
+
+						<!-- open report -->
+						<input type="button" onclick="openReport();"
+							value="#{message.open}" />
+
+							
+						<h:commandButton value="#{message.close}" immediate="true"
+							action="/pages/admin/reports?faces-redirect=true"
+							actionListener="#{documentController.close()}" />
+
+						<h:commandButton action="reports" immediate="true"
+							rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}"
+							onclick="if (!confirm('#{message.help_delete}')) return false;"
+							actionListener="#{reportController.delete(documentController.document.item['$uniqueid'])}"
+							value="#{message.delete}">
+						</h:commandButton>
+					</div>
+
+				</div>
+			</h:form>
+
+			<script type="text/javascript">
+				/*<![CDATA[*/
+				var reportBaseURI = "#{facesContext.externalContext.requestContextPath}/api/report/";
+				var reportName = "#{documentController.document.item['txtname']}";
+
+				// check of date input fields
+				$(document).ready(function() {
+					var paramList = $('.imixs-report-param');
+					$(paramList).each(function(index, value) {
+						var paramName = $(this).attr("data-param");
+						// add datepicker
+						if (paramName.startsWith('date_')) {
+							$(this).addClass('imixs-date').datepicker({
+								showOtherMonths : true,
+								selectOtherMonths : true,
+								dateFormat : "yymmdd"
+							});
+						}
+					});
+				});
+
+				// test if all params are provided and open URI
+				function openReport() {
+					var reportURI = "";
+					var encoding = $('#imixs-report-encoding').val();
+					
+					var pageSize = $('#imixs-report-pagesize').val();
+					var pageIndex = $('#imixs-report-pageindex').val();
+					var sortBy = $('#imixs-report-sortby').val();
+					var sortReverse = $('#imixs-report-sortreverse').val();
+					
+					var outputFormat = $('#imixs-report-output').val();
+					var paramList = $('.imixs-report-param');
+					var paramsValid = true;
+
+					// report name
+					if (reportName.indexOf(".") > -1) {
+						reportName = reportName.substring(0, reportName
+								.indexOf('.'));
+					}
+				
+					// pageindex?
+					if (!pageSize) {
+						pageSize = "100";
+					}
+					
+					reportURI = reportURI + reportBaseURI + reportName + "."
+							+ outputFormat + "?pageSize=" +pageSize;
+
+					
+					if (pageIndex) {
+						reportURI = reportURI + "&pageIndex=" + pageIndex;
+					}
+					
+					if (sortBy) {
+						reportURI = reportURI + "&sortBy=" + sortBy.toLowerCase();
+					}
+					if (sortReverse) {
+						reportURI = reportURI + "&sortReverse=" + sortReverse;
+					}
+					
+					if (encoding) {
+						reportURI = reportURI + "&encoding=" + encoding;
+					}
+
+					// build param list
+					$(paramList).each(
+							function(index, value) {
+								var paramName = $(this).attr("data-param");
+								var paramValue = $(this).val();
+								if (!paramValue) {
+									// error no value found!
+									paramsValid = false;
+									return false;
+								} else {
+									reportURI = reportURI + "&" + paramName
+											+ "=" + paramValue;
+								}
+							});
+
+					if (paramsValid) {
+						$("#imixs-report-errormessage").hide();
+						window.open(reportURI).focus();
+					} else {
+						$("#imixs-report-errormessage").show();
+					}
+
+				}
+
+				/*]]>*/
+			</script>
+
+
+
+		</f:view>
+	</ui:define>
+
+
+
+</ui:composition>
+

@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+	<!--  Workitem Version History -->
+	<ui:fragment rendered="#{! empty versionController.versions}">
+	<hr />
+		<div class="imixs-form-section">
+				<h:outputLabel value="#{message.versions}:" />
+			<h:dataTable id="minute_versionlist_id" columns="4"
+				value="#{versionController.versions}" var="version">
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{message.modified}" />
+					</f:facet>
+					<ui:param name="modified" value="#{! empty version.item['$lasteventdate']?version.item['$lasteventdate']:(! empty version.item['timworkflowlastaccess']?version.item['timworkflowlastaccess']:version.item['$modified'])}"></ui:param>
+					<h:outputText value="#{modified}">
+						<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+							pattern="#{message.dateTimePattern}" />
+					</h:outputText>
+					<h:outputText
+						value=" #{message.by} #{userController.getUserName(version.item['namCurrentEditor'])}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value=" " />
+					</f:facet>
+					<h:outputText escape="false"
+						value="#{version.item['txtWorkflowSummary']}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{message.status}" />
+					</f:facet>
+					<h:outputText value="#{version.item['txtWorkflowStatus']}" />
+				</h:column>
+				<!-- open -->
+				<h:column>
+					<h:link outcome="/pages/workitems/workitem" rendered="#{version.item['$uniqueid'] ne workflowController.workitem.item['$uniqueid']}">
+						#{message.open}
+						<f:param name="id" value="#{version.item['$uniqueid']}" />
+					</h:link>
+					<h:panelGroup
+						rendered="#{version.item['$uniqueid'] eq workflowController.workitem.item['$uniqueid']}"
+						styleClass="imixs-required">*</h:panelGroup>
+				</h:column>
+			</h:dataTable>
+		</div>
+	</ui:fragment>
+
+</ui:composition>
+

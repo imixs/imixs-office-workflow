@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+	<c:forEach items="#{formController.formDefinition.sections}"
+		var="section">
+		<div class="imixs-form-panel">
+			<h3>
+				<h:outputText value="#{section.name}" />
+			</h3>
+			<f:subview>
+				<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
+					<ui:param name="workitem" value="#{workflowController.workitem}" />
+				</ui:include>
+			</f:subview>
+		</div>
+	</c:forEach>
+
+
+	<!-- Standard Tab Section -->
+	<ui:fragment  rendered="#{! empty workflowController.workitem.getItemValue('txtCommentLog')}">
+		<div class="imixs-form-panel">
+			<h3>#{message.comments}</h3>
+			<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
+				<ui:param name="workitem" value="#{workflowController.workitem}" />
+			</ui:include>
+		</div>
+	</ui:fragment>
+
+
+
+	<ui:fragment rendered="#{! empty dmsController.dmsList}">
+		<div class="imixs-form-panel">
+			<h3>#{message.documents}</h3>
+			<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
+		</div>
+	</ui:fragment>
+
+	<div class="imixs-form-panel">
+		<!-- *** History **** -->
+		<h3>#{message.history}</h3>
+		<ui:include src="/pages/workitems/workitem_history.xhtml" />
+	</div>
+
+
+</ui:composition>

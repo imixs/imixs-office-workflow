@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/layout/template.xhtml">
+
+	<h:head>
+		<!-- support deep link for workitems to be loaded by the WorkflowController (optional params 'id' and 'workitem' supported) -->
+		<f:metadata>
+			<f:viewAction action="#{workflowController.onLoad()}" />
+		</f:metadata>
+	</h:head>
+
+	<ui:define name="content">
+
+		<!--  Redirect if workitem is null or no editor was found -->
+		<ui:fragment
+			rendered="#{(empty workflowController.workitem) or (workflowController.workitem.processID le 0)}">
+			<script type="text/javascript">
+				/*<![CDATA[*/
+				document.location = "#{facesContext.externalContext.requestContextPath}/pages/notes.jsf";
+				/*]]>*/
+			</script>
+		</ui:fragment>
+
+		<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
+		<f:view>
+			<h:form id="workitem_form">
+
+				<div class="imixs-form">
+					<div class="imixs-header">
+						<ui:include src="/pages/workitems/workitem_header.xhtml" />
+					</div>
+					<div class="imixs-body">
+						<ui:include src="/pages/error_message.xhtml" />
+						<!--  -->
+						<ui:include
+							src="/pages/workitems/forms/#{formController.formDefinition.path}.xhtml" />
+					</div>
+					<div class="imixs-footer">
+						<ui:include src="/pages/workitems/workitem_footer.xhtml" />
+					</div>
+				</div>
+
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>
+

@@ -1,0 +1,218 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	template="/layout/template.xhtml">
+
+	<ui:define name="content">
+		<script type="text/javascript">
+			/*<![CDATA[*/
+
+			 // The following code is used to layout the tables with the jquery datatable plugin.
+			$(document).ready(function() {
+				updateTableLayout();
+			});
+
+			
+			function updateTable(e) {
+				if (e.status == 'success') {
+					$('.imixsdatatable').layoutImixsTable()
+				}
+			}
+			
+			function updateTableLayout() {
+				
+				$('[id$=profilelisttable]').each(function() {
+					console.log("layout table...");
+					// with the following line we test if the jsf datatable realy contains data 
+					// in cases with empty rows on default column is displayed.
+					//alert($('tbody tr:nth-child(1) td',adatatable).length);
+					if ($('tbody tr:nth-child(1) td', $(this)).length > 1)
+						$(this).dataTable({
+							"bRetrieve" : true,
+							"iDisplayLength" : 30,
+							"bLengthChange" : false,
+							"bSortable" : false,
+							"bJQueryUI" : true,
+							'aaSorting' : [] // no inital sorting 						
+						}
+						);
+				});
+				
+				
+			}
+			/*]]>*/
+		</script>
+		<f:view>
+
+			<h:form>
+				<div class="imixs-view">
+					<!-- *** Header **** -->
+					<div class="imixs-header">
+						<h1>#{message['profile.view']}</h1>
+					</div>
+					<div class="imixs-body">
+
+						<h:dataTable id="profilelisttable" styleClass="imixsdatatable"
+							value="#{viewHandler.getData(profileViewController)}" var="record">
+
+							<h:column>
+								<f:facet name="header">
+									<h:panelGroup>
+										<h:outputText value="#{message['profile.userid']}"/>
+									</h:panelGroup>
+								</f:facet>
+
+
+								
+								<!--  compute access icon -->
+								<ui:fragment rendered="#{setupController.workitem.item['keyEnableUserDB']}">
+									
+									<ui:fragment
+										rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Manager') gt -1}">
+										<h:panelGroup
+											styleClass="typcn typcn-spanner #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
+									</ui:fragment>
+									<ui:fragment
+										rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Manager') eq -1}">
+										<ui:fragment
+											rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Editor') gt -1}">
+											<h:panelGroup
+												styleClass="typcn typcn-pencil #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
+	
+										</ui:fragment>
+										<ui:fragment
+											rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Editor') eq -1}">
+											<ui:fragment
+												rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Author') gt -1}">
+												<h:panelGroup
+													styleClass="typcn typcn-edit #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
+	
+											</ui:fragment>
+											<ui:fragment
+												rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Author') eq -1}">
+												<ui:fragment
+													rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Reader') gt -1}">
+													<h:panelGroup
+														styleClass="typcn typcn-eye-outline #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
+	
+												</ui:fragment>
+												<ui:fragment
+													rendered="#{fn:indexOf(record.itemList['txtGroups'],'IMIXS-WORKFLOW-Reader') eq -1}">
+													<h:panelGroup
+														styleClass="typcn typcn-lock-closed #{(record.item['$processid'] ge 210)?'imixs-state-warning':'imixs-state-error'} " />
+	
+												</ui:fragment>
+											</ui:fragment>
+										</ui:fragment>
+									</ui:fragment>
+								</ui:fragment>
+								<!-- disabled groups icon -->
+								<ui:fragment rendered="#{!setupController.workitem.item['keyEnableUserDB']}">
+									<h:panelGroup
+											styleClass="typcn typcn-user #{(record.item['$processid'] ge 210)?'imixs-state-success':'imixs-state-error'} " />
+								
+								</ui:fragment>
+
+
+
+								
+								<h:link outcome="/pages/admin/profile?faces-redirect=true" styleClass="imixs-viewentry-main-link" title=" ">
+									<h:outputText value="#{record.item['txtName']} " />
+									<f:param name="id" value="#{record.item['$uniqueid']}" />
+								</h:link>
+								
+								
+								
+								<!-- Tooltip (disabled if userdb is disabled-->
+								<h:panelGroup style="display:none;" class="imixs-tooltip" rendered="#{setupController.workitem.item['keyEnableUserDB']}">
+									<ui:repeat var="grp"
+										value="#{record.itemListArray['txtGroups']}">
+										<h:outputText value="#{grp}" />
+										<br />
+									</ui:repeat>
+								</h:panelGroup>
+							</h:column>
+
+
+
+							<h:column>
+								<f:facet name="header">#{message['profile.displayname']}</f:facet>
+								<h:outputText value="#{record.item['txtUserName']} " />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">#{message['profile.deputy']}</f:facet>
+								<h:outputText
+									value="#{userController.getUserName(record.item['namDeputy'])}"
+									title="#{record.item['namDeputy']}" />
+							</h:column>
+
+
+							<h:column>
+								<f:facet name="header">
+									<h:panelGroup>
+										<h:outputText value="#{message.modified}" />
+									</h:panelGroup>
+								</f:facet>
+								<!-- hidden sort field  -->
+								<h:outputText value="#{record.item['$modified']}" style="display:none">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="yyyyMMdd" />
+								</h:outputText>
+								<h:outputText value="#{record.item['$modified']}">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="#{message.dateTimePattern}" />
+								</h:outputText>
+							</h:column>
+
+
+
+							<h:column>
+								<f:facet name="header">#{message.status}</f:facet>
+								<div title=" ">
+									<h:outputText value="#{record.item['txtWorkflowStatus']}" />
+								</div>
+							</h:column>
+
+
+							<h:column>
+								<f:facet name="header">
+								</f:facet>
+								<h:graphicImage rendered="#{! empty record.item['txtLocale']}"
+									url="/layout/icons/flag_#{record.item['txtLocale']}.gif"
+									alt="#{record.item['txtLocale']}"
+									style="border:0px;vertical-align: text-top;"></h:graphicImage>
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">#{message['profile.email']}</f:facet>
+								<h:outputText value="#{record.item['txtEmail']} " />
+							</h:column>
+
+						</h:dataTable>
+					</div>
+
+					<div class="imixs-footer">
+						<h:commandButton value="#{message.add}"
+							rendered="#{setupController.workitem.item['keyEnableUserDB']}"
+							action="/pages/admin/profile"
+							actionListener="#{workflowController.create(app.workflowversion_system,210,null)}">
+						</h:commandButton>
+
+						<h:commandButton action="home" value="#{message.close}">
+						</h:commandButton>
+
+					</div>
+				</div>
+
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<div class="row nested">
+		<div class="col-4 nested imixs-form-instruction-right">
+			<!-- Instruction Section -->
+			<!-- the following code computes the txtworktow abstract from the current modelversion and processid  -->
+			<div class="imixs-instruction">
+				<h:outputText escape="false"
+					value="#{modelController.getProcessDescription(workflowController.workitem.item['$processID'],workflowController.workitem.item['$ModelVersion'],workflowController.workitem)}">
+				</h:outputText>
+			</div>
+		</div>
+		<div class="col-8 nested">
+
+			<c:forEach items="#{formController.formDefinition.sections}" var="section">
+				<div class="imixs-form-panel">
+					<h3>
+						<h:outputText value="#{section.name}" />
+					</h3>
+					<f:subview>
+						<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
+							<ui:param name="workitem" value="#{workflowController.workitem}" />
+						</ui:include>
+					</f:subview>
+				</div>
+			</c:forEach>
+
+
+			<!-- Standard Tab Section -->
+			<div class="imixs-tabs imixs-comment-tabs">
+				<ul>
+					<li><a href="#tab-comments">#{message.comments}</a></li>
+					<li><a href="#tab-documents">#{message.documents} <h:panelGroup rendered="#{! empty dmsController.dmsList}" 
+					styleClass="typcn typcn-input-checked"></h:panelGroup></a></li>
+				</ul>
+				<div id="tab-comments">
+					<ui:include src="/pages/workitems/forms/sub_comment.xhtml" >
+					<ui:param name="workitem" value="#{workflowController.workitem}" />
+					</ui:include>
+				</div>
+				<div id="tab-documents">
+					<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
+				</div>
+			</div>
+		</div>
+	</div>
+
+</ui:composition>

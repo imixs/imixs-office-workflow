@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+	<!-- Project Form -->
+	<div class="imixs-form-section">
+		<dl>
+			<dt>
+				#{message['form.subject']}<span class="imixs-required">*</span>
+			</dt>
+			<dd>
+				<h:inputText required="true"
+					value="#{workflowController.workitem.item['_subject']}" />
+			</dd>
+		</dl>
+	</div>
+	<div class="imixs-form-section-2">
+		
+		<!-- 
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.customer']}" />
+			</dt>
+			<dd>
+				<h:inputText
+					value="#{workflowController.workitem.item['_customer']}" />
+			</dd>
+
+		</dl>
+		 -->
+		 
+		 <dl>
+			<dt>
+				<h:outputLabel value="#{message['form.contact']}" />
+			</dt>
+			<dd>
+				<marty:workitemLink workitem="#{workflowController.workitem}"
+					hidereferences="false" filter="$processid:9..." />
+			</dd>
+		</dl>
+		
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.incoming_order']}" />
+			</dt>
+			<dd>
+				<marty:workitemLink workitem="#{workflowController.workitem}"
+					filter="$processid:7..." />
+			</dd>
+		</dl>
+
+
+	</div>
+	<div class="imixs-form-section">
+		<dl>
+			<dt>
+				<h:outputLabel value="#{message['form.description']}" />
+			</dt>
+			<dd>
+				<h:inputTextarea
+					value="#{workflowController.workitem.item['_description']}" />
+			</dd>
+
+		</dl>
+	</div>
+
+
+
+
+</ui:composition>
+
