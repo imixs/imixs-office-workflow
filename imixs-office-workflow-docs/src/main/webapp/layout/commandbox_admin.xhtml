@@ -9,13 +9,22 @@
 
 	<!-- main section -->
 	<ul>
-		<li><h:commandLink action="/pages/admin/profilelist?faces-redirect=true"
+		<li><h:link outcome="/pages/admin/process?faces-redirect=true"
+				styleClass="imixs-viewentry-main-link">
+				<h:outputText value="Team" />
+				
+				<f:param name="id" value="#{docsProcessController.process.item['$uniqueid']}" />
+			</h:link></li>
+
+		<li><h:commandLink
+				action="/pages/admin/profilelist?faces-redirect=true"
 				actionListener="#{workflowController.reset}"
 				value="#{message['nav.admin_profiles']}">
 			</h:commandLink></li>
-	
 
-		<li><h:commandLink action="/pages/admin/reports?faces-redirect=true"
+
+		<li><h:commandLink
+				action="/pages/admin/reports?faces-redirect=true"
 				value="#{message['nav.admin_reporting']}">
 			</h:commandLink></li>
 
@@ -29,12 +38,13 @@
 			</h:commandLink></li>
 
 
-		<li><h:commandLink value="#{message['nav.admin_textblocks']}"				
+		<li><h:commandLink value="#{message['nav.admin_textblocks']}"
 				action="/pages/admin/textblocklist?faces-redirect=true">
 			</h:commandLink></li>
 
 
-		<li><h:commandLink action="/pages/admin/modellist?faces-redirect=true"
+		<li><h:commandLink
+				action="/pages/admin/modellist?faces-redirect=true"
 				value="#{message['nav.admin_model']}">
 			</h:commandLink></li>
 
@@ -46,7 +56,8 @@
 				action="/pages/admin/systemcheck"
 				value="#{message['nav.admin_init']}">
 			</h:commandLink></li>
-		<li><h:commandLink action="/pages/admin/workflowscheduler?faces-redirect=true"
+		<li><h:commandLink
+				action="/pages/admin/workflowscheduler?faces-redirect=true"
 				value="#{message['nav.admin_workflow_scheduler']}">
 			</h:commandLink></li>
 	</ul>

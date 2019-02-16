@@ -6,62 +6,68 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
-	
-	<div class="imixs-portlet startprocess">
+
+	<div class="startprocess">
 		<div class="imixs-header">
-			<ul>
-				<li class="active"><h:outputText
-						value="#{message['process.view']}" /></li>
-			</ul>
+
+			<h:panelGroup id="portlet_worklist_header" layout="block"
+				class="imixs-header">
+				<h1>Dokument erfassen</h1>
+			</h:panelGroup>
 		</div>
 		<!-- *** display all process nodes where the current user is member of *** -->
-		<ui:repeat value="#{processController.processList}" var="process">
-			<h:panelGroup layout="block" styleClass="imixs-viewentry"
-				rendered="#{(loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isMember'])}">
-				<h1>
-					<h:link outcome="/pages/notes_board?ref=#{process.item['$uniqueId']}"><span class="typcn typcn-th-large-outline" style="margin-right:5px;"></span><h:outputText value="#{process.item['txtName']}" /><span class="typcn typcn-zoom-outline" style="margin-left:8px;"></span></h:link>
-				</h1>
-				<p>
-					<h:outputText value="#{process.item['txtdescription']}" />
-				</p>
 
-				<!-- *** WorkflowGroup List if user is member*** -->
-				<h:panelGroup
-					rendered="#{!empty process.itemList['txtWorkflowList'] and (loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isMember'])}">
+		<ui:param name="process" value="#{docsProcessController.process}"></ui:param>
 
-					<ul style="margin: 5px 0;">
-						<ui:repeat value="#{process.itemList['txtWorkflowList']}"
-							var="group">
-							<!-- get first task by group -->
-							<ui:param name="model"
-								value="#{modelController.getModelByGroup(group)}" />
-							<ui:param name="initialTask"
-									value="#{(!empty model) and (!empty model.findTasksByGroup(group))?model.findTasksByGroup(group).get(0):null}" />
 
-							<li><h:panelGroup rendered="#{! empty initialTask}">
-									<h:commandLink title=" " styleClass="action-create" 
-										actionListener="#{workflowController.create(model.version,initialTask.item['numprocessid'],process.item['$uniqueid'])}"
-										action="/pages/workitems/workitem">
-										<span class="typcn typcn-folder-add"></span> <h:outputText value="#{group}" />
-									</h:commandLink>
-									<span class="imixs-tooltip"> <h:outputText
-											value="#{initialTask.item['rtfdescription']}" escape="false" />
-									</span>
-								</h:panelGroup> <h:outputText style="color:red" rendered="#{empty initialTask}"
-									value="	Missing Model Definition: #{group}"></h:outputText>
-									
-									
-									
-								
-									
-									
-									</li>
+		<!-- *** WorkflowGroup List if user is member*** -->
 
-						</ui:repeat>
-					</ul>
-				</h:panelGroup>
-			</h:panelGroup>
-		</ui:repeat>
+		<div class="row">
+			<ui:repeat value="#{process.itemList['txtWorkflowList']}" var="group">
+				<!-- get first task by group -->
+				<ui:param name="model"
+					value="#{modelController.getModelByGroup(group)}" />
+				<ui:param name="initialTask"
+					value="#{(!empty model) and (!empty model.findTasksByGroup(group))?model.findTasksByGroup(group).get(0):null}" />
+
+
+
+				<div class="col-2 nested imixs-docs-start">
+
+
+
+					<div class="imixs-typicon-link" title=" ">
+						<h:link outcome="/pages/workitems/workitem">
+							<span class="imixs-typicon"
+								data-typicon="#{initialTask.item['txtImageURL']}"> </span>
+
+						</h:link>
+					</div>
+
+
+
+					<div class="imixs-typicon-link"
+						data-typicon="#{initialTask.item['txtImageURL']}">
+						<h:commandLink title=" " styleClass="action-create"
+							actionListener="#{workflowController.create(model.version,initialTask.item['numprocessid'],process.item['$uniqueid'])}"
+							action="/pages/workitems/workitem">
+							<h:outputText value="#{group}" />
+						</h:commandLink>
+					</div>
+
+
+
+
+
+
+
+
+
+				</div>
+
+			</ui:repeat>
+
+		</div>
 	</div>
 
 </ui:composition>

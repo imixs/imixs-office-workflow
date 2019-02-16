@@ -46,6 +46,18 @@
 						</h1>
 					</div>
 					<div class="imixs-body">
+					
+					<div class="imixs-form-panel">
+					<c:choose>
+						<!-- Admin Menu -->
+						<c:when
+							test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
+							<ui:include src="/pages/portlet_admin.xhtml" />
+						</c:when>
+						
+					</c:choose>
+					</div>
+					
 						<div class="imixs-form-panel">
 
 							<h:panelGrid columns="2">

@@ -7,7 +7,17 @@
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
+
+<h:form>
 	Build: <h:panelGroup rendered="#{! empty app.application_office_build}"> Imixs-Office-Workflow-#{app.application_office_build} | </h:panelGroup>
 	<span>Imixs-Workflow-#{app.application_workflow_build}</span>
+	
+	
+	
+		  |<h:commandLink actionListener="#{setupController.reset()}"
+				action="/pages/admin/systemcheck"
+				value="#{message.administration}">
+			</h:commandLink></h:form>
+			
 
 </ui:composition>

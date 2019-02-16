@@ -52,7 +52,7 @@ import org.imixs.workflow.exceptions.QueryException;
 @DeclareRoles({ "org.imixs.ACCESSLEVEL.MANAGERACCESS" })
 @RunAs("org.imixs.ACCESSLEVEL.MANAGERACCESS")
 @Singleton
-public class SetupDocsService {
+public class DocsSetupService {
 
 	@EJB
 	protected PropertyService propertyService;
@@ -62,7 +62,7 @@ public class SetupDocsService {
 
 	@EJB
 	WorkflowService workflowService;
-	private static Logger logger = Logger.getLogger(SetupDocsService.class.getName());
+	private static Logger logger = Logger.getLogger(DocsSetupService.class.getName());
 
 	/**
 	 * This method updates the UserGroup List be reaction on the CDI event
@@ -72,13 +72,8 @@ public class SetupDocsService {
 	public void onUserGroupEvent(@Observes SetupEvent setupEvent) {
 
 		logger.info("....SetupDocsService started...");
-		ItemCollection rootProcess = null;
+		ItemCollection rootProcess = getProcess();
 		try {
-			List<ItemCollection> processes = documentService.find("(type:\"process\" AND txtname:\"Posteingang\")", 1,
-					0);
-			if (processes != null && processes.size() > 0) {
-				rootProcess = processes.get(0);
-			}
 
 			if (rootProcess == null) {
 				logger.info("....creating root process...");
@@ -92,8 +87,7 @@ public class SetupDocsService {
 				logger.info("....root process already exits...");
 			}
 
-		} catch (AccessDeniedException | ProcessingErrorException | PluginException | ModelException
-				| QueryException e) {
+		} catch (AccessDeniedException | ProcessingErrorException | PluginException | ModelException e) {
 			logger.warning("Unable to create root process: " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -117,6 +111,27 @@ public class SetupDocsService {
 			logger.warning("property 'system.model.version' is not defined!");
 		}
 		return version;
+	}
+
+	/**
+	 * Returns the root process
+	 * 
+	 * @return
+	 */
+	public ItemCollection getProcess() {
+		ItemCollection rootProcess = null;
+		;
+		List<ItemCollection> processes = null;
+		try {
+			processes = documentService.find("(type:\"process\" AND txtname:\"Posteingang\")", 1, 0);
+		} catch (QueryException e) {
+
+			e.printStackTrace();
+		}
+		if (processes != null && processes.size() > 0) {
+			rootProcess = processes.get(0);
+		}
+		return rootProcess;
 	}
 
 }
