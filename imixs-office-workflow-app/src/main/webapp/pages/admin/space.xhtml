@@ -16,7 +16,7 @@
 	<ui:define name="content">
 		<f:view>
 			<h:form id="space_form_id">
-			
+
 				<div class="imixs-form">
 
 					<div class="imixs-header">
@@ -42,9 +42,8 @@
 						<div class="imixs-tabs">
 							<ul>
 								<li><a href="#tab-1">#{message['space.sub_general']}</a></li>
-								<li><a href="#tab-2">#{message['space.sub_team']}</a></li>
 								<ui:fragment rendered="#{app.containsKey('space.sub_custom')}">
-									<li><a href="#tab-3">#{app['space.sub_custom']}</a></li>
+									<li><a href="#tab-2">#{app['space.sub_custom']}</a></li>
 								</ui:fragment>
 							</ul>
 
@@ -90,78 +89,80 @@
 
 									</dl>
 								</div>
-							</div>
 
-
-
-							<!-- ******** space Members ********* -->
-							<div id="tab-2">
-								<div class="ui-state-highlight ui-corner-all"
-									style="margin-bottom: 10px; padding: .5em;">
-									<p>#{message['space.help_team']}</p>
-								</div>
 
 								<div class="imixs-form-panel">
-									<!-- ******** space Manager ********* -->
-									<dl class="columns-1">
-										<dt>#{message['space.manager']}</dt>
-										<dd>
-											<marty:userListInput
-												value="#{workflowController.workitem.itemList['nammanager']}"
-												editmode="true" />
-										</dd>
-									</dl>
+
+									<h2>Team</h2>
+
+									<div class="imixs-form-section-3">
 
 
-									<!-- ******** space Team ********* -->
-									<dl class="columns-1">
-										<dt>#{message['space.team']}</dt>
-										<dd>
-											<marty:userListInput
-												value="#{workflowController.workitem.itemList['namteam']}"
-												editmode="true" />
-										</dd>
-									</dl>
+										<!-- ******** space Manager ********* -->
+										<dl>
+											<dt>#{message['space.manager']}</dt>
+											<dd>
+												<marty:userListInput
+													value="#{workflowController.workitem.itemList['nammanager']}"
+													editmode="true" />
+											</dd>
+										</dl>
 
-									<!-- ******** space Assitenz ********* -->
-									<dl class="columns-1">
-										<dt>#{message['space.assist']}</dt>
-										<dd>
-											<marty:userListInput
-												value="#{workflowController.workitem.itemList['namassist']}"
-												editmode="true" />
-										</dd>
-									</dl>
+
+										<!-- ******** space Team ********* -->
+										<dl>
+											<dt>#{message['space.team']}</dt>
+											<dd>
+												<marty:userListInput
+													value="#{workflowController.workitem.itemList['namteam']}"
+													editmode="true" />
+											</dd>
+										</dl>
+
+										<!-- ******** space Assitenz ********* -->
+										<dl>
+											<dt>#{message['space.assist']}</dt>
+											<dd>
+												<marty:userListInput
+													value="#{workflowController.workitem.itemList['namassist']}"
+													editmode="true" />
+											</dd>
+										</dl>
+
+									</div>
 
 								</div>
+
 							</div>
-							
-							
+
+
 							<!-- ******** space custom ********* -->
 							<ui:fragment rendered="#{app.containsKey('space.sub_custom')}">
-								<div id="tab-3">
+								<div id="tab-2">
 									<div class="ui-state-highlight ui-corner-all"
 										style="margin-bottom: 10px; padding: .5em;">
 										<p>#{app['space.help_custom']}</p>
 									</div>
 									<ui:include src="/pages/admin/sub_space_custom.xhtml">
-										<ui:param name="workitem" value="#{workflowController.workitem}" />
+										<ui:param name="workitem"
+											value="#{workflowController.workitem}" />
 									</ui:include>
 								</div>
 							</ui:fragment>
 
 						</div>
-					</div> <!-- form-body end -->
+					</div>
+					<!-- form-body end -->
 
-					<ui:include src="/pages/admin/sub_footer.xhtml" >
+					<ui:include src="/pages/admin/sub_footer.xhtml">
 						<ui:param name="action" value="/pages/admin/spaces" />
 					</ui:include>
 
 				</div>
 			</h:form>
-			
-			
-			
+
+
+
 		</f:view>
 	</ui:define>
 

@@ -15,7 +15,7 @@
 	<ui:define name="content">
 		<f:view>
 			<h:form id="coreprocess_form_id">
-				
+
 				<div class="imixs-form">
 
 					<div class="imixs-header">
@@ -33,7 +33,6 @@
 						<div class="imixs-tabs">
 							<ul>
 								<li><a href="#tab-1">#{message['process.sub_general']}</a></li>
-								<li><a href="#tab-2">#{message['process.sub_team']}</a></li>
 								<li><a href="#tab-3">#{message['process.sub_spaces']}</a></li>
 								<li><a href="#tab-4">#{message['process.sub_processlist']}</a></li>
 								<li><a href="#tab-5">#{message['process.sub_reports']}</a></li>
@@ -79,56 +78,53 @@
 
 									</dl>
 								</div>
-							</div>
-
-
-
-							<!-- ******** coreprocess Members ********* -->
-							<div id="tab-2">
-
-								<div class="ui-state-highlight ui-corner-all"
-									style="margin-bottom: 10px; padding: .5em;">
-									<p>#{message['process.help_team']}</p>
-								</div>
 
 								<div class="imixs-form-panel">
 
-									<!-- ******** coreprocess Manager ********* -->
-									<dl class="columns-1">
-										<dt>#{message['process.manager']}</dt>
-										<dd>
-											<marty:userListInput
-												value="#{workflowController.workitem.itemList['nammanager']}"
-												editmode="true" />
-										</dd>
-									</dl>
+									<h2>Team</h2>
+
+									<div class="imixs-form-section-3">
 
 
-									<!-- ******** coreprocess Team ********* -->
-									<dl class="columns-1">
-										<dt>#{message['process.team']}</dt>
-										<dd>
-											<marty:userListInput
-												value="#{workflowController.workitem.itemList['namteam']}"
-												editmode="true" />
-										</dd>
-									</dl>
-
-									<!-- ******** coreprocess Assitenz ********* -->
-									<dl class="columns-1">
-										<dt>#{message['process.assist']}</dt>
-										<dd>
-											<marty:userListInput
-												value="#{workflowController.workitem.itemList['namassist']}"
-												editmode="true" />
-										</dd>
-									</dl>
+										<!-- ******** space Manager ********* -->
+										<dl>
+											<dt>#{message['space.manager']}</dt>
+											<dd>
+												<marty:userListInput
+													value="#{workflowController.workitem.itemList['nammanager']}"
+													editmode="true" />
+											</dd>
+										</dl>
 
 
+										<!-- ******** space Team ********* -->
+										<dl>
+											<dt>#{message['space.team']}</dt>
+											<dd>
+												<marty:userListInput
+													value="#{workflowController.workitem.itemList['namteam']}"
+													editmode="true" />
+											</dd>
+										</dl>
 
+										<!-- ******** space Assitenz ********* -->
+										<dl>
+											<dt>#{message['space.assist']}</dt>
+											<dd>
+												<marty:userListInput
+													value="#{workflowController.workitem.itemList['namassist']}"
+													editmode="true" />
+											</dd>
+										</dl>
+
+									</div>
 
 								</div>
+
 							</div>
+
+
+
 
 							<!-- ******** Spaces List ********* -->
 							<div id="tab-3">
@@ -191,8 +187,7 @@
 											<h:selectManyCheckbox layout="pageDirection"
 												value="#{workflowController.workitem.itemListArray['txtReportList']}">
 
-												<c:forEach items="#{reportController.reports}"
-													var="report">
+												<c:forEach items="#{reportController.reports}" var="report">
 													<f:selectItem itemLabel="#{report.item['txtname']}"
 														itemValue="#{report.item['txtname']}" />
 												</c:forEach>
@@ -204,8 +199,9 @@
 
 							</div>
 						</div>
-					</div> <!-- form-body end -->
-					<ui:include src="/pages/admin/sub_footer.xhtml" >
+					</div>
+					<!-- form-body end -->
+					<ui:include src="/pages/admin/sub_footer.xhtml">
 						<ui:param name="action" value="/pages/admin/processlist" />
 					</ui:include>
 				</div>
