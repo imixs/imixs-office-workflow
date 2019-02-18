@@ -9,7 +9,7 @@
 	</parent>
 	<artifactId>imixs-office-workflow-docs</artifactId>
 	<packaging>war</packaging>
-	<name>Imixs Office Workflow App</name>
+	<name>Imixs Office Workflow Documents</name>
 
 
 	<properties>
@@ -18,7 +18,7 @@
 	</properties>
 	<profiles>
 		<profile>
-			<id>docker</id>
+			<id>docker-docs</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -50,7 +50,7 @@
 		</profile>
 
 		<profile>
-			<id>docker-build</id>
+			<id>docker-docs-build</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -85,7 +85,7 @@
 
 
 		<profile>
-			<id>docker-push</id>
+			<id>docker-docs-push</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -131,7 +131,7 @@
 
 
 		<profile>
-			<id>docker-hub</id>
+			<id>docker-docs-hub</id>
 			<build>
 				<plugins>
 					<plugin>
