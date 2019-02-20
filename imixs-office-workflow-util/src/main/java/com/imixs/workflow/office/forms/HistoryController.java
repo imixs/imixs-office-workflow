@@ -62,7 +62,7 @@ public class HistoryController implements Serializable {
 
 	@EJB
 	protected DocumentService documentService;
-	
+
 	private static final long serialVersionUID = 1L;
 	private List<ItemCollection> workitems = null;
 	private String currentId = null;
@@ -93,10 +93,10 @@ public class HistoryController implements Serializable {
 	}
 
 	/**
-	 * The action method removes a workItem from the history list. If the
-	 * current workItem was removed the method switches automatically to the
-	 * next workItem in the history list. If the list is empty the method
-	 * returns the action 'home'. Otherwise it returns action ''.
+	 * The action method removes a workItem from the history list. If the current
+	 * workItem was removed the method switches automatically to the next workItem
+	 * in the history list. If the list is empty the method returns the action
+	 * 'home'. Otherwise it returns action ''.
 	 * 
 	 * @param id
 	 *            - $UniqueID
@@ -123,7 +123,7 @@ public class HistoryController implements Serializable {
 					if (current != null) {
 						currentId = current.getUniqueID();
 						workflowController.setWorkitem(documentService.load(currentId));
-						
+
 					} else {
 						// set workflowController to null
 						workflowController.setWorkitem(null);
@@ -134,13 +134,13 @@ public class HistoryController implements Serializable {
 				}
 			}
 		}
-		return (currentId == null ? "home" : "");
+		return (currentId == null ? "home" : "/pages/workitems/workitem?id=" + currentId + "&faces-redirect=true");
 
 	}
 
 	/**
-	 * This action listener removes the current WorkItem from the history
-	 * navigation and reset the workitem form the workflowcontroller.
+	 * This action listener removes the current WorkItem from the history navigation
+	 * and reset the workitem form the workflowcontroller.
 	 * 
 	 * @param aWorkitem
 	 */
@@ -162,8 +162,8 @@ public class HistoryController implements Serializable {
 	 * history
 	 * 
 	 * 
-	 * If a WorkItem was soft deleted (WORKITEM_AFTER_SOFTDELETE), the WorkItem
-	 * will be removed from the history
+	 * If a WorkItem was soft deleted (WORKITEM_AFTER_SOFTDELETE), the WorkItem will
+	 * be removed from the history
 	 * 
 	 * @param workflowEvent
 	 * 
@@ -198,8 +198,8 @@ public class HistoryController implements Serializable {
 	}
 
 	/**
-	 * This method adds a workItem into the current historyList. If the workItem
-	 * is still contained it will be updated.
+	 * This method adds a workItem into the current historyList. If the workItem is
+	 * still contained it will be updated.
 	 */
 	private void addWorkItem(ItemCollection aWorkitem) {
 
@@ -225,8 +225,8 @@ public class HistoryController implements Serializable {
 	}
 
 	/**
-	 * This method tests if the WorkItem with the corresponding $UniqueID exists
-	 * in the history list and returns the position.
+	 * This method tests if the WorkItem with the corresponding $UniqueID exists in
+	 * the history list and returns the position.
 	 * 
 	 * @param aID
 	 *            - $UniqueID of the workitem
