@@ -19,6 +19,15 @@
 	</style>
 
 
+
+	<!-- the following code computes the txtworkflow abstract from the current modelversion and processid  -->
+	<ui:param name="instruction" value="#{modelController.getProcessDescription(workflowController.workitem.item['$processID'],workflowController.workitem.item['$ModelVersion'],workflowController.workitem)}"></ui:param>
+	<h:panelGroup layout="block" styleClass="imixs-instruction" rendered="#{! empty instruction}">
+		<h:outputText escape="false"
+			value="#{instruction}">
+		</h:outputText>
+	</h:panelGroup>
+	
 	<div class="row nested imixs-form-panel-documentviewer">
 
 		<div class="col-6 nested">
