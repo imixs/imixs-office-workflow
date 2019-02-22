@@ -425,7 +425,7 @@
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_2020-50" imixs:activityid="50" name="(Eskalation)">
       <bpmn2:extensionElements>
         <imixs:item name="keyactivitydelayunit" type="xs:string">
-          <imixs:value><![CDATA[3]]></imixs:value>
+          <imixs:value><![CDATA[1]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtreportparams" type="xs:string">
           <imixs:value><![CDATA[]]></imixs:value>
@@ -516,17 +516,7 @@
           <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtbusinessrule" type="xs:string">
-          <imixs:value><![CDATA[var creator=workitem.get('namcreator')[0];
-var managerList=workitem.get('namprocessmanager');
-var followUp=0;
-
-// ist es ein TODO vom Management?
-for (var i = 0; i < managerList.length; i++) {
-        if (managerList[i] == creator) {
-		followUp=90;
-		break;
-      }
-}  ]]></imixs:value>
+          <imixs:value><![CDATA[]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>false</imixs:value>
@@ -845,7 +835,7 @@ for (var i = 0; i < managerList.length; i++) {
     <bpmndi:BPMNPlane id="BPMNPlane_Process_1" bpmnElement="todo">
       <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="StartEvent_1">
         <dc:Bounds height="36.0" width="36.0" x="68.0" y="353.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_1">
+        <bpmndi:BPMNLabel id="BPMNLabel_1" labelStyle="BPMNLabelStyle_1">
           <dc:Bounds height="14.0" width="25.0" x="73.0" y="389.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
@@ -875,31 +865,31 @@ for (var i = 0; i < managerList.length; i++) {
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_1" bpmnElement="IntermediateCatchEvent_2000-10">
         <dc:Bounds height="36.0" width="36.0" x="469.0" y="352.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_9">
+        <bpmndi:BPMNLabel id="BPMNLabel_9" labelStyle="BPMNLabelStyle_1">
           <dc:Bounds height="14.0" width="48.0" x="463.0" y="388.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_4" bpmnElement="IntermediateCatchEvent_2020-20">
         <dc:Bounds height="36.0" width="36.0" x="941.0" y="540.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_12">
+        <bpmndi:BPMNLabel id="BPMNLabel_12" labelStyle="BPMNLabelStyle_1">
           <dc:Bounds height="14.0" width="56.0" x="931.0" y="576.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_6" bpmnElement="IntermediateCatchEvent_2020-40">
         <dc:Bounds height="36.0" width="36.0" x="1020.0" y="353.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_14">
+        <bpmndi:BPMNLabel id="BPMNLabel_14" labelStyle="BPMNLabelStyle_1">
           <dc:Bounds height="14.0" width="42.0" x="1017.0" y="389.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_7" bpmnElement="IntermediateCatchEvent_2020-50">
         <dc:Bounds height="36.0" width="36.0" x="692.0" y="420.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_15">
+        <bpmndi:BPMNLabel id="BPMNLabel_15" labelStyle="BPMNLabelStyle_1">
           <dc:Bounds height="14.0" width="65.0" x="678.0" y="456.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_13" bpmnElement="IntermediateCatchEvent_2080-90">
         <dc:Bounds height="36.0" width="36.0" x="1271.0" y="353.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_21">
+        <bpmndi:BPMNLabel id="BPMNLabel_21" labelStyle="BPMNLabelStyle_1">
           <dc:Bounds height="14.0" width="69.0" x="1255.0" y="389.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
@@ -915,7 +905,7 @@ for (var i = 0; i < managerList.length; i++) {
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_10" bpmnElement="IntermediateCatchEvent_3">
         <dc:Bounds height="36.0" width="36.0" x="259.0" y="273.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_37">
+        <bpmndi:BPMNLabel id="BPMNLabel_37" labelStyle="BPMNLabelStyle_1">
           <dc:Bounds height="14.0" width="59.0" x="248.0" y="309.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
@@ -931,13 +921,13 @@ for (var i = 0; i < managerList.length; i++) {
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_12" bpmnElement="IntermediateCatchEvent_4">
         <dc:Bounds height="36.0" width="36.0" x="692.0" y="273.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_49">
+        <bpmndi:BPMNLabel id="BPMNLabel_49" labelStyle="BPMNLabelStyle_1">
           <dc:Bounds height="14.0" width="56.0" x="682.0" y="309.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_3" bpmnElement="ExclusiveGateway_3" isMarkerVisible="true">
         <dc:Bounds height="50.0" width="50.0" x="540.0" y="346.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_53"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_53" labelStyle="BPMNLabelStyle_1"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_DataObject_1" bpmnElement="DataObject_1">
         <dc:Bounds height="50.0" width="36.0" x="163.0" y="266.0"/>
@@ -947,7 +937,7 @@ for (var i = 0; i < managerList.length; i++) {
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_2" bpmnElement="IntermediateCatchEvent_1">
         <dc:Bounds height="36.0" width="36.0" x="167.0" y="441.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_10">
+        <bpmndi:BPMNLabel id="BPMNLabel_10" labelStyle="BPMNLabelStyle_1">
           <dc:Bounds height="14.0" width="49.0" x="161.0" y="477.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
