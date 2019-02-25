@@ -98,7 +98,7 @@ public class ChildItemController implements Serializable {
 		}
 
 		// reset orderItems if workItem has changed
-		if (WorkflowEvent.WORKITEM_CHANGED == eventType) {
+		if (WorkflowEvent.WORKITEM_CHANGED == eventType || WorkflowEvent.WORKITEM_CREATED == eventType) {
 			// reset state
 			explodeChildList(workitem);
 		}
