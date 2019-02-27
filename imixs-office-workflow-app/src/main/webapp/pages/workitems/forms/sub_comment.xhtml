@@ -12,7 +12,8 @@
 				<h:outputLabel value="#{message['form.comment.comment']}:" />
 			</dt>
 			<dd>
-				<h:inputTextarea value="#{workitem.item['txtComment']}" />
+				<h:inputTextarea
+					value="#{workitem.item['txtComment']}" />
 			</dd>
 		</dl>
 
@@ -23,27 +24,17 @@
 					<h:outputLabel value="#{message.course}:" />
 				</dt>
 				<dd>
-					<h:panelGrid columns="3" rowClasses="topAligned"
-						columnClasses="imixs-history-col1,imixs-history-col2"
-						styleClass="imixs-commentlist">
-						<c:forEach items="#{workitem.getItemValue('txtCommentLog')}"
+					<h:panelGrid columns="3" rowClasses="topAligned" 
+								columnClasses="imixs-history-col1,imixs-history-col2" styleClass="imixs-commentlist">
+						<c:forEach
+							items="#{workitem.getItemValue('txtCommentLog')}"
 							var="comment">
 							<c:if test="#{!empty comment}">
-								<c:choose>
-									<c:when
-										test="#{'Date' eq comment.datcomment.getClass().getSimpleName()}">
-										<h:outputText value="#{comment.datcomment}"
-											style="margin-right:10px;">
-											<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-												pattern="#{message.dateTimePatternShort}" />
-										</h:outputText>
-									</c:when>
-									<c:otherwise>
-										<h:outputText value="#{comment.datcomment}"
-											style="margin-right:10px;">
-										</h:outputText>
-									</c:otherwise>
-								</c:choose>
+								<h:outputText value="#{comment.datcomment}"
+									style="margin-right:10px;">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="#{message.dateTimePatternShort}" />
+								</h:outputText>
 								<h:outputText
 									value="#{userController.getUserName(comment.nameditor)}" />
 								<h:panelGroup styleClass="imixs-comments-entry">
@@ -51,13 +42,10 @@
 								</h:panelGroup>
 							</c:if>
 						</c:forEach>
-
 					</h:panelGrid>
 				</dd>
 			</dl>
 		</h:panelGroup>
 	</div>
-
-
 </ui:composition>
 
