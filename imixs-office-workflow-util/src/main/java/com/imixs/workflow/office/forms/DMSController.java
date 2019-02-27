@@ -149,8 +149,12 @@ public class DMSController implements Serializable {
 				return;
 			}
 			FileData fileData = workitem.getFileData(filename);
-			fileData.setAttributes(dmsEntry.getAllItems());
-			workitem.addFileData(fileData);
+			if (fileData!=null) {
+				fileData.setAttributes(dmsEntry.getAllItems());
+				workitem.addFileData(fileData);
+			} else {
+				logger.warning("Invalid DMS entry: '" + filename + "' is unknown!");
+			}
 		}
 	}
 
