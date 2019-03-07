@@ -7,7 +7,7 @@
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 	<ui:param name="process"
-		value="#{processController.getEntityById(searchController.searchFilter.item['txtprocessRef'])}" />
+		value="#{processController.getEntityById(searchController.searchFilter.item['_processref'])}" />
 
 	<!-- *** Filter *** -->
 	<div class="imixs-form-section-3">
@@ -22,59 +22,75 @@
 					<c:forEach items="#{modelController.workflowGroups}" var="workflow">
 						<f:selectItem itemValue="#{workflow}" itemLabel="#{workflow}" />
 					</c:forEach>
-					<f:ajax event="change"
-						render="@form" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
+					<f:ajax event="change" render="@form"
+						onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 				</h:selectOneMenu>
 			</dd>
 		</dl>
 
 
-		<ui:param name="model" value="#{modelController.getModelByGroup(searchController.searchFilter.item['$WorkflowGroup'])}" />
+		<ui:param name="model"
+			value="#{modelController.getModelByGroup(searchController.searchFilter.item['$WorkflowGroup'])}" />
 		<h:panelGroup rendered="#{! empty model}">
-			<ui:param name="tasks" value="#{model.findTasksByGroup(searchController.searchFilter.item['$WorkflowGroup'])}" />
+			<ui:param name="tasks"
+				value="#{model.findTasksByGroup(searchController.searchFilter.item['$WorkflowGroup'])}" />
 			<dl>
 				<dt>#{message['worklist.workflowstatus']}:</dt>
 				<dd>
-					
+
 					<h:selectOneMenu id="processid_selection"
 						value="#{searchController.searchFilter.item['$taskid']}">
 						<f:selectItem itemValue="" itemLabel=" " />
-						<c:forEach
-							items="#{tasks}"
-							var="processentity">
+						<c:forEach items="#{tasks}" var="processentity">
 							<f:selectItem itemValue="#{processentity.item['numProcessID']}"
 								itemLabel="#{processentity.item['txtname']}" />
 						</c:forEach>
-						<f:ajax event="change" 
-							render="@form" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
+						<f:ajax event="change" render="@form"
+							onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 					</h:selectOneMenu>
 				</dd>
 			</dl>
 		</h:panelGroup>
 
-		<h:panelGroup
-			rendered="#{! empty processController.getSpacesByProcessId(searchController.searchFilter.item['txtProcessRef'])}">
+		<!-- Spaces are shown if the process defines space selection of if property search.filter.spaces=true -->
+		<ui:param name="spaceSelection"
+			value="#{processController.getSpacesByProcessId(process.uniqueID)}"></ui:param>
+		<c:if test="#{empty spaceSelection}">
+			<!-- show root spaces only? -->
+			<c:if
+				test="#{propertyController.getProperty('search.filter.spaces') eq 'root'}">
+				<ui:param name="spaceSelection"
+					value="#{processController.getRootSpaces()}"></ui:param>
+			</c:if>
+			<!-- show all spaces ? -->
+			<c:if
+				test="#{propertyController.getProperty('search.filter.spaces') eq 'all'}">
+				<ui:param name="spaceSelection"
+					value="#{processController.getSpaces()}"></ui:param>
+			</c:if>
+		</c:if>
+
+		<h:panelGroup rendered="#{! empty spaceSelection}">
 			<dl>
 				<dt>#{message['worklist.space']}:</dt>
-				<dd>
+				<dd> 
 					<h:selectOneMenu id="spaceid_selection"
-						value="#{searchController.searchFilter.item['txtSpaceRef']}">
+						value="#{searchController.searchFilter.item['_spaceref']}">
 						<f:selectItem itemValue="" itemLabel=" " />
 
 						<!--  optional processController.getSpaces() -->
-						<c:forEach
-							items="#{processController.getSpacesByProcessId(searchController.searchFilter.item['txtProcessRef'])}"
-							var="space">
+						<c:forEach items="#{spaceSelection}" var="space">
 							<f:selectItem itemValue="#{space.item['$UniqueID']}"
 								itemLabel="#{space.item['txtname']}" />
 						</c:forEach>
-						<f:ajax event="change" listener="#{searchController.doResetSearchResult()}"
-							render="@form" onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
+						<f:ajax event="change" render="@form"
+							onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 					</h:selectOneMenu>
 				</dd>
 			</dl>
 		</h:panelGroup>
 
+
 	</div>
-	
+
 </ui:composition>
