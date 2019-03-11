@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>imixs-office-workflow</artifactId>
@@ -77,7 +79,8 @@
 										<exec executable="docker">
 											<arg value="build" />
 											<arg value="-t" />
-											<arg value="imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg
+												value="imixs/${imixs-office.applicationname}:${project.version}" />
 											<arg value="../." />
 										</exec>
 									</target>
@@ -110,17 +113,21 @@
 										<exec executable="docker">
 											<arg value="build" />
 											<arg value="-t" />
-											<arg value="imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg
+												value="imixs/${imixs-office.applicationname}:${project.version}" />
 											<arg value="../." />
 										</exec>
 										<exec executable="docker">
 											<arg value="tag" />
-											<arg value="imixs/${imixs-office.applicationname}:${project.version}" />
-											<arg value="${org.imixs.docker.registry}/imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg
+												value="imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg
+												value="${org.imixs.docker.registry}/imixs/${imixs-office.applicationname}:${project.version}" />
 										</exec>
 										<exec executable="docker">
 											<arg value="push" />
-											<arg value="${org.imixs.docker.registry}/imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg
+												value="${org.imixs.docker.registry}/imixs/${imixs-office.applicationname}:${project.version}" />
 										</exec>
 									</target>
 								</configuration>
@@ -152,12 +159,14 @@
 										<exec executable="docker">
 											<arg value="build" />
 											<arg value="-t" />
-											<arg value="imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg
+												value="imixs/${imixs-office.applicationname}:${project.version}" />
 											<arg value="../." />
 										</exec>
 										<exec executable="docker">
 											<arg value="push" />
-											<arg value="imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg
+												value="imixs/${imixs-office.applicationname}:${project.version}" />
 										</exec>
 									</target>
 								</configuration>
@@ -173,7 +182,7 @@
 		</profile>
 	</profiles>
 	<build>
-	
+
 		<resources>
 			<!-- enable resource filtering for multi language version -->
 			<resource>
@@ -182,7 +191,7 @@
 			</resource>
 		</resources>
 		<plugins>
-		
+
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
@@ -305,9 +314,13 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 
-		<!-- Imixs-Adapter Prometheus <dependency> <groupId>org.imixs.workflow</groupId> 
-			<artifactId>imixs-adapters-prometheus</artifactId> <version>1.5.6-SNAPSHOT</version> 
-			<scope>compile</scope> </dependency> -->
+		<!-- Imixs-Adapter Prometheus -->
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-adapters-prometheus</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		
 
 
 	</dependencies>
