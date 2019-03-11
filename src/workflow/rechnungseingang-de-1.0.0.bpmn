@@ -3,7 +3,7 @@
 <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.5.0.Final-v20180515-1642-B1" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
-      <imixs:value><![CDATA[rechnungseingang-1.1.0]]></imixs:value>
+      <imixs:value><![CDATA[rechnungseingang-1.0]]></imixs:value>
     </imixs:item>
     <imixs:item name="txtfieldmapping" type="xs:string">
       <imixs:value><![CDATA[Ersteller | namCreator]]></imixs:value>
@@ -54,7 +54,7 @@
     <bpmn2:task id="Task_5000" imixs:processid="5000" name="Rechnung erhalten">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_instruction#basic_plus]]></imixs:value>
+          <imixs:value><![CDATA[form_panel_instruction_right_simple#basic_reminder|sub_dispatch|sub_attachments_simple]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<itemvalue>_description</itemvalue>]]></imixs:value>
@@ -109,7 +109,7 @@
     <bpmn2:task id="Task_5005" imixs:processid="5005" name="in Prüfung">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_instruction#basic_plus]]></imixs:value>
+          <imixs:value><![CDATA[form_panel_documentviewer#basic_reminder|sub_dispatch]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<itemvalue>_description</itemvalue>]]></imixs:value>
@@ -432,10 +432,10 @@ Bei Fragen wenden Sie sich bitte an info@imixs.com
           <imixs:value><![CDATA[var result={}; 
 result.isValid=true;
 
-var team = workitem.get('namteam');
+var team = workitem.get('datdate');
  if (!team || !team[0] || team[0]=='') {
 	result.isValid=false;
-    	result.errorMessage='Bitte wählen Sie den verantwortlichen Mitarbeiter aus.';
+    	result.errorMessage='Bitte geben Sie ein Wiedervorlage Datum an.';
  }]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
@@ -1128,7 +1128,7 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
     <bpmn2:task id="Task_1" imixs:processid="5050" name="Erfassung Buchhaltung">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_instruction#basic_plus|sub_invoice|sub_bankdata]]></imixs:value>
+          <imixs:value><![CDATA[form_panel_documentviewer#basic_reminder|sub_bankdata]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<b><itemvalue format="dd.MMM yyyy">_invoicedate</itemvalue>:</b> 

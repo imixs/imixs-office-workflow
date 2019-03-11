@@ -2,11 +2,12 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
 
 	<h:panelGroup layout="block" styleClass="imixs-form-section"
-		id="oderlist" binding="#{orderlistContainer}">
+		id="oderlist"  binding="#{orderlistContainer}">
 
 		<f:ajax render="oderlist" onevent="updateOrderItems">
 			<table class="imixsdatatable imixs-orderitems">
@@ -37,14 +38,13 @@
 						<td><h:inputText value="#{orderitem.item['unit']}" /></td>
 
 						<td><h:inputText value="#{orderitem.item['ammount']}"
-								id="orderitem_ammount" onchange="calculateSummary()" /></td>
+								 a:data-id="orderitem_ammount" /></td>
 						<td><h:inputText value="#{orderitem.item['price']}"
-								id="orderitem_price" style="text-align: right;"
-								onchange="calculateSummary()">
+								a:data-id="orderitem_price" style="text-align: right;">
 								<f:convertNumber minFractionDigits="2" locale="de" />
 							</h:inputText></td>
 
-						<td class="orderitem_summary" style="text-align: right;"></td>
+						<td data-id="orderitem_summary" style="text-align: right;"></td>
 
 						<td><h:commandLink
 								actionListener="#{childItemController.remove(orderitem.item['numpos'])}">
@@ -55,10 +55,10 @@
 							
 							
 							<!-- item summary -->
-							<h:inputHidden value="#{orderitem.item['_capacity']}" id="item_capacity" />
-							<h:inputHidden value="#{orderitem.item['_capacity_dsp']}" id="item_capacity_dsp" />
+							<h:inputHidden value="#{orderitem.item['_capacity']}" a:data-id="orderitem_capacity"/>
+							<h:inputHidden value="#{orderitem.item['_capacity_dsp']}" a:data-id="orderitem_capacity_dsp" />
 							
-							</td>
+						</td>
 
 					</tr>
 
@@ -71,17 +71,15 @@
 					<td />
 					<td />
 					<td />
-					<td class="orderlist_summary" style="text-align: right;"></td>
+					<td data-id="orderlist_summary" style="text-align: right;font-wight:bold;"></td>
 					<td />
 				</tr>
 			</table>
 			<!-- total summary -->
-			<h:inputHidden value="#{workitem.item['_capacity']}" id="orderitems_capacity" />
-			<h:inputHidden value="#{workitem.item['_capacity_dsp']}" id="orderitems_capacity_dsp" />
-		
-			
-
-			<h:commandButton value="#{message.add}"
+			<h:inputHidden value="#{workitem.item['_capacity']}" a:data-id="orderitems_capacity" />
+			<h:inputHidden value="#{workitem.item['_capacity_dsp']}" a:data-id="orderitems_capacity_dsp" />
+			<!-- add button -->
+			<h:commandButton value="#{message.add}" a:data-id="addposbutton_id"
 				actionListener="#{childItemController.add}">
 			</h:commandButton>
 		</f:ajax>
@@ -96,6 +94,15 @@
 
 		// display summary
 		$(document).ready(function() {
+			// erste Zeile hinzufügen, falls tabelle noch leer ist
+			var posTableEmpty=#{empty childItemController.childItems};
+			if (posTableEmpty) {
+				// click on add button
+				posButton=$("[data-id='addposbutton_id']");
+				if (posButton) {
+					$(posButton).click();
+				}
+			}
 			calculateSummary();
 		});
 
@@ -110,11 +117,11 @@
 		//Rechnet die Preise zusammen
 		function calculateSummary() {
 			var price = 0, ammount = 0, sum = 0, total = 0;
-			var summaryItems = $(".orderitem_summary");
+			var summaryItems = $("[data-id='orderitem_summary']");
 			$(summaryItems).each(function(index, value) {
 				var tableRow = $(this).closest('tr');
-				var inputammout = $("[id$=orderitem_ammount]", tableRow);
-				var inputprice = $("[id$=orderitem_price]", tableRow);
+				var inputammout = $("[data-id='orderitem_ammount']", tableRow);
+				var inputprice = $("[data-id='orderitem_price']", tableRow);
 				if (inputammout && inputprice) {
 					ammount = convertToNumber(inputammout.val());
 					price = convertToNumber(inputprice.val());
@@ -126,12 +133,12 @@
 						sum = Math.round(sum * 100) / 100;
 						total = total + sum;
 						
-						$("[id$=item_capacity]",tableRow).val(sum);
+						$("[data-id='orderitem_capacity']",tableRow).val(sum);
 						sum = convertToCurrency(sum);
 						//console.log('sum=' + sum);
-						$("[id$=item_capacity_dsp]",tableRow).val(sum);
-						$(".orderitem_summary", tableRow).empty();
-						$(".orderitem_summary", tableRow).append(sum);
+						$("[data-id='orderitem_capacity_dsp']",tableRow).val(sum);
+						$("[data-id='orderitem_summary']", tableRow).empty();
+						$("[data-id='orderitem_summary']", tableRow).append(sum);
 						
 						
 					}
@@ -140,11 +147,11 @@
 
 			// update total _capacity
 			// update orderlist_summary
-			$("[id$=orderitems_capacity]").val(total);
+			$("[data-id='orderitems_capacity']").val(total);
 			total = convertToCurrency(total);
-			$("[id$=orderitems_capacity_dsp]").val(total);
-			$(".orderlist_summary", ".imixs-orderitems").empty();
-			$(".orderlist_summary", ".imixs-orderitems").append(total);
+			$("[data-id='orderitems_capacity_dsp']").val(total);
+			$("[data-id='orderlist_summary']", ".imixs-orderitems").empty();
+			$("[data-id='orderlist_summary']", ".imixs-orderitems").append(total);
 
 		}
 
