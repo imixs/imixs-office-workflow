@@ -25,7 +25,7 @@
 
 				<!-- Edit Mode -->
 				<h:panelGroup layout="block" rendered="#{editmode}">
-					<!-- Man kan auf den Link klicken um den editor zu öffnen oder zu schliessen -->
+					<!-- the link toggles the edit mode -->
 					<h:commandLink onclick="closeMinuteEditor();"
 						actionListener="#{minuteController.toggleWorkitem(workitem.item['$uniqueid'])}">
 						<h2>
@@ -127,19 +127,34 @@
 						</ui:include>
 
 
+
+
+
+
+
 						<!-- Workflow Actions -->
 						<div class="imixs-form-section">
 
 							<f:ajax render=":#{minutesBody.clientId}"
 								execute=":#{minutesBody.clientId}" onevent="layoutBodySection">
-								<i:imixsWorkflowActions
-									workflowController="#{minuteController.workflowController}" />
+
+								<!--  Workflow actions -->
+								<ui:repeat value="#{minuteController.workflowController.events}"
+									var="event">
+									<h:commandButton
+										actionListener="#{minuteController.process(event.item['numactivityid'])}"
+										class="imixs-workflow-action" title=""
+										value="#{event.item['txtname']}">
+									</h:commandButton>
+								</ui:repeat>
+
+								<h:commandButton role="button" value="#{message.close}"
+									immediate="true" class="imixs-close-action ui-button"
+									onclick="closeMinuteEditor();"
+									actionListener="#{minuteController.reset}">
+								</h:commandButton>
+
 							</f:ajax>
-							<h:commandButton role="button" value="#{message.close}"
-								immediate="true" class="imixs-close-action ui-button"
-								onclick="closeMinuteEditor();"
-								actionListener="#{minuteController.reset}">
-							</h:commandButton>
 						</div>
 
 
@@ -158,13 +173,10 @@
 						<ui:param name="workitem" value="#{workitem}" />
 					</ui:include>
 
-
 					<!-- Files -->
 					<ui:include src="/pages/workitems/forms/minutes/sub_files.xhtml">
 						<ui:param name="workitem" value="#{workitem}" />
 					</ui:include>
-
-
 
 				</h:panelGroup>
 

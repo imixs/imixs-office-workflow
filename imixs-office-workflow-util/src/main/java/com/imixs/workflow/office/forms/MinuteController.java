@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,6 +19,8 @@ import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.WorkflowService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
+import org.imixs.workflow.exceptions.ModelException;
+import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.data.WorkflowEvent;
@@ -36,7 +37,7 @@ import org.imixs.workflow.faces.data.WorkflowEvent;
  * @author rsoika
  */
 @Named
-//@RequestScoped
+// @RequestScoped
 @ConversationScoped
 public class MinuteController implements Serializable {
 
@@ -54,7 +55,7 @@ public class MinuteController implements Serializable {
 
 	@Inject
 	WorkflowController workflowController;
-	
+
 	@EJB
 	DocumentService documentService;
 
@@ -69,8 +70,6 @@ public class MinuteController implements Serializable {
 		// initialize formControlller
 		formController = new FormController();
 	}
-
-	
 
 	/**
 	 * WorkflowEvent listener to set the current parentWorkitem.
@@ -101,31 +100,22 @@ public class MinuteController implements Serializable {
 	public FormDefinition getFormDefinition() {
 		return formDefinition;
 	}
-	
-	/**
-	 * Returns the public events for the current workitem
-	 * @return
-	 */
-//	public List<ItemCollection> getEvents() {
-//		return workflowController.getEvents();
-//	}
 
+	
 	public void reset() {
 		workflowController.reset();
 		minutes = null;
 	}
-	
-	
+
 	/**
-	 * Returns the minute workflow controller instance used to process a singel minute item.
+	 * Returns the minute workflow controller instance used to process a singel
+	 * minute item.
 	 * 
 	 * @return
 	 */
 	public WorkflowController getWorkflowController() {
 		return workflowController;
 	}
-
-
 
 	/**
 	 * This toggle method will either load a new minute workitem or reset the
@@ -154,12 +144,12 @@ public class MinuteController implements Serializable {
 	}
 
 	/**
-	 * Returns the current minute workitem 
+	 * Returns the current minute workitem
 	 */
 	public ItemCollection getWorkitem() {
 		return workflowController.getWorkitem();
 	}
-	
+
 	/**
 	 * this method returns a list of all minute workitems for the current workitem.
 	 * The workitem list is cached. Subclasses can overwrite the method
@@ -176,16 +166,34 @@ public class MinuteController implements Serializable {
 	}
 
 	/**
+	 * ActionListener method to process a minute item within the body section.
+	 * <p>
+	 * The method does not return any action result so the event can be used within
+	 * an ajax tag.
+	 * 
+	 * @see body_entry.xhtml
+	 * @param eventID
+	 */
+	public void process(int eventID) {
+		try {
+			workflowController.process(eventID);
+		} catch (ModelException | PluginException e) {
+			logger.warning("failed to process minute item: " + e.getMessage());
+		}
+		reset();
+	}
+
+	/**
 	 * This method loads the minute worktiems. If one minute workitem has the result
 	 * action = 'OPEN' then this minute workitem will be loaded automatically.
 	 * 
 	 * @return - sorted list of minutes
 	 */
 	List<ItemCollection> loadMinutes() {
-
+	
 		logger.fine("load minute list...");
 		List<ItemCollection> minutes = new ArrayList<ItemCollection>();
-
+	
 		if (parentWorkitem != null) {
 			String uniqueIdRef = parentWorkitem.getItemValueString(WorkflowKernel.UNIQUEID);
 			if (!uniqueIdRef.isEmpty()) {
@@ -201,7 +209,7 @@ public class MinuteController implements Serializable {
 				}
 			}
 		}
-
+	
 		// test if we should open one minute (from last to first)....
 		for (int i = minutes.size(); i > 0; i--) {
 			ItemCollection minute = minutes.get(i - 1);
@@ -212,7 +220,7 @@ public class MinuteController implements Serializable {
 				break;
 			}
 		}
-
+	
 		return minutes;
 	}
 
