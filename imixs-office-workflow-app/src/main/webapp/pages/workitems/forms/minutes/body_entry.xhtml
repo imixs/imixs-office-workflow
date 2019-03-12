@@ -29,9 +29,10 @@
 					<h:commandLink onclick="closeMinuteEditor();"
 						actionListener="#{minuteController.toggleWorkitem(workitem.item['$uniqueid'])}">
 						<h2>
-							
-							<h:outputText style="font-weight: bold;" value="#{workitem.item['$workflowStatus']}: " />
-							
+
+							<h:outputText style="font-weight: bold;"
+								value="#{workitem.item['$workflowStatus']}: " />
+
 							<!-- summary empty ? -->
 							<h:panelGroup
 								rendered="#{empty workitem.item['txtWorkflowSummary']}">
@@ -57,8 +58,9 @@
 				<h:panelGroup rendered="#{!editmode}">
 					<!-- summary empty ? -->
 					<h2>
-						<h:outputText style="font-weight: bold;" value="#{workitem.item['$workflowStatus']}: " />
-							
+						<h:outputText style="font-weight: bold;"
+							value="#{workitem.item['$workflowStatus']}: " />
+
 						<h:panelGroup
 							rendered="#{empty workitem.item['txtWorkflowSummary']}">
 							<h:outputText value="#{workitem.item['$lasteventdate']}">
@@ -69,7 +71,7 @@
 						</h:panelGroup>
 						<h:outputText value="#{workitem.item['txtWorkflowSummary']}" />
 					</h2>
-					
+
 				</h:panelGroup>
 
 			</h:panelGroup>
@@ -85,22 +87,23 @@
 
 						<p />
 						<!-- Comment log -->
-						<ui:include src="/pages/workitems/forms/minutes/sub_comment_read.xhtml">
-								<ui:param name="workitem" value="#{workitem}" />
+						<ui:include
+							src="/pages/workitems/forms/minutes/sub_comment_read.xhtml">
+							<ui:param name="workitem" value="#{workitem}" />
 						</ui:include>
-						
+
 						<!-- Files -->
 						<ui:include src="/pages/workitems/forms/minutes/sub_files.xhtml">
-								<ui:param name="workitem" value="#{workitem}" />
+							<ui:param name="workitem" value="#{workitem}" />
 						</ui:include>
-						
-						
+
+
 					</ui:fragment>
-					
+
 					<ui:fragment rendered="#{showForm}">
-					
+
 						<ui:include src="/pages/error_message.xhtml" />
-						
+
 						<c:forEach var="section"
 							items="#{minuteController.formDefinition.sections}">
 							<div class="imixs-form-panel">
@@ -117,61 +120,54 @@
 						<ui:include src="/pages/workitems/forms/minutes/sub_comment.xhtml">
 							<ui:param name="workitem" value="#{minuteController.workitem}" />
 						</ui:include>
-						
+
 						<!-- Files -->
 						<ui:include src="/pages/workitems/forms/minutes/sub_files.xhtml">
-								<ui:param name="workitem" value="#{workitem}" />
+							<ui:param name="workitem" value="#{workitem}" />
 						</ui:include>
-						
-						
+
+
 						<!-- Workflow Actions -->
 						<div class="imixs-form-section">
-							
-							<ui:repeat var="activity" value="#{minuteController.events}">
-								<h:commandButton role="button" onclick="saveTinyMCE();"
-									class="imixs-workflow-action ui-button-warning" title=" "
-									actionListener="#{minuteController.process(activity.item['numactivityid'],true)}"
-									value="#{activity.item['txtname']}">
-									<f:ajax render=":#{minutesBody.clientId}"
-										execute=":#{minutesBody.clientId}" onevent="layoutBodySection" />
-								</h:commandButton>
-							</ui:repeat>
 
+							<f:ajax render=":#{minutesBody.clientId}"
+								execute=":#{minutesBody.clientId}" onevent="layoutBodySection">
+								<i:imixsWorkflowActions
+									workflowController="#{minuteController.workflowController}" />
+							</f:ajax>
 							<h:commandButton role="button" value="#{message.close}"
 								immediate="true" class="imixs-close-action ui-button"
 								onclick="closeMinuteEditor();"
 								actionListener="#{minuteController.reset}">
-								<f:ajax render=":#{minutesBody.clientId}"
-									execute=":#{minutesBody.clientId}" onevent="layoutBodySection" />
 							</h:commandButton>
-
 						</div>
-						
+
 
 					</ui:fragment>
 				</h:panelGroup>
 
 				<!-- Readonly Mode -->
 				<h:panelGroup layout="block" rendered="#{!editmode}">
-					
+
 					<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
 						escape="false"></h:outputText>
 
 					<!-- comment log -->
-					<ui:include src="/pages/workitems/forms/minutes/sub_comment_read.xhtml">
-							<ui:param name="workitem" value="#{workitem}" />
+					<ui:include
+						src="/pages/workitems/forms/minutes/sub_comment_read.xhtml">
+						<ui:param name="workitem" value="#{workitem}" />
 					</ui:include>
-						
-				
+
+
 					<!-- Files -->
 					<ui:include src="/pages/workitems/forms/minutes/sub_files.xhtml">
-							<ui:param name="workitem" value="#{workitem}" />
+						<ui:param name="workitem" value="#{workitem}" />
 					</ui:include>
-						
-						
-					
+
+
+
 				</h:panelGroup>
-			
+
 			</h:panelGroup>
 		</div>
 	</h:panelGroup>

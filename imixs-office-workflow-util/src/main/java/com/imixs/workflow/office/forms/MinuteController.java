@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -35,7 +36,8 @@ import org.imixs.workflow.faces.data.WorkflowEvent;
  * @author rsoika
  */
 @Named
-@RequestScoped
+//@RequestScoped
+@ConversationScoped
 public class MinuteController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -90,7 +92,7 @@ public class MinuteController implements Serializable {
 		if ((MinutePlugin.MINUTE_TYPE_PARENT
 				.equals(workflowEvent.getWorkitem().getItemValueString(MinutePlugin.MINUTETYPE)))
 				&& (WorkflowEvent.WORKITEM_CHANGED == eventType)) {
-			minutes = null;;
+			minutes = null;
 			parentWorkitem = workflowEvent.getWorkitem();
 		}
 
@@ -99,6 +101,31 @@ public class MinuteController implements Serializable {
 	public FormDefinition getFormDefinition() {
 		return formDefinition;
 	}
+	
+	/**
+	 * Returns the public events for the current workitem
+	 * @return
+	 */
+//	public List<ItemCollection> getEvents() {
+//		return workflowController.getEvents();
+//	}
+
+	public void reset() {
+		workflowController.reset();
+		minutes = null;
+	}
+	
+	
+	/**
+	 * Returns the minute workflow controller instance used to process a singel minute item.
+	 * 
+	 * @return
+	 */
+	public WorkflowController getWorkflowController() {
+		return workflowController;
+	}
+
+
 
 	/**
 	 * This toggle method will either load a new minute workitem or reset the
@@ -127,6 +154,13 @@ public class MinuteController implements Serializable {
 	}
 
 	/**
+	 * Returns the current minute workitem 
+	 */
+	public ItemCollection getWorkitem() {
+		return workflowController.getWorkitem();
+	}
+	
+	/**
 	 * this method returns a list of all minute workitems for the current workitem.
 	 * The workitem list is cached. Subclasses can overwrite the method
 	 * loadWorkitems() to return a custom result set.
@@ -135,7 +169,7 @@ public class MinuteController implements Serializable {
 	 */
 	public List<ItemCollection> getMinutes() {
 		if (minutes == null) {
-			minutes = loadWorkitems();
+			minutes = loadMinutes();
 		}
 		return minutes;
 
@@ -147,7 +181,7 @@ public class MinuteController implements Serializable {
 	 * 
 	 * @return - sorted list of minutes
 	 */
-	List<ItemCollection> loadWorkitems() {
+	List<ItemCollection> loadMinutes() {
 
 		logger.fine("load minute list...");
 		List<ItemCollection> minutes = new ArrayList<ItemCollection>();
