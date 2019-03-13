@@ -11,7 +11,6 @@
 	<ui:param name="showForm"
 		value="#{(!empty minuteController.workitem) and (!empty minuteController.formDefinition) and (minuteController.workitem.item['$uniqueid'] eq workitem.item['$uniqueid'])}"></ui:param>
 
-
 	<!-- Minute Block -->
 	<h:panelGroup layout="block" styleClass="imixs-viewentry">
 		<!-- *** Sequence Number and scrop position for onload -->
@@ -127,11 +126,6 @@
 						</ui:include>
 
 
-
-
-
-
-
 						<!-- Workflow Actions -->
 						<div class="imixs-form-section">
 
@@ -139,9 +133,9 @@
 								execute=":#{minutesBody.clientId}" onevent="layoutBodySection">
 
 								<!--  Workflow actions -->
-								<ui:repeat value="#{minuteController.workflowController.events}"
+								<ui:repeat value="#{minuteController.events}"
 									var="event">
-									<h:commandButton
+									<h:commandButton onclick="saveTinyMCE();"
 										actionListener="#{minuteController.process(event.item['numactivityid'])}"
 										class="imixs-workflow-action" title=""
 										value="#{event.item['txtname']}">

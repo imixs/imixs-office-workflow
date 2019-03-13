@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -22,7 +23,6 @@ import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.exceptions.QueryException;
-import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.data.WorkflowEvent;
 
 /**
@@ -37,13 +37,17 @@ import org.imixs.workflow.faces.data.WorkflowEvent;
  * @author rsoika
  */
 @Named
-// @RequestScoped
 @ConversationScoped
 public class MinuteController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Inject
+	Event<WorkflowEvent> events;
+
 	private List<ItemCollection> minutes = null;
+
+	private ItemCollection workitem = null;
 
 	private ItemCollection parentWorkitem = null; // parent minute
 
@@ -52,9 +56,6 @@ public class MinuteController implements Serializable {
 	protected FormController formController = null;
 
 	private FormDefinition formDefinition = null;
-
-	@Inject
-	WorkflowController workflowController;
 
 	@EJB
 	DocumentService documentService;
@@ -94,27 +95,24 @@ public class MinuteController implements Serializable {
 			minutes = null;
 			parentWorkitem = workflowEvent.getWorkitem();
 		}
-
 	}
 
+	/**
+	 * local formDefintion which is used by the current minute item
+	 * 
+	 * @return
+	 */
 	public FormDefinition getFormDefinition() {
 		return formDefinition;
 	}
 
-	
-	public void reset() {
-		workflowController.reset();
-		minutes = null;
-	}
-
 	/**
-	 * Returns the minute workflow controller instance used to process a singel
-	 * minute item.
-	 * 
-	 * @return
+	 * Reset minute list and current minute item
 	 */
-	public WorkflowController getWorkflowController() {
-		return workflowController;
+	public void reset() {
+		workitem = null;
+		minutes = null;
+
 	}
 
 	/**
@@ -125,7 +123,7 @@ public class MinuteController implements Serializable {
 	 * @param id
 	 */
 	public void toggleWorkitem(String id) {
-		if (workflowController.getWorkitem().getUniqueID().equals(id)) {
+		if (getWorkitem().getUniqueID().equals(id)) {
 			// reset
 			this.setWorkitem(null);
 		} else {
@@ -135,10 +133,11 @@ public class MinuteController implements Serializable {
 	}
 
 	/**
-	 * Set the current minute workitem and loads the formDefintion
+	 * Set the current minute workitem and loads the new formDefintion
 	 */
 	public void setWorkitem(ItemCollection workitem) {
-		workflowController.setWorkitem(workitem);
+		this.workitem = workitem;
+		// workflowController.setWorkitem(workitem);
 		// update formDefinition
 		formDefinition = formController.computeFormDefinition(workitem);
 	}
@@ -147,7 +146,10 @@ public class MinuteController implements Serializable {
 	 * Returns the current minute workitem
 	 */
 	public ItemCollection getWorkitem() {
-		return workflowController.getWorkitem();
+		if (workitem == null) {
+			workitem = new ItemCollection();
+		}
+		return workitem;
 	}
 
 	/**
@@ -168,19 +170,62 @@ public class MinuteController implements Serializable {
 	/**
 	 * ActionListener method to process a minute item within the body section.
 	 * <p>
-	 * The method does not return any action result so the event can be used within
-	 * an ajax tag.
+	 * A shared workflowController can not be used here because the minute item is
+	 * Independently processed from the parent workitem.
+	 * <p>
+	 * In difference to the origin WorkflowController, this method does not close
+	 * the running conversation.
 	 * 
 	 * @see body_entry.xhtml
 	 * @param eventID
 	 */
 	public void process(int eventID) {
 		try {
-			workflowController.process(eventID);
+			if (workitem != null) {
+				// workflowController.process(eventID);
+				workitem.setEventID(eventID);
+
+				long l1 = System.currentTimeMillis();
+				events.fire(new WorkflowEvent(getWorkitem(), WorkflowEvent.WORKITEM_BEFORE_PROCESS));
+				logger.finest(
+						"......fire WORKITEM_BEFORE_PROCESS event: ' in " + (System.currentTimeMillis() - l1) + "ms");
+
+				// process workItem now...
+				workflowService.processWorkItem(workitem);
+
+			}
+
 		} catch (ModelException | PluginException e) {
 			logger.warning("failed to process minute item: " + e.getMessage());
 		}
 		reset();
+
+	}
+
+	/**
+	 * This method returns a List of workflow events assigned to the current minute
+	 * item.
+	 * <p>
+	 * A shared workflowController can not be used here because the minute item is
+	 * Independently processed from the parent workitem.
+	 * 
+	 * @return
+	 */
+	public List<ItemCollection> getEvents() {
+		List<ItemCollection> activityList = new ArrayList<ItemCollection>();
+
+		if (workitem == null) {
+			return activityList;
+		}
+
+		// get Events form workflowService
+		try {
+			activityList = workflowService.getEvents(workitem);
+		} catch (ModelException e) {
+			logger.warning("Unable to get workflow event list: " + e.getMessage());
+		}
+
+		return activityList;
 	}
 
 	/**
@@ -190,10 +235,10 @@ public class MinuteController implements Serializable {
 	 * @return - sorted list of minutes
 	 */
 	List<ItemCollection> loadMinutes() {
-	
+
 		logger.fine("load minute list...");
 		List<ItemCollection> minutes = new ArrayList<ItemCollection>();
-	
+
 		if (parentWorkitem != null) {
 			String uniqueIdRef = parentWorkitem.getItemValueString(WorkflowKernel.UNIQUEID);
 			if (!uniqueIdRef.isEmpty()) {
@@ -209,7 +254,7 @@ public class MinuteController implements Serializable {
 				}
 			}
 		}
-	
+
 		// test if we should open one minute (from last to first)....
 		for (int i = minutes.size(); i > 0; i--) {
 			ItemCollection minute = minutes.get(i - 1);
@@ -220,7 +265,7 @@ public class MinuteController implements Serializable {
 				break;
 			}
 		}
-	
+
 		return minutes;
 	}
 
