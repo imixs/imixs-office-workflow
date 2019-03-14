@@ -35,9 +35,14 @@ services:
       - "9090:9090"
     volumes:
       - ~/git/imixs-office-workflow/src/docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml 
+      - prometheusdata:/prometheus/
+
   
   grafana:
     image: grafana/grafana
     ports: 
       - "3000:3000" 
-   
+
+
+volumes:
+  prometheusdata:
