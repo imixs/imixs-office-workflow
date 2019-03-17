@@ -25,7 +25,7 @@
 						.ready(
 								function() {
 									// set navigation cookie
-									document.cookie = "imixs.office.navigation=/pages/notes_board.jsf;path=#{facesContext.externalContext.requestContextPath};";
+									document.cookie = "imixs.office.navigation=/pages/notes_board.jsf?ref=#{boardController.ref};path=#{facesContext.externalContext.requestContextPath}/;";
 									// refresh portlets every 5 minutes
 									setInterval(function() {
 										$(".imixs-portlet-refresh").click()
@@ -34,7 +34,6 @@
 				/*]]>*/
 			</script>
 			<h:form>
-
 				<h:panelGroup layout="block" id="portlet_board">
 					<!-- Password Reminder -->
 					<h:panelGroup styleClass="ui-widget"
