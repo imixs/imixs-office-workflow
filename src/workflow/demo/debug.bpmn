@@ -83,6 +83,7 @@
       <bpmn2:incoming>SequenceFlow_21</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_22</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_3</bpmn2:outgoing>
       <bpmn2:ioSpecification id="InputOutputSpecification_1">
         <bpmn2:dataInput id="DataInput_1" name="input1"/>
         <bpmn2:inputSet id="InputSet_1" name="Input Set 1">
@@ -573,6 +574,7 @@
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_2080-90">Aufgabe vollständig abschließen</bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_23</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_24</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
     <bpmn2:eventBasedGateway id="EventBasedGateway_1" name="" gatewayDirection="Diverging">
@@ -821,6 +823,7 @@
     </bpmn2:intermediateCatchEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_1" sourceRef="IntermediateCatchEvent_1" targetRef="Task_2000"/>
     <bpmn2:sequenceFlow id="SequenceFlow_2" sourceRef="IntermediateCatchEvent_2000-10" targetRef="Task_2020"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_3" sourceRef="Task_2000" targetRef="IntermediateCatchEvent_2080-90"/>
     <bpmn2:textAnnotation id="TextAnnotation_2">
       <bpmn2:text>Debug Workflow der verwendet wird um verschiedene Situationen zu prüfen.</bpmn2:text>
     </bpmn2:textAnnotation>
@@ -1033,6 +1036,13 @@
         <di:waypoint xsi:type="dc:Point" x="527.0" y="370.0"/>
         <di:waypoint xsi:type="dc:Point" x="550.0" y="371.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_13"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_5" bpmnElement="SequenceFlow_3" sourceElement="BPMNShape_Task_1" targetElement="BPMNShape_IntermediateCatchEvent_13">
+        <di:waypoint xsi:type="dc:Point" x="295.0" y="346.0"/>
+        <di:waypoint xsi:type="dc:Point" x="295.0" y="193.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1072.0" y="193.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1072.0" y="353.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_16"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
     <bpmndi:BPMNLabelStyle id="BPMNLabelStyle_1">
