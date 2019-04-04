@@ -28,7 +28,6 @@
 							<h:column>
 								<f:facet name="header">#{message.name}</f:facet>
 								<h:link outcome="/pages/admin/report?faces-redirect=true" styleClass="imixs-viewentry-main-link">
-						
 									<h:outputText value="#{record.item['txtName']}" />
 									<h:outputText rendered="#{empty record.item['txtName']}"
 										value=" - no name - " />
@@ -49,11 +48,13 @@
 
 							<h:column>
 								<f:facet name="header">#{message.action}</f:facet>
+								
+								
 								<!-- Edit -->
-								<h:commandLink title="#{message.edit}"
-									action="#{reportController.load(record.item['$UniqueID'],'/pages/admin/report.xhtml')}">
+								<h:link outcome="/pages/admin/report?faces-redirect=true" styleClass="imixs-viewentry-main-link">
 									<span class="typcn typcn-pencil imixs-state-info"></span>#{message.open}
-								</h:commandLink>
+									<f:param name="id" value="#{record.item['$uniqueid']}" />
+								</h:link>
 								
 								
 								<!-- Delete -->

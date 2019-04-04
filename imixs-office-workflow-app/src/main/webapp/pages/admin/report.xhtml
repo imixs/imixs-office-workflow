@@ -150,12 +150,14 @@
 							action="/pages/admin/reports?faces-redirect=true"
 							actionListener="#{documentController.close()}" />
 
-						<h:commandButton action="reports" immediate="true"
+						<h:commandButton immediate="true"
 							rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}"
 							onclick="if (!confirm('#{message.help_delete}')) return false;"
-							actionListener="#{reportController.delete(documentController.document.item['$uniqueid'])}"
+							action="/pages/admin/reports?faces-redirect=true"
+							actionListener="#{documentController.delete(documentController.document.item['$uniqueid'])}"
 							value="#{message.delete}">
 						</h:commandButton>
+						
 					</div>
 
 				</div>
