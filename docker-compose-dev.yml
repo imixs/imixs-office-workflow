@@ -1,22 +1,24 @@
 version: "3.1"
 services:
 
-  postgresoffice:
+  db:
     image: postgres:9.6.1
     environment:
       POSTGRES_PASSWORD: adminadmin
       POSTGRES_DB: office
+    volumes: 
+      - dbdata:/var/lib/postgresql/data
 
-  imixsofficeworkflow:
+  app:
     image: imixs/imixs-office-workflow
     depends_on:
-      - postgresoffice
+      - db
     environment:
       WILDFLY_PASS: adminadmin
       DEBUG: "true"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "adminadmin"
-      POSTGRES_CONNECTION: "jdbc:postgresql://postgresoffice/office"
+      POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
     ports:
       - "8080:8080"
       - "9990:9990"
@@ -28,4 +30,6 @@ services:
     image: imixs/imixs-admin
     ports:
       - "8888:8080"
- 
+
+volumes:
+  dbdata: 
