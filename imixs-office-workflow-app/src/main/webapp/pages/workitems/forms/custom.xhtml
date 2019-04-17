@@ -30,6 +30,12 @@
 							<h:inputText value="#{workitem.item[item.name]}"
 								required="#{item.required}" />
 						</c:if>
+						
+						<c:if test="#{item.type eq 'date'}">
+							<h:inputText value="#{workitem.item[item.name]}"
+								required="#{item.required}" styleClass="imixs-date"/>
+						</c:if>
+						
 						<c:if test="#{item.type eq 'textarea'}">
 							<h:inputTextarea value="#{workitem.item[item.name]}"
 								required="#{item.required}" />
