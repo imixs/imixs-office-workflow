@@ -75,13 +75,13 @@
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 
 		<!-- Dependency Versions -->
-		<org.imixs.workflow.version>4.5.5</org.imixs.workflow.version>
+		<org.imixs.workflow.version>4.5.6-SNAPSHOT</org.imixs.workflow.version>
 		<org.imixs.marty.version>3.4.4</org.imixs.marty.version>
 		<org.imixs.office.version />
 		<!-- 6.6.1 -->
 		<lucene.version>7.5.0</lucene.version>
-		<org.imixs.adapters.version>1.6.0</org.imixs.adapters.version>
-		<org.imixs.archive.version>1.2.3</org.imixs.archive.version>
+		<org.imixs.adapters.version>2.0.0-SNAPSHOT</org.imixs.adapters.version>
+		<org.imixs.archive.version>1.2.4-SNAPSHOT</org.imixs.archive.version>
 		<apache.poi.version>4.0.0</apache.poi.version>
 		<apache.pdfbox.version>2.0.12</apache.pdfbox.version>
 		<apache.tika.version>[1.20,)</apache.tika.version>
@@ -311,6 +311,14 @@
 				<scope>provided</scope>
 			</dependency>
 
+			<!-- Imixs Adapters -->
+			<dependency>
+				<groupId>org.imixs.workflow</groupId>
+				<artifactId>imixs-adapters-prometheus</artifactId>
+				<version>${org.imixs.adapters.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			
 			<!-- Imixs-Archive -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
@@ -319,48 +327,14 @@
 				<scope>provided</scope>
 			</dependency>
 
-			<!-- Core Document Parser -->
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi</artifactId>
-				<version>${apache.poi.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi-ooxml</artifactId>
-				<version>${apache.poi.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi-scratchpad</artifactId>
-				<version>${apache.poi.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.pdfbox</groupId>
-				<artifactId>pdfbox</artifactId>
-				<version>${apache.pdfbox.version}</version>
-				<scope>provided</scope>
-			</dependency>
-
-
-			<!-- Imixs Adapters -->
+			<!-- Imxixs-Archive Documents -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
-				<artifactId>imixs-adapters-documents</artifactId>
+				<artifactId>imixs-archive-documents</artifactId>
 				<version>${org.imixs.adapters.version}</version>
 				<scope>provided</scope>
 			</dependency>
 			
-			<dependency>
-				<groupId>org.imixs.workflow</groupId>
-				<artifactId>imixs-adapters-prometheus</artifactId>
-				<version>${org.imixs.adapters.version}</version>
-				<scope>provided</scope>
-			</dependency>
-
 
 
 			
