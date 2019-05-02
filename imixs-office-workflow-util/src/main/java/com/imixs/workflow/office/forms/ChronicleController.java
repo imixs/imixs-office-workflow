@@ -27,13 +27,17 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -41,6 +45,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.ItemCollectionComparator;
 import org.imixs.workflow.faces.data.WorkflowController;
 
 /**
@@ -63,6 +68,8 @@ import org.imixs.workflow.faces.data.WorkflowController;
 @RequestScoped
 public class ChronicleController implements Serializable {
 
+	
+	
 	/**
 	 * 
 	 */
@@ -76,6 +83,8 @@ public class ChronicleController implements Serializable {
 	
 	Map<Integer,Set<Integer>> yearsMonths;
 	
+	@Inject
+	DMSController dmsController;
 	
 	@PostConstruct
 	public void init() {
@@ -85,7 +94,6 @@ public class ChronicleController implements Serializable {
 		
 		// collect history
 		List<List<Object>> history = workflowController.getWorkitem().getItemValue("txtworkflowhistory");
-		
 		long l=System.currentTimeMillis();
 		for (List<Object> entries: history) {
 			
@@ -93,37 +101,87 @@ public class ChronicleController implements Serializable {
 			String message=(String) entries.get(1);
 			String user=(String) entries.get(2);
 			
+			ItemCollection entry=new ItemCollection();
+			entry.replaceItemValue("date",date);
+			entry.replaceItemValue("user",user);
+			entry.replaceItemValue("message",message);
+			entry.replaceItemValue("type","history");
+			chronicle.add(entry);
 			
+			// update years table
+			addTimeData(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+		}
+		
+		
+		// collect comments
+		List<Map<String,List<Object>>> comments = workflowController.getWorkitem().getItemValue("txtCommentLog");
+		for (Map<String,List<Object>> comment: comments) {
+			
+			ItemCollection itemCol=new ItemCollection(comment);
+			Date date= itemCol.getItemValueDate("datcomment");
+			String message=itemCol.getItemValueString("txtcomment");
+			String user=itemCol.getItemValueString("nameditor");
 			
 			ItemCollection entry=new ItemCollection();
 			entry.replaceItemValue("date",date);
 			entry.replaceItemValue("user",user);
 			entry.replaceItemValue("message",message);
-			
+			entry.replaceItemValue("type","comment");
+
 			chronicle.add(entry);
 			
-			
 			// update years table
-			LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			int year=localDate.getYear();
-			int month=localDate.getMonthValue();
-			Set<Integer> mothsPerYear = yearsMonths.get(year);
-			if (mothsPerYear==null) {
-				mothsPerYear=new HashSet<Integer>();
+			addTimeData(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+		}
+		
+		// Attachments
+		List<ItemCollection> dmsList=dmsController.getDmsList();
+		for (ItemCollection dmsEntry: dmsList) {
+			ItemCollection entry=new ItemCollection(dmsEntry);
+			String user=entry.getItemValueString("$editor");
+			
+			Date date=null;
+			if (dmsEntry.getItemValueDate("$modified")!=null) {
+				 date=dmsEntry.getItemValueDate("$modified");
+			} else {
+				 date=dmsEntry.getItemValueDate("$created");
 			}
-			mothsPerYear.add(month);
-			yearsMonths.put(year, mothsPerYear);
 			
+			if (date==null) {
+				date=new Date(); //????
+			}
 			
+			entry.replaceItemValue("date",date);
+			entry.replaceItemValue("type", "dms");
+			entry.replaceItemValue("user",user);
 			
+			chronicle.add(entry);
+			// update years table
+			addTimeData(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		}
 		
 		
+		// sort chronicles by date.....
+		Collections.sort(chronicle, new ItemCollectionComparator("date", true));
 		
 		logger.info("init in " + (	System.currentTimeMillis()-l) + "ms");
 	}
 	
-
+	/**
+	 * Adds the month and year data as a category
+	 */
+	private void addTimeData(LocalDate localDate) {
+		int year=localDate.getYear();
+		int month=localDate.getMonthValue();
+		Set<Integer> mothsPerYear = yearsMonths.get(year);
+		if (mothsPerYear==null) {
+			mothsPerYear=new HashSet<Integer>();
+		}
+		mothsPerYear.add(month);
+		yearsMonths.put(year, mothsPerYear);
+		
+		
+	}
 
 	public List<ItemCollection> getChroniclePerMonth(int year,int month) {
 		
@@ -146,12 +204,29 @@ public class ChronicleController implements Serializable {
 	
 	
 	
-	public Set<Integer> getYears() {
-		return yearsMonths.keySet();
+	public List<Integer> getYears() {
+		Set<Integer> result= yearsMonths.keySet();
+		
+		List<Integer> sortedList = new ArrayList<>(result);
+		Collections.sort(sortedList);
+		Collections.reverse(sortedList);
+		
+		return sortedList;
 	}
 	
-	public Set<Integer> getMonths(int year) {
-		return yearsMonths.get(year);
+	/**
+	 * return months by year descending
+	 * @param year
+	 * @return
+	 */
+	public List<Integer> getMonths(int year) {
+		Set<Integer> result = yearsMonths.get(year);
+		
+		List<Integer> sortedList = new ArrayList<>(result);
+		Collections.sort(sortedList);
+		Collections.reverse(sortedList);
+		
+		return sortedList;
 	}
 	
 }
