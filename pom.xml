@@ -64,12 +64,7 @@
 		<module>imixs-office-workflow-app</module>
 	</modules>
 	<properties>
-		<!-- <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
-			because of resource filtering is enabled we can not use UTF-8 for some strange 
-			reasons. When setting sourceEncoding to ISO-8859-1 the special german charcters 
-			works fine -->
-		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
-
+		
 		<!-- Build Time -->
 		<org.imixs.build.timestamp>${maven.build.timestamp}</org.imixs.build.timestamp>
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
@@ -163,16 +158,6 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.6</version>
-				<configuration>
-					<encoding>${project.build.sourceEncoding}</encoding>
-				</configuration>
-			</plugin>
-
 
 			<!-- release management -->
 			<plugin>
