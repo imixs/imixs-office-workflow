@@ -40,9 +40,10 @@ Within a BPMN Business Model you can define:
  * Responsibilities
  * E-Mail Notifications
  * Business Rules
- * [Forms & Descriptions](doc/modeling/CUSTOM_FORMS.md)
+ * Forms & Descriptions
     
-    
+Imixs-Office-Workflow defines a set of [Standardforms](doc/modeling/STANDARD_FORMS.md) which can be used within a model description.
+With the [Custom Forms](doc/modeling/CUSTOM_FORMS.md) you can build your own form element.    
     
     
 
