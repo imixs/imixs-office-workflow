@@ -10,10 +10,36 @@ To use standard forms you must add the from elements into the section "Applicati
 
 ### Example:
 
-	form_panel_instruction_simple#basic_reminder|sub_dispatch|sub_attachments_simple
+	form_panel#basic|sub_dispatch
 
 
-The following Standard Forms are available:
+A Form Definition is started by a Form-Frame followed by a #
+
+	form_panel#...
+	
+The Form Sections a separated by |
+
+	
+	form_panel#basic|sub_documentation|sub_address
+
+
+
+
+# Form Frames
+
+Form Frames are used to separate Form Sections in a Panel-View or in a Tab-View
+
+* form_panel - simple form layout 
+* form_tab - form layout with tabs for each section
+* form\_panel\_documentviewer - form layout with a document preview
+* form\_panel\_instruction - form layout with a instruction section
+
+
+    
+    
+# Form Sections
+
+The following Standard Form Sections are available:
 
 ## Basic
 
@@ -69,4 +95,6 @@ The following Standard Forms are available:
 <img src="sub_responsible.png" />
 
     sub_responsible
-    
+
+
+
