@@ -38,7 +38,7 @@ The docker image is based on the docker image [imixs/wildfly](https://hub.docker
 
 ## Quick Installation
 
-To run Imixs-Office-Workflow in a local test environment you can follow the [Quick-Installation Guide](src/docker/install/README.md). This is a good starting point if you just want to setup a local demo version. 
+To run Imixs-Office-Workflow in a local test environment you can follow the [Quick-Installation Guide](doc/install/README.md). This is a good starting point if you just want to setup a local demo version. 
 But please note that Imixs-Office-Workflow is an comprehensive open source project designed for productive enterprise use. A professional use requires a detailed planning of architecture. 
 
 
