@@ -23,7 +23,7 @@ The XML definition contains sections and items:
 	<?xml version="1.0"?>
 	<imixs-form>
 	  <imixs-form-section label="Controlling">
-	    <item name="_descripton" type="textarea"
+	    <item name="_description" type="textarea"
 	        label="Short Description" />
 	  </imixs-form-section>
 	  <imixs-form-section>
@@ -36,17 +36,17 @@ The following common input formats are supported:
 
 ### Text Input
 
-	<item name="_descripton" type="text"
+	<item name="_description" type="text"
 	        label="Topic" />
 
 ### Textarea Input
 
-	<item name="_descripton" type="textarea"
+	<item name="_description" type="textarea"
 	        label="Description" />
 
 ### HTML/RichText Input
 
-	<item name="_descripton" type="html"
+	<item name="_description" type="html"
 	        label="Description" />
 
 ### Date Input
