@@ -13,14 +13,7 @@
 		<f:view>
 			<h:form>
 				<ui:param name="searchresult" value="#{viewHandler.getData(searchController)}"></ui:param>
-				<!-- test if exactly one result entry? -->
-				<ui:fragment rendered="#{searchresult.size() eq 1}">
-						<ui:param name="firstWorkitem" value="#{searchresult.get(0)}" />
-						<script>
-							window.document.location.href = "#{facesContext.externalContext.requestContextPath}/pages/workitems/workitem.xhtml?id=#{firstWorkitem.item['$uniqueid']}";
-						</script>
-				</ui:fragment>
-				<ui:fragment rendered="#{searchresult.size() ne 1}">
+				
 					<div class="imixs-view">
 						<!-- *** Header **** -->
 						<div class="imixs-header">
@@ -78,7 +71,7 @@
 						</ui:fragment>
 	
 					</div>
-				</ui:fragment>
+				
 			</h:form>
 		</f:view>
 		
