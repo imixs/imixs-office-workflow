@@ -26,6 +26,7 @@ public class SpaceViewController extends ViewController {
 		this.setSortBy("txtname");
 		this.setSortReverse(false);
 		this.setPageSize(999);
+		this.setLoadStubs(false);
 	}
 
 

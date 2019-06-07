@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -87,6 +88,9 @@ public class SearchController extends ViewController implements Serializable {
 
 	@Inject
 	ProcessController processController;
+	
+	@EJB
+	LuceneSearchService luceneSearchService;
 
 	ItemCollection process;
 	ItemCollection space;
@@ -344,7 +348,7 @@ public class SearchController extends ViewController implements Serializable {
 		String searchphrase = searchFilter.getItemValueString("_phrase");
 		// escape search phrase
 		try {
-			searchphrase = LuceneSearchService.normalizeSearchTerm(searchphrase);
+			searchphrase = luceneSearchService.normalizeSearchTerm(searchphrase);
 		} catch (QueryException e) {
 			// add a new FacesMessage into the FacesContext
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_WARN, e.getLocalizedMessage(), null);

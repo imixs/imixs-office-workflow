@@ -49,12 +49,12 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.marty.config.SetupController;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.ModelService;
-import org.imixs.workflow.engine.PropertyService;
 import org.imixs.workflow.engine.lucene.LuceneSearchService;
 import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.data.WorkflowEvent;
@@ -109,8 +109,16 @@ public class BoardController implements Serializable {
 	@EJB
 	DocumentService documentService;
 
+//	@EJB
+//	PropertyService propertyService;
+	
 	@EJB
-	PropertyService propertyService;
+	LuceneSearchService luceneSearchService;
+	
+	@Inject 
+	@ConfigProperty(name = "boardcontroller.pagesize", defaultValue = "100")
+	String _pageSize;
+
 
 	public BoardController() {
 		super();
@@ -125,8 +133,8 @@ public class BoardController implements Serializable {
 	public void init() {
 
 		// set page size...
-		String _pageSize = propertyService.getProperties().getProperty("boardcontroller.pagesize",
-				"" + DEFAULT_PAGE_SIZE);
+//		String _pageSize = propertyService.getProperties().getProperty("boardcontroller.pagesize",
+//				"" + DEFAULT_PAGE_SIZE);
 		try {
 			pageSize = Integer.parseInt(_pageSize);
 		} catch (NumberFormatException e) {
@@ -233,7 +241,7 @@ public class BoardController implements Serializable {
 		if (searchphrase != null && !searchphrase.isEmpty()) {
 			// escape search phrase
 			try {
-				searchphrase = LuceneSearchService.normalizeSearchTerm(searchphrase);
+				searchphrase = luceneSearchService.normalizeSearchTerm(searchphrase);
 			} catch (QueryException e) {
 				// add a new FacesMessage into the FacesContext
 				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_WARN, e.getLocalizedMessage(), null);

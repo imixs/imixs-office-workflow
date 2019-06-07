@@ -61,6 +61,9 @@ public class SuggestImportController implements Serializable {
 
 	@EJB
 	DocumentService documentService = null;
+	
+	@EJB
+	LuceneSearchService luceneSearchService;
 
 	private static final long serialVersionUID = 1L;
 	private List<ItemCollection> searchResult = null;
@@ -151,7 +154,7 @@ public class SuggestImportController implements Serializable {
 		try {
 			phrase = phrase.trim();
 			// phrase = LuceneSearchService.escapeSearchTerm(phrase);
-			phrase = LuceneSearchService.normalizeSearchTerm(phrase);
+			phrase = luceneSearchService.normalizeSearchTerm(phrase);
 			String sQuery = "(type:\"workitem\" OR type:\"workitemarchive\") AND ($workflowgroup:\"" + workflowGroup
 					+ "\") ";
 

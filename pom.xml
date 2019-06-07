@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.imixs.workflow</groupId>
 	<artifactId>imixs-office-workflow</artifactId>
-	<version>3.5.4-SNAPSHOT</version>
+	<version>3.6.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Imixs Office Workflow</name>
 	<description>The Imixs Workflow Office Suite </description>
@@ -70,13 +70,14 @@
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 
 		<!-- Dependency Versions -->
-		<org.imixs.workflow.version>4.5.7</org.imixs.workflow.version>
-		<org.imixs.marty.version>3.4.5</org.imixs.marty.version>
+		<org.imixs.workflow.version>5.0.0-SNAPSHOT</org.imixs.workflow.version>
+		<org.imixs.marty.version>4.0.0-SNAPSHOT</org.imixs.marty.version>
+		<microprofile.version>2.2</microprofile.version>
 		<org.imixs.office.version />
 		<!-- 6.6.1 -->
 		<lucene.version>7.5.0</lucene.version>
 		<org.imixs.adapters.version>2.0.0</org.imixs.adapters.version>
-		<org.imixs.archive.version>1.2.4</org.imixs.archive.version>
+		<org.imixs.archive.version>1.2.6-SNAPSHOT</org.imixs.archive.version>
 		<apache.poi.version>4.0.0</apache.poi.version>
 		<apache.pdfbox.version>2.0.12</apache.pdfbox.version>
 		<apache.tika.version>[1.20,)</apache.tika.version>
@@ -267,7 +268,7 @@
 				<version>${org.imixs.marty.version}</version>
 				<scope>provided</scope>
 			</dependency>
-
+			
 			<!-- Apache Lucene -->
 			<dependency>
 				<groupId>org.apache.lucene</groupId>
@@ -330,9 +331,19 @@
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
-			<version>7.0</version>
+			<version>8.0</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- Microprofile -->
+		<dependency>
+			<groupId>org.eclipse.microprofile</groupId>
+			<artifactId>microprofile</artifactId>
+			<version>${microprofile.version}</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+			
 		<!-- JUnit Tests -->
 		<dependency>
 			<groupId>junit</groupId>
