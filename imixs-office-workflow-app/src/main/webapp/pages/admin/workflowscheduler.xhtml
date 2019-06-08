@@ -10,170 +10,174 @@
 
 	<ui:define name="content">
 		<f:view>
-			<h:form id="scheduler_form">
+
+			<script type="text/javascript">
+				/*<![CDATA[*/
+
+				function updateStatustPanel(data) {
+					if (data.status === 'success') {
+						// select with wildcard operator
+						$('[id$=status_panel]').imixsLayout();
+					}
+				}
+
+				/*]]>*/
+			</script>
+
+
+			<h:form>
 
 				<div class="imixs-form">
-
-
 					<div class="imixs-header">
-						<h1>
-							<h:outputText value="Workflow Scheduler" />
-						</h1>
-					</div>
+						<h1>Workflow Scheduler</h1>
 
-
-					<div class="imixs-body">
 						<!-- ########## Error ########## -->
 						<ui:include src="/pages/error_message.xhtml" />
 
+					</div>
+
+
+
+					<div class="imixs-body">
+
 						<!-- **** General info ***** -->
 						<div class="imixs-form-panel">
-							<h1>#{message['admin.timer.configuration']}</h1>
+							<h1>Timer Settings</h1>
 							<h:inputTextarea required="false"
 								converter="org.imixs.VectorConverter"
 								style="height: 8em; width: 100%;"
-								value="#{workflowSchedulerController.configuration.itemList['txtConfiguration']}">
+								value="#{workflowSchedulerController.configuration.itemList['_scheduler_definition']}">
 							</h:inputTextarea>
+
+
 						</div>
 
-
-
-
-						<!-- **** Status ***** -->
-
+						<!-- **** Timer Status ***** -->
 						<div class="imixs-form-panel">
-							<h1>
-								<h:outputText
-									value="Status: #{!empty workflowSchedulerController.configuration.item['nextTimeout']?'running':'stopped'}" />
-							</h1>
+							<h:panelGroup layout="block" id="timer_details"
+								class="imixs-form-section">
 
-							<h:panelGrid columns="2" id="timer_details">
+								<h1>
+									<h:outputText id="timer_status"
+										value="Timer Status ⇢ #{workflowSchedulerController.configuration.item['_scheduler_status']}" />
 
-								<h:panelGroup layout="block" style="width:120px;">
-									<h:outputText value="ID: " />
+									<h:panelGroup
+										rendered="#{! empty workflowSchedulerController.configuration.item['_scheduler_errormessage']}"
+										class="small" style="color:red">
+										<br />Error: #{workflowSchedulerController.configuration.item['_scheduler_errormessage']}
 								</h:panelGroup>
-								<h:panelGroup>
+								</h1>
+
+								<h:panelGrid columns="2">
+
+									<h:panelGroup layout="block" style="width:100px;">
+										<h:outputLabel value="ID: " />
+									</h:panelGroup>
+									<h:panelGroup>
+										<h:outputText
+											value="#{workflowSchedulerController.configuration.item['$UniqueID']}" />
+									</h:panelGroup>
+
+
+									<h:outputLabel value="Schedule: " />
 									<h:outputText
-										value="#{workflowSchedulerController.configuration.item['$UniqueID']}" />
+										value="#{workflowSchedulerController.configuration.item['Schedule']}" />
 
+
+
+									<h:outputLabel value="Next Timeout: " />
+									<h:panelGroup>
+										<h:outputText
+											value="#{workflowSchedulerController.configuration.item['nextTimeout']}"
+											rendered="#{! empty workflowSchedulerController.configuration.item['nextTimeout']}">
+											<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+												pattern="#{message.dateTimePattern}" />
+
+
+										</h:outputText>
+										<h:outputText value=" " />
+									</h:panelGroup>
+
+									<h:outputLabel value="TimeRemaining: " />
 									<h:outputText
-										value=" (#{workflowSchedulerController.configuration.item['statusMessage']})" />
+										value="#{workflowSchedulerController.millisToShortDHMS(workflowSchedulerController.configuration.item['timeRemaining'])}" />
+
+
+
+
+								</h:panelGrid>
+
+								<h:outputLabel value="Last Run: " />
+								<h:panelGroup layout="block"
+									class="ui-state-highlight ui-corner-all" style="padding: .5em;">
+									<ui:fragment
+										rendered="#{! empty workflowSchedulerController.configuration.item['_scheduler_logmessage']}">
+										<ui:repeat var="logentry"
+											value="#{workflowSchedulerController.configuration.itemList['_scheduler_logmessage']}">
+											<h:outputText escape="false" value="#{logentry}" />
+											<br />
+										</ui:repeat>
+									</ui:fragment>
+									<ui:fragment
+										rendered="#{empty workflowSchedulerController.configuration.item['_scheduler_logmessage']}">
+									No Data.
+									</ui:fragment>
 
 								</h:panelGroup>
 
-								<h:outputText value="Schedule: " />
-								<h:outputText
-									value="#{workflowSchedulerController.configuration.item['Schedule']}" />
+							</h:panelGroup>
 
-
-								<h:panelGroup>
-									<hr />
-								</h:panelGroup>
-								<h:panelGroup>
-									<hr />
-								</h:panelGroup>
-
-
-								<h:outputText value="Last run: " />
-								<h:outputText
-									value="#{workflowSchedulerController.configuration.item['datLastRun']}">
-									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-										pattern="#{message.dateTimePattern}" />
-
-
-								</h:outputText>
-
-								<h:outputText value="Processed: " />
-								<h:outputText
-									value="#{workflowSchedulerController.configuration.item['numWorkItemsProcessed']}" />
-
-								<h:outputText value="Errors: " />
-								<h:outputText
-									value="#{workflowSchedulerController.configuration.item['numWorkItemsUnprocessed']}" />
-
-								<h:panelGroup>
-									<hr />
-								</h:panelGroup>
-								<h:panelGroup>
-									<hr />
-								</h:panelGroup>
-								<h:outputText value="Next Timeout: " />
-								<h:panelGroup>
-									<h:outputText
-										value="#{workflowSchedulerController.configuration.item['nextTimeout']}"
-										rendered="#{! empty workflowSchedulerController.configuration.item['nextTimeout']}">
-										<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-											pattern="#{message.dateTimePattern}" />
-
-
-									</h:outputText>
-									<h:outputText value=" " />
-								</h:panelGroup>
-
-								<h:outputText value="TimeRemaining: " />
-								<h:outputText
-									value="#{workflowSchedulerController.millisToShortDHMS(workflowSchedulerController.configuration.item['timeRemaining'])}" />
-
-
-
-
-							</h:panelGrid>
-							<h:commandButton style="margin-top:10px;"
-								value="#{message.refresh}"
+							<hr />
+							<!-- Timer Actions -->
+							<h:commandButton value="#{message.refresh}"
 								actionListener="#{workflowSchedulerController.refresh}">
-								<f:ajax render="timer_details" />
+								<f:ajax render="timer_details timer_status" />
 							</h:commandButton>
 
 
+							<h:commandButton
+								actionListener="#{workflowSchedulerController.startScheduler}"
+								value="start">
+							</h:commandButton>
+							<h:commandButton
+								actionListener="#{workflowSchedulerController.stopScheduler}"
+								value="stop">
+							</h:commandButton>
+							<h:commandButton
+								actionListener="#{workflowSchedulerController.restartScheduler}"
+								value="restart">
+							</h:commandButton>
+							<hr />
+
+
 						</div>
+
 					</div>
 
+
+
+
 					<div class="imixs-footer">
-
-
 						<h:outputLabel value="#{message.modified}: " />
 						<h:outputText
 							value="#{workflowSchedulerController.configuration.item['$modified']}">
 							<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 								pattern="#{message.dateTimePattern}" />
 						</h:outputText>
-						<h:outputText
-							value=" #{message.by} #{workflowSchedulerController.configuration.item['namcurrenteditor']}" />
+
 
 						<br />
 
 						<h:commandButton
-							actionListener="#{workflowSchedulerController.doSaveConfiguration}"
-							value="Save">
+							actionListener="#{workflowSchedulerController.saveConfiguration()}"
+							value="#{message.save}">
 						</h:commandButton>
 
-						<h:commandButton
-							actionListener="#{workflowSchedulerController.doStartScheduler}"
-							value="start">
-						</h:commandButton>
-						<h:commandButton
-							actionListener="#{workflowSchedulerController.doStopScheduler}"
-							value="stop">
-						</h:commandButton>
-						<h:commandButton
-							actionListener="#{workflowSchedulerController.doRestartScheduler}"
-							value="restart">
-						</h:commandButton>
-
-
-
-
-						<h:commandButton value="#{message.close}" action="home" />
-
-
-
+						<h:commandButton value="#{message.close}" action="notes" />
 
 					</div>
+
 				</div>
-
-
-
-
 			</h:form>
 		</f:view>
 	</ui:define>
