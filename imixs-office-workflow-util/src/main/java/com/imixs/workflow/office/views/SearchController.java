@@ -37,11 +37,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -53,15 +52,16 @@ import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.data.ViewController;
 
 /**
- * The Marty SearchController extends the Imixs ViewController and provides
- * custom filter and search queries to request a individual WorkList result. The
- * ItemCollection search filter defines custom filter criteria for a customized
- * search result.
- * 
- * To customize the result an alternative CDI IQueryBuilder bean an be injected.
- * 
- * 
- * The SearchController has a set of predefined filter properties:
+ * The SearchController provides methods for a convenient search experience.
+ * <p>
+ * The conntroller extends the Imixs ViewController and provides custom filter
+ * and search queries to request a individual WorkList result. The
+ * ItemCollection search filter holds filter criteria for a customized search
+ * query.
+ * <p>
+ * The bean is session scoped to hold the search filter over a page journy.
+ * <p>
+ * The SearchController defines alos a set of predefined filter properties:
  * 
  * <ul>
  * <li>_processRef = holds a reference to a core process entity</li>
@@ -73,9 +73,8 @@ import org.imixs.workflow.faces.data.ViewController;
  * @author rsoika
  * @version 2.2.0
  */
-
 @Named
-@ViewScoped
+@SessionScoped
 public class SearchController extends ViewController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -88,7 +87,7 @@ public class SearchController extends ViewController implements Serializable {
 
 	@Inject
 	ProcessController processController;
-	
+
 	@EJB
 	LuceneSearchService luceneSearchService;
 
@@ -99,7 +98,6 @@ public class SearchController extends ViewController implements Serializable {
 	 * This method set the sort order and sort criteria
 	 * 
 	 **/
-	@PostConstruct
 	public void init() {
 		this.setSortBy(setupController.getSortBy());
 		this.setSortReverse(setupController.getSortReverse());
@@ -108,13 +106,13 @@ public class SearchController extends ViewController implements Serializable {
 		// extract the id from the query string
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> paramMap = fc.getExternalContext().getRequestParameterMap();
-		searchFilter.replaceItemValue("_processref", paramMap.get("_processref"));
-		searchFilter.replaceItemValue("_spaceref", paramMap.get("_spaceref"));
-		searchFilter.replaceItemValue("_phrase", paramMap.get("_phrase"));
+		searchFilter.replaceItemValue("processref", paramMap.get("processref"));
+		searchFilter.replaceItemValue("spaceref", paramMap.get("spaceref"));
+		searchFilter.replaceItemValue("phrase", paramMap.get("phrase"));
 
 		// try to load process/space objects
-		process = processController.getEntityById(searchFilter.getItemValueString("_processref"));
-		space = processController.getEntityById(searchFilter.getItemValueString("_spaceref"));
+		process = processController.getEntityById(searchFilter.getItemValueString("processref"));
+		space = processController.getEntityById(searchFilter.getItemValueString("spaceref"));
 
 	}
 
@@ -154,17 +152,14 @@ public class SearchController extends ViewController implements Serializable {
 	}
 
 	/**
-	 * Triggers a lucene search based on a search phrase. The search phrase is
-	 * stored in the search filter property 'txtSearch' which is evaluated by the
-	 * IQueryBuilder.
+	 * Creates a bookmarkable search link to the worklist including the current search phrase. 
 	 * 
-	 * @param phrase
-	 *            - search phrase
 	 * @param action
-	 *            - jsf navigation action
+	 *            - post-redirect link to worklist
 	 */
-	public String search(String phrase, String action) {
-		searchFilter.replaceItemValue("txtSearch", phrase);
+	public String doSearch() {
+		String action = "/pages/workitems/worklist.xhtml?faces-redirect=true&phrase="
+				+ searchFilter.getItemValueString("phrase");
 		return action;
 	}
 
@@ -179,13 +174,15 @@ public class SearchController extends ViewController implements Serializable {
 	}
 
 	/**
-	 * Can be set to true to restrict the result to workitems containing attachments. 
+	 * Can be set to true to restrict the result to workitems containing
+	 * attachments.
+	 * 
 	 * @param dms
 	 */
 	public void setDMSMode(boolean dms) {
-		this.searchFilter.replaceItemValue("dms_search", dms);	
+		this.searchFilter.replaceItemValue("dms_search", dms);
 	}
-	
+
 	/**
 	 * Returns a Lucene search query based on the define searchFilter parameter set
 	 * 
@@ -210,13 +207,10 @@ public class SearchController extends ViewController implements Serializable {
 		String sSearchTerm = "";
 		String emptySearchTerm = ""; // indicates that no query as the default type-query was defined.
 
-		// migrate deprecated filter items
-		checkDeprecatedItems();
-
 		// read the filter parameters and removes duplicates
 		List<Integer> processIDs = searchFilter.getItemValue("$taskID");
-		List<String> processRefList = searchFilter.getItemValue("_ProcessRef");
-		List<String> spacesRefList = searchFilter.getItemValue("_SpaceRef");
+		List<String> processRefList = searchFilter.getItemValue("ProcessRef");
+		List<String> spacesRefList = searchFilter.getItemValue("SpaceRef");
 		List<String> workflowGroups = searchFilter.getItemValue("$WorkflowGroup");
 		// trim lists
 		while (processIDs.contains(""))
@@ -256,13 +250,13 @@ public class SearchController extends ViewController implements Serializable {
 		}
 
 		// test if result should be restricted to creator?
-		String sCreator = searchFilter.getItemValueString("namCreator");
+		String sCreator = searchFilter.getItemValueString("Creator");
 
 		// test if result should be restricted to owner?
 		String sOwner = searchFilter.getItemValueString("namOwner");
 
-		Date datFrom = searchFilter.getItemValueDate("datFrom");
-		Date datTo = searchFilter.getItemValueDate("datTo");
+		Date datFrom = searchFilter.getItemValueDate("date.From");
+		Date datTo = searchFilter.getItemValueDate("date.To");
 
 		// process ref
 		if (!processRefList.isEmpty()) {
@@ -325,7 +319,7 @@ public class SearchController extends ViewController implements Serializable {
 
 		// creator
 		if (!"".equals(sCreator)) {
-			sSearchTerm += " (namcreator:\"" + sCreator.toLowerCase() + "\") AND";
+			sSearchTerm += " ($creator:\"" + sCreator.toLowerCase() + "\") AND";
 		}
 
 		// owner
@@ -337,7 +331,7 @@ public class SearchController extends ViewController implements Serializable {
 			sSearchTerm += " (";
 			Iterator<Integer> iteratorID = processIDs.iterator();
 			while (iteratorID.hasNext()) {
-				sSearchTerm += "$processid:\"" + iteratorID.next() + "\"";
+				sSearchTerm += "$taskid:\"" + iteratorID.next() + "\"";
 				if (iteratorID.hasNext())
 					sSearchTerm += " OR ";
 			}
@@ -345,7 +339,7 @@ public class SearchController extends ViewController implements Serializable {
 		}
 
 		// Search phrase....
-		String searchphrase = searchFilter.getItemValueString("_phrase");
+		String searchphrase = searchFilter.getItemValueString("phrase");
 		// escape search phrase
 		try {
 			searchphrase = luceneSearchService.normalizeSearchTerm(searchphrase);
@@ -387,51 +381,4 @@ public class SearchController extends ViewController implements Serializable {
 		return sSearchTerm;
 	}
 
-	/**
-	 * This method is to support deprecated item names in the search filter:
-	 * <p>
-	 * 
-	 * <pre>
-	 * $processid -> $taskid 
-	 * txtprocessref -> _processref 
-	 * txtspaceref -> _spaceref
-	 * txtWorkflowGroup -> $workflowgroup 
-	 * txtSearch -> _prase
-	 * </pre>
-	 * 
-	 */
-	@Deprecated
-	public void checkDeprecatedItems() {
-
-		if (!"".equals(searchFilter.getItemValueString("$ProcessID"))
-				&& "".equals(searchFilter.getItemValueString("$taskID"))) {
-			searchFilter.replaceItemValue("$taskId", "$ProcessID");
-			logger.warning("...SearchFilter item $ProcessID is deprecated, replace with $taskid");
-		}
-
-		if (!"".equals(searchFilter.getItemValueString("txtprocessref"))
-				&& "".equals(searchFilter.getItemValueString("_processref"))) {
-			searchFilter.replaceItemValue("_processref", "txtprocessref");
-			logger.warning("...SearchFilter item txtprocessref is deprecated, replace with _processref");
-		}
-
-		if (!"".equals(searchFilter.getItemValueString("txtspaceref"))
-				&& "".equals(searchFilter.getItemValueString("_spaceref"))) {
-			searchFilter.replaceItemValue("_spaceref", "txtspaceref");
-			logger.warning("...SearchFilter item txtspaceref is deprecated, replace with _spaceref");
-		}
-
-		if (!"".equals(searchFilter.getItemValueString("txtWorkflowGroup"))
-				&& "".equals(searchFilter.getItemValueString("$workflowgroup"))) {
-			searchFilter.replaceItemValue("$workflowgroup", "txtWorkflowGroup");
-			logger.warning("...SearchFilter item txtWorkflowGroup is deprecated, replace with $workflowgroup");
-		}
-
-		if (!"".equals(searchFilter.getItemValueString("txtSearch"))
-				&& "".equals(searchFilter.getItemValueString("_prase"))) {
-			searchFilter.replaceItemValue("_prase", "txtSearch");
-			logger.warning("...SearchFilter item txtSearch is deprecated, replace with _phrase");
-		}
-
-	}
 }

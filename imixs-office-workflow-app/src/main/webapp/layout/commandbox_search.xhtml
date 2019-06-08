@@ -11,12 +11,12 @@
 		<h1>#{message.search}</h1>
 		<div>
 			<h:inputText
-				value="#{searchController.searchFilter.item['txtSearch']}"
+				value="#{searchController.searchFilter.item['phrase']}"
 				onfocus="this.value='';"
 				style="font-size:13px;width:130px;margin:2px 5px 0 0;float:left;" />
 
 
-			<h:link outcome="/pages/workitems/worklist?phrase=searchController.searchFilter.item['txtSearch']"></h:link>
+			<h:link outcome="/pages/workitems/worklist?phrase=searchController.searchFilter.item['phrase']"></h:link>
 			<h:commandLink 
 				action="/pages/workitems/worklist">
 				<h:graphicImage url="/layout/icons/Search_24.png"

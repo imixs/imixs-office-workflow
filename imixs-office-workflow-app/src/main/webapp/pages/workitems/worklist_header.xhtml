@@ -51,14 +51,14 @@
 		<div style="float: left; padding-left: 10px;">
 			<h:outputText title="#{message['worklist.date_range_help']}"
 				value="#{message['worklist.date_range']}: " />
-			<h:inputText value="#{searchController.searchFilter.item['datfrom']}"
+			<h:inputText value="#{searchController.searchFilter.item['date.from']}"
 				title="#{message['worklist.date_range_help']}"
 				class="imixs-date">
 				<f:convertDateTime pattern="#{message.datePatternShort}"
 					timeZone="#{message.timeZone}" />
 			</h:inputText>
 			-
-			<h:inputText value="#{searchController.searchFilter.item['datto']}"
+			<h:inputText value="#{searchController.searchFilter.item['date.to']}"
 				title="#{message['worklist.date_range_help']}"
 				class="imixs-date">
 				<f:convertDateTime pattern="#{message.datePatternShort}"

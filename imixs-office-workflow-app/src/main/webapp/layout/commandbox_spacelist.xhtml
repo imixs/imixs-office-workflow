@@ -25,13 +25,13 @@
 							immediate="true" actionListener="#{searchController.doReset}">
 							<h:outputText value="#{space.item['txtName']}" />
 							<f:setPropertyActionListener
-								target="#{searchController.searchFilter.item['txtProcessRef']}"
+								target="#{searchController.searchFilter.item['ProcessRef']}"
 								value="" />
 							<f:setPropertyActionListener
-								target="#{searchController.searchFilter.item['txtSpaceRef']}"
+								target="#{searchController.searchFilter.item['SpaceRef']}"
 								value="#{space.item['$uniqueId']}" />
 							<f:setPropertyActionListener
-								target="#{searchController.searchFilter.item['txtSearch']}"
+								target="#{searchController.searchFilter.item['phrase']}"
 								value="" />
 						</h:commandLink></li>
 				</h:panelGroup>
