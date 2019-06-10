@@ -3,10 +3,9 @@ package org.imixs.workflow.office.test;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import org.imixs.melman.BasicAuthenticator;
+import org.imixs.melman.DocumentClient;
 import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.services.rest.BasicAuthenticator;
-import org.imixs.workflow.services.rest.RestClient;
-import org.imixs.workflow.xml.XMLDocumentAdapter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -19,7 +18,7 @@ import org.junit.Test;
  * 
  */
 public class GenerateTestData {
-	RestClient restClient;
+	DocumentClient documentClient;
 	final static String USERID = "admin";
 	final static String PASSWORD = "adminadmin";
 	final static String URI = "http://localhost:8080/office-rest/workflow/workitem";
@@ -33,8 +32,11 @@ public class GenerateTestData {
 	@Before
 	public void setUp() throws Exception {
 		generator = new Random(19580427);
-		restClient = new RestClient();
-		restClient.registerRequestFilter(new BasicAuthenticator(USERID, PASSWORD));
+		documentClient  = new DocumentClient(URI);
+		BasicAuthenticator basicAuth = new BasicAuthenticator(USERID, PASSWORD);
+		// register the authenticator
+		documentClient.registerClientRequestFilter(basicAuth);
+		
 	}
 
 	@Ignore
@@ -47,9 +49,8 @@ public class GenerateTestData {
 			ItemCollection workitem = createRandomWorkitem(i);
 
 			try {
-				ItemCollection doc = restClient.postXMLDocument(URI,
-						XMLDocumentAdapter.getDocument(workitem));
-
+				ItemCollection doc=documentClient.saveDocument(workitem);
+				
 				Assert.assertNotNull(doc);
 
 			} catch (Exception e) {

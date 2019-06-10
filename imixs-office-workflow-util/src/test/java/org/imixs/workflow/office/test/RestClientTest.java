@@ -2,17 +2,16 @@ package org.imixs.workflow.office.test;
 
 import java.util.logging.Logger;
 
+import org.imixs.melman.BasicAuthenticator;
+import org.imixs.melman.DocumentClient;
 import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.services.rest.BasicAuthenticator;
-import org.imixs.workflow.services.rest.RestClient;
-import org.imixs.workflow.xml.XMLDocumentAdapter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class RestClientTest {
-	RestClient restClient;
+	DocumentClient documentClient;
 	final static String USERID = "xxx";
 	final static String PASSWORD = "yyy";
 	final static String URI = "http://localhost:8080/office-rest/workflow/workitem";
@@ -22,8 +21,12 @@ public class RestClientTest {
 
 	@Before
 	public void setUp() throws Exception {
-		restClient = new RestClient();
-		restClient.registerRequestFilter(new BasicAuthenticator(USERID, PASSWORD));
+		
+		documentClient  = new DocumentClient(URI);
+		BasicAuthenticator basicAuth = new BasicAuthenticator(USERID, PASSWORD);
+		// register the authenticator
+		documentClient.registerClientRequestFilter(basicAuth);
+		
 	}
 
 	@Ignore
@@ -39,9 +42,8 @@ public class RestClientTest {
 		workitem.replaceItemValue("_subject", "sample record");
 
 		try {
-			ItemCollection result = restClient.postXMLDocument(URI,
-					XMLDocumentAdapter.getDocument(workitem));
-
+			ItemCollection result = documentClient.saveDocument(workitem); 
+					
 			Assert.assertNotNull(result);
 			
 		} catch (Exception e) {

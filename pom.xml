@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.imixs.workflow</groupId>
 	<artifactId>imixs-office-workflow</artifactId>
@@ -64,7 +66,7 @@
 		<module>imixs-office-workflow-app</module>
 	</modules>
 	<properties>
-		
+
 		<!-- Build Time -->
 		<org.imixs.build.timestamp>${maven.build.timestamp}</org.imixs.build.timestamp>
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
@@ -77,11 +79,12 @@
 		<!-- 6.6.1 -->
 		<lucene.version>7.5.0</lucene.version>
 		<org.imixs.adapters.version>2.0.0</org.imixs.adapters.version>
-		<org.imixs.archive.version>1.2.6-SNAPSHOT</org.imixs.archive.version>
+		<org.imixs.archive.version>2.0.0-SNAPSHOT</org.imixs.archive.version>
+		<org.imixs.melman.version>1.0.8</org.imixs.melman.version>
 		<apache.poi.version>4.0.0</apache.poi.version>
 		<apache.pdfbox.version>2.0.12</apache.pdfbox.version>
 		<apache.tika.version>[1.20,)</apache.tika.version>
-		
+
 		<custom.webResources>src/main/webapp</custom.webResources>
 		<imixs-office.applicationname>imixs-office-workflow</imixs-office.applicationname>
 
@@ -216,15 +219,15 @@
 				</executions>
 			</plugin>
 
-			<!--  temporarily fix issue imixs-workflow #442  -->
+			<!-- temporarily fix issue imixs-workflow #442 -->
 			<plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-surefire-plugin</artifactId>
-	            <configuration>
-	                <useSystemClassLoader>false</useSystemClassLoader>
-	            </configuration>
-	            <version>2.22.1</version>
-	        </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<useSystemClassLoader>false</useSystemClassLoader>
+				</configuration>
+				<version>2.22.1</version>
+			</plugin>
 
 		</plugins>
 	</build>
@@ -246,7 +249,6 @@
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-workflow-faces</artifactId>
-				<!-- <version>${org.imixs.workflow.version}</version> -->
 				<version>${org.imixs.workflow.version}</version>
 			</dependency>
 			<dependency>
@@ -268,7 +270,7 @@
 				<version>${org.imixs.marty.version}</version>
 				<scope>provided</scope>
 			</dependency>
-			
+
 			<!-- Apache Lucene -->
 			<dependency>
 				<groupId>org.apache.lucene</groupId>
@@ -297,6 +299,14 @@
 				<scope>provided</scope>
 			</dependency>
 
+			<!-- Imixs Melman -->
+			<dependency>
+				<groupId>org.imixs.workflow</groupId>
+				<artifactId>imixs-melman</artifactId>
+				<version>${org.imixs.melman.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
 			<!-- Imixs Adapters -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
@@ -304,7 +314,7 @@
 				<version>${org.imixs.adapters.version}</version>
 				<scope>provided</scope>
 			</dependency>
-			
+
 			<!-- Imixs-Archive -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
@@ -320,10 +330,10 @@
 				<version>${org.imixs.archive.version}</version>
 				<scope>provided</scope>
 			</dependency>
-			
 
 
-			
+
+
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
@@ -334,7 +344,7 @@
 			<version>8.0</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<!-- Microprofile -->
 		<dependency>
 			<groupId>org.eclipse.microprofile</groupId>
@@ -343,7 +353,7 @@
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
-			
+
 		<!-- JUnit Tests -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -351,6 +361,14 @@
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-melman</artifactId>
+			<version>1.0.8</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 </project>
