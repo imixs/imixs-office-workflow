@@ -101,15 +101,29 @@ public class SearchController extends ViewController implements Serializable {
 	public void init() {
 		this.setSortBy(setupController.getSortBy());
 		this.setSortReverse(setupController.getSortReverse());
-		searchFilter = new ItemCollection();
-
+		
+		if (searchFilter==null) {
+			searchFilter = new ItemCollection();
+		}
 		// extract the id from the query string
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> paramMap = fc.getExternalContext().getRequestParameterMap();
-		searchFilter.replaceItemValue("processref", paramMap.get("processref"));
-		searchFilter.replaceItemValue("spaceref", paramMap.get("spaceref"));
-		searchFilter.replaceItemValue("phrase", paramMap.get("phrase"));
-
+		
+		String processRef=paramMap.get("processref");
+		if (processRef!=null && !processRef.isEmpty()) {
+			searchFilter.replaceItemValue("processref", processRef);
+		}
+		
+		String spaceRef=paramMap.get("spaceref");
+		if (spaceRef!=null && !spaceRef.isEmpty()) {
+			searchFilter.replaceItemValue("spaceref", spaceRef);
+		}
+				
+		String phrase=paramMap.get("phrase");
+		if (phrase!=null && !phrase.isEmpty()) {
+			searchFilter.replaceItemValue("phrase", phrase);
+		}
+		
 		// try to load process/space objects
 		process = processController.getEntityById(searchFilter.getItemValueString("processref"));
 		space = processController.getEntityById(searchFilter.getItemValueString("spaceref"));
@@ -158,8 +172,11 @@ public class SearchController extends ViewController implements Serializable {
 	 *            - post-redirect link to worklist
 	 */
 	public String doSearch() {
+		
 		String action = "/pages/workitems/worklist.xhtml?faces-redirect=true&phrase="
 				+ searchFilter.getItemValueString("phrase");
+		
+		searchFilter = new ItemCollection();
 		return action;
 	}
 

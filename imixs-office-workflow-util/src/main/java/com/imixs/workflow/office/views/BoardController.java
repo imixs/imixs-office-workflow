@@ -91,8 +91,8 @@ public class BoardController implements Serializable {
 	private int pageIndex = 0;
 	private boolean endOfList = false;
 	private String query;
-	private String ref;
-	private String phrase;
+//	private String ref;
+//	private String phrase;
 	private String title;
 
 	@Inject
@@ -114,6 +114,9 @@ public class BoardController implements Serializable {
 	
 	@EJB
 	LuceneSearchService luceneSearchService;
+	
+	@Inject
+	SearchController searchController;
 	
 	@Inject 
 	@ConfigProperty(name = "boardcontroller.pagesize", defaultValue = "100")
@@ -168,12 +171,15 @@ public class BoardController implements Serializable {
 	}
 
 	public String getRef() {
-		return ref;
+	//	return ref;
+		return searchController.getSearchFilter().getItemValueString("processref");
 	}
 
 	public void setRef(String ref) {
-		this.ref = ref;
+		//this.ref = ref;
 
+		searchController.getSearchFilter().setItemValue("processref", ref);
+		
 		// try to load ref...
 		if (ref != null && !ref.isEmpty()) {
 			ItemCollection process = documentService.load(ref);
@@ -186,11 +192,18 @@ public class BoardController implements Serializable {
 	}
 
 	public String getPhrase() {
-		return phrase;
+		
+		// copy phrase from search controller for detail searches
+		return searchController.getSearchFilter().getItemValueString("phrase");
+				
+	//	return phrase;
 	}
 
 	public void setPhrase(String phrase) {
-		this.phrase = phrase;
+		//this.phrase = phrase;
+		
+		// copy phrase into search controller for detail searches
+		searchController.getSearchFilter().setItemValue("phrase", phrase);
 	}
 
 	/**
@@ -230,14 +243,14 @@ public class BoardController implements Serializable {
 	 */
 	public String getQuery() {
 		// set default query
-		if (ref == null || ref.isEmpty()) {
+		if (getRef().isEmpty()) {
 			query = "(type:\"workitem\" AND namowner:\"" + loginController.getRemoteUser() + "\")";
 		} else {
-			query = "(type:\"workitem\" AND $uniqueidref:\"" + ref + "\")";
+			query = "(type:\"workitem\" AND $uniqueidref:\"" + getRef() + "\")";
 		}
 
 		// Search phrase....
-		String searchphrase = phrase;
+		String searchphrase = getPhrase();
 		if (searchphrase != null && !searchphrase.isEmpty()) {
 			// escape search phrase
 			try {
@@ -270,7 +283,7 @@ public class BoardController implements Serializable {
 	 */
 	public void reset() {
 		cacheTasks = null;
-		ref = null;
+// TODO??		ref = null;
 		pageIndex = 0;
 		endOfList = false;
 	}
@@ -442,7 +455,7 @@ public class BoardController implements Serializable {
 		boolean bReverse = setupController.getSortReverse();
 		List<ItemCollection> taskList;
 		try {
-			taskList = documentService.find(getQuery(), getPageSize(), getPageIndex(), sortBy, bReverse);
+			taskList = documentService.findStubs(getQuery(), getPageSize(), getPageIndex(), sortBy, bReverse);
 		} catch (QueryException e) {
 			logger.warning("failed to read task list: " + e.getMessage());
 			taskList = new ArrayList<>();

@@ -57,7 +57,7 @@
 					pattern="#{message.dateTimePattern}" />
 			</h:outputText>
 			<h:outputText
-				value=" #{message.by} #{userController.getUserName(workitem.item['namCreator'])}" />
+				value=" #{message.by} #{userController.getUserName(workitem.item['$creator'])}" />
 
 			<!-- Modified -->
 			<br />
@@ -67,10 +67,10 @@
 					<f:convertDateTime timeZone="#{message.timeZone}"
 						pattern="#{message.dateTimePattern}" />
 				</h:outputText> <h:outputText
-					value=" #{message.by} #{userController.getUserName(workitem.item['namCurrentEditor'])}" />
+					value=" #{message.by} #{userController.getUserName(workitem.item['$editor'])}" />
 			</span>
 			<hr />
-			<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
+			<h:outputText value="#{workitem.item['$WorkflowAbstract']}"
 				escape="false" />
 		</h:panelGroup>
 	</ui:fragment>
