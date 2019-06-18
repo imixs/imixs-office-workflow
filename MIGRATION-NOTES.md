@@ -3,7 +3,13 @@
 The following section contains migration notes for Imixs-Office-Workflow. 
 
 
-### Imixs-Office-Workflow 3.2.0
+## Imixs-Office-Workflow 3.6.0
+
+* new imixs.property parameter
+
+	lucence.indexFieldListStore=txtProcessName,txtWorkflowImageURL
+
+## Imixs-Office-Workflow 3.2.0
 
 Version 3.2.0 introduces the new [Imixs-Archive](https://github.com/imixs/imixs-archive) concept. A migration of data is not necessary. But some configuration issues:
 
@@ -173,7 +179,7 @@ in the ejb pom.xml, the add dependencies:
 
 remove the web.xml if possible... (jax-rs servlets no longer needed)
   
-# Imixs-Office-Workflow 3.1.1
+## Imixs-Office-Workflow 3.1.1
 
 * Update  properties _lucence.indexFieldListAnalyze_ - txtusername - moved from  properties _lucence.indexFieldListNoAnalyze_
 

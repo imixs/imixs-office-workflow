@@ -61,12 +61,8 @@ import org.imixs.workflow.faces.util.LoginController;
  * 
  */
 @Named("dmsController")
-//@SessionScoped
-//@ViewScoped
 @ConversationScoped
 public class DMSController implements Serializable {
-
-	// public final static String DMS_ITEM = "dms";
 
 	@Inject
 	protected LoginController loginController = null;
@@ -122,12 +118,6 @@ public class DMSController implements Serializable {
 				putDmsList(workflowEvent.getWorkitem(), dmsList);
 			}
 		}
-
-		// if workItem has changed, then update the dms list
-//		if (WorkflowEvent.WORKITEM_CHANGED == eventType || WorkflowEvent.WORKITEM_AFTER_PROCESS == eventType) {
-//			// convert dms property into a list of ItemCollection
-//			dmsList = getDmsListByWorkitem(workflowEvent.getWorkitem());
-//		}
 
 	}
 
@@ -211,17 +201,8 @@ public class DMSController implements Serializable {
 	 */
 	public void removeFile(String aFile) {
 		// remove file from dms list
-		
 		workflowController.getWorkitem().removeFile(aFile);
 		dmsList=null;
-//		for (ItemCollection aEntry : dmsList) {
-//			if (aFile.equals(aEntry.getItemValueString("txtname"))) {
-//				dmsList.remove(aEntry);
-//				break;
-//			}
-//		}
-
-//		workflowController.getWorkitem().removeFile(aFile);
 	}
 
 	/**
