@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.5.0.Final-v20180515-1642-B1" targetNamespace="http://www.imixs.org/bpmn2">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.5.1.Final-v20190425-2005-B1" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
       <imixs:value><![CDATA[bedarfsmeldung-de-1.0]]></imixs:value>
@@ -225,7 +225,7 @@ Der Workflow 'Bedarfsmeldung' beschreibt beispielhaft den Ablauf, eine interne B
 <li>Vorgang weiterleiten</li>]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_18</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_46</bpmn2:incoming>
-      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_21</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_22</bpmn2:outgoing>
     </bpmn2:task>
     <bpmn2:task id="Task_5090" imixs:processid="5090" name="Bestellt">
@@ -497,9 +497,6 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
           <imixs:value><![CDATA[0]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namProjectOwner]]></imixs:value>
-          <imixs:value><![CDATA[namProjectManager]]></imixs:value>
-          <imixs:value><![CDATA[namProjectTeam]]></imixs:value>
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
           <imixs:value><![CDATA[namspaceteam]]></imixs:value>
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
@@ -518,7 +515,6 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
           <imixs:value><![CDATA[2]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyownershipfields" type="xs:string">
-          <imixs:value><![CDATA[namProjectOwner]]></imixs:value>
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
         <imixs:item name="numnextid" type="xs:int">
@@ -600,7 +596,7 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
-      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_21</bpmn2:outgoing>
       <bpmn2:conditionalEventDefinition id="ConditionalEventDefinition_2"/>
     </bpmn2:intermediateCatchEvent>
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_5010-10" imixs:activityid="10" name="Speichern">
@@ -679,9 +675,6 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
           <imixs:value><![CDATA[0]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namProjectOwner]]></imixs:value>
-          <imixs:value><![CDATA[namProjectManager]]></imixs:value>
-          <imixs:value><![CDATA[namProjectTeam]]></imixs:value>
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
@@ -698,7 +691,6 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
           <imixs:value><![CDATA[2]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyownershipfields" type="xs:string">
-          <imixs:value><![CDATA[namProjectTeam]]></imixs:value>
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
           <imixs:value><![CDATA[namCreator]]></imixs:value>
         </imixs:item>
@@ -743,9 +735,6 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
           <imixs:value><![CDATA[0]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namProjectOwner]]></imixs:value>
-          <imixs:value><![CDATA[namProjectManager]]></imixs:value>
-          <imixs:value><![CDATA[namProjectTeam]]></imixs:value>
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
@@ -860,9 +849,6 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
           <imixs:value><![CDATA[0]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namProjectOwner]]></imixs:value>
-          <imixs:value><![CDATA[namProjectManager]]></imixs:value>
-          <imixs:value><![CDATA[namProjectTeam]]></imixs:value>
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
@@ -977,7 +963,6 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
       <bpmn2:incoming>SequenceFlow_23</bpmn2:incoming>
       <bpmn2:linkEventDefinition id="LinkEventDefinition_2" name="Link Event Definition 2"/>
     </bpmn2:intermediateThrowEvent>
-    <bpmn2:sequenceFlow id="SequenceFlow_1" sourceRef="IntermediateCatchEvent_5005-40" targetRef="Task_5020"/>
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_3" imixs:activityid="20" name="Freigeben">
       <bpmn2:extensionElements>
         <imixs:item name="keylogtimeformat" type="xs:string">
@@ -1091,9 +1076,6 @@ if ( isNaN(ergebnis)) {
           <imixs:value><![CDATA[0]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namProjectOwner]]></imixs:value>
-          <imixs:value><![CDATA[namProjectManager]]></imixs:value>
-          <imixs:value><![CDATA[namProjectTeam]]></imixs:value>
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
@@ -1225,9 +1207,6 @@ if (team && team.length>1) {
           <imixs:value><![CDATA[0]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namProjectOwner]]></imixs:value>
-          <imixs:value><![CDATA[namProjectManager]]></imixs:value>
-          <imixs:value><![CDATA[namProjectTeam]]></imixs:value>
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
           <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
@@ -1268,6 +1247,7 @@ if (team && team.length>1) {
     <bpmn2:sequenceFlow id="SequenceFlow_15" sourceRef="Task_5090" targetRef="IntermediateCatchEvent_4"/>
     <bpmn2:sequenceFlow id="SequenceFlow_16" sourceRef="IntermediateCatchEvent_4" targetRef="Task_1"/>
     <bpmn2:sequenceFlow id="SequenceFlow_20" sourceRef="Task_1" targetRef="EndEvent_1"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_21" sourceRef="IntermediateCatchEvent_5005-40" targetRef="Task_5020"/>
     <bpmn2:group id="Group_1"/>
     <bpmn2:textAnnotation id="TextAnnotation_1">
       <bpmn2:text>Zur Prüfung weiterleiten an Fachbereich</bpmn2:text>
@@ -1559,12 +1539,6 @@ if (team && team.length>1) {
         <di:waypoint xsi:type="dc:Point" x="1175.0" y="575.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_82"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_1" sourceElement="BPMNShape_IntermediateCatchEvent_9" targetElement="BPMNShape_Task_4">
-        <di:waypoint xsi:type="dc:Point" x="993.0" y="116.0"/>
-        <di:waypoint xsi:type="dc:Point" x="1441.0" y="116.0"/>
-        <di:waypoint xsi:type="dc:Point" x="1441.0" y="229.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_16"/>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="SequenceFlow_2" sourceElement="BPMNShape_Task_2" targetElement="BPMNShape_EventBasedGateway_1">
         <di:waypoint xsi:type="dc:Point" x="635.0" y="254.0"/>
         <di:waypoint xsi:type="dc:Point" x="651.0" y="254.0"/>
@@ -1668,6 +1642,12 @@ if (team && team.length>1) {
         <di:waypoint xsi:type="dc:Point" x="687.0" y="115.0"/>
         <di:waypoint xsi:type="dc:Point" x="687.0" y="157.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_51"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_22" bpmnElement="SequenceFlow_21" sourceElement="BPMNShape_IntermediateCatchEvent_9" targetElement="BPMNShape_Task_4">
+        <di:waypoint xsi:type="dc:Point" x="993.0" y="116.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1441.0" y="116.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1441.0" y="229.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_53"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
