@@ -38,7 +38,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.event.Observes;
 import javax.faces.application.FacesMessage;
@@ -87,12 +86,9 @@ public class BoardController implements Serializable {
 	private Map<BoardCategory, List<ItemCollection>> cacheTasks;
 
 	private int categoryPageSize;
-	private int pageSize;
 	private int pageIndex = 0;
 	private boolean endOfList = false;
 	private String query;
-//	private String ref;
-//	private String phrase;
 	private String title;
 
 	@Inject
@@ -109,9 +105,6 @@ public class BoardController implements Serializable {
 	@EJB
 	DocumentService documentService;
 
-//	@EJB
-//	PropertyService propertyService;
-	
 	@EJB
 	LuceneSearchService luceneSearchService;
 	
@@ -120,32 +113,14 @@ public class BoardController implements Serializable {
 	
 	@Inject 
 	@ConfigProperty(name = "boardcontroller.pagesize", defaultValue = "100")
-	String _pageSize;
+	int pageSize;
 
 
 	public BoardController() {
 		super();
 	}
 
-	/**
-	 * This method loads the board controller pagesize
-	 * 
-	 *
-	 */
-	@PostConstruct
-	public void init() {
-
-		// set page size...
-//		String _pageSize = propertyService.getProperties().getProperty("boardcontroller.pagesize",
-//				"" + DEFAULT_PAGE_SIZE);
-		try {
-			pageSize = Integer.parseInt(_pageSize);
-		} catch (NumberFormatException e) {
-			logger.warning("invalid property 'boardcontroller.pagesize' : " + e.getMessage());
-			pageSize = DEFAULT_PAGE_SIZE;
-		}
-
-	}
+	
 
 	/***************************************************************************
 	 * Navigation
@@ -176,10 +151,7 @@ public class BoardController implements Serializable {
 	}
 
 	public void setRef(String ref) {
-		//this.ref = ref;
-
 		searchController.getSearchFilter().setItemValue("processref", ref);
-		
 		// try to load ref...
 		if (ref != null && !ref.isEmpty()) {
 			ItemCollection process = documentService.load(ref);
@@ -192,16 +164,11 @@ public class BoardController implements Serializable {
 	}
 
 	public String getPhrase() {
-		
 		// copy phrase from search controller for detail searches
 		return searchController.getSearchFilter().getItemValueString("phrase");
-				
-	//	return phrase;
 	}
 
 	public void setPhrase(String phrase) {
-		//this.phrase = phrase;
-		
 		// copy phrase into search controller for detail searches
 		searchController.getSearchFilter().setItemValue("phrase", phrase);
 	}
@@ -214,7 +181,6 @@ public class BoardController implements Serializable {
 	public String getTitle() {
 		if (title == null || title.isEmpty()) {
 			// get default title...
-			// #{message['worklist.owner']}
 			try {
 				Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 				ResourceBundle rb = null;
@@ -283,7 +249,6 @@ public class BoardController implements Serializable {
 	 */
 	public void reset() {
 		cacheTasks = null;
-// TODO??		ref = null;
 		pageIndex = 0;
 		endOfList = false;
 	}
@@ -464,9 +429,7 @@ public class BoardController implements Serializable {
 		endOfList = (taskList.size() < pageSize);
 
 		// now split up the result into groups and tasks....
-
 		for (ItemCollection workitem : taskList) {
-
 			BoardCategory tmpCat = new BoardCategory(workitem.getItemValueString(WorkflowKernel.WORKFLOWGROUP),
 					workitem.getItemValueString(WorkflowKernel.WORKFLOWSTATUS), workitem.getTaskID(),
 					getCategoryPageSize());

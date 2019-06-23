@@ -3,7 +3,7 @@ package com.imixs.workflow.office.views;
 /**
  * This class builds a category used by the BoardController
  * 
- * A board category is split into the fields WorkflowGorup, Status and ProcessID
+ * A board category is split into the fields WorkflowGorup, Status and TaskID
  * 
  * @author rsoika
  *
@@ -14,7 +14,7 @@ public class BoardCategory {
 
 	String workflowGroup;
 	String workflowStatus;
-	int processID;
+	int taskID;
 	int pageIndex = 0;
 	int pageSize = DEFAULT_PAGE_SIZE;
 
@@ -22,13 +22,13 @@ public class BoardCategory {
 		super();
 		this.workflowGroup = workflowGroup;
 		this.workflowStatus = workfowStatus;
-		this.processID = processID;
+		this.taskID = processID;
 		this.pageSize = pageSize;
 	}
 
 	@Override
 	public String toString() {
-		return workflowGroup + "/" + processID;
+		return workflowGroup + "/" + taskID;
 	}
 
 	@Override
@@ -57,12 +57,12 @@ public class BoardCategory {
 		this.workflowStatus = workflowStatus;
 	}
 
-	public int getProcessID() {
-		return processID;
+	public int getTaskID() {
+		return taskID;
 	}
 
-	public void setProcessID(int processID) {
-		this.processID = processID;
+	public void setTaskID(int id) {
+		this.taskID = id;
 	}
 
 	public int getPageIndex() {
