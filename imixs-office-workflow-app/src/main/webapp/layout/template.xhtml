@@ -30,6 +30,8 @@
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/imixs-layout.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
+
+
 	<!-- imixsHeader (must be loaded before office-css! -->
 	<i:imixsHeader disablecss="false"
 		dateformat="#{message.datePatternShort}"
@@ -51,6 +53,22 @@
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
+		
+		
+	<!-- Design Feature css -->
+	<ui:fragment rendered="#{'true' eq propertyController.getProperty('feature.design.layout')}">
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-feature-layout.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+	</ui:fragment>
+	
+	<ui:fragment rendered="#{'true' eq propertyController.getProperty('feature.design.facelift')}">
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-feature-facelift.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+	</ui:fragment>
+	
+	
 	<!-- custom css -->
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom.css?build=#{app.application_build_timestamp}"
@@ -112,7 +130,19 @@
 </h:head>
 <h:body>
 	<f:view locale="#{userController.locale}">
-	<!-- SystemSetupStatus=#{initController.initStatus} -->
+	
+	<!-- feature switch 'feature.chronical=true' -->
+	<ui:fragment rendered="#{'true' eq propertyController.getProperty('feature.design')}">
+			<ui:insert name="sidebar">
+					<ui:include src="sidebar.xhtml" />
+			</ui:insert>
+	</ui:fragment>
+	
+	
+	
+	
+			
+		<!-- SystemSetupStatus=#{initController.initStatus} -->
 
 		<div id="header">
 			<div id="imixs-servicenav">
@@ -129,9 +159,13 @@
 		</div>
 		<!-- END header -->
 
+			
 
 		<!-- content -->
 		<div id="container">
+		
+			
+		
 			<div id="imixs-content">
 				<ui:insert name="content">
 					<h1>Default Content</h1>

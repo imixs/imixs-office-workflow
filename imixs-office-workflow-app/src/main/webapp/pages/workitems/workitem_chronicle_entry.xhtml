@@ -11,7 +11,7 @@
 
 
 		<!--  Time -->
-		<td style="width: 160px;"><h:outputText 
+		<td style="width: 160px;vertical-align: top;"><h:outputText 
 				value="#{chronicle.item['date']}"
 				title="#{userController.getUserName(chronicle.item['user'])}">
 				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
@@ -40,10 +40,12 @@
 					<h:panelGroup rendered="#{'comment' eq chronicle.item['type']}"
 						styleClass="typcn typcn-message"></h:panelGroup>
 				</div>
-				<h:outputLabel value="Kommentar " /> #{userController.getUserName(chronicle.item['user'])}: <br />
-				<h:panelGroup styleClass="imixs-comments-entry">
-					<h:outputText value="#{chronicle.item['message']}" />
-				</h:panelGroup>
+				<div style="float:left;">
+					<h:outputLabel value="Kommentar " /> #{userController.getUserName(chronicle.item['user'])}: <br />
+					<h:panelGroup styleClass="imixs-comments-entry">
+						<h:outputText value="#{chronicle.item['message']}" />
+					</h:panelGroup>
+				</div>
 			</ui:fragment>
 			
 			<!-- history -->

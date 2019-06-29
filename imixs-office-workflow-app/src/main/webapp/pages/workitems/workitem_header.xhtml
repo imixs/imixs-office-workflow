@@ -105,9 +105,10 @@
 		</h:panelGroup>
 	</div>
 
-<!-- 
-	<ui:include src="/pages/workitems/workitem_chronicle.xhtml" />
- -->
+	<!-- feature switch 'feature.chronical=true' -->
+	<ui:fragment rendered="#{'true' eq propertyController.getProperty('feature.chronicle')}">
+		<ui:include src="/pages/workitems/workitem_chronicle.xhtml" />
+ 	</ui:fragment>
 	<!-- row end -->
 	<script type="text/javascript">
 		/*<![CDATA[*/
