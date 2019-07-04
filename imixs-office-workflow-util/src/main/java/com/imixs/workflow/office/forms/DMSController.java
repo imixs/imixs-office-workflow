@@ -63,6 +63,8 @@ import org.imixs.workflow.faces.util.LoginController;
 @Named("dmsController")
 @ConversationScoped
 public class DMSController implements Serializable {
+	
+	public static final String REGEX_URL_PATTERN = "^(http|https|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 
 	@Inject
 	protected LoginController loginController = null;
@@ -139,11 +141,18 @@ public class DMSController implements Serializable {
 				return;
 			}
 			FileData fileData = workitem.getFileData(filename);
-			if (fileData!=null) {
+			if (fileData != null) {
 				fileData.setAttributes(dmsEntry.getAllItems());
 				workitem.addFileData(fileData);
 			} else {
-				logger.warning("Invalid DMS entry: '" + filename + "' is unknown!");
+				// if no file data object was found this could be a Link Data object.....
+				if (filename.matches(REGEX_URL_PATTERN)) {
+					byte[] empty = {};
+					FileData linkData=new FileData(filename, empty, null,dmsEntry.getAllItems());
+					workitem.addFileData(linkData);
+				} else {
+					logger.warning("Invalid DMS entry: '" + filename + "' is unknown!");
+				}
 			}
 		}
 	}
@@ -158,8 +167,8 @@ public class DMSController implements Serializable {
 		if (dmsList == null) {
 			dmsList = getDmsListByWorkitem(workflowController.getWorkitem());
 		}
-			
-		//dmsList = new ArrayList<ItemCollection>();
+
+		// dmsList = new ArrayList<ItemCollection>();
 		return dmsList;
 
 	}
@@ -175,7 +184,7 @@ public class DMSController implements Serializable {
 	 * @version 1.0
 	 */
 	public List<ItemCollection> getDmsListByWorkitem(ItemCollection workitem) {
-		// build a new dms List 
+		// build a new dms List
 		List<ItemCollection> dmsList = new ArrayList<ItemCollection>();
 		if (workitem == null) {
 			return dmsList;
@@ -202,7 +211,7 @@ public class DMSController implements Serializable {
 	public void removeFile(String aFile) {
 		// remove file from dms list
 		workflowController.getWorkitem().removeFile(aFile);
-		dmsList=null;
+		dmsList = null;
 	}
 
 	/**
@@ -276,25 +285,28 @@ public class DMSController implements Serializable {
 
 	/**
 	 * Computes the file size into a user friendly format
+	 * 
 	 * @param size
 	 * @return
 	 */
 	public String userFriendlyBytes(int bytes) {
-		boolean si=true;
+		boolean si = true;
 		int unit = si ? 1000 : 1024;
-	    if (bytes < unit) return bytes + " B";
-	    int exp = (int) (Math.log(bytes) / Math.log(unit));
-	    String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
-	    return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
+		if (bytes < unit)
+			return bytes + " B";
+		int exp = (int) (Math.log(bytes) / Math.log(unit));
+		String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
+		return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
 	}
-	
+
 	public String documentType(String name) {
-		name=name.toLowerCase();
-		if (name.endsWith(".doc") || name.endsWith(".docx")|| name.endsWith(".xls")|| name.endsWith(".xlsx") ) {
+		name = name.toLowerCase();
+		if (name.endsWith(".doc") || name.endsWith(".docx") || name.endsWith(".xls") || name.endsWith(".xlsx")) {
 			return "win";
 		}
-		
-		if (name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".gif") || name.endsWith(".tif")|| name.endsWith(".tiff")) {
+
+		if (name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".gif") || name.endsWith(".tif")
+				|| name.endsWith(".tiff")) {
 			return "pic";
 		}
 
@@ -305,9 +317,8 @@ public class DMSController implements Serializable {
 		if (name.endsWith(".eml")) {
 			return "eml";
 		}
-		
+
 		return "doc";
 	}
-	
-	
+
 }
