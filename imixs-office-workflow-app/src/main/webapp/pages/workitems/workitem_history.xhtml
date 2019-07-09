@@ -6,15 +6,15 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
-	
-	<h:panelGrid columns="2" columnClasses="imixs-history-col1 imixs-history-col2">
+
+	<h:panelGrid columns="2" styleClass="imixs-history-summary"
+		columnClasses="imixs-history-col1 imixs-history-col2">
 		<h:outputLabel value="#{message.created}: " />
 		<h:panelGroup>
 			<h:outputText value="#{workflowController.workitem.item['$created']}">
 				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 					pattern="#{message.dateTimePattern}" />
 			</h:outputText>
-
 			<h:outputText
 				value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCreator'])}" />
 
@@ -22,17 +22,15 @@
 		<h:outputLabel value="#{message.last_edit}: " />
 
 		<h:panelGroup>
-			<ui:param name="modified" value="#{! empty workflowController.workitem.item['$lasteventdate']?workflowController.workitem.item['$lasteventdate']:(! empty workflowController.workitem.item['timworkflowlastaccess']?workflowController.workitem.item['timworkflowlastaccess']:workflowController.workitem.item['$modified'])}"></ui:param>
-			<h:outputText
-				value="#{modified}">
+			<ui:param name="modified"
+				value="#{! empty workflowController.workitem.item['$lasteventdate']?workflowController.workitem.item['$lasteventdate']:(! empty workflowController.workitem.item['timworkflowlastaccess']?workflowController.workitem.item['timworkflowlastaccess']:workflowController.workitem.item['$modified'])}"></ui:param>
+			<h:outputText value="#{modified}">
 				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 					pattern="#{message.dateTimePattern}" />
 			</h:outputText>
 			<h:outputText
 				value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCurrentEditor'])}" />
 		</h:panelGroup>
-
-
 
 		<h:outputLabel value="#{message.owner}: " />
 		<h:panelGroup>
@@ -44,14 +42,18 @@
 			</ui:repeat>
 		</h:panelGroup>
 
-		
+
 	</h:panelGrid>
+
+
+	<h:panelGroup styleClass="imixs-history-course">
 		<h:outputLabel value="#{message.course}:" />
 		<h:panelGroup>
 			<!--  new log format -->
 			<ui:fragment
 				rendered="#{!empty workflowController.workitem.item['txtworkflowhistory']}">
-				<h:dataTable var="log" columnClasses="imixs-history-col1 imixs-history-col2"
+				<h:dataTable var="log"
+					columnClasses="imixs-history-col1 imixs-history-col2"
 					value="#{workflowController.workitem.itemListArray['txtworkflowhistory']}">
 					<h:column>
 						<h:outputText value="#{log[0]}">
@@ -76,5 +78,6 @@
 				</ui:repeat>
 			</ui:fragment>
 		</h:panelGroup>
+	</h:panelGroup>
 </ui:composition>
 
