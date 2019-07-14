@@ -119,7 +119,9 @@
 	<script type="text/javascript"
 		src="#{facesContext.externalContext.requestContextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
 	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office-workflow.js?build=#{app.application_build_timestamp}"></script>
+		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.main.js?build=#{app.application_build_timestamp}"></script>
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.main.custom.js?build=#{app.application_build_timestamp}"></script>
 
 	<ui:insert name="header">
 		<!-- default  -->
@@ -196,69 +198,15 @@
 	<script type="text/javascript">
 		/*<![CDATA[*/
 
-		/* Init Script */
-		var imixs = IMIXS.org.imixs.core, 
-			imixsOfficeWorkflow = IMIXS.com.imixs.workflow.office;
+		// define script name spaces
+		var imixs = IMIXS.org.imixs.core
+		var imixsOfficeWorkflow = IMIXS.com.imixs.workflow.office;
 
+		// define variables for office scripts loaded from resource bundles....
 		imixsOfficeWorkflow.contextPath="#{facesContext.externalContext.requestContextPath}";
+		imixsOfficeWorkflow.error_message_mce_image_size="#{message.error_message_mce_image_size}";
+		imixsOfficeWorkflow.imixs_date_showWeek=("true"==="#{app['jquey.datepicker.showWeek']}");
 		
-		$(document).ready(function() {
-			
-			// init layout
-			imixsOfficeWorkflow.initLayout();
-			
-			layoutOfficeEditor();
-			
-			// customize datepicker.... verify resource bundle key...
-			if ("true"==="#{app['jquey.datepicker.showWeek']}") {
-				$('.imixs-date').datepicker('option', 'showWeek', '#{app["jquey.datepicker.showWeek"]}');
-			}
-			
-		});
-		
-		/* laest sich im moment nicht auslagern (script_url!) see issue #87 */
-		layoutOfficeEditor = function() {
-			// Layout office default editor
-			tinymce.init({
-				  selector: 'textarea.imixs-editor',
-				  height: 300,
-				  plugins: [
-				    'advlist autolink lists link image preview',
-				    'searchreplace code fullscreen',
-				    'contextmenu paste code'
-				  ],
-					paste_data_images: true,
-					paste_preprocess : function(pl, o) {
-					    if (o.content.length>160000) {
-					 		alert("#{message.error_message_mce_image_size}");
-					 		o.content="";
-					    }
-					},
-				  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat',
-				  content_css : "#{facesContext.externalContext.requestContextPath}/layout/css/tinymce.css"
-				});
-			
-			// layout tinymce for minutes
-			tinymce
-				.init({
-					selector : 'textarea.imixs-editor-basic',
-					height : 200,
-					menubar : false,
-					statusbar : true,
-					plugins : [ 'advlist autolink lists link image',
-							'searchreplace', 'contextmenu paste' ],
-					paste_data_images: true,
-					paste_preprocess : function(pl, o) {
-					    if (o.content.length>160000) {
-					 		alert("#{message.error_message_mce_image_size}");
-					 		o.content="";
-					    }
-					},
-					toolbar : 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat',
-					content_css : "#{facesContext.externalContext.requestContextPath}/layout/css/tinymce.css"
-
-				});
-		};
 		/*]]>*/
 	</script>
 

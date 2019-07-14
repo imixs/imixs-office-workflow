@@ -3,6 +3,43 @@
 // define namespace
 IMIXS.namespace("com.imixs.workflow.office");
 
+
+/**
+ * This method initializes the main layout and general office functionality.
+ * 
+ *  - general Office Layout
+ *  - init tinyMCE
+ *  - set calender week start
+ *  - search nav input
+ *   
+ * @returns
+ */
+$(document).ready(function() {
+	
+	// init layout
+	imixsOfficeWorkflow.initLayout();
+	
+
+	imixsOfficeWorkflow.layoutOfficeEditor();
+	
+	// customize datePicker....show calendar week
+	$('.imixs-date').datepicker('option', 'showWeek', imixsOfficeWorkflow.imixs_date_showWeek);
+	
+	// hit enter on nav search box trigers search link..
+	$("[data-id='nav_input_phrase']").keydown(function(e){
+	    if(e.keyCode == 13) {
+	    	$("[data-id='nav_search_link']").click();
+	    	return false;
+	    }
+	});
+	
+});
+
+
+
+
+
+
 /*
  * Method to render typicons
  * 
@@ -15,6 +52,7 @@ $.fn.layoutTypIcons = function(options) {
 				$('.imixs-typicon', this)
 						.each(
 								function() {
+									
 									var mainIcon = "", subIconNe = "", subIconSe = "", subIconSw = "", subIconNw = "", typClasses, i, typiconElement;
 
 									typClasses = $(this).attr("data-typicon");
@@ -103,9 +141,13 @@ IMIXS.com.imixs.workflow.office = (function() {
 	 **************************************************************************/
 
 	/**
-	 * initialize the Imixs-Office Application
+	 * Global Layout method 
+	 * 
+	 * - Initialize ajax loading feature 
+	 * - Layout Typ Icons 
 	 */
 	initLayout = function(settings) {
+		
 		// Force options to be an object
 		settings = settings || {};
 
@@ -128,6 +170,59 @@ IMIXS.com.imixs.workflow.office = (function() {
 		});
 		
 		$(document).layoutTypIcons();
+	},
+	
+	
+
+	/**
+	 * Tiny MCE Editor
+	 * 
+	 *  - define imixs-editor
+	 *  - define imixs-editor-basic
+	 * 
+	 */
+	/* laest sich im moment nicht auslagern (script_url!) see issue #87 */
+	layoutOfficeEditor = function() {
+		// Layout office default editor
+		tinymce.init({
+			  selector: 'textarea.imixs-editor',
+			  height: 300,
+			  plugins: [
+			    'advlist autolink lists link image preview',
+			    'searchreplace code fullscreen',
+			    'contextmenu paste code'
+			  ],
+				paste_data_images: true,
+				paste_preprocess : function(pl, o) {
+				    if (o.content.length>160000) {
+				 		alert(imixsOfficeWorkflow.error_message_mce_image_size);
+				 		o.content="";
+				    }
+				},
+			  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat',
+			  content_css : imixsOfficeWorkflow.contextPath+"/layout/css/tinymce.css"
+			});
+		
+		// layout tinymce for basic
+		tinymce
+			.init({
+				selector : 'textarea.imixs-editor-basic',
+				height : 200,
+				menubar : false,
+				statusbar : true,
+				plugins : [ 'advlist autolink lists link image',
+						'searchreplace', 'contextmenu paste' ],
+				paste_data_images: true,
+				paste_preprocess : function(pl, o) {
+				    if (o.content.length>160000) {
+				    	alert(imixsOfficeWorkflow.error_message_mce_image_size);
+				 		o.content="";
+				    }
+				},
+				toolbar : 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat',
+				content_css : imixsOfficeWorkflow.contextPath+"/layout/css/tinymce.css"
+
+			});
 	},
 
 	/**
@@ -173,7 +268,8 @@ IMIXS.com.imixs.workflow.office = (function() {
 	// public API
 	return {
 		layoutAjaxEvent : layoutAjaxEvent,
-		initLayout : initLayout
+		initLayout : initLayout,
+		layoutOfficeEditor : layoutOfficeEditor
 	};
 
 }());
