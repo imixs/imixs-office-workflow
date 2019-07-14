@@ -110,46 +110,5 @@
 		<ui:include src="/pages/workitems/workitem_chronicle.xhtml" />
  	</ui:fragment>
 	<!-- row end -->
-	<script type="text/javascript">
-		/*<![CDATA[*/
 
-		$(document).ready(function() {
-			$('.imixs-subnav a').button({
-				icons : {
-					secondary : "ui-icon-plus"
-				},
-				text : true
-			});
-		});
-
-		// change toggle state of a header panel
-		function togglePanel(buttonid, panelid) {
-			$(panelid).toggle();
-			if ($(panelid).is(":hidden")) {
-				// do this
-				$(buttonid).button({
-					icons : {
-						secondary : "ui-icon-plus"
-					}
-				}).removeClass('active');
-			} else {
-				$(buttonid).button({
-					icons : {
-						secondary : "ui-icon-minus"
-					}
-				}).addClass('active');
-			}
-		}
-
-		function printQRCode() {
-			fenster = window
-					.open(
-							"#{facesContext.externalContext.requestContextPath}/pages/workitems/qrcode_print.jsf?id=#{workflowController.workitem.uniqueID}",
-							"message.print",
-							"width=760,height=300,status=no,scrollbars=no,resizable=yes");
-			fenster.focus();
-		}
-
-		/*]]>*/
-	</script>
 </ui:composition>

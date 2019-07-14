@@ -123,7 +123,25 @@
 	<script type="text/javascript"
 		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.main.custom.js?build=#{app.application_build_timestamp}"></script>
 
-	<ui:insert name="header">
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		// define script name spaces
+		var imixs = IMIXS.org.imixs.core
+		var imixsOfficeWorkflow = IMIXS.com.imixs.workflow.office;
+
+		// define variables for office scripts loaded from resource bundles....
+		imixsOfficeWorkflow.contextPath="#{facesContext.externalContext.requestContextPath}";
+		imixsOfficeWorkflow.error_message_mce_image_size="#{message.error_message_mce_image_size}";
+		imixsOfficeWorkflow.imixs_date_showWeek=("true"==="#{app['jquey.datepicker.showWeek']}");
+		
+		
+		/*]]>*/
+	</script>
+	
+
+	<ui:insert name="scripts">
 		<!-- default  -->
 	</ui:insert>
 
@@ -164,8 +182,6 @@
 		<!-- content -->
 		<div id="container">
 		
-			
-		
 			<div id="imixs-content">
 				<ui:insert name="content">
 					<h1>Default Content</h1>
@@ -195,20 +211,6 @@
 	</f:view>
 
 
-	<script type="text/javascript">
-		/*<![CDATA[*/
-
-		// define script name spaces
-		var imixs = IMIXS.org.imixs.core
-		var imixsOfficeWorkflow = IMIXS.com.imixs.workflow.office;
-
-		// define variables for office scripts loaded from resource bundles....
-		imixsOfficeWorkflow.contextPath="#{facesContext.externalContext.requestContextPath}";
-		imixsOfficeWorkflow.error_message_mce_image_size="#{message.error_message_mce_image_size}";
-		imixsOfficeWorkflow.imixs_date_showWeek=("true"==="#{app['jquey.datepicker.showWeek']}");
-		
-		/*]]>*/
-	</script>
 
 </h:body>
 

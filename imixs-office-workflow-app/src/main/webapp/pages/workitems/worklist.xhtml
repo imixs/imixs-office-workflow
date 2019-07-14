@@ -5,9 +5,22 @@
 	template="/layout/template.xhtml">
 
 
-	<f:metadata>
-		<f:viewAction action="#{searchController.init()}" />
-	</f:metadata>
+	<h:head>
+		<!-- init search controller -->
+		<f:metadata>
+			<f:viewAction action="#{searchController.init()}" />
+		</f:metadata>
+	</h:head>
+
+	
+	<ui:define name="scripts">
+		<script type="text/javascript"
+			src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.worklist.js?build=#{app.application_build_timestamp}"></script>
+		<script type="text/javascript"
+			src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.worklist.custom.js?build=#{app.application_build_timestamp}"></script>
+	</ui:define>
+		
+	
 
 	<ui:define name="content">
 		<f:view>
@@ -77,34 +90,6 @@
 		
 		
 		
-		<script type="text/javascript">
-			/*<![CDATA[*/
-	
-			$(document).ready(function() {
-				// set navigation
-				document.cookie = "imixs.office.navigation=/pages/workitems/worklist.jsf;path=#{facesContext.externalContext.requestContextPath}/";
-				// auto focus
-				focusSearchPhrase();
-			});
-			
-			// ajax refresh...
-			function updateSearchForm(data) {
-				if (data.status === 'success') {
-					imixsOfficeWorkflow.layoutAjaxEvent(data);
-					// auto focus
-					focusSearchPhrase();
-				}
-			}
-			
-			// set the focus on the search phrase after a ajax event
-			function focusSearchPhrase() {
-				var phrase = $("[data-id='input_phrase']").val();        
-				$("[data-id='input_phrase']").focus().val('').val(phrase);
-			}
-			
-			/*]]>*/
-		</script>
-	
 	
 	</ui:define>
 </ui:composition>
