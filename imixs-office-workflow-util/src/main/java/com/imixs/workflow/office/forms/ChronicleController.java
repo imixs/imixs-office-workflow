@@ -188,6 +188,14 @@ public class ChronicleController implements Serializable {
 		
 	}
 
+	
+	/**
+	 * Returns all chronical entries by year/month
+	 * 
+	 * @param year
+	 * @param month
+	 * @return
+	 */
 	public List<ItemCollection> getChroniclePerMonth(int year,int month) {
 		
 		
