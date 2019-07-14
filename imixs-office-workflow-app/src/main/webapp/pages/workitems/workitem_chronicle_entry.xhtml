@@ -7,11 +7,11 @@
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
-	<tr class="imixs-chronicle-entry">
+	<tr class="imixs-chronicle-time">
 
 
 		<!--  Time -->
-		<td style="width: 160px;vertical-align: top;"><h:outputText 
+		<td style="width: 160px; vertical-align: top;"><h:outputText
 				value="#{chronicle.item['date']}"
 				title="#{userController.getUserName(chronicle.item['user'])}">
 				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
@@ -23,42 +23,42 @@
 		<td style="width: 100px;"><h:outputText
 				value="#{userController.getUserName(chronicle.item['user'])}" /></td>
 		-->
-		
-		
+	</tr>
+	<tr class="imixs-chronicle-entry">
 		<!-- message -->
 		<td>
-			<!--  dms -->
-			<ui:fragment rendered="#{'dms' eq chronicle.item['type']}">
+			<!--  dms --> <ui:fragment
+				rendered="#{'dms' eq chronicle.item['type']}">
 				<ui:include src="/pages/workitems/workitem_chronicle_dms.xhtml">
 					<ui:param name="attachment" value="#{chronicle}" />
 				</ui:include>
-			</ui:fragment> 
-			
-			<!-- comment -->
-			<ui:fragment rendered="#{'comment' eq chronicle.item['type']}">
+			</ui:fragment> <!-- comment --> <ui:fragment
+				rendered="#{'comment' eq chronicle.item['type']}">
 				<div class="image-block">
 					<h:panelGroup rendered="#{'comment' eq chronicle.item['type']}"
 						styleClass="typcn typcn-message"></h:panelGroup>
 				</div>
-				<div style="float:left;">
-					<h:outputLabel value="Kommentar " /> #{userController.getUserName(chronicle.item['user'])}: <br />
+				<div style="float: left;">
+					<h:outputLabel value="Kommentar " />
+					#{userController.getUserName(chronicle.item['user'])}: <br />
 					<h:panelGroup styleClass="imixs-comments-entry">
 						<h:outputText value="#{chronicle.item['message']}" />
 					</h:panelGroup>
 				</div>
-			</ui:fragment>
-			
-			<!-- history -->
-			<ui:fragment rendered="#{'history' eq chronicle.item['type']}">
+			</ui:fragment> <!-- history --> <ui:fragment
+				rendered="#{'history' eq chronicle.item['type']}">
 				<div class="image-block">
 					<h:panelGroup rendered="#{'history' eq chronicle.item['type']}"
 						styleClass="typcn typcn-equals-outline"></h:panelGroup>
 				</div>
-				<h:outputLabel value="History: " /><br /><h:panelGroup styleClass="imixs-comments-entry">
+				<h:outputLabel value="History: " />
+				<br />
+				<h:panelGroup styleClass="imixs-comments-entry">
 					<h:outputText value="#{chronicle.item['message']}" />
 				</h:panelGroup>
-				
-			</ui:fragment></td>
+
+			</ui:fragment>
+		</td>
 	</tr>
 
 </ui:composition>

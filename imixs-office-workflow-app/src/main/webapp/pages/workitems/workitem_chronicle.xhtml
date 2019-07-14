@@ -9,27 +9,45 @@
 
 
 
-	<h2>Chronicle</h2>
-	<div class="imixs-chronicle">
-		<table style="width:100%;">
-			
+	<h1>
+		#{message.history}<span onclick="toogleChronicle()"
+			style="float: right; cursor: pointer;"
+			class="typcn typcn-code-outline"></span>
+	</h1>
+
+	<div class="imixs-chronicle-filter">
+		<ul>
+			<li><span class="typcn typcn-th-menu-outline"></span></li>
+			<li><span class="typcn typcn-messages"></span></li>
+			<li><span style="color: #999;" class="typcn typcn-folder-open"></span></li>
+			<li><span style="color: #999;" class="typcn typcn-archive"></span></li>
+		</ul>
+
+
+
+	</div>
+
+	<div>
+		<table style="width: 100%;">
+
 
 			<!-- print a headline for each year -->
 			<ui:repeat var="year" value="#{chronicleController.getYears()}">
 
 				<tr>
-					<td colspan="3"><h1 style="width:100%; text-align: center; border-bottom:1px solid #ddd;">#{year}</h1></td>
+					<td colspan="3"><h2
+							style="width: 100%; text-align: center; border-bottom: 1px solid #ddd;">#{year}</h2></td>
 
 				</tr>
 
 
 				<ui:repeat var="month"
 					value="#{chronicleController.getMonths(year)}">
-					
+
 					<ui:param name="message_month" value="month_#{month}"></ui:param>
 
 					<tr>
-						<td colspan="3"><h2 style="width:100%; text-align: center;">#{message[message_month]}</h2></td>
+						<td colspan="3"><h3 style="width: 100%; text-align: center;">#{message[message_month]}</h3></td>
 
 					</tr>
 
@@ -39,11 +57,11 @@
 					<ui:repeat var="chronicle"
 						value="#{chronicleController.getChroniclePerMonth(year,month)}">
 
-						
-							<ui:include src="workitem_chronicle_entry.xhtml">
-									<ui:param name="chronicle" value="#{chronicle}" />
-								</ui:include>
-						
+
+						<ui:include src="workitem_chronicle_entry.xhtml">
+							<ui:param name="chronicle" value="#{chronicle}" />
+						</ui:include>
+
 					</ui:repeat>
 
 

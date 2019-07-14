@@ -11,6 +11,8 @@
 		<f:metadata>
 			<f:viewAction action="#{workflowController.onLoad()}" />
 		</f:metadata>
+		
+		
 	</h:head>
 
 
@@ -39,30 +41,58 @@
 	</ui:define>
 
 	<ui:define name="content">
-
+	
+	
+		<div class="imixs-workitem">
+	
+			<div class="imixs-workitem-form">
+			
+	
+				<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
+				<f:view>
+					<h:form id="workitem_form">
 		
-
-		<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
-		<f:view>
-			<h:form id="workitem_form">
-
-				<div class="imixs-form">
-					<div class="imixs-header">
-						<ui:include src="/pages/workitems/workitem_header.xhtml" />
-					</div>
-					<div class="imixs-body">
-						<ui:include src="/pages/error_message.xhtml" />
-						<!--  -->
-						<ui:include
-							src="/pages/workitems/forms/#{formController.formDefinition.path}.xhtml" />
-					</div>
-					<div class="imixs-footer">
-						<ui:include src="/pages/workitems/workitem_footer.xhtml" />
-					</div>
+						<div class="imixs-form">
+							<div class="imixs-header">
+								<ui:include src="/pages/workitems/workitem_header.xhtml" />
+							</div>
+							<div class="imixs-body">
+								<ui:include src="/pages/error_message.xhtml" />
+								<!--  -->
+								<ui:include
+									src="/pages/workitems/forms/#{formController.formDefinition.path}.xhtml" />
+							</div>
+							<div class="imixs-footer">
+								<ui:include src="/pages/workitems/workitem_footer.xhtml" />
+							</div>
+						</div>
+		
+					</h:form>
+				</f:view>
+			
+			</div>
+			
+			<!-- feature switch 'feature.chronical=true' -->
+			<ui:fragment rendered="#{'true' eq propertyController.getProperty('feature.chronicle')}">
+			<div class="imixs-chronicle">
+			
+				<div class="imixs-chronicle-nav">
+					<ul>
+					  <li><span onclick="toogleChronicle()" class="typcn typcn-th-menu-outline"></span></li>
+					  <li><span class="typcn typcn-messages"></span></li>
+					  <li><span class="typcn typcn-folder-open"></span></li>
+					  <li><span class="typcn typcn-archive"></span></li>
+					</ul>
 				</div>
-
-			</h:form>
-		</f:view>
+				
+				<div class="imixs-chronicle-content">
+					<ui:include src="/pages/workitems/workitem_chronicle.xhtml" />
+				</div>
+			
+			</div>
+			</ui:fragment>
+		</div>
+		
 	</ui:define>
 </ui:composition>
 

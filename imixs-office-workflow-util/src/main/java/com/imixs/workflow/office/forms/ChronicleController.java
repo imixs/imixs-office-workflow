@@ -88,29 +88,34 @@ public class ChronicleController implements Serializable {
 	
 	@PostConstruct
 	public void init() {
+		long l=System.currentTimeMillis();
 		chronicle= new ArrayList<ItemCollection>();
 		
 		yearsMonths = new HashMap<Integer,Set<Integer>>();
 		
 		// collect history
+		
 		List<List<Object>> history = workflowController.getWorkitem().getItemValue("txtworkflowhistory");
-		long l=System.currentTimeMillis();
-		for (List<Object> entries: history) {
-			
-			Date date=(Date) entries.get(0);
-			String message=(String) entries.get(1);
-			String user=(String) entries.get(2);
-			
-			ItemCollection entry=new ItemCollection();
-			entry.replaceItemValue("date",date);
-			entry.replaceItemValue("user",user);
-			entry.replaceItemValue("message",message);
-			entry.replaceItemValue("type","history");
-			chronicle.add(entry);
-			
-			// update years table
-			addTimeData(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+		// do we have real history entries?
+		if (history.size()>0 && history.get(0) instanceof List) {
+			for (List<Object> entries: history) {
+				
+				Date date=(Date) entries.get(0);
+				String message=(String) entries.get(1);
+				String user=(String) entries.get(2);
+				
+				ItemCollection entry=new ItemCollection();
+				entry.replaceItemValue("date",date);
+				entry.replaceItemValue("user",user);
+				entry.replaceItemValue("message",message);
+				entry.replaceItemValue("type","history");
+				chronicle.add(entry);
+				
+				// update years table
+				addTimeData(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+			}
 		}
+		
 		
 		
 		// collect comments

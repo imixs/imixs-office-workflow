@@ -26,7 +26,51 @@ $(document).ready(function() {
 	
 	printWorkitemReferences();
 	
+	// get chronicle status from cookie
+	var c_value = document.cookie;
+	//alert(c_value);
+	imixsOfficeWorkflow.imixs_chronicle=c_value.indexOf("imixs.office.chronicle=true")>-1;
+	//alert(imixsOfficeWorkflow.imixs_chronicle);
+	if (imixsOfficeWorkflow.imixs_chronicle) {
+		// avoid slide effect on first load....
+		$('.imixs-chronicle').css('transition','0.0s');
+		$('.imixs-workitem-form').css('transition','0.0s');
+	
+		showChronicle();
+		$('.imixs-chronicle').css('transition','0.3s');
+		$('.imixs-workitem-form').css('transition','0.3s');
+	} else {
+		
+	}
+	$('.imixs-chronicle').show();
 });
+
+
+/* Open the chronical nav on the right side */
+function toogleChronicle() {
+	if (!imixsOfficeWorkflow.imixs_chronicle) {
+		showChronicle();
+	} else {
+		hideChronicle();
+	}
+	imixsOfficeWorkflow.imixs_chronicle=!imixsOfficeWorkflow.imixs_chronicle;
+	// set chronicle cookie
+	document.cookie = "imixs.office.chronicle="+imixsOfficeWorkflow.imixs_chronicle;
+}
+function showChronicle() {
+	// open chronicle
+	$('.imixs-chronicle').css('width','400px');
+	$('.imixs-workitem-form').css('margin-right','400px');
+	$('.imixs-chronicle-nav').hide();
+	$('.imixs-chronicle-content').show();
+}
+function hideChronicle() {
+	// close chronicle
+	$('.imixs-chronicle').css('width','60px');
+	$('.imixs-workitem-form').css('margin-right','60px');
+	$('.imixs-chronicle-content').hide();
+	$('.imixs-chronicle-nav').show();
+}
 
 
 
