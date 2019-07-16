@@ -9,82 +9,93 @@
 
 
 	<ui:param name="profile"
-		value="#{userController.getProfile(chronicle.item['user'])}"></ui:param>
+		value="#{userController.getProfile(chronicle.user)}"></ui:param>
 
 
+	<!-- 1) User Icon and Time -->
 	<tr class="imixs-chronicle-time">
-
-
-		<!--  Time -->
-		<td style="width: 160px; vertical-align: top;">
-		
-			
-				<h:graphicImage
-					styleClass="imixs-chronicle-usericon" title="#{profile.item['txtusername']}"
-					rendered="#{! empty profile.item['txtusericon']}"
-					value="/api/snapshot/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
-				</h:graphicImage> 
-				
-				<h:panelGroup layout="block">
-				
+		<td style="width: 160px; vertical-align: top;"><h:graphicImage
+				styleClass="imixs-chronicle-usericon"
+				title="#{profile.item['txtusername']}"
+				rendered="#{! empty profile.item['txtusericon']}"
+				value="/api/snapshot/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
+			</h:graphicImage> <h:panelGroup layout="block">
 				<h:outputText styleClass="imixs-chronicle-usericon"
 					rendered="#{empty profile.item['txtusericon']}"
 					value="#{profile.item['txtinitials']}" />
-				</h:panelGroup>
-				
-			
-			
-			<h:outputText value="#{chronicle.item['date']}" style="margin-left:10px; font-size: 1.1em; line-height:1.4em;"
-				title="#{userController.getUserName(chronicle.item['user'])}">
+			</h:panelGroup> <h:outputText value="#{chronicle.date}"
+				style="margin-left:10px; font-size: 1.1em; line-height:1.4em;">
 				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 					pattern="#{message.dateTimePattern}" />
-			</h:outputText> - #{profile.item['txtusername']}
-		</td>
-
-
-		
+			</h:outputText> - #{profile.item['txtusername']}</td>
 	</tr>
-	<tr class="imixs-chronicle-entry">
-		<!-- message -->
-		<td>
-			<!--  dms --> 
-			<ui:fragment
-				rendered="#{'dms' eq chronicle.item['type']}">
-				<ui:include src="/pages/workitems/workitem_chronicle_dms.xhtml">
-					<ui:param name="attachment" value="#{chronicle}" />
-				</ui:include>
-			</ui:fragment> 
-			
-			<!-- comment --> 
-			<ui:fragment
-				rendered="#{'comment' eq chronicle.item['type']}">
-				<div class="image-block">
-					<h:panelGroup rendered="#{'comment' eq chronicle.item['type']}" title="ads #{message.comment}"
-						styleClass="typcn typcn-message"></h:panelGroup>
-				</div>
-				<div style="float: left;">
-					
-					<h:panelGroup styleClass="imixs-comments-entry">
-						<h:outputText value="#{chronicle.item['message']}" />
+
+
+
+	<!-- print all entries by time descending -->
+
+
+
+	<!-- Print History.... -->
+	<ui:repeat var="entry" value="#{chronicle.allEntries}">
+
+		<!-- history -->
+		<ui:fragment rendered="#{'history' eq entry.item['type']}">
+			<tr class="imixs-chronicle-entry">
+
+				<td>
+					<div class="image-block">
+						<h:panelGroup rendered="#{'history' eq entry.item['type']}"
+							pt:title="#{message.history} #{entry.item['date']}"
+							styleClass="typcn typcn-equals-outline"></h:panelGroup>
+					</div> <h:panelGroup styleClass="imixs-comments-entry">
+						<h:outputText value="#{entry.item['message']}" />
 					</h:panelGroup>
-				</div>
-			</ui:fragment> 
-			
-			<!-- history --> 
-			<ui:fragment
-				rendered="#{'history' eq chronicle.item['type']}">
-				<div class="image-block">
-					<h:panelGroup rendered="#{'history' eq chronicle.item['type']}"
-						styleClass="typcn typcn-equals-outline"></h:panelGroup>
-				</div>
-				
-				<h:panelGroup styleClass="imixs-comments-entry">
-					<h:outputText value="#{chronicle.item['message']}" />
-				</h:panelGroup>
+				</td>
+			</tr>
+		</ui:fragment>
 
-			</ui:fragment>
-		</td>
-	</tr>
+
+		<!-- comment -->
+		<ui:fragment rendered="#{'comment' eq entry.item['type']}">
+			<tr class="imixs-chronicle-entry">
+				<td>
+					<div class="image-block">
+						<h:panelGroup rendered="#{'comment' eq entry.item['type']}"
+							pt:title="#{message.comment} #{entry.item['date']}"
+							styleClass="typcn typcn-message"></h:panelGroup>
+					</div>
+					<div style="float: left;">
+
+						<h:panelGroup styleClass="imixs-comments-entry">
+							<h:outputText value="#{entry.item['message']}" />
+						</h:panelGroup>
+					</div>
+				</td>
+			</tr>
+		</ui:fragment>
+
+
+		<!-- Files -->
+		<!--  dms -->
+		<ui:fragment rendered="#{'dms' eq entry.item['type']}">
+			<tr class="imixs-chronicle-entry">
+				<td><ui:include
+						src="/pages/workitems/workitem_chronicle_dms.xhtml">
+						<ui:param name="attachment" value="#{entry}" />
+					</ui:include>
+				</td>
+			</tr>
+		</ui:fragment>
+
+
+
+
+	</ui:repeat>
+
+
+
+
 
 </ui:composition>
 

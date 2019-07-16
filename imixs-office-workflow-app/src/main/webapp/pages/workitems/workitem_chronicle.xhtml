@@ -30,40 +30,32 @@
 	<div>
 		<table style="width: 100%;">
 
-
 			<!-- print a headline for each year -->
 			<ui:repeat var="year" value="#{chronicleController.getYears()}">
 
+				<!-- print YEAR -->
 				<tr>
 					<td colspan="3"><h2
 							style="width: 100%; text-align: center; border-bottom: 1px solid #ddd;">#{year}</h2></td>
-
 				</tr>
 
-
+				<!-- print all MONTHs -->
 				<ui:repeat var="month"
 					value="#{chronicleController.getMonths(year)}">
-
 					<ui:param name="message_month" value="month_#{month}"></ui:param>
-
 					<tr>
 						<td colspan="3"><h3 style="width: 100%; text-align: center;">#{message[message_month]}</h3></td>
 
 					</tr>
 
-
-
-					<!-- show chronic per month -->
+					<!-- show chronic by month -->
 					<ui:repeat var="chronicle"
 						value="#{chronicleController.getChroniclePerMonth(year,month)}">
-
 
 						<ui:include src="workitem_chronicle_entry.xhtml">
 							<ui:param name="chronicle" value="#{chronicle}" />
 						</ui:include>
-
 					</ui:repeat>
-
 
 				</ui:repeat>
 

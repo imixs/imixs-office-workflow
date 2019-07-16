@@ -31,23 +31,23 @@
 
 
 
-	<div class="imixs-viewentry">
+	
 		<!-- image -->
 		<div class="image-block">
 			<h:panelGroup rendered="#{! empty attachment.item['url']}"
 				styleClass="typcn typcn-world" />
 			<ui:fragment rendered="#{empty attachment.item['url']}">
-				<ui:param name="doctyp"
+				<ui:param name="doctyp"  pt:title="#{message.attachment}"
 					value="#{dmsController.documentType(attachment.item['txtname'])}"></ui:param>
-				<h:panelGroup rendered="#{'pdf' eq doctyp}"
+				<h:panelGroup rendered="#{'pdf' eq doctyp}" pt:title="#{message.documents}"
 					styleClass="typcn typcn-document-text" />
-				<h:panelGroup rendered="#{'win' eq doctyp}"
+				<h:panelGroup rendered="#{'win' eq doctyp}" pt:title="#{message.documents}"
 					styleClass="typcn typcn-vendor-microsoft" />
-				<h:panelGroup rendered="#{'pic' eq doctyp}"
+				<h:panelGroup rendered="#{'pic' eq doctyp}" pt:title="#{message.documents}"
 					styleClass="typcn typcn-image" />
-				<h:panelGroup rendered="#{'eml' eq doctyp}"
+				<h:panelGroup rendered="#{'eml' eq doctyp}" pt:title="#{message.documents}"
 					styleClass="typcn typcn-mail" />
-				<h:panelGroup rendered="#{'doc' eq doctyp}"
+				<h:panelGroup rendered="#{'doc' eq doctyp}" pt:title="#{message.documents}"
 					styleClass="typcn typcn-document" />
 			</ui:fragment>
 
@@ -78,15 +78,7 @@
 			</h:panelGroup>
 
 			<br />
-			<!-- created by -->
-			<h:outputLabel value="#{message.created}: " />
-			<h:outputText value="#{attachment.item['$created']}">
-				<f:convertDateTime timeZone="#{message.timeZone}"
-					pattern="#{message.dateTimePattern}" />
-			</h:outputText>
-			<h:outputText
-				value=" - #{userController.getUserName(attachment.item['namCreator'])}" />
-			<br />
+			
 			<!-- modified by -->
 			<ui:fragment
 				rendered="#{(!empty attachment.item['$modified']) and (empty attachment.item['url'])}">
@@ -102,9 +94,7 @@
 
 			
 		</div>
-		<div style="clear: both"></div>
-	</div>
-
+		
 
 	<script type="text/javascript">
 		/*<![CDATA[*/
