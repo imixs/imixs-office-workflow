@@ -58,18 +58,18 @@ function toogleChronicle() {
 	document.cookie = "imixs.office.chronicle="+imixsOfficeWorkflow.imixs_chronicle;
 }
 function showChronicle() {
-	// open chronicle
+	// open chronicle 
 	$('.imixs-workitem-chronicle').css('width','400px');
 	$('.imixs-workitem-container').css('margin-right','400px');
-	$('.imixs-workitem-chronicle-nav').hide();
-	$('.imixs-workitem-chronicle-content').show();
+	$('.imixs-workitem-chronicle .nav').hide();
+	$('.imixs-workitem-chronicle .content').show();
 }
 function hideChronicle() {
 	// close chronicle
 	$('.imixs-workitem-chronicle').css('width','60px');
 	$('.imixs-workitem-container').css('margin-right','60px');
-	$('.imixs-workitem-chronicle-content').hide();
-	$('.imixs-workitem-chronicle-nav').show();
+	$('.imixs-workitem-chronicle .content').hide();
+	$('.imixs-workitem-chronicle .nav').show();
 }
 
 

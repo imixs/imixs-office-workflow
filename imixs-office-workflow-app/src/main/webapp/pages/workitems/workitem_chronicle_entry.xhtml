@@ -13,7 +13,7 @@
 
 
 	<!-- 1) User Icon and Time -->
-	<tr class="imixs-workitem-chronicle-time">
+	<tr class="header">
 		<td style="width: 160px; vertical-align: top;"><h:graphicImage
 				styleClass="imixs-workitem-chronicle-usericon"
 				title="#{profile.item['txtusername']}"
@@ -41,16 +41,18 @@
 
 		<!-- history -->
 		<ui:fragment rendered="#{'history' eq entry.item['type']}">
-			<tr class="imixs-workitem-chronicle-entry">
+			<tr class="entry">
 
 				<td>
 					<div class="image-block">
 						<h:panelGroup rendered="#{'history' eq entry.item['type']}"
 							pt:title="#{message.history} #{entry.item['date']}"
 							styleClass="typcn typcn-equals-outline"></h:panelGroup>
-					</div> <h:panelGroup styleClass="imixs-comments-entry">
-						<h:outputText value="#{entry.item['message']}" />
-					</h:panelGroup>
+					</div> 
+					
+					<div class="content-block">
+						<h:outputText styleClass="imixs-comments-entry" value="#{entry.item['message']}" />
+					</div>
 				</td>
 			</tr>
 		</ui:fragment>
@@ -58,15 +60,14 @@
 
 		<!-- comment -->
 		<ui:fragment rendered="#{'comment' eq entry.item['type']}">
-			<tr class="imixs-workitem-chronicle-entry">
+			<tr class="entry">
 				<td>
 					<div class="image-block">
 						<h:panelGroup rendered="#{'comment' eq entry.item['type']}"
 							pt:title="#{message.comment} #{entry.item['date']}"
 							styleClass="typcn typcn-message"></h:panelGroup>
 					</div>
-					<div style="float: left;">
-
+					<div class="content-block">
 						<h:panelGroup styleClass="imixs-comments-entry">
 							<h:outputText value="#{entry.item['message']}" />
 						</h:panelGroup>
@@ -79,7 +80,7 @@
 		<!-- Files -->
 		<!--  dms -->
 		<ui:fragment rendered="#{'dms' eq entry.item['type']}">
-			<tr class="imixs-workitem-chronicle-entry">
+			<tr class="entry">
 				<td><ui:include
 						src="/pages/workitems/workitem_chronicle_dms.xhtml">
 						<ui:param name="attachment" value="#{entry}" />
