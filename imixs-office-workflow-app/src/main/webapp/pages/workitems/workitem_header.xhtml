@@ -48,47 +48,7 @@
 						value="#{workflowController.workitem.item['txtProcessName']}" />
 				</h:link>
 			</div>
-			<!-- sub navigation -->
-			<div class="imixs-subnav">
-				<h:panelGroup rendered="#{! workflowController.newWorkitem}"
-					style="cursor:pointer;">
-					<a onclick="togglePanel(this,'#history-panel');">#{message.history}</a>
-				</h:panelGroup>
-				<h:panelGroup
-					rendered="#{! workflowController.newWorkitem and (! empty workitemLinkController.externalReferences or ! empty workitemLinkController.getReferences(''))}"
-					style="cursor:pointer;">
-					<a onclick="togglePanel(this,'#reference-panel');">#{message.references}</a>
-				</h:panelGroup>
-				<h:panelGroup style="cursor:pointer;">
-					<a onclick="togglePanel(this,'#process-panel');">#{message.progress}</a>
-				</h:panelGroup>
-				<h:panelGroup style="cursor:pointer;"
-					rendered="#{! empty versionController.versions}">
-					<a onclick="togglePanel(this,'#version-panel');">#{message.versions}</a>
-				</h:panelGroup>
-			</div>
-
-
-			<div style="clear: left;" />
-			<!-- Workflow History -->
-			<div id="history-panel" style="display: none;">
-				<ui:include src="/pages/workitems/workitem_history.xhtml" />
-			</div>
-
-			<!-- References -->
-			<div id="reference-panel" style="display: none;">
-				<ui:include src="/pages/workitems/workitem_references.xhtml" />
-			</div>
-
-			<!-- Process Map -->
-			<div id="process-panel" style="display: none;">
-				<ui:include src="/pages/workitems/workitem_processmap.xhtml" />
-			</div>
-
-			<!-- Workflow Versions -->
-			<div id="version-panel" style="display: none;">
-				<ui:include src="/pages/workitems/workitem_versions.xhtml" />
-			</div>
+			
 
 
 		</div>

@@ -45,7 +45,7 @@
 	
 		<div class="imixs-workitem">
 	
-			<div class="#{'true' eq propertyController.getProperty('feature.chronicle')?'imixs-workitem-form':''}">
+			<div class="imixs-workitem-container">
 			
 	
 				<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
@@ -72,11 +72,9 @@
 			
 			</div>
 			
-			<!-- feature switch 'feature.chronical=true' -->
-			<ui:fragment rendered="#{'true' eq propertyController.getProperty('feature.chronicle')}">
-			<div class="imixs-chronicle">
+			<div class="imixs-workitem-chronicle">
 			
-				<div class="imixs-chronicle-nav">
+				<div class="imixs-workitem-chronicle-nav">
 					<ul>
 					  <li><span onclick="toogleChronicle()" class="typcn typcn-th-menu-outline"></span></li>
 					  <li><span class="typcn typcn-messages"></span></li>
@@ -85,12 +83,12 @@
 					</ul>
 				</div>
 				
-				<div class="imixs-chronicle-content">
+				<div class="imixs-workitem-chronicle-content">
 					<ui:include src="/pages/workitems/workitem_chronicle.xhtml" />
 				</div>
 			
 			</div>
-			</ui:fragment>
+			
 		</div>
 		
 	</ui:define>

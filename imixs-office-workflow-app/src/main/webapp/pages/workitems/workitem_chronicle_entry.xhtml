@@ -13,14 +13,14 @@
 
 
 	<!-- 1) User Icon and Time -->
-	<tr class="imixs-chronicle-time">
+	<tr class="imixs-workitem-chronicle-time">
 		<td style="width: 160px; vertical-align: top;"><h:graphicImage
-				styleClass="imixs-chronicle-usericon"
+				styleClass="imixs-workitem-chronicle-usericon"
 				title="#{profile.item['txtusername']}"
 				rendered="#{! empty profile.item['txtusericon']}"
 				value="/api/snapshot/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
 			</h:graphicImage> <h:panelGroup layout="block">
-				<h:outputText styleClass="imixs-chronicle-usericon"
+				<h:outputText styleClass="imixs-workitem-chronicle-usericon"
 					rendered="#{empty profile.item['txtusericon']}"
 					value="#{profile.item['txtinitials']}" />
 			</h:panelGroup> <h:outputText value="#{chronicle.date}"
@@ -41,7 +41,7 @@
 
 		<!-- history -->
 		<ui:fragment rendered="#{'history' eq entry.item['type']}">
-			<tr class="imixs-chronicle-entry">
+			<tr class="imixs-workitem-chronicle-entry">
 
 				<td>
 					<div class="image-block">
@@ -58,7 +58,7 @@
 
 		<!-- comment -->
 		<ui:fragment rendered="#{'comment' eq entry.item['type']}">
-			<tr class="imixs-chronicle-entry">
+			<tr class="imixs-workitem-chronicle-entry">
 				<td>
 					<div class="image-block">
 						<h:panelGroup rendered="#{'comment' eq entry.item['type']}"
@@ -79,7 +79,7 @@
 		<!-- Files -->
 		<!--  dms -->
 		<ui:fragment rendered="#{'dms' eq entry.item['type']}">
-			<tr class="imixs-chronicle-entry">
+			<tr class="imixs-workitem-chronicle-entry">
 				<td><ui:include
 						src="/pages/workitems/workitem_chronicle_dms.xhtml">
 						<ui:param name="attachment" value="#{entry}" />

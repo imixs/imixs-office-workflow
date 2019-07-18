@@ -33,16 +33,16 @@ $(document).ready(function() {
 	//alert(imixsOfficeWorkflow.imixs_chronicle);
 	if (imixsOfficeWorkflow.imixs_chronicle) {
 		// avoid slide effect on first load....
-		$('.imixs-chronicle').css('transition','0.0s');
-		$('.imixs-workitem-form').css('transition','0.0s');
+		$('.imixs-workitem-chronicle').css('transition','0.0s');
+		$('.imixs-workitem-container').css('transition','0.0s');
 	
 		showChronicle();
-		$('.imixs-chronicle').css('transition','0.3s');
-		$('.imixs-workitem-form').css('transition','0.3s');
+		$('.imixs-workitem-chronicle').css('transition','0.3s');
+		$('.imixs-workitem-container').css('transition','0.3s');
 	} else {
 		
 	}
-	$('.imixs-chronicle').show();
+	$('.imixs-workitem-chronicle').show();
 });
 
 
@@ -59,17 +59,17 @@ function toogleChronicle() {
 }
 function showChronicle() {
 	// open chronicle
-	$('.imixs-chronicle').css('width','400px');
-	$('.imixs-workitem-form').css('margin-right','400px');
-	$('.imixs-chronicle-nav').hide();
-	$('.imixs-chronicle-content').show();
+	$('.imixs-workitem-chronicle').css('width','400px');
+	$('.imixs-workitem-container').css('margin-right','400px');
+	$('.imixs-workitem-chronicle-nav').hide();
+	$('.imixs-workitem-chronicle-content').show();
 }
 function hideChronicle() {
 	// close chronicle
-	$('.imixs-chronicle').css('width','60px');
-	$('.imixs-workitem-form').css('margin-right','60px');
-	$('.imixs-chronicle-content').hide();
-	$('.imixs-chronicle-nav').show();
+	$('.imixs-workitem-chronicle').css('width','60px');
+	$('.imixs-workitem-container').css('margin-right','60px');
+	$('.imixs-workitem-chronicle-content').hide();
+	$('.imixs-workitem-chronicle-nav').show();
 }
 
 
