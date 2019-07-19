@@ -5,29 +5,30 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 	<style>
-		
-		/* RESPONSIVE BEHAVIOUR */
-		@media screen and (max-width: 1400px) { 
-		
-			.col-6 {
-			
-			clear: both; float: none; width: 100% !important; left: 0; text-align: left;
-			}
-	
- 		}
-	
-	</style>
+
+/* RESPONSIVE BEHAVIOUR */
+@media screen and (max-width: 1400px) {
+	.col-6 {
+		clear: both;
+		float: none;
+		width: 100% !important;
+		left: 0;
+		text-align: left;
+	}
+}
+</style>
 
 
 
 	<!-- the following code computes the txtworkflow abstract from the current modelversion and processid  -->
-	<ui:param name="instruction" value="#{modelController.getProcessDescription(workflowController.workitem.item['$processID'],workflowController.workitem.item['$ModelVersion'],workflowController.workitem)}"></ui:param>
-	<h:panelGroup layout="block" styleClass="imixs-instruction" rendered="#{! empty instruction}">
-		<h:outputText escape="false"
-			value="#{instruction}">
+	<ui:param name="instruction"
+		value="#{modelController.getProcessDescription(workflowController.workitem.item['$processID'],workflowController.workitem.item['$ModelVersion'],workflowController.workitem)}"></ui:param>
+	<h:panelGroup layout="block" styleClass="imixs-instruction"
+		rendered="#{! empty instruction}">
+		<h:outputText escape="false" value="#{instruction}">
 		</h:outputText>
 	</h:panelGroup>
-	
+
 	<div class="row nested imixs-form-panel-documentviewer">
 
 		<div class="col-6 nested">
@@ -48,23 +49,12 @@
 			</c:forEach>
 
 
-			<!-- Standard Tab Section -->
-			<div class="imixs-tabs imixs-comment-tabs">
-				<ul>
-					<li><a href="#tab-comments">#{message.comments}</a></li>
-					<li><a href="#tab-documents">#{message.documents} <h:panelGroup
-								rendered="#{! empty dmsController.dmsList}"
-								styleClass="typcn typcn-input-checked imixs-documents-available"></h:panelGroup></a></li>
-				</ul>
-				<div id="tab-comments">
-					<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
-						<ui:param name="workitem" value="#{workflowController.workitem}" />
-					</ui:include>
-				</div>
-				<div id="tab-documents">
-					<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
-				</div>
-			</div>
+			<!-- Comments and Documents -->
+			<ui:include
+				src="/pages/workitems/forms/sub_comment_and_documents.xhtml">
+				<ui:param name="workitem" value="#{workflowController.workitem}" />
+			</ui:include>
+
 
 
 
@@ -75,7 +65,7 @@
 			<ui:include src="/pages/workitems/forms/sub_documentviewer.xhtml">
 				<ui:param name="workitem" value="#{workflowController.workitem}" />
 				<ui:param name="height" value="800" />
-			</ui:include> 
+			</ui:include>
 		</div>
 
 

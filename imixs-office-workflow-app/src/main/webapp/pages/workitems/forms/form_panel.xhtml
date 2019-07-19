@@ -19,21 +19,10 @@
 		</div>
 	</c:forEach>
 
-	<!-- Standard Tab Section -->
-	<div class="imixs-tabs imixs-comment-tabs">
-		<ul>
-			<li><a href="#tab-comments">#{message.comments}</a></li>
-			<li><a href="#tab-documents">#{message.documents} <h:panelGroup
-						rendered="#{! empty dmsController.dmsList}"
-						styleClass="typcn typcn-input-checked imixs-documents-available"></h:panelGroup></a></li>
-		</ul>
-		<div id="tab-comments">
-			<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
-				<ui:param name="workitem" value="#{workflowController.workitem}" />
-			</ui:include>
-		</div>
-		<div id="tab-documents">
-			<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
-		</div>
-	</div>
+	<!-- Comments and Documents -->
+	<ui:include src="/pages/workitems/forms/sub_comment_and_documents.xhtml">
+					<ui:param name="workitem" value="#{workflowController.workitem}" />
+	</ui:include>
+	
+	
 </ui:composition>
