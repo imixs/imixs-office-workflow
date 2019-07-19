@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.ConversationScoped;
@@ -193,6 +194,19 @@ public class DMSController implements Serializable {
 		List<FileData> files = workitem.getFileData();
 		for (FileData fileData : files) {
 
+			
+			// Issue #509
+			// fix format of deprecated dms item
+			// in some cases we have no attributes (old workitems)
+			if (fileData.getAttributes().get("txtname")==null) {
+				// create attributes on demand 
+				List<Object> values=new ArrayList<Object>();
+				values.add(fileData.getName());
+				fileData.setAttribute("txtname", values);
+				// create dummy date
+				fileData.setAttribute("$created", workitem.getItemValue("$created"));
+			}			
+			
 			dmsList.add(new ItemCollection(fileData.getAttributes()));
 		}
 
