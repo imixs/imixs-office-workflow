@@ -59,15 +59,17 @@ function toogleChronicle() {
 }
 function showChronicle() {
 	// open chronicle 
-	$('.imixs-workitem-chronicle').css('width','400px');
-	$('.imixs-workitem-container').css('margin-right','400px');
+	$('.imixs-workitem-chronicle').css('width','33.3333%');
+	$('.imixs-workitem-container').css('width','66.6666%');
+	
 	$('.imixs-workitem-chronicle .nav').hide();
 	$('.imixs-workitem-chronicle .content').show();
 }
 function hideChronicle() {
 	// close chronicle
 	$('.imixs-workitem-chronicle').css('width','60px');
-	$('.imixs-workitem-container').css('margin-right','60px');
+	$('.imixs-workitem-container').css('width','calc(100% - 60px)');
+	
 	$('.imixs-workitem-chronicle .content').hide();
 	$('.imixs-workitem-chronicle .nav').show();
 }
