@@ -28,9 +28,11 @@ $(document).ready(function() {
 	
 	// get chronicle status from cookie
 	var c_value = document.cookie;
-	//alert(c_value);
 	imixsOfficeWorkflow.imixs_chronicle=c_value.indexOf("imixs.office.chronicle=true")>-1;
-	//alert(imixsOfficeWorkflow.imixs_chronicle);
+	
+	imixsOfficeWorkflow.imixs_chronicle_comments=true;
+	imixsOfficeWorkflow.imixs_chronicle_nav=JSON.parse('{ "comment" : true, "files":true }'); 
+		
 	if (imixsOfficeWorkflow.imixs_chronicle) {
 		// avoid slide effect on first load....
 		$('.imixs-workitem-chronicle').css('transition','0.0s');
@@ -46,8 +48,9 @@ $(document).ready(function() {
 });
 
 
+
 /* Open the chronical nav on the right side */
-function toogleChronicle() {
+function toggleChronicle() {
 	if (!imixsOfficeWorkflow.imixs_chronicle) {
 		showChronicle();
 	} else {
@@ -73,6 +76,46 @@ function hideChronicle() {
 	$('.imixs-workitem-chronicle .content').hide();
 	$('.imixs-workitem-chronicle .nav').show();
 }
+
+
+/**
+ * Switch for chronical comments (show/hide)
+ * @returns
+ */
+function toggleChronicleComments() {
+	
+	if (imixsOfficeWorkflow.imixs_chronicle_comments) {
+		$('.imixs-workitem-chronicle .entry.comment').hide();
+	} else {
+		$('.imixs-workitem-chronicle .entry.comment').show();
+	}
+	
+	imixsOfficeWorkflow.imixs_chronicle_comments=!imixsOfficeWorkflow.imixs_chronicle_comments;
+	
+}
+
+
+/**
+ * Switch for chronical comments (show/hide)
+ * @returns
+ */
+function toggleChronicleEntries(type) {
+	
+	if (imixsOfficeWorkflow.imixs_chronicle_nav[type]) {
+		$('.imixs-workitem-chronicle .entry.' + type).hide();
+		$('.imixs-workitem-chronicle .filter .typcn.'+type).addClass('disabled');
+	} else {
+		$('.imixs-workitem-chronicle .entry.' + type).show();
+		$('.imixs-workitem-chronicle .filter .typcn.' + type).removeClass('disabled');
+	}
+	
+	imixsOfficeWorkflow.imixs_chronicle_nav[type]=!imixsOfficeWorkflow.imixs_chronicle_nav[type];
+	
+}
+
+
+
+
 
 
 

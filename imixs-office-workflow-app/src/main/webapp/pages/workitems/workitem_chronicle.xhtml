@@ -10,16 +10,16 @@
 
 
 	<h1>
-		#{message.history}<span onclick="toogleChronicle()"
+		#{message.history}<span onclick="toggleChronicle()"
 			style="float: right; cursor: pointer;"
 			class="typcn typcn-code-outline"></span>
 	</h1>
 
 	<div class="filter">
 		<ul>
-			<li><span class="typcn typcn-th-menu-outline"></span></li>
-			<li><span class="typcn typcn-messages"></span></li>
-			<li><span style="color: #999;" class="typcn typcn-folder-open"></span></li>
+			<li><span onclick="toggleChronicle()" class="typcn typcn-th-menu-outline"></span></li>
+			<li><span onclick="toggleChronicleEntries('comment')" class="typcn typcn-messages comment"></span></li>
+			<li><span onclick="toggleChronicleEntries('files')" class="typcn typcn-folder-open files"></span></li>
 			<li><span style="color: #999;" class="typcn typcn-archive"></span></li>
 		</ul>
 

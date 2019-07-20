@@ -41,7 +41,7 @@
 
 		<!-- history -->
 		<ui:fragment rendered="#{'history' eq entry.item['type']}">
-			<tr class="entry">
+			<tr class="entry history">
 
 				<td>
 					<div class="image-block">
@@ -60,7 +60,7 @@
 
 		<!-- comment -->
 		<ui:fragment rendered="#{'comment' eq entry.item['type']}">
-			<tr class="entry">
+			<tr class="entry comment">
 				<td>
 					<div class="image-block">
 						<h:panelGroup rendered="#{'comment' eq entry.item['type']}"
@@ -80,7 +80,7 @@
 		<!-- Files -->
 		<!--  dms -->
 		<ui:fragment rendered="#{'dms' eq entry.item['type']}">
-			<tr class="entry">
+			<tr class="entry files">
 				<td><ui:include
 						src="/pages/workitems/workitem_chronicle_dms.xhtml">
 						<ui:param name="attachment" value="#{entry}" />
