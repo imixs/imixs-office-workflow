@@ -37,11 +37,15 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.imixs.marty.ejb.WorkitemService;
+import org.imixs.marty.workflow.WorkitemLinkController;
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.faces.data.WorkflowController;
 
 /**
@@ -58,13 +62,6 @@ import org.imixs.workflow.faces.data.WorkflowController;
  * @see workitem_chronicle.xhtml
  * 
  * @author rsoika,gheinle
- * 
- * 
- * 
- * 
- * 
- * TODO Idee: struktur so ändern, das zu einem yyy-MM-dd hh:mm genau ein kombineirter Entry entsteht, der history, commments und files enthält.
- * 
  * 
  */
 @Named
@@ -84,8 +81,15 @@ public class ChronicleController implements Serializable {
 	Map<Integer, Set<Integer>> yearsMonths;
 
 	@Inject
-	DMSController dmsController;
+	protected DMSController dmsController;
+	
+	@Inject
+	protected WorkitemLinkController workitemLinkController;
 
+	@EJB
+	protected WorkitemService workitemService;
+
+	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
 		long l = System.currentTimeMillis();
@@ -93,11 +97,7 @@ public class ChronicleController implements Serializable {
 
 		yearsMonths = new HashMap<Integer, Set<Integer>>();
 
-		// collect history
-		
-		
-		
-
+		/* collect history */
 		List<List<Object>> history = workflowController.getWorkitem().getItemValue("txtworkflowhistory");
 		// change order
 		Collections.reverse(history);
@@ -114,30 +114,13 @@ public class ChronicleController implements Serializable {
 				entry.replaceItemValue("user", user);
 				entry.replaceItemValue("message", message);
 				entry.replaceItemValue("type", "history");
-			
 
-				ChronicleEntity chronicleEntity = new ChronicleEntity(user,date);
-				int chronicleIndex=chronicleList.indexOf(chronicleEntity);
-				if (chronicleIndex>-1) {
-					// already created
-					chronicleEntity=chronicleList.get(chronicleIndex);
-				}// add history...
-				chronicleEntity.getHistoryEntries().add(entry);
+				addChronicleEntry(entry);
 				
-				if (chronicleIndex>-1) {
-					chronicleList.set(chronicleIndex, chronicleEntity);
-				} else {
-					chronicleList.add(chronicleEntity);
-				}
-				
-				
-				// update years table
-				addTimeData(chronicleEntity.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-			
 			}
 		}
 
-		// collect comments
+		/* collect comments */
 		List<Map<String, List<Object>>> comments = workflowController.getWorkitem().getItemValue("txtCommentLog");
 		for (Map<String, List<Object>> comment : comments) {
 
@@ -152,29 +135,11 @@ public class ChronicleController implements Serializable {
 			entry.replaceItemValue("message", message);
 			entry.replaceItemValue("type", "comment");
 
-
-			ChronicleEntity chronicleEntity = new ChronicleEntity(user,date);
-			int chronicleIndex=chronicleList.indexOf(chronicleEntity);
-			if (chronicleIndex>-1) {
-				// already created
-				chronicleEntity=chronicleList.get(chronicleIndex);
-			}// add history...
-			chronicleEntity.getCommentEntries().add(entry);
+			addChronicleEntry(entry);
 			
-			
-			if (chronicleIndex>-1) {
-				chronicleList.set(chronicleIndex, chronicleEntity);
-			} else {
-				chronicleList.add(chronicleEntity);
-			}
-			
-			
-			// update years table
-			addTimeData(chronicleEntity.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-					
 		}
 
-		// Attachments
+		/* collect Attachments */
 		List<ItemCollection> dmsList = dmsController.getDmsList();
 		for (ItemCollection dmsEntry : dmsList) {
 			ItemCollection entry = new ItemCollection(dmsEntry);
@@ -195,32 +160,88 @@ public class ChronicleController implements Serializable {
 			entry.replaceItemValue("type", "dms");
 			entry.replaceItemValue("user", user);
 
-			ChronicleEntity chronicleEntity = new ChronicleEntity(user,date);
-			int chronicleIndex=chronicleList.indexOf(chronicleEntity);
-			if (chronicleIndex>-1) {
-				// already created
-				chronicleEntity=chronicleList.get(chronicleIndex);
-			}// add history...
-			chronicleEntity.getFileEntries().add(entry);
+			addChronicleEntry(entry);
 			
-			if (chronicleIndex>-1) {
-				chronicleList.set(chronicleIndex, chronicleEntity);
-			} else {
-				chronicleList.add(chronicleEntity);
-			}
+		}
+
+		
+		/* collect references */
+		List<ItemCollection> references = workitemLinkController.getExternalReferences();
+		references.addAll(workitemLinkController.getReferences());
+		for (ItemCollection reference : references) {
+
+			Date date = reference.getItemValueDate(WorkflowKernel.LASTEVENTDATE);
+			String message = reference.getItemValueString("$WorkflowSummary");
+			String user = reference.getItemValueString(WorkflowKernel.EDITOR);
+
+			ItemCollection entry = new ItemCollection();
+			entry.replaceItemValue("date", date);
+			entry.replaceItemValue("user", user);
+			entry.replaceItemValue("message", message);
+			entry.replaceItemValue("type", "reference");
+			entry.replaceItemValue(WorkflowKernel.UNIQUEID, reference.getUniqueID());
+
 			
-			// update years table
-			addTimeData(chronicleEntity.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-					
+			addChronicleEntry(entry);
+		}
+		
+		
+		/* collect versions */
+		List<ItemCollection> versions = workitemService.findAllVersions(workflowController.getWorkitem());
+		for (ItemCollection version : versions) {
+
+			Date date = version.getItemValueDate(WorkflowKernel.LASTEVENTDATE);
+			String message = version.getItemValueString(WorkflowKernel.WORKFLOWSTATUS);
+			String user = version.getItemValueString(WorkflowKernel.EDITOR);
+
+			ItemCollection entry = new ItemCollection();
+			entry.replaceItemValue("date", date);
+			entry.replaceItemValue("user", user);
+			entry.replaceItemValue("message", message);
+			entry.replaceItemValue("type", "version");
+			entry.replaceItemValue(WorkflowKernel.UNIQUEID, version.getUniqueID());
+
+			
+			addChronicleEntry(entry);
 		}
 
 		// sort chronicles by date.....
-		Collections.sort(chronicleList, new ChronicleEntityComparator( true));
+		Collections.sort(chronicleList, new ChronicleEntityComparator(true));
 
 		logger.info("init in " + (System.currentTimeMillis() - l) + "ms");
 	}
 
 	
+	/**
+	 * This helper method adds a chronicle entry (ItemCollection) into the chronicleList.
+	 * 
+	 * The method updates the time data
+	 * @param entry
+	 */
+	private void addChronicleEntry( ItemCollection entry) {
+		
+		String user=entry.getItemValueString("user");
+		Date date=entry.getItemValueDate("date");
+	
+		
+		ChronicleEntity chronicleEntity = new ChronicleEntity(user, date);
+		int chronicleIndex = chronicleList.indexOf(chronicleEntity);
+		if (chronicleIndex > -1) {
+			// already created
+			chronicleEntity = chronicleList.get(chronicleIndex);
+		} // add history...
+		chronicleEntity.getFileEntries().add(entry);
+
+		if (chronicleIndex > -1) {
+			chronicleList.set(chronicleIndex, chronicleEntity);
+		} else {
+			chronicleList.add(chronicleEntity);
+		}
+
+		// update years table
+		addTimeData(chronicleEntity.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+
+	}
 
 	/**
 	 * Adds the month and year data as a category

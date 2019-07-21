@@ -31,7 +31,7 @@ $(document).ready(function() {
 	imixsOfficeWorkflow.imixs_chronicle=c_value.indexOf("imixs.office.chronicle=true")>-1;
 	
 	imixsOfficeWorkflow.imixs_chronicle_comments=true;
-	imixsOfficeWorkflow.imixs_chronicle_nav=JSON.parse('{ "comment" : true, "files":true }'); 
+	imixsOfficeWorkflow.imixs_chronicle_nav=JSON.parse('{ "comment" : true, "files":true, "version":true, "reference":true }'); 
 		
 	if (imixsOfficeWorkflow.imixs_chronicle) {
 		// avoid slide effect on first load....

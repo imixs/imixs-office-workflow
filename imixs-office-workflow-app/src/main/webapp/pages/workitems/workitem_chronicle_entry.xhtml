@@ -45,13 +45,13 @@
 
 				<td>
 					<div class="image-block">
-						<h:panelGroup rendered="#{'history' eq entry.item['type']}"
-							pt:title="#{message.history} #{entry.item['date']}"
+						<h:panelGroup pt:title="#{message.history} #{entry.item['date']}"
 							styleClass="typcn typcn-equals-outline"></h:panelGroup>
-					</div> 
-					
+					</div>
+
 					<div class="content-block">
-						<h:outputText styleClass="imixs-comments-entry" value="#{entry.item['message']}" />
+						<h:outputText escape="false" styleClass="imixs-comments-entry"
+							value="#{entry.item['message']}" />
 					</div>
 				</td>
 			</tr>
@@ -63,8 +63,7 @@
 			<tr class="entry comment">
 				<td>
 					<div class="image-block">
-						<h:panelGroup rendered="#{'comment' eq entry.item['type']}"
-							pt:title="#{message.comment} #{entry.item['date']}"
+						<h:panelGroup pt:title="#{message.comment} #{entry.item['date']}"
 							styleClass="typcn typcn-message"></h:panelGroup>
 					</div>
 					<div class="content-block">
@@ -84,10 +83,55 @@
 				<td><ui:include
 						src="/pages/workitems/workitem_chronicle_dms.xhtml">
 						<ui:param name="attachment" value="#{entry}" />
-					</ui:include>
+					</ui:include></td>
+			</tr>
+		</ui:fragment>
+
+
+		<!-- references -->
+		<ui:fragment rendered="#{'reference' eq entry.item['type']}">
+			<tr class="entry reference">
+				<td>
+					<div class="image-block">
+						<h:panelGroup pt:title="#{message.version} #{entry.item['date']}"
+							styleClass="typcn typcn-export-outline"></h:panelGroup>
+					</div>
+					<div class="content-block">
+						<h:panelGroup styleClass="imixs-comments-entry">
+							<h:link outcome="/pages/workitems/workitem">
+								<h:outputText value="#{entry.item['message']}" />
+								<f:param name="id" value="#{entry.item['$uniqueid']}" />
+							</h:link>
+						</h:panelGroup>
+
+					</div>
 				</td>
 			</tr>
 		</ui:fragment>
+
+
+		<!-- versions -->
+		<ui:fragment rendered="#{'version' eq entry.item['type']}">
+			<tr class="entry version">
+				<td>
+					<div class="image-block">
+						<h:panelGroup pt:title="#{message.version} #{entry.item['date']}"
+							styleClass="typcn typcn-archive"></h:panelGroup>
+					</div>
+					<div class="content-block">
+						<h:panelGroup styleClass="imixs-comments-entry">
+							<h:link outcome="/pages/workitems/workitem">
+								<h:outputText value="#{entry.item['message']}" />
+								<f:param name="id" value="#{entry.item['$uniqueid']}" />
+							</h:link>
+						</h:panelGroup>
+					</div>
+				</td>
+			</tr>
+		</ui:fragment>
+
+
+
 
 
 
