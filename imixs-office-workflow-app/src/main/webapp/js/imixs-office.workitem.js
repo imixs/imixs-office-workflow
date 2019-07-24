@@ -95,25 +95,6 @@ function toggleChronicleComments() {
 }
 
 
-/**
- * Switch for chronical comments (show/hide)
- * @returns
- */
-function toggleChronicleEntries(type) {
-	
-	if (imixsOfficeWorkflow.imixs_chronicle_nav[type]) {
-		$('.imixs-workitem-chronicle .entry.' + type).hide();
-		$('.imixs-workitem-chronicle .filter .typcn.'+type).addClass('disabled');
-	} else {
-		$('.imixs-workitem-chronicle .entry.' + type).show();
-		$('.imixs-workitem-chronicle .filter .typcn.' + type).removeClass('disabled');
-	}
-	
-	imixsOfficeWorkflow.imixs_chronicle_nav[type]=!imixsOfficeWorkflow.imixs_chronicle_nav[type];
-	
-}
-
-
 
 
 

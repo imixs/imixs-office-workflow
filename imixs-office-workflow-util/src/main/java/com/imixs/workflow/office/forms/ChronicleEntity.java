@@ -11,24 +11,13 @@ import org.imixs.workflow.ItemCollectionComparator;
 
 public class ChronicleEntity {
 
-	
 	Date date;
-	
 	String user;
-	
-	List<ItemCollection> historyEntries;
-	List<ItemCollection> commentEntries;
-	List<ItemCollection> fileEntries;
-	List<ItemCollection> versionEntries;
-	List<ItemCollection> referencesEntries;
-	
-	
-	
+	List<ItemCollection> entries;
 	
 	public ChronicleEntity(String user, Date date) {
 		super();
 		this.user = user;
-		
 		
 		// cut milis and seconds..
 		Calendar cal=Calendar.getInstance();
@@ -36,12 +25,7 @@ public class ChronicleEntity {
 		cal.set(Calendar.MILLISECOND, 0);
 		cal.set(Calendar.SECOND, 0);
 		this.date = cal.getTime();
-		
-		historyEntries=new ArrayList<ItemCollection>();
-		commentEntries=new ArrayList<ItemCollection>();
-		fileEntries=new ArrayList<ItemCollection>();
-		versionEntries=new ArrayList<ItemCollection>();
-		referencesEntries=new ArrayList<ItemCollection>();
+		entries=new ArrayList<ItemCollection>();
 	}
 	
 	
@@ -57,56 +41,17 @@ public class ChronicleEntity {
 	public void setUser(String user) {
 		this.user = user;
 	}
-	public List<ItemCollection> getHistoryEntries() {
-		return historyEntries;
-	}
-	public void setHistoryEntries(List<ItemCollection> historyEntries) {
-		this.historyEntries = historyEntries;
-	}
-	public List<ItemCollection> getCommentEntries() {
-		return commentEntries;
-	}
-	public void setCommentEntries(List<ItemCollection> commentEntries) {
-		this.commentEntries = commentEntries;
-	}
-	public List<ItemCollection> getFileEntries() {
-		return fileEntries;
-	}
-	public void setFileEntries(List<ItemCollection> fileEntries) {
-		this.fileEntries = fileEntries;
-	}
-	public List<ItemCollection> getVersionEntries() {
-		return versionEntries;
-	}
-	public void setVersionEntries(List<ItemCollection> versionEntries) {
-		this.versionEntries = versionEntries;
-	}
-	public List<ItemCollection> getReferencesEntries() {
-		return referencesEntries;
-	}
-	public void setReferencesEntries(List<ItemCollection> referencesEntries) {
-		this.referencesEntries = referencesEntries;
+	
+	public List<ItemCollection> getEntries() {
+		return entries;
 	}
 	
-	
-	
-	public List<ItemCollection> getAllEntries() {
-		List<ItemCollection> result=new ArrayList<ItemCollection>();
+	public void addEntry(ItemCollection entry) {
+		entries.add(entry);
+		// sort by date
+		Collections.sort(entries, new ItemCollectionComparator("date", true));
 		
-		result.addAll(historyEntries);
-		result.addAll(commentEntries);
-		result.addAll(fileEntries);
-		result.addAll(versionEntries);
-		result.addAll(referencesEntries);
-		
-		Collections.sort(result, new ItemCollectionComparator("date", true));
-		
-		
-		
-		return result;
 	}
-	
-	
 	
 	@Override
 	public int hashCode() {

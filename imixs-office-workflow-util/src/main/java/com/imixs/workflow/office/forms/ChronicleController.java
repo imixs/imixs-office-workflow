@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -59,13 +59,16 @@ import org.imixs.workflow.faces.data.WorkflowController;
  * 
  * - type : date|history|file|version|
  * 
+ * 
+ * <p>
+ * With the method 'toggleFilter' the chronicle list can be filter to a specific
+ * type. This method call recalculates also the time data.
+ * 
  * @see workitem_chronicle.xhtml
- * 
  * @author rsoika,gheinle
- * 
  */
 @Named
-@RequestScoped
+@ConversationScoped
 public class ChronicleController implements Serializable {
 
 	/**
@@ -76,13 +79,15 @@ public class ChronicleController implements Serializable {
 	protected WorkflowController workflowController;
 	private static Logger logger = Logger.getLogger(ChronicleController.class.getName());
 
-	ArrayList<ChronicleEntity> chronicleList;
+	List<ChronicleEntity> originChronicleList;
+	List<ChronicleEntity> filteredChronicleList;
+	String filter = null;
 
 	Map<Integer, Set<Integer>> yearsMonths;
 
 	@Inject
 	protected DMSController dmsController;
-	
+
 	@Inject
 	protected WorkitemLinkController workitemLinkController;
 
@@ -93,7 +98,7 @@ public class ChronicleController implements Serializable {
 	@PostConstruct
 	public void init() {
 		long l = System.currentTimeMillis();
-		chronicleList = new ArrayList<ChronicleEntity>();
+		originChronicleList = new ArrayList<ChronicleEntity>();
 
 		yearsMonths = new HashMap<Integer, Set<Integer>>();
 
@@ -115,8 +120,7 @@ public class ChronicleController implements Serializable {
 				entry.replaceItemValue("message", message);
 				entry.replaceItemValue("type", "history");
 
-				addChronicleEntry(entry);
-				
+				addChronicleEntry(originChronicleList, entry);
 			}
 		}
 
@@ -135,8 +139,7 @@ public class ChronicleController implements Serializable {
 			entry.replaceItemValue("message", message);
 			entry.replaceItemValue("type", "comment");
 
-			addChronicleEntry(entry);
-			
+			addChronicleEntry(originChronicleList, entry);
 		}
 
 		/* collect Attachments */
@@ -160,18 +163,17 @@ public class ChronicleController implements Serializable {
 			entry.replaceItemValue("type", "dms");
 			entry.replaceItemValue("user", user);
 
-			addChronicleEntry(entry);
-			
+			addChronicleEntry(originChronicleList, entry);
 		}
 
-		
 		/* collect references */
 		List<ItemCollection> references = workitemLinkController.getExternalReferences();
 		references.addAll(workitemLinkController.getReferences());
 		for (ItemCollection reference : references) {
 
 			Date date = reference.getItemValueDate(WorkflowKernel.LASTEVENTDATE);
-			String message = reference.getItemValueString("$WorkflowSummary");
+			String message = reference.getItemValueString("$WorkflowGroup") + " - "
+					+ reference.getItemValueString("$WorkflowSummary");
 			String user = reference.getItemValueString(WorkflowKernel.EDITOR);
 
 			ItemCollection entry = new ItemCollection();
@@ -181,11 +183,9 @@ public class ChronicleController implements Serializable {
 			entry.replaceItemValue("type", "reference");
 			entry.replaceItemValue(WorkflowKernel.UNIQUEID, reference.getUniqueID());
 
-			
-			addChronicleEntry(entry);
+			addChronicleEntry(originChronicleList, entry);
 		}
-		
-		
+
 		/* collect versions */
 		List<ItemCollection> versions = workitemService.findAllVersions(workflowController.getWorkitem());
 		for (ItemCollection version : versions) {
@@ -201,86 +201,30 @@ public class ChronicleController implements Serializable {
 			entry.replaceItemValue("type", "version");
 			entry.replaceItemValue(WorkflowKernel.UNIQUEID, version.getUniqueID());
 
-			
-			addChronicleEntry(entry);
+			addChronicleEntry(originChronicleList, entry);
 		}
 
 		// sort chronicles by date.....
-		Collections.sort(chronicleList, new ChronicleEntityComparator(true));
+		Collections.sort(originChronicleList, new ChronicleEntityComparator(true));
+
+		computeTimeData(originChronicleList);
+
+		// set full filtered list
+		filteredChronicleList = new ArrayList<ChronicleEntity>();
+		filteredChronicleList.addAll(originChronicleList);
 
 		logger.info("init in " + (System.currentTimeMillis() - l) + "ms");
 	}
 
-	
 	/**
-	 * This helper method adds a chronicle entry (ItemCollection) into the chronicleList.
-	 * 
-	 * The method updates the time data
-	 * @param entry
-	 */
-	private void addChronicleEntry( ItemCollection entry) {
-		
-		String user=entry.getItemValueString("user");
-		Date date=entry.getItemValueDate("date");
-	
-		
-		ChronicleEntity chronicleEntity = new ChronicleEntity(user, date);
-		int chronicleIndex = chronicleList.indexOf(chronicleEntity);
-		if (chronicleIndex > -1) {
-			// already created
-			chronicleEntity = chronicleList.get(chronicleIndex);
-		} // add history...
-		chronicleEntity.getFileEntries().add(entry);
-
-		if (chronicleIndex > -1) {
-			chronicleList.set(chronicleIndex, chronicleEntity);
-		} else {
-			chronicleList.add(chronicleEntity);
-		}
-
-		// update years table
-		addTimeData(chronicleEntity.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-
-	}
-
-	/**
-	 * Adds the month and year data as a category
-	 */
-	private void addTimeData(LocalDate localDate) {
-		int year = localDate.getYear();
-		int month = localDate.getMonthValue();
-		Set<Integer> mothsPerYear = yearsMonths.get(year);
-		if (mothsPerYear == null) {
-			mothsPerYear = new HashSet<Integer>();
-		}
-		mothsPerYear.add(month);
-		yearsMonths.put(year, mothsPerYear);
-
-	}
-
-	/**
-	 * Returns all chronical entries by year/month
-	 * 
-	 * @param year
-	 * @param month
+	 * Returns the current active filter or null if no filter is active. 
 	 * @return
 	 */
-	public List<ChronicleEntity> getChroniclePerMonth(int year, int month) {
-
-		ArrayList<ChronicleEntity> result = new ArrayList<ChronicleEntity>();
-
-		for (ChronicleEntity entry : chronicleList) {
-			Date date = entry.getDate();
-
-			LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			if (month == localDate.getMonthValue() && year == localDate.getYear()) {
-				result.add(entry);
-			}
-
-		}
-		return result;
+	public String getFilter() {
+		return filter;
 	}
-
+	
+	
 	public List<Integer> getYears() {
 		Set<Integer> result = yearsMonths.keySet();
 
@@ -305,6 +249,132 @@ public class ChronicleController implements Serializable {
 		Collections.reverse(sortedList);
 
 		return sortedList;
+	}
+
+	/**
+	 * Returns all chronical entries by year/month
+	 * 
+	 * @param year
+	 * @param month
+	 * @return
+	 */
+	public List<ChronicleEntity> getChroniclePerMonth(int year, int month) {
+		ArrayList<ChronicleEntity> result = new ArrayList<ChronicleEntity>();
+		for (ChronicleEntity entry : filteredChronicleList) {
+			Date date = entry.getDate();
+
+			LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			if (month == localDate.getMonthValue() && year == localDate.getYear()) {
+				result.add(entry);
+			}
+		}
+		
+		logger.info("getChroniclePerMonth - found " + result.size() +  " chronicle entities");		
+		return result;
+	}
+
+	/**
+	 * This method call creates a new filtered list of the originChronicl List. and
+	 * recalculates also the time data.
+	 * 
+	 * @param category
+	 */
+	public void toggleFilter(String category) {
+		long l = System.currentTimeMillis();
+		logger.info("...toggleFilter : " + category);
+
+		if (category != null && !category.isEmpty() && category.equals(filter)) {
+			// toggle existing category
+			filter = null;
+		} else {
+			filter = category;
+		}
+
+		if (filter == null || filter.isEmpty()) {
+			filteredChronicleList = new ArrayList<ChronicleEntity>();
+			filteredChronicleList.addAll(originChronicleList);
+		} else {
+			filteredChronicleList = new ArrayList<ChronicleEntity>();
+			// build a new filtered list with only data of the given category
+			for (ChronicleEntity chronicleEntry : originChronicleList) {
+				List<ItemCollection> entries = chronicleEntry.getEntries();
+				// test each entry for the given category
+				for (ItemCollection entry : entries) {
+					if (filter.equals(entry.getType())) {
+						// match!
+						addChronicleEntry(filteredChronicleList, entry);
+					}
+				}
+			}
+			// sort chronicles by date.....
+			Collections.sort(filteredChronicleList, new ChronicleEntityComparator(true));
+		}
+
+		
+		computeTimeData(filteredChronicleList);
+
+		logger.info("filteredChronicleList size= " + filteredChronicleList.size());
+		
+		
+		logger.info("new month count size= " + getMonths(2019).size());
+		
+		
+		logger.info("computed filter in " + (System.currentTimeMillis() - l) + "ms");
+	}
+
+	/**
+	 * This helper method adds a chronicle entry (ItemCollection) into the
+	 * chronicleList.
+	 * 
+	 * The method updates the time data
+	 * 
+	 * @param entry
+	 */
+	private void addChronicleEntry(List<ChronicleEntity> chronicleList, ItemCollection entry) {
+		String user = entry.getItemValueString("user");
+		Date date = entry.getItemValueDate("date");
+
+		ChronicleEntity chronicleEntity = new ChronicleEntity(user, date);
+		int chronicleIndex = chronicleList.indexOf(chronicleEntity);
+		if (chronicleIndex > -1) {
+			// already created
+			chronicleEntity = chronicleList.get(chronicleIndex);
+		} // add history...
+		chronicleEntity.addEntry(entry);
+
+		if (chronicleIndex > -1) {
+			chronicleList.set(chronicleIndex, chronicleEntity);
+		} else {
+			chronicleList.add(chronicleEntity);
+		}
+	}
+
+	/**
+	 * This method recalculates the yeas/months for the current entry list
+	 */
+	private void computeTimeData(List<ChronicleEntity> chronicleList) {
+		yearsMonths = new HashMap<Integer, Set<Integer>>();
+	
+		for (ChronicleEntity chronicleEntity : chronicleList) {
+			// update years table
+			addTimeData(chronicleEntity.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+		}
+	
+	}
+
+	/**
+	 * Adds the month and year data as a category
+	 */
+	private void addTimeData(LocalDate localDate) {
+		int year = localDate.getYear();
+		int month = localDate.getMonthValue();
+		Set<Integer> mothsPerYear = yearsMonths.get(year);
+		if (mothsPerYear == null) {
+			mothsPerYear = new HashSet<Integer>();
+		}
+		mothsPerYear.add(month);
+		yearsMonths.put(year, mothsPerYear);
+
 	}
 
 }

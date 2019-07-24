@@ -8,27 +8,63 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 
-
 	<h1>
 		#{message.history}<span onclick="toggleChronicle()"
 			style="float: right; cursor: pointer;"
 			class="typcn typcn-code-outline"></span>
 	</h1>
 
-	<div class="filter">
+	<!-- Navigation panel - toggle buttons for each category -->
+	<h:panelGroup id="chronicle-nav" layout="block" styleClass="filter">
+
 		<ul>
-			<li><span onclick="toggleChronicle()" class="typcn typcn-th-menu-outline" title="#{message.close}"></span></li>
-			<li><span onclick="toggleChronicleEntries('comment')" class="typcn typcn-messages comment" title="#{message.comments}"></span></li>
-			<li><span onclick="toggleChronicleEntries('files')" class="typcn typcn-folder-open files" title="#{message['form.attachments.files']}"></span></li>
-			<li><span onclick="toggleChronicleEntries('reference')" class="typcn typcn-export-outline" title="#{message.references}"></span></li>
-			<li><span onclick="toggleChronicleEntries('version')" class="typcn typcn-archive" title="#{message.versions}"></span></li>
+			
+			<li><h:commandLink styleClass="#{'history' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
+					actionListener="#{chronicleController.toggleFilter('history')}">
+					<span 
+						class="typcn typcn-th-menu-outline" title="#{message.history}"></span>
+					<f:ajax render="chronicle-main chronicle-nav" />
+				</h:commandLink></li>
+			
+			
+				<li><h:commandLink styleClass="#{'comment' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
+					actionListener="#{chronicleController.toggleFilter('comment')}">
+					<span 
+						class="typcn typcn-messages" title="#{message.comments}"></span>
+					<f:ajax render="chronicle-main chronicle-nav" />
+				</h:commandLink></li>
+
+
+			<li><h:commandLink styleClass="#{'files' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
+					actionListener="#{chronicleController.toggleFilter('files')}">
+					<span class="typcn typcn-folder-open files"
+						title="#{message['form.attachments.files']}"></span>
+					<f:ajax render="chronicle-main chronicle-nav" />
+				</h:commandLink></li>
+
+
+			<li><h:commandLink styleClass="#{'reference' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
+					actionListener="#{chronicleController.toggleFilter('reference')}">
+					<span 
+						class="typcn typcn-export-outline" title="#{message.references}"></span>
+					<f:ajax render="chronicle-main chronicle-nav" />
+				</h:commandLink></li>
+				
+				
+			<li><h:commandLink styleClass="#{'version' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
+					actionListener="#{chronicleController.toggleFilter('version')}">
+					<span 
+						class="typcn typcn-archive" title="#{message.versions}"></span>
+					<f:ajax render="chronicle-main chronicle-nav" />
+				</h:commandLink></li>
+
 		</ul>
+	</h:panelGroup>
 
 
 
-	</div>
-
-	<div>
+	<!-- Main panel - shows entries filtered by optional category -->
+	<h:panelGroup id="chronicle-main" layout="block">
 		<table style="width: 100%;">
 
 			<!-- print a headline for each year -->
@@ -52,22 +88,14 @@
 					<!-- show chronic by month -->
 					<ui:repeat var="chronicle"
 						value="#{chronicleController.getChroniclePerMonth(year,month)}">
-
 						<ui:include src="workitem_chronicle_entry.xhtml">
 							<ui:param name="chronicle" value="#{chronicle}" />
 						</ui:include>
 					</ui:repeat>
-
 				</ui:repeat>
-
-
 			</ui:repeat>
-
 		</table>
-
-
-	</div>
-
+	</h:panelGroup>
 
 </ui:composition>
 

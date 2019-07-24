@@ -6,15 +6,17 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
+ * Compares two ChronicleEntities by its date value.
  * 
  * @author rsoika
  * 
  */
 public class ChronicleEntityComparator implements Comparator<ChronicleEntity> {
+	@SuppressWarnings("unused")
 	private final Collator collator;
 	private final boolean ascending;
 
-	public ChronicleEntityComparator( boolean ascending, Locale locale) {
+	public ChronicleEntityComparator(boolean ascending, Locale locale) {
 		this.collator = Collator.getInstance(locale);
 		this.ascending = ascending;
 	}

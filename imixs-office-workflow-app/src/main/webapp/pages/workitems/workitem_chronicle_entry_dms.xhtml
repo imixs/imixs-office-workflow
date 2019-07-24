@@ -9,28 +9,6 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 
-
-	<script type="text/javascript">
-		/*<![CDATA[*/
-
-		/* reqlace special characters in attachemnt url */
-		$(document).ready(
-				function() {
-					$(".imixs-form-attachments .attachmentlink").each(
-							function(index, element) {
-								var link = $(this).attr("href");
-								if (link.indexOf('+') > -1) {
-									link = link.replace('+', '%2B');
-									$(this).attr("href", link);
-								}
-							});
-				});
-
-		/*]]>*/
-	</script>
-
-
-
 	
 		<!-- image -->
 		<div class="image-block">
@@ -67,6 +45,9 @@
 				<h:outputText
 					value=" (#{dmsController.userFriendlyBytes(attachment.item['size'])})" />
 			</h:panelGroup>
+			
+			
+		
 			<!-- URL link -->
 			<h:panelGroup
 				rendered="#{attachment.item['txtName'].contains('://')}">
@@ -89,32 +70,11 @@
 				</h:outputText>
 				
 			</ui:fragment>
-			<!-- MD5 #{attachment.item['md5Checksum']} -->
-
-
+			
+			
 			
 		</div>
 		
-
-	<script type="text/javascript">
-		/*<![CDATA[*/
-
-		$(document).ready(function() {
-			// init...
-			hideComments(null);
-			$('.imixsLink_button').button({
-				icons : {
-					primary : "ui-icon-extlink"
-				}
-			});
-		});
-
-		function hideComments(event) {
-			$('.dms-comment-panel').hide();
-		}
-
-		/*]]>*/
-	</script>
 
 </ui:composition>
 
