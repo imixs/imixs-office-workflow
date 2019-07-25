@@ -213,7 +213,7 @@ public class ChronicleController implements Serializable {
 		filteredChronicleList = new ArrayList<ChronicleEntity>();
 		filteredChronicleList.addAll(originChronicleList);
 
-		logger.info("init in " + (System.currentTimeMillis() - l) + "ms");
+		logger.fine("...init in " + (System.currentTimeMillis() - l) + "ms");
 	}
 
 	/**
@@ -244,6 +244,11 @@ public class ChronicleController implements Serializable {
 	public List<Integer> getMonths(int year) {
 		Set<Integer> result = yearsMonths.get(year);
 
+		if (result==null) {
+			// no entries
+			return new ArrayList<>();
+		}
+		
 		List<Integer> sortedList = new ArrayList<>(result);
 		Collections.sort(sortedList);
 		Collections.reverse(sortedList);
@@ -269,7 +274,7 @@ public class ChronicleController implements Serializable {
 			}
 		}
 		
-		logger.info("getChroniclePerMonth - found " + result.size() +  " chronicle entities");		
+		logger.finest("......getChroniclePerMonth - found " + result.size() +  " chronicle entities");		
 		return result;
 	}
 
@@ -281,7 +286,7 @@ public class ChronicleController implements Serializable {
 	 */
 	public void toggleFilter(String category) {
 		long l = System.currentTimeMillis();
-		logger.info("...toggleFilter : " + category);
+		logger.finest("......toggleFilter : " + category);
 
 		if (category != null && !category.isEmpty() && category.equals(filter)) {
 			// toggle existing category
@@ -313,13 +318,8 @@ public class ChronicleController implements Serializable {
 		
 		computeTimeData(filteredChronicleList);
 
-		logger.info("filteredChronicleList size= " + filteredChronicleList.size());
-		
-		
-		logger.info("new month count size= " + getMonths(2019).size());
-		
-		
-		logger.info("computed filter in " + (System.currentTimeMillis() - l) + "ms");
+		logger.finest("......filter=" + filter + " size= " + filteredChronicleList.size());
+		logger.fine("...computed filter in " + (System.currentTimeMillis() - l) + "ms");
 	}
 
 	/**

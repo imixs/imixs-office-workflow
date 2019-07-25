@@ -5,24 +5,24 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 
-	<div class="row imixs-form-panel imixs-comments-and-documents">
-
-		<div class="col-6 comment">
-			<h3>
-				<h:outputText value="#{message.comments}" />
-			</h3>
-			<div class="imixs-no-print" style="width:100%;" >
-					<h:inputTextarea style="width:100%;" value="#{workitem.item['txtComment']}" />
-			</div>
+	<div class="imixs-tabs imixs-comment-tabs">
+		<ul>
+			<li><a href="#tab-comments">#{message.comments}</a></li>
+			<li><a href="#tab-documents">#{message.documents} <h:panelGroup
+						rendered="#{! empty dmsController.dmsList}"
+						styleClass="typcn typcn-input-checked imixs-documents-available"></h:panelGroup></a></li>
+		</ul>
+		<div id="tab-comments">
+			<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
+				<ui:param name="workitem" value="#{workflowController.workitem}" />
+			</ui:include>
 		</div>
-
-		<div class="col-6 documents">
-			<h3>
-				<h:outputText value="#{message.documents}" />
-			</h3>
+		<div id="tab-documents">
 			<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
-
 		</div>
 	</div>
+
+
+
 </ui:composition>
 

@@ -16,7 +16,6 @@ var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
  */
 $(document).ready(function() {
 	
-	
 	$('.imixs-subnav a').button({
 		icons : {
 			secondary : "ui-icon-plus"
@@ -75,23 +74,6 @@ function hideChronicle() {
 	
 	$('.imixs-workitem-chronicle .content').hide();
 	$('.imixs-workitem-chronicle .nav').show();
-}
-
-
-/**
- * Switch for chronical comments (show/hide)
- * @returns
- */
-function toggleChronicleComments() {
-	
-	if (imixsOfficeWorkflow.imixs_chronicle_comments) {
-		$('.imixs-workitem-chronicle .entry.comment').hide();
-	} else {
-		$('.imixs-workitem-chronicle .entry.comment').show();
-	}
-	
-	imixsOfficeWorkflow.imixs_chronicle_comments=!imixsOfficeWorkflow.imixs_chronicle_comments;
-	
 }
 
 

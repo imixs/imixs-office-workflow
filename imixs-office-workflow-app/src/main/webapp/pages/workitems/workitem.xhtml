@@ -11,47 +11,42 @@
 		<f:metadata>
 			<f:viewAction action="#{workflowController.onLoad()}" />
 		</f:metadata>
-		
-		
 	</h:head>
-
-
 
 	<ui:define name="scripts">
 		<script type="text/javascript"
 			src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.workitem.js?build=#{app.application_build_timestamp}"></script>
 		<script type="text/javascript"
 			src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.workitem.custom.js?build=#{app.application_build_timestamp}"></script>
-			
+
 		<script type="text/javascript">
 			/*<![CDATA[*/
-	
+
 			// set workitem uid
-			imixsOfficeWorkflow.workitem_uid="#{workflowController.workitem.uniqueID}";
-			imixsOfficeWorkflow.workitem_model="#{workflowController.workitem.modelVersion}";
-			
+			imixsOfficeWorkflow.workitem_uid = "#{workflowController.workitem.uniqueID}";
+			imixsOfficeWorkflow.workitem_model = "#{workflowController.workitem.modelVersion}";
+
 			// Redirect if no workitem model version is defined
 			if (!imixsOfficeWorkflow.workitem_model) {
-				document.location = imixsOfficeWorkflow.contextPath + "/pages/notes.jsf";
+				document.location = imixsOfficeWorkflow.contextPath
+						+ "/pages/notes.jsf";
 			}
 
 			/*]]>*/
-		</script>	
-		
+		</script>
+
 	</ui:define>
 
 	<ui:define name="content">
-	
-	
+
 		<div class="imixs-workitem">
-	
+
 			<div class="imixs-workitem-container">
-			
-	
+
 				<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
 				<f:view>
 					<h:form id="workitem_form">
-		
+
 						<div class="imixs-form">
 							<div class="imixs-header">
 								<ui:include src="/pages/workitems/workitem_header.xhtml" />
@@ -66,31 +61,65 @@
 								<ui:include src="/pages/workitems/workitem_footer.xhtml" />
 							</div>
 						</div>
-		
+
 					</h:form>
 				</f:view>
-			
+
 			</div>
-			
+
 			<div class="imixs-workitem-chronicle">
-			
+
 				<div class="nav">
 					<ul>
-					  <li><span onclick="toggleChronicle()" class="typcn typcn-th-menu-outline"></span></li>
-					  <li><span class="typcn typcn-messages"></span></li>
-					  <li><span class="typcn typcn-folder-open"></span></li>
-					  <li><span class="typcn typcn-archive"></span></li>
+						<li><a href="#"><span onclick="toggleChronicle()"
+								class="typcn typcn-th-menu-outline"></span></a></li>
+
+
+						<li><h:commandLink
+								onclick="toggleChronicle()"
+								actionListener="#{chronicleController.toggleFilter('comment')}">
+								<span class="typcn typcn-messages" title="#{message.comments}"></span>
+								<f:ajax render="chronicle-main chronicle-nav" />
+							</h:commandLink></li>
+
+
+
+						<li><h:commandLink
+								onclick="toggleChronicle()"
+								actionListener="#{chronicleController.toggleFilter('dms')}">
+								<span class="typcn typcn-folder-open dms"
+									title="#{message['form.attachments.files']}"></span>
+								<f:ajax render="chronicle-main chronicle-nav" />
+							</h:commandLink></li>
+
+
+						<li><h:commandLink
+								onclick="toggleChronicle()"
+								actionListener="#{chronicleController.toggleFilter('reference')}">
+								<span class="typcn typcn-export-outline"
+									title="#{message.references}"></span>
+								<f:ajax render="chronicle-main chronicle-nav" />
+							</h:commandLink></li>
+
+
+						<li><h:commandLink
+								onclick="toggleChronicle()"
+								actionListener="#{chronicleController.toggleFilter('version')}">
+								<span class="typcn typcn-archive" title="#{message.versions}"></span>
+								<f:ajax render="chronicle-main chronicle-nav" />
+							</h:commandLink></li>
+
 					</ul>
 				</div>
-				
+
 				<div class="content">
 					<ui:include src="/pages/workitems/workitem_chronicle.xhtml" />
 				</div>
-			
+
 			</div>
-			
+
 		</div>
-		
+
 	</ui:define>
 </ui:composition>
 
