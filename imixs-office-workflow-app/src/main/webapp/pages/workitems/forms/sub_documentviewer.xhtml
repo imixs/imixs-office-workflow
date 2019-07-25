@@ -14,14 +14,21 @@
 				function() {
 					$(".imixs-form-attachments .attachmentlink-iframe").each(
 							function(index, element) {
-								$(this).click();
-								return false;
+								var attachmentName=$(this).text();
+								 
+								if (attachmentName.endsWith('.pdf')) {
+									
+									$(this).click();
+									return false;
+								}
+								
 							});
 				});
 
 
 		function updateIframe(docurl) {
-			console.log(docurl);
+			//console.log(docurl);
+			$("#document_preview_helper").hide();
 			var iframe = document.getElementById('imixs_dms_iframe');
 			iframe.src = docurl;
 		}
@@ -29,15 +36,18 @@
 	</script>
 
 
-
+	<h2>#{message.documents}</h2>
 	<div class="imixs-form-section imixs-form-attachments">
+	
 
 		<!-- **** DMS List ***** -->
 		<c:forEach var="attachment" items="#{dmsController.dmsList}">
 			<!-- link -->
 			<span class="typcn typcn-document" style="font-size: 1.5 .em"></span>
-			<span id="hyperlink" style="margin-right: 16px;"> <ui:param
-					name="attach" value="#{attachment.item['txtName']}"></ui:param> <a
+			<span id="hyperlink" style="margin-right: 16px;"> 
+			<ui:param
+					name="attach" value="#{attachment.item['txtName']}"></ui:param> 
+			<a
 				href="javascript:void(0);" class="attachmentlink-iframe"
 				onclick="updateIframe('#{facesContext.externalContext.requestContextPath}/api/snapshot/#{workitem.uniqueID}/file/#{attachment.item['txtName']}')">#{attach}</a>
 
@@ -45,11 +55,20 @@
 		</c:forEach>
 
 		<ui:fragment rendered="#{! empty dmsController.dmsList}">
-			<iframe id="imixs_dms_iframe" src="" width="100%" height="#{empty height?800:height}px"></iframe>
+		
+			<p id="document_preview_helper" ><span class="typcn typcn-info-large" style="font-size: 1.5 .em"></span>#{message.documents_select}</p>
+			
+			<iframe id="imixs_dms_iframe" src="" width="100%" height="#{empty height?800:height}px">
+			
+			
+			
+			</iframe>
 		</ui:fragment>
+		
+	
 
 		<h:panelGroup layout="block" rendered="#{empty dmsController.dmsList}"
-			 style="margin-bottom:30px;">Keine Dokumente verfügbar</h:panelGroup>
+			 style="margin-bottom:30px;"><span class="typcn typcn-info-large" style="font-size: 1.5 .em"></span>#{message.documents_empty}</h:panelGroup>
 	</div>
 
 
