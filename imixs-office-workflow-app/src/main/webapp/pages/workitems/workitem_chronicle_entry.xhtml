@@ -14,16 +14,23 @@
 
 	<!-- 1) User Icon and Time -->
 	<tr class="header">
-		<td style="width: 160px; vertical-align: top;"><h:graphicImage
+		<td style="width: 160px; vertical-align: top;">
+		
+		
+			<h:graphicImage
 				styleClass="imixs-workitem-chronicle-usericon"
 				title="#{profile.item['txtusername']}"
 				rendered="#{! empty profile.item['txtusericon']}"
 				value="/api/snapshot/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
-			</h:graphicImage> <h:panelGroup layout="block">
+			</h:graphicImage> 
+			
+			<!-- optional - user initials -->
+			<h:panelGroup layout="block">
 				<h:outputText styleClass="imixs-workitem-chronicle-usericon"
 					rendered="#{empty profile.item['txtusericon']}"
 					value="#{profile.item['txtinitials']}" />
-			</h:panelGroup> <h:outputText value="#{chronicle.date}"
+			</h:panelGroup> 
+			<h:outputText value="#{chronicle.date}"
 				style="margin-left:10px; font-size: 1.1em; line-height:1.4em;">
 				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 					pattern="#{message.dateTimePattern}" />
