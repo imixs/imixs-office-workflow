@@ -61,8 +61,8 @@ function toggleChronicle() {
 }
 function showChronicle() {
 	// open chronicle 
-	$('.imixs-workitem-chronicle').css('width','25.000%');
-	$('.imixs-workitem-container').css('width','75.000%');
+	$('.imixs-workitem-chronicle').css('width','33.3333%');
+	$('.imixs-workitem-container').css('width','66.6666%');
 	
 	$('.imixs-workitem-chronicle .nav').hide();
 	$('.imixs-workitem-chronicle .content').show();
