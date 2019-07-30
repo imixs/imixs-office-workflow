@@ -211,7 +211,7 @@ IMIXS.com.imixs.workflow.office = (function() {
 				menubar : false,
 				statusbar : true,
 				plugins : [ 'advlist autolink lists link image',
-						'searchreplace', 'contextmenu paste' ],
+						'searchreplace code fullscreen', 'contextmenu paste code' ],
 				paste_data_images: true,
 				paste_preprocess : function(pl, o) {
 				    if (o.content.length>160000) {
@@ -219,7 +219,7 @@ IMIXS.com.imixs.workflow.office = (function() {
 				 		o.content="";
 				    }
 				},
-				toolbar : 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat',
+				toolbar : 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat code',
 				content_css : imixsOfficeWorkflow.contextPath+"/layout/css/tinymce.css"
 
 			});
