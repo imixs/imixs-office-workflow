@@ -174,7 +174,7 @@
 								<!-- Subspace -->
 								<h:commandLink styleClass="imixs-viewentry-action-link"
 									title="#{message.add}" action="/pages/admin/space"
-									actionListener="#{workflowController.create(propertyController.getProperty('setup.systen.model'),100,record.item['$uniqueid'])}">
+									actionListener="#{workflowController.create(propertyController.getProperty('setup.system.model'),100,record.item['$uniqueid'])}">
 									<span class="typcn typcn-flow-children imixs-state-info"></span>#{message.add}
 									<f:setPropertyActionListener
 										target="#{workflowController.workitem.item['txtparentname']}"
@@ -190,7 +190,7 @@
 					<div class="imixs-footer">
 						<h:commandButton value="#{message.add}"
 							action="/pages/admin/space"
-							actionListener="#{workflowController.create(propertyController.getProperty('setup.systen.model'),100,null)}">
+							actionListener="#{workflowController.create(propertyController.getProperty('setup.system.model'),100,null)}">
 						</h:commandButton>
 						<h:commandButton action="home" value="#{message.close}">
 						</h:commandButton>

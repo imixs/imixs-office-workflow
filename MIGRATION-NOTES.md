@@ -2,6 +2,18 @@
 
 The following section contains migration notes for Imixs-Office-Workflow. 
 
+## Imixs-Office-Workflow 4.0.0
+
+Based on Imixs-Workflow 5.0.3
+
+New Imixs.properties:
+
+	model.default.data=system-de-1.1.0.bpmn
+	setup.system.model=system-de-1.1
+
+
+system model version can be removed from resource bundle 'app'
+
 
 ## Imixs-Office-Workflow 3.6.0
 
