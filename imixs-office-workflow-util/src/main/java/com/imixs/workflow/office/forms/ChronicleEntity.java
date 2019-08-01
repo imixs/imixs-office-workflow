@@ -14,45 +14,55 @@ public class ChronicleEntity {
 	Date date;
 	String user;
 	List<ItemCollection> entries;
-	
+
 	public ChronicleEntity(String user, Date date) {
 		super();
+		if (date == null) {
+			// should not happen
+			date = new Date();
+		}
+		if (user == null) {
+			// should not happen
+			user = "";
+		}
 		this.user = user;
-		
+
 		// cut milis and seconds..
-		Calendar cal=Calendar.getInstance();
+		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		cal.set(Calendar.MILLISECOND, 0);
 		cal.set(Calendar.SECOND, 0);
 		this.date = cal.getTime();
-		entries=new ArrayList<ItemCollection>();
+		entries = new ArrayList<ItemCollection>();
 	}
-	
-	
+
 	public Date getDate() {
 		return date;
 	}
+
 	public void setDate(Date date) {
 		this.date = date;
 	}
+
 	public String getUser() {
 		return user;
 	}
+
 	public void setUser(String user) {
 		this.user = user;
 	}
-	
+
 	public List<ItemCollection> getEntries() {
 		return entries;
 	}
-	
+
 	public void addEntry(ItemCollection entry) {
 		entries.add(entry);
 		// sort by date
 		Collections.sort(entries, new ItemCollectionComparator("date", true));
-		
+
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -61,8 +71,7 @@ public class ChronicleEntity {
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
-	
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -84,12 +93,5 @@ public class ChronicleEntity {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
