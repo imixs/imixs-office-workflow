@@ -18,24 +18,26 @@
 	<h:panelGroup id="chronicle-nav" layout="block" styleClass="filter">
 
 		<ul>
-			
-			<li><h:commandLink styleClass="#{'history' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
+
+			<li><h:commandLink
+					styleClass="#{'history' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
 					actionListener="#{chronicleController.toggleFilter('history')}">
-					<span 
-						class="typcn typcn-th-menu-outline" title="#{message.history}"></span>
+					<span class="typcn typcn-th-menu-outline"
+						title="#{message.history}"></span>
 					<f:ajax render="chronicle-main chronicle-nav" />
 				</h:commandLink></li>
-			
-			
-				<li><h:commandLink styleClass="#{'comment' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
+
+
+			<li><h:commandLink
+					styleClass="#{'comment' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
 					actionListener="#{chronicleController.toggleFilter('comment')}">
-					<span 
-						class="typcn typcn-messages" title="#{message.comments}"></span>
+					<span class="typcn typcn-messages" title="#{message.comments}"></span>
 					<f:ajax render="chronicle-main chronicle-nav" />
 				</h:commandLink></li>
 
 
-			<li><h:commandLink styleClass="#{'dms' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
+			<li><h:commandLink
+					styleClass="#{'dms' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
 					actionListener="#{chronicleController.toggleFilter('dms')}">
 					<span class="typcn typcn-folder-open dms"
 						title="#{message['form.attachments.files']}"></span>
@@ -43,18 +45,19 @@
 				</h:commandLink></li>
 
 
-			<li><h:commandLink styleClass="#{'reference' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
+			<li><h:commandLink
+					styleClass="#{'reference' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
 					actionListener="#{chronicleController.toggleFilter('reference')}">
-					<span 
-						class="typcn typcn-export-outline" title="#{message.references}"></span>
+					<span class="typcn typcn-export-outline"
+						title="#{message.references}"></span>
 					<f:ajax render="chronicle-main chronicle-nav" />
 				</h:commandLink></li>
-				
-				
-			<li><h:commandLink styleClass="#{'version' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
+
+
+			<li><h:commandLink
+					styleClass="#{'version' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
 					actionListener="#{chronicleController.toggleFilter('version')}">
-					<span 
-						class="typcn typcn-archive" title="#{message.versions}"></span>
+					<span class="typcn typcn-archive" title="#{message.versions}"></span>
 					<f:ajax render="chronicle-main chronicle-nav" />
 				</h:commandLink></li>
 
@@ -65,7 +68,41 @@
 
 	<!-- Main panel - shows entries filtered by optional category -->
 	<h:panelGroup id="chronicle-main" layout="block">
+
+
+<!-- TODO remove block -->
+		<h:panelGroup rendered="false">
+			<ui:repeat
+				value="#{workflowController.workitem.itemList['namowner']}"
+				var="name">
+
+				<ui:param name="profile" value="#{userController.getProfile(name)}"></ui:param>
+				<ui:fragment rendered="#{! empty profile}">
+					<h:graphicImage styleClass="imixs-workitem-chronicle-usericon"
+						title="#{profile.item['txtusername']}"
+						rendered="#{! empty profile.item['txtusericon']}"
+						value="/api/snapshot/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
+					</h:graphicImage>
+
+					<!-- optional - user initials -->
+					<h:panelGroup layout="block"
+						rendered="#{empty profile.item['txtusericon']}">
+						<h:outputText styleClass="imixs-workitem-chronicle-usericon"
+							title="#{profile.item['txtusername']}"
+							value="#{profile.item['txtinitials']}" />
+					</h:panelGroup>
+				</ui:fragment>
+
+
+
+			</ui:repeat>
+		</h:panelGroup>
+
+
 		<table style="width: 100%;">
+
+
+
 
 			<!-- print a headline for each year -->
 			<ui:repeat var="year" value="#{chronicleController.getYears()}">

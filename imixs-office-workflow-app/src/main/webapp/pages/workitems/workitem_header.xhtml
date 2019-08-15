@@ -48,7 +48,32 @@
 						value="#{workflowController.workitem.item['txtProcessName']}" />
 				</h:link>
 			</div>
-			
+			<h:panelGroup>
+			<ui:repeat
+				value="#{workflowController.workitem.itemList['namowner']}"
+				var="name">
+
+				<ui:param name="profile" value="#{userController.getProfile(name)}"></ui:param>
+				<ui:fragment rendered="#{! empty profile}">
+					<h:graphicImage styleClass="imixs-workitem-chronicle-usericon"
+						title="#{profile.item['txtusername']}"
+						rendered="#{! empty profile.item['txtusericon']}"
+						value="/api/snapshot/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
+					</h:graphicImage>
+
+					<!-- optional - user initials -->
+					<h:panelGroup layout="block"
+						rendered="#{empty profile.item['txtusericon']}">
+						<h:outputText styleClass="imixs-workitem-chronicle-usericon"
+							title="#{profile.item['txtusername']}"
+							value="#{profile.item['txtinitials']}" />
+					</h:panelGroup>
+				</ui:fragment>
+
+
+
+			</ui:repeat>
+		</h:panelGroup>
 
 
 		</div>
