@@ -136,7 +136,7 @@ public class GDPRPlugin extends AbstractPlugin {
 				ItemCollection subWorkitem = new ItemCollection();
 
 				subWorkitem.replaceItemValue(WorkflowKernel.MODELVERSION, workItem.getModelVersion());
-				subWorkitem.replaceItemValue(WorkflowKernel.PROCESSID, processID);
+				subWorkitem.replaceItemValue(WorkflowKernel.TASKID, processID);
 				subWorkitem.setEventID(activityID);
 
 				subWorkitem.replaceItemValue("$uniqueidref", workItem.getUniqueID());
