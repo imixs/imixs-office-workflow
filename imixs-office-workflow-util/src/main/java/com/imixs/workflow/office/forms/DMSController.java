@@ -33,7 +33,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.ConversationScoped;
@@ -186,6 +185,7 @@ public class DMSController implements Serializable {
 	 * @param workitem - source of meta data, sorted by $creation
 	 * @version 1.0
 	 */
+	@SuppressWarnings("unchecked")
 	public List<ItemCollection> getDmsListByWorkitem(ItemCollection workitem) {
 		// build a new dms List
 		List<ItemCollection> dmsList = new ArrayList<ItemCollection>();
