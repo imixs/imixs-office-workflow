@@ -64,7 +64,7 @@ import org.imixs.workflow.faces.util.LoginController;
 @Named("dmsController")
 @ConversationScoped
 public class DMSController implements Serializable {
-	
+
 	public static final String REGEX_URL_PATTERN = "^(http|https|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 
 	@Inject
@@ -115,6 +115,11 @@ public class DMSController implements Serializable {
 
 		int eventType = workflowEvent.getEventType();
 
+		if (WorkflowEvent.WORKITEM_CREATED == eventType || WorkflowEvent.WORKITEM_CHANGED == eventType) {
+			// reset DMS List..
+			reset();
+		}
+
 		if (WorkflowEvent.WORKITEM_BEFORE_PROCESS == eventType) {
 			// reconvert the List<ItemCollection> into a List<Map>
 			if (dmsList != null) {
@@ -128,10 +133,8 @@ public class DMSController implements Serializable {
 	 * This method updates the attributes of the FileData objects stored in the
 	 * current workitem.
 	 * 
-	 * @param workitem
-	 *            - the workitem to be updated
-	 * @param dmsList
-	 *            - the dms metha data to be put into the workitem
+	 * @param workitem - the workitem to be updated
+	 * @param dmsList  - the dms metha data to be put into the workitem
 	 * @version 1.0
 	 */
 	private void putDmsList(ItemCollection workitem, List<ItemCollection> dmsList) {
@@ -149,7 +152,7 @@ public class DMSController implements Serializable {
 				// if no file data object was found this could be a Link Data object.....
 				if (filename.matches(REGEX_URL_PATTERN)) {
 					byte[] empty = {};
-					FileData linkData=new FileData(filename, empty, null,dmsEntry.getAllItems());
+					FileData linkData = new FileData(filename, empty, null, dmsEntry.getAllItems());
 					workitem.addFileData(linkData);
 				} else {
 					logger.warning("Invalid DMS entry: '" + filename + "' is unknown!");
@@ -180,8 +183,7 @@ public class DMSController implements Serializable {
 	 * <p>
 	 * The method is used by the DmsController to display the dms meta data.
 	 * 
-	 * @param workitem
-	 *            - source of meta data, sorted by $creation
+	 * @param workitem - source of meta data, sorted by $creation
 	 * @version 1.0
 	 */
 	public List<ItemCollection> getDmsListByWorkitem(ItemCollection workitem) {
@@ -225,6 +227,13 @@ public class DMSController implements Serializable {
 	public void removeFile(String aFile) {
 		// remove file from dms list
 		workflowController.getWorkitem().removeFile(aFile);
+		reset();
+	}
+
+	/**
+	 * Reset the current dms list
+	 */
+	public void reset() {
 		dmsList = null;
 	}
 
@@ -269,10 +278,8 @@ public class DMSController implements Serializable {
 	 * <p>
 	 * The method is used by the DMSController to add links.
 	 * 
-	 * @param aworkitem
-	 *            - the workitem to be updated
-	 * @param dmsEntity
-	 *            - the metha data to be added into the dms item
+	 * @param aworkitem - the workitem to be updated
+	 * @param dmsEntity - the metha data to be added into the dms item
 	 * @version 1.0
 	 */
 	private List<ItemCollection> addDMSEntry(ItemCollection aworkitem, ItemCollection dmsEntity) {
