@@ -40,7 +40,6 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.event.Observes;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -54,7 +53,7 @@ import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.ModelService;
-import org.imixs.workflow.engine.lucene.LuceneSearchService;
+import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.data.WorkflowEvent;
 import org.imixs.workflow.faces.util.LoginController;
@@ -106,7 +105,7 @@ public class BoardController implements Serializable {
 	DocumentService documentService;
 
 	@EJB
-	LuceneSearchService luceneSearchService;
+	SchemaService schemaService;
 	
 	@Inject
 	SearchController searchController;
@@ -219,14 +218,7 @@ public class BoardController implements Serializable {
 		String searchphrase = getPhrase();
 		if (searchphrase != null && !searchphrase.isEmpty()) {
 			// escape search phrase
-			try {
-				searchphrase = luceneSearchService.normalizeSearchTerm(searchphrase);
-			} catch (QueryException e) {
-				// add a new FacesMessage into the FacesContext
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_WARN, e.getLocalizedMessage(), null);
-				FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-				return null;
-			}
+			searchphrase = schemaService.normalizeSearchTerm(searchphrase);
 
 			if (searchphrase != null && !"".equals(searchphrase)) {
 				// trim

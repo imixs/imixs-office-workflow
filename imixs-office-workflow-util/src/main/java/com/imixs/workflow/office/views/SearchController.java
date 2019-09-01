@@ -39,7 +39,6 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -47,8 +46,7 @@ import javax.inject.Named;
 import org.imixs.marty.config.SetupController;
 import org.imixs.marty.model.ProcessController;
 import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.engine.lucene.LuceneSearchService;
-import org.imixs.workflow.exceptions.QueryException;
+import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.faces.data.ViewController;
 
 /**
@@ -89,7 +87,7 @@ public class SearchController extends ViewController implements Serializable {
 	ProcessController processController;
 
 	@EJB
-	LuceneSearchService luceneSearchService;
+	SchemaService schemaService;
 
 	ItemCollection process;
 	ItemCollection space;
@@ -358,14 +356,7 @@ public class SearchController extends ViewController implements Serializable {
 		// Search phrase....
 		String searchphrase = searchFilter.getItemValueString("phrase");
 		// escape search phrase
-		try {
-			searchphrase = luceneSearchService.normalizeSearchTerm(searchphrase);
-		} catch (QueryException e) {
-			// add a new FacesMessage into the FacesContext
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_WARN, e.getLocalizedMessage(), null);
-			FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-			return null;
-		}
+		searchphrase = schemaService.normalizeSearchTerm(searchphrase);
 
 		if (searchphrase != null && !"".equals(searchphrase)) {
 			// we do not sort the result other then by relevance. Sorting by date does not

@@ -41,7 +41,7 @@ import javax.inject.Named;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ItemCollectionComparator;
 import org.imixs.workflow.engine.DocumentService;
-import org.imixs.workflow.engine.lucene.LuceneSearchService;
+import org.imixs.workflow.engine.index.SchemaService;
 
 /**
  * The SuggestInputController can be used to suggest inputs from earlier
@@ -63,7 +63,7 @@ public class SuggestImportController implements Serializable {
 	DocumentService documentService = null;
 	
 	@EJB
-	LuceneSearchService luceneSearchService;
+	SchemaService schemaService;
 
 	private static final long serialVersionUID = 1L;
 	private List<ItemCollection> searchResult = null;
@@ -154,7 +154,7 @@ public class SuggestImportController implements Serializable {
 		try {
 			phrase = phrase.trim();
 			// phrase = LuceneSearchService.escapeSearchTerm(phrase);
-			phrase = luceneSearchService.normalizeSearchTerm(phrase);
+			phrase = schemaService.normalizeSearchTerm(phrase);
 			String sQuery = "(type:\"workitem\" OR type:\"workitemarchive\") AND ($workflowgroup:\"" + workflowGroup
 					+ "\") ";
 
