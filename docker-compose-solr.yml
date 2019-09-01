@@ -1,0 +1,51 @@
+version: "3.1"
+services:
+
+  db:
+    image: postgres:9.6.1
+    environment:
+      POSTGRES_PASSWORD: adminadmin
+      POSTGRES_DB: office
+    volumes: 
+      - dbdata:/var/lib/postgresql/data
+
+  solr:
+    image: solr:8.2
+    ports:
+      - "8983:8983"      
+      
+    volumes:
+      - solr-data:/opt/solr/server/solr/imixs-workflow
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - imixs-workflow
+
+  app:
+    image: imixs/imixs-office-workflow
+    depends_on:
+      - db
+      - solr
+    environment:
+      WILDFLY_PASS: adminadmin
+      DEBUG: "true"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "adminadmin"
+      POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+      - "8787:8787"
+    volumes:
+        - ~/git/imixs-office-workflow/src/docker/deployments:/opt/wildfly/standalone/deployments/
+
+
+  imixsadmin:
+    image: imixs/imixs-admin
+    ports:
+      - "8888:8080"
+
+volumes:
+  dbdata: 
+  solr-data: 
+  
