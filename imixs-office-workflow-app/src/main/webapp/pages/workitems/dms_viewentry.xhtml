@@ -7,6 +7,11 @@
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 	
+	
+	<ui:param name="dmsList"
+				value="#{dmsController.getDmsListByWorkitem(workitem)}" />
+				
+				
 	<div class="imixs-viewentry">
 
 		<!-- image block  -->
@@ -46,8 +51,7 @@
 			<h:outputText style="font-weight: bold;"
 				value="#{message.documents}:" />
 			<!-- display files -->
-			<ui:param name="dmsList"
-				value="#{dmsController.getDmsListByWorkitem(workitem)}" />
+			
 			<h:panelGroup rendered="#{! empty dmsList}">
 				<ui:repeat var="dmsEntry" value="#{dmsList}">
 					<ui:include src="dms_doclink.xhtml">

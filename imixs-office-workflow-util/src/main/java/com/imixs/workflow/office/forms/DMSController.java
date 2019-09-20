@@ -31,8 +31,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.ConversationScoped;
@@ -46,6 +48,7 @@ import javax.inject.Named;
 import org.imixs.workflow.FileData;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ItemCollectionComparator;
+import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.data.WorkflowEvent;
@@ -72,13 +75,21 @@ public class DMSController implements Serializable {
 	@Inject
 	protected WorkflowController workflowController;
 
+	@Inject
+	protected DocumentService documentService;
+
 	private static final long serialVersionUID = 1L;
 
 	private List<ItemCollection> dmsList = null;
 	private String link = null;
+	
+	private Map<String,List<ItemCollection>> dmsListCache=null;
 
 	private static Logger logger = Logger.getLogger(DMSController.class.getName());
 
+	
+	
+	
 	public String getLink() {
 		return link;
 	}
@@ -132,8 +143,10 @@ public class DMSController implements Serializable {
 	 * This method updates the attributes of the FileData objects stored in the
 	 * current workitem.
 	 * 
-	 * @param workitem - the workitem to be updated
-	 * @param dmsList  - the dms metha data to be put into the workitem
+	 * @param workitem
+	 *            - the workitem to be updated
+	 * @param dmsList
+	 *            - the dms metha data to be put into the workitem
 	 * @version 1.0
 	 */
 	private void putDmsList(ItemCollection workitem, List<ItemCollection> dmsList) {
@@ -181,19 +194,43 @@ public class DMSController implements Serializable {
 	 * attached files.
 	 * <p>
 	 * The method is used by the DmsController to display the dms meta data.
+	 * <p>
+	 * The method caches the data result internally to avoid multiple calls because
+	 * of JSF behavior
+	 * (https://stackoverflow.com/questions/2090033/why-jsf-calls-getters-multiple-times/2090062)
 	 * 
-	 * @param workitem - source of meta data, sorted by $creation
+	 * @param workitem
+	 *            - source of meta data, sorted by $creation
 	 * @version 1.0
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ItemCollection> getDmsListByWorkitem(ItemCollection workitem) {
-		// build a new dms List
-		List<ItemCollection> dmsList = new ArrayList<ItemCollection>();
+	public List<ItemCollection> getDmsListByWorkitem(final ItemCollection workitem) {
+		
+		if ( dmsListCache==null) {
+			dmsListCache=new HashMap<String,List<ItemCollection>>();
+		}
+		
 		if (workitem == null) {
 			return dmsList;
 		}
+		
+		// check cache....
+		List<ItemCollection> _dmsList= dmsListCache.get(workitem.getUniqueID());
+		if (_dmsList!=null) {
+			return _dmsList;
+		}
+		
+		// build a new dms List
+		_dmsList = new ArrayList<ItemCollection>();
 
-		List<FileData> files = workitem.getFileData();
+		ItemCollection _workitem = workitem;
+		// we need to load the full workitem, because we can not get the filedata from a
+		// stub
+		if (!_workitem.hasItem("$file")) {
+			_workitem = documentService.load(workitem.getUniqueID());
+			logger.finest("......loaded full data for " + workitem.getUniqueID());
+		}
+		List<FileData> files = _workitem.getFileData();
 		for (FileData fileData : files) {
 
 			// Issue #509
@@ -208,13 +245,14 @@ public class DMSController implements Serializable {
 				fileData.setAttribute("$created", workitem.getItemValue("$created"));
 			}
 
-			dmsList.add(new ItemCollection(fileData.getAttributes()));
+			_dmsList.add(new ItemCollection(fileData.getAttributes()));
 		}
 
 		// sort list by $created
-		Collections.sort(dmsList, new ItemCollectionComparator("$created", true));
+		Collections.sort(_dmsList, new ItemCollectionComparator("$created", true));
 
-		return dmsList;
+		dmsListCache.put(workitem.getUniqueID(),_dmsList);
+		return _dmsList;
 	}
 
 	/**
@@ -234,6 +272,7 @@ public class DMSController implements Serializable {
 	 */
 	public void reset() {
 		dmsList = null;
+		dmsListCache=null;
 	}
 
 	/**
@@ -277,8 +316,10 @@ public class DMSController implements Serializable {
 	 * <p>
 	 * The method is used by the DMSController to add links.
 	 * 
-	 * @param aworkitem - the workitem to be updated
-	 * @param dmsEntity - the metha data to be added into the dms item
+	 * @param aworkitem
+	 *            - the workitem to be updated
+	 * @param dmsEntity
+	 *            - the metha data to be added into the dms item
 	 * @version 1.0
 	 */
 	private List<ItemCollection> addDMSEntry(ItemCollection aworkitem, ItemCollection dmsEntity) {
