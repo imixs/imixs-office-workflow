@@ -3,10 +3,23 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
 	template="/layout/template.xhtml">
 
 
-	<ui:define name="content">
+
+	<h:head>
+		<!-- init search controller -->
+		<f:metadata>
+			<f:viewAction action="#{searchController.init()}" actionListener="#{searchController.setDMSMode(true)}" />
+		</f:metadata>
+	</h:head>
+
+	<ui:define name="scripts">
+		<script type="text/javascript"
+			src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.worklist.js?build=#{app.application_build_timestamp}"></script>
+		<script type="text/javascript"
+			src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.worklist.custom.js?build=#{app.application_build_timestamp}"></script>
 		<script type="text/javascript">
 			/*<![CDATA[*/
 			document.cookie = "imixs.office.navigation=/pages/workitems/dms_search.jsf;path=#{facesContext.externalContext.requestContextPath}/";
@@ -31,52 +44,65 @@
 			/*]]>*/
 		</script>
 
+	</ui:define>
+
+	<ui:define name="content">
+
+
 		<f:view>
 			<h:form>
+				<ui:param name="searchresult"
+					value="#{viewHandler.getData(searchController)}"></ui:param>
+
 				<!-- **** General info ***** -->
 				<div class="row imixs-view imixs-dms-search">
 					<div class="col-4" style="padding: 0;">
 						<div class="imixs-header">
-						<h2>#{message['nav.search_documents']}</h2>
+							<h2>#{message['nav.search_documents']}</h2>
 							<!-- *** DMS Search form *** -->
 							<div class="imixs-form-section">
 								<dl>
 									<dt>#{message['worklist.search_phrase']}:</dt>
 									<dd>
-										<h:inputText
-											value="#{searchController.searchFilter.item['_phrase']}" />
-									</dd>
-								</dl>
-								<!-- date range -->
-								<dl>
-									<dt>
-										<h:outputText title="#{message['worklist.date_range_help']}"
-											value="#{message['worklist.date_range']}: " />
-									</dt>
-									<dd>
-										<h:inputText
-											value="#{searchController.searchFilter.item['datfrom']}"
-											required="false"
-											title="#{message['worklist.date_range_help']}"
-											class="imixs-date">
-											<f:convertDateTime pattern="#{message.datePatternShort}"
-												timeZone="#{message.timeZone}" />
-										</h:inputText>
-										-
-										<h:inputText
-											value="#{searchController.searchFilter.item['datto']}"
-											required="false"
-											title="#{message['worklist.date_range_help']}"
-											class="imixs-date">
-											<f:convertDateTime pattern="#{message.datePatternShort}"
-												timeZone="#{message.timeZone}" />
-										</h:inputText>
+										<h:inputText a:data-id="input_phrase"
+											value="#{searchController.searchFilter.item['phrase']}" />
+
 									</dd>
 								</dl>
 							</div>
-							<h:commandButton value="#{message.search}" actionListener="#{searchController.setDMSMode(true)}" 
+							<!-- date range -->
+							<div style="margin-bottom: 20px;">
+								<h:outputText title="#{message['worklist.date_range_help']}"
+									value="#{message['worklist.date_range']}: " />
+								<h:inputText
+									value="#{searchController.searchFilter.item['date.from']}"
+									title="#{message['worklist.date_range_help']}"
+									class="imixs-date">
+									<f:convertDateTime pattern="#{message.datePatternShort}"
+										timeZone="#{message.timeZone}" />
+								</h:inputText>
+								-
+								<h:inputText
+									value="#{searchController.searchFilter.item['date.to']}"
+									title="#{message['worklist.date_range_help']}"
+									class="imixs-date">
+									<f:convertDateTime pattern="#{message.datePatternShort}"
+										timeZone="#{message.timeZone}" />
+								</h:inputText>
+							</div>
+
+
+
+
+							<h:commandButton value="#{message.search}"
+								actionListener="#{searchController.setDMSMode(true)}"
 								style="float:left;margin-right:10px;">
+								<f:ajax render="@form" execute="@form"
+									onevent="updateSearchForm" />
 							</h:commandButton>
+
+
+
 							<!-- archive -->
 							<div style="float: left;">
 								<h:selectManyCheckbox id="view_filter"
@@ -87,54 +113,63 @@
 									<f:ajax event="change" render="@form"
 										onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
 								</h:selectManyCheckbox>
-
 							</div>
 
 						</div>
 
-						<h:panelGroup layout="block" class="imixs-body" id="worklist-body">
-							<!-- display search result  -->
-							<ui:repeat var="workitem"
-								value="#{viewHandler.getData(searchController)}">
-								<ui:include src="dms_viewentry.xhtml">
-									<ui:param name="workitem" value="#{workitem}" />
-								</ui:include>
-							</ui:repeat>
-							<!-- display empty search result  -->
-							<h:panelGroup
+
+						<!-- display search result  -->
+						<ui:param name="noresult"
+							value="#{(empty searchresult) and (empty searchController.searchFilter.item['txtSearch'])}"></ui:param>
+						<ui:fragment rendered="#{!noresult}">
+							<h:panelGroup layout="block" class="imixs-body"
+								style="clear:left" id="worklist-body">
+								<ui:repeat var="workitem"
+									value="#{viewHandler.getData(searchController)}">
+									<ui:include src="dms_viewentry.xhtml">
+										<ui:param name="workitem" value="#{workitem}" />
+									</ui:include>
+								</ui:repeat>
+
+								<!-- display parsing error -->
+								<h:panelGroup rendered="#{! empty facesContext.maximumSeverity}"
+									styleClass="ui-widget">
+									<div class="ui-state-error"
+										style="padding: .7em; margin-bottom: .7em; border: none; xbackground: none;">
+										<h3>
+											<span class="typcn typcn-warning-outline"></span>
+											#{message.search_error_title}
+										</h3>
+										<p>
+											<h:messages globalOnly="true" />
+										</p>
+									</div>
+								</h:panelGroup>
+
+							</h:panelGroup>
+
+							<div class="imixs-footer">
+								<h:commandButton
+									actionListener="#{viewHandler.back(searchController)}"
+									disabled="#{searchController.pageIndex==0}"
+									value="#{message.prev}">
+								</h:commandButton>
+								<h:commandButton
+									actionListener="#{viewHandler.forward(searchController)}"
+									disabled="#{searchController.endOfList}"
+									value="#{message.next}">
+								</h:commandButton>
+							</div>
+						</ui:fragment>
+
+						<!-- display empty search result  -->
+						<ui:fragment rendered="#{noresult}">
+							<br />
+							<h:panelGroup style="clear:left"
 								rendered="#{(empty viewHandler.getData(searchController)) and (empty facesContext.maximumSeverity)}">
 								<h3>#{message.empty_worklist}</h3>
 							</h:panelGroup>
-							<!-- display parsing error -->
-							<h:panelGroup rendered="#{! empty facesContext.maximumSeverity}"
-								styleClass="ui-widget">
-								<div class="ui-state-error"
-									style="padding: .7em; margin-bottom: .7em; border: none; xbackground: none;">
-									<h3>
-										<span class="typcn typcn-warning-outline"></span>
-										#{message.search_error_title}
-									</h3>
-									<p>
-										<h:messages globalOnly="true" />
-									</p>
-								</div>
-							</h:panelGroup>
-
-						</h:panelGroup>
-
-						<div class="imixs-footer">
-							<h:commandButton
-								actionListener="#{viewHandler.back(searchController)}"
-								disabled="#{searchController.pageIndex==0}"
-								value="#{message.prev}">
-							</h:commandButton>
-							<h:commandButton
-								actionListener="#{viewHandler.forward(searchController)}"
-								disabled="#{searchController.endOfList}" value="#{message.next}">
-							</h:commandButton>
-						</div>
-
-
+						</ui:fragment>
 					</div>
 
 					<div class="col-8" style="padding: 0 0 0 10px;">

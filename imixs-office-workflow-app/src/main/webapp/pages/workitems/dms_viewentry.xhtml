@@ -25,8 +25,8 @@
 				<h:link outcome="/pages/workitems/workitem">
 					<!-- summary empty ? -->
 					<h:panelGroup
-						rendered="#{empty workitem.item['txtWorkflowSummary']}">
-						<h:outputText value="#{workitem.item['$modified']}"
+						rendered="#{empty workitem.item['$WorkflowSummary']}">
+						<h:outputText value="#{workitem.item['$lasteventdate']}"
 							styleClass="imixs-viewentry-title">
 							<f:convertDateTime timeZone="#{message.timeZone}"
 								pattern="#{message.dateTimePattern}" />
@@ -35,15 +35,15 @@
 							styleClass="imixs-viewentry-title" />
 					</h:panelGroup>
 					<h:outputText styleClass="imixs-viewentry-title" escape="false"
-						value="#{workitem.item['txtWorkflowSummary']}" />
+						value="#{workitem.item['$WorkflowSummary']}" />
 					<f:param name="id" value="#{workitem.item['$uniqueid']}" />
 				</h:link>
 			</h:panelGroup>
 			<br />
 			<!-- Status -->
 			<h:outputText style="font-weight: bold;"
-				value="#{workitem.item['txtworkflowgroup']}" />
-			<h:outputText value=" » #{workitem.item['txtworkflowstatus']}" />
+				value="#{workitem.item['$workflowgroup']}" />
+			<h:outputText value=" » #{workitem.item['$workflowstatus']}" />
 			<h:outputText value=" (#{workitem.item['txtprocessname']})" />
 
 

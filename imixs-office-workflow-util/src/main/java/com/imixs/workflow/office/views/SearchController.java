@@ -170,7 +170,6 @@ public class SearchController extends ViewController implements Serializable {
 	 *            - post-redirect link to worklist
 	 */
 	public String doSearch() {
-		
 		String action = "/pages/workitems/worklist.xhtml?faces-redirect=true&phrase="
 				+ searchFilter.getItemValueString("phrase");
 		
