@@ -210,8 +210,9 @@ public class DMSController implements Serializable {
 			dmsListCache=new HashMap<String,List<ItemCollection>>();
 		}
 		
-		if (workitem == null) {
-			return dmsList;
+		// if workitem is not defined or has no UniqueID then return an empty list
+		if (workitem == null || workitem.getUniqueID().isEmpty()) {
+			return new ArrayList<ItemCollection>();
 		}
 		
 		// check cache....
