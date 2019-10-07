@@ -48,6 +48,7 @@ import org.imixs.marty.model.ProcessController;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.faces.data.ViewController;
+import org.imixs.workflow.faces.util.LoginController;
 
 /**
  * The SearchController provides methods for a convenient search experience.
@@ -86,12 +87,43 @@ public class SearchController extends ViewController implements Serializable {
 	@Inject
 	ProcessController processController;
 
+	@Inject
+	LoginController loginController;
+	
 	@EJB
 	SchemaService schemaService;
 
 	ItemCollection process;
 	ItemCollection space;
 
+	
+	@Override
+	public String getSortBy() {
+
+		if ("1".equals(this.getSearchFilter().getItemValueString("sortorder"))
+			|| "2".equals(this.getSearchFilter().getItemValueString("sortorder"))	
+				
+				) {
+			return "$lasteventdate";
+		}
+		return super.getSortBy();
+
+	}
+
+	@Override
+	public boolean isSortReverse() {
+
+		if ("2".equals(this.getSearchFilter().getItemValueString("sortorder"))) {
+			return false;
+		}
+		if ("1".equals(this.getSearchFilter().getItemValueString("sortorder"))) {
+			return true;
+		}
+
+		return super.isSortReverse();
+	}
+	
+	
 	/**
 	 * This method set the sort order and sort criteria
 	 * 
@@ -263,8 +295,14 @@ public class SearchController extends ViewController implements Serializable {
 			sSearchTerm += " (dms_count:[1 TO 99]) AND";
 		}
 
+		String sCreator ="";
 		// test if result should be restricted to creator?
-		String sCreator = searchFilter.getItemValueString("Creator");
+		if ("true".equals(this.getSearchFilter().getItemValueString("my_requests"))) {
+			//searchFilter.replaceItemValue("Creator", );
+			sCreator = loginController.getUserPrincipal();
+		}
+		// test if result should be restricted to creator?
+		
 
 		// test if result should be restricted to owner?
 		String sOwner = searchFilter.getItemValueString("namOwner");

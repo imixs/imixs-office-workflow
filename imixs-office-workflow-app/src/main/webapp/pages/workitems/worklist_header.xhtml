@@ -15,8 +15,7 @@
 				<h:outputText rendered="#{!empty searchController.process}"
 					value="#{searchController.process.item['txtName']}" />
 				<!-- Search -->
-				<h:outputText
-					rendered="#{empty searchController.process}"
+				<h:outputText rendered="#{empty searchController.process}"
 					value="#{message.search}" />
 			</h1>
 		</div>
@@ -31,49 +30,103 @@
 
 		<ui:include src="/pages/workitems/worklist_search.xhtml" />
 
-		<h:commandButton value="#{message.search}"
-			style="float:left;margin-right:10px;">
-			<f:ajax render="@form" execute="@form" onevent="updateSearchForm" />
-		</h:commandButton>
-		
-	
-				
-				
-				
-				
-					
-		<!-- archive -->
-		<div style="float: left;">
-			<h:selectManyCheckbox id="view_filter"
-				styleClass="imixs-checkbox-button ui-button ui-widget ui-state-default ui-corner-all"
-				value="#{searchController.searchFilter.itemListArray['type']}">
-				<f:selectItem itemLabel="#{message['worklist.archive']}"
-					itemValue="workitemarchive" />
-				<f:ajax event="change" render="@form"
-					onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
-			</h:selectManyCheckbox>
+
+
+
+		<div class="imixs-form-section-3">
+
+			<!-- date range -->
+			<dl>
+				<dt>
+					<h:outputText title="#{message['worklist.date_range']}"
+						value="#{message['worklist.date_range']}: " />
+				</dt>
+				<dd>
+					<h:inputText
+						value="#{searchController.searchFilter.item['date.from']}"
+						title="#{message['worklist.date_range_help']}" class="imixs-date">
+						<f:convertDateTime pattern="#{message.datePatternShort}"
+							timeZone="#{message.timeZone}" />
+					</h:inputText>
+					-
+					<h:inputText
+						value="#{searchController.searchFilter.item['date.to']}"
+						title="#{message['worklist.date_range_help']}" class="imixs-date">
+						<f:convertDateTime pattern="#{message.datePatternShort}"
+							timeZone="#{message.timeZone}" />
+					</h:inputText>
+				</dd>
+
+			</dl>
+
+
+
+			<dl>
+				<dt>#{message['worklist.creator']}:</dt>
+				<dd>
+					<h:selectManyCheckbox
+						value="#{searchController.searchFilter.itemListArray['my_requests']}">
+
+						<f:selectItem itemLabel="#{message['worklist.creator_selection']}" itemValue="true" />
+						<f:ajax event="change" render="@form"
+							onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
+					</h:selectManyCheckbox>
+				</dd>
+			</dl>
+
+
+
+
+
+			<!-- archive -->
+			<dl>
+				<dt>#{message['worklist.archive']}:</dt>
+				<dd>
+
+					<h:selectManyCheckbox id="view_filter"
+						value="#{searchController.searchFilter.itemListArray['type']}">
+						<f:selectItem itemLabel="#{message['worklist.archive_selection']}"
+							itemValue="workitemarchive" />
+						<f:ajax event="change" render="@form"
+							onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
+					</h:selectManyCheckbox>
+				</dd>
+			</dl>
 
 		</div>
-		<!-- date range -->
-		<div style="float: left; padding-left: 10px;">
-			<h:outputText title="#{message['worklist.date_range_help']}"
-				value="#{message['worklist.date_range']}: " />
-			<h:inputText value="#{searchController.searchFilter.item['date.from']}"
-				title="#{message['worklist.date_range_help']}"
-				class="imixs-date">
-				<f:convertDateTime pattern="#{message.datePatternShort}"
-					timeZone="#{message.timeZone}" />
-			</h:inputText>
-			-
-			<h:inputText value="#{searchController.searchFilter.item['date.to']}"
-				title="#{message['worklist.date_range_help']}"
-				class="imixs-date">
-				<f:convertDateTime pattern="#{message.datePatternShort}"
-					timeZone="#{message.timeZone}" />
-			</h:inputText>
+
+
+
+
+
+
+		<div class="imixs-form-panel">
+			<!-- Search Button and Search Order -->
+
+
+			<h:commandButton value="#{message.search}"
+				style="float:left;margin-right:10px;">
+				<f:ajax render="@form" execute="@form" onevent="updateSearchForm" />
+			</h:commandButton>
+			
+			<!-- Sort Order -->
+			<div style="float: right; padding-left: 10px;"
+				class="pull-right imixs-date-range ui-button ui-widget ui-state-default ui-corner-all">
+				<h:outputText title="#{message['worklist.sortorder_help']}"
+					value="#{message['worklist.sortorder']}: " />
+				<h:selectOneMenu id="spaceid_selection" style="background:#fff;"
+					value="#{searchController.searchFilter.item['sortorder']}">
+					<f:selectItem itemValue="" itemLabel="#{message['worklist.sortorder_relevance']}" />
+					<f:selectItem itemValue="1" itemLabel="#{message['worklist.sortorder_newest']}" />
+					<f:selectItem itemValue="2" itemLabel="#{message['worklist.sortorder_oldest']}" />
+					<f:ajax event="change" render="@form"
+							onevent="imixsOfficeWorkflow.layoutAjaxEvent" />
+				</h:selectOneMenu>
+			</div>
+
 		</div>
 
-		<div style="clear: both;"></div>
+
 
 
 	</h:panelGroup>
