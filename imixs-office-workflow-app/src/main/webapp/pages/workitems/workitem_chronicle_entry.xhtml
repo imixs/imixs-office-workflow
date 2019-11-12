@@ -92,7 +92,7 @@
 			<tr class="entry reference">
 				<td>
 					<div class="image-block">
-						<h:panelGroup pt:title="#{message.version} #{entry.item['date']}"
+						<h:panelGroup pt:title="#{message.reference} #{entry.item['date']}"
 							styleClass="typcn typcn-export-outline"></h:panelGroup>
 					</div>
 					<div class="content-block"> 
@@ -105,6 +105,13 @@
 							<!-- Status -->
 							<h:outputText value="#{entry.item['$workflowgroup']} » " />
 							<h:outputText value="#{entry.item['$workflowstatus']}" />
+							<div class="pull-right">
+								<h:outputText value="#{entry.item['$lasteventdate']}"
+									style="font-weight: normal;">
+									<f:convertDateTime timeZone="#{message.timeZone}"
+										pattern="dd. MMM (HH:mm)" />
+								</h:outputText>
+							</div>
 						</h:panelGroup>
 
 					</div>
@@ -128,6 +135,18 @@
 								<f:param name="id" value="#{entry.item['$uniqueid']}" />
 							</h:link>
 						</h:panelGroup>
+						
+						<br />
+							<!-- Status -->
+							<h:outputText value="#{entry.item['$workflowgroup']} » " />
+							<h:outputText value="#{entry.item['$workflowstatus']}" />
+							<div class="pull-right">
+								<h:outputText value="#{entry.item['$lasteventdate']}"
+									style="font-weight: normal;">
+									<f:convertDateTime timeZone="#{message.timeZone}"
+										pattern="dd. MMM (HH:mm)" />
+								</h:outputText>
+							</div>
 					</div>
 				</td>
 			</tr>

@@ -171,13 +171,15 @@ public class ChronicleController implements Serializable {
 		references.addAll(workitemLinkController.getReferences());
 		for (ItemCollection reference : references) {
 
-			Date date = reference.getItemValueDate(WorkflowKernel.LASTEVENTDATE);
+//			Date date = reference.getItemValueDate(WorkflowKernel.LASTEVENTDATE);
+			Date date = reference.getItemValueDate(WorkflowKernel.CREATED);
 			String message = reference.getItemValueString("$WorkflowSummary");
 			String user = reference.getItemValueString(WorkflowKernel.EDITOR);
 
 			ItemCollection entry = new ItemCollection();
 			entry.replaceItemValue("$WorkflowGroup", reference.getItemValue("$WorkflowGroup"));
 			entry.replaceItemValue("$WorkflowStatus", reference.getItemValue("$WorkflowStatus"));
+			entry.replaceItemValue(WorkflowKernel.LASTEVENTDATE, reference.getItemValue(WorkflowKernel.LASTEVENTDATE));
 			entry.replaceItemValue("date", date);
 			entry.replaceItemValue("user", user);
 			entry.replaceItemValue("message", message);
@@ -191,11 +193,20 @@ public class ChronicleController implements Serializable {
 		List<ItemCollection> versions = workitemService.findAllVersions(workflowController.getWorkitem());
 		for (ItemCollection version : versions) {
 
-			Date date = version.getItemValueDate(WorkflowKernel.LASTEVENTDATE);
-			String message = version.getItemValueString(WorkflowKernel.WORKFLOWSTATUS);
+			if (workflowController.getWorkitem().getUniqueID().equals(version.getUniqueID())) {
+				// skipp current workitem
+				continue;
+			}
+			
+			//Date date = version.getItemValueDate(WorkflowKernel.LASTEVENTDATE);
+			Date date = version.getItemValueDate(WorkflowKernel.CREATED);
+			String message = version.getItemValueString("$WorkflowSummary");
 			String user = version.getItemValueString(WorkflowKernel.EDITOR);
 
 			ItemCollection entry = new ItemCollection();
+			entry.replaceItemValue("$WorkflowGroup", version.getItemValue("$WorkflowGroup"));
+			entry.replaceItemValue("$WorkflowStatus", version.getItemValue("$WorkflowStatus"));
+			entry.replaceItemValue(WorkflowKernel.LASTEVENTDATE, version.getItemValue(WorkflowKernel.LASTEVENTDATE));
 			entry.replaceItemValue("date", date);
 			entry.replaceItemValue("user", user);
 			entry.replaceItemValue("message", message);
