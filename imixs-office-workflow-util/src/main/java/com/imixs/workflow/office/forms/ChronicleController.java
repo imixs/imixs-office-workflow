@@ -172,11 +172,12 @@ public class ChronicleController implements Serializable {
 		for (ItemCollection reference : references) {
 
 			Date date = reference.getItemValueDate(WorkflowKernel.LASTEVENTDATE);
-			String message = reference.getItemValueString("$WorkflowGroup") + " - "
-					+ reference.getItemValueString("$WorkflowSummary");
+			String message = reference.getItemValueString("$WorkflowSummary");
 			String user = reference.getItemValueString(WorkflowKernel.EDITOR);
 
 			ItemCollection entry = new ItemCollection();
+			entry.replaceItemValue("$WorkflowGroup", reference.getItemValue("$WorkflowGroup"));
+			entry.replaceItemValue("$WorkflowStatus", reference.getItemValue("$WorkflowStatus"));
 			entry.replaceItemValue("date", date);
 			entry.replaceItemValue("user", user);
 			entry.replaceItemValue("message", message);

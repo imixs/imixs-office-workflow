@@ -14,24 +14,18 @@
 
 	<!-- 1) User Icon and Time -->
 	<tr class="header">
-		<td style="width: 160px; vertical-align: top;">
-		
-		
-			<h:graphicImage
+		<td style="width: 160px; vertical-align: top;"><h:graphicImage
 				styleClass="imixs-workitem-chronicle-usericon"
 				title="#{profile.item['txtusername']}"
 				rendered="#{! empty profile.item['txtusericon']}"
 				value="/api/snapshot/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
-			</h:graphicImage> 
-			
-			<!-- optional - user initials -->
-			<h:panelGroup layout="block" rendered="#{empty profile.item['txtusericon']}">
+			</h:graphicImage> <!-- optional - user initials --> <h:panelGroup layout="block"
+				rendered="#{empty profile.item['txtusericon']}">
 				<h:outputText styleClass="imixs-workitem-chronicle-usericon"
 					title="#{profile.item['txtusername']}"
 					value="#{profile.item['txtinitials']}" />
-			</h:panelGroup> 
-			<h:outputText value="#{chronicle.date}"
-				style="margin-left:10px; font-size: 1.1em; line-height:1.4em;">
+			</h:panelGroup> <h:outputText value="#{chronicle.date}"
+				class="date">
 				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 					pattern="#{message.dateTimePattern}" />
 			</h:outputText> - #{profile.item['txtusername']}</td>
@@ -86,11 +80,9 @@
 		<!--  dms -->
 		<ui:fragment rendered="#{'dms' eq entry.item['type']}">
 			<tr class="entry files">
-				<td>
-					<ui:include src="workitem_chronicle_entry_dms.xhtml">
-							<ui:param name="attachment" value="#{entry}" />
-					</ui:include>
-				</td>
+				<td><ui:include src="workitem_chronicle_entry_dms.xhtml">
+						<ui:param name="attachment" value="#{entry}" />
+					</ui:include></td>
 			</tr>
 		</ui:fragment>
 
@@ -103,12 +95,16 @@
 						<h:panelGroup pt:title="#{message.version} #{entry.item['date']}"
 							styleClass="typcn typcn-export-outline"></h:panelGroup>
 					</div>
-					<div class="content-block">
-						<h:panelGroup styleClass="imixs-comments-entry">
+					<div class="content-block"> 
+						<h:panelGroup styleClass="">
 							<h:link outcome="/pages/workitems/workitem">
-								<h:outputText value="#{entry.item['message']}" />
-								<f:param name="id" value="#{entry.item['$uniqueid']}" />
-							</h:link>
+									<h:outputText value="#{entry.item['message']}" />
+									<f:param name="id" value="#{entry.item['$uniqueid']}" />
+								</h:link> 
+							<br />
+							<!-- Status -->
+							<h:outputText value="#{entry.item['$workflowgroup']} » " />
+							<h:outputText value="#{entry.item['$workflowstatus']}" />
 						</h:panelGroup>
 
 					</div>
