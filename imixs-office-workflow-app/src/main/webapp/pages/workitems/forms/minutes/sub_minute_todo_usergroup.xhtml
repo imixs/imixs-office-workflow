@@ -10,10 +10,10 @@
 	<div class="imixs-form-section">
 		<dl>
 			<dt>
-				#{message['form.subject']}: <span class="imixs-required">*</span>
+				#{message['form.subject']}: <span class="imixs-required"> * <h:message for="_subjecttodo" /></span>
 			</dt>
 			<dd>
-				<h:inputText title="#{message['form.minutes.help_subject']}"
+				<h:inputText title="#{message['form.minutes.help_subject']}" id="_subjecttodo"
 					required="false" value="#{workitem.item['_subject']}" />
 					<!-- validation is done by the model! -->
 			</dd>
