@@ -11,30 +11,28 @@
 		<h3>Reisegrund</h3>
 
 		<dl>
-			<dt>Anlass<span class="imixs-required">*</span></dt>
+			<dt>Anlass<span class="imixs-required"> * <h:message for="_subject" /></span></dt>
 			<dd>
-				<h:inputText value="#{workitem.item['_subject']}" required="true"  />
+				<h:inputText value="#{workitem.item['_subject']}" required="true" id="_subject" />
 			</dd>
 		</dl>
 	</div>
 	<div class="imixs-form-section-2">
 		<dl>
 			<dt>
-				<h:outputLabel value="Beginn" />
-				<span class="imixs-required">*</span>
+				<h:outputLabel value="Beginn" /><span class="imixs-required"> * <h:message for="_date" /></span>
 			</dt>
 			<dd>
-				<h:inputText value="#{workitem.item['datfrom']}"
+				<h:inputText value="#{workitem.item['datfrom']}" id="_date"
 					styleClass="imixs-date" required="true" />
 			</dd>
 		</dl>
 		<dl>
 			<dt>
-				<h:outputLabel value="Ende" />
-				<span class="imixs-required">*</span>
+				<h:outputLabel value="Ende" /><span class="imixs-required"> * <h:message for="_dateto" /></span>
 			</dt>
 			<dd>
-				<h:inputText value="#{workitem.item['datto']}"
+				<h:inputText value="#{workitem.item['datto']}" id="_dateto"
 					styleClass="imixs-date" required="true" />
 			</dd>
 
@@ -45,10 +43,10 @@
 	<div class="imixs-form-section">
 		<dl>
 			<dt>
-				Reiseziel (Anschrift)<span class="imixs-required"> *</span>
+				Reiseziel (Anschrift)<span class="imixs-required"> * <h:message for="_destination" /></span>
 			</dt>
 			<dd>
-				<h:inputTextarea value="#{workitem.item['_destination']}"
+				<h:inputTextarea value="#{workitem.item['_destination']}" id="_destination"
 					required="true" />
 			</dd>
 

@@ -10,9 +10,10 @@
 	<div class="imixs-form-section">
 
 		<dl>
-			<dt>#{message['form.subject']}<span class="imixs-required">*</span></dt>
+			<dt>#{message['form.subject']}<span class="imixs-required"> * <h:message for="_subject" /></span></dt>
 			<dd>
-				<h:inputText value="#{workitem.item['_subject']}" required="true"  />
+			 	<h:inputText id="_subject" value="#{workitem.item['_subject']}" required="true"  />
+			 	
 			</dd>
 		</dl>
 		<dl>

@@ -10,10 +10,10 @@
 	<div class="imixs-form-section">
 		<dl>
 			<dt>
-				#{message['form.subject']}<span class="imixs-required">*</span>
+				#{message['form.subject']}<span class="imixs-required"> * <h:message for="_subject" /></span>
 			</dt>
 			<dd>
-				<h:inputText required="true"
+				<h:inputText required="true" id="_subject"
 					value="#{workflowController.workitem.item['_subject']}" />
 			</dd>
 		</dl>
