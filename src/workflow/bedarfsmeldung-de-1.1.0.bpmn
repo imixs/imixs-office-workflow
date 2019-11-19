@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.5.0.Final-v20180515-1642-B1" targetNamespace="http://www.imixs.org/bpmn2">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.5.1.Final-v20190425-2005-B1" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
       <imixs:value><![CDATA[bedarfsmeldung-de-1.1]]></imixs:value>
@@ -58,7 +58,7 @@
     </bpmn2:textAnnotation>
     <bpmn2:association id="Association_3" sourceRef="TextAnnotation_3" targetRef="IntermediateCatchEvent_5"/>
   </bpmn2:process>
-  <bpmn2:process id="Process_1" name="Pool 1 Process" definitionalCollaborationRef="Collaboration_1" isExecutable="false">
+  <bpmn2:process id="Process_1" name="Bedarfsmeldung" definitionalCollaborationRef="Collaboration_1" isExecutable="false">
     <bpmn2:laneSet id="LaneSet_1" name="Lane Set 1">
       <bpmn2:lane id="Lane_1" name="Ersteller">
         <bpmn2:flowNodeRef>StartEvent_1</bpmn2:flowNodeRef>
@@ -591,9 +591,9 @@ Der Workflow 'Bedarfsmeldung' beschreibt beispielhaft den Ablauf, eine interne B
 <h3>Der Workflow</h3>
 
 <p>Die Bedarfsmeldung wird sowohl von einem Fachbereich als auch den Prozessverantwortlichen bearbeitet. </p>]]></bpmn2:documentation>
-      <bpmn2:incoming>SequenceFlow_31</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_4</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_14</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_31</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_12</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_8</bpmn2:outgoing>
     </bpmn2:task>
@@ -1276,7 +1276,7 @@ if ( isNaN(ergebnis)) {
         </imixs:item>
         <imixs:item name="txtactivityresult" type="CDATA">
           <imixs:value><![CDATA[<item name="subprocess_create">
-    <modelversion>rechnungseingang-1.0</modelversion>
+    <modelversion>rechnungseingang-1.1</modelversion>
     <processid>5000</processid>
     <activityid>101</activityid> 
     <items>txtprocessref,txtspaceref,txtspacerefmain,txtspacerefsub,namteam,_childitems,_supplier,_currency,_address,datdate,datto,_angebot,_capacity|banf_capacity,_description,numsequencenumber|banf_numsequencenumber,namcreator|banf_namcreator</items>
