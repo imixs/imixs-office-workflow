@@ -53,22 +53,22 @@ import org.imixs.workflow.engine.index.SchemaService;
 
 @Named
 @SessionScoped
-public class SuggestImportController implements Serializable {
+public class SuggestInputController implements Serializable {
 
 	public static final int MAX_RESULT = 30;
 
-	static Logger logger = Logger.getLogger(SuggestImportController.class.getName());
+	static Logger logger = Logger.getLogger(SuggestInputController.class.getName());
 
 	@EJB
 	DocumentService documentService = null;
-	
+
 	@EJB
 	SchemaService schemaService;
 
 	private static final long serialVersionUID = 1L;
 	private List<ItemCollection> searchResult = null;
 
-	public SuggestImportController() {
+	public SuggestInputController() {
 		super();
 
 	}
@@ -98,8 +98,10 @@ public class SuggestImportController implements Serializable {
 	 * This method updates the current workitem with the values defined by teh
 	 * itemList from the given suggest workitem.
 	 * 
-	 * @param suggest  - ItemColleciton with data to suggest
-	 * @param itemList - item names to be updated.
+	 * @param suggest
+	 *            - ItemColleciton with data to suggest
+	 * @param itemList
+	 *            - item names to be updated.
 	 */
 	public void update(ItemCollection workitem, ItemCollection suggest, String itemList) {
 		logger.finest("......update " + itemList + "...");
@@ -117,16 +119,24 @@ public class SuggestImportController implements Serializable {
 	 * events from the userInput.xhtml page. The minimum length of a given input
 	 * search phrase have to be at least 3 characters
 	 * 
-	 * @param keyItemName    - itemName to identify the unique itemCollection
-	 * @param input          - search phrase
-	 * @param searchItemList - itemName list to serach for
+	 * @param keyItemName
+	 *            - itemName to identify the unique itemCollection
+	 * @param input
+	 *            - search phrase
+	 * @param searchItemList
+	 *            - itemName list to serach for
 	 * 
 	 */
 	public void search(String keyItemName, String input, String searchItemList, String workflowGroup) {
+		search(keyItemName, input, searchItemList, workflowGroup, null);
+
+	}
+
+	public void search(String keyItemName, String input, String searchItemList, String workflowGroup, String query) {
 		if (input == null || input.length() < 3)
 			return;
 		logger.finest("......search for=" + input);
-		searchResult = searchEntity(keyItemName, searchItemList, workflowGroup, input);
+		searchResult = searchEntity(keyItemName, searchItemList, workflowGroup, input, query);
 
 	}
 
@@ -139,11 +149,12 @@ public class SuggestImportController implements Serializable {
 	 * The result is filtered for unique entries and is used to display the
 	 * suggestion list
 	 * 
-	 * @param phrase - search phrase
+	 * @param phrase
+	 *            - search phrase
 	 * @return - list of matching requests
 	 */
 	private List<ItemCollection> searchEntity(String keyItemName, String searccItemList, String workflowGroup,
-			String phrase) {
+			String phrase, String _query) {
 		long l = System.currentTimeMillis();
 		List<ItemCollection> searchResult = new ArrayList<ItemCollection>();
 
@@ -155,13 +166,26 @@ public class SuggestImportController implements Serializable {
 			phrase = phrase.trim();
 			// phrase = LuceneSearchService.escapeSearchTerm(phrase);
 			phrase = schemaService.normalizeSearchTerm(phrase);
-			String sQuery = "(type:\"workitem\" OR type:\"workitemarchive\") AND ($workflowgroup:\"" + workflowGroup
-					+ "\") ";
+
+			String sQuery = null;
+			// do we have a optional query ?
+			if (_query != null && !_query.isEmpty()) {
+				sQuery = _query;
+				// replace ' with "
+				sQuery=sQuery.replace("'","\"");
+			} else {
+				// build the default query based on the current workflow group
+				sQuery = "(type:\"workitem\" OR type:\"workitemarchive\")";
+				// add workflow group if provided
+				if (workflowGroup != null && !workflowGroup.isEmpty()) {
+					sQuery = sQuery + " AND ($workflowgroup:\"" + workflowGroup + "\")";
+				}
+
+			}
 
 			// build query for each search item...
 			String[] itemNames = searccItemList.split("[\\s,;]+");
 			sQuery += " AND (";
-
 			for (String itemName : itemNames) {
 				sQuery += "(" + itemName + ":(" + phrase + "*)) OR ";
 			}
