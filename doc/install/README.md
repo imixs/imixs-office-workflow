@@ -15,10 +15,21 @@ docker-compose.yml
 	version: '3.1'
 	
 	services:
+	
+	  db:
+	    image: postgres:9.6.1
+	    environment:
+	      POSTGRES_USER: "imixs"
+	      POSTGRES_PASSWORD: "adminadmin"
+	      POSTGRES_DB: "office"      
+	    volumes: 
+	      - dbdata:/var/lib/postgresql/data
+	
+	
 	  app:
-	    image: imixs/imixs-office-workflow:3.5.0
+	    image: imixs/imixs-office-workflow
 	    depends_on:
-          - db	
+	      - db
 	    environment:
 	      WILDFLY_PASS: "adminadmin"
 	      POSTGRES_USER: "imixs"
@@ -31,13 +42,7 @@ docker-compose.yml
 	      - "9990:9990"
 	      - "8787:8787"
 	
-	  db:
-	    image: postgres:9.6.1
-	    environment:
-	      POSTGRES_USER: "imixs"
-	      POSTGRES_PASSWORD: "adminadmin"
-	      POSTGRES_DB: "office"      
-	 
+	       
 	volumes:
 	  dbdata:
 	  appdata:
