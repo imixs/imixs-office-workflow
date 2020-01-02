@@ -44,21 +44,4 @@
 
 	</enterprise-beans>
 
-
-	<!-- Interceptors -->
-	<interceptors>
-		<interceptor>
-			<interceptor-class>org.imixs.marty.ejb.ImageInterceptor</interceptor-class>
-		</interceptor>
-	</interceptors>
-
-	<assembly-descriptor>
-		<!-- ImageInterceptor -->
-		<interceptor-binding>
-			<description>Intercepter to resize new uploaded photos if max size is exceeded.</description>
-			<ejb-name>DocumentService</ejb-name>
-			<interceptor-class>org.imixs.marty.ejb.ImageInterceptor</interceptor-class>
-		</interceptor-binding>
-	</assembly-descriptor>
-
 </ejb-jar>
