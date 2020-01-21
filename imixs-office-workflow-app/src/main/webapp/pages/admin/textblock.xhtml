@@ -29,93 +29,86 @@
 					</div>
 
 
-					<!-- ########## Error message ########## -->
-					<div class="ui-widget" id="imixs-report-errormessage"
-						style="display: none;">
-						<div class="ui-state-error ui-corner-all"
-							style="padding: .7em; margin-bottom: .7em;">
-							<h2>
-								#{message.error_title} <span class="ui-icon ui-icon-alert"
-									style="float: left; margin-right: .3em;"> </span>
-							</h2>
-							<p>
-								<h:outputText sxtyle="color: red"
-									value="#{message.error_message}" />
-							</p>
-							<p>
-								<h:messages globalOnly="true" />
-							</p>
-						</div>
-					</div>
-
+					<!-- ########## Error ########## -->
+					<ui:include src="/pages/error_message.xhtml" />
 
 					<div class="imixs-body">
-						<f:ajax event="change" render=":report_form_id:hidden_uri">
 
-							<div class="imixs-form-panel">
-								<div class="imixs-form-section-2">
+						<div class="imixs-form-panel">
+							<div class="imixs-form-section-2">
 
-									<dl>
-										<dt>ID:</dt>
+								<dl>
+									<dt>
+										ID:<span class="imixs-required"> * <h:message
+												for="_subject" /></span>
+									</dt>
 
-										<dd>
-											<h:inputText required="true" id="txtname_id"
-												value="#{documentController.document.item['txtName']}" />
-										</dd>
-									</dl>
+									<dd>
+										<h:inputText required="true" id="txtname_id"
+											value="#{documentController.document.item['txtName']}" />
+									</dd>
+								</dl>
 
 
-									<dl>
-										<dt>Type:</dt>
+								<dl>
+									<dt>Type:</dt>
+									<dd>
+										<h:selectOneRadio class="dsp_mode" onclick="layoutEditor();"
+											value="#{documentController.document.item['txtmode']}">
 
-										<dd>
-											<h:selectOneRadio
-												value="#{documentController.document.item['txtmode']}">
+											<f:selectItem itemLabel="HTML" itemValue="HTML"></f:selectItem>
+											<f:selectItem itemLabel="TEXT" itemValue="TEXT"></f:selectItem>
+											<f:selectItem
+												itemLabel="#{message['form.attachments.files']}"
+												itemValue="FILE"></f:selectItem>
 
-												<f:selectItem itemLabel="HTML" itemValue="HTML"></f:selectItem>
-												<f:selectItem itemLabel="TEXT" itemValue="TEXT"></f:selectItem>
-												<f:ajax render="contentIputID" onevent="layoutEditor" />
-											</h:selectOneRadio>
-										</dd>
-									</dl>
+										</h:selectOneRadio>
+									</dd>
+								</dl>
 
-								</div>
-
-								<h:panelGroup layout="block" styleClass="imixs-form-section"
-									id="contentIputID">
-
-									<dl>
-										<dt>#{message['form.minutes.description']}</dt>
-										<dd>
-											<h:inputTextarea id="tinymce-minute-editor"
-												rendered="#{documentController.document.item['txtmode'] eq 'HTML'}"
-												class="imixs-editor-basic"
-												value="#{documentController.document.item['txtcontent']}" />
-
-											<h:inputTextarea
-												rendered="#{documentController.document.item['txtmode'] ne 'HTML'}"
-												class=""
-												value="#{documentController.document.item['txtcontent']}" />
-										</dd>
-									</dl>
-
-								</h:panelGroup>
 							</div>
 
+							<h:panelGroup layout="block" styleClass="imixs-form-section"
+								id="contentIputID">
+								<dl>
+									<dt>#{message['form.minutes.description']}:</dt>
+									<dd>
+
+										<div class="textblock-html-input">
+											<h:inputTextarea class="imixs-editor-basic"
+												value="#{documentController.document.item['txtcontent']}" />
+										</div>
+										
+										<div class="textblock-text-input">
+											<h:inputTextarea 
+												value="#{documentController.document.item['txtcontent']}" />
+										</div>
+										
+										<div class="textblock-file-input">
+											<i:imixsFileUpload
+												workitem="#{documentController.document}"
+												hideattachments="false"
+												context_url="#{facesContext.externalContext.requestContextPath}/api/snapshot/#{documentController.document.item['$uniqueid']}" />
+										</div>
+
+									</dd>
+								</dl>
+
+							</h:panelGroup>
+						</div>
 
 
-						</f:ajax>
 
 					</div>
+
 
 					<div class="imixs-footer">
 						<h:commandButton
 							action="/pages/admin/textblocklist?faces-redirect=true"
 							actionListener="#{documentController.save()}"
-							value="#{message.save}"/>
+							value="#{message.save}" />
 
-						<h:commandButton value="#{message.close}"
-							immediate="true"
+						<h:commandButton value="#{message.close}" immediate="true"
 							action="/pages/admin/textblocklist?faces-redirect=true"
 							actionListener="#{documentController.close()}" />
 					</div>
@@ -131,17 +124,27 @@
 				/*<![CDATA[*/
 
 				$(document).ready(function() {
-
+					layoutEditor();
 				});
 
-				// method to refresh create buttons 
-				function layoutEditor(e) {
-					if (e.status == 'success') {
-						// Test
-						if (tinyMCE) {
-							tinymce.remove("textarea.imixs-editor-basic");
-						}
-						layoutOfficeEditor();
+				// method to refresh editor
+				function layoutEditor() {
+					var selValue = $("input[type='radio']:checked", ".dsp_mode")
+							.val();
+					if (selValue === "HTML") {
+						$(".textblock-text-input").hide();
+						$(".textblock-file-input").hide();
+						$(".textblock-html-input").show();
+					}
+					if (selValue === "TEXT") {
+						$(".textblock-text-input").show();
+						$(".textblock-file-input").hide();
+						$(".textblock-html-input").hide();
+					}
+					if (selValue === "FILE") {
+						$(".textblock-text-input").hide();
+						$(".textblock-file-input").show();
+						$(".textblock-html-input").hide();
 					}
 				}
 
