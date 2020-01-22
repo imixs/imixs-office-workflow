@@ -80,7 +80,53 @@
 	<h:outputText
 		value="&lt;!--[if IE 10]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
 		escape="false" />
+		
 
+	<!-- *** SCRIPTS *** -->
+
+	<!-- tinyMCE -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/tinymce/tinymce.min.js?build=#{app.application_build_timestamp}"></script>
+
+	<!-- datepicker regional -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/#{message['jquey.datepicker.regional']}?build=#{app.application_build_timestamp}"></script>
+
+	<!-- Load the marty component script -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.js?build=#{app.application_build_timestamp}"></script>
+
+	<!-- Load DataTablePlugin  -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/jquery.dataTables.min.js?build=#{app.application_build_timestamp}"></script>
+
+	<!-- Chart.js -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/chartjs/Chart.bundle.min.js?build=#{app.application_build_timestamp}"></script>
+
+	<!-- Imixs-Office-Workflow  -->
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.main.js?build=#{app.application_build_timestamp}"></script>
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.main.custom.js?build=#{app.application_build_timestamp}"></script>
+
+    <script type="text/javascript">
+		/*<![CDATA[*/
+
+		// define script name spaces
+		var imixs = IMIXS.org.imixs.core
+		var imixsOfficeWorkflow = IMIXS.com.imixs.workflow.office;
+
+		// define variables for office scripts loaded from resource bundles....
+		imixsOfficeWorkflow.contextPath="#{facesContext.externalContext.requestContextPath}";
+		imixsOfficeWorkflow.error_message_mce_image_size="#{message.error_message_mce_image_size}";
+		imixsOfficeWorkflow.imixs_date_showWeek=("true"==="#{app['jquey.datepicker.showWeek']}");
+		
+		
+		/*]]>*/
+	</script>
 	<ui:insert name="header">
 	</ui:insert>
 
