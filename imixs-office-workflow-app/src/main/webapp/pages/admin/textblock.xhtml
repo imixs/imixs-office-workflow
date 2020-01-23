@@ -61,6 +61,7 @@
 											<f:selectItem
 												itemLabel="#{message['form.attachments.files']}"
 												itemValue="FILE"></f:selectItem>
+											<f:ajax render="html_input text_input" onevent="layoutEditor" />
 
 										</h:selectOneRadio>
 									</dd>
@@ -74,15 +75,15 @@
 									<dt>#{message['form.minutes.description']}:</dt>
 									<dd>
 
-										<div class="textblock-html-input">
-											<h:inputTextarea class="imixs-editor-basic"
+										<h:panelGroup styleClass="textblock-html-input" id="text_input">
+											<h:inputTextarea class="imixs-editor-basic" rendered="#{documentController.document.item['txtmode'] eq 'HTML'}" 
 												value="#{documentController.document.item['txtcontent']}" />
-										</div>
+										</h:panelGroup>
 										
-										<div class="textblock-text-input">
-											<h:inputTextarea 
+										<h:panelGroup styleClass="textblock-text-input" id="html_input">
+											<h:inputTextarea rendered="#{documentController.document.item['txtmode'] ne 'HTML'}" 
 												value="#{documentController.document.item['txtcontent']}" />
-										</div>
+										</h:panelGroup>
 										
 										<div class="textblock-file-input">
 											<i:imixsFileUpload
@@ -126,9 +127,21 @@
 				$(document).ready(function() {
 					layoutEditor();
 				});
-
+				// method to refresh create buttons 
+				function xxxxlayoutEditor(e) {
+					
+				}
 				// method to refresh editor
-				function layoutEditor() {
+				function layoutEditor(e) {
+					if (e && e.status == 'success') {
+						// Test
+						if (tinyMCE) {
+							tinymce.remove("textarea.imixs-editor-basic");
+						}
+						imixsOfficeWorkflow.layoutOfficeEditor();
+					}
+					
+					
 					var selValue = $("input[type='radio']:checked", ".dsp_mode")
 							.val();
 					if (selValue === "HTML") {
