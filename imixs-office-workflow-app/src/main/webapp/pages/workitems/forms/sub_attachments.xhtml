@@ -34,7 +34,8 @@
 	<!-- **** General info ***** -->
 	<div class="row imixs-form-attachments">
 	
-	<div class="col-6 imixs-no-print" id="">
+		<div class="col-6 imixs-no-print imixs-form-attachments-upload">
+			<h3><span class="typcn typcn-cloud-storage"></span> #{message.documents_upload}</h3>
 			<div class="imixsLinkWidget">
 				<f:ajax render=":#{dmsListComponent.clientId} link_input"
 					onevent="hideComments">
@@ -53,7 +54,8 @@
 				hideatachments="true" />
 		</div>
 		
-		<div class="col-6 imixs-print-full-width">
+		<div class="col-6 imixs-form-attachments-storage imixs-print-full-width">
+			<h3><span class="typcn typcn-folder-open"></span> #{message.documents_storage}</h3>
 			<h:panelGroup layout="block" id="dmslist"
 				binding="#{dmsListComponent}" style="margin-bottom:10px;">
 
