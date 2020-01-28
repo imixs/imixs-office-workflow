@@ -21,19 +21,20 @@
 				<!-- optional: process.item['isMember'] -->
 				<h:panelGroup layout="block"
 					rendered="#{space.item['isTeam'] or space.item['isManager']}">
-					<li><h:commandLink action="/pages/workitems/worklist"
-							immediate="true" actionListener="#{searchController.doReset}">
-							<h:outputText value="#{space.item['txtName']}" />
-							<f:setPropertyActionListener
-								target="#{searchController.searchFilter.item['ProcessRef']}"
-								value="" />
-							<f:setPropertyActionListener
-								target="#{searchController.searchFilter.item['SpaceRef']}"
-								value="#{space.item['$uniqueId']}" />
-							<f:setPropertyActionListener
-								target="#{searchController.searchFilter.item['phrase']}"
-								value="" />
-						</h:commandLink></li>
+					<li><h:link outcome="/pages/space?faces-redirect=true"
+									styleClass="imixs-viewentry-main-link">
+									<h:panelGroup rendered="#{(record.item['$taskid'] eq 100)}"
+										styleClass="typcn typcn-tick imixs-state-success"
+										pt:title="#{record.item['$workflowstatus']}" />
+									<h:panelGroup rendered="#{(record.item['$taskid'] eq 180)}"
+										pt:title="#{record.item['$workflowstatus']}"
+										styleClass="typcn typcn-delete-outline imixs-state-warning" />
+
+									<h:outputText value="#{record.item['txtName']}" />
+									<h:outputText rendered="#{empty record.item['txtName']}"
+										value=" - no name - " />
+									<f:param name="id" value="#{record.item['$uniqueid']}" />
+								</h:link></li>
 				</h:panelGroup>
 			</ui:repeat>
 		</ul>
