@@ -4,8 +4,10 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+		
 
 
 	<!-- Admin Menu -->
@@ -25,16 +27,14 @@
 				<ui:repeat value="#{processController.processList}" var="record">
 					<ui:fragment rendered="#{record.item['isManager']}">
 
-						<li><h:commandLink styleClass="imixs-viewentry-main-link"
-								action="#{workflowController.load(record.item['$UniqueID'],'/pages/process.xhtml')}">
-								<f:setPropertyActionListener value="/pages/admin/spaces"
-									target="#{workflowController.defaultActionResult}" />
-								<h:outputText value="#{record.item['txtName']}" />
-								<h:outputText rendered="#{empty record.item['txtName']}"
-									value=" - no name - " />
-
-
-							</h:commandLink></li>
+						<li>
+							<h:link outcome="/pages/process?faces-redirect=true" styleClass="imixs-viewentry-main-link">
+									<h:outputText value="#{record.item['txtName']}" />
+									<h:outputText rendered="#{empty record.item['txtName']}"
+										value=" - no name - " />
+									<f:param name="id" value="#{record.item['$uniqueid']}" />
+								</h:link> 							
+							</li>
 					</ui:fragment>
 				</ui:repeat>
 			</ul>
@@ -49,17 +49,23 @@
 			<ul>
 				<ui:repeat value="#{processController.spaces}" var="record">
 					<ui:fragment rendered="#{record.item['isManager']}">
+						<li>
+							<h:link outcome="/pages/space?faces-redirect=true"
+									styleClass="imixs-viewentry-main-link">
+									<h:panelGroup rendered="#{(record.item['$taskid'] eq 100)}"
+										styleClass="typcn typcn-tick imixs-state-success"
+										pt:title="#{record.item['$workflowstatus']}" />
+									<h:panelGroup rendered="#{(record.item['$taskid'] eq 180)}"
+										pt:title="#{record.item['$workflowstatus']}"
+										styleClass="typcn typcn-delete-outline imixs-state-warning" />
 
-						<li><h:commandLink styleClass="imixs-viewentry-main-link"
-								action="#{workflowController.load(record.item['$UniqueID'],'/pages/space.xhtml')}">
-								<f:setPropertyActionListener value="/pages/admin/spaces"
-									target="#{workflowController.defaultActionResult}" />
-								<h:outputText value="#{record.item['txtName']}" />
-								<h:outputText rendered="#{empty record.item['txtName']}"
-									value=" - no name - " />
-
-
-							</h:commandLink></li>
+									<h:outputText value="#{record.item['txtName']}" />
+									<h:outputText rendered="#{empty record.item['txtName']}"
+										value=" - no name - " />
+									<f:param name="id" value="#{record.item['$uniqueid']}" />
+								</h:link>							
+							
+							</li>
 					</ui:fragment>
 				</ui:repeat>
 			</ul>
