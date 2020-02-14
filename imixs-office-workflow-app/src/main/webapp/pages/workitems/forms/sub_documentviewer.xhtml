@@ -13,16 +13,13 @@
 		$(document).ready(
 				function() {
 					$(".imixs-form-attachments .attachmentlink-iframe").each(
-							function(index, element) {
-								var attachmentName=$(this).text();
-								 
-								if (attachmentName.endsWith('.pdf')) {
-									
-									$(this).click();
-									return false;
-								}
-								
-							});
+						function(index, element) {
+							var attachmentName=$(this).text();
+							if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {									
+								$(this).click();
+								return false;
+							}
+						});
 				});
 
 
