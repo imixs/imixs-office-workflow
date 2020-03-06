@@ -41,9 +41,46 @@ select {
 	color: #aaa;
 }
 
+
+input[type="text"]:focus,input[type="password"]:focus,textarea:focus,select:focus
+	{
+	border: 1px solid #ccc;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	outline: 0;
+	outline: thin dotted \9;
+	border-color: rgba(204, 204, 204, 0.8);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 8px
+		rgba(102, 102, 102, 0.2);
+	-moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 8px
+		rgba(102, 102, 102, 0.2);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 8px
+		rgba(102, 102, 102, 0.2);
+}
+
+
 dl dt {
 	font-weight: bold;
 }
+
+
+dl dt input[type="text"], dl dt input[type="text"]:focus {
+    width: 100%;
+    border:none;
+    -webkit-box-shadow: none;
+	-moz-box-shadow:none;
+	box-shadow: none;
+}
+
+dl dt input[type="text"]:hover {
+    width: 100%;
+    border:none;
+    background-color: #f8f8f8;
+    
+}
+
+
 
 .pull-right {
 	float: right;
