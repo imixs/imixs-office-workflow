@@ -24,6 +24,8 @@
 package com.imixs.workflow.office.forms;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -32,13 +34,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -93,6 +99,8 @@ public class ChronicleController implements Serializable {
 
 	@EJB
 	protected WorkitemService workitemService;
+	
+	private DateFormat dateFormat=null;
 
 	@SuppressWarnings("unchecked")
 	@PostConstruct
@@ -101,6 +109,16 @@ public class ChronicleController implements Serializable {
 		originChronicleList = new ArrayList<ChronicleEntity>();
 
 		yearsMonths = new HashMap<Integer, Set<Integer>>();
+		
+		try {
+            Locale browserLocale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+            ResourceBundle rb = ResourceBundle.getBundle("bundle.messages", browserLocale);
+            String sDatePattern = rb.getString("dateTimePattern");
+             dateFormat = new SimpleDateFormat(sDatePattern);
+        } catch (MissingResourceException mre) {
+            dateFormat=null;
+        }
+
 
 		/* collect history */
 		List<List<Object>> history = workflowController.getWorkitem().getItemValue("txtworkflowhistory");
@@ -171,9 +189,18 @@ public class ChronicleController implements Serializable {
 		references.addAll(workitemLinkController.getReferences());
 		for (ItemCollection reference : references) {
 
-//			Date date = reference.getItemValueDate(WorkflowKernel.LASTEVENTDATE);
 			Date date = reference.getItemValueDate(WorkflowKernel.CREATED);
 			String message = reference.getItemValueString("$WorkflowSummary");
+			// test if no summary....
+			if (message.isEmpty()) {
+			    // print the date....
+			    if (dateFormat==null) {
+			        message=message+date.toString();
+			    } else {
+			        message=message+dateFormat.format(date);
+			    }
+	
+			}
 			String user = reference.getItemValueString(WorkflowKernel.EDITOR);
 
 			ItemCollection entry = new ItemCollection();
