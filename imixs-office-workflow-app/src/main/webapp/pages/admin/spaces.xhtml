@@ -76,8 +76,8 @@
 										pt:title="#{record.item['$workflowstatus']}"
 										styleClass="typcn typcn-delete-outline imixs-state-warning" />
 
-									<h:outputText value="#{record.item['txtName']}" />
-									<h:outputText rendered="#{empty record.item['txtName']}"
+									<h:outputText value="#{record.item['name']}" />
+									<h:outputText rendered="#{empty record.item['name']}"
 										value=" - no name - " />
 									<f:param name="id" value="#{record.item['$uniqueid']}" />
 								</h:link>
@@ -177,8 +177,8 @@
 									actionListener="#{workflowController.create(propertyController.getProperty('setup.system.model'),100,record.item['$uniqueid'])}">
 									<span class="typcn typcn-flow-children imixs-state-info"></span>#{message.add}
 									<f:setPropertyActionListener
-										target="#{workflowController.workitem.item['txtparentname']}"
-										value="#{record.item['txtname']}" />
+										target="#{workflowController.workitem.item['space.parent.name']}"
+										value="#{record.item['name']}" />
 								</h:commandLink>
 
 							</h:column>

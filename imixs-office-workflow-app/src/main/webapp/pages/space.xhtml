@@ -23,16 +23,16 @@
 						<h1>
 							<h:outputText value="#{message['space.title']}: " />
 							<h:outputText
-								rendered="#{! empty workflowController.workitem.item['txtParentname']}"
-								value="#{workflowController.workitem.item['txtParentname']}" />
+								rendered="#{! empty workflowController.workitem.item['space.parent.name']}"
+								value="#{workflowController.workitem.item['space.parent.name']}" />
 
 							<h:outputText
-								rendered="#{! empty workflowController.workitem.item['txtParentname']}"
+								rendered="#{! empty workflowController.workitem.item['space.parent.name']}"
 								value="." />
 
 
 							<h:outputText
-								value="#{workflowController.workitem.item['txtspacename']} " />
+								value="#{workflowController.workitem.item['space.name']} " />
 						</h1>
 					</div>
 					<!-- ########## Error ########## -->
@@ -64,10 +64,10 @@
 										</dt>
 										<dd>
 											<h:outputText
-												rendered="#{! empty workflowController.workitem.item['txtParentname']}"
-												value="#{workflowController.workitem.item['txtParentname']}." />
+												rendered="#{! empty workflowController.workitem.item['space.parent.name']}"
+												value="#{workflowController.workitem.item['space.parent.name']}." />
 											<h:inputText style="width: 20em;" required="true"
-												value="#{workflowController.workitem.item['txtspacename']}"
+												value="#{workflowController.workitem.item['space.name']}"
 												id="name_id">
 											</h:inputText>
 										</dd>
