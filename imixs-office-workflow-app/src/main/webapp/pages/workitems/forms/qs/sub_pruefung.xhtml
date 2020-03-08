@@ -13,7 +13,7 @@
 					value="#{workflowController.workitem.item['txtSpaceRef']}">
 					<f:selectItem itemLabel=""></f:selectItem>
 					<c:forEach
-						items="#{processController.getSpaces()}"
+						items="#{teamController.getSpaces()}"
 						var="space">
 						<f:selectItem itemLabel="#{space.item['txtName']}"
 							itemValue="#{space.item['$UniqueID']}">

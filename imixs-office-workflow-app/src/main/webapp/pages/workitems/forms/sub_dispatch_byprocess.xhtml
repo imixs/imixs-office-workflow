@@ -12,7 +12,7 @@
 				<h:selectOneMenu style="width:20em;" required="false"
 					value="#{workflowController.workitem.item['txtSpaceRef']}">
 					<f:selectItem itemLabel=""></f:selectItem>
-					<c:forEach items="#{processController.getSpacesByProcessId(workflowController.workitem.item['txtProcessRef'])}" var="space">
+					<c:forEach items="#{teamController.getSpacesByProcessId(workflowController.workitem.item['txtProcessRef'])}" var="space">
 						<f:selectItem itemLabel="#{space.item['txtName']}"
 							itemValue="#{space.item['$UniqueID']}">
 						</f:selectItem>

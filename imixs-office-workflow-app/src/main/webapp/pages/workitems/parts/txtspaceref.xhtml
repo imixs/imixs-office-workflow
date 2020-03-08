@@ -15,7 +15,7 @@
 				required="#{empty required?false:required}"
 				value="#{workflowController.workitem.item['txtSpaceRef']}">
 				<f:selectItem itemLabel=""></f:selectItem>
-				<c:forEach items="#{byprocess?processController.getSpacesByProcessId(workflowController.workitem.item['txtProcessRef']):processController.spaces}" var="space">
+				<c:forEach items="#{byprocess?teamController.getSpacesByProcessId(workflowController.workitem.item['txtProcessRef']):teamController.spaces}" var="space">
 					<f:selectItem itemLabel="#{space.item['txtName']}"
 						itemValue="#{space.item['$UniqueID']}">
 					</f:selectItem>

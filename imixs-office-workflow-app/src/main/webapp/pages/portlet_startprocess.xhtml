@@ -15,7 +15,7 @@
 			</ul>
 		</div>
 		<!-- *** all process nodes where the current user is member of, or the process is public (task=300) *** -->
-		<ui:repeat value="#{processController.processList}" var="process">	
+		<ui:repeat value="#{teamController.processList}" var="process">	
 			<h:panelGroup layout="block" styleClass="imixs-viewentry"
 				rendered="#{(process.item['$taskid'] eq 301 || loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isMember'])}">
 				<h1>
@@ -49,14 +49,7 @@
 									</span>
 								</h:panelGroup> <h:outputText style="color:red" rendered="#{empty initialTask}"
 									value="	Missing Model Definition: #{group}"></h:outputText>
-									
-									
-									
-								
-									
-									
-									</li>
-
+							</li>
 						</ui:repeat>
 					</ul>
 				</h:panelGroup>

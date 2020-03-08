@@ -7,7 +7,7 @@
 	xmlns:marty="http://java.sun.com/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 	<ui:param name="process"
-		value="#{processController.getEntityById(searchController.searchFilter.item['_processref'])}" />
+		value="#{teamController.getEntityById(searchController.searchFilter.item['_processref'])}" />
 
 	<!-- *** Filter *** -->
 	<div class="imixs-form-section-3">
@@ -54,19 +54,19 @@
 
 		<!-- Spaces are shown if the process defines space selection of if property search.filter.spaces=true -->
 		<ui:param name="spaceSelection"
-			value="#{processController.getSpacesByProcessId(process.uniqueID)}"></ui:param>
+			value="#{teamController.getSpacesByProcessId(process.uniqueID)}"></ui:param>
 		<c:if test="#{empty spaceSelection}">
 			<!-- show root spaces only? -->
 			<c:if
 				test="#{propertyController.getProperty('search.filter.spaces') eq 'root'}">
 				<ui:param name="spaceSelection"
-					value="#{processController.getRootSpaces()}"></ui:param>
+					value="#{teamController.getRootSpaces()}"></ui:param>
 			</c:if>
 			<!-- show all spaces ? -->
 			<c:if
 				test="#{propertyController.getProperty('search.filter.spaces') eq 'all'}">
 				<ui:param name="spaceSelection"
-					value="#{processController.getSpaces()}"></ui:param>
+					value="#{teamController.getSpaces()}"></ui:param>
 			</c:if>
 		</c:if>
 
@@ -78,7 +78,7 @@
 						value="#{searchController.searchFilter.item['spaceref']}">
 						<f:selectItem itemValue="" itemLabel=" " />
 
-						<!--  optional processController.getSpaces() -->
+						<!--  optional teamController.getSpaces() -->
 						<c:forEach items="#{spaceSelection}" var="space">
 							<f:selectItem itemValue="#{space.item['$UniqueID']}"
 								itemLabel="#{space.item['txtname']}" />

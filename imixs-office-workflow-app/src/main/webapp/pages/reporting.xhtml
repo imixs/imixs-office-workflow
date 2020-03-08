@@ -15,7 +15,7 @@
 
 
 	<!-- *** display all process nodes where the current user is manager of *** -->
-	<ui:repeat value="#{processController.processList}" var="process">
+	<ui:repeat value="#{teamController.processList}" var="process">
 		<h:panelGroup layout="block"
 			rendered="#{process.item['isManager'] and (! empty process.item['txtReportList'])}">
 

@@ -24,7 +24,7 @@
 			<h3>#{message['nav.admin_processlist']}</h3>
 			<!-- show all processes to admin -->
 			<ul>
-				<ui:repeat value="#{processController.processList}" var="record">
+				<ui:repeat value="#{teamController.processList}" var="record">
 					<ui:fragment rendered="#{record.item['isManager']}">
 
 						<li>
@@ -47,7 +47,7 @@
 			<h3>#{message['nav.admin_spaces']}</h3>
 			<!-- show all spaces to admin -->
 			<ul>
-				<ui:repeat value="#{processController.spaces}" var="record">
+				<ui:repeat value="#{teamController.spaces}" var="record">
 					<ui:fragment rendered="#{record.item['isManager']}">
 						<li>
 							<h:link outcome="/pages/space?faces-redirect=true"
