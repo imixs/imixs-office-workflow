@@ -40,7 +40,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.imixs.marty.model.ProcessController;
+import org.imixs.marty.model.TeamController;
 import org.imixs.marty.profile.UserController;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.exceptions.AccessDeniedException;
@@ -67,7 +67,7 @@ public class FormController implements Serializable {
 	public static final String DEFAULT_EDITOR_ID = "form_panel_simple#basic";
 
 	@Inject
-	protected ProcessController processController;
+	protected TeamController processController;
 
 	@Inject
 	protected UserController userController;

@@ -44,7 +44,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.imixs.marty.config.SetupController;
-import org.imixs.marty.model.ProcessController;
+import org.imixs.marty.model.TeamController;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.faces.data.ViewController;
@@ -85,7 +85,7 @@ public class SearchController extends ViewController implements Serializable {
 	SetupController setupController;
 
 	@Inject
-	ProcessController processController;
+	TeamController processController;
 
 	@Inject
 	LoginController loginController;
