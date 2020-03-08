@@ -106,7 +106,7 @@
 							<h:column>
 								<f:facet name="header">Manager</f:facet>
 								<ui:repeat var="grp"
-									value="#{record.itemListArray['namManager']}">
+									value="#{record.itemListArray['process.manager']}">
 									<ui:param name="displayname" value="#{userController.getUserName(grp)}"></ui:param>
 									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp}" />
 									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
@@ -121,7 +121,7 @@
 							<h:column>
 								<f:facet name="header">Team</f:facet>
 								<ui:repeat var="grp"
-									value="#{record.itemListArray['namTeam']}">
+									value="#{record.itemListArray['process.team']}">
 									<ui:param name="displayname" value="#{userController.getUserName(grp)}"></ui:param>
 									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp}" />
 									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
@@ -136,7 +136,7 @@
 							<h:column>
 								<f:facet name="header">Assist</f:facet>
 								<ui:repeat var="grp"
-									value="#{record.itemListArray['namAssist']}">
+									value="#{record.itemListArray['process.assist']}">
 									<ui:param name="displayname" value="#{userController.getUserName(grp)}"></ui:param>
 									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp}" />
 									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
