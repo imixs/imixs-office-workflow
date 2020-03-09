@@ -23,7 +23,7 @@ public class SpaceViewController extends ViewController {
 	public void init() {
 		super.init();
 		this.setQuery("(type:\"space\")");
-		this.setSortBy("txtname");
+		this.setSortBy("name");
 		this.setSortReverse(false);
 		this.setPageSize(999);
 		this.setLoadStubs(false);
