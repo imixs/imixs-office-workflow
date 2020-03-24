@@ -139,9 +139,9 @@
 										<dd>
 											<h:selectManyCheckbox layout="pageDirection"
 												value="#{workflowController.workitem.itemListArray['$UniqueIDRef']}">
-												<c:forEach items="#{teamController.spaces}" var="project">
-													<f:selectItem itemValue="#{project.item['$UniqueID']}"
-														itemLabel="#{project.item['txtName']}"></f:selectItem>
+												<c:forEach items="#{teamController.spaces}" var="orgunit">
+													<f:selectItem itemValue="#{orgunit.item['$UniqueID']}"
+														itemLabel="#{orgunit.item['name']}"></f:selectItem>
 												</c:forEach>
 											</h:selectManyCheckbox>
 										</dd>
