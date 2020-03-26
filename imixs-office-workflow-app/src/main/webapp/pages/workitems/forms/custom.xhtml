@@ -30,12 +30,32 @@
 							<h:inputText value="#{workitem.item[item.name]}"
 								required="#{item.required}" />
 						</c:if>
-						
+
+						<!-- long -->
+						<c:if test="#{item.type eq 'number'}">
+							<h:inputText value="#{workitem.item[item.name]}"
+								required="#{item.required}">
+								<f:convertNumber/>
+							</h:inputText>
+						</c:if>
+
+						<!-- float -->
+						<c:if test="#{item.type eq 'currency'}">
+							<h:inputText value="#{workitem.item[item.name]}"
+								required="#{item.required}">
+								<f:convertNumber minFractionDigits="2" locale="de" />
+							</h:inputText>
+						</c:if>
+
+
 						<c:if test="#{item.type eq 'date'}">
 							<h:inputText value="#{workitem.item[item.name]}"
-								required="#{item.required}" styleClass="imixs-date"/>
+								required="#{item.required}" styleClass="imixs-date">
+								<f:convertDateTime pattern="#{message.datePatternShort}"
+									timeZone="#{message.timeZone}" />
+							</h:inputText>
 						</c:if>
-						
+
 						<c:if test="#{item.type eq 'textarea'}">
 							<h:inputTextarea value="#{workitem.item[item.name]}"
 								required="#{item.required}" />
@@ -43,9 +63,8 @@
 
 
 						<c:if test="#{item.type eq 'html'}">
-							<h:inputTextarea 
-								required="#{item.required}" class="imixs-editor-basic"
-								value="#{workitem.item[item.name]}" />
+							<h:inputTextarea required="#{item.required}"
+								class="imixs-editor-basic" value="#{workitem.item[item.name]}" />
 						</c:if>
 
 					</dd>
