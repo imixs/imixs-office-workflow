@@ -47,22 +47,22 @@
 
 	<!-- @RunAs see: 
 		https://stackoverflow.com/questions/51830570/how-to-authorize-a-java-batch-job-so-it-can-run-from-a-startup-bean-in-websphere
-		https://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_sec_runas.html
+		https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_sec_runas.html
 		https://groups.io/g/openliberty/messages
 		https://www.ibm.com/support/knowledgecenter/de/SS7K4U_liberty/com.ibm.websphere.wlp.zseries.doc/ae/cwlp_authorization.html
 
 	 -->
+	 <applicationMonitor dropinsEnabled="false" />
 	
-
 	<application name="imixs-office-workflow"  context-root="/" type="war" 
 		id="imixs-office-workflow"
     	location="${server.config.dir}dropins/imixs-office-workflow.war">
     
 	    <application-bnd>
-	        <security-role name="org.imixs.ACCESSLEVEL.MANAGERACCESS" >
+	        <security-role name="org.imixs.ACCESSLEVEL.MANAGERACCESS">
 	            <user name="workflow-service" />
 	            <user name="admin" />
-	            <run-as userid="workflow-service"/>
+	            <run-as userid="workflow-service" />
 	        </security-role>
 	        
 	         <security-role name="org.imixs.ACCESSLEVEL.AUTHORACCESS" >
