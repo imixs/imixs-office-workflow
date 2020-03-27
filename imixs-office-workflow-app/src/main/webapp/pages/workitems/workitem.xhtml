@@ -68,54 +68,49 @@
 			</div>
 
 			<div class="imixs-workitem-chronicle">
+				<f:view>
+					<h:form id="chronicle_form">
 
-				<div class="nav">
-					<ul>
-						<li><a href="#"><span onclick="toggleChronicle()"
-								class="typcn typcn-th-menu-outline"></span></a></li>
+						<div class="nav">
+							<ul>
+								<li><a href="#"><span onclick="toggleChronicle()"
+										class="typcn typcn-th-menu-outline"></span></a></li>
 
+								<li><h:commandLink onclick="toggleChronicle()"
+										actionListener="#{chronicleController.toggleFilter('comment')}">
+										<span class="typcn typcn-messages" title="#{message.comments}"></span>
+										<f:ajax render="chronicle-main chronicle-nav" />
+									</h:commandLink></li>
 
-						<li><h:commandLink
-								onclick="toggleChronicle()"
-								actionListener="#{chronicleController.toggleFilter('comment')}">
-								<span class="typcn typcn-messages" title="#{message.comments}"></span>
-								<f:ajax render="chronicle-main chronicle-nav" />
-							</h:commandLink></li>
+								<li><h:commandLink onclick="toggleChronicle()"
+										actionListener="#{chronicleController.toggleFilter('dms')}">
+										<span class="typcn typcn-folder-open dms"
+											title="#{message['form.attachments.files']}"></span>
+										<f:ajax render="chronicle-main chronicle-nav" />
+									</h:commandLink></li>
 
+								<li><h:commandLink onclick="toggleChronicle()"
+										actionListener="#{chronicleController.toggleFilter('reference')}">
+										<span class="typcn typcn-export-outline"
+											title="#{message.references}"></span>
+										<f:ajax render="chronicle-main chronicle-nav" />
+									</h:commandLink></li>
 
+								<li><h:commandLink onclick="toggleChronicle()"
+										actionListener="#{chronicleController.toggleFilter('version')}">
+										<span class="typcn typcn-archive" title="#{message.versions}"></span>
+										<f:ajax render="chronicle-main chronicle-nav" />
+									</h:commandLink></li>
 
-						<li><h:commandLink
-								onclick="toggleChronicle()"
-								actionListener="#{chronicleController.toggleFilter('dms')}">
-								<span class="typcn typcn-folder-open dms"
-									title="#{message['form.attachments.files']}"></span>
-								<f:ajax render="chronicle-main chronicle-nav" />
-							</h:commandLink></li>
+							</ul>
+						</div>
 
+						<div class="content">
+							<ui:include src="/pages/workitems/workitem_chronicle.xhtml" />
+						</div>
 
-						<li><h:commandLink
-								onclick="toggleChronicle()"
-								actionListener="#{chronicleController.toggleFilter('reference')}">
-								<span class="typcn typcn-export-outline"
-									title="#{message.references}"></span>
-								<f:ajax render="chronicle-main chronicle-nav" />
-							</h:commandLink></li>
-
-
-						<li><h:commandLink
-								onclick="toggleChronicle()"
-								actionListener="#{chronicleController.toggleFilter('version')}">
-								<span class="typcn typcn-archive" title="#{message.versions}"></span>
-								<f:ajax render="chronicle-main chronicle-nav" />
-							</h:commandLink></li>
-
-					</ul>
-				</div>
-
-				<div class="content">
-					<ui:include src="/pages/workitems/workitem_chronicle.xhtml" />
-				</div>
-
+					</h:form>
+				</f:view>
 			</div>
 
 		</div>
