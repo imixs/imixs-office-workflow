@@ -8,4 +8,4 @@ COPY ./src/docker/configuration/standalone.xml ${WILDFLY_CONFIG}/
 #COPY ./src/docker/configuration/standalone.conf ${WILDFLY_HOME}/bin/
 
 # Deploy artefact
-COPY ./imixs-office-workflow-app/target/imixs-office-workflow-app-*.war ${WILDFLY_DEPLOYMENT}/
+COPY ./imixs-office-workflow-app/target/imixs-office-workflow*.war ${WILDFLY_DEPLOYMENT}/
