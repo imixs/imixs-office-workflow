@@ -100,7 +100,7 @@
 		<!-- Wildfly unpack war -->
 		<custom.unpackTypes>war</custom.unpackTypes>
 		
-		<javax.faces.project_stage>Development</javax.faces.project_stage>
+		<javax.faces.project_stage>Production</javax.faces.project_stage>
 	</properties>
 
 
@@ -125,6 +125,9 @@
 	<profiles>
 		<profile>
 			<id>docker</id>
+			<properties>
+				<javax.faces.project_stage>Development</javax.faces.project_stage>
+			</properties>
 			<!-- build latest - see ear module for details -->
 		</profile>
 		<profile>
@@ -133,23 +136,14 @@
 		</profile>
 		<profile>
 			<id>docker-push</id>
-			<properties>
-				<javax.faces.project_stage>Production</javax.faces.project_stage>
-			</properties>
 			<!-- build and push to repo - see app module for details -->
 		</profile>
 		<profile>
 			<id>docker-hub</id>
-			<properties>
-				<javax.faces.project_stage>Production</javax.faces.project_stage>
-			</properties>
 			<!-- build and push to docker hub - see web module for details -->
 		</profile>
 		<profile>
 			<id>docker-hub-latest</id>
-			<properties>
-				<javax.faces.project_stage>Production</javax.faces.project_stage>
-			</properties>
 			<!-- build and push to docker hub - see app module for details -->
 		</profile>
 		
