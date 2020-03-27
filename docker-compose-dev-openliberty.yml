@@ -1,0 +1,33 @@
+version: "3.1"
+services:
+
+  db:
+    image: postgres:9.6.1
+    environment:
+      POSTGRES_PASSWORD: adminadmin
+      POSTGRES_DB: office
+    volumes: 
+      - dbdata:/var/lib/postgresql/data
+
+  app:
+    image: imixs/imixs-office-workflow
+    depends_on:
+      - db
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "adminadmin"
+      POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
+    ports:
+      - "9080:9080"
+      - "9443:9443"
+      - "7777:7777"
+    volumes:
+      - ~/git/imixs-office-workflow/src/docker/deployments:/config/dropins/ 
+
+#  imixsadmin:
+#    image: imixs/imixs-admin
+#    ports:
+#      - "8888:8080"
+
+volumes:
+  dbdata: 

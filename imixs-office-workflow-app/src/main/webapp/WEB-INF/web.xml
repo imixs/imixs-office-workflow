@@ -23,11 +23,10 @@
 	
 	
 	
-	<!-- Change to "Production" when you are ready to deploy
-	     Change to "Development" during development -->
+	<!-- project stage is computed by the maven profile settings -->
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
-		<param-value>Production</param-value>
+		<param-value>${javax.faces.project_stage}</param-value>
 	</context-param>
 	
 	 <!-- Session Timeout 3h -->

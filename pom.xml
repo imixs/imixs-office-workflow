@@ -99,6 +99,8 @@
 
 		<!-- Wildfly unpack war -->
 		<custom.unpackTypes>war</custom.unpackTypes>
+		
+		<javax.faces.project_stage>Development</javax.faces.project_stage>
 	</properties>
 
 
@@ -131,15 +133,28 @@
 		</profile>
 		<profile>
 			<id>docker-push</id>
+			<properties>
+				<javax.faces.project_stage>Production</javax.faces.project_stage>
+			</properties>
 			<!-- build and push to repo - see app module for details -->
 		</profile>
 		<profile>
 			<id>docker-hub</id>
+			<properties>
+				<javax.faces.project_stage>Production</javax.faces.project_stage>
+			</properties>
 			<!-- build and push to docker hub - see web module for details -->
 		</profile>
 		<profile>
 			<id>docker-hub-latest</id>
+			<properties>
+				<javax.faces.project_stage>Production</javax.faces.project_stage>
+			</properties>
 			<!-- build and push to docker hub - see app module for details -->
+		</profile>
+		
+		<profile>
+			<id>docker-build-openliberty</id>
 		</profile>
 	</profiles>
 
@@ -229,6 +244,9 @@
 			</plugin>
 
 		</plugins>
+		
+		
+		<finalName>imixs-office-workflow</finalName>
 	</build>
 	<dependencyManagement>
 		<dependencies>
