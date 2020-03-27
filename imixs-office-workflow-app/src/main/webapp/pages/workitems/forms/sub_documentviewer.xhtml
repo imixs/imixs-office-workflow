@@ -43,10 +43,10 @@
 			<span class="typcn typcn-document" style="font-size: 1.5 .em"></span>
 			<span id="hyperlink" style="margin-right: 16px;"> 
 			<ui:param
-					name="attach" value="#{attachment.item['txtName']}"></ui:param> 
+					name="attach" value="#{attachment.item['name']}"></ui:param> 
 			<a
 				href="javascript:void(0);" class="attachmentlink-iframe"
-				onclick="updateIframe('#{facesContext.externalContext.requestContextPath}/api/snapshot/#{workitem.uniqueID}/file/#{attachment.item['txtName']}')">#{attach}</a>
+				onclick="updateIframe('#{facesContext.externalContext.requestContextPath}/api/snapshot/#{workitem.uniqueID}/file/#{attachment.item['name.encoded']}')">#{attach}</a>
 
 			</span>
 		</c:forEach>

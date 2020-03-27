@@ -28,6 +28,8 @@
 package com.imixs.workflow.office.forms;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -245,8 +247,19 @@ public class DMSController implements Serializable {
 				// create dummy date
 				fileData.setAttribute("$created", workitem.getItemValue("$created"));
 			}
-
-			_dmsList.add(new ItemCollection(fileData.getAttributes()));
+			
+			ItemCollection _dmsItemCol=new ItemCollection(fileData.getAttributes());
+			// add new item names (txtname will be deprecated)
+			_dmsItemCol.setItemValue("name", _dmsItemCol.getItemValueString("txtname"));
+			
+			// add encoded filename
+			try {
+				String encodedName=URLEncoder.encode(_dmsItemCol.getItemValueString("name"), "UTF-8");
+				_dmsItemCol.setItemValue("name.encoded", encodedName);
+			} catch (UnsupportedEncodingException e) {
+				logger.warning("unable to URL encode the filename '" +fileData.getAttribute("name") + "'!" );
+			}
+			_dmsList.add(_dmsItemCol);
 		}
 
 		// sort list by $created
