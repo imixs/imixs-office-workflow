@@ -3,45 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/ejb-jar_3_2.xsd"
          version="3.2">
-	<enterprise-beans>
-		<!--Imixs JEE EJBs -->
-		<session>
-			<ejb-name>WorkflowService</ejb-name>
-			<ejb-class>org.imixs.workflow.engine.WorkflowService</ejb-class>
-			<session-type>Stateless</session-type>
-
-			<!-- Mail Configuration -->
-			<env-entry>
-				<description>Mail Plugin Session name</description>
-				<env-entry-name>IMIXS_MAIL_SESSION</env-entry-name>
-				<env-entry-type>java.lang.String</env-entry-type>
-				<env-entry-value>${imixs-mail-res-ref-name}</env-entry-value>
-			</env-entry>
-
-			<!-- Plugin Service EJBs -->
-			<ejb-ref>
-				<ejb-ref-name>ejb/ProfileService</ejb-ref-name>
-				<ejb-ref-type>Session</ejb-ref-type>
-				<remote>org.imixs.marty.ejb.ProfileService</remote>
-			</ejb-ref>
-			<ejb-ref>
-				<ejb-ref-name>ejb/SequenceService</ejb-ref-name>
-				<ejb-ref-type>Session</ejb-ref-type>
-				<remote>org.imixs.marty.ejb.SequenceService</remote>
-			</ejb-ref>
-			<ejb-ref>
-				<ejb-ref-name>ejb/UserGroupService</ejb-ref-name>
-				<ejb-ref-type>Session</ejb-ref-type>
-				<remote>org.imixs.marty.ejb.security.UserGroupService</remote>
-			</ejb-ref>
-			<ejb-ref>
-				<ejb-ref-name>ejb/SystemWorkitemService</ejb-ref-name>
-				<ejb-ref-type>Session</ejb-ref-type>
-				<remote>org.imixs.marty.ejb.SystemWorkitemService</remote>
-			</ejb-ref>
-
-		</session>
-
-	</enterprise-beans>
+	
 
 </ejb-jar>
