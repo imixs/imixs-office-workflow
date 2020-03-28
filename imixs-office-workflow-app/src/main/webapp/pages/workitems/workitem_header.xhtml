@@ -35,11 +35,11 @@
 			<div class="content-block">
 				<h2>
 					<h:outputText escape="false"
-						rendered="#{empty workflowController.workitem.item['txtWorkflowSummary']}"
+						rendered="#{empty workflowController.workitem.item['$WorkflowSummary']}"
 						value="#{message.new_workitem}" />
 					<h:outputText escape="false"
-						rendered="#{!empty workflowController.workitem.item['txtWorkflowSummary']}"
-						value="#{workflowController.workitem.item['txtWorkflowSummary']}" />
+						rendered="#{!empty workflowController.workitem.item['$WorkflowSummary']}"
+						value="#{workflowController.workitem.item['$WorkflowSummary']}" />
 				</h2>
 				<h:outputLabel value="#{message['process.title']}: " />
 				<h:link

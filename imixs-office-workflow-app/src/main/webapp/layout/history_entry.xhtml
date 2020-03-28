@@ -29,7 +29,7 @@
 					<h:link outcome="/pages/workitems/workitem">
 						<!-- summary empty ? -->
 						<h:panelGroup
-							rendered="#{empty workitem.item['txtWorkflowSummary']}">
+							rendered="#{empty workitem.item['$WorkflowSummary']}">
 							<h:outputText value="#{workitem.item['$lasteventdate']}">
 								<f:convertDateTime timeZone="#{message.timeZone}"
 									pattern="#{message.dateTimePattern}" />
@@ -37,7 +37,7 @@
 							<h:outputText value=" #{workitem.item['_subject']}" />
 						</h:panelGroup>
 						<h:outputText escape="false"
-							value="#{workitem.item['txtWorkflowSummary']}" />
+							value="#{workitem.item['$WorkflowSummary']}" />
 						<f:param name="id" value="#{workitem.item['$uniqueid']}" />
 					</h:link>
 

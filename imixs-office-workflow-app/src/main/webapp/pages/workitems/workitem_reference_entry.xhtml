@@ -35,7 +35,7 @@
 
 					<h:link outcome="/pages/workitems/workitem">
 						<h:panelGroup
-							rendered="#{empty workitem.item['txtWorkflowSummary']}">
+							rendered="#{empty workitem.item['$WorkflowSummary']}">
 							<h:outputText value="#{workitem.item['$lasteventdate']}"
 								style="font-weight: bold;">
 								<f:convertDateTime timeZone="#{message.timeZone}"
@@ -45,16 +45,16 @@
 								style="font-weight: bold;" />
 						</h:panelGroup>
 						<h:outputText style="font-weight: bold;" escape="false"
-							value="#{workitem.item['txtWorkflowSummary']}" />
+							value="#{workitem.item['$WorkflowSummary']}" />
 						<f:param name="id" value="#{workitem.item['$uniqueid']}" />
 					</h:link>
 				</h:panelGroup>
 
 				<br />
 				<!-- Status -->
-				<h:outputLabel value="#{workitem.item['txtworkflowgroup']}: " />
-				<h:outputText value="#{workitem.item['txtworkflowstatus']}" />
-				<h:outputText value=" (#{workitem.item['txtProcessName']})" />
+				<h:outputLabel value="#{workitem.item['$workflowgroup']}: " />
+				<h:outputText value="#{workitem.item['$workflowstatus']}" />
+				<h:outputText value=" (#{workitem.item['process.name']})" />
 
 			</div>
 			<!-- clear floating problem from sidebar in ff and chrome.  -->

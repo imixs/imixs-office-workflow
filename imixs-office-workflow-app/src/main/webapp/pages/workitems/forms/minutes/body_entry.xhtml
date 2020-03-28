@@ -34,7 +34,7 @@
 
 							<!-- summary empty ? -->
 							<h:panelGroup
-								rendered="#{empty workitem.item['txtWorkflowSummary']}">
+								rendered="#{empty workitem.item['$WorkflowSummary']}">
 								<h:outputText value="#{workitem.item['$lasteventdate']}"
 									style="font-weight: normal;">
 									<f:convertDateTime timeZone="#{message.timeZone}"
@@ -44,7 +44,7 @@
 									style="font-weight: bold;" />
 							</h:panelGroup>
 							<h:outputText style="font-weight: normal;"
-								value="#{workitem.item['txtWorkflowSummary']}" />
+								value="#{workitem.item['$WorkflowSummary']}" />
 						</h2>
 						<!-- @form  -->
 						<f:ajax render=":#{minutesBody.clientId}"
@@ -61,14 +61,14 @@
 							value="#{workitem.item['$workflowStatus']}: " />
 
 						<h:panelGroup
-							rendered="#{empty workitem.item['txtWorkflowSummary']}">
+							rendered="#{empty workitem.item['$WorkflowSummary']}">
 							<h:outputText value="#{workitem.item['$lasteventdate']}">
 								<f:convertDateTime timeZone="#{message.timeZone}"
 									pattern="#{message.dateTimePattern}" />
 							</h:outputText>
 							<h:outputText value=" #{workitem.item['_subject']}" />
 						</h:panelGroup>
-						<h:outputText value="#{workitem.item['txtWorkflowSummary']}" />
+						<h:outputText value="#{workitem.item['$WorkflowSummary']}" />
 					</h2>
 
 				</h:panelGroup>
@@ -81,7 +81,7 @@
 				<h:panelGroup layout="block" rendered="#{editmode}">
 
 					<ui:fragment rendered="#{(!showForm)}">
-						<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
+						<h:outputText value="#{workitem.item['$WorkflowAbstract']}"
 							escape="false"></h:outputText>
 
 						<p />
@@ -158,7 +158,7 @@
 				<!-- Readonly Mode -->
 				<h:panelGroup layout="block" rendered="#{!editmode}">
 
-					<h:outputText value="#{workitem.item['txtWorkflowAbstract']}"
+					<h:outputText value="#{workitem.item['$WorkflowAbstract']}"
 						escape="false"></h:outputText>
 
 					<!-- comment log -->
