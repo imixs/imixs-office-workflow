@@ -76,8 +76,8 @@
 											styleClass="typcn #{(record.item['$taskid'] eq 301)?'typcn-lock-open imixs-state-success':'typcn-lock-closed imixs-state-error'} " />
 											
 								<h:link outcome="/pages/admin/process?faces-redirect=true" styleClass="imixs-viewentry-main-link">
-									<h:outputText value="#{record.item['txtName']}" />
-									<h:outputText rendered="#{empty record.item['txtName']}"
+									<h:outputText value="#{record.item['name']}" />
+									<h:outputText rendered="#{empty record.item['name']}"
 										value=" - no name - " />
 									<f:param name="id" value="#{record.item['$uniqueid']}" />
 								</h:link> 

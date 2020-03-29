@@ -22,8 +22,8 @@
 				<h:panelGroup layout="block"
 					rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isTeam'] or process.item['isManager']}">
 					<li><h:link outcome="/pages/process?faces-redirect=true" styleClass="imixs-viewentry-main-link">
-									<h:outputText value="#{record.item['txtName']}" />
-									<h:outputText rendered="#{empty record.item['txtName']}"
+									<h:outputText value="#{record.item['Name']}" />
+									<h:outputText rendered="#{empty record.item['Name']}"
 										value=" - no name - " />
 									<f:param name="id" value="#{record.item['$uniqueid']}" />
 								</h:link> </li>
