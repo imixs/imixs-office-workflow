@@ -74,9 +74,13 @@ To start Imixs-Office-Workflow with docker, the docker-compose file 'docker-comp
 
 Note: this command will start several containers, 
 
-* a Postgre SQL database server 
-* a Wildfly Server running Imixs-Office-Workflow
-* and a Wildfly Server funning the [Imixs-Admin tool](https://www.imixs.org/doc/administration.html) 
+ - a Postgre SQL database server 
+ - a Wildfly Server running Imixs-Office-Workflow
+ - a Wildfly Server running the [Imixs-Admin tool](https://www.imixs.org/doc/administration.html) 
+
+
+
+
 
 
 ### Mount Points
@@ -94,6 +98,19 @@ Imixs-Office-Workflow provides also powerful monitoring capabilities. For this p
 
 The monitor functions are provided by the [Imixs-Prometheus-Adapter](https://github.com/imixs/imixs-adapters/tree/master/imixs-adapters-prometheus), which collects detailed processing information for process analysis and monitoring. 
 
+
+
+### Imixs-OCR
+
+The docker-compose file *docker-compose-ocr.yml* provides a dev-setup integrating the Imixs OCR feature. In addition to the dev setup this setup runs a Apache-Tika. Attachments are automatically full text indexed in this setup.
+
+The Apache Tika service is accessible on port number 9998
+
+### Imixs-Archive
+
+The docker-compose file *docker-compose-archive.yml* provides a full archive setup with a cassandra single-node cluster. This setup can be used to run and test the Imxis-Archive features.    
+
+The Imixs-Archive service is accessible on port number 8081
 
 ## Docker for Production
 

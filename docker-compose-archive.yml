@@ -1,0 +1,67 @@
+version: "3.1"
+services:
+
+  db:
+    image: postgres:9.6.1
+    environment:
+      POSTGRES_PASSWORD: adminadmin
+      POSTGRES_DB: office
+    volumes: 
+      - dbdata:/var/lib/postgresql/data
+
+  app:
+    image: imixs/imixs-office-workflow
+    depends_on:
+      - db
+    environment:
+      WILDFLY_PASS: adminadmin
+      DEBUG: "true"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "adminadmin"
+      POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
+      TIKA_SERVICE_ENDPONT: "http://tika:9998/tika"
+      ARCHIVE_SERVICE_ENDPOINT: "http://imixsarchiveservice:8080/api"
+
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+      - "8787:8787"
+    volumes:
+        - ~/git/imixs-office-workflow/src/docker/deployments:/opt/wildfly/standalone/deployments/
+
+
+# Imixs Admin
+  imixsadmin:
+    image: imixs/imixs-admin
+    ports:
+      - "8888:8080"
+
+# OCR Service
+  tika: 
+    image: imixs/tika
+    ports:
+      - "9998:9998"  
+
+# Imixs Archve
+  imixsarchiveservice:
+    image: imixs/imixs-archive-service
+    environment:
+      WILDFLY_PASS: adminadmin
+      ARCHIVE_CLUSTER_CONTACTPOINTS: "cassandra"
+      ARCHIVE_CLUSTER_KEYSPACE: "imixsdev"
+      WORKFLOW_SERVICE_ENDPOINT: http://app:8080/api
+      WORKFLOW_SERVICE_USER: "admin"
+      WORKFLOW_SERVICE_PASSWORD: "adminadmin"
+      WORKFLOW_SERVICE_AUTHMETHOD: "form"
+    ports:
+      - "8081:8080"
+
+  cassandra:
+     image: cassandra:3.11
+
+
+
+
+
+volumes:
+  dbdata: 
