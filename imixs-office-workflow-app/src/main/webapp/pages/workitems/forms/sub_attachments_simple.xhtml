@@ -11,6 +11,26 @@
 
 
 
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		/* reqlace special characters in attachemnt url */
+		$(document).ready(
+				function() {
+					$(".imixs-form-attachments .attachmentlink").each(
+							function(index, element) {
+								var link = $(this).attr("href");
+								if (link.indexOf('+') > -1) {
+									link = link.replace('+', '%2B');
+									$(this).attr("href", link);
+								}
+							});
+				});
+
+		/*]]>*/
+	</script>
+
+
 	<!-- **** General info ***** -->
 	<div class="row imixs-form-attachments">
 		
