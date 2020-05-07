@@ -10,51 +10,38 @@
 	<!-- Invoice Form -->
 
 	<div class="imixs-form-section-2">
-		<dl>
-			<dt>
-				<h:outputLabel value="#{message['form.contract']}" />
-			</dt>
-			<dd>
-				<marty:workitemLink workitem="#{workflowController.workitem}"
-					filter="$processid:4..." />
-			</dd>
-		</dl>
-		<dl>
-			<dt>
-				<h:outputLabel value="#{message['form.contact']}" />
-			</dt>
-			<dd>
-				<marty:workitemLink workitem="#{workflowController.workitem}"
-					hidereferences="false" filter="$processid:9..." />
-			</dd>
-		</dl>
-		<dl>
 
+		<dl>
+			<dt>#{message['form.company']}</dt>
+			<dd>
+				<h:inputText required="false" value="#{workitem.item['_company']}"
+					id="company_id">
+				</h:inputText>
+			</dd>
+		</dl>
+
+		<dl>
 			<dt>
 				<h:outputLabel value="#{message['form.invoicenumber']}" />
 			</dt>
 			<dd>
-				<h:inputText
-					value="#{workitem.item['_invoicenumber']}" />
+				<h:inputText value="#{workitem.item['_invoicenumber']}" />
 			</dd>
 		</dl>
 		<dl>
-
 			<dt>
 				<h:outputLabel value="#{message['form.invoicedate']}" />
 			</dt>
 			<dd>
-				<h:inputText
-					value="#{workitem.item['_invoicedate']}"
-					styleClass="imixs-date" >
-				<f:convertDateTime pattern="#{message.datePatternShort}" timeZone="#{message.timeZone}" />
+				<h:inputText value="#{workitem.item['_invoicedate']}"
+					styleClass="imixs-date">
+					<f:convertDateTime pattern="#{message.datePatternShort}"
+						timeZone="#{message.timeZone}" />
 				</h:inputText>
 			</dd>
 		</dl>
-		
+
 		<dl>
-
-
 			<dt>
 				<h:outputLabel value="#{message['form.amount']}" />
 			</dt>
@@ -65,7 +52,6 @@
 			</dd>
 		</dl>
 		<dl>
-
 			<dt>
 				<h:outputLabel value="#{message['form.tax']}" />
 			</dt>
@@ -74,19 +60,16 @@
 			</dd>
 		</dl>
 		<dl>
-
 			<dt>
 				<h:outputLabel value="#{message['form.amount_brutto']}" />
 			</dt>
 			<dd>
-				<h:inputText
-					value="#{workitem.item['_amount_brutto']}">
+				<h:inputText value="#{workitem.item['_amount_gross']}">
 					<f:convertNumber minFractionDigits="2" locale="de" />
 				</h:inputText>
 			</dd>
-
 		</dl>
 	</div>
-	
+
 </ui:composition>
 

@@ -94,10 +94,11 @@
     <bpmn2:task id="Task_5000" imixs:processid="5000" name="Rechnung erhalten">
       <bpmn2:extensionElements>
         <imixs:item name="txteditorid" type="xs:string">
-          <imixs:value><![CDATA[form_panel_instruction_simple#basic_reminder|sub_bankdata|sub_dispatch|sub_attachments_simple]]></imixs:value>
+          <imixs:value><![CDATA[form_panel_instruction#sub_invoice|sub_bankdata|sub_dispatch]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
-          <imixs:value><![CDATA[<itemvalue>_description</itemvalue>]]></imixs:value>
+          <imixs:value><![CDATA[<b><itemvalue format="dd.MMM yyyy">_invoicedate</itemvalue>:</b> 
+€ <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_gross</itemvalue>)<br />]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Rechnung erhalten]]></imixs:value>
@@ -106,7 +107,7 @@
           <imixs:value><![CDATA[typcn-download]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowsummary" type="xs:string">
-          <imixs:value><![CDATA[<itemvalue>_subject</itemvalue> (<itemvalue>numsequenceNumber</itemvalue>)]]></imixs:value>
+          <imixs:value><![CDATA[<itemvalue>_company</itemvalue> <itemvalue>_invoicenumber</itemvalue> <itemvalue format="dd.MM.yyyy" locale="de_DE">_invoicedate</itemvalue>]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
@@ -312,7 +313,8 @@ var team = workitem.get('datdate');
           <imixs:value><![CDATA[form_panel_documentviewer#basic_reminder|sub_dispatch]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
-          <imixs:value><![CDATA[<itemvalue>_description</itemvalue>]]></imixs:value>
+          <imixs:value><![CDATA[<b><itemvalue format="dd.MMM yyyy">_invoicedate</itemvalue>:</b> 
+€ <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_gross</itemvalue>)<br />]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[in Prüfung]]></imixs:value>
@@ -321,7 +323,7 @@ var team = workitem.get('datdate');
           <imixs:value><![CDATA[typcn-download|typcn-info,imixs-info,icon-sub-ne]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowsummary" type="xs:string">
-          <imixs:value><![CDATA[<itemvalue>_subject</itemvalue> (<itemvalue>numsequenceNumber</itemvalue>)]]></imixs:value>
+          <imixs:value><![CDATA[<itemvalue>_company</itemvalue> <itemvalue>_invoicenumber</itemvalue> <itemvalue format="dd.MM.yyyy" locale="de_DE">_invoicedate</itemvalue>]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
@@ -660,8 +662,7 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<b><itemvalue format="dd.MMM yyyy">_invoicedate</itemvalue>:</b> 
-€ <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</itemvalue>)<br />
-<itemvalue>_description</itemvalue>]]></imixs:value>
+€ <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_gross</itemvalue>)<br />]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Warten auf Zahlungsziel]]></imixs:value>
@@ -670,7 +671,7 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
           <imixs:value><![CDATA[typcn-download|typcn-bell,imixs-success,icon-sub-ne]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowsummary" type="xs:string">
-          <imixs:value><![CDATA[<itemvalue>_subject</itemvalue> (<itemvalue>numsequenceNumber</itemvalue>)]]></imixs:value>
+          <imixs:value><![CDATA[<itemvalue>_company</itemvalue> <itemvalue>_invoicenumber</itemvalue> <itemvalue format="dd.MM.yyyy" locale="de_DE">_invoicedate</itemvalue>]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
@@ -834,8 +835,7 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<b><itemvalue format="dd.MMM yyyy">_invoicedate</itemvalue>:</b> 
-€ <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</itemvalue>)<br />
-<itemvalue>_description</itemvalue>]]></imixs:value>
+€ <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_gross</itemvalue>)<br />]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[in Freigabe]]></imixs:value>
@@ -844,7 +844,7 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
           <imixs:value><![CDATA[typcn-download|typcn-bell,imixs-error,icon-sub-ne]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowsummary" type="xs:string">
-          <imixs:value><![CDATA[<itemvalue>_subject</itemvalue> (<itemvalue>numsequenceNumber</itemvalue>)]]></imixs:value>
+          <imixs:value><![CDATA[<itemvalue>_company</itemvalue> <itemvalue>_invoicenumber</itemvalue> <itemvalue format="dd.MM.yyyy" locale="de_DE">_invoicedate</itemvalue>]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
@@ -1093,8 +1093,7 @@ var team = workitem.get('datdate');
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<b><itemvalue format="dd.MMM yyyy">_invoicedate</itemvalue>:</b> 
-€ <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</itemvalue>)<br />
-<itemvalue>_description</itemvalue>]]></imixs:value>
+€ <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_gross</itemvalue>)<br />]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Warten auf Zahlungsziel]]></imixs:value>
@@ -1103,7 +1102,7 @@ var team = workitem.get('datdate');
           <imixs:value><![CDATA[typcn-download|typcn-edit,imixs-success,icon-sub-ne]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowsummary" type="xs:string">
-          <imixs:value><![CDATA[<itemvalue>_subject</itemvalue> (<itemvalue>numsequenceNumber</itemvalue>)]]></imixs:value>
+          <imixs:value><![CDATA[<itemvalue>_company</itemvalue> <itemvalue>_invoicenumber</itemvalue> <itemvalue format="dd.MM.yyyy" locale="de_DE">_invoicedate</itemvalue>]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
@@ -1366,8 +1365,7 @@ var team = workitem.get('datdate');
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<b><itemvalue format="dd.MMM yyyy">_invoicedate</itemvalue>:</b> 
-€ <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</itemvalue>)<br />
-<itemvalue>_description</itemvalue>]]></imixs:value>
+€ <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_gross</itemvalue>)<br />]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Rechnung storniert]]></imixs:value>
@@ -1376,7 +1374,7 @@ var team = workitem.get('datdate');
           <imixs:value><![CDATA[typcn-download|typcn-times,imixs-error,icon-sub-ne]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowsummary" type="xs:string">
-          <imixs:value><![CDATA[<itemvalue>_subject</itemvalue> (<itemvalue>numsequenceNumber</itemvalue>)]]></imixs:value>
+          <imixs:value><![CDATA[<itemvalue>_company</itemvalue> <itemvalue>_invoicenumber</itemvalue> <itemvalue format="dd.MM.yyyy" locale="de_DE">_invoicedate</itemvalue>]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
@@ -1401,8 +1399,8 @@ var team = workitem.get('datdate');
         </imixs:item>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<b><itemvalue format="dd.MMM yyyy">_invoicedate</itemvalue>:</b> 
-€ <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</itemvalue>)<br />
-<itemvalue>_description</itemvalue>]]></imixs:value>
+€ <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_gross</itemvalue>)<br />
+]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Rechnung bezahlt]]></imixs:value>
@@ -1411,7 +1409,7 @@ var team = workitem.get('datdate');
           <imixs:value><![CDATA[typcn-download|typcn-tick,imixs-success,icon-sub-ne]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtworkflowsummary" type="xs:string">
-          <imixs:value><![CDATA[<itemvalue>_subject</itemvalue> (<itemvalue>numsequenceNumber</itemvalue>)]]></imixs:value>
+          <imixs:value><![CDATA[<itemvalue>_company</itemvalue> <itemvalue>_invoicenumber</itemvalue> <itemvalue format="dd.MM.yyyy" locale="de_DE">_invoicedate</itemvalue>]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
