@@ -10,7 +10,7 @@
 	<!-- the following code computes the txtworktow abstract from the current modelversion and processid  -->
 	<div class="imixs-instruction">
 		<h:outputText escape="false"
-			value="#{modelController.getProcessDescription(workflowController.workitem.item['$processID'],workflowController.workitem.item['$ModelVersion'],workflowController.workitem)}">
+			value="#{modelController.getProcessDescription(workflowController.workitem.item['$taskID'],workflowController.workitem.item['$ModelVersion'],workflowController.workitem)}">
 		</h:outputText>
 	</div>
 	<c:forEach items="#{formController.formDefinition.sections}"
