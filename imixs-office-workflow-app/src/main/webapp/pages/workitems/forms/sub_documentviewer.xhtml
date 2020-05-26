@@ -33,12 +33,12 @@
 	</script>
 
 
+	<ui:param name="dmsList" value="#{dmsController.getDmsListByWorkitem(workitem)}"></ui:param>
 	<h2>#{message.documents}</h2>
 	<div class="imixs-form-section imixs-form-attachments">
 	
-
 		<!-- **** DMS List ***** -->
-		<c:forEach var="attachment" items="#{dmsController.dmsList}">
+		<c:forEach var="attachment" items="#{dmsList}">
 			<!-- link -->
 			<span class="typcn typcn-document" style="font-size: 1.5 .em"></span>
 			<span id="hyperlink" style="margin-right: 16px;"> 
@@ -51,7 +51,7 @@
 			</span>
 		</c:forEach>
 
-		<ui:fragment rendered="#{! empty dmsController.dmsList}">
+		<ui:fragment rendered="#{! empty dmsList}">
 		
 			<p id="document_preview_helper" ><span class="typcn typcn-info-large" style="font-size: 1.5 .em"></span>#{message.documents_select}</p>
 			
@@ -64,7 +64,7 @@
 		
 	
 
-		<h:panelGroup layout="block" rendered="#{empty dmsController.dmsList}"
+		<h:panelGroup layout="block" rendered="#{empty dmsList}"
 			 style="margin-bottom:30px;"><span class="typcn typcn-info-large" style="font-size: 1.5 .em"></span>#{message.documents_empty}</h:panelGroup>
 	</div>
 
