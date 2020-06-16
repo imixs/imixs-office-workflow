@@ -4,7 +4,11 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
+
+
+
 
 
 	<!-- Invoice Form -->
@@ -25,7 +29,7 @@
 				<h:outputLabel value="#{message['form.invoicenumber']}" />
 			</dt>
 			<dd>
-				<h:inputText value="#{workitem.item['_invoicenumber']}" />
+				<h:inputText value="#{workitem.item['_invoicenumber']}" pt:data-ml-item="_invoicenumber" />
 			</dd>
 		</dl>
 		<dl>
@@ -46,7 +50,7 @@
 				<h:outputLabel value="#{message['form.amount']}" />
 			</dt>
 			<dd>
-				<h:inputText value="#{workitem.item['_amount']}">
+				<h:inputText value="#{workitem.item['_invoicetotal']}">
 					<f:convertNumber minFractionDigits="2" locale="de" />
 				</h:inputText>
 			</dd>
