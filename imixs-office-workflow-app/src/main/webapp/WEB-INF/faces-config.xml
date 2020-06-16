@@ -31,9 +31,9 @@
 		</resource-bundle>
 	</application>
 
-
-	<!-- Add a custom ViewExpired Exception Hander -->
-	<factory>
-		<exception-handler-factory>org.imixs.marty.util.ViewExpiredExceptionExceptionHandlerFactory</exception-handler-factory>
-	</factory>
+	<!--  session expired handler for ajax requests -->
+	<lifecycle>
+        <phase-listener>com.imixs.workflow.office.util.SessionExpirationPhaseListener</phase-listener>
+    </lifecycle>
+	
 </faces-config>
