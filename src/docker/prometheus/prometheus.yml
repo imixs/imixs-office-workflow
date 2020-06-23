@@ -14,9 +14,9 @@ scrape_configs:
       - targets: ['localhost:9090']
 
      
-  # Imixs-Archive Job
+  # Imixs-Office-Workflow Job (Wildfly Metrics)
   - job_name: 'imixs'
     scrape_interval: 5s
-    metrics_path: /api/metrics
+    metrics_path: /metrics
     static_configs:
-      - targets: ['imixsofficeworkflow:8080']      
+      - targets: ['app:9990']      
