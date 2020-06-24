@@ -36,12 +36,14 @@ import java.util.stream.Collectors;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ItemCollectionComparator;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.index.SchemaService;
+import org.imixs.workflow.faces.data.WorkflowController;
 
 /**
  * The SuggestInputController can be used to suggest inputs from earlier
@@ -64,6 +66,9 @@ public class SuggestInputController implements Serializable {
 
 	@EJB
 	SchemaService schemaService;
+	
+	@Inject
+	protected WorkflowController workflowController;
 
 	private static final long serialVersionUID = 1L;
 	private List<ItemCollection> searchResult = null;
@@ -112,6 +117,7 @@ public class SuggestInputController implements Serializable {
 
 			logger.finest("......new value=" + suggest.getItemValue(itemName));
 		}
+		
 	}
 
 	/**
@@ -181,6 +187,14 @@ public class SuggestInputController implements Serializable {
 					sQuery = sQuery + " AND ($workflowgroup:\"" + workflowGroup + "\")";
 				}
 
+			}
+			
+			// we need to ignore the current workitem
+			if (workflowController.getWorkitem()!=null) {
+				String currentID=workflowController.getWorkitem().getUniqueID();
+				if (!currentID.isEmpty()) {
+					sQuery += " AND NOT($uniqueid:"+currentID+") ";
+				}
 			}
 
 			// build query for each search item...
