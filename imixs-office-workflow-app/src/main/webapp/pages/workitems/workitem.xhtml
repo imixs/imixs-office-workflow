@@ -34,69 +34,49 @@
 
 			/*]]>*/
 		</script>
-
 	</ui:define>
 
+
 	<ui:define name="content">
-
 		<div class="imixs-workitem">
+			<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
 
 
-			<div class="imixs-workitem-container">
-
-				<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
+			<!-- Workitem Main Form -->
+			<div class="imixs-workitem-form">
 				<f:view>
 					<h:form id="workitem_form">
-
 						<div class="imixs-form">
 							<div class="imixs-header">
 								<ui:include src="/pages/workitems/workitem_header.xhtml" />
 							</div>
 							<div class="imixs-body">
 								<ui:include src="/pages/error_message.xhtml" />
-								<!--  -->
 								<ui:include
 									src="/pages/workitems/forms/#{formController.formDefinition.path}.xhtml" />
 							</div>
-							<div class="imixs-footer">
-								<ui:include src="/pages/workitems/workitem_footer.xhtml" />
-							</div>
 						</div>
-
 					</h:form>
 				</f:view>
-
 			</div>
 			
+			
+			<!-- Document Preview -->
 			<div class="imixs-workitem-document">
-		
-				<ui:param name="fileData" value="#{workflowController.workitem.fileData}"></ui:param>
-	
-				
-				
-					<h1>
-					    <span class="document-title"></span> 
-					    
-					    <!-- nav -->
-					    <span class="document-nav pull-right">
-					    	<a href="#"  id="documents-file-deeplink" target="_blank"><span class="typcn typcn-cloud-storage"></span></a>
-					    	<span onclick="toggleDocument()"  class="typcn typcn-times"></span>
-					    </span>
-					    
-								
-						 
-					</h1>
-						
-					<ui:fragment rendered="#{! empty fileData}">
-						<iframe id="imixs_dms_iframe" src="" width="100%" height="#{empty height?1100:height}px">
-						</iframe>
-					</ui:fragment>
-								
-								
-				
-						
+				<h1>
+				    <span class="document-title"></span> 
+				    <!-- nav -->
+				    <span class="document-nav pull-right">
+				    	<a href="#"  id="documents-file-deeplink" target="_blank"><span class="typcn typcn-cloud-storage"></span></a>
+				    	<span onclick="hideDocument()"  class="typcn typcn-times"></span>
+				    </span>
+				</h1>
+				<iframe id="imixs_dms_iframe" src="" width="100%" height="#{empty height?900:height}px">
+				</iframe>
 			</div>
 
+
+			<!-- Workflow and Chronicle -->
 			<div class="imixs-workitem-chronicle">
 				<f:view>
 					<h:form id="chronicle_form">
@@ -106,7 +86,6 @@
 					</h:form>
 				</f:view>
 			</div>
-
 		</div>
 
 	</ui:define>

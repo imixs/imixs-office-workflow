@@ -70,49 +70,23 @@
 			/* reqlace special characters in attachemnt url */
 		$(document).ready(
 				function() {
-					// init...
-					hideComments(null);
-					// hide documents-file-deeplink
-					$("#documents-file-deeplink").hide();
 					
-					// update the link action for each file
-					// we redirect the href into the iframe target
-					$("[id$='dmslist'] .file-open-link").each(
-						function(index, element) {						
-							$(this).click(function(){
-								var file_link=$(this).attr('href');
-								updateIframe(file_link);
-								
-								// update documents-file-deeplink
-								$("#documents-file-deeplink").attr('href',file_link);
-								$("#documents-file-deeplink").show();
-								
-								
-								
-								showDocument($(this).text());
-								// cancel link
-							    return false;
-							});
-						});
-
 					// autoload feature - load first pdf if available
-					$(".imixsFileUpload_uploadlist .imixsFileUpload_file").each(
+					/* $(".imixsFileUpload_uploadlist .imixsFileUpload_file").each(
 							function(index, element) {
 								var attachmentName=$(this).text();
 								if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {									
 									$(this).click();
 									return false;
 								}
-							});
+							}); */
 				
 				
 				
 				});
 
 
-		function hideComments(event) {
-			$('.dms-comment-panel').hide();
-		}
+		
 		function updateIframe(docurl) {
 			//console.log(docurl);
 			$("#document_preview_helper").hide();
