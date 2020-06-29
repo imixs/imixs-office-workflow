@@ -9,7 +9,7 @@
 
 	
 
-	<div class="imixs-footer">
+	<div >
 		<ui:include src="/pages/workitems/workitem_footer.xhtml" />
 		<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
 			<ui:param name="workitem" value="#{workflowController.workitem}" />
@@ -19,13 +19,56 @@
 
 	<div class="imixs-tabs embedded">
 		<ul>
-			<li><a href="#tab-1">Historie</a></li>
-			<li><a href="#tab-2">Dokumente</a></li>
+			<li><a href="#tab-1"><span class="typcn typcn-rss"></span> Historie</a></li>
+			<li><a href="#tab-2"><span class="typcn typcn-cloud-storage-outline"></span> Dokumente</a></li>
 		</ul>
 
 
 		<div id="tab-1">
-		
+	
+
+
+			<!-- Main panel - shows entries filtered by optional category -->
+			<h:panelGroup id="chronicle-main" layout="block" class="content">
+
+
+				<table style="width: 100%;">
+
+
+
+					<!-- print a headline for each year -->
+					<ui:repeat var="year" value="#{chronicleController.getYears()}">
+
+						<!-- print YEAR -->
+						<tr class="year">
+							<td colspan="3"><h2
+									style="width: 100%; text-align: center; border-bottom: 1px solid #ddd;">#{year}</h2></td>
+						</tr>
+
+						<!-- print all MONTHs -->
+						<ui:repeat var="month"
+							value="#{chronicleController.getMonths(year)}">
+							<ui:param name="message_month" value="month_#{month}"></ui:param>
+							<tr class="month">
+								<td colspan="3"><h3
+										style="width: 100%; text-align: center;">#{message[message_month]}</h3></td>
+
+							</tr>
+
+							<!-- show chronic by month -->
+							<ui:repeat var="chronicle"
+								value="#{chronicleController.getChroniclePerMonth(year,month)}">
+								<ui:include src="workitem_chronicle_entry.xhtml">
+									<ui:param name="chronicle" value="#{chronicle}" />
+								</ui:include>
+							</ui:repeat>
+						</ui:repeat>
+					</ui:repeat>
+				</table>
+			</h:panelGroup>
+			
+			
+				
 			<!-- Navigation panel - toggle buttons for each category -->
 			<h:panelGroup id="chronicle-nav" layout="block" styleClass="filter">
 
@@ -75,53 +118,11 @@
 
 				</ul>
 			</h:panelGroup>
-
-
-			<!-- Main panel - shows entries filtered by optional category -->
-			<h:panelGroup id="chronicle-main" layout="block">
-
-
-				<table style="width: 100%;">
-
-
-
-					<!-- print a headline for each year -->
-					<ui:repeat var="year" value="#{chronicleController.getYears()}">
-
-						<!-- print YEAR -->
-						<tr class="year">
-							<td colspan="3"><h2
-									style="width: 100%; text-align: center; border-bottom: 1px solid #ddd;">#{year}</h2></td>
-						</tr>
-
-						<!-- print all MONTHs -->
-						<ui:repeat var="month"
-							value="#{chronicleController.getMonths(year)}">
-							<ui:param name="message_month" value="month_#{month}"></ui:param>
-							<tr class="month">
-								<td colspan="3"><h3
-										style="width: 100%; text-align: center;">#{message[message_month]}</h3></td>
-
-							</tr>
-
-							<!-- show chronic by month -->
-							<ui:repeat var="chronicle"
-								value="#{chronicleController.getChroniclePerMonth(year,month)}">
-								<ui:include src="workitem_chronicle_entry.xhtml">
-									<ui:param name="chronicle" value="#{chronicle}" />
-								</ui:include>
-							</ui:repeat>
-						</ui:repeat>
-					</ui:repeat>
-				</table>
-			</h:panelGroup>
 		</div>
 
 
 		<div id="tab-2">
-			
 			<ui:include src="/pages/workitems/sub_documents.xhtml" />
-		
 		</div>
 	</div>
 

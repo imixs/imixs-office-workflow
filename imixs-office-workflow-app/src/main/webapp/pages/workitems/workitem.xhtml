@@ -41,11 +41,11 @@
 		<div class="imixs-workitem">
 			<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
 
+			<f:view>
+				<h:form id="workitem_form">
+					<!-- Workitem Main Form -->
+					<div class="imixs-workitem-form">
 
-			<!-- Workitem Main Form -->
-			<div class="imixs-workitem-form">
-				<f:view>
-					<h:form id="workitem_form">
 						<div class="imixs-form">
 							<div class="imixs-header">
 								<ui:include src="/pages/workitems/workitem_header.xhtml" />
@@ -56,36 +56,37 @@
 									src="/pages/workitems/forms/#{formController.formDefinition.path}.xhtml" />
 							</div>
 						</div>
-					</h:form>
-				</f:view>
-			</div>
-			
-			
-			<!-- Document Preview -->
-			<div class="imixs-workitem-document">
-				<h1>
-				    <span class="document-title"></span> 
-				    <!-- nav -->
-				    <span class="document-nav pull-right">
-				    	<a href="#"  id="documents-file-deeplink" target="_blank"><span class="typcn typcn-cloud-storage"></span></a>
-				    	<span onclick="hideDocument()"  class="typcn typcn-times"></span>
-				    </span>
-				</h1>
-				<iframe id="imixs_dms_iframe" src="" width="100%" height="#{empty height?900:height}px">
-				</iframe>
-			</div>
+
+					</div>
 
 
-			<!-- Workflow and Chronicle -->
-			<div class="imixs-workitem-chronicle">
-				<f:view>
-					<h:form id="chronicle_form">
-						<div class="content">
+					<!-- Document Preview -->
+					<div class="imixs-workitem-document">
+						<div class="imixs-form">
+							<h1>
+								<span class="document-title"></span>
+								<!-- nav -->
+								<span class="document-nav pull-right"> <a href="#"
+									id="documents-file-deeplink" target="_blank"><span
+										class="typcn typcn-cloud-storage"></span></a> <span
+									onclick="hideDocument()" class="typcn typcn-times"></span>
+								</span>
+							</h1>
+							<!-- document preview -->
+							<iframe id="imixs_dms_iframe" src="" width="100%"
+								height="#{empty height?900:height}px"> </iframe>
+						</div>
+					</div>
+
+
+					<!-- Workflow and Chronicle -->
+					<div class="imixs-workitem-chronicle">
+						<div class="imixs-form">
 							<ui:include src="/pages/workitems/workitem_chronicle.xhtml" />
 						</div>
-					</h:form>
-				</f:view>
-			</div>
+					</div>
+				</h:form>
+			</f:view>
 		</div>
 
 	</ui:define>

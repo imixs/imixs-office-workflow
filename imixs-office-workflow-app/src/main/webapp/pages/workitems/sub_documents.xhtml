@@ -60,59 +60,6 @@
 		</c:forEach>
 	</h:panelGroup>
 
-	<!-- Documents Preview -->
-	
-	
-	<!-- Note: the document height can be adjusted with the ui:param 'height' -->
-	<script type="text/javascript">
-		/*<![CDATA[*/
-			
-			/* reqlace special characters in attachemnt url */
-		$(document).ready(
-				function() {
-					
-					// autoload feature - load first pdf if available
-					/* $(".imixsFileUpload_uploadlist .imixsFileUpload_file").each(
-							function(index, element) {
-								var attachmentName=$(this).text();
-								if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {									
-									$(this).click();
-									return false;
-								}
-							}); */
-				
-				
-				
-				});
-
-
-		
-		function updateIframe(docurl) {
-			//console.log(docurl);
-			$("#document_preview_helper").hide();
-			var iframe = document.getElementById('imixs_dms_iframe');
-			iframe.src = docurl;
-		}
-		/*]]>*/
-	</script>
-
-
-	<ui:param name="fileData" value="#{workflowController.workitem.fileData}"></ui:param>
-	
-	<div class="imixs-form-section imixs-form-attachments">
-	
-		<a href="#" class="pull-right" id="documents-file-deeplink" target="_blank"><span class="typcn typcn-cloud-storage" style="font-size:1.2em;"></span> Download</a>
-
-		<ui:fragment rendered="#{! empty fileData}">
-			<iframe id="imixs_dms_iframe" src="" width="100%" height="#{empty height?1100:height}px">
-			</iframe>
-		</ui:fragment>
-		
-		
-	</div>
-	
-	
-	
 	
 	
 </f:subview>

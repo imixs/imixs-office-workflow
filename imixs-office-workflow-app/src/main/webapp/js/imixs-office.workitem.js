@@ -28,25 +28,8 @@ $(document).ready(function() {
 	// get chronicle status from cookie
 	var c_value = document.cookie;
 	imixsOfficeWorkflow.imixs_document=c_value.indexOf("imixs.office.document=true")>-1;
-	
 	imixsOfficeWorkflow.imixs_chronicle_comments=true;
 	imixsOfficeWorkflow.imixs_chronicle_nav=JSON.parse('{ "comment" : true, "files":true, "version":true, "reference":true }'); 
-		
-	/*if (imixsOfficeWorkflow.imixs_chronicle) {
-		// avoid slide effect on first load....
-		$('.imixs-workitem-chronicle').css('transition','0.0s');
-		$('.imixs-workitem-form').css('transition','0.0s');
-	
-		showChronicle();
-		$('.imixs-workitem-chronicle').css('transition','0.3s');
-		$('.imixs-workitem-form').css('transition','0.3s');
-	} else {
-		
-	}*/
-	//$('.imixs-workitem-chronicle').show();
-	
-	//hideDocument();
-	
 	
 	// init...
 	hideComments(null);
@@ -88,17 +71,17 @@ $(document).ready(function() {
  */
 function autoPreviewPDF() {
 	$("[id$='dmslist'] .file-open-link").each(
-				function(index, element) {
-					var attachmentName=$(this).text();
-					if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {									
-						$(this).click();
-						return false;
-					}
-				});
+		function(index, element) {
+			var attachmentName=$(this).text();
+			if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {									
+				$(this).click();
+				return false;
+			}
+		});
 }
 
 function hideComments(event) {
-			$('.dms-comment-panel').hide();
+	$('.dms-comment-panel').hide();
 }
 
 function hideDocument() {
@@ -117,7 +100,12 @@ function showDocument(title) {
 	document.cookie = "imixs.office.document=true"
 }
 
-
+function updateIframe(docurl) {
+	//console.log(docurl);
+	$("#document_preview_helper").hide();
+	var iframe = document.getElementById('imixs_dms_iframe');
+	iframe.src = docurl;
+}
 
 
 /**
