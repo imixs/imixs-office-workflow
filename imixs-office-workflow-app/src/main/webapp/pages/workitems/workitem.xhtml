@@ -25,6 +25,7 @@
 			// set workitem uid
 			imixsOfficeWorkflow.workitem_uid = "#{workflowController.workitem.uniqueID}";
 			imixsOfficeWorkflow.workitem_model = "#{workflowController.workitem.modelVersion}";
+			imixsOfficeWorkflow.document_preview = #{propertyController.getProperty('feature.document.preview','true')};
 
 			// Redirect if no workitem model version is defined
 			if (!imixsOfficeWorkflow.workitem_model) {
@@ -61,6 +62,7 @@
 
 
 					<!-- Document Preview -->
+					<ui:fragment rendered="#{propertyController.getProperty('feature.document.preview','true')}">
 					<div class="imixs-workitem-document">
 						<div class="imixs-form">
 							<h1>
@@ -77,6 +79,7 @@
 								height="#{empty height?900:height}px"> </iframe>
 						</div>
 					</div>
+					</ui:fragment>
 
 
 					<!-- Workflow and Chronicle -->

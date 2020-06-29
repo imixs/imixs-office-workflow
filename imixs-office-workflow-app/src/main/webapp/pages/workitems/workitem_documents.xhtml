@@ -5,6 +5,17 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
+	<!-- 
+	
+		The workitem_documents form provides an extended document preview feature.
+		
+		Images and PDF files are displyed in an iframe. 
+		The behavior/placement of the iframe can be changed by the imixs.property 
+		
+		feature.document.preview=true/false
+	
+	 -->
+
 	<dl>
 		<dt style="clear: left;">
 			<h:outputText value="#{global.attachments}" />
@@ -17,25 +28,20 @@
 		</dd>
 	</dl>
 	
-	<h:panelGroup layout="block" id="dmslist" binding="#{dmsListComponent}" style="margin-bottom:10px;">
+	<h:panelGroup layout="block" id="dmslist" class="dms-list" binding="#{dmsListComponent}" style="margin-bottom:10px;">
 
 		<!-- **** DMS List ***** -->
 		<c:forEach var="attachment" items="#{dmsController.dmsList}">
 
 			<div class="imixs-viewentry" style="min-height:0;">
 				<!-- image -->
-				<div class="image-block">
-					<h:panelGroup rendered="#{! empty attachment.item['url']}"
-						styleClass="typcn typcn-world"/>
-					<ui:fragment  rendered="#{empty attachment.item['url']}">
-						<ui:param name="doctyp" value="#{dmsController.documentType(attachment.item['txtname'])}"></ui:param>
-						<h:panelGroup rendered="#{'pdf' eq doctyp}"	styleClass="typcn typcn-document-text"/>
-						<h:panelGroup rendered="#{'win' eq doctyp}"	styleClass="typcn typcn-vendor-microsoft"/>
-						<h:panelGroup rendered="#{'pic' eq doctyp}"	styleClass="typcn typcn-image"/>
-						<h:panelGroup rendered="#{'eml' eq doctyp}"	styleClass="typcn typcn-mail"/>
-						<h:panelGroup rendered="#{'doc' eq doctyp}"	styleClass="typcn typcn-document"/>
-					</ui:fragment>
-					
+				<div class="image-block entry">
+					<ui:param name="doctyp" value="#{dmsController.documentType(attachment.item['txtname'])}"></ui:param>
+					<h:panelGroup rendered="#{'pdf' eq doctyp}"	styleClass="typcn typcn-document-text"/>
+					<h:panelGroup rendered="#{'win' eq doctyp}"	styleClass="typcn typcn-vendor-microsoft"/>
+					<h:panelGroup rendered="#{'pic' eq doctyp}"	styleClass="typcn typcn-image"/>
+					<h:panelGroup rendered="#{'eml' eq doctyp}"	styleClass="typcn typcn-mail"/>
+					<h:panelGroup rendered="#{'doc' eq doctyp}"	styleClass="typcn typcn-document"/>
 				</div>
 				
 				
@@ -60,6 +66,24 @@
 		</c:forEach>
 	</h:panelGroup>
 
+
+	<!-- show embedded document preview if feature.document.preview=false -->
+	<ui:fragment rendered="#{!propertyController.getProperty('feature.document.preview','true')}">
+		<div class="imixs-form">
+			<h1>
+				<span class="document-title"></span>
+				<!-- nav -->
+				<span class="document-nav pull-right"> <a href="#"
+					id="documents-file-deeplink" target="_blank"><span
+						class="typcn typcn-cloud-storage"></span></a>
+				</span>
+			</h1>
+			<!-- document preview -->
+			<iframe id="imixs_dms_iframe" src="" width="100%"
+				height="#{empty height?900:height}px"> </iframe>
+		</div>
+	
+	</ui:fragment>
 	
 	
 </f:subview>

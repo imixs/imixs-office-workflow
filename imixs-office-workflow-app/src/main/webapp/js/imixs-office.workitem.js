@@ -31,6 +31,7 @@ $(document).ready(function() {
 	imixsOfficeWorkflow.imixs_chronicle_comments=true;
 	imixsOfficeWorkflow.imixs_chronicle_nav=JSON.parse('{ "comment" : true, "files":true, "version":true, "reference":true }'); 
 	
+	
 	// init...
 	hideComments(null);
 	// hide documents-file-deeplink
@@ -85,19 +86,25 @@ function hideComments(event) {
 }
 
 function hideDocument() {
-	$('.imixs-workitem-form').css('width','calc(66.6666% - 0px)');
-	$('.imixs-workitem-document .document-title').text('');
-	$('.imixs-workitem-document').hide();
-	// set chronicle cookie
-	document.cookie = "imixs.office.document=false";
+	// can be disabled by the property 'feature.document.preview=false'
+	if (imixsOfficeWorkflow.document_preview) {
+		$('.imixs-workitem-form').css('width','calc(66.6666% - 0px)');
+		$('.imixs-workitem-document .document-title').text('');
+		$('.imixs-workitem-document').hide();
+		// set chronicle cookie
+		document.cookie = "imixs.office.document=false";
+	}
 }
 
 function showDocument(title) {
-	$('.imixs-workitem-form').css('width','calc(33.333% - 0px)');
-	$('.imixs-workitem-document').show();
-	$('.imixs-workitem-document .document-title').text(title);
-	// set chronicle cookie
-	document.cookie = "imixs.office.document=true"
+	// can be disabled by the property 'feature.document.preview=false'
+	if (imixsOfficeWorkflow.document_preview) {
+		$('.imixs-workitem-form').css('width','calc(33.333% - 0px)');
+		$('.imixs-workitem-document').show();
+		$('.imixs-workitem-document .document-title').text(title);
+		// set chronicle cookie
+		document.cookie = "imixs.office.document=true"
+	}
 }
 
 function updateIframe(docurl) {
