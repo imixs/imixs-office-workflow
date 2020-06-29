@@ -1,0 +1,130 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
+	<dl>
+		<dt style="clear: left;">
+			<h:outputText value="#{global.attachments}" />
+		</dt>
+		<dd>
+			<i:imixsFileUpload id="file_upload_id"
+				workitem="#{workflowController.workitem}"
+				context_url="#{facesContext.externalContext.requestContextPath}/api/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}"
+				hideatachments="true" />
+		</dd>
+	</dl>
+	
+	<h:panelGroup layout="block" id="dmslist" binding="#{dmsListComponent}" style="margin-bottom:10px;">
+
+		<!-- **** DMS List ***** -->
+		<c:forEach var="attachment" items="#{dmsController.dmsList}">
+
+			<div class="imixs-viewentry" style="min-height:0;">
+				<!-- image -->
+				<div class="image-block">
+					<h:panelGroup rendered="#{! empty attachment.item['url']}"
+						styleClass="typcn typcn-world"/>
+					<ui:fragment  rendered="#{empty attachment.item['url']}">
+						<ui:param name="doctyp" value="#{dmsController.documentType(attachment.item['txtname'])}"></ui:param>
+						<h:panelGroup rendered="#{'pdf' eq doctyp}"	styleClass="typcn typcn-document-text"/>
+						<h:panelGroup rendered="#{'win' eq doctyp}"	styleClass="typcn typcn-vendor-microsoft"/>
+						<h:panelGroup rendered="#{'pic' eq doctyp}"	styleClass="typcn typcn-image"/>
+						<h:panelGroup rendered="#{'eml' eq doctyp}"	styleClass="typcn typcn-mail"/>
+						<h:panelGroup rendered="#{'doc' eq doctyp}"	styleClass="typcn typcn-document"/>
+					</ui:fragment>
+					
+				</div>
+				
+				
+				<div id="hyperlink" class="content-block">
+					
+				<a class="file-open-link" href="#{facesContext.externalContext.requestContextPath}/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{attachment.item['txtName']}">
+				#{attachment.item['txtName']}</a> <h:outputText value=" (#{dmsController.userFriendlyBytes(attachment.item['size'])})" />
+				<!-- Delete function -->
+						<f:ajax render=":#{dmsListComponent.clientId}"
+							onevent="hideComments">
+							<h:commandLink
+								onclick="return confirm('#{message.help_delete}');"
+								styleClass="imixs-action-dms-remove" title="#{message.remove}"
+								actionListener="#{dmsController.removeFile(attachment.item['txtName'])}"
+								immediate="true">
+								<span class="typcn typcn-trash"></span>
+							</h:commandLink>
+						</f:ajax>
+				</div>
+				<div style="clear: both"></div>
+			</div>
+		</c:forEach>
+	</h:panelGroup>
+
+	<!-- Documents Preview -->
+	
+	
+	<!-- Note: the document height can be adjusted with the ui:param 'height' -->
+	<script type="text/javascript">
+		/*<![CDATA[*/
+			
+			/* reqlace special characters in attachemnt url */
+		$(document).ready(
+				function() {
+					// init...
+					hideComments(null);
+					// hide documents-file-deeplink
+					$("#documents-file-deeplink").hide();
+					
+					// update the link action for each file
+					// we redirect the href into the iframe target
+					$("[id$='dmslist'] .file-open-link").each(
+						function(index, element) {						
+							$(this).click(function(){
+								var file_link=$(this).attr('href');
+								updateIframe(file_link);
+								
+								// update documents-file-deeplink
+								$("#documents-file-deeplink").attr('href',file_link);
+								$("#documents-file-deeplink").show();
+								
+								// cancel link
+							    return false;
+							});
+						});
+
+					// autoload feature - load first pdf if available
+					$(".imixsFileUpload_uploadlist .imixsFileUpload_file").each(
+							function(index, element) {
+								var attachmentName=$(this).text();
+								if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {									
+									$(this).click();
+									return false;
+								}
+							});
+				
+				
+				
+				});
+
+
+		function hideComments(event) {
+			$('.dms-comment-panel').hide();
+		}
+		function updateIframe(docurl) {
+			//console.log(docurl);
+			$("#document_preview_helper").hide();
+			var iframe = document.getElementById('imixs_dms_iframe');
+			iframe.src = docurl;
+		}
+		/*]]>*/
+	</script>
+
+
+	
+	
+	
+	
+	
+	
+</f:subview>
+

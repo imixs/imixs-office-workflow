@@ -39,10 +39,9 @@
 
 	<ui:define name="content">
 
-		<div class="imixs-workitem row">
+		<div class="imixs-workitem">
 
-
-			<div class="col-4">
+			<div class="imixs-workitem-container">
 
 				<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
 				<f:view>
@@ -67,25 +66,8 @@
 				</f:view>
 
 			</div>
-			
-			<div class="col-4">
-			<ui:param name="fileData" value="#{workflowController.workitem.fileData}"></ui:param>
-	
-	<div class="imixs-form-section imixs-form-attachments">
-		<h2>#{message.documents}</h2>
-		<a href="#" class="pull-right" id="documents-file-deeplink" target="_blank"><span class="typcn typcn-cloud-storage" style="font-size:1.2em;"></span> Download</a>
 
-		<ui:fragment rendered="#{! empty fileData}">
-			<iframe id="imixs_dms_iframe" src="" width="100%" height="#{empty height?1100:height}px">
-			</iframe>
-		</ui:fragment>
-		
-		
-	</div>
-			
-			</div>
-
-			<div class="col-4 imixs-workitem-chronicle">
+			<div class="imixs-workitem-chronicle">
 				<f:view>
 					<h:form id="chronicle_form">
 

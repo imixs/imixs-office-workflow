@@ -14,28 +14,24 @@
 			class="typcn typcn-code-outline"></span>
 	</h1>
 
-	<div class="imixs-footer">
-		<ui:include src="/pages/workitems/workitem_footer.xhtml" />
-		<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
-			<ui:param name="workitem" value="#{workflowController.workitem}" />
-		</ui:include>
-	</div>
-
 
 	<div class="imixs-tabs embedded">
 		<ul>
-			<li><a href="#tab-1">Historie</a></li>
-			<li><a href="#tab-2">Dokumente</a></li>
+			<li><a href="#tab-1" style="font-size:28px;">Workflow</a></li>
+			<li><a href="#tab-2" style="font-size:28px;">Dokumente</a></li>
 		</ul>
-
-
-
-
-
-
 
 		<div id="tab-1">
 		
+		
+	<div class="imixs-footer">
+		<ui:include src="/pages/workitems/workitem_footer.xhtml" />
+		
+	</div>
+		
+		<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
+			<ui:param name="workitem" value="#{workflowController.workitem}" />
+		</ui:include>
 			<!-- Navigation panel - toggle buttons for each category -->
 			<h:panelGroup id="chronicle-nav" layout="block" styleClass="filter">
 

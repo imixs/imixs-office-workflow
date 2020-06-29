@@ -16,9 +16,15 @@ body.loading .imixs-wait {
 	color: #ccc;
 }
 
-button, html input[type="button"], input[type="reset"], input[type="submit"]
-	{
+.ui-icon, .ui-widget-content .ui-icon, .ui-icon, .ui-widget-content:hover .ui-icon {
+    background-image: url("./ui-icons_fff_256x240.png");
+}
+
+.ui-button, a.ui-button,.ui-button:hover, a.ui-button:hover {
 	font-weight: bold;
+	border: 1px solid #206B87;
+	background: #206B87;
+	color: #FFF;
 }
 
 select {
@@ -564,6 +570,11 @@ dl dt input[type="text"]:hover {
 	margin-bottom: 20px;
 }
 
+.ui-widget-header {
+    border: none;
+    background: none;
+}
+
 .imixs-tabs .ui-tabs-nav .ui-state-default {
 	background: none;
 	border: none;
@@ -625,6 +636,20 @@ dl dt input[type="text"]:hover {
 .imixs-comment-tabs .imixs-form-section, .imixs-comment-tabs .imixs-form-section-2,
 	.imixs-comment-tabs .imixs-form-section-3 {
 	margin-top: 0px;
+}
+
+
+.imixs-tabs.embedded {
+	border:none;
+	padding:0;
+}
+
+.imixs-tabs.embedded .ui-tabs-panel {
+	padding:0;
+}
+.imixs-tabs.embedded .ui-tabs-tab a {
+	padding:0px;
+	margin:10px 10px 10px 0px;
 }
 
 /* --- Imixs-View ---------------------------------- */
@@ -946,21 +971,21 @@ dl dt input[type="text"]:hover {
 
 
 /* --- Imixs Workflow Actions ------------------------------ */
-.imixs-workflow-action {
+.imixs-workflow-action.ui-button {
 	margin: 0 4px 4px 0;
 }
 
-.imixs-close-action {
+.imixs-close-action.ui-button {
 	margin: 0 4px 4px 0;
 	background: #faa732;
 	border-color: #faa732;
 }
 
-.imixs-delete-action {
+.imixs-delete-action.ui-button {
 	margin: 0 4px 4px 0;
 }
 
-.imixs-print-action {
+.imixs-print-action.ui-button {
 	margin: 0 4px 4px 0;
 	background: #faa732;
 	border-color: #faa732;
@@ -1019,6 +1044,18 @@ dl dd  .imixs-datetime-picker select {
 
 .imixsdatatable {
 	width: 100%;
+}
+
+.imixsdatatable th {
+	border: none;
+	background: #206B87;
+	color: #fff;
+}
+
+.ui-datepicker-header {
+	border: none;
+	background: #206B87;
+	color:#fff;
 }
 
 .imixs-form .imixsdatatable td, th {
