@@ -39,10 +39,10 @@
 
 	<ui:define name="content">
 
-		<div class="imixs-workitem row">
+		<div class="imixs-workitem">
 
 
-			<div class="col-4">
+			<div class="imixs-workitem-container">
 
 				<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
 				<f:view>
@@ -68,65 +68,41 @@
 
 			</div>
 			
-			<div class="col-4">
-			<ui:param name="fileData" value="#{workflowController.workitem.fileData}"></ui:param>
+			<div class="imixs-workitem-document">
+		
+				<ui:param name="fileData" value="#{workflowController.workitem.fileData}"></ui:param>
 	
-	<div class="imixs-form-section imixs-form-attachments">
-		<h2>#{message.documents}</h2>
-		<a href="#" class="pull-right" id="documents-file-deeplink" target="_blank"><span class="typcn typcn-cloud-storage" style="font-size:1.2em;"></span> Download</a>
-
-		<ui:fragment rendered="#{! empty fileData}">
-			<iframe id="imixs_dms_iframe" src="" width="100%" height="#{empty height?1100:height}px">
-			</iframe>
-		</ui:fragment>
-		
-		
-	</div>
-			
+				
+				
+					<h1>
+					    <span class="document-title"></span> 
+					    
+					    <!-- nav -->
+					    <span class="document-nav pull-right">
+					    	<a href="#"  id="documents-file-deeplink" target="_blank"><span class="typcn typcn-cloud-storage"></span></a>
+					    	<span onclick="toggleDocument()"  class="typcn typcn-times"></span>
+					    </span>
+					    
+								
+						 
+					</h1>
+						
+					<ui:fragment rendered="#{! empty fileData}">
+						<iframe id="imixs_dms_iframe" src="" width="100%" height="#{empty height?1100:height}px">
+						</iframe>
+					</ui:fragment>
+								
+								
+				
+						
 			</div>
 
-			<div class="col-4 imixs-workitem-chronicle">
+			<div class="imixs-workitem-chronicle">
 				<f:view>
 					<h:form id="chronicle_form">
-
-						<div class="nav">
-							<ul>
-								<li><a href="#"><span onclick="toggleChronicle()"
-										class="typcn typcn-th-menu-outline"></span></a></li>
-
-								<li><h:commandLink onclick="toggleChronicle()"
-										actionListener="#{chronicleController.toggleFilter('comment')}">
-										<span class="typcn typcn-messages" title="#{message.comments}"></span>
-										<f:ajax render="chronicle-main chronicle-nav" />
-									</h:commandLink></li>
-
-								<li><h:commandLink onclick="toggleChronicle()"
-										actionListener="#{chronicleController.toggleFilter('dms')}">
-										<span class="typcn typcn-folder-open dms"
-											title="#{message['form.attachments.files']}"></span>
-										<f:ajax render="chronicle-main chronicle-nav" />
-									</h:commandLink></li>
-
-								<li><h:commandLink onclick="toggleChronicle()"
-										actionListener="#{chronicleController.toggleFilter('reference')}">
-										<span class="typcn typcn-export-outline"
-											title="#{message.references}"></span>
-										<f:ajax render="chronicle-main chronicle-nav" />
-									</h:commandLink></li>
-
-								<li><h:commandLink onclick="toggleChronicle()"
-										actionListener="#{chronicleController.toggleFilter('version')}">
-										<span class="typcn typcn-archive" title="#{message.versions}"></span>
-										<f:ajax render="chronicle-main chronicle-nav" />
-									</h:commandLink></li>
-
-							</ul>
-						</div>
-
 						<div class="content">
 							<ui:include src="/pages/workitems/workitem_chronicle.xhtml" />
 						</div>
-
 					</h:form>
 				</f:view>
 			</div>

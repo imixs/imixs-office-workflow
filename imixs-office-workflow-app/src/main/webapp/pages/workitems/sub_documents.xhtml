@@ -87,6 +87,9 @@
 								$("#documents-file-deeplink").attr('href',file_link);
 								$("#documents-file-deeplink").show();
 								
+								
+								
+								showDocument($(this).text());
 								// cancel link
 							    return false;
 							});
@@ -120,7 +123,19 @@
 	</script>
 
 
+	<ui:param name="fileData" value="#{workflowController.workitem.fileData}"></ui:param>
 	
+	<div class="imixs-form-section imixs-form-attachments">
+	
+		<a href="#" class="pull-right" id="documents-file-deeplink" target="_blank"><span class="typcn typcn-cloud-storage" style="font-size:1.2em;"></span> Download</a>
+
+		<ui:fragment rendered="#{! empty fileData}">
+			<iframe id="imixs_dms_iframe" src="" width="100%" height="#{empty height?1100:height}px">
+			</iframe>
+		</ui:fragment>
+		
+		
+	</div>
 	
 	
 	

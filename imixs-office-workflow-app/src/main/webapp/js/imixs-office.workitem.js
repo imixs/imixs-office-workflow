@@ -32,7 +32,7 @@ $(document).ready(function() {
 	imixsOfficeWorkflow.imixs_chronicle_comments=true;
 	imixsOfficeWorkflow.imixs_chronicle_nav=JSON.parse('{ "comment" : true, "files":true, "version":true, "reference":true }'); 
 		
-	if (imixsOfficeWorkflow.imixs_chronicle) {
+	/*if (imixsOfficeWorkflow.imixs_chronicle) {
 		// avoid slide effect on first load....
 		$('.imixs-workitem-chronicle').css('transition','0.0s');
 		$('.imixs-workitem-container').css('transition','0.0s');
@@ -42,7 +42,7 @@ $(document).ready(function() {
 		$('.imixs-workitem-container').css('transition','0.3s');
 	} else {
 		
-	}
+	}*/
 	$('.imixs-workitem-chronicle').show();
 });
 
@@ -50,20 +50,35 @@ $(document).ready(function() {
 
 /* Open the chronical nav on the right side */
 function toggleChronicle() {
-	if (!imixsOfficeWorkflow.imixs_chronicle) {
+	/*if (!imixsOfficeWorkflow.imixs_chronicle) {
 		showChronicle();
 	} else {
 		hideChronicle();
-	}
+	}*/
 	imixsOfficeWorkflow.imixs_chronicle=!imixsOfficeWorkflow.imixs_chronicle;
 	// set chronicle cookie
 	document.cookie = "imixs.office.chronicle="+imixsOfficeWorkflow.imixs_chronicle;
 }
+
+/* Open the chronical nav on the right side */
+function toggleDocument() {
+	/*if (!imixsOfficeWorkflow.imixs_chronicle) {
+		showChronicle();
+	} else {
+		hideChronicle();
+	}*/
+	
+	hideDocument();
+	imixsOfficeWorkflow.imixs_chronicle=!imixsOfficeWorkflow.imixs_chronicle;
+	// set chronicle cookie
+	document.cookie = "imixs.office.chronicle="+imixsOfficeWorkflow.imixs_chronicle;
+}
+
+
 function showChronicle() {
 	// open chronicle 
 	// 33.3333  ->  41.6666
 	// 66.6666  ->  58.3333%
-	alert('GO');
 	$('.imixs-workitem-chronicle').css('width','33.3333%');
 	$('.imixs-workitem-container').css('width','33.3333%');
 	
@@ -80,7 +95,16 @@ function hideChronicle() {
 }
 
 
+function hideDocument() {
+	$('.imixs-workitem-container').css('width','calc(66.6666% - 0px)');
+	$('.imixs-workitem-document').hide();
+}
 
+function showDocument(title) {
+	$('.imixs-workitem-container').css('width','calc(33.333% - 0px)');
+	$('.imixs-workitem-document').show();
+	$('.imixs-workitem-document .document-title').text(title);
+}
 
 
 
