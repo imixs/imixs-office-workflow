@@ -27,7 +27,11 @@ $(document).ready(function() {
 	
 	// get chronicle status from cookie
 	var c_value = document.cookie;
-	imixsOfficeWorkflow.imixs_document=c_value.indexOf("imixs.office.document=true")>-1;
+	imixsOfficeWorkflow.imixs_document=true; // default
+	if (c_value.indexOf("imixs.office.document=")>-1) {
+		// read cookie data
+		imixsOfficeWorkflow.imixs_document=c_value.indexOf("imixs.office.document=true")>-1;
+	}
 	imixsOfficeWorkflow.imixs_chronicle_comments=true;
 	imixsOfficeWorkflow.imixs_chronicle_nav=JSON.parse('{ "comment" : true, "files":true, "version":true, "reference":true }'); 
 	
@@ -101,6 +105,10 @@ function showDocument(title) {
 	if (imixsOfficeWorkflow.document_preview) {
 		$('.imixs-workitem-form').css('width','calc(33.333% - 0px)');
 		$('.imixs-workitem-document').show();
+		// cut title if length >32 chars
+		if (title.length>32) {
+			title=title.substring(0,32)+"...";
+		}
 		$('.imixs-workitem-document .document-title').text(title);
 		// set chronicle cookie
 		document.cookie = "imixs.office.document=true"
