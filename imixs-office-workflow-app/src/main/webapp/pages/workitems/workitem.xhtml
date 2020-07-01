@@ -61,24 +61,24 @@
 					</div>
 
 
-					<!-- Document Preview -->
+					<!-- Document Preview can be desiabled by feature switch -->
 					<ui:fragment rendered="#{propertyController.getProperty('feature.document.preview','true')}">
-					<div class="imixs-workitem-document">
-						<div class="imixs-form">
-							<h1>
-								<span class="document-title"></span>
-								<!-- nav -->
-								<span class="document-nav pull-right"> <a href="#"
-									id="documents-file-deeplink" target="_blank"><span
-										class="typcn typcn-cloud-storage"></span></a> <span
-									onclick="hideDocument()" class="typcn typcn-times"></span>
-								</span>
-							</h1>
-							<!-- document preview -->
-							<iframe id="imixs_dms_iframe" src="" width="100%"
-								height="#{empty height?800:height}px"> </iframe>
+						<div class="imixs-workitem-document">
+							<div class="imixs-form">
+								<h1>
+									<span class="document-title"></span>
+									<!-- nav -->
+									<span class="document-nav pull-right"> <a href="#"
+										id="documents-file-deeplink" target="_blank"><span
+											class="typcn typcn-cloud-storage"></span></a> <span
+										onclick="hideDocument()" class="typcn typcn-times"></span>
+									</span>
+								</h1>
+								<!-- document preview -->
+								<iframe id="imixs_document_iframe" src="" width="100%"
+									height="#{empty height?800:height}px"> </iframe>
+							</div>
 						</div>
-					</div>
 					</ui:fragment>
 
 

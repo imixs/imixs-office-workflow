@@ -12,7 +12,6 @@ var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
  * 
  *  - set history nav
  * 
- * @returns
  */
 $(document).ready(function() {
 	
@@ -49,24 +48,15 @@ $(document).ready(function() {
 				var file_link=$(this).attr('href');
 				updateIframe(file_link);
 				
-				// update documents-file-deeplink
-				$("#documents-file-deeplink").attr('href',file_link);
-				$("#documents-file-deeplink").show();
-				
-				showDocument($(this).text());
+					
+				showDocument($(this).text(),file_link);
 				// cancel link
 			    return false;
 			});
 		});
-
-
 	
 	/* autoload first pdf into preview if available.... */
-	if (imixsOfficeWorkflow.imixs_document) {
-		autoPreviewPDF();
-	}
-	
-	
+	autoPreviewPDF();
 	
 });
 
@@ -89,20 +79,29 @@ function hideComments(event) {
 	$('.dms-comment-panel').hide();
 }
 
+/*
+ * Hide the document preiview window
+ */
 function hideDocument() {
 	// can be disabled by the property 'feature.document.preview=false'
-	if (imixsOfficeWorkflow.document_preview) {
+	//if (windowWidth>=1800 && imixsOfficeWorkflow.document_preview) {
 		$('.imixs-workitem-form').css('width','calc(66.6666% - 0px)');
 		$('.imixs-workitem-document .document-title').text('');
 		$('.imixs-workitem-document').hide();
 		// set chronicle cookie
 		document.cookie = "imixs.office.document=false";
-	}
+	//}
 }
 
-function showDocument(title) {
+/*
+ * A document preview window will be shown if the widow with is >= 1800 
+ * and the feature switch is not disabled
+ */
+function showDocument(title, file_link) {
+	
+	var windowWidth = window.innerWidth;
 	// can be disabled by the property 'feature.document.preview=false'
-	if (imixsOfficeWorkflow.document_preview) {
+	if (windowWidth>=1800 && imixsOfficeWorkflow.document_preview) {
 		$('.imixs-workitem-form').css('width','calc(33.333% - 0px)');
 		$('.imixs-workitem-document').show();
 		// cut title if length >32 chars
@@ -111,14 +110,43 @@ function showDocument(title) {
 		}
 		$('.imixs-workitem-document .document-title').text(title);
 		// set chronicle cookie
-		document.cookie = "imixs.office.document=true"
+		document.cookie = "imixs.office.document=true";
+		
+		// disable embedded iframe
+		iframe = document.getElementById('imixs_document_iframe_embedded');
+		//$(iframe).contents().find("body").html("");//.src = null;
+		iframe.src="";
+		$("#documents-file-deeplink-embedded").hide();
+		
+		// update documents-file-deeplink
+		$("#documents-file-deeplink").attr('href',file_link);
+		$("#documents-file-deeplink").show();
+			
+			
+	} else {
+		// update documents-file-deeplink
+		$("#documents-file-deeplink-embedded").show();
+		$("#documents-file-deeplink-embedded").attr('href',file_link);
+			
 	}
 }
 
 function updateIframe(docurl) {
 	//console.log(docurl);
 	$("#document_preview_helper").hide();
-	var iframe = document.getElementById('imixs_dms_iframe');
+	
+	var iframe;
+	var windowWidth = window.innerWidth;
+	// depending on the window with the the feature switch 
+	// two different ifraemes will be used to display the document preview
+	if (windowWidth>=1800 && imixsOfficeWorkflow.document_preview) {
+		iframe = document.getElementById('imixs_document_iframe');
+		$("#documents-file-deeplink-embedded").hide();
+	} else {
+		iframe = document.getElementById('imixs_document_iframe_embedded');
+		$("#documents-file-deeplink-embedded").show();
+	}
+	
 	iframe.src = docurl;
 }
 

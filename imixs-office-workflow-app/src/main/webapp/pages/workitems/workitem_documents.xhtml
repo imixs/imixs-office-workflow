@@ -67,23 +67,20 @@
 	</h:panelGroup>
 
 
-	<!-- show embedded document preview if feature.document.preview=false -->
-	<ui:fragment rendered="#{!propertyController.getProperty('feature.document.preview','true')}">
-		<div class="imixs-form">
-			<h1>
-				<span class="document-title"></span>
-				<!-- nav -->
-				<span class="document-nav pull-right"> <a href="#"
-					id="documents-file-deeplink" target="_blank"><span
-						class="typcn typcn-cloud-storage"></span></a>
-				</span>
-			</h1>
-			<!-- document preview -->
-			<iframe id="imixs_dms_iframe" src="" width="100%"
-				height="#{empty height?900:height}px"> </iframe>
-		</div>
+	<div class="imixs-form">
+		<h1>
+			<span class="document-title"></span>
+			<!-- nav -->
+			<span class="document-nav pull-right"> <a href="#"
+				id="documents-file-deeplink-embedded" target="_blank"><span
+					class="typcn typcn-cloud-storage"></span></a>
+			</span>
+		</h1>
+		<!-- document embedded preview -->
+		<iframe id="imixs_document_iframe_embedded" src="" width="100%"
+			height="#{empty height?900:height}px"> </iframe>
+	</div>
 	
-	</ui:fragment>
 	
 	
 </f:subview>

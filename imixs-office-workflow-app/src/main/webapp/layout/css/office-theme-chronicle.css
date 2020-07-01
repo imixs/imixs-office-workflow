@@ -34,14 +34,11 @@
 
 
 .imixs-workitem-chronicle {
-	xxdisplay: none;
 	height: 100%; /* 100% Full-height */
-	xxxwidth: 60px; /* 0 width - change this with JavaScript */
 	width: calc(33.333% - 0px);
 	position: absolute; 
 	top: 0;
 	right: 0;
-
 	
 	overflow-y: auto;
 	overflow-x: hidden; /* Disable horizontal scroll */
@@ -55,6 +52,16 @@
 
 
 /* RESPONSIVE BEHAVIOUR */
+
+
+@media screen and (max-width: 1800px) {
+	/* disable document preview */
+	.imixs-workitem-document {
+		display:none;
+	}
+}
+
+
 @media screen and (max-width: 768px) {
 	.imixs-workitem-form, .imixs-workitem-chronicle {
 		clear: both;
