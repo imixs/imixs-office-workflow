@@ -47,14 +47,32 @@ $(document).ready(function() {
 			$(this).click(function(){
 				var file_link=$(this).attr('href');
 				updateIframe(file_link);
-				
 					
 				showDocument($(this).text(),file_link);
 				// cancel link
 			    return false;
 			});
 		});
-	
+		
+		
+	// we redirect the href from chronicle into the iframe target
+	$(".files a.attachmentlink").each(
+		function(index, element) {						
+			$(this).click(function(){
+				var file_link=$(this).attr('href');
+				updateIframe(file_link);
+				showDocument($(this).text(),file_link);
+				
+				// click into document tab if resolution <1800
+				if (window.innerWidth<1800) {
+					$(".chronicle-tab-documents").click();
+				}
+				// cancel link
+			    return false;
+			});
+		});
+		
+		
 	/* autoload first pdf into preview if available.... */
 	autoPreviewPDF();
 	
@@ -131,6 +149,9 @@ function showDocument(title, file_link) {
 	}
 }
 
+/*
+ * This method changes the target of a attachment link to the iframe
+ */
 function updateIframe(docurl) {
 	//console.log(docurl);
 	$("#document_preview_helper").hide();
@@ -143,6 +164,7 @@ function updateIframe(docurl) {
 		iframe = document.getElementById('imixs_document_iframe');
 		$("#documents-file-deeplink-embedded").hide();
 	} else {
+		
 		iframe = document.getElementById('imixs_document_iframe_embedded');
 		$("#documents-file-deeplink-embedded").show();
 	}
