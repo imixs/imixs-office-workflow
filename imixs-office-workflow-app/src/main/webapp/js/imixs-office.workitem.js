@@ -12,7 +12,6 @@ var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
  * 
  *  - set history nav
  * 
- * @returns
  */
 $(document).ready(function() {
 	
@@ -27,79 +26,152 @@ $(document).ready(function() {
 	
 	// get chronicle status from cookie
 	var c_value = document.cookie;
-	imixsOfficeWorkflow.imixs_chronicle=c_value.indexOf("imixs.office.chronicle=true")>-1;
-	
+	imixsOfficeWorkflow.imixs_document=true; // default
+	if (c_value.indexOf("imixs.office.document=")>-1) {
+		// read cookie data
+		imixsOfficeWorkflow.imixs_document=c_value.indexOf("imixs.office.document=true")>-1;
+	}
 	imixsOfficeWorkflow.imixs_chronicle_comments=true;
 	imixsOfficeWorkflow.imixs_chronicle_nav=JSON.parse('{ "comment" : true, "files":true, "version":true, "reference":true }'); 
-		
-	if (imixsOfficeWorkflow.imixs_chronicle) {
-		// avoid slide effect on first load....
-		$('.imixs-workitem-chronicle').css('transition','0.0s');
-		$('.imixs-workitem-container').css('transition','0.0s');
 	
-		showChronicle();
-		$('.imixs-workitem-chronicle').css('transition','0.3s');
-		$('.imixs-workitem-container').css('transition','0.3s');
-	} else {
+	
+	// init...
+	hideComments(null);
+	// hide documents-file-deeplink
+	$("#documents-file-deeplink").hide();
+	
+	// update the link action for each file
+	// we redirect the href into the iframe target
+	$("[id$='dmslist'] .file-open-link").each(
+		function(index, element) {						
+			$(this).click(function(){
+				var file_link=$(this).attr('href');
+				updateIframe(file_link);
+					
+				showDocument($(this).text(),file_link);
+				// cancel link
+			    return false;
+			});
+		});
 		
-	}
-	$('.imixs-workitem-chronicle').show();
+		
+	// we redirect the href from chronicle into the iframe target
+	$(".files a.attachmentlink").each(
+		function(index, element) {						
+			$(this).click(function(){
+				var file_link=$(this).attr('href');
+				updateIframe(file_link);
+				showDocument($(this).text(),file_link);
+				
+				// click into document tab if resolution <1800
+				if (window.innerWidth<1800) {
+					$(".chronicle-tab-documents").click();
+				}
+				// cancel link
+			    return false;
+			});
+		});
+		
+		
+	/* autoload first pdf into preview if available.... */
+	autoPreviewPDF();
+	
 });
 
 
-
-/* Open the chronical nav on the right side */
-function toggleChronicle() {
-	if (!imixsOfficeWorkflow.imixs_chronicle) {
-		showChronicle();
-	} else {
-		hideChronicle();
-	}
-	imixsOfficeWorkflow.imixs_chronicle=!imixsOfficeWorkflow.imixs_chronicle;
-	// set chronicle cookie
-	document.cookie = "imixs.office.chronicle="+imixsOfficeWorkflow.imixs_chronicle;
-}
-function showChronicle() {
-	// open chronicle 
-	$('.imixs-workitem-chronicle').css('width','33.3333%');
-	$('.imixs-workitem-container').css('width','66.6666%');
-	
-	$('.imixs-workitem-chronicle .nav').hide();
-	$('.imixs-workitem-chronicle .content').show();
-}
-function hideChronicle() {
-	// close chronicle
-	$('.imixs-workitem-chronicle').css('width','60px');
-	$('.imixs-workitem-container').css('width','calc(100% - 60px)');
-	
-	$('.imixs-workitem-chronicle .content').hide();
-	$('.imixs-workitem-chronicle .nav').show();
-}
-
-
-
-
-
-
-
-//change toggle state of a header panel
-function togglePanel(buttonid, panelid) {
-	$(panelid).toggle();
-	if ($(panelid).is(":hidden")) {
-		// do this
-		$(buttonid).button({
-			icons : {
-				secondary : "ui-icon-plus"
+/*
+ * This method loads the first pdf and starts a autopreview
+ */
+function autoPreviewPDF() {
+	$("[id$='dmslist'] .file-open-link").each(
+		function(index, element) {
+			var attachmentName=$(this).text();
+			if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {									
+				$(this).click();
+				return false;
 			}
-		}).removeClass('active');
+		});
+}
+
+function hideComments(event) {
+	$('.dms-comment-panel').hide();
+}
+
+/*
+ * Hide the document preiview window
+ */
+function hideDocument() {
+	// can be disabled by the property 'feature.document.preview=false'
+	//if (windowWidth>=1800 && imixsOfficeWorkflow.document_preview) {
+		$('.imixs-workitem-form').css('width','calc(66.6666% - 0px)');
+		$('.imixs-workitem-document .document-title').text('');
+		$('.imixs-workitem-document').hide();
+		// set chronicle cookie
+		document.cookie = "imixs.office.document=false";
+	//}
+}
+
+/*
+ * A document preview window will be shown if the widow with is >= 1800 
+ * and the feature switch is not disabled
+ */
+function showDocument(title, file_link) {
+	
+	var windowWidth = window.innerWidth;
+	// can be disabled by the property 'feature.document.preview=false'
+	if (windowWidth>=1800 && imixsOfficeWorkflow.document_preview) {
+		$('.imixs-workitem-form').css('width','calc(33.333% - 0px)');
+		$('.imixs-workitem-document').show();
+		// cut title if length >32 chars
+		if (title.length>32) {
+			title=title.substring(0,32)+"...";
+		}
+		$('.imixs-workitem-document .document-title').text(title);
+		// set chronicle cookie
+		document.cookie = "imixs.office.document=true";
+		
+		// disable embedded iframe
+		iframe = document.getElementById('imixs_document_iframe_embedded');
+		//$(iframe).contents().find("body").html("");//.src = null;
+		iframe.src="";
+		$("#documents-file-deeplink-embedded").hide();
+		
+		// update documents-file-deeplink
+		$("#documents-file-deeplink").attr('href',file_link);
+		$("#documents-file-deeplink").show();
+			
+			
 	} else {
-		$(buttonid).button({
-			icons : {
-				secondary : "ui-icon-minus"
-			}
-		}).addClass('active');
+		// update documents-file-deeplink
+		$("#documents-file-deeplink-embedded").show();
+		$("#documents-file-deeplink-embedded").attr('href',file_link);
+			
 	}
 }
+
+/*
+ * This method changes the target of a attachment link to the iframe
+ */
+function updateIframe(docurl) {
+	//console.log(docurl);
+	$("#document_preview_helper").hide();
+	
+	var iframe;
+	var windowWidth = window.innerWidth;
+	// depending on the window with the the feature switch 
+	// two different ifraemes will be used to display the document preview
+	if (windowWidth>=1800 && imixsOfficeWorkflow.document_preview) {
+		iframe = document.getElementById('imixs_document_iframe');
+		$("#documents-file-deeplink-embedded").hide();
+	} else {
+		
+		iframe = document.getElementById('imixs_document_iframe_embedded');
+		$("#documents-file-deeplink-embedded").show();
+	}
+	
+	iframe.src = docurl;
+}
+
 
 /**
  * Wokritem References - print year/month sections

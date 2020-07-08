@@ -7,22 +7,38 @@
   	overflow: hidden;
 	position: relative;
  }
-.imixs-workitem-container {
-	
-	width: calc(100% - 60px);
+.imixs-workitem-form {
+	width: calc(66.6666% - 0px);
 	border-right: 1px solid #e0e4e7;
+	float: left;	
+	margin-right: 10px;
+	transition: 0.3s; /* 0.5 second transition effect to slide in the sidenav */
 }
 
+
+.imixs-workitem-document {
+	display:none;
+	float:left;
+	width: calc(33.333% - 0px);
+	border-right: 1px solid #e0e4e7;
+	padding-right:10px;
+}
+
+
+.imixs-workitem-document .document-nav {
+	cursor: pointer;
+	float: right;
+	margin-left: 20px;
+	color: #428bca;
+}
+
+
 .imixs-workitem-chronicle {
-	display: none;
 	height: 100%; /* 100% Full-height */
-	width: 60px; /* 0 width - change this with JavaScript */
+	width: calc(33.333% - 0px);
 	position: absolute; 
 	top: 0;
 	right: 0;
-	
-	yoverflow: hidden;
-	
 	
 	overflow-y: auto;
 	overflow-x: hidden; /* Disable horizontal scroll */
@@ -36,8 +52,9 @@
 
 
 /* RESPONSIVE BEHAVIOUR */
+
 @media screen and (max-width: 768px) {
-	.imixs-workitem-container, .imixs-workitem-chronicle {
+	.imixs-workitem-form, .imixs-workitem-chronicle {
 		clear: both;
 		float: none;
 		width: 100% !important;
@@ -48,7 +65,7 @@
 }
 
 @media screen and (max-width: 480px) {
-	.imixs-workitem-container, .imixs-workitem-chronicle {
+	.imixs-workitem-form, .imixs-workitem-chronicle {
 		clear: both;
 		float: none;
 		width: 100% !important;
@@ -80,11 +97,8 @@
 }
 
 .imixs-workitem-chronicle .content {
-	display: none;
-	margin: 0 20px 0 20px;
-	padding-top: 20px;
-	
-	yoverflow-y: auto;
+	float:left;
+	width: calc(100% - 30px)
 }
 
 .imixs-workitem-chronicle .content h1 {
@@ -134,6 +148,12 @@
 	overflow: hidden;
 }
 
+
+.imixs-workitem-chronicle .filter {
+	float:right;
+}
+
+
 .imixs-workitem-chronicle .filter .disabled {
 	color: #999;
 }
@@ -152,8 +172,8 @@
 }
 
 .imixs-workitem-chronicle .filter ul li {
-	display: inline;
-	margin-right: 30px;
+	xxdisplay: inline;
+	xxmargin-right: 30px;
 }
 
 .imixs-workitem-chronicle .filter a, .imixs-workitem-chronicle .nav a {
@@ -210,4 +230,11 @@
 	font-size: 1.3rem;
 	color: #428bca;
 	line-height: 1.3rem;
+}
+.imixs-workitem-chronicle .dms-list .image-block {
+	min-width: 30px;
+}
+.imixs-workitem-chronicle .dms-list .content-block {
+	margin-left: 10px;
+	line-height: 1.8em;
 }

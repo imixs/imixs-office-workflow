@@ -14,10 +14,7 @@
 		</h:outputText>
 	</h:panelGroup>
 
-	<div class="row nested imixs-form-panel-documentviewer">
-
-		<div class="col-6 nested">
-
+	
 
 			<c:forEach items="#{formController.formDefinition.sections}"
 				var="section">
@@ -40,22 +37,6 @@
 				<ui:param name="workitem" value="#{workflowController.workitem}" />
 			</ui:include>
 
-
-
-
-		</div>
-
-
-		<div class="col-6 nested imixs-form-panel">
-			<ui:include src="/pages/workitems/forms/sub_documentviewer.xhtml">
-				<ui:param name="workitem" value="#{workflowController.workitem}" />
-				<ui:param name="height" value="800" />
-			</ui:include>
-		</div>
-
-
-
-	</div>
 
 </ui:composition>
 
