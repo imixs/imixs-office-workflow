@@ -4,11 +4,11 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
 
 
 	<c:forEach items="#{customFormController.sections}" var="section">
-
 
 		<div
 			class="imixs-form-section#{(empty section.columns)?'':'-'.concat(section.columns)}">
@@ -27,13 +27,15 @@
 					</dt>
 					<dd>
 						<c:if test="#{item.type eq 'text'}">
-							<h:inputText value="#{workitem.item[item.name]}"
+							<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
 								required="#{item.required}" />
+								
+							
 						</c:if>
 
 						<!-- long -->
 						<c:if test="#{item.type eq 'number'}">
-							<h:inputText value="#{workitem.item[item.name]}"
+							<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
 								required="#{item.required}">
 								<f:convertNumber/>
 							</h:inputText>
@@ -41,7 +43,7 @@
 
 						<!-- currency -->
 						<c:if test="#{item.type eq 'currency'}">
-							<h:inputText value="#{workitem.item[item.name]}"
+							<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
 								required="#{item.required}">
 								<f:convertNumber minFractionDigits="2" locale="de" />
 							</h:inputText>
@@ -49,7 +51,7 @@
 
 
 						<c:if test="#{item.type eq 'date'}">
-							<h:inputText value="#{workitem.item[item.name]}"
+							<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
 								required="#{item.required}" styleClass="imixs-date">
 								<f:convertDateTime pattern="#{message.datePatternShort}"
 									timeZone="#{message.timeZone}" />
@@ -57,13 +59,13 @@
 						</c:if>
 
 						<c:if test="#{item.type eq 'textarea'}">
-							<h:inputTextarea value="#{workitem.item[item.name]}"
+							<h:inputTextarea value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
 								required="#{item.required}" />
 						</c:if>
 
 
 						<c:if test="#{item.type eq 'html'}">
-							<h:inputTextarea required="#{item.required}"
+							<h:inputTextarea required="#{item.required}" pt:data-item="#{item.name}"
 								class="imixs-editor-basic" value="#{workitem.item[item.name]}" />
 						</c:if>
 

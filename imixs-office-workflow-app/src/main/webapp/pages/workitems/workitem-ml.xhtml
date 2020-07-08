@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
+	<!-- Imixs-ML integration
+	
+		This subform is loaded by the workitem.xhtml page if the MLController is available.
+		The subform loads the current ml status into a json object 'ml_json' and provides a
+		jsf commandScript for a suggestion list 
+
+	-->
+	
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/js/imixs-ml.js?build=#{app.application_build_timestamp}"></script>
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+			// set ml status
+			imixsOfficeWorkflow.ml_json = #{mlController.getJSON()};
+
+		/*]]>*/
+	</script>
+		
+		
+		<!-- 
+			see:
+			https://stackoverflow.com/questions/16588327/how-to-invoke-a-jsf-managed-bean-on-a-html-dom-event-using-native-javascript
+			
+			https://dzone.com/articles/execute-a-jsf-ajax-request-by-just-a-function-call
+		 -->
+   		<h:commandScript name="imixsOfficeWorkflow.mlSearch" action="#{mlController.search('_bic')}" rendered="#{mlController!=null}" render=":ml-results" />
+		<h:panelGroup id="ml-results">
+		
+		
+		
+		
+  			ml results ...1
+  		<ui:repeat var="suggest"
+					value="#{mlController.searchResult}">
+  		 wert=#{suggest}
+  		</ui:repeat>
+  		
+  		
+  		
+  			<h:panelGroup id="suggest_resultlist" layout="block"
+				style="width:100%;margin-top:15px;"
+				class="marty-userinput-suggestresultlist"
+				rendered="#{! empty mlController.searchResult}">
+
+				<ui:repeat var="suggest"
+					value="#{mlController.searchResult}">
+
+					<div class="marty-userinput-suggestresultlist-entry"
+						style="width: 100%;">
+
+						<a href="#">
+							<h:outputText style="font-weight: bold;"
+								value="#{suggest}" escape="false" />
+						</a>
+					</div>
+				</ui:repeat>
+			</h:panelGroup>
+							
+							
+							
+		</h:panelGroup>
+				
+				<input type="button" value="click" onclick="alert('go');imixsOfficeWorkflow.mlSearch('_bic')" />
+		<h1>ml.status=#{workitem.item['ml.status']}</h1>
+		
+		
+				
+	
+				
+</ui:composition>
+
+

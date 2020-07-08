@@ -44,6 +44,14 @@
 
 			<f:view>
 				<h:form id="workitem_form">
+	
+					<!-- Imixs-ML integration -->
+					<ui:fragment rendered="#{mlController!=null}">
+						<ui:include src="/pages/workitems/workitem-ml.xhtml">
+							<ui:param name="workitem" value="#{workflowController.workitem}" />
+						</ui:include>
+					</ui:fragment>
+				
 					<!-- Workitem Main Form -->
 					<div class="imixs-workitem-form">
 
