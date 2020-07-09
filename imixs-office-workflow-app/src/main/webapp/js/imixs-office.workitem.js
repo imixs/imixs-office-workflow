@@ -122,9 +122,9 @@ function showDocument(title, file_link) {
 	if (windowWidth>=1800 && imixsOfficeWorkflow.document_preview) {
 		$('.imixs-workitem-form').css('width','calc(33.333% - 0px)');
 		$('.imixs-workitem-document').show();
-		// cut title if length >32 chars
-		if (title.length>32) {
-			title=title.substring(0,32)+"...";
+		// cut title if length >64 chars
+		if (title.length>64) {
+			title=title.substring(0,64)+"...";
 		}
 		$('.imixs-workitem-document .document-title').text(title);
 		// set chronicle cookie

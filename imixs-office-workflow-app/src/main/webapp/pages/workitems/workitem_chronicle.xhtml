@@ -31,18 +31,14 @@
 			<!-- Main panel - shows entries filtered by optional category -->
 			<h:panelGroup id="chronicle-main" layout="block" class="content">
 
-
-				<table style="width: 100%;">
-
-
-
+				<table>
 					<!-- print a headline for each year -->
 					<ui:repeat var="year" value="#{chronicleController.getYears()}">
 
 						<!-- print YEAR -->
 						<tr class="year">
 							<td colspan="3"><h2
-									style="width: 100%; text-align: center; border-bottom: 1px solid #ddd;">#{year}</h2></td>
+									style="text-align: center; border-bottom: 1px solid #ddd;">#{year}</h2></td>
 						</tr>
 
 						<!-- print all MONTHs -->
@@ -51,7 +47,7 @@
 							<ui:param name="message_month" value="month_#{month}"></ui:param>
 							<tr class="month">
 								<td colspan="3"><h3
-										style="width: 100%; text-align: center;">#{message[message_month]}</h3></td>
+										style="text-align: center;">#{message[message_month]}</h3></td>
 
 							</tr>
 
