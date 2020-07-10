@@ -78,7 +78,28 @@ $(document).ready(function() {
 	
 });
 
-
+/*
+ * This callback method is triggered by the imxs-faces.js file upload
+ * component. The method updates the deep links for uploaded files
+ */
+function onFileUploadChange() {
+	
+	$(".imixsFileUpload_uploaded_file a").each(
+	function(index, element) {						
+		$(this).click(function(){
+			var file_link=$(this).attr('href');
+			updateIframe(file_link);
+			showDocument($(this).text(),file_link);
+			
+			// click into document tab if resolution <1800
+			if (window.innerWidth<1800) {
+				$(".chronicle-tab-documents").click();
+			}
+			// cancel link
+		    return false;
+		});
+	});
+}
 /*
  * This method loads the first pdf and starts a autopreview
  */
@@ -100,15 +121,36 @@ function hideComments(event) {
 /*
  * Hide the document preiview window
  */
-function hideDocument() {
-	// can be disabled by the property 'feature.document.preview=false'
-	//if (windowWidth>=1800 && imixsOfficeWorkflow.document_preview) {
-		$('.imixs-workitem-form').css('width','calc(66.6666% - 0px)');
-		$('.imixs-workitem-document .document-title').text('');
-		$('.imixs-workitem-document').hide();
-		// set chronicle cookie
-		document.cookie = "imixs.office.document=false";
-	//}
+function closeDocumentPreview() {
+	$('.imixs-workitem-form').css('width','calc(66.6666% - 0px)');
+	$('.imixs-workitem-document .document-title').text('');
+	$('.imixs-workitem-document').hide();
+	// set chronicle cookie
+	document.cookie = "imixs.office.document=false";
+	
+	iframe = document.getElementById('imixs_document_iframe');
+	
+	// switch to chronicle
+	$(".chronicle-tab-history").click();
+}
+
+/*
+ * The method Hide the document preiview window and opens 
+ * the document in the minimized preview
+ */
+function minimizeDocumentPreview() {
+	$('.imixs-workitem-form').css('width','calc(66.6666% - 0px)');
+	$('.imixs-workitem-document .document-title').text('');
+	$('.imixs-workitem-document').hide();
+	// set chronicle cookie
+	document.cookie = "imixs.office.document=false";
+	$(".chronicle-tab-documents").click();
+	
+	iframe = document.getElementById('imixs_document_iframe');
+	link=iframe.src;
+	iframe.src="";
+	iframe = document.getElementById('imixs_document_iframe_embedded');
+	iframe.src=link;
 }
 
 /*
