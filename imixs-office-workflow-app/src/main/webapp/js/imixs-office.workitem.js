@@ -99,6 +99,17 @@ function onFileUploadChange() {
 		    return false;
 		});
 	});
+	
+	/* autoload first pdf into preview if available.... */
+	$(".imixsFileUpload_uploaded_file a").each(
+	function(index, element) {						
+		var attachmentName=$(this).text();
+			if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {
+				$(this).click();
+				return false;
+			}
+		
+	});
 }
 /*
  * This method loads the first pdf and starts a autopreview
