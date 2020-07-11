@@ -67,20 +67,28 @@
 	</h:panelGroup>
 
 
-	<div class="imixs-form">
-		<h1>
-			<span class="document-title"></span>
-			<!-- nav -->
-			<span class="document-nav pull-right"> <a href="#"
-				id="documents-file-deeplink-embedded" target="_docwindow"><span
-					class="typcn typcn-arrow-maximise"></span></a>
-			</span>
-		</h1>
-		<!-- document embedded preview -->
-		<iframe id="imixs_document_iframe_embedded" src="" width="100%"
-			height="#{empty height?900:height}px"> </iframe>
+
+	<!-- embedded document preview -->
+	<div class="imixs-workitem-document-embedded">
+		<div class="imixs-form">
+			<h1>
+				<span class="document-title"></span>
+				
+				<!-- nav -->
+				<span class="document-nav">
+					<span onclick="maximizeDocumentPreview()" class="typcn typcn-chevron-left-outline"></span>
+					<a href="#" class="document-deeplink" target="_docwindow">
+					    <span class="typcn typcn-arrow-maximise"></span>
+					</a>
+				</span>
+			</h1>
+			<!-- document preview -->
+			<iframe id="imixs_document_iframe_embedded" src="" width="100%"
+				height="#{empty height?800:height}px"> </iframe>
+		</div>
 	</div>
-	
+
+
 	
 	
 </f:subview>

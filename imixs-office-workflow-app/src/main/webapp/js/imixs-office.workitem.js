@@ -6,6 +6,8 @@ var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
 	"Sep", "Okt", "Nov", "Dec" ];
 
 
+var documentPreview;
+var documentPreviewIframe;
 
 /**
  * Init Method for the workitem page
@@ -37,8 +39,10 @@ $(document).ready(function() {
 	
 	// init...
 	hideComments(null);
+	
 	// hide documents-file-deeplink
 	$("#documents-file-deeplink").hide();
+	
 	
 	// update the link action for each file
 	// we redirect the href into the iframe target
@@ -46,21 +50,8 @@ $(document).ready(function() {
 		function(index, element) {						
 			$(this).click(function(){
 				var file_link=$(this).attr('href');
-				updateIframe(file_link);
+				//updateIframe(file_link);
 					
-				showDocument($(this).text(),file_link);
-				// cancel link
-			    return false;
-			});
-		});
-		
-		
-	// we redirect the href from chronicle into the iframe target
-	$(".files a.attachmentlink").each(
-		function(index, element) {						
-			$(this).click(function(){
-				var file_link=$(this).attr('href');
-				updateIframe(file_link);
 				showDocument($(this).text(),file_link);
 				
 				// click into document tab if resolution <1800
@@ -73,7 +64,28 @@ $(document).ready(function() {
 		});
 		
 		
-	/* autoload first pdf into preview if available.... */
+	// we redirect the href from chronicle into the iframe target
+	$(".files a.attachmentlink").each(
+		function(index, element) {						
+			$(this).click(function(){
+				var file_link=$(this).attr('href');
+				//updateIframe(file_link);
+				showDocument($(this).text(),file_link);
+				
+				// click into document tab if resolution <1800
+				if (window.innerWidth<1800) {
+					$(".chronicle-tab-documents").click();
+				}
+				// cancel link
+			    return false;
+			});
+		});
+		
+		
+	// set the default preview frame
+	documentPreviewIframe=document.getElementById('imixs_document_iframe_embedded');
+		
+	// autoload first pdf into preview if available.... 
 	autoPreviewPDF();
 	
 });
@@ -88,12 +100,12 @@ function onFileUploadChange() {
 	function(index, element) {						
 		$(this).click(function(){
 			var file_link=$(this).attr('href');
-			updateIframe(file_link);
+			//updateIframe(file_link);
 			showDocument($(this).text(),file_link);
 			
-			// click into document tab if resolution <1800
-			if (window.innerWidth<1800) {
-				$(".chronicle-tab-documents").click();
+			var windowWidth = window.innerWidth;
+			if (windowWidth>=1800) {
+				maximizeDocumentPreview();
 			}
 			// cancel link
 		    return false;
@@ -120,6 +132,10 @@ function autoPreviewPDF() {
 			var attachmentName=$(this).text();
 			if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {									
 				$(this).click();
+				var windowWidth = window.innerWidth;
+				if (windowWidth>=1800) {
+					maximizeDocumentPreview();
+				}
 				return false;
 			}
 		});
@@ -130,106 +146,88 @@ function hideComments(event) {
 }
 
 /*
- * Hide the document preiview window
+ * This method hides the document preiview window
+ * and shows the history tab.
  */
 function closeDocumentPreview() {
-	$('.imixs-workitem-form').css('width','calc(66.6666% - 0px)');
-	$('.imixs-workitem-document .document-title').text('');
-	$('.imixs-workitem-document').hide();
-	// set chronicle cookie
-	document.cookie = "imixs.office.document=false";
 	
-	iframe = document.getElementById('imixs_document_iframe');
-	
+	minimizeDocumentPreview();
 	// switch to chronicle
 	$(".chronicle-tab-history").click();
 }
 
 /*
- * The method Hide the document preiview window and opens 
- * the document in the minimized preview
+ * The method hides the document preiview window and opens 
+ * the document in the minimized preview on the documents tab
  */
 function minimizeDocumentPreview() {
 	$('.imixs-workitem-form').css('width','calc(66.6666% - 0px)');
-	$('.imixs-workitem-document .document-title').text('');
 	$('.imixs-workitem-document').hide();
-	// set chronicle cookie
-	document.cookie = "imixs.office.document=false";
+	$('.imixs-workitem-document-embedded').show();
+
+	// set preview cookie
+	document.cookie = "imixs.office.document.preview=false";
+	documentPreview=$('.imixs-workitem-document-embedded');
+
+	// update iframe
+	var currentURL="";
+	if (documentPreviewIframe) {
+		currentURL=documentPreviewIframe.src;
+	}
+	documentPreviewIframe=document.getElementById('imixs_document_iframe_embedded');
+	documentPreviewIframe.src=currentURL;
+	
 	$(".chronicle-tab-documents").click();
 	
-	iframe = document.getElementById('imixs_document_iframe');
-	link=iframe.src;
-	iframe.src="";
-	iframe = document.getElementById('imixs_document_iframe_embedded');
-	iframe.src=link;
 }
 
-/*
- * A document preview window will be shown if the widow with is >= 1800 
- * and the feature switch is not disabled
- */
-function showDocument(title, file_link) {
-	
-	var windowWidth = window.innerWidth;
-	// can be disabled by the property 'feature.document.preview=false'
-	if (windowWidth>=1800 && imixsOfficeWorkflow.document_preview) {
-		$('.imixs-workitem-form').css('width','calc(33.333% - 0px)');
-		$('.imixs-workitem-document').show();
-		// cut title if length >64 chars
-		if (title.length>64) {
-			title=title.substring(0,64)+"...";
-		}
-		$('.imixs-workitem-document .document-title').text(title);
-		// set chronicle cookie
-		document.cookie = "imixs.office.document=true";
-		
-		// disable embedded iframe
-		iframe = document.getElementById('imixs_document_iframe_embedded');
-		//$(iframe).contents().find("body").html("");//.src = null;
-		iframe.src="";
-		$("#documents-file-deeplink-embedded").hide();
-		
-		// update documents-file-deeplink
-		$("#documents-file-deeplink").attr('href',file_link);
-		$("#documents-file-deeplink").show();
-			
-			
-	} else {
-		// update documents-file-deeplink
-		$("#documents-file-deeplink-embedded").show();
-		$("#documents-file-deeplink-embedded").attr('href',file_link);
-			
-	}
-}
+
 
 /*
- * This method changes the target of a attachment link to the iframe
+ * The method shows the document preiview window
  */
-function updateIframe(docurl) {
-	//console.log(docurl);
-	$("#document_preview_helper").hide();
+function maximizeDocumentPreview() {
+	$('.imixs-workitem-form').css('width','calc(33.333% - 0px)');
+	$('.imixs-workitem-document').show();
+	$('.imixs-workitem-document-embedded').hide();
 	
-	var iframe;
-	var windowWidth = window.innerWidth;
-	// depending on the window with the the feature switch 
-	// two different ifraemes will be used to display the document preview
-	if (windowWidth>=1800 && imixsOfficeWorkflow.document_preview) {
-		iframe = document.getElementById('imixs_document_iframe');
-		$("#documents-file-deeplink-embedded").hide();
-	} else {
-		
-		iframe = document.getElementById('imixs_document_iframe_embedded');
-		$("#documents-file-deeplink-embedded").show();
+	// set preview cookie
+	document.cookie = "imixs.office.document.preview=false";
+	documentPreview=$('.imixs-workitem-document');
+	
+	// update iframe
+	var currentURL="";
+	if (documentPreviewIframe) {
+		currentURL=documentPreviewIframe.src;
 	}
+	documentPreviewIframe=document.getElementById('imixs_document_iframe');
+	documentPreviewIframe.src=currentURL;
 	
-	iframe.src = docurl;
+	
+}
+
+
+
+/*
+ * A document loads the current document (link) into the documentPreviewIframe
+ * and displays the document title.
+ 
+ */
+function showDocument(title, link) {
+	// cut title if length >64 chars
+	if (title.length>64) {
+		title=title.substring(0,64)+"...";
+	}
+	$('.document-title',documentPreview).text(title);
+	documentPreviewIframe.src=link;
+	// update deeplink
+	$('.document-deeplink',documentPreview).attr('href',link);
 }
 
 
 /**
  * Wokritem References - print year/month sections
  * 
- * @returns
  */
 function printWorkitemReferences() {
 	var lastDatemark = 999999;
