@@ -6,8 +6,9 @@ var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
 	"Sep", "Okt", "Nov", "Dec" ];
 
 
-var documentPreview;
-var documentPreviewIframe;
+var documentPreview;			// active document preview 
+var documentPreviewIframe;  	// active iFrame
+var isWorkitemLoading=true; 	// indicates if the workitem is still loading
 
 /**
  * Init Method for the workitem page
@@ -38,11 +39,7 @@ $(document).ready(function() {
 	
 	
 	// init...
-	hideComments(null);
-	
-	// hide documents-file-deeplink
-	$("#documents-file-deeplink").hide();
-	
+	hideComments(null);	
 	
 	// update the link action for each file
 	// we redirect the href into the iframe target
@@ -51,13 +48,7 @@ $(document).ready(function() {
 			$(this).click(function(){
 				var file_link=$(this).attr('href');
 				//updateIframe(file_link);
-					
 				showDocument($(this).text(),file_link);
-				
-				// click into document tab if resolution <1800
-				if (window.innerWidth<1800) {
-					$(".chronicle-tab-documents").click();
-				}
 				// cancel link
 			    return false;
 			});
@@ -71,11 +62,6 @@ $(document).ready(function() {
 				var file_link=$(this).attr('href');
 				//updateIframe(file_link);
 				showDocument($(this).text(),file_link);
-				
-				// click into document tab if resolution <1800
-				if (window.innerWidth<1800) {
-					$(".chronicle-tab-documents").click();
-				}
 				// cancel link
 			    return false;
 			});
@@ -84,11 +70,34 @@ $(document).ready(function() {
 		
 	// set the default preview frame
 	documentPreviewIframe=document.getElementById('imixs_document_iframe_embedded');
-		
+	
 	// autoload first pdf into preview if available.... 
 	autoPreviewPDF();
 	
+	isWorkitemLoading=false;
 });
+
+
+/*
+ * This method loads the first pdf and starts a autopreview
+ */
+function autoPreviewPDF() {
+	$("[id$='dmslist'] .file-open-link").each(
+		function(index, element) {
+			var attachmentName=$(this).text();
+			if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {		
+				// if we have a pdf and screen is >1800 than maximize preview.
+				if (window.innerWidth>=1800 ) {
+					maximizeDocumentPreview();
+				}
+				$(this).click();
+				return false;
+			}
+		});
+}
+
+
+
 
 /*
  * This callback method is triggered by the imxs-faces.js file upload
@@ -123,23 +132,6 @@ function onFileUploadChange() {
 		
 	});
 }
-/*
- * This method loads the first pdf and starts a autopreview
- */
-function autoPreviewPDF() {
-	$("[id$='dmslist'] .file-open-link").each(
-		function(index, element) {
-			var attachmentName=$(this).text();
-			if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {									
-				$(this).click();
-				var windowWidth = window.innerWidth;
-				if (windowWidth>=1800) {
-					maximizeDocumentPreview();
-				}
-				return false;
-			}
-		});
-}
 
 function hideComments(event) {
 	$('.dms-comment-panel').hide();
@@ -149,8 +141,7 @@ function hideComments(event) {
  * This method hides the document preiview window
  * and shows the history tab.
  */
-function closeDocumentPreview() {
-	
+function closeDocumentPreview() {	
 	minimizeDocumentPreview();
 	// switch to chronicle
 	$(".chronicle-tab-history").click();
@@ -177,8 +168,9 @@ function minimizeDocumentPreview() {
 	documentPreviewIframe=document.getElementById('imixs_document_iframe_embedded');
 	documentPreviewIframe.src=currentURL;
 	
-	$(".chronicle-tab-documents").click();
-	
+	if (!isWorkitemLoading) {
+		$(".chronicle-tab-documents").click();
+	}
 }
 
 
@@ -221,7 +213,12 @@ function showDocument(title, link) {
 	$('.document-title',documentPreview).text(title);
 	documentPreviewIframe.src=link;
 	// update deeplink
-	$('.document-deeplink',documentPreview).attr('href',link);
+	$('.document-deeplink').attr('href',link);	
+	
+	// activate preview if minimized!
+	if (!isWorkitemLoading && documentPreviewIframe.id==='imixs_document_iframe_embedded') {
+		$(".chronicle-tab-documents").click();
+	}
 }
 
 
