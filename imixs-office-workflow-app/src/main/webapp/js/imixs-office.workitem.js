@@ -43,8 +43,6 @@ $(document).ready(function() {
 	
 	
 	
-	
-	
 
 
 var handler = document.querySelector('.imixs-slider');
@@ -93,25 +91,6 @@ document.addEventListener('mouseup', function(e) {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	$('.imixs-subnav a').button({
-		icons : {
-			secondary : "ui-icon-plus"
-		},
-		text : true
-	});
-	
 	printWorkitemReferences();
 	
 	// get chronicle status from cookie
@@ -159,7 +138,7 @@ document.addEventListener('mouseup', function(e) {
 	documentPreviewIframe=document.getElementById('imixs_document_iframe_embedded');
 	
 	// autoload first pdf into preview if available.... 
-	autoPreviewPDF();
+//	autoPreviewPDF();
 	
 	isWorkitemLoading=false;
 });

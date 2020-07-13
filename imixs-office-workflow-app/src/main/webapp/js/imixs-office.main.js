@@ -16,6 +16,7 @@ IMIXS.namespace("com.imixs.workflow.office");
  */
 $(document).ready(function() {
 	
+	
 	// init layout
 	imixsOfficeWorkflow.initLayout();
 	
