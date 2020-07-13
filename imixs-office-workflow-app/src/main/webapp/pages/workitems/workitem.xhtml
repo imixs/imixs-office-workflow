@@ -39,22 +39,21 @@
 
 
 	<ui:define name="content">
-		<div class="imixs-workitem">
-			<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
-
-			<f:view>
-				<h:form id="workitem_form">
-	
-					<!-- Imixs-ML integration -->
-					<ui:fragment rendered="#{mlController!=null}">
-						<ui:include src="/pages/workitems/workitem-ml.xhtml">
-							<ui:param name="workitem" value="#{workflowController.workitem}" />
-						</ui:include>
-					</ui:fragment>
+		<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
+		<f:view>
+			<h:form id="workitem_form">
+				<!-- Imixs-ML integration -->
+				<ui:fragment rendered="#{mlController!=null}">
+					<ui:include src="/pages/workitems/workitem-ml.xhtml">
+						<ui:param name="workitem" value="#{workflowController.workitem}" />
+					</ui:include>
+				</ui:fragment>
+				
+				<div class="imixs-workitem">
+			
 				
 					<!-- Workitem Main Form -->
 					<div class="imixs-workitem-form">
-
 						<div class="imixs-form">
 							<div class="imixs-header">
 								<ui:include src="/pages/workitems/workitem_header.xhtml" />
@@ -65,32 +64,36 @@
 									src="/pages/workitems/forms/#{formController.formDefinition.path}.xhtml" />
 							</div>
 						</div>
-
-					</div>
-
-
-					<div class="imixs-workitem-document">
-						<div class="imixs-form">
-							<h1>
-								<span class="document-title"></span>
-								<!-- nav -->
-								<span class="document-nav pull-right"> <a href="#"
-									    class="document-deeplink" target="_docwindow"><span
-										class="typcn typcn-arrow-maximise"></span></a>
-									<span onclick="minimizeDocumentPreview()" class="typcn typcn-chevron-right-outline"></span>
-									
-									
-									
-									<span onclick="closeDocumentPreview()" class="typcn typcn-times-outline"></span>
-									
-									
-								</span>
-							</h1>
-							<!-- document preview -->
-							<iframe id="imixs_document_iframe" src="" width="100%"
-								height="#{empty height?800:height}px"> </iframe>
+						
+						<div class="imixs-document">
+							<div class="imixs-form">
+								<h1>
+									<span class="document-title"></span>
+									<!-- nav -->
+									<span class="document-nav pull-right"> <a href="#"
+										    class="document-deeplink" target="_docwindow"><span
+											class="typcn typcn-arrow-maximise"></span></a>
+										<span onclick="minimizeDocumentPreview()" class="typcn typcn-chevron-right-outline"></span>
+										
+										
+										
+										<span onclick="closeDocumentPreview()" class="typcn typcn-times-outline"></span>
+										
+										
+									</span>
+								</h1>
+								<!-- document preview -->
+								<iframe id="imixs_document_iframe" src="" width="100%"
+									height="#{empty height?800:height}px"> </iframe>
+							</div>
 						</div>
 					</div>
+					
+					
+					<div class="imixs-slider"></div>
+
+
+					
 
 
 					<!-- Workflow and Chronicle -->
@@ -99,9 +102,10 @@
 							<ui:include src="/pages/workitems/workitem_chronicle.xhtml" />
 						</div>
 					</div>
-				</h:form>
-			</f:view>
-		</div>
+				</div>
+			</h:form>
+		</f:view>
+		
 
 	</ui:define>
 </ui:composition>

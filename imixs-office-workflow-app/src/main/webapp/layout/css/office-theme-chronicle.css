@@ -1,23 +1,77 @@
 /*
-  ------ Chronical Nav 
+  ------ Workitem Form with Chronicle and Document Preview 
   
  */
  
 .imixs-workitem {
-  	overflow: hidden;
 	position: relative;
- }
-.imixs-workitem-form {
-	width: calc(66.6666% - 0px);
-	border-right: 1px solid #e0e4e7;
-	float: left;	
-	margin-right: 10px;
-	margin-bottom: 100px;
-	transition: 0.3s; /* 0.5 second transition effect to slide in the sidenav */
+	xoverflow: auto;
+	xoverflow: hidden;
+	
+	 /* Use flexbox */
+  	display: flex;
 }
 
 
-.imixs-workitem-document {
+.imixs-workitem-form, .imixs-workitem-chronicle {
+  /* Use box-sizing so that element's outerwidth will match width property */
+  box-sizing: border-box;
+  
+  /* Allow box to grow and shrink, and ensure they are all equally sized */
+  flex: 1 1 auto;
+}
+
+
+.imixs-workitem-chronicle {
+	height: 100%; /* 100% Full-height */
+	xwidth: calc(33.333% - 0px);
+	
+	xwidth: calc(33.333% - 0px);
+	
+	xposition: absolute; 
+	xtop: 0;
+	xright: 0;
+	
+	overflow-y: auto;
+	xoverflow-x: hidden; /* Disable horizontal scroll */
+	xtransition: 0.3s;
+	/* 0.5 second transition effect to slide in the sidenav */
+	
+	scrollbar-width: thin;
+	
+}
+
+
+.imixs-slider {
+  width: 20px;
+  padding: 0;
+  cursor: ew-resize;
+  flex: 0 0 auto;
+  
+}
+
+.imixs-slider::before {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 100%;
+  background: red;
+  margin: 0 auto;
+}
+
+
+ 
+.imixs-workitem-form {
+	xwidth: calc(66.6666% - 0px);
+	border-right: 1px solid #e0e4e7;
+	xfloat: left;	
+	margin-right: 10px;
+	margin-bottom: 100px;
+	xxxtransition: 0.3s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+
+.imixs-document {
 	display:none;
 	float:left;
 	width: calc(33.333% - 0px);
@@ -25,8 +79,11 @@
 	padding-right:10px;
 }
 
+.imixs-document .document-title {
+	word-break: break-all;
+}
 
-.imixs-workitem-document .document-nav {
+.imixs-document .document-nav {
 	cursor: pointer;
 	float: right;
 	margin-left: 20px;
@@ -45,22 +102,6 @@
 }
 .imixs-workitem-document-embedded .document-title {
 	display: none;
-}
-
-.imixs-workitem-chronicle {
-	height: 100%; /* 100% Full-height */
-	width: calc(33.333% - 0px);
-	position: absolute; 
-	top: 0;
-	right: 0;
-	
-	overflow-y: auto;
-	overflow-x: hidden; /* Disable horizontal scroll */
-	transition: 0.3s;
-	/* 0.5 second transition effect to slide in the sidenav */
-	
-	scrollbar-width: thin;
-	
 }
 
 
