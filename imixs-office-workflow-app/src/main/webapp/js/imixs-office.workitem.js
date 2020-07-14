@@ -31,6 +31,11 @@ $(document).ready(function() {
 	imixsOfficeWorkflow.imixs_chronicle_comments=true;
 	imixsOfficeWorkflow.imixs_chronicle_nav=JSON.parse('{ "comment" : true, "files":true, "version":true, "reference":true }'); 
 	
+	chornicleSize=readCookie('imixs.office.document.chronicle');
+	
+	$('.imixs-workitem-chronicle').css('transition','0.0s');
+	updateChronicleWidth();
+	
 	
 	// init...
 	hideComments(null);	
@@ -71,7 +76,16 @@ $(document).ready(function() {
 	isWorkitemLoading=false;
 });
 
-
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
 /*
  * This method loads the first pdf and starts a autopreview
  */
@@ -146,12 +160,9 @@ function closeDocumentPreview() {
  * the document in the minimized preview on the documents tab
  */
 function minimizeDocumentPreview() {
-	//$('.imixs-workitem-form').css('width','calc(66.6666% - 0px)');
-	$('.imixs-workitem-form .imixs-form').css('width','100%');
-	$('.imixs-workitem-form .imixs-document').css('width','0%');
-	
-	
-	$('.imixs-document').hide();
+	$('.imixs-workitem-form .imixs-form').removeClass('split');
+	$('.imixs-workitem-form .imixs-document').removeClass('split');
+	$('.imixs-workitem-form .imixs-document').hide();
 	$('.imixs-workitem-document-embedded').show();
 
 	// set preview cookie
@@ -177,10 +188,8 @@ function minimizeDocumentPreview() {
  * The method shows the document preiview window
  */
 function maximizeDocumentPreview() {
-	//$('.imixs-workitem-form').css('width','calc(33.333% - 0px)');
-	 
-	$('.imixs-workitem-form .imixs-form').css('width','50%');
-	$('.imixs-workitem-form .imixs-document').css('width','50%');
+	$('.imixs-workitem-form .imixs-form').addClass('split');
+	$('.imixs-workitem-form .imixs-document').addClass('split');
 	$('.imixs-document').show();
 	$('.imixs-workitem-document-embedded').hide();
 	
@@ -201,36 +210,56 @@ function maximizeDocumentPreview() {
 
 
 /*
- * The method reduces the with of the chronicle
+ * reduce the with of the chronicle
  */
 function expandChronicle() {
-	// 33%  calc(33.333% - 20px);
-	if (chornicleSize==1) {
-		$('.imixs-workitem-form').css('width','58.3333%');
-		$('.imixs-workitem-chronicle').css('width','calc(41.6666% - 20px)');
-		chornicleSize=2;
-		return;
+	if (chornicleSize<2) {
+		chornicleSize++;
 	}
-	// 25
-	if (chornicleSize==0) {
-		$('.imixs-workitem-form').css('width','66.6666%');
-		$('.imixs-workitem-chronicle').css('width','calc(33.3333% - 20px)');
-		chornicleSize=1;
-		return;
-	}
+	document.cookie = "imixs.office.document.chronicle=" + chornicleSize + "; path=/";	
+	$('.imixs-workitem-chronicle').css('transition','0.3s');
+	updateChronicleWidth();
 }
 
+/*
+ * increase the with of the chronicle
+ */
 function shrinkChronicle() {
-	if (chornicleSize==1) {
-		$('.imixs-workitem-form').css('width','75%');
-		$('.imixs-workitem-chronicle').css('width','calc(25% - 20px)');
-		chornicleSize=0;
+	if (chornicleSize>0) {
+		chornicleSize--;
+	}
+	document.cookie = "imixs.office.document.chronicle=" + chornicleSize + "; path=/";	
+	$('.imixs-workitem-chronicle').css('transition','0.3s');
+	updateChronicleWidth();
+}
+	
+/*
+ * updates the screen size of the chronical frame
+ */	
+function updateChronicleWidth() {	
+	
+	
+	if (chornicleSize==2) {
+		$('.imixs-workitem-form').css('width','58.3333%');
+		$('.imixs-workitem-chronicle').css('width','calc(41.6666% - 20px)');
+		$('.imixs-slider-nav .expand').removeClass('typcn-media-play-reverse');
+		$('.imixs-slider-nav .expand').addClass('typcn-media-play-reverse-outline');
 		return;
 	}
-	if (chornicleSize==2) {
+	if (chornicleSize==1) {
 		$('.imixs-workitem-form').css('width','66.6666%');
 		$('.imixs-workitem-chronicle').css('width','calc(33.3333% - 20px)');
-		chornicleSize=1;
+		$('.imixs-slider-nav .expand').removeClass('typcn-media-play-reverse-outline');
+		$('.imixs-slider-nav .expand').addClass('typcn-media-play-reverse');
+		$('.imixs-slider-nav .shrink').removeClass('typcn-media-play-outline');
+		$('.imixs-slider-nav .shrink').addClass('typcn-media-play');
+		return;
+	}	
+	if (chornicleSize==0) {
+		$('.imixs-workitem-form').css('width','75%');
+		$('.imixs-workitem-chronicle').css('width','calc(25% - 20px)');
+		$('.imixs-slider-nav .shrink').removeClass('typcn-media-play');
+		$('.imixs-slider-nav .shrink').addClass('typcn-media-play-outline');
 		return;
 	}
 }
