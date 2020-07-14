@@ -32,6 +32,9 @@ $(document).ready(function() {
 	imixsOfficeWorkflow.imixs_chronicle_nav=JSON.parse('{ "comment" : true, "files":true, "version":true, "reference":true }'); 
 	
 	chornicleSize=readCookie('imixs.office.document.chronicle');
+	if (!chornicleSize || chornicleSize=="") {
+		chornicleSize=1;
+	}
 	
 	$('.imixs-workitem-chronicle').css('transition','0.0s');
 	updateChronicleWidth();
