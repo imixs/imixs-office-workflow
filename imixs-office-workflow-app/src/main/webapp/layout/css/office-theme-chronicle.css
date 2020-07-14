@@ -5,9 +5,6 @@
  
 .imixs-workitem {
 	position: relative;
-	xoverflow: auto;
-	xoverflow: hidden;
-	
 	 /* Use flexbox */
   	display: flex;
 }
@@ -16,67 +13,82 @@
 .imixs-workitem-form, .imixs-workitem-chronicle {
   /* Use box-sizing so that element's outerwidth will match width property */
   box-sizing: border-box;
-  
-  /* Allow box to grow and shrink, and ensure they are all equally sized */
-  flex: 1 1 auto;
 }
 
+.imixs-workitem-form .imixs-form, .imixs-workitem-form .imixs-document {
+  float:left;
+  width: 100%;
+  border-right: 1px solid #e0e4e7;
+}
 
+.imixs-workitem-form .imixs-form {
+	 padding-right: 20px;
+}
+
+.imixs-workitem-form .imixs-document {
+	 padding-right: 20px;
+	 padding-left: 20px;
+}
+
+.imixs-workitem-form .imixs-document h1 {
+    font-size: 1.8em;
+    margin-bottom: 0.3em;
+}
+
+.imixs-workitem-form {
+	width: 66.666%;
+}
 .imixs-workitem-chronicle {
 	height: 100%; /* 100% Full-height */
-	xwidth: calc(33.333% - 0px);
-	
-	xwidth: calc(33.333% - 0px);
-	
-	xposition: absolute; 
-	xtop: 0;
-	xright: 0;
-	
+	width: calc(33.333% - 20px);
+	padding: 0 10px;
+	position: absolute; 
+	top: 0;
+	right: 0;
 	overflow-y: auto;
-	xoverflow-x: hidden; /* Disable horizontal scroll */
-	xtransition: 0.3s;
+	overflow-x: hidden; /* Disable horizontal scroll */
+	transition: 0.3s;
 	/* 0.5 second transition effect to slide in the sidenav */
-	
 	scrollbar-width: thin;
-	
 }
 
 
 .imixs-slider {
   width: 20px;
   padding: 0;
-  cursor: ew-resize;
-  flex: 0 0 auto;
-  
+  position: relative;
 }
 
-.imixs-slider::before {
-  content: '';
-  display: block;
-  width: 4px;
-  height: 100%;
-  background: red;
-  margin: 0 auto;
+.imixs-slider-nav {
+  margin: 0;
+  position: absolute;
+  top: 33%;
+  -ms-transform: translateY(-33%);
+  transform: translateY(-33%);
+  cursor: pointer;
+  border-right: 1px dashed #e0e4e7;
+  border-top: 1px dashed #e0e4e7;
+  border-bottom: 1px dashed #e0e4e7;
+}
+
+
+.imixs-slider .typcn {
+	color:#999;
+	font-size:20px;
+	
 }
 
 
  
 .imixs-workitem-form {
-	xwidth: calc(66.6666% - 0px);
-	border-right: 1px solid #e0e4e7;
-	xfloat: left;	
-	margin-right: 10px;
+	width: calc(66.6666% - 0px);
 	margin-bottom: 100px;
-	xxxtransition: 0.3s; /* 0.5 second transition effect to slide in the sidenav */
 }
 
 
 .imixs-document {
 	display:none;
-	float:left;
-	xwidth: calc(33.333% - 0px);
-	border-right: 1px solid #e0e4e7;
-	padding-right:10px;
+	padding:0 10px;
 }
 
 .imixs-document .document-title {

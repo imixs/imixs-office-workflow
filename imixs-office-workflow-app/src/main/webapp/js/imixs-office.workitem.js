@@ -9,27 +9,7 @@ var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
 var documentPreview;			// active document preview 
 var documentPreviewIframe;  	// active iFrame
 var isWorkitemLoading=true; 	// indicates if the workitem is still loading
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+var chornicleSize=1;			// default cronicle size (33%)
 
 /**
  * Init Method for the workitem page
@@ -38,58 +18,6 @@ var isWorkitemLoading=true; 	// indicates if the workitem is still loading
  * 
  */
 $(document).ready(function() {
-	
-	
-	
-	
-	
-
-
-var handler = document.querySelector('.imixs-slider');
-var wrapper = handler.closest('.imixs-workitem');
-var boxA = wrapper.querySelector('.imixs-workitem-form');
-var isHandlerDragging = false;
-
-document.addEventListener('mousedown', function(e) {
-  // If mousedown event is fired from .handler, toggle flag to true
-  if (e.target === handler) {
-    isHandlerDragging = true;
-  }
-});
-
-document.addEventListener('mousemove', function(e) {
-  // Don't do anything if dragging flag is false
-  if (!isHandlerDragging) {
-    return false;
-  }
-
-  // Get offset
-  var containerOffsetLeft = wrapper.offsetLeft;
-
-  // Get x-coordinate of pointer relative to container
-  var pointerRelativeXpos = e.clientX - containerOffsetLeft;
-  
-  // Arbitrary minimum width set on box A, otherwise its inner content will collapse to width of 0
-  var boxAminWidth = 60;
-
-  // Resize box A
-  // * 8px is the left/right spacing between .handler and its inner pseudo-element
-  // * Set flex-grow to 0 to prevent it from growing
-  boxA.style.width = (Math.max(boxAminWidth, pointerRelativeXpos - 8)) + 'px';
-  boxA.style.flexGrow = 0;
-});
-
-document.addEventListener('mouseup', function(e) {
-  // Turn off dragging flag when user mouse is up
-  isHandlerDragging = false;
-});
-
-	
-	
-	
-	
-	
-	
 	
 	printWorkitemReferences();
 	
@@ -138,7 +66,7 @@ document.addEventListener('mouseup', function(e) {
 	documentPreviewIframe=document.getElementById('imixs_document_iframe_embedded');
 	
 	// autoload first pdf into preview if available.... 
-//	autoPreviewPDF();
+	autoPreviewPDF();
 	
 	isWorkitemLoading=false;
 });
@@ -218,7 +146,11 @@ function closeDocumentPreview() {
  * the document in the minimized preview on the documents tab
  */
 function minimizeDocumentPreview() {
-	$('.imixs-workitem-form').css('width','calc(66.6666% - 0px)');
+	//$('.imixs-workitem-form').css('width','calc(66.6666% - 0px)');
+	$('.imixs-workitem-form .imixs-form').css('width','100%');
+	$('.imixs-workitem-form .imixs-document').css('width','0%');
+	
+	
 	$('.imixs-document').hide();
 	$('.imixs-workitem-document-embedded').show();
 
@@ -245,7 +177,10 @@ function minimizeDocumentPreview() {
  * The method shows the document preiview window
  */
 function maximizeDocumentPreview() {
-	$('.imixs-workitem-form').css('width','calc(33.333% - 0px)');
+	//$('.imixs-workitem-form').css('width','calc(33.333% - 0px)');
+	 
+	$('.imixs-workitem-form .imixs-form').css('width','50%');
+	$('.imixs-workitem-form .imixs-document').css('width','50%');
 	$('.imixs-document').show();
 	$('.imixs-workitem-document-embedded').hide();
 	
@@ -264,6 +199,41 @@ function maximizeDocumentPreview() {
 	
 }
 
+
+/*
+ * The method reduces the with of the chronicle
+ */
+function expandChronicle() {
+	// 33%  calc(33.333% - 20px);
+	if (chornicleSize==1) {
+		$('.imixs-workitem-form').css('width','58.3333%');
+		$('.imixs-workitem-chronicle').css('width','calc(41.6666% - 20px)');
+		chornicleSize=2;
+		return;
+	}
+	// 25
+	if (chornicleSize==0) {
+		$('.imixs-workitem-form').css('width','66.6666%');
+		$('.imixs-workitem-chronicle').css('width','calc(33.3333% - 20px)');
+		chornicleSize=1;
+		return;
+	}
+}
+
+function shrinkChronicle() {
+	if (chornicleSize==1) {
+		$('.imixs-workitem-form').css('width','75%');
+		$('.imixs-workitem-chronicle').css('width','calc(25% - 20px)');
+		chornicleSize=0;
+		return;
+	}
+	if (chornicleSize==2) {
+		$('.imixs-workitem-form').css('width','66.6666%');
+		$('.imixs-workitem-chronicle').css('width','calc(33.3333% - 20px)');
+		chornicleSize=1;
+		return;
+	}
+}
 
 
 /*
