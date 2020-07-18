@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.5.1.Final-v20190425-2005-B1" targetNamespace="http://www.imixs.org/bpmn2">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.5.2.SNAPSHOT-v20200602-1600-B1" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
       <imixs:value><![CDATA[reisekostenabrechnung-de-1.0]]></imixs:value>
@@ -93,13 +93,15 @@
           <imixs:value><![CDATA[namCreator]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_24"><![CDATA[Abstimmungsgespräch nach Auftragseingang von neuen Produkten, Prototypen oder Auftragsänderungen. 
-<br />
-Erfassen Sie: 
+      <bpmn2:documentation id="Documentation_24"><![CDATA[Erfassen Sie bitte folgende Informationen:
 <ul>
-<li>Kundennummer</li>
-<li>Projektnummer</li>
-</ul>]]></bpmn2:documentation>
+<li>Anlass der Geschäftsreise</li>
+<li>Reisedauer (Zeitpunkt der Abfahrt vom- und Ankunft am Zielort)</li>
+<li>Übernachtungskosten / Hotelkosten (abzüglich Frühstück)</li>
+<li>Bewirtungsbelege (bei Bewirtung mit Fremden)</li>
+<li>Reisenebenkosten (Belege)</li>
+</ul>
+]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_24</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
@@ -127,8 +129,9 @@ Erfassen Sie:
           <imixs:value><![CDATA[namprocessassist]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_53"><![CDATA[<h1>Arbeitsanweisung</h1>
+      <bpmn2:documentation id="Documentation_53"><![CDATA[<h1>Prüfung der Reisekosten</h1>
 <p>Prüfen SIe die einzelnen Punkte und geben SIe anschließend den Vorgang frei. 
+Sollten Belege fehlen oder unvollständig sein, können Sie eine Rückfrage mit einem Kommentar an den Antragsteller senden.
 </p>
 ]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_48</bpmn2:incoming>
@@ -142,7 +145,7 @@ Erfassen Sie:
           <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
         </imixs:item>
         <imixs:item name="rtfresultlog" type="CDATA">
-          <imixs:value><![CDATA[zur Überprüfung weitergeletet.]]></imixs:value>
+          <imixs:value><![CDATA[zur Überprüfung weitergeletet von <username>$editor</username>.]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_43</bpmn2:incoming>
@@ -154,6 +157,9 @@ Erfassen Sie:
       <bpmn2:extensionElements>
         <imixs:item name="txtactivityresult" type="CDATA">
           <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
+        </imixs:item>
+        <imixs:item name="rtfresultlog" type="CDATA">
+          <imixs:value><![CDATA[Freigegeben durch <username>$editor</username>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_5</bpmn2:incoming>
@@ -191,10 +197,20 @@ Erfassen Sie:
     <bpmn2:sequenceFlow id="SequenceFlow_43" sourceRef="Task_1" targetRef="IntermediateCatchEvent_1"/>
     <bpmn2:sequenceFlow id="SequenceFlow_48" sourceRef="IntermediateCatchEvent_1" targetRef="Task_2"/>
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_19" imixs:activityid="10" name="Speichern">
+      <bpmn2:extensionElements>
+        <imixs:item name="rtfresultlog" type="CDATA">
+          <imixs:value><![CDATA[Aktualisiert von <username>$editor</username>.]]></imixs:value>
+        </imixs:item>
+      </bpmn2:extensionElements>
       <bpmn2:outgoing>SequenceFlow_49</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_49" sourceRef="IntermediateCatchEvent_19" targetRef="Task_2"/>
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_2" imixs:activityid="10" name="Speichern">
+      <bpmn2:extensionElements>
+        <imixs:item name="rtfresultlog" type="CDATA">
+          <imixs:value><![CDATA[Aktualisiert von <username>$editor</username>.]]></imixs:value>
+        </imixs:item>
+      </bpmn2:extensionElements>
       <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_1" sourceRef="IntermediateCatchEvent_2" targetRef="Task_1"/>
