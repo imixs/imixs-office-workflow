@@ -177,18 +177,20 @@
 		<!-- END content -->
 
 		<!-- footer -->
-		<div id="footer">
-			<div id="footer1">
-				<ui:insert name="extra">
-					<ui:include src="/layout/extra.xhtml" />
-				</ui:insert>
+		<ui:insert name="footer">
+			<div id="footer">
+				<div id="footer1">
+					<ui:insert name="extra">
+						<ui:include src="/layout/extra.xhtml" />
+					</ui:insert>
+				</div>
+				<div id="footer2">
+					<ui:insert name="footer">
+						<ui:include src="/layout/footer.xhtml" />
+					</ui:insert>
+				</div>
 			</div>
-			<div id="footer2">
-				<ui:insert name="footer">
-					<ui:include src="/layout/footer.xhtml" />
-				</ui:insert>
-			</div>
-		</div>
+		</ui:insert>
 		<!-- END footer -->
 
 		<div class="imixs-wait">

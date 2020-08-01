@@ -4,42 +4,18 @@
  */
  
 .imixs-workitem {
+	position: relative;
 	 /* Use flexbox */
   	display: flex;
-  	flex-wrap: wrap;
-	flex-direction: row;
 }
 
 
-.imixs-workitem-form {
-	width: 66.666%;
-}
-.imixs-workitem-chronicle {
-	width: calc(33.333% - 20px);
-	height: 100%;
-
-	display: flex;
-	flex-wrap: nowrap;
-	flex-direction: column;
-	justify-content: space-between;
-
-	position: fixed;
-	right: 20px;
-	bottom: 0;
-	padding: 100px 10px 0;
-	
-	
-	transition: 0.3s;
-}
-
-
-/*
 .imixs-workitem-form, .imixs-workitem-chronicle {
   box-sizing: border-box;
 }
-*/
 
 .imixs-workitem-form .imixs-form, .imixs-workitem-form .imixs-document {
+  float:left;
   width: 100%;
   border-right: 1px solid #e0e4e7;
 }
@@ -62,33 +38,33 @@
     margin-bottom: 0.3em;
 }
 
-.imixs-workitem-chronicle-actions {
-	
+.imixs-workitem-form {
+	width: 66.666%;
 }
-
-.imixs-workitem-chronicle-tabs {
-	
-}
-
-.imixs-workitem-chronicle-content {
-	width: calc(100% - 30px);
-	min-height: 100px;
-	overflow: auto;
-	flex: 1;
+.imixs-workitem-chronicle {
+	height: 100%; /* 100% Full-height */
+	width: calc(33.333% - 20px);
+	padding: 0 10px;
+	position: absolute; 
+	top: 0;
+	right: 0;
+	overflow-y: auto;
+	overflow-x: hidden; /* Disable horizontal scroll */
+	transition: 0.3s;
 	scrollbar-width: thin;
-	margin-bottom:20px;
 }
 
 
 .imixs-slider {
   width: 16px;
   padding: 0;
+  position: relative;
 }
 
 .imixs-slider-nav {
   margin: 0;
   padding: 6px 0;
-  position: relative;
+  position: absolute;
   top: 33%;
   -ms-transform: translateY(-33%);
   transform: translateY(-33%);
@@ -127,12 +103,10 @@
 }
 
 .imixs-document .document-nav {
-	
 	cursor: pointer;
 	float: right;
 	margin-left: 20px;
 	color: #428bca;
-	
 }
 
 
@@ -150,7 +124,7 @@
 }
 
 
-/*
+
 .imixs-workitem-chronicle .nav {
 	padding-top: 20px;
 }
@@ -172,24 +146,28 @@
 .imixs-workitem-chronicle .nav ul li .typcn {
 	cursor: pointer;
 }
-*/
 
-.imixs-workitem-chronicle-content h1 {
+.imixs-workitem-chronicle .content {
+	float:left;
+	width: calc(100% - 30px)
+}
+
+.imixs-workitem-chronicle .content h1 {
 	font-size: 2em;
 }
 
-.imixs-workitem-chronicle-content h2 {
+.imixs-workitem-chronicle .content h2 {
 	color: #333;
 	font-size: 24px;
 }
 
-.imixs-workitem-chronicle-content h3 {
+.imixs-workitem-chronicle .content h3 {
 	color: #333;
 	font-size: 18px;
 	margin: 0;
 }
 
-.imixs-workitem-chronicle-content table {
+.imixs-workitem-chronicle .content table {
 	border: none;
 	width: 100%;
 }
@@ -230,9 +208,7 @@
 
 
 .imixs-workitem-chronicle .filter {
-	position: absolute;
-	right:0;
-	padding-right:10px;
+	float:right;
 }
 
 
