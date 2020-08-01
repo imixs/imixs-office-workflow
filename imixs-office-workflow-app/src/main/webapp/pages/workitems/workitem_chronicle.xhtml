@@ -17,21 +17,20 @@
 	</div>
 
 
-	<div class="imixs-workitem-chronicle-tabs imixs-tabs embedded">
+	<div class="imixs-workitem-chronicle-tabs">
 		<ul>
-			<li><a href="#tab-1" class="chronicle-tab-history"><span class="typcn typcn-rss"></span> Historie</a></li>
-			<li><a href="#tab-2" class="chronicle-tab-documents"><span class="typcn typcn-cloud-storage-outline"></span> Dokumente</a></li>
+			<li class="active"><a href="#" onclick="toggleChronicleHistory();return false;" class="chronicle-tab-history"><span class="typcn typcn-rss"></span> Historie</a></li>
+			<li><a href="#" onclick="toggleChronicleDocuments();return false;" class="chronicle-tab-documents"><span class="typcn typcn-cloud-storage-outline"></span> Dokumente</a></li>
 		</ul>
-    
 	</div>
 
 	<div class="imixs-workitem-chronicle-content">
 	
-		<div id="tab-1" class="entries">
+		<div id="imixs-workitem-chronicle-tab-history" class="entries">
 			<ui:include src="/pages/workitems/workitem_chronicle_entries.xhtml" />
 		</div>
 
-		<div id="tab-2" class="documents" style="display:none;">
+		<div id="imixs-workitem-chronicle-tab-documents" class="documents" style="display:none;">
 			<ui:include src="/pages/workitems/workitem_documents.xhtml" />
 		</div>
 	</div>
