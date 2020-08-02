@@ -8,13 +8,13 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 	<!-- History Nav -->
-	<div id="imixs-historynav">
-		<h:form>
+	<h:form>
+		<div id="imixs-historynav">
 			<ui:repeat value="#{historyController.workitems}" var="workitem">
 				<ui:include src="history_entry.xhtml">
 					<ui:param name="workitem" value="#{workitem}" />
 				</ui:include>
 			</ui:repeat>
-		</h:form>
-	</div>
+		</div>
+	</h:form>
 </ui:composition>

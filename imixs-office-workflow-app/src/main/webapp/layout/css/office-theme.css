@@ -16,21 +16,6 @@ body.loading .imixs-wait {
 	color: #ccc;
 }
 
-/*
-.ui-icon, .ui-widget-content .ui-icon, .ui-icon, .ui-widget-content:hover .ui-icon {
-    background-image: url("./ui-icons_fff_256x240.png");
-}
-*/
-
-
-/*
-.ui-button, a.ui-button,.ui-button:hover, a.ui-button:hover {
-	font-weight: bold;
-	border: 1px solid #206B87;
-	background: #206B87;
-	color: #FFF;
-}
-*/
 
 button:hover, input[type="button"]:hover, input[type="submit"]:hover, .button:hover, a.button:hover {
 	font-weight: 700;
@@ -141,22 +126,31 @@ dl dt input[type="text"]:hover {
 	padding: 5px;
 }
 
+/*************
+ Base Layout 
+ *************/
+
 #header {
-	margin: 0 auto;
+	position: fixed;
+	top: 0;
+	z-index: 1;
+	xmargin: 0 auto;
 	background: none;
-	display: block;
-	xfont-size: 1em;
+	xdisplay: block;
 	padding: 0;
+	xmin-height: 50px;
+	
+	
 }
 
 #container {
-	margin: 0 auto;
+	margin-top: 100px;
 	max-width: none;
 }
 
 #imixs-header {
-	margin-top: 46px;
-	min-height: 60px;
+	ymargin-top: 46px;
+	ymin-height: 10px;
 }
 
 #imixs-branding {
@@ -204,10 +198,10 @@ dl dt input[type="text"]:hover {
 
 
 #imixs-servicenav {
-	position: fixed;
-	top: 0;
+	xposition: fixed;
+	xtop: 0;
 	height: 46px;
-	z-index: 5;
+	xz-index: 5;
 	width: 100%;
 	padding: 5px;
 	color: #FFF;
@@ -237,6 +231,12 @@ dl dt input[type="text"]:hover {
 
 #imixs-historynav {
 	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+    overflow: auto;
+    scrollbar-width: thin;
+	height: 60px;
+	background-color: #fff;
 }
 
 #process-menu {
@@ -332,8 +332,10 @@ dl dt input[type="text"]:hover {
 	border-radius: 4px;
 }
 
-.imixs-historyentry {
-	float: left;
+.imixs-historyentry {	
+	display: flex;
+	overflow: hidden;
+	min-width: 280px;
 	background-color: #f4f4f4;
     color:#666;
 	padding: 5px;
@@ -377,13 +379,14 @@ dl dt input[type="text"]:hover {
 
 
 
-
+/*
 
 .imixs-historyentry-action {
-	float: left;
-	padding-right: 15px;
-}
+	xfloat: left;	
+	xpadding-right: 15px;
 
+}
+*/
 .imixs-historyentry .image-block {
 	min-height: 10px;
 }
@@ -391,7 +394,7 @@ dl dt input[type="text"]:hover {
 
 .imixs-historyentry .close {
 	font-size: 1.3rem;
-	float: right;
+	xfloat: right;
 }
 
 
@@ -1687,12 +1690,7 @@ input:disabled.imixs-date {
 	.imixs-portlet:nth-child(2n+1) {
 		clear: left;
 	}
-	.imixs-historyentry {
-		
-	}
-	.imixs-historyentry-action {
-		width: 80%;
-	}
+	
 	.imixs-form, .imixs-view {
 		font-size: 1.1em;
 	}

@@ -5,10 +5,10 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
-	<!-- Header depends on history mode -->
+	<!-- Header depends on authentication -->
 	<c:choose>
 		<c:when
-			test="#{(!loginController.authenticated) or (empty historyController.workitems)}">
+			test="#{(!loginController.authenticated)}">
 			<div id="imixs-branding">
 				<div id="imixs-branding-text">#{app.application_title} <span style="color:red;">#{propertyController.getProperty('application.mode')}</span></div>
 			</div>

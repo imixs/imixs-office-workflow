@@ -7,14 +7,14 @@
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
-	<ui:param name="isactive" value="#{historyController.currentId eq workitem.item['$uniqueID']}"></ui:param>
-	<div
-		class="imixs-historyentry #{isactive ? 'active' : ''}">
-
-
-		<div class="imixs-historyentry-action"  onclick="window.location=$('.content-block a',this).first().attr('href'); ">
+	<ui:param name="isactive"
+		value="#{historyController.currentId eq workitem.item['$uniqueID']}"></ui:param>
+	
+	<div class="imixs-historyentry #{isactive ? 'active' : ''}"
+	     onclick="window.location=$('.content-block a',this).first().attr('href'); ">
+	
 			<!-- *** Image *** -->
-			<div class="image-block">
+			<div class="" style="width:50px;">
 				<ui:include src="/layout/workitem_icon.xhtml">
 					<ui:param name="workitem" value="#{workitem}" />
 					<ui:param name="hidetooltip" value="#{isactive}" />
@@ -24,9 +24,8 @@
 
 
 			<!-- *** Standard Info *** -->
-			<div class="content-block">
-				<span>
-					<h:link outcome="/pages/workitems/workitem">
+			<div class="">
+				<span> <h:link outcome="/pages/workitems/workitem">
 						<!-- summary empty ? -->
 						<h:panelGroup
 							rendered="#{empty workitem.item['$WorkflowSummary']}">
@@ -41,27 +40,24 @@
 						<f:param name="id" value="#{workitem.item['$uniqueid']}" />
 					</h:link>
 
-				</span>
-				<br />
+				</span> <br />
 				<!-- Status -->
 				<h:outputText value="#{workitem.item['$workflowgroup']} » " />
 				<h:outputText value="#{workitem.item['$workflowstatus']}" />
 
 			</div>
 
-
+			<!-- *** close action *** -->
+			<div>
+				<h:commandLink styleClass="close"
+					action="#{historyController.removeWorkitem(workitem.item['$uniqueID'])}">
+					<span class="typcn typcn-times-outline"></span>
+				</h:commandLink>
+			</div>
 
 		</div>
-		<div style="float: right;">
-			<h:commandLink styleClass="close"
-				action="#{historyController.removeWorkitem(workitem.item['$uniqueID'])}">
-				<span class="typcn typcn-times-outline"></span>
-			</h:commandLink>
-		</div>
 
 
-
-	</div>
 
 
 </ui:composition>
