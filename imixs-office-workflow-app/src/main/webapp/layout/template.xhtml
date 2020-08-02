@@ -95,6 +95,15 @@
 		value="&lt;!--[if IE 10]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
 		escape="false" />
 		
+	<!-- The Top-Margin form the content container depends on the HistoryNav panel. If not history entries are displayed the 
+		top margin is reduced -->
+	<ui:fragment rendered="#{(loginController.authenticated) and (!empty historyController.workitems)}">
+		<style>
+			#container {
+				margin-top: 100px;
+			}
+		</style>
+	</ui:fragment>
 
 	<!-- *** SCRIPTS *** -->
 

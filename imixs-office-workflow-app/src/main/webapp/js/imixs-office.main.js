@@ -262,14 +262,18 @@ IMIXS.com.imixs.workflow.office = (function() {
 				$("span.imixs-tooltip",document).layoutImixsTooltip();
 			}
 		}
+	},
+	
+	// redirect to a given workitem uid
+	openWorkitemByID = function(uid) {
+		document.location.href="/pages/workitems/workitem.xhtml?id="+uid;
 	};
-	
-	
 
 	// public API
 	return {
 		layoutAjaxEvent : layoutAjaxEvent,
 		initLayout : initLayout,
+		openWorkitemByID : openWorkitemByID,
 		layoutOfficeEditor : layoutOfficeEditor
 	};
 

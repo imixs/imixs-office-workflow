@@ -1,22 +1,18 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 	<!-- Header depends on authentication -->
-	<c:choose>
-		<c:when
-			test="#{(!loginController.authenticated)}">
-			<div id="imixs-branding">
-				<div id="imixs-branding-text">#{app.application_title} <span style="color:red;">#{propertyController.getProperty('application.mode')}</span></div>
-			</div>
-		</c:when>
-		<c:otherwise>
-			<ui:include src="/layout/historynav.xhtml" />
-		</c:otherwise>
-	</c:choose>
+	<ui:fragment rendered="#{(!loginController.authenticated)}">
+		<div id="imixs-branding">
+			<div id="imixs-branding-text">#{app.application_title} <span style="color:red;">#{propertyController.getProperty('application.mode')}</span></div>
+		</div>
+	</ui:fragment>
+
+	<ui:fragment rendered="#{(loginController.authenticated) and (!empty historyController.workitems)}">
+		<ui:include src="/layout/historynav.xhtml" />
+	</ui:fragment>
 </ui:composition>
 
 

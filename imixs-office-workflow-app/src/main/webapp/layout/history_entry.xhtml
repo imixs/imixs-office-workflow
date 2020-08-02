@@ -10,22 +10,21 @@
 	<ui:param name="isactive"
 		value="#{historyController.currentId eq workitem.item['$uniqueID']}"></ui:param>
 	
-	<div class="imixs-historyentry #{isactive ? 'active' : ''}"
-	     onclick="window.location=$('.content-block a',this).first().attr('href'); ">
+		<div class="imixs-historyentry #{isactive ? 'active' : ''}"  >
 	
 			<!-- *** Image *** -->
 			<div class="" style="width:50px;">
 				<ui:include src="/layout/workitem_icon.xhtml">
 					<ui:param name="workitem" value="#{workitem}" />
 					<ui:param name="hidetooltip" value="#{isactive}" />
-					<ui:param name="showlink" value="#{false}" />
+					<ui:param name="showlink" value="#{true}" />
 				</ui:include>
 			</div>
 
 
 			<!-- *** Standard Info *** -->
-			<div class="">
-				<span> <h:link outcome="/pages/workitems/workitem">
+			<div class="" onclick="imixsOfficeWorkflow.openWorkitemByID('#{workitem.item['$uniqueID']}');">
+				<span> 
 						<!-- summary empty ? -->
 						<h:panelGroup
 							rendered="#{empty workitem.item['$WorkflowSummary']}">
@@ -37,14 +36,10 @@
 						</h:panelGroup>
 						<h:outputText escape="false"
 							value="#{workitem.item['$WorkflowSummary']}" />
-						<f:param name="id" value="#{workitem.item['$uniqueid']}" />
-					</h:link>
-
 				</span> <br />
 				<!-- Status -->
 				<h:outputText value="#{workitem.item['$workflowgroup']} » " />
 				<h:outputText value="#{workitem.item['$workflowstatus']}" />
-
 			</div>
 
 			<!-- *** close action *** -->

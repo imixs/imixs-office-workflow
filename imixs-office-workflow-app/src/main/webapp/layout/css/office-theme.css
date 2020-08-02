@@ -144,7 +144,7 @@ dl dt input[type="text"]:hover {
 }
 
 #container {
-	margin-top: 100px;
+	margin-top: 50px;
 	max-width: none;
 }
 
@@ -196,12 +196,8 @@ dl dt input[type="text"]:hover {
 }
 
 
-
 #imixs-servicenav {
-	xposition: fixed;
-	xtop: 0;
 	height: 46px;
-	xz-index: 5;
 	width: 100%;
 	padding: 5px;
 	color: #FFF;
@@ -341,9 +337,14 @@ dl dt input[type="text"]:hover {
 	padding: 5px;
 	line-height: 1.4em;
 	font-size: 0.8rem;
-	border-bottom: 2px solid #fff;
+	border-bottom: 2px solid #f4f4f4;
 }
 
+.imixs-historyentry-fill {
+	flex: 1;
+	border-bottom: 2px solid #f4f4f4;
+}
+	
 .imixs-historyentry:hover {
 	background-color: #f4f4f4;
 	border-bottom:2px solid #428bca;
@@ -366,10 +367,11 @@ dl dt input[type="text"]:hover {
 	color: #888;
 }
 
+/* 145267  faa732 */
 .imixs-historyentry.active {
     background-color: #fefefe;
     border-bottom:2px solid #145267;
-    color: #333;
+    color: #2a6496;;
 }
 
 
@@ -1231,9 +1233,7 @@ dl dd  .imixs-datetime-picker select {
 	margin: 5px 0;
 }
 
-.marty-workitemlink-referencebox-entry a {
 
-}
 
 .marty-workitemlink-entry-link {
 	font-weight: bold;
@@ -1280,17 +1280,20 @@ dl dd  .imixs-datetime-picker select {
 }
 
 .imixs-typicon {
-	position: absolute;
+	position: relative;
 	color: #666;
 	font-size: 32px;
 	line-height: 1em;
 }
 
+/*
 .imixs-typicon-link {
+	position: relative;
 	width: 32px;
 	height: 32px;
 	float: left;
 }
+*/
 
 .imixs-favorite {
 	position: absolute;
@@ -1325,57 +1328,69 @@ dl dd  .imixs-datetime-picker select {
 	position: absolute;
 	font-size: 16px;
 	line-height: 1em;
-	-webkit-border-radius: 10px;
-	-khtml-border-radius: 10px;
-	-moz-border-radius: 10px;
+	x-webkit-border-radius: 10px;
+	x-khtml-border-radius: 10px;
+	x-moz-border-radius: 10px;
 	border-radius: 10px;
-	border: 0px;
+	border: none;
 	padding: 1px;
+	width: 17px;
+	height: 17px;
 }
 
 .icon-sub-ne {
-	top: -6px;
-	right: -6px;
-}
-
-.icon-sub-ne.imixs-default, .icon-sub-ne.imixs-info, .icon-sub-ne.imixs-success,
-	.icon-sub-ne.imixs-warning, .icon-sub-ne.imixs-error {
-	top: -4px;
+	top: 4px;
 	right: -4px;
 }
 
 .icon-sub-se {
-	right: -6px;
-	bottom: -6px;
-}
-
-.icon-sub-se.imixs-default, .icon-sub-se.imixs-info, .icon-sub-se.imixs-success,
-	.icon-sub-se.imixs-warning, .icon-sub-se.imixs-error {
-	right: -4px;
 	bottom: -4px;
+	right: -4px;
 }
 
 .icon-sub-sw {
-	bottom: -6px;
-	left: -6px;
-}
-
-.icon-sub-sw.imixs-default, .icon-sub-sw.imixs-info, .icon-sub-sw.imixs-success,
-	.icon-sub-sw.imixs-warning, .icon-sub-sw.imixs-error {
 	bottom: -4px;
 	left: -4px;
 }
 
 .icon-sub-nw {
-	top: -6px;
-	left: -6px;
+	top: 4px;
+	left: -4px;
 }
+
+
+/*
+.icon-sub-ne.imixs-default, .icon-sub-ne.imixs-info, .icon-sub-ne.imixs-success,
+	.icon-sub-ne.imixs-warning, .icon-sub-ne.imixs-error {
+	top: 4px;
+	right: 4px;
+}
+*/
+
+/*
+.icon-sub-se.imixs-default, .icon-sub-se.imixs-info, .icon-sub-se.imixs-success,
+	.icon-sub-se.imixs-warning, .icon-sub-se.imixs-error {
+	bottom: 4px;
+	right: 4px;
+}
+*/
+
+
+/*
+.icon-sub-sw.imixs-default, .icon-sub-sw.imixs-info, .icon-sub-sw.imixs-success,
+	.icon-sub-sw.imixs-warning, .icon-sub-sw.imixs-error {
+	bottom: 4px;
+	left: 4px;
+}
+
+
 
 .icon-sub-nw.imixs-default, .icon-sub-nw.imixs-info, .icon-sub-nw.imixs-success,
 	.icon-sub-nw.imixs-warning, .icon-sub-nw.imixs-error {
-	top: -4px;
-	left: -4px;
+	top: 4px;
+	left: 4px;
 }
+*/
 
 .icon-sub.imixs-default {
 	font-size: 14px;
