@@ -21,15 +21,15 @@
 
 		<script type="text/javascript">
 			/*<![CDATA[*/
-
+		
 			// set workitem uid
-			imixsOfficeWorkflow.workitem_uid = "#{workflowController.workitem.uniqueID}";
-			imixsOfficeWorkflow.workitem_model = "#{workflowController.workitem.modelVersion}";
-			imixsOfficeWorkflow.document_preview = #{propertyController.getProperty('feature.document.preview','true')};
+			imixsOfficeMain.workitem_uid = "#{workflowController.workitem.uniqueID}";
+			imixsOfficeMain.workitem_model = "#{workflowController.workitem.modelVersion}";
+			imixsOfficeMain.document_preview = #{propertyController.getProperty('feature.document.preview','true')};
 
 			// Redirect if no workitem model version is defined
-			if (!imixsOfficeWorkflow.workitem_model) {
-				document.location = imixsOfficeWorkflow.contextPath
+			if (!imixsOfficeMain.workitem_model) {
+				document.location = imixsOfficeMain.contextPath
 						+ "/pages/notes.jsf";
 			}
 
@@ -73,8 +73,8 @@
 								<span class="document-nav pull-right"> <a href="#"
 									    class="document-deeplink" target="_docwindow"><span
 										class="typcn typcn-arrow-maximise"></span></a>
-									<span onclick="minimizeDocumentPreview()" class="typcn typcn-chevron-right-outline"></span>
-									<span onclick="closeDocumentPreview()" class="typcn typcn-times-outline"></span>
+									<span onclick="imixsOfficeWorkitem.minimizeDocumentPreview()" class="typcn typcn-chevron-right-outline"></span>
+									<span onclick="imixsOfficeWorkitem.closeDocumentPreview()" class="typcn typcn-times-outline"></span>
 								</span>
 							</h1>
 							<!-- document preview -->
@@ -87,8 +87,8 @@
 					
 					<div class="imixs-slider">
 						<div class="imixs-slider-nav">
-							<span onclick="expandChronicle()" class="typcn typcn-media-play-reverse expand"></span>
-							<span onclick="shrinkChronicle()" class="typcn typcn-media-play shrink"></span>
+							<span onclick="imixsOfficeWorkitem.expandChronicle()" class="typcn typcn-media-play-reverse expand"></span>
+							<span onclick="imixsOfficeWorkitem.shrinkChronicle()" class="typcn typcn-media-play shrink"></span>
 						</div>
 					</div>
 

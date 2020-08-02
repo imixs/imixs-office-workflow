@@ -21,7 +21,7 @@
 		/*<![CDATA[*/
 
 			// set ml status
-			imixsOfficeWorkflow.ml_json = #{mlController.getJSON()};
+			imixsOfficeMain.ml_json = #{mlController.getJSON()};
 
 		/*]]>*/
 	</script>
@@ -33,7 +33,7 @@
 			
 			https://dzone.com/articles/execute-a-jsf-ajax-request-by-just-a-function-call
 		 -->
-   		<h:commandScript name="imixsOfficeWorkflow.mlSearch" action="#{mlController.search('_bic')}" rendered="#{mlController!=null}" render=":ml-results" />
+   		<h:commandScript name="imixsOfficeMain.mlSearch" action="#{mlController.search('_bic')}" rendered="#{mlController!=null}" render=":ml-results" />
 		<h:panelGroup id="ml-results">
 		
 		
@@ -70,7 +70,7 @@
 							
 		</h:panelGroup>
 				
-				<input type="button" value="click" onclick="alert('go');imixsOfficeWorkflow.mlSearch('_bic')" />
+				<input type="button" value="click" onclick="alert('go');imixsOfficeMain.mlSearch('_bic')" />
 		<h1>ml.status=#{workitem.item['ml.status']}</h1>
 		
 		

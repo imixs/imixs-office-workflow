@@ -11,20 +11,15 @@ IMIXS.namespace("com.imixs.workflow.office");
  *  - init tinyMCE
  *  - set calender week start
  *  - search nav input
- *   
- * @returns
  */
 $(document).ready(function() {
 	
-	
 	// init layout
-	imixsOfficeWorkflow.initLayout();
-	
-
-	imixsOfficeWorkflow.layoutOfficeEditor();
+	imixsOfficeMain.initLayout();
+	imixsOfficeMain.layoutOfficeEditor();
 	
 	// customize datePicker....show calendar week
-	$('.imixs-date').datepicker('option', 'showWeek', imixsOfficeWorkflow.imixs_date_showWeek);
+	$('.imixs-date').datepicker('option', 'showWeek', imixsOfficeMain.imixs_date_showWeek);
 	
 	// hit enter on nav search box trigers search link..
 	$("[data-id='nav_input_phrase']").keydown(function(e){
@@ -35,9 +30,6 @@ $(document).ready(function() {
 	});
 	
 });
-
-
-
 
 
 
@@ -196,12 +188,12 @@ IMIXS.com.imixs.workflow.office = (function() {
 				paste_data_images: true,
 				paste_preprocess : function(pl, o) {
 				    if (o.content.length>160000) {
-				 		alert(imixsOfficeWorkflow.error_message_mce_image_size);
+				 		alert(imixsOfficeMain.error_message_mce_image_size);
 				 		o.content="";
 				    }
 				},
 			  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat',
-			  content_css : imixsOfficeWorkflow.contextPath+"/layout/css/tinymce.css"
+			  content_css : imixsOfficeMain.contextPath+"/layout/css/tinymce.css"
 			});
 		
 		// layout tinymce for basic
@@ -216,12 +208,12 @@ IMIXS.com.imixs.workflow.office = (function() {
 				paste_data_images: true,
 				paste_preprocess : function(pl, o) {
 				    if (o.content.length>160000) {
-				    	alert(imixsOfficeWorkflow.error_message_mce_image_size);
+				    	alert(imixsOfficeMain.error_message_mce_image_size);
 				 		o.content="";
 				    }
 				},
 				toolbar : 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat code',
-				content_css : imixsOfficeWorkflow.contextPath+"/layout/css/tinymce.css"
+				content_css : imixsOfficeMain.contextPath+"/layout/css/tinymce.css"
 
 			});
 	},
@@ -279,5 +271,6 @@ IMIXS.com.imixs.workflow.office = (function() {
 
 }());
 
-
+// Define public namespace
+var imixsOfficeMain = IMIXS.com.imixs.workflow.office;
 

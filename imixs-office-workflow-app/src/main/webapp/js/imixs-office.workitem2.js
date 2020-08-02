@@ -9,27 +9,7 @@ var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
 var documentPreview;			// active document preview 
 var documentPreviewIframe;  	// active iFrame
 var isWorkitemLoading=true; 	// indicates if the workitem is still loading
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+var chornicleSize=1;			// default cronicle size (33%)
 
 /**
  * Init Method for the workitem page
@@ -40,80 +20,6 @@ var isWorkitemLoading=true; 	// indicates if the workitem is still loading
 $(document).ready(function() {
 	
 	
-	
-	
-	
-	
-	
-
-
-var handler = document.querySelector('.imixs-slider');
-var wrapper = handler.closest('.imixs-workitem');
-var boxA = wrapper.querySelector('.imixs-workitem-form');
-var isHandlerDragging = false;
-
-document.addEventListener('mousedown', function(e) {
-  // If mousedown event is fired from .handler, toggle flag to true
-  if (e.target === handler) {
-    isHandlerDragging = true;
-  }
-});
-
-document.addEventListener('mousemove', function(e) {
-  // Don't do anything if dragging flag is false
-  if (!isHandlerDragging) {
-    return false;
-  }
-
-  // Get offset
-  var containerOffsetLeft = wrapper.offsetLeft;
-
-  // Get x-coordinate of pointer relative to container
-  var pointerRelativeXpos = e.clientX - containerOffsetLeft;
-  
-  // Arbitrary minimum width set on box A, otherwise its inner content will collapse to width of 0
-  var boxAminWidth = 60;
-
-  // Resize box A
-  // * 8px is the left/right spacing between .handler and its inner pseudo-element
-  // * Set flex-grow to 0 to prevent it from growing
-  boxA.style.width = (Math.max(boxAminWidth, pointerRelativeXpos - 8)) + 'px';
-  boxA.style.flexGrow = 0;
-});
-
-document.addEventListener('mouseup', function(e) {
-  // Turn off dragging flag when user mouse is up
-  isHandlerDragging = false;
-});
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	$('.imixs-subnav a').button({
-		icons : {
-			secondary : "ui-icon-plus"
-		},
-		text : true
-	});
-	
-	printWorkitemReferences();
-	
 	// get chronicle status from cookie
 	var c_value = document.cookie;
 	imixsOfficeWorkflow.imixs_document=true; // default
@@ -123,6 +29,14 @@ document.addEventListener('mouseup', function(e) {
 	}
 	imixsOfficeWorkflow.imixs_chronicle_comments=true;
 	imixsOfficeWorkflow.imixs_chronicle_nav=JSON.parse('{ "comment" : true, "files":true, "version":true, "reference":true }'); 
+	
+	chornicleSize=readCookie('imixs.office.document.chronicle');
+	if (!chornicleSize || chornicleSize=="") {
+		chornicleSize=1;
+	}
+	
+	$('.imixs-workitem-chronicle').css('transition','0.0s');
+	updateChronicleWidth();
 	
 	
 	// init...
@@ -164,7 +78,16 @@ document.addEventListener('mouseup', function(e) {
 	isWorkitemLoading=false;
 });
 
-
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
 /*
  * This method loads the first pdf and starts a autopreview
  */
@@ -239,8 +162,9 @@ function closeDocumentPreview() {
  * the document in the minimized preview on the documents tab
  */
 function minimizeDocumentPreview() {
-	$('.imixs-workitem-form').css('width','calc(66.6666% - 0px)');
-	$('.imixs-document').hide();
+	$('.imixs-workitem-form .imixs-form').removeClass('split');
+	$('.imixs-workitem-form .imixs-document').removeClass('split');
+	$('.imixs-workitem-form .imixs-document').hide();
 	$('.imixs-workitem-document-embedded').show();
 
 	// set preview cookie
@@ -266,7 +190,8 @@ function minimizeDocumentPreview() {
  * The method shows the document preiview window
  */
 function maximizeDocumentPreview() {
-	$('.imixs-workitem-form').css('width','calc(33.333% - 0px)');
+	$('.imixs-workitem-form .imixs-form').addClass('split');
+	$('.imixs-workitem-form .imixs-document').addClass('split');
 	$('.imixs-document').show();
 	$('.imixs-workitem-document-embedded').hide();
 	
@@ -285,6 +210,60 @@ function maximizeDocumentPreview() {
 	
 }
 
+
+/*
+ * reduce the with of the chronicle
+ */
+function expandChronicle() {
+	if (chornicleSize<2) {
+		chornicleSize++;
+	}
+	document.cookie = "imixs.office.document.chronicle=" + chornicleSize + "; path=/";	
+	$('.imixs-workitem-chronicle').css('transition','0.3s');
+	updateChronicleWidth();
+}
+
+/*
+ * increase the with of the chronicle
+ */
+function shrinkChronicle() {
+	if (chornicleSize>0) {
+		chornicleSize--;
+	}
+	document.cookie = "imixs.office.document.chronicle=" + chornicleSize + "; path=/";	
+	$('.imixs-workitem-chronicle').css('transition','0.3s');
+	updateChronicleWidth();
+}
+	
+/*
+ * updates the screen size of the chronical frame
+ */	
+function updateChronicleWidth() {	
+	
+	if (chornicleSize==2) {
+		$('.imixs-workitem-form').css('width','58.3333%');
+		$('.imixs-workitem-chronicle').css('width','calc(41.6666% - 30px)');
+		$('.imixs-slider-nav .expand').removeClass('typcn-media-play-reverse');
+		$('.imixs-slider-nav .expand').addClass('typcn-media-play-reverse-outline');
+		return;
+	}
+	if (chornicleSize==1) {
+		$('.imixs-workitem-form').css('width','66.6666%');
+		$('.imixs-workitem-chronicle').css('width','calc(33.3333% - 30px)');
+		$('.imixs-slider-nav .expand').removeClass('typcn-media-play-reverse-outline');
+		$('.imixs-slider-nav .expand').addClass('typcn-media-play-reverse');
+		$('.imixs-slider-nav .shrink').removeClass('typcn-media-play-outline');
+		$('.imixs-slider-nav .shrink').addClass('typcn-media-play');
+		return;
+	}	
+	if (chornicleSize==0) {
+		$('.imixs-workitem-form').css('width','75%');
+		$('.imixs-workitem-chronicle').css('width','calc(25% - 30px)');
+		$('.imixs-slider-nav .shrink').removeClass('typcn-media-play');
+		$('.imixs-slider-nav .shrink').addClass('typcn-media-play-outline');
+		return;
+	}
+}
 
 
 /*
@@ -309,62 +288,27 @@ function showDocument(title, link) {
 }
 
 
-/**
- * Wokritem References - print year/month sections
- * 
+/*
+ * This method toggles into the chronicle documents view
  */
-function printWorkitemReferences() {
-	var lastDatemark = 999999;
-	var lastYear = 9999;
-	entries = $(".imixs-timeline-entry");
-	tabel = $("#timeline-table");
-	// first  we add table rows for each month.....
-	$.each(entries,function(i, val) {
-		var currentDatemark = parseInt($(
-				this).find(".datemark")
-				.text());
-
-		var currentYear = parseInt($(
-				this).find(".datemark")
-				.text().substring(0, 4));
-		var currentMonth = parseInt($(
-				this).find(".datemark")
-				.text().substring(4, 6));
-		if (currentDatemark < lastDatemark) {
-			// append new table row for each new year and new month....
-			if (currentYear < lastYear) {
-				$('#timeline-table tr:last')
-						.after(
-								"<tr class='imixs-timeline-year'><td></td><td style='text-align:center;'><h1>"
-										+ currentYear
-										+ "</h1></td><td></td></tr>");
-				lastYear = currentYear;
-			}
-			$('#timeline-table tr:last')
-					.after(
-							"<tr><td id='" + currentDatemark +"-out'></td><td style='text-align:center;'><h2>"
-									+ months[currentMonth - 1]
-									+ "</h2></td><td id='" + currentDatemark +"-in'></td></tr>");
-		}
-		lastDatemark = currentDatemark;
-	});
-
-	// now we can sort each element into the corresponding cell...
-	$.each(entries, function(i, val) {
-		var currentDatemark = parseInt($(this).find(
-				".datemark").text());
-		var newcell;
-		if ($(this).hasClass("workitemref-in"))
-			newcell = $("#" + currentDatemark + "-in",
-					tabel);
-		else
-			newcell = $("#" + currentDatemark + "-out",
-					tabel);
-		if (newcell)
-			$(newcell).append($(this));
-	});
+function toggleChronicleHistory() {
+	$('.chronicle-tab-history').parent().addClass('active');
+	$('.chronicle-tab-documents').parent().removeClass('active');
+	$('#imixs-workitem-chronicle-tab-documents').hide();
+	$('#imixs-workitem-chronicle-tab-history').show();
+	// set a right margin for history view only
+	$('.imixs-workitem-chronicle-content').css('width','calc(100% - 30px)');
 
 }
+function toggleChronicleDocuments() {
+	$('.chronicle-tab-documents').parent().addClass('active');
+	$('.chronicle-tab-history').parent().removeClass('active');
+	$('#imixs-workitem-chronicle-tab-history').hide();
+	$('#imixs-workitem-chronicle-tab-documents').show();
+	// set a right margin for history view only
+	$('.imixs-workitem-chronicle-content').css('width','calc(100% - 0px)');
+}
+
 
 function printQRCode() {
 	fenster = window

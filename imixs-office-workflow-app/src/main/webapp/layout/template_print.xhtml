@@ -120,9 +120,9 @@
 		var imixsOfficeWorkflow = IMIXS.com.imixs.workflow.office;
 
 		// define variables for office scripts loaded from resource bundles....
-		imixsOfficeWorkflow.contextPath="#{facesContext.externalContext.requestContextPath}";
-		imixsOfficeWorkflow.error_message_mce_image_size="#{message.error_message_mce_image_size}";
-		imixsOfficeWorkflow.imixs_date_showWeek=("true"==="#{app['jquey.datepicker.showWeek']}");
+		imixsOfficeMain.contextPath="#{facesContext.externalContext.requestContextPath}";
+		imixsOfficeMain.error_message_mce_image_size="#{message.error_message_mce_image_size}";
+		imixsOfficeMain.imixs_date_showWeek=("true"==="#{app['jquey.datepicker.showWeek']}");
 		
 		
 		/*]]>*/
@@ -190,10 +190,10 @@
 		var imixs = IMIXS.org.imixs.core, 
 			imixsOfficeWorkflow = IMIXS.com.imixs.workflow.office;
 
-		imixsOfficeWorkflow.contextPath="#{facesContext.externalContext.requestContextPath}";
+		imixsOfficeMain.contextPath="#{facesContext.externalContext.requestContextPath}";
 		
 		$(document).ready(function() {
-			imixsOfficeWorkflow.initLayout();
+			imixsOfficeMain.initLayout();
 			
 			/* This script replaces input fields with their values
 			 * we skip radio inputs and checkboxes.

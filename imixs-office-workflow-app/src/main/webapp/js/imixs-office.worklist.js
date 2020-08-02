@@ -11,7 +11,7 @@ IMIXS.namespace("com.imixs.workflow.office.worklist");
  */
 $(document).ready(function() {
 	// set navigation
-	document.cookie = "imixs.office.navigation=/pages/workitems/worklist.jsf;path=" + imixsOfficeWorkflow.contextPath+ "/";
+	document.cookie = "imixs.office.navigation=/pages/workitems/worklist.jsf;path=" + imixsOfficeMain.contextPath+ "/";
 	// auto focus
 	focusSearchPhrase();
 	
@@ -30,7 +30,7 @@ function focusSearchPhrase() {
 //ajax refresh...
 function updateSearchForm(data) {
 	if (data.status === 'success') {
-		imixsOfficeWorkflow.layoutAjaxEvent(data);
+		imixsOfficeMain.layoutAjaxEvent(data);
 		// auto focus
 		focusSearchPhrase();
 	}
