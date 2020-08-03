@@ -51,7 +51,7 @@
 				#{attachment.item['txtName']}</a> <h:outputText value=" (#{dmsController.userFriendlyBytes(attachment.item['size'])})" />
 				<!-- Delete function -->
 						<f:ajax render=":#{dmsListComponent.clientId}"
-							onevent="hideComments">
+							onevent="imixsOfficeWorkitem.clearDocumentPreview">
 							<h:commandLink
 								onclick="return confirm('#{message.help_delete}');"
 								styleClass="imixs-action-dms-remove" title="#{message.remove}"

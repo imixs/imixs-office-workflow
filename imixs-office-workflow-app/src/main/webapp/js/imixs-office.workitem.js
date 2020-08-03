@@ -10,8 +10,11 @@ var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
 
 var documentPreview;			// active document preview 
 var documentPreviewIframe;  	// active iFrame
+var documentPreviewURL;			// URL for current displayed document
 var isWorkitemLoading=true; 	// indicates if the workitem is still loading
 var chornicleSize=1;			// default cronicle size (33%)
+
+
 
 /**
  * Init Method for the workitem page
@@ -39,34 +42,10 @@ $(document).ready(function() {
 	// init...
 	$('.imixs-workitem-chronicle').css('transition','0.0s');
 	imixsOfficeWorkitem.updateChronicleWidth();
-	imixsOfficeWorkitem.hideComments(null);	
 	
-	// update the link action for each file
-	// we redirect the href into the iframe target
-	$("[id$='dmslist'] .file-open-link").each(
-		function(index, element) {						
-			$(this).click(function(){
-				var file_link=$(this).attr('href');
-				//updateIframe(file_link);
-				imixsOfficeWorkitem.showDocument($(this).text(),file_link);
-				// cancel link
-			    return false;
-			});
-		});
-		
-		
-	// we redirect the href from chronicle into the iframe target
-	$(".files a.attachmentlink").each(
-		function(index, element) {						
-			$(this).click(function(){
-				var file_link=$(this).attr('href');
-				//updateIframe(file_link);
-				showDocument($(this).text(),file_link);
-				// cancel link
-			    return false;
-			});
-		});
-		
+	
+	imixsOfficeWorkitem.updateAttachmentLinks();
+
 		
 	// set the default preview frame
 	documentPreviewIframe=document.getElementById('imixs_document_iframe_embedded');
@@ -77,6 +56,28 @@ $(document).ready(function() {
 	isWorkitemLoading=false;
 });
 
+/*
+ * This callback method is triggered by the imxs-faces.js file upload
+ * component. The method updates the deep links for uploaded files
+ */
+function onFileUploadChange() {
+	imixsOfficeWorkitem.updateAttachmentLinks();
+	
+	// auto preview
+		$(".imixsFileUpload_uploadlist_name a").each(
+			function(index, element) {						
+				var attachmentName=$(this).text();
+				if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {		
+					// if we have a pdf and screen is >1800 than maximize preview.
+					if (window.innerWidth>=1800 ) {
+						imixsOfficeWorkitem.maximizeDocumentPreview();
+					}
+					//$(this).click();
+					imixsOfficeWorkitem.showDocument($(this).text(),$(this).attr('href'));
+					return false;
+				}
+			});
+}
 
 
 // define core module
@@ -110,49 +111,89 @@ IMIXS.com.imixs.workflow.workitem = (function() {
 					if (window.innerWidth>=1800 ) {
 						maximizeDocumentPreview();
 					}
-					$(this).click();
+					//$(this).click();
+					showDocument($(this).text(),$(this).attr('href'));
 					return false;
 				}
-			});
+			});			
 	},
 
 
 	/*
-	 * This callback method is triggered by the imxs-faces.js file upload
-	 * component. The method updates the deep links for uploaded files
-	 */
-	onFileUploadChange = function() {
-		
-		$(".imixsFileUpload_uploaded_file a").each(
-		function(index, element) {						
-			$(this).click(function(){
-				var file_link=$(this).attr('href');
-				//updateIframe(file_link);
-				showDocument($(this).text(),file_link);
-				
-				var windowWidth = window.innerWidth;
-				if (windowWidth>=1800) {
-					maximizeDocumentPreview();
-				}
-				// cancel link
-			    return false;
+	 * This helper method updates the attachment links
+     * in the chronicle main view and in the dms list.
+     * Attachments are opend in the preview window 
+     */ 
+	updateAttachmentLinks = function() {
+		// update the link action for each file
+		// we redirect the href into the iframe target
+		$("[id$='dmslist'] .file-open-link").each(
+			function(index, element) {						
+				$(this).click(function(){
+					var file_link=$(this).attr('href');
+					//updateIframe(file_link);
+					showDocument($(this).text(),file_link);
+					// cancel link
+				    return false;
+				});
 			});
-		});
-		
-		/* autoload first pdf into preview if available.... */
-		$(".imixsFileUpload_uploaded_file a").each(
-		function(index, element) {						
-			var attachmentName=$(this).text();
-				if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {
-					$(this).click();
-					return false;
-				}
 			
-		});
+			
+		// we redirect also the href from chronicle into the iframe target
+		
+		// chronicle-main  attachmentlink
+		$("[id$='chronicle-main'] .attachmentlink").each(
+		//$(".files a.attachmentlink").each(
+			function(index, element) {						
+				$(this).click(function(){
+					var file_link=$(this).attr('href');
+					//updateIframe(file_link);
+					showDocument($(this).text(),file_link);
+					// cancel link
+				    return false;
+				});
+			});
+				
+				
+		// chronicle-main  attachmentlink
+		$(".imixsFileUpload_uploadlist_name a").each(
+			function(index, element) {						
+				$(this).click(function(){
+					var file_link=$(this).attr('href');
+					//updateIframe(file_link);
+					showDocument($(this).text(),file_link);
+					// cancel link
+				    return false;
+				});
+			});
+				
+						
+				
 	},
+	
+	
+	
 
-	hideComments = function(event) {
-		$('.dms-comment-panel').hide();
+	/*
+	 * This method clears the document preview
+     * the method is called after a remove click
+     */
+	clearDocumentPreview = function(event) {
+		
+		 if (event.status === 'success') {
+			
+			//documentPreviewIframe.src="";
+			documentPreviewIframe.contentWindow.location.replace("");
+		    documentPreviewURL="";
+			
+			updateAttachmentLinks();
+
+		
+		
+			// autoload first pdf into preview if available.... 
+			autoPreviewPDF();
+		
+		}
 	},
 
 	/*
@@ -180,12 +221,16 @@ IMIXS.com.imixs.workflow.workitem = (function() {
 		documentPreview=$('.imixs-workitem-document-embedded');
 	
 		// update iframe
-		var currentURL="";
-		if (documentPreviewIframe) {
-			currentURL=documentPreviewIframe.src;
-		}
+		//var documentPreviewURL="";
+		/*if (documentPreviewIframe) {
+			//currentURL=documentPreviewIframe.src;
+			
+			documentPreviewURL=documentPreviewIframe.contentWindow.location;
+		}*/
 		documentPreviewIframe=document.getElementById('imixs_document_iframe_embedded');
-		documentPreviewIframe.src=currentURL;
+		//documentPreviewIframe.src=currentURL;
+		documentPreviewIframe.contentWindow.location.replace(documentPreviewURL);
+		
 		
 		if (!isWorkitemLoading) {
 			$(".chronicle-tab-documents").click();
@@ -208,12 +253,14 @@ IMIXS.com.imixs.workflow.workitem = (function() {
 		documentPreview=$('.imixs-document');
 		
 		// update iframe
-		var currentURL="";
+		/*var documentPreviewURL="";
 		if (documentPreviewIframe) {
-			currentURL=documentPreviewIframe.src;
-		}
+			//currentURL=documentPreviewIframe.src;
+			documentPreviewURL=documentPreviewIframe.contentWindow.location.href;
+		}*/
 		documentPreviewIframe=document.getElementById('imixs_document_iframe');
-		documentPreviewIframe.src=currentURL;
+		//documentPreviewIframe.src=currentURL;
+		documentPreviewIframe.contentWindow.location.replace(documentPreviewURL);
 		
 		
 	},
@@ -279,19 +326,24 @@ IMIXS.com.imixs.workflow.workitem = (function() {
 	 * and displays the document title.
 	 
 	 */
-	showDocument=function (title, link) {
+	showDocument=function (title, link) {		
 		// cut title if length >64 chars
 		if (title.length>64) {
 			title=title.substring(0,64)+"...";
 		}
 		$('.document-title',documentPreview).text(title);
-		documentPreviewIframe.src=link;
+		//documentPreviewIframe.src=link;
+		documentPreviewURL=link;
+		documentPreviewIframe.contentWindow.location.replace(documentPreviewURL);
+		
+		
 		// update deeplink
-		$('.document-deeplink').attr('href',link);	
+		$('.document-deeplink').attr('href',documentPreviewURL);	
 		
 		// activate preview if minimized!
 		if (!isWorkitemLoading && documentPreviewIframe.id==='imixs_document_iframe_embedded') {
-			$(".chronicle-tab-documents").click();
+			//$(".chronicle-tab-documents").click();
+			toggleChronicleDocuments();
 		}
 	},
 
@@ -336,7 +388,8 @@ IMIXS.com.imixs.workflow.workitem = (function() {
 		expandChronicle : expandChronicle,
 		shrinkChronicle : shrinkChronicle,
 		updateChronicleWidth : updateChronicleWidth,
-		hideComments : hideComments,
+		clearDocumentPreview : clearDocumentPreview,
+		updateAttachmentLinks : updateAttachmentLinks,
 		showDocument : showDocument,
 		toggleChronicleHistory : toggleChronicleHistory,
 		toggleChronicleDocuments: toggleChronicleDocuments,
