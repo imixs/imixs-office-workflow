@@ -177,6 +177,10 @@
 
 		<!-- content -->
 		<div id="container">
+			<ui:fragment rendered="#{(!loginController.authenticated)}">
+				<div style="height:140px;">
+				</div>
+			</ui:fragment>
 		
 			<div id="imixs-content">
 				<ui:insert name="content">
