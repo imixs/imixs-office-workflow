@@ -9,14 +9,15 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 	<!-- Build with link ? -->
-	<ui:fragment rendered="#{showlink}">
+	
+	<div  title=" ">
+	  <ui:fragment rendered="#{showlink}">
 		<h:link outcome="/pages/workitems/workitem">
 			<!-- typcn -->
 			<ui:fragment
 				rendered="#{fn:startsWith(workitem.item['txtWorkflowImageURL'],'typcn')}">
 				<span class="imixs-typicon"
-					data-typicon="#{workitem.item['txtWorkflowImageURL']}" 
-					title=" "></span>
+					data-typicon="#{workitem.item['txtWorkflowImageURL']}"></span>
 			</ui:fragment>
 			
 			<!-- Image -->
@@ -24,70 +25,64 @@
 				rendered="#{!fn:startsWith(workitem.item['txtWorkflowImageURL'],'typcn')}">
 				<h:graphicImage
 					rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
-					url="#{workitem.item['txtWorkflowImageURL']}" title=" "
+					url="#{workitem.item['txtWorkflowImageURL']}" 
 					style="max-height: 24px; margin: 4px;"></h:graphicImage>
 				<h:graphicImage
 					rendered="#{empty workitem.item['txtWorkflowImageURL']}"
-					value="/layout/icons/vwicn070.png" title=" "
+					value="/layout/icons/vwicn070.png" 
 					style="max-height: 24px; margin: 4px;"></h:graphicImage>
 			</ui:fragment>
-						
 			<f:param name="id" value="#{workitem.item['$uniqueid']}" />
 		</h:link>
-	</ui:fragment>
-	<!-- Build without link -->
-	<ui:fragment rendered="#{!showlink}">
-	
+	 </ui:fragment>
+	 <!-- Build without link -->
+	 <ui:fragment rendered="#{!showlink}">
 		<!-- typcn -->
 		<ui:fragment
 			rendered="#{fn:startsWith(workitem.item['txtWorkflowImageURL'],'typcn')}">
 			<span class="imixs-typicon"
-				data-typicon="#{workitem.item['txtWorkflowImageURL']}" 
-				title=" "></span>
+				data-typicon="#{workitem.item['txtWorkflowImageURL']}"></span>
 		</ui:fragment>
-		
 		<!-- Image -->
 		<ui:fragment
 			rendered="#{!fn:startsWith(workitem.item['txtWorkflowImageURL'],'typcn')}">
 			<h:graphicImage
 				rendered="#{!empty workitem.item['txtWorkflowImageURL']}"
-				url="#{workitem.item['txtWorkflowImageURL']}" title=" "
+				url="#{workitem.item['txtWorkflowImageURL']}"
 				style="max-height: 24px; margin: 4px;"></h:graphicImage>
 			<h:graphicImage
 				rendered="#{empty workitem.item['txtWorkflowImageURL']}"
-				value="/layout/icons/vwicn070.png" title=" "
+				value="/layout/icons/vwicn070.png"
 				style="max-height: 24px; margin: 4px;"></h:graphicImage>
 		</ui:fragment>
-		
-	</ui:fragment>
+	 </ui:fragment>
+	</div>
+	
+	
+	<h:panelGroup style="display:none;" class="imixs-tooltip">
+		<h:outputText value="#{message.created}: " style="font-weight:bold;" />
+		<h:outputText value="#{workitem.item['$created']}">
+			<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+				pattern="#{message.dateTimePattern}" />
+		</h:outputText>
+		<h:outputText
+			value=" #{message.by} #{userController.getUserName(workitem.item['$creator'])}" />
 
-
-	<!-- show Tooltip... -->
-	<ui:fragment rendered="#{!hidetooltip}">
-		<h:panelGroup style="display:none;" class="imixs-tooltip">
-			<h:outputText value="#{message.created}: " style="font-weight:bold;" />
-			<h:outputText value="#{workitem.item['$created']}">
-				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+		<!-- Modified -->
+		<br />
+		<span> <h:outputText style="font-weight: bold;"
+				value="#{message.edited}: " /> <h:outputText
+				value="#{workitem.item['$lasteventdate']}" style="font-weight: normal;">
+				<f:convertDateTime timeZone="#{message.timeZone}"
 					pattern="#{message.dateTimePattern}" />
-			</h:outputText>
-			<h:outputText
-				value=" #{message.by} #{userController.getUserName(workitem.item['$creator'])}" />
+			</h:outputText> <h:outputText
+				value=" #{message.by} #{userController.getUserName(workitem.item['$editor'])}" />
+		</span>
+		<hr />
+		<h:outputText value="#{workitem.item['$WorkflowAbstract']}"
+			escape="false" />
+	</h:panelGroup>
 
-			<!-- Modified -->
-			<br />
-			<span> <h:outputText style="font-weight: bold;"
-					value="#{message.edited}: " /> <h:outputText
-					value="#{workitem.item['$lasteventdate']}" style="font-weight: normal;">
-					<f:convertDateTime timeZone="#{message.timeZone}"
-						pattern="#{message.dateTimePattern}" />
-				</h:outputText> <h:outputText
-					value=" #{message.by} #{userController.getUserName(workitem.item['$editor'])}" />
-			</span>
-			<hr />
-			<h:outputText value="#{workitem.item['$WorkflowAbstract']}"
-				escape="false" />
-		</h:panelGroup>
-	</ui:fragment>
 
 
 </ui:composition>
