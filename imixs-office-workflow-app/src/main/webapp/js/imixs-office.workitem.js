@@ -43,6 +43,8 @@ $(document).ready(function() {
 	$('.imixs-workitem-chronicle').css('transition','0.0s');
 	imixsOfficeWorkitem.updateChronicleWidth();
 	
+	$('.document-nav').hide();
+	
 	
 	imixsOfficeWorkitem.updateAttachmentLinks();
 
@@ -59,24 +61,33 @@ $(document).ready(function() {
 /*
  * This callback method is triggered by the imxs-faces.js file upload
  * component. The method updates the deep links for uploaded files
+ * and loads pdf files into the preview window
  */
 function onFileUploadChange() {
-	imixsOfficeWorkitem.updateAttachmentLinks();
 	
+	$('.document-nav').hide();
+	// cancel current preview....
+	documentPreviewIframe.src="";
+	//contentWindow.location.replace("");
+	documentPreviewURL="";
+	
+	// update deep links
+	imixsOfficeWorkitem.updateAttachmentLinks();
+		
 	// auto preview
-		$(".imixsFileUpload_uploadlist_name a").each(
-			function(index, element) {						
-				var attachmentName=$(this).text();
-				if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {		
-					// if we have a pdf and screen is >1800 than maximize preview.
-					if (window.innerWidth>=1800 ) {
-						imixsOfficeWorkitem.maximizeDocumentPreview();
-					}
-					//$(this).click();
-					imixsOfficeWorkitem.showDocument($(this).text(),$(this).attr('href'));
-					return false;
+	$(".imixsFileUpload_uploadlist_name a").each(
+		function(index, element) {						
+			var attachmentName=$(this).text();
+			if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {		
+				// if we have a pdf and screen is >1800 than maximize preview.
+				if (window.innerWidth>=1800 ) {
+					imixsOfficeWorkitem.maximizeDocumentPreview();
 				}
-			});
+				//$(this).click();
+				imixsOfficeWorkitem.showDocument($(this).text(),$(this).attr('href'));
+				return false;
+			}
+		});
 }
 
 
@@ -326,7 +337,10 @@ IMIXS.com.imixs.workflow.workitem = (function() {
 	 * and displays the document title.
 	 
 	 */
-	showDocument=function (title, link) {		
+	showDocument=function (title, link) {	
+		if (!link || link=="") {
+			return; // no url defined!
+		}	
 		// cut title if length >64 chars
 		if (title.length>64) {
 			title=title.substring(0,64)+"...";
@@ -342,9 +356,10 @@ IMIXS.com.imixs.workflow.workitem = (function() {
 		
 		// activate preview if minimized!
 		if (!isWorkitemLoading && documentPreviewIframe.id==='imixs_document_iframe_embedded') {
-			//$(".chronicle-tab-documents").click();
 			toggleChronicleDocuments();
 		}
+		
+		$('.document-nav').show();
 	},
 
 	

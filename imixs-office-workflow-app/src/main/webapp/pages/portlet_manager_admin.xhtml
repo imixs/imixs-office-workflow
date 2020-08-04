@@ -29,8 +29,8 @@
 
 						<li>
 							<h:link outcome="/pages/process?faces-redirect=true" styleClass="imixs-viewentry-main-link">
-									<h:outputText value="#{record.item['txtName']}" />
-									<h:outputText rendered="#{empty record.item['txtName']}"
+									<h:outputText value="#{record.item['Name']}" />
+									<h:outputText rendered="#{empty record.item['Name']}"
 										value=" - no name - " />
 									<f:param name="id" value="#{record.item['$uniqueid']}" />
 								</h:link> 							
@@ -59,8 +59,8 @@
 										pt:title="#{record.item['$workflowstatus']}"
 										styleClass="typcn typcn-delete-outline imixs-state-warning" />
 
-									<h:outputText value="#{record.item['txtName']}" />
-									<h:outputText rendered="#{empty record.item['txtName']}"
+									<h:outputText value="#{record.item['Name']}" />
+									<h:outputText rendered="#{empty record.item['Name']}"
 										value=" - no name - " />
 									<f:param name="id" value="#{record.item['$uniqueid']}" />
 								</h:link>							
