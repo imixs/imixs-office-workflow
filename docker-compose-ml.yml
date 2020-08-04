@@ -1,0 +1,87 @@
+version: "3.1"
+services:
+
+  db:
+    image: postgres:9.6.1
+    environment:
+      POSTGRES_PASSWORD: adminadmin
+      POSTGRES_DB: office
+    volumes: 
+      - dbdata:/var/lib/postgresql/data
+
+  app:
+    image: imixs/imixs-office-workflow
+    depends_on:
+      - db
+    environment:
+      WILDFLY_PASS: adminadmin
+      DEBUG: "true"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "adminadmin"
+      POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
+
+      ASYNCEVENT_PROCESSOR_ENABLED: "true"
+      ASYNCEVENT_PROCESSOR_INITIALDELAY: "10000"
+
+      TIKA_SERVICE_MODE: "model"
+      TIKA_SERVICE_ENDPOINT: "http://tika:9998/tika"
+      TIKA_OCR_MODE: "MIXED"
+
+      ML_SERVICE_ENDPOINT: "http://imixs-ml-spacy:8000/analyse/"
+
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+      - "8787:8787"
+    volumes:
+        - ./src/docker/deployments:/opt/wildfly/standalone/deployments/
+
+
+# Imixs-ML-spaCy Service
+  imixs-ml-spacy: 
+    image: imixs/imixs-ml-spacy
+    environment:
+      PYTHONUNBUFFERED: 1
+      TZ: "Europe/Berlin"
+      MODEL_LANGUAGE: "de"
+      MODEL_PATH: "models/invoice-de-0.0.3/" 
+      #MODEL_PATH: "models/invoice-de-0.0.3-FULL/" 
+
+    ports:
+      - "8000:8000"  
+    volumes:
+      - ./src/models/:/usr/src/app/models/
+
+
+# Imixs-ML API sevice
+  imixs-ml-training:
+    image: imixs/imixs-ml-training
+    environment:
+      TZ: "Europe/Berlin"
+      TIKA_SERVICE_ENDPOINT: "http://tika:9998/tika"
+      #TIKA_OCR_MODE: "PDF_ONLY"
+      TIKA_OCR_MODE: "MIXED"
+      # Payara-Micor ENV
+      MP_OPENAPI_SERVERS: "http://localhost:8081"
+    ports:
+      - "8081:8080"
+      - "9009:9009"
+
+
+# OCR Service
+  tika: 
+    image: imixs/tika
+    environment:
+      TZ: "Europe/Berlin"
+    ports:
+      - "9998:9998"  
+
+
+
+  imixsadmin:
+    image: imixs/imixs-admin
+    ports:
+      - "8888:8080"
+
+volumes:
+  dbdata: 
