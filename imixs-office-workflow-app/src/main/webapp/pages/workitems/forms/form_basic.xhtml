@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
+	<!-- the following code computes the txtworkflow abstract from the current modelversion and processid  -->
+	<ui:param name="instruction"
+		value="#{modelController.getProcessDescription(workflowController.workitem.item['$taskid'],workflowController.workitem.item['$ModelVersion'],workflowController.workitem)}"></ui:param>
+	<h:panelGroup layout="block" styleClass="imixs-instruction"
+		rendered="#{! empty instruction}">
+		<h:outputText escape="false" value="#{instruction}"/>
+	</h:panelGroup> 
+
+	<!--  Custom Form  -->
+	<f:subview>
+		<ui:include src="/pages/workitems/forms/custom.xhtml">
+			<ui:param name="workitem" value="#{workflowController.workitem}" />
+		</ui:include>
+	</f:subview>
+
+
+	<!-- Dispatch Form -->
+	<ui:param name="spaces" value="#{teamController.spaces}" />
+	
+	
+	<h:panelGroup layout="block" styleClass="imixs-form-section"
+		rendered="#{!empty spaces}">
+		<h3>Verteiler</h3>
+		<dl>
+			<dt>#{message['form.space']}</dt>
+			<dd>
+				<h:selectOneMenu style="width:20em;" required="false"
+					value="#{workflowController.workitem.item['txtSpaceRef']}">
+					<f:selectItem itemLabel=""></f:selectItem>
+					<c:forEach items="#{teamController.spaces}" var="space">
+						<f:selectItem itemLabel="#{space.item['name']}"
+							itemValue="#{space.item['$UniqueID']}">
+						</f:selectItem>
+					</c:forEach>
+				</h:selectOneMenu>
+			</dd>
+		</dl>
+	</h:panelGroup>
+
+
+	<!-- sub forms (optional) -->
+	<c:forEach items="#{formController.formDefinition.sections}"
+		var="section">
+		<div class="imixs-form-panel">
+			<h3>
+				<h:outputText value="#{section.name}" />
+			</h3>
+			<f:subview>
+				<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
+					<ui:param name="workitem" value="#{workflowController.workitem}" />
+				</ui:include>
+			</f:subview>
+		</div>
+	</c:forEach>
+
+</ui:composition>

@@ -9,13 +9,14 @@
 
 
 	<c:forEach items="#{customFormController.sections}" var="section">
-
+	
+		<c:if test="#{! empty section.label}">
+				<h3>#{section.label}</h3>
+		</c:if>
 		<div
 			class="imixs-form-section#{(empty section.columns)?'':'-'.concat(section.columns)}">
 
-			<c:if test="#{! empty section.label}">
-				<h2>#{section.label}</h2>
-			</c:if>
+			
 
 			<c:forEach items="#{section.items}" var="item">
 				<dl>
