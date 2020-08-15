@@ -127,7 +127,7 @@ Betrag: € <itemvalue>invoice.total</itemvalue>]]></imixs:value>
           <imixs:value>true</imixs:value>
         </imixs:item>
         <imixs:item name="keyownershipfields" type="xs:string">
-          <imixs:value><![CDATA[namCreator]]></imixs:value>
+          <imixs:value><![CDATA[namprocessteam]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
           <imixs:value><![CDATA[namCreator]]></imixs:value>
@@ -139,23 +139,15 @@ Betrag: € <itemvalue>invoice.total</itemvalue>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_3"><![CDATA[<h3>Rechnungseingangskontrolle</h3>
-<p>Der Workflow 'Rechnungseingang' beschreibt beispielhaft einen Ablauf zur Prüfung von Eingangsrechnungen.<p>
+<p>Prüfen Sie die Rechnung sachlich auf Basis der Bestelldaten.<p>
 
 <ul>
-	<li>Nach Erhalt einer Rechnung (z.B. Post, E-Mail, Fax,...) wird diese in das Workflowsystem übertragen und der Prozess Rechnungseingang gestartet.</li>
+	<li>Bei Rechnungesbeträgen büer 500,- EUR ist eine anschließende Genehmigung erforderlich</li>
+   <li>Nach positiver Prüfung bzw. Genehmigung wird die Rechnung zur Zahlung an die Buchhaltung weitergeleitet.</li>
 
-	<li>Die Rechnung wird wahlweise eingescannt und über den Abschnitt 'Dokumente'  an den Vorgang hinzugefügt.</li>
+	<li>Be negetiver Prüfung geben Sie bitte eine Begründung an und lehnen Sie den Vorgang ab.</li>
 
-	<li>In diesem Beispiel wird die Rechnung einem zuvor ausgewählten Mitarbeiter zur Prüfung vorgelegt.</li>
-
-	<li>Nach positiver Prüfung werden die Rechnungsdaten (Zahlungsziel, Bankverbindung) vom Controlling im System erfasst und auf das Zahlungsziel gewartet.</li>
-	
-	<li>Nach Erreichen des Zahlungsziels wird der Vorgang automatisch dem Controlling erneut zur abschließenden Bearbeitung vorgelegt.</li>
-
-</ul>
-<h3>Der Workflow</h3>
-
-<p>Eingangsrechnungen können über eine E-Mailschnittstelle oder das Filesystem automatisch eingelesen werden. Eine Eingangsrechnung wird in diesem Beispiel vom zugewiesenen Mitarbeiter sowie den Prozessverantworltichen (Controlling) bearbeitet. </p>]]></bpmn2:documentation>
+</ul>]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_31</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_18</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
@@ -350,11 +342,16 @@ Betrag: € <itemvalue>invoice.total</itemvalue>]]></imixs:value>
           <imixs:value><![CDATA[namprocessmanager]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_5005"><![CDATA[<h3>Arbeitsanweisung</h3>
-<p>
-	Prüfen Sie die Rechnung. - Durch Freigabe der Rechnung wird diese automatisch an das Controlling weitergeleitet. Durch Ablehnung wird die Rechnung zurück an den Ersteller gesendet.
- 	Der Workflow wird über ein BPMN 2.0 Prozessmodell beschrieben und kann an die individuellen Bedürfnisse angepasst werden. 
-</p>]]></bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_5005"><![CDATA[<h3>Rechnungseingangskontrolle</h3>
+<p>Prüfen Sie die Rechnung sachlich auf Basis der Bestelldaten.<p>
+
+<ul>
+	<li>Bei Rechnungesbeträgen büer 500,- EUR ist eine anschließende Genehmigung erforderlich</li>
+   <li>Nach positiver Prüfung bzw. Genehmigung wird die Rechnung zur Zahlung an die Buchhaltung weitergeleitet.</li>
+
+	<li>Be negetiver Prüfung geben Sie bitte eine Begründung an und lehnen Sie den Vorgang ab.</li>
+
+</ul>]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_38</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_15</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_37</bpmn2:outgoing>
