@@ -12,6 +12,10 @@
 		This subform is loaded by the workitem.xhtml page if the MLController is available.
 		The subform loads the current ml status into a json object 'ml_json' and provides a
 		jsf commandScript for a suggestion list 
+		
+		In addition the subform includes a jsf commandScript which calls the mlController.serach method in the backend.
+		The result list of this search is displayed in the current input field. All this is controlled by java script
+		form the imixs-ml.js library!
 
 	-->
 	
@@ -21,61 +25,35 @@
 		/*<![CDATA[*/
 
 			// set ml status
-			imixsOfficeMain.ml_json = #{mlController.getJSON()};
+			imixsOfficeML.mlResult = #{mlController.getMLResult()};
 
 		/*]]>*/
 	</script>
 		
 		
-		<!-- 
-			see:
-			https://stackoverflow.com/questions/16588327/how-to-invoke-a-jsf-managed-bean-on-a-html-dom-event-using-native-javascript
-			
-			https://dzone.com/articles/execute-a-jsf-ajax-request-by-just-a-function-call
-		 -->
-   		<h:commandScript name="imixsOfficeMain.mlSearch" action="#{mlController.search('_bic')}" rendered="#{mlController!=null}" render=":ml-results" />
-		<h:panelGroup id="ml-results">
+	<!-- 
+		see:
+		https://stackoverflow.com/questions/16588327/how-to-invoke-a-jsf-managed-bean-on-a-html-dom-event-using-native-javascript
 		
-		
-		
-		
-  			ml results ...1
-  		<ui:repeat var="suggest"
-					value="#{mlController.searchResult}">
-  		 wert=#{suggest}
-  		</ui:repeat>
-  		
-  		
-  		
-  			<h:panelGroup id="suggest_resultlist" layout="block"
-				style="width:100%;margin-top:15px;"
-				class="marty-userinput-suggestresultlist"
-				rendered="#{! empty mlController.searchResult}">
-
-				<ui:repeat var="suggest"
-					value="#{mlController.searchResult}">
-
-					<div class="marty-userinput-suggestresultlist-entry"
-						style="width: 100%;">
-
-						<a href="#">
-							<h:outputText style="font-weight: bold;"
-								value="#{suggest}" escape="false" />
-						</a>
-					</div>
-				</ui:repeat>
-			</h:panelGroup>
-							
-							
-							
-		</h:panelGroup>
-				
-				<input type="button" value="click" onclick="alert('go');imixsOfficeMain.mlSearch('_bic')" />
-		<h1>ml.status=#{workitem.item['ml.status']}</h1>
-		
-		
-				
+		https://dzone.com/articles/execute-a-jsf-ajax-request-by-just-a-function-call
+	 -->
+  		<h:commandScript name="imixsOfficeML.mlSearch" action="#{mlController.search()}" 
+  			rendered="#{mlController!=null}" render="ml-search-results" onevent="showMLSearchResult" />
 	
+		<h:panelGroup id="ml-search-results" layout="block" class="ml-search-results">
+
+			<ui:repeat var="suggest" value="#{mlController.searchResult}">
+
+				<div>
+					<a href="javascript:void(0)" onclick="selectMLSearchResultEntry('#{suggest}')">
+						<h:outputText style="font-weight: bold;" value="#{suggest}" escape="false" />
+					</a>
+				</div>
+			</ui:repeat>
+		</h:panelGroup>
+						
+			
+
 				
 </ui:composition>
 
