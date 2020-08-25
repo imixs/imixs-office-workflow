@@ -1,0 +1,36 @@
+version: "3.1"
+services:
+
+  db:
+    image: postgres:9.6.1
+    environment:
+      POSTGRES_PASSWORD: adminadmin
+      POSTGRES_DB: office
+    volumes: 
+      - dbdata_en:/var/lib/postgresql/data
+
+  app:
+    image: imixs/imixs-office-workflow
+    depends_on:
+      - db
+    environment:
+      WILDFLY_PASS: adminadmin
+      DEBUG: "true"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "adminadmin"
+      POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
+      SETUP_SYSTEM_MODEL: "system-en-1.1"
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+      - "8787:8787"
+    volumes:
+        - ./deployments:/opt/wildfly/standalone/deployments/
+
+  imixsadmin:
+    image: imixs/imixs-admin
+    ports:
+      - "8888:8080"
+
+volumes:
+  dbdata_en: 

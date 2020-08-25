@@ -43,13 +43,6 @@
     <bpmn2:participant id="Participant_1" name="Vertrag" processRef="Process_1"/>
     <bpmn2:participant id="Participant_2" name="Rechnungseingang Pool" processRef="rechnungseingang"/>
   </bpmn2:collaboration>
-  <bpmn2:process id="rechnungseingang" name="Rechnungseingang" isExecutable="false">
-    <bpmn2:textAnnotation id="TextAnnotation_1">
-      <bpmn2:text>Sachliche Prüfung durch Fachbereich
-falls dieser ausgewählt wurde.</bpmn2:text>
-    </bpmn2:textAnnotation>
-    <bpmn2:association id="Association_1" sourceRef="TextAnnotation_1" targetRef="Task_5005"/>
-  </bpmn2:process>
   <bpmn2:process id="Process_1" name="Vertrag" definitionalCollaborationRef="Collaboration_1" isExecutable="false">
     <bpmn2:laneSet id="LaneSet_1" name="Lane Set 1">
       <bpmn2:lane id="Lane_1" name="Ersteller">
