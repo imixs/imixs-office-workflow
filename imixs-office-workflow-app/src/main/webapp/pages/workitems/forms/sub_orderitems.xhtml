@@ -14,11 +14,11 @@
 
 				<tr>
 					<th style="width: 50px;">Pos.</th>
-					<th>Leistungsbezeichnung<span class="imixs-required"> *</span></th>
-					<th style="width: 70px;">Einheit</th>
-					<th style="width: 70px;">Menge</th>
-					<th style="width: 140px;">Netto-Preis / ME in €</th>
-					<th style="width: 95px;">Gesamt in €<span class="imixs-required"> *</span></th>
+					<th>#{message['form.description']}<span class="imixs-required"> *</span></th>
+					<th style="width: 70px;">#{message['form.unit']}</th>
+					<th style="width: 70px;">#{message['form.quantity']}</th>
+					<th style="width: 140px;">#{message['form.price']}</th>
+					<th style="width: 95px;">#{message['form.total']}<span class="imixs-required"> *</span></th>
 					<th style="width: 10px;">
 						<!-- delete -->
 					</th>
@@ -37,7 +37,7 @@
 						
 						<td><h:inputText value="#{orderitem.item['unit']}" /></td>
 
-						<td><h:inputText value="#{orderitem.item['ammount']}"
+						<td><h:inputText value="#{orderitem.item['quantity']}"
 								 a:data-id="orderitem_ammount" /></td>
 						<td><h:inputText value="#{orderitem.item['price']}"
 								a:data-id="orderitem_price" style="text-align: right;">
@@ -55,8 +55,8 @@
 							
 							
 							<!-- item summary -->
-							<h:inputHidden value="#{orderitem.item['_capacity']}" a:data-id="orderitem_capacity"/>
-							<h:inputHidden value="#{orderitem.item['_capacity_dsp']}" a:data-id="orderitem_capacity_dsp" />
+							<h:inputHidden value="#{orderitem.item['total']}" a:data-id="orderitem_total"/>
+							<h:inputHidden value="#{orderitem.item['total_dsp']}" a:data-id="orderitem_total_dsp" />
 							
 						</td>
 
@@ -76,8 +76,8 @@
 				</tr>
 			</table>
 			<!-- total summary -->
-			<h:inputHidden value="#{workitem.item['_capacity']}" a:data-id="orderitems_capacity" />
-			<h:inputHidden value="#{workitem.item['_capacity_dsp']}" a:data-id="orderitems_capacity_dsp" />
+			<h:inputHidden value="#{workitem.item['order.total']}" a:data-id="orderitems_capacity" />
+			<h:inputHidden value="#{workitem.item['order.total_dsp']}" a:data-id="orderitems_capacity_dsp" />
 			<!-- add button -->
 			<h:commandButton value="#{message.add}" a:data-id="addposbutton_id"
 				actionListener="#{childItemController.add}">
@@ -133,10 +133,10 @@
 						sum = Math.round(sum * 100) / 100;
 						total = total + sum;
 						
-						$("[data-id='orderitem_capacity']",tableRow).val(sum);
+						$("[data-id='orderitem_total']",tableRow).val(sum);
 						sum = convertToCurrency(sum);
 						//console.log('sum=' + sum);
-						$("[data-id='orderitem_capacity_dsp']",tableRow).val(sum);
+						$("[data-id='orderitem_total_dsp']",tableRow).val(sum);
 						$("[data-id='orderitem_summary']", tableRow).empty();
 						$("[data-id='orderitem_summary']", tableRow).append(sum);
 						
