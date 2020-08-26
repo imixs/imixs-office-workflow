@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.5.0.Final-v20180515-1642-B1" targetNamespace="http://www.imixs.org/bpmn2">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.5.2.SNAPSHOT-v20200602-1600-B1" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
       <imixs:value><![CDATA[receipt_of_invoice-en-1.0]]></imixs:value>
@@ -188,7 +188,7 @@
           <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_108"><![CDATA[Zwischenspeichern]]></bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_108"><![CDATA[Update]]></bpmn2:documentation>
       <bpmn2:outgoing>SequenceFlow_31</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_31" sourceRef="IntermediateCatchEvent_5000-10" targetRef="Task_5000"/>
@@ -377,7 +377,7 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
           <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_23"><![CDATA[Rechnung geprüft, weiterleiten an Buchhaltung.]]></bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_23"><![CDATA[Factual audited and released.]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_8</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_51</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
@@ -446,7 +446,7 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
           <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_109"><![CDATA[Zwischenspeichern]]></bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_109"><![CDATA[Update]]></bpmn2:documentation>
       <bpmn2:outgoing>SequenceFlow_38</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_38" sourceRef="IntermediateCatchEvent_5005-10" targetRef="Task_5005"/>
@@ -521,11 +521,11 @@ result.isValid=true;
 
  if (  ( workitem.get(refField) == null || ''==workitem.get(refField)[0])   ) {
      result.isValid=false;
-     result.errorMessage='Bitte geben Sie einen Kommentar ein.';
+     result.errorMessage='Please enter a comment.';
   }]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_24"><![CDATA[Rechnung nicht in Ordnung, zurück an Erfasser.]]></bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_24"><![CDATA[Request rejected, back to creator.]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_10</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_14</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
@@ -772,11 +772,11 @@ result.isValid=true;
 
  if (  ( workitem.get(refField) == null || ''==workitem.get(refField)[0])   ) {
      result.isValid=false;
-     result.errorMessage='Bitte geben Sie einen Kommentar ein.';
+     result.errorMessage='Please enter a comment.';
   }]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_28"><![CDATA[Rechnung nicht in Ordnung, zurück an Erfasser.]]></bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_28"><![CDATA[Request rejected, back to creator.]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_29</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_52</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
@@ -852,7 +852,7 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
           <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_29"><![CDATA[Rechnung geprüft, weiterleiten an Buchhaltung.]]></bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_29"><![CDATA[Request approved]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_30</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_7</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
@@ -966,7 +966,7 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
           <imixs:value>false</imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_32"><![CDATA[Rechnung gebucht und bezahlt.]]></bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_32"><![CDATA[Payment completed]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_55</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_12</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
@@ -1256,7 +1256,7 @@ result.isValid=true;
   }]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_37"><![CDATA[Rechnung nicht in Ordnung, zurück an Erfasser.]]></bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_37"><![CDATA[Cancelled.]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_22</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_17</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
