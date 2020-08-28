@@ -145,7 +145,6 @@ public class BoardController implements Serializable {
 	}
 
 	public String getRef() {
-	//	return ref;
 		return searchController.getSearchFilter().getItemValueString("processref");
 	}
 
@@ -155,7 +154,7 @@ public class BoardController implements Serializable {
 		if (ref != null && !ref.isEmpty()) {
 			ItemCollection process = documentService.load(ref);
 			if (process != null) {
-				String title = process.getItemValueString("txtname");
+				String title = process.getItemValueString("name");
 				setTitle(title);
 			}
 		}
