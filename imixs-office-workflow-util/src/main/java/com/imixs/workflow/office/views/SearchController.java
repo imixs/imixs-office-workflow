@@ -292,7 +292,7 @@ public class SearchController extends ViewController implements Serializable {
 
 		// test if dms_search==true
 		if ("true".equals(searchFilter.getItemValueString("dms_search"))) {
-			sSearchTerm += " (dms_count:[1 TO 99]) AND";
+			sSearchTerm += " ($file.count:[1 TO 999]) AND";
 		}
 
 		String sCreator ="";
