@@ -432,12 +432,12 @@ dl dt input[type="text"]:hover {
 	margin: 5px 0 10px;
 	min-height: 75px;
 	border-bottom: 1px solid #e0e4e7;
-	border-left: 2px solid #fff;
+	border-left: 4px solid #fff;
 }
 
 .imixs-viewentry:HOVER {
 	background: #f9f9fB;
-	border-left: 2px solid #428bca;
+	border-left: 4px solid #428bca;
 	cursor: pointer;
 }
 
@@ -470,7 +470,7 @@ dl dt input[type="text"]:hover {
 .imixs-form .imixs-header {
 	padding: 0px 10px 10px 10px;
 	margin-bottom: 5px;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 2px solid #ddd;
 }
 
 .imixs-form .imixs-header label, .imixs-form .imixs-footer label {
@@ -660,7 +660,7 @@ dl dt input[type="text"]:hover {
 .imixs-view .imixs-header {
 	margin-bottom: 5px;
     margin-left:10px;
-    border-bottom: 2px solid #428bca;
+    border-bottom: 2px solid #ddd;
 }
 .imixs-view .imixs-header h1 {
     font-size: 1.8em;
@@ -690,7 +690,7 @@ dl dt input[type="text"]:hover {
 .imixs-board .imixs-header {
     margin-bottom: 20px;
     margin-left:10px;
-    border-bottom: 2px solid #428bca;
+    border-bottom: 2px solid #ddd;
 }
 .imixs-board .imixs-header h1 {
     font-size: 1.8em;
@@ -724,7 +724,8 @@ dl dt input[type="text"]:hover {
 	min-height: 1px;
 	position: relative;
 	padding: 10px;
-	border-right: 4px solid #eaeaea;
+	xborder-right: 4px solid #eaeaea;
+	border-right: 2px solid #ddd;
 	margin-bottom: 30px;
 }
 
@@ -1037,25 +1038,29 @@ dl dd  .imixs-datetime-picker select {
 	width: 50px;
 }
 
+.ui-datepicker-header {
+	border: none;
+	background: #206B87;
+	color:#fff;
+}
+
 .imixs-required {
 	color: red;
 }
 
 .imixsdatatable {
 	width: 100%;
+	
 }
 
 .imixsdatatable th {
 	border: none;
 	background: #206B87;
 	color: #fff;
+	border-left: 4px solid #206B87;
+	border-bottom: 1px solid #206B87;
 }
 
-.ui-datepicker-header {
-	border: none;
-	background: #206B87;
-	color:#fff;
-}
 
 .imixs-form .imixsdatatable td, th {
 	padding: 5px;
@@ -1069,6 +1074,10 @@ dl dd  .imixs-datetime-picker select {
 	border: none;
 }
 
+.imixsdatatable  td {
+	border: 1px solid #ddd;
+}
+
 .imixsdatatable tr:HOVER td {
 	background: #e4f5fb;
 	background-color: #e4f5fb;
@@ -1078,6 +1087,19 @@ dl dd  .imixs-datetime-picker select {
 .imixsdatatable tr:HOVER a {
 	color: #428bca;
 }
+
+.imixsdatatable tr:hover {
+	border-left: 4px solid #428bca;
+}
+
+.imixsdatatable tr td:first-child {
+	padding-left: 4px;
+}
+
+.imixsdatatable tr:hover td:first-child {
+	padding-left: 3px;
+}
+
 
 .imixs-label {
 	-webkit-border-radius: 3px;
