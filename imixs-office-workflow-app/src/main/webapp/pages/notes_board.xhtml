@@ -52,7 +52,7 @@
 							<h2>
 								<!-- notes -->
 								<h:link outcome="/pages/notes">
-									<span class="typcn typcn-th-menu-outline"></span>
+									<span class="typcn typcn-home-outline"></span>
 								</h:link>
 								#{boardController.title}
 								<!-- Search box -->
@@ -75,7 +75,11 @@
 									</h:commandButton>
 									
 									<span class="extended-search">
-										<h:link outcome="/pages/workitems/worklist?_processref=#{boardController.ref}">#{message['nav.search_extended']}<span class="typcn typcn-media-fast-forward-outline" style="margin-left:4px;"></span></h:link>
+										<h:link outcome="/pages/workitems/worklist?_processref=#{boardController.ref}">#{message['nav.search_extended']}<span class="typcn typcn-zoom-in" style="margin-left:4px;"></span></h:link>
+									</span>
+									
+									<span class="extended-search">
+										<h:link outcome="/pages/workitems/worklist?_processref=#{boardController.ref}&amp;archive=true">#{message['nav.search_archive']}<span class="typcn typcn-archive" style="margin-left:4px;"></span></h:link>
 									</span>
 								</h:panelGroup>
 

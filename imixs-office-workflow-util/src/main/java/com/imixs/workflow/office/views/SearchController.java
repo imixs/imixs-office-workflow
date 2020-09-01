@@ -53,14 +53,14 @@ import org.imixs.workflow.faces.util.LoginController;
 /**
  * The SearchController provides methods for a convenient search experience.
  * <p>
- * The conntroller extends the Imixs ViewController and provides custom filter
+ * The controller extends the Imixs ViewController and provides custom filter
  * and search queries to request a individual WorkList result. The
  * ItemCollection search filter holds filter criteria for a customized search
  * query.
  * <p>
- * The bean is session scoped to hold the search filter over a page journy.
+ * The bean is session scoped to hold the search filter over a page journey.
  * <p>
- * The SearchController defines alos a set of predefined filter properties:
+ * The SearchController defines also a set of predefined filter properties:
  * 
  * <ul>
  * <li>_processRef = holds a reference to a core process entity</li>
@@ -128,6 +128,7 @@ public class SearchController extends ViewController implements Serializable {
 	 * This method set the sort order and sort criteria
 	 * 
 	 **/
+	@Override
 	public void init() {
 		this.setSortBy(setupController.getSortBy());
 		this.setSortReverse(setupController.getSortReverse());
@@ -143,6 +144,14 @@ public class SearchController extends ViewController implements Serializable {
 		if (processRef!=null && !processRef.isEmpty()) {
 			searchFilter.replaceItemValue("processref", processRef);
 		}
+
+		// archive mode?
+        if ("true".equals(paramMap.get("archive"))) {
+            searchFilter.replaceItemValue("type", "workitemarchive");
+        } else {
+            searchFilter.replaceItemValue("type", "workitem");
+        }
+		
 		
 		String spaceRef=paramMap.get("spaceref");
 		if (spaceRef!=null && !spaceRef.isEmpty()) {
