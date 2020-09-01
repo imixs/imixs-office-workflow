@@ -27,9 +27,11 @@
 			<h:form>
 				<ui:param name="searchresult" value="#{viewHandler.getData(searchController)}"></ui:param>
 				
-				<div class="row imixs-board">
-					<div class="col-12">
-						<h2 id="worklist-title">
+				<div class="imixs-view">
+				
+				
+					<div class="imixs-header">
+						<h1 id="worklist-title">
 							<!-- Back Link to board -->
 							<ui:fragment rendered="#{!empty searchController.process}">
 								<h:link outcome="/pages/notes_board?ref=#{searchController.process.uniqueID}"><span class="typcn typcn-th-large-outline" style="margin-right:5px;"></span></h:link>
@@ -38,12 +40,12 @@
 							<!-- Search -->
 							<h:outputText rendered="#{empty searchController.process}"
 								value="#{message.search}" />
-						</h2>
+						</h1>
 					</div>
-				</div>
 				
-				<div class="row">
-					<div class="col-12">
+				
+				
+					<div class="imixs-body">
 						<!-- *** Header **** -->
 						<div class="imixs-header" style="margin-bottom:30px;">
 							<!-- *** Header **** -->
@@ -54,7 +56,7 @@
 							value="#{(empty searchresult) and (empty searchController.searchFilter.item['txtSearch'])}"></ui:param>
 	
 						<ui:fragment rendered="#{!noresult}">
-							<h:panelGroup layout="block" class="imixs-body" id="worklist-body">
+							<h:panelGroup layout="block" id="worklist-body">
 	
 								<!-- display search result  -->
 								<ui:repeat var="workitem" value="#{searchresult}">
