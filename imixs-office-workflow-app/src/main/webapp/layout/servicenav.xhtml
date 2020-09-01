@@ -68,7 +68,7 @@
 
 
 				<!-- Tasklist Board -->
-				<div class="toolbar">
+				<h:panelGroup layout="block" class="toolbar" rendered="#{false}">
 					<!-- board -->
 					<h:commandLink action="board" immediate="true"
 						actionListener="#{boardController.reset}">
@@ -76,13 +76,13 @@
 						<f:setPropertyActionListener target="#{boardController.title}"
 							value="#{message['worklist.owner']}" />
 					</h:commandLink>
-				</div>
+				</h:panelGroup>
 
 				<!-- DMS Search -->
 				<h:panelGroup layout="block" styleClass="toolbar"
 					rendered="#{propertyController.getProperty('dms.search') eq 'true'}">
 					<h:link outcome="/pages/workitems/dms_search" title="#{message['nav.search_documents']}">
-						<span class="typcn typcn-archive"></span>
+						<span class="typcn typcn-book"></span>
 					</h:link>
 				</h:panelGroup>
 

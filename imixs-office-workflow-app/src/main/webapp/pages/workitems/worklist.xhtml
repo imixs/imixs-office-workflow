@@ -27,9 +27,25 @@
 			<h:form>
 				<ui:param name="searchresult" value="#{viewHandler.getData(searchController)}"></ui:param>
 				
-					<div class="imixs-view">
+				<div class="row imixs-board">
+					<div class="col-12">
+						<h2 id="worklist-title">
+							<!-- Back Link to board -->
+							<ui:fragment rendered="#{!empty searchController.process}">
+								<h:link outcome="/pages/notes_board?ref=#{searchController.process.uniqueID}"><span class="typcn typcn-th-large-outline" style="margin-right:5px;"></span></h:link>
+								<h:outputText value="#{searchController.process.item['Name']}" />
+							</ui:fragment>
+							<!-- Search -->
+							<h:outputText rendered="#{empty searchController.process}"
+								value="#{message.search}" />
+						</h2>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-12">
 						<!-- *** Header **** -->
-						<div class="imixs-header">
+						<div class="imixs-header" style="margin-bottom:30px;">
 							<!-- *** Header **** -->
 							<ui:include src="/pages/workitems/worklist_header.xhtml" />
 						</div>
@@ -84,7 +100,7 @@
 						</ui:fragment>
 	
 					</div>
-				
+				</div>
 			</h:form>
 		</f:view>
 		

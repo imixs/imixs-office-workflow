@@ -40,15 +40,20 @@
 			<!-- Title -->
 			<ul>
 				<li class="active">
-					<!-- board --> <h:commandLink action="notes_board" immediate="true"
-						styleClass="action-search"
-						actionListener="#{boardController.reset}"
-						rendered="#{showBoardView}">
+					<!-- board --> 
+					<ui:fragment rendered="#{showBoardView}" >
+						<h:commandLink action="notes_board" immediate="true"
+						styleClass="action-search" actionListener="#{boardController.reset}" >
 						<span class="typcn typcn-th-large-outline"
-							style="margin-right: 8px;"></span>
+							style="margin-right: 8px;"></span><h:outputText styleClass="portlet-title" value="#{title}" />
 						<f:setPropertyActionListener target="#{boardController.title}"
 							value="#{message['worklist.owner']}" />
-					</h:commandLink> <h:outputText value="#{title}" />
+					</h:commandLink> 
+					</ui:fragment>
+					<ui:fragment rendered="#{!showBoardView}" >
+						<h:outputText  styleClass="portlet-title" value="#{title}" />
+					</ui:fragment>
+					
 				</li>
 			</ul>
 		</h:panelGroup>
