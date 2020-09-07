@@ -1,0 +1,115 @@
+---
+###################################################
+# Deployment PostgreSQL
+###################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  labels: 
+    app: postgres
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: postgres
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_DB
+          value: office
+        - name: POSTGRES_PASSWORD
+          value: adminadmin
+        - name: POSTGRES_USER
+          value: postgres
+        image: postgres:9.6.1
+        name: postgres
+        livenessProbe:
+          tcpSocket:
+            port: 5432
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        ports:
+          - containerPort: 5432        
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: dbdata
+          subPath: postgres
+      restartPolicy: Always
+      volumes:
+      - name: dbdata
+        persistentVolumeClaim:
+          claimName: dbdata
+
+
+---
+###################################################
+# Deployment office-demo
+###################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: imixs-office-workflow
+  labels: 
+    app: imixs-office-workflow
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: imixs-office-workflow
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: imixs-office-workflow
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_CONNECTION
+          value: jdbc:postgresql://db/office
+        - name: POSTGRES_PASSWORD
+          value: adminadmin
+        - name: POSTGRES_USER
+          value: postgres
+        - name: TZ
+          value: Europe/Berlin
+        - name: WILDFLY_PASS
+          value: adminadmin
+        image: imixs/imixs-office-workflow:latest
+        name: imixs-office-workflow
+        # run as root because of persistence volume storage
+        securityContext:
+          runAsUser: 0
+          allowPrivilegeEscalation: false
+        ports: 
+          - name: web
+            containerPort: 8080
+          - name: admin
+            containerPort: 9990
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9990
+          initialDelaySeconds: 30
+          periodSeconds: 5
+        # Memory Request and Limits
+        resources:
+          requests:
+            memory: 600Mi
+
+        volumeMounts:
+        - mountPath: /home/imixs
+          name: appdata
+      restartPolicy: Always
+      volumes:
+      - name: appdata
+        persistentVolumeClaim:
+          claimName: appdata
+
