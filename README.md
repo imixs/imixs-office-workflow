@@ -67,10 +67,12 @@ To deploy the artifact the application server must provide a database pool named
 
 
 <br /><br />
-<p align="center"><img src="./docker-k8s-logo.png" /></p>
+
 
 # Docker & Kubernetes
-
+ 
+<p align="center"><img src="./docker-k8s-logo.png" /></p>
+ 
 **Imixs-Office-Workflow** provides a Docker Image to run the service with Docker or a container based environment like [Kubernetes](https://kubernetes.io/). 
 The docker image is based on the docker image [imixs/wildfly](https://hub.docker.com/r/imixs/wildfly/) which can be used for development as also for production.
 
