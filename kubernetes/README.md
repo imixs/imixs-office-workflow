@@ -1,11 +1,11 @@
 # Kubernetes Deployment
 
-*Imixs-Office-Workflow* already provides a base deployment configuration for Kubernetes. The setup is based on [Kustomize](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/) providing a declarative object management.
+*Imixs-Office-Workflow* provides a base deployment configuration for Kubernetes. The setup is based on [Kustomize](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/) providing a declarative object management.
 
 
 ## Deploy 
 
-To create the deployment objects form the base-deployment run:
+To create the deployment objects from the base-deployment run:
 
 	$ kubectl apply --kustomize https://github.com/imixs/imixs-office-workflow/kubernetes/
 
