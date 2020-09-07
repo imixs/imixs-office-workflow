@@ -69,14 +69,15 @@ To deploy the artifact the application server must provide a database pool named
 <br /><br />
 <p align="center"><img src="./docker-k8s-logo.png" /></p>
 
-
+# Docker & Kubernetes
 
 **Imixs-Office-Workflow** provides a Docker Image to run the service with Docker or a container based environment like [Kubernetes](https://kubernetes.io/). 
 The docker image is based on the docker image [imixs/wildfly](https://hub.docker.com/r/imixs/wildfly/) which can be used for development as also for production.
 
 
-## Docker for Development
-Developers can use a docker image for testing and the development of new features. To build a new container first build the maven artefact running: 
+## Docker Build
+
+For development you can run Imixs-Office-Workflow with docker-compose for testing and the development of new features. To build a new container first build the maven artefact running: 
 
 	$ mvn clean install -Pdocker
 
