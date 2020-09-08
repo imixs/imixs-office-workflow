@@ -20,47 +20,44 @@ import org.imixs.workflow.faces.fileupload.FileUploadController;
  *
  */
 @Named
-// @RequestScoped
 @ConversationScoped
 public class TextBlockFileController implements Serializable {
 
-	@Inject
-	FileUploadController fileUploadController;
+    @Inject
+    FileUploadController fileUploadController;
 
-	@Inject
-	DocumentController documentController;
+    @Inject
+    DocumentController documentController;
 
-	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * DocumentEvent listener
-	 * 
-	 * Before a text block is saved we transfere new files!
-	 * 
-	 * 
-	 * 
-	 * @param documentEvent
-	 */
-	public void onWorkflowEvent(@Observes WorkflowEvent documentEvent) {
-		if (documentEvent == null)
-			return;
+    private static final long serialVersionUID = 1L;
 
-		if (WorkflowEvent.DOCUMENT_BEFORE_SAVE == documentEvent.getEventType()) {
-			if ("textblock".equals(documentEvent.getWorkitem().getType())) {
+    /**
+     * DocumentEvent listener
+     * <p>
+     * Before a text block is saved we transfer new attached files!
+     * 
+     * @param documentEvent
+     */
+    public void onWorkflowEvent(@Observes WorkflowEvent documentEvent) {
+        if (documentEvent == null)
+            return;
 
-				List<FileData> fileList = fileUploadController.getAttachedFiles();// getFileUploads().getFileData();
-				if (fileList == null) {
-					return;
-				} else {
-					documentController.getDocument().removeItem("$file");
-					for (FileData filedata : fileList) {
-						documentController.getDocument().addFileData(filedata);
-					}
-				}
+        if (WorkflowEvent.DOCUMENT_BEFORE_SAVE == documentEvent.getEventType()) {
+            if ("textblock".equals(documentEvent.getWorkitem().getType())) {
+                List<FileData> fileList = fileUploadController.getAttachedFiles();
+                // if no new files were uploaded then skip update $file item...
+                if (fileList == null || fileList.isEmpty()) {
+                    // skip
+                    return;
+                } else {
+                    // add new files
+                    for (FileData filedata : fileList) {
+                        documentController.getDocument().addFileData(filedata);
+                    }
+                }
+            }
+        }
 
-			}
-		}
-
-	}
+    }
 
 }
