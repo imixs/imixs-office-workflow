@@ -27,10 +27,17 @@
 
 package com.imixs.workflow.office.forms;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.model.SelectItem;
+
 /**
  * This CustomFormItem provides the informations from a single item inside a
- * custom form seciton
- * 
+ * custom form section
+ * <p>
+ * The optional 'options' contains a list of select options. Example:
+ * <code>SEPA|sepa_transfer;Bankeinzug/ Kreditkarte|direct_debit"</code>
  * 
  * 
  * @author rsoika
@@ -38,52 +45,92 @@ package com.imixs.workflow.office.forms;
  */
 public class CustomFormItem {
 
-	String name;
-	String type;
-	String label;
-	boolean required;
+    String name;
+    String type;
+    String label;
+    boolean required;
+    String options;
 
-	public CustomFormItem(String name, String type, String label,boolean required) {
-		super();
-		this.label = label;
-		this.name = name;
-		this.type = type;
-		this.required=required;
-	}
+    public CustomFormItem(String name, String type, String label, boolean required, String options) {
+        super();
+        this.label = label;
+        this.name = name;
+        this.type = type;
+        this.required = required;
+        this.options = options;
+    }
 
-	
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getLabel() {
-		return label;
-	}
+    public String getLabel() {
+        return label;
+    }
 
-	public void setLabel(String label) {
-		this.label = label;
-	}
+    public void setLabel(String label) {
+        this.label = label;
+    }
 
+    public boolean isRequired() {
+        return required;
+    }
 
-	public boolean isRequired() {
-		return required;
-	}
+    public void setRequired(boolean required) {
+        this.required = required;
+    }
 
+    /**
+     * SelectItem getter Method provides a getter method to an ArrayList of
+     * <SelectItem> objects for a given options String. The options String contains
+     * multiple options spearated by ; One option can be devided by a | into a label
+     * and a value component. Example: 
+     * <p>
+     * <code>
+     *   SEPA|sepa_transfer;Bankeinzug/ Kreditkarte|direct_debit"
+     * </code>
+     * 
+     * <code>
+     * <f:selectItems value="#{item.selectItems}" />
+     * </code>
+     * 
+     * @return
+     * @throws Exception
+     */
+    public List<SelectItem> getSelectItems() throws Exception {
+        ArrayList<SelectItem> selection;
+        selection = new ArrayList<SelectItem>();
 
-	public void setRequired(boolean required) {
-		this.required = required;
-	}
+        // check if a value for this param is available...
+        // if not return an empty list
+        if (this.options==null || this.options.isEmpty()) {
+            return selection;
+        }
 
+        // get value list first value from vector if size >0
+        String[] valueList = options.split(";");
+        for (String aValue : valueList) {
+            // test if aValue has a | as an delimiter
+            String sValue = aValue;
+            String sName = sValue;
+            if (sValue.indexOf("|") > -1) {
+                sValue = sValue.substring(0, sValue.indexOf("|"));
+                sName = sName.substring(sName.indexOf("|") + 1);
+            }
+            selection.add(new SelectItem(sName.trim(), sValue.trim()));
+        }
+        return selection;
+    }
 }

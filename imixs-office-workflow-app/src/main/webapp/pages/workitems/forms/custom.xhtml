@@ -69,6 +69,34 @@
 							<h:inputTextarea required="#{item.required}" pt:data-item="#{item.name}"
 								class="imixs-editor-basic" value="#{workitem.item[item.name]}" />
 						</c:if>
+						
+						<c:if test="#{item.type eq 'selectBooleanCheckbox'}">
+							<h:selectBooleanCheckbox required="#{item.required}" pt:data-item="#{item.name}"
+								value="#{workitem.item[item.name]}" >
+							</h:selectBooleanCheckbox>
+						</c:if>
+
+						
+						<!-- Options List -->
+						<c:if test="#{item.type eq 'selectOneMenu'}">
+							<h:selectOneMenu required="#{item.required}" pt:data-item="#{item.name}"
+								value="#{workitem.item[item.name]}" >
+								<f:selectItems value="#{item.selectItems}" />
+							</h:selectOneMenu>
+						</c:if>
+						<c:if test="#{item.type eq 'selectOneRadio'}">
+							<h:selectOneRadio required="#{item.required}" pt:data-item="#{item.name}"
+								value="#{workitem.item[item.name]}" >
+								<f:selectItems value="#{item.selectItems}" />
+							</h:selectOneRadio>
+						</c:if>
+						<c:if test="#{item.type eq 'selectManyCheckbox'}">
+							<h:selectManyCheckbox required="#{item.required}" pt:data-item="#{item.name}"
+								value="#{workitem.itemListArray[item.name]}" >
+								<f:selectItems value="#{item.selectItems}" />
+							</h:selectManyCheckbox>
+						</c:if>
+						
 
 					</dd>
 				</dl>
