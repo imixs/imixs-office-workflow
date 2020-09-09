@@ -7,8 +7,6 @@
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
-	
-
 	<div class="imixs-workitem-chronicle-actions imixs-form">
 		<ui:include src="/pages/workitems/workitem_footer.xhtml" />
 		<!-- Comment Input -->
@@ -26,26 +24,24 @@
 		</div>
 	</div>
 
-
+	<ui:param name="newWorkitem" value="#{workflowController.isNewWorkitem()}"/>
 	<div class="imixs-workitem-chronicle-tabs">
 		<ul>
-			<li class="active"><a href="#" onclick="imixsOfficeWorkitem.toggleChronicleHistory();return false;" class="chronicle-tab-history"><span class="typcn typcn-rss"></span> #{message.history}</a></li>
-			<li><a href="#" onclick="imixsOfficeWorkitem.toggleChronicleDocuments();return false;" class="chronicle-tab-documents"><span class="typcn typcn-cloud-storage-outline"></span> #{message.documents} <h:panelGroup rendered="#{workflowController.workitem.item['$file.count'] gt 0}">*</h:panelGroup></a></li>
+			<ui:fragment rendered="#{!newWorkitem}">
+				<li class="active"><a href="#" onclick="imixsOfficeWorkitem.toggleChronicleHistory();return false;" class="chronicle-tab-history"><span class="typcn typcn-rss"></span> #{message.history}</a></li>
+			</ui:fragment>
+			<li class="#{newWorkitem?'active':''}"><a href="#" onclick="imixsOfficeWorkitem.toggleChronicleDocuments();return false;" class="chronicle-tab-documents"><span class="typcn typcn-cloud-storage-outline"></span> #{message.documents} <h:panelGroup rendered="#{workflowController.workitem.item['$file.count'] gt 0}">*</h:panelGroup></a></li>
 		</ul>
 	</div>
 
 	<div class="imixs-workitem-chronicle-content">
-	
 		<div id="imixs-workitem-chronicle-tab-history" class="entries">
 			<ui:include src="/pages/workitems/workitem_chronicle_entries.xhtml" />
 		</div>
-
-		<div id="imixs-workitem-chronicle-tab-documents" class="documents" style="display:none;">
+		<div id="imixs-workitem-chronicle-tab-documents" class="documents" style="display:#{newWorkitem?'normal':'none'};">
 			<ui:include src="/pages/workitems/workitem_documents.xhtml" />
 		</div>
 	</div>
-	
-	
 	
 </ui:composition>
 
