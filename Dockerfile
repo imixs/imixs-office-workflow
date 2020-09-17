@@ -1,11 +1,17 @@
-FROM imixs/wildfly:1.2.9
+FROM jboss/wildfly
+#FROM imixs/wildfly:1.2.9
+
+LABEL description="Imixs-Office-Workflow"
+LABEL maintainer="ralph.soika@imixs.com"
+
+# Copy EclipseLink
+COPY ./docker/configuration/wildfly/modules/ /opt/jboss/wildfly/modules/
+
 
 # Setup configuration
-COPY ./docker/configuration/imixsrealm.properties ${WILDFLY_CONFIG}/
-COPY ./docker/configuration/standalone.xml ${WILDFLY_CONFIG}/
+COPY ./docker/configuration/wildfly/imixsrealm.properties /opt/jboss/wildfly/standalone/configuration/
+COPY ./docker/configuration/wildfly/standalone.xml /opt/jboss/wildfly/standalone/configuration/
 
-# OPTIONAL: copy the standalone.conf file for custom VM setup (e.g. heap size)
-#COPY ./src/docker/configuration/standalone.conf ${WILDFLY_HOME}/bin/
 
 # Deploy artefact
-COPY ./imixs-office-workflow-app/target/imixs-office-workflow*.war ${WILDFLY_DEPLOYMENT}/
+ADD ./imixs-office-workflow-app/target/imixs-office-workflow*.war /opt/jboss/wildfly/standalone/deployments/
