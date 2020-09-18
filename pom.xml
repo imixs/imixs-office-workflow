@@ -74,7 +74,6 @@
 		<org.imixs.marty.version>4.1.8-SNAPSHOT</org.imixs.marty.version>
 		<microprofile.version>2.2</microprofile.version>
 		<org.imixs.office.version />
-		<org.imixs.adapters.version>2.0.0</org.imixs.adapters.version>
 		<org.imixs.archive.version>2.2.2-SNAPSHOT</org.imixs.archive.version>
 		<org.imixs.melman.version>1.0.18</org.imixs.melman.version>
 		
@@ -86,7 +85,9 @@
 		<imixs-office.realm>imixsrealm</imixs-office.realm>
 		<imixs-office.jta-data-source>jdbc/office</imixs-office.jta-data-source>
 		<imixs-office.IndexDir>lucene/office-workflow-index</imixs-office.IndexDir>
-		<!-- jndi Mail res-ref name -->
+		<!-- jndi Mail res-ref name
+		java:/mail/org.imixs.workflow.mail
+		 -->
 		<imixs-mail-res-ref-name>java:/mail/org.imixs.workflow.mail</imixs-mail-res-ref-name>
 		<!-- imixs-github-repo on github - see ~/.m2/settings.xml -->
 		<github.global.server>imixs-github-repo</github.global.server>
@@ -278,15 +279,6 @@
 			</dependency>
 
 			
-
-			<!-- QR-Code service -->
-			<dependency>
-				<groupId>org.imixs.workflow</groupId>
-				<artifactId>imixs-adapters-qrcode</artifactId>
-				<version>${org.imixs.adapters.version}</version>
-				<scope>provided</scope>
-			</dependency>
-
 			<!-- Imixs Melman -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
@@ -294,15 +286,7 @@
 				<version>${org.imixs.melman.version}</version>
 				<scope>provided</scope>
 			</dependency>
-
-			<!-- Imixs Adapters -->
-			<dependency>
-				<groupId>org.imixs.workflow</groupId>
-				<artifactId>imixs-adapters-prometheus</artifactId>
-				<version>${org.imixs.adapters.version}</version>
-				<scope>provided</scope>
-			</dependency>
-
+			
 			<!-- Imixs-Archive -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
