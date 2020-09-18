@@ -74,10 +74,7 @@ Using the $JAVA_OPTS variable you can extend the existing setup which is the rec
 	
 ## Wildfly
 
-In the directory /configuration/wildfly/ you can find additional configuration instructions for individual builds
-
-For further customization you can edit the standalone.xml file for your individual needs. The file 'standalone-wildfly20.xml' contains the origin standalone configuration of Wildlfly 20. You can use this file as a template for an individual setup of Wildfly.
-
+For individual builds of the wildfly Docker image and additional configuration see the section [Wildfly](./wildfly/README.md).
 
 ## Payara
 
@@ -85,5 +82,5 @@ To build a Docker image based on Payara micro see the section [Payara Micro](./p
 	
 ## Open Liberty
 
-To build a Docker image based on Payara micro see the section [Payara Micro](./payara/README.md).
+To build a Docker image based on Payara micro see the section [OpenLiberty](./openlibertry/README.md).
  
