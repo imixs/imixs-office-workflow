@@ -1,6 +1,8 @@
 # Wildfly Docker Image
 
-This direcotry contains configuration files prepared to run build a Docker image to run Imixs-Office-Workflow in a the official jboss/wildfly Docker Container version 20.0.1.Final.
+This directory contains configuration files prepared to run build a Docker image to run Imixs-Office-Workflow in a the official jboss/wildfly Docker Container version 20.0.1.Final.
+
+	/imixs/imixs-office-workflow
 
 The directory provides the following files:
 
@@ -9,10 +11,47 @@ The directory provides the following files:
  - imixsrealm.properties - role mapping for security realml
  - modules  - eclipselink and postgres libraries
  
-The docker file creates a Wildfly container with PostgresSQL jdbc driver and eclipse link installed. To build the docker image run:
+The docker file creates a Wildfly container with PostgresSQL jdbc driver and eclipse link installed.
+
+## Build
+
+To build the latest Docker container image locally run:
 
 	$ mvn clean install -Pdocker
 	
+To create the current version image (based on the project version) run:
+
+	$ mvn clean install -Pdocker-build
+
+	
+**Debug Mode**
+
+To run Wildfly in Debug mode you can build a custom image. This can be useful during development. To build the corresponding image run the maven profile 'docker-wildfly-debug':
+
+	$ mvn clean install -Pdocker-wildfly-debug
+
+The container will than accept debug remote connections on Port 8787.
+
+**Note:** You need to rebuild the image in standard mode before you go into production!
+
+**Docker Repo**
+
+To push the current version image (based on the project version)  to a private Docker repository run:
+
+	$ mvn clean install -Pdocker-push
+
+The Docker image will be pushed to the repo defined by the maven property ${org.imixs.docker.registry}. 
+
+**Docker Hub**
+
+To push the current version image (based on the project version)  to the official docker hub repository run:
+
+	$ mvn clean install -Pdocker-hub
+
+To push the latest Docker version image to the official docker hub repository run:
+
+	$ mvn clean install -Pdocker-hub-latest
+
 
 ## Customize Configuration
 
@@ -23,8 +62,7 @@ The standalone.xml file accepts optional environment variables to configure the 
  - POSTGRES_PASSWORD - postgres password 
  - MAILGATEWAY - mail gateway host
  
- 
-The file 'standalne-wildfly20.xml' contains the origin standalone configuration of Wildlfly 20. You can use this file as a template for your individual configuraiton.
+For further customization you can edit the standalone.xml file for your individual needs. The file 'standalone-wildfly20.xml' contains the origin standalone configuration of Wildlfly 20. You can use this file as a template for an individual setup of Wildfly.
  
 ## Custom JAVA_OPTS
 
@@ -35,16 +73,3 @@ The JVM Options used to start Wildfly can be customized by the environmetn varia
 Using the $JAVA_OPTS variable you can extend the existing setup which is the recommended way to use JAVA_OPTS.
 	
  
-## Debug Mode
-
-We provide a docker image to run Wildfly in Debug mode. This is usefull durign development. To build the corresponding image run:
-
-	$ mvn clean install -Pdocker-wildfly-debug
-
-
-The container will than accept debug remote connections on Port 8787.
-
-**Note:** You need to rebuild the image in standard mode befor you go into production!
-	 
- 
-## Kubernetes 
