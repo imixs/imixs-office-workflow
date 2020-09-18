@@ -62,25 +62,28 @@ The standalone.xml file accepts optional environment variables to configure the 
  - POSTGRES_PASSWORD - postgres password 
  - MAILGATEWAY - mail gateway host
  
-
  
-## Custom JAVA_OPTS
+**Custom JAVA_OPTS**
 
 The JVM Options used to start Wildfly can be customized by the environmetn variable JAVA_OPTS. For example you can disable the nashorn warning:
 
 	JAVA_OPTS: "$JAVA_OPTS -Dnashorn.args=--no-deprecation-warning"
 	
 Using the $JAVA_OPTS variable you can extend the existing setup which is the recommended way to use JAVA_OPTS.
+
+## Customize Docker Images
 	
+You can customize the Docker image in various ways and run Imixs-Office-Workflow on different kind of application servers. 
+
 ## Wildfly
 
-For individual builds of the wildfly Docker image and additional configuration see the section [Wildfly](./wildfly/README.md).
+For individual builds of the wildfly Docker image and additional configuration see the section [Wildfly](./configuration/wildfly/README.md).
 
 ## Payara
 
-To build a Docker image based on Payara micro see the section [Payara Micro](./payara/README.md).
+To build a Docker image based on Payara micro see the section [Payara Micro](./configuration/payara/README.md).
 	
 ## Open Liberty
 
-To build a Docker image based on Payara micro see the section [OpenLiberty](./openlibertry/README.md).
+To build a Docker image based on Payara micro see the section [OpenLiberty](./configuration/openlibertry/README.md).
  
