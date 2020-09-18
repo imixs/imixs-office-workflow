@@ -4,11 +4,12 @@ services:
   app:
     image: my-registry.com:8300/imixs/imixs-office-workflow:3.5.0
     environment:
-      WILDFLY_PASS: adminadmin
+      TZ: "Europe/Berlin" 
+      JAVA_OPTS: "-Dnashorn.args=--no-deprecation-warning"
+      MAILGATEWAY: "localhost"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "adminadmin"
       POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
-
     deploy:
       labels:
         traefik.port: "8080"

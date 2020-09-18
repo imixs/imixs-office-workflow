@@ -15,14 +15,13 @@ services:
       - db
     environment:
       TZ: "Europe/Berlin" 
-      WILDFLY_PASS: adminadmin
-      DEBUG: "true"
+      JAVA_OPTS: "-Dnashorn.args=--no-deprecation-warning"
+      MAILGATEWAY: "localhost"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "adminadmin"
       POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
       TIKA_SERVICE_ENDPONT: "http://tika:9998/tika"
       ARCHIVE_SERVICE_ENDPOINT: "http://imixsarchiveservice:8080/api"
-
     ports:
       - "8080:8080"
       - "9990:9990"

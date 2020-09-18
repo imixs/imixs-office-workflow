@@ -14,19 +14,17 @@ services:
     depends_on:
       - db
     environment:
-      WILDFLY_PASS: adminadmin
-      DEBUG: "true"
+      TZ: "Europe/Berlin" 
+      JAVA_OPTS: "-Dnashorn.args=--no-deprecation-warning"
+      MAILGATEWAY: "localhost"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "adminadmin"
       POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
-
       ASYNCEVENT_PROCESSOR_ENABLED: "true"
       ASYNCEVENT_PROCESSOR_INITIALDELAY: "10000"
-
       TIKA_SERVICE_MODE: "model"
       TIKA_SERVICE_ENDPOINT: "http://tika:9998/tika"
       TIKA_OCR_MODE: "MIXED"
-
       ML_SERVICE_ENDPOINT: "http://imixs-ml-spacy:8000/analyse/"
 
     ports:

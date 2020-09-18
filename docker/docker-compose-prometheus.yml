@@ -13,8 +13,9 @@ services:
     depends_on:
       - db
     environment:
-      WILDFLY_PASS: adminadmin
-      DEBUG: "true"
+      TZ: "Europe/Berlin" 
+      JAVA_OPTS: "-Dnashorn.args=--no-deprecation-warning"
+      MAILGATEWAY: "localhost"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "adminadmin"
       POSTGRES_CONNECTION: "jdbc:postgresql://db/office"

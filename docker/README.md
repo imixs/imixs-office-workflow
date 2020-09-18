@@ -75,15 +75,27 @@ Using the $JAVA_OPTS variable you can extend the existing setup which is the rec
 	
 You can customize the Docker image in various ways and run Imixs-Office-Workflow on different kind of application servers. 
 
-## Wildfly
+**Wildfly**
 
 For individual builds of the wildfly Docker image and additional configuration see the section [Wildfly](./configuration/wildfly/README.md).
 
-## Payara
+**Payara**
 
 To build a Docker image based on Payara micro see the section [Payara Micro](./configuration/payara/README.md).
 	
-## Open Liberty
+**Open Liberty**
 
 To build a Docker image based on Payara micro see the section [OpenLiberty](./configuration/openlibertry/README.md).
  
+## Build Your Own Image
+
+Based on the official Imixs-Office-Workflow Docker image you can build your own custom image with a customized build of Imixs-Office-Workflow. 
+
+	FROM imixs/imixs-office-workflow
+	
+	# Deploy artefact
+	RUN rm -r /opt/jboss/wildfly/standalone/deployments/*
+	COPY ./*-app/target/*-app-*.war /opt/jboss/wildfly/standalone/deployments/
+
+	
+	
