@@ -14,3 +14,6 @@ COPY ./docker/configuration/wildfly/standalone.xml /opt/jboss/wildfly/standalone
 
 # Deploy artefact
 ADD ./imixs-office-workflow-app/target/imixs-office-workflow*.war /opt/jboss/wildfly/standalone/deployments/
+
+# Run with management interface
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
