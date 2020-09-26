@@ -1,4 +1,4 @@
-version: "3.1"
+version: "3.6"
 services:
 
   db:
@@ -20,6 +20,14 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "adminadmin"
       POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
+
+    deploy:
+      # To run with memory limits 
+      # start with
+      # $ docker-compose --compatibility up
+      resources:
+        limits:
+          memory: 512M
     ports:
       - "8080:8080"
       - "9990:9990"

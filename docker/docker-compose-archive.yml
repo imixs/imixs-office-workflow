@@ -15,7 +15,7 @@ services:
       - db
     environment:
       TZ: "Europe/Berlin" 
-      JAVA_OPTS: "-Dnashorn.args=--no-deprecation-warning"
+      JAVA_OPTS: "-Xms300m -Xmx300m -XX:MaxRAM=512m -XX:MaxPermSize=130m -Dnashorn.args=--no-deprecation-warning"
       MAILGATEWAY: "localhost"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "adminadmin"
@@ -26,6 +26,14 @@ services:
       - "8080:8080"
       - "9990:9990"
       - "8787:8787"
+
+    deploy:
+      # To run with memory limits 
+      # start with
+      # $ docker-compose --compatibility up
+      resources:
+        limits:
+          memory: 1024M
     volumes:
         - ./deployments:/opt/jboss/wildfly/standalone/deployments/
 
@@ -49,6 +57,14 @@ services:
       WORKFLOW_SERVICE_USER: "admin"
       WORKFLOW_SERVICE_PASSWORD: "adminadmin"
       WORKFLOW_SERVICE_AUTHMETHOD: "form"
+    deploy:
+      # To run with memory limits 
+      # start with
+      # $ docker-compose --compatibility up
+      resources:
+        limits:
+          memory: 512M
+
     ports:
       - "8081:8080"
       #- "9009:9009"
