@@ -71,7 +71,10 @@ spec:
         app: imixs-office-workflow
     spec:
       containers:
-      - env:
+      - name: imixs-office-workflow
+        image: imixs/imixs-office-workflow:latest
+        imagePullPolicy: Always
+        env:
         - name: POSTGRES_CONNECTION
           value: jdbc:postgresql://db/office
         - name: POSTGRES_PASSWORD
@@ -82,8 +85,6 @@ spec:
           value: Europe/Berlin
         - name: WILDFLY_PASS
           value: adminadmin
-        image: imixs/imixs-office-workflow:latest
-        name: imixs-office-workflow
         # run as root because of persistence volume storage
         securityContext:
           runAsUser: 0
