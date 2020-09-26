@@ -91,12 +91,12 @@
 									</h:panelGroup>
 								</f:facet>
 								<!-- hidden sort field  -->
-								<h:outputText value="#{record.item['$modified']}" style="display:none">
+								<h:outputText value="#{record.item['$lasteventdate']}" style="display:none">
 									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 										pattern="yyyyMMdd" />
 								</h:outputText>
 								
-								<h:outputText value="#{record.item['$modified']}">
+								<h:outputText value="#{record.item['$lasteventdate']}">
 									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 										pattern="#{message.dateTimePattern}" />
 								</h:outputText>

@@ -35,12 +35,12 @@
 
 			<h:panelGroup>
 				<h:outputText
-					value="#{workflowController.workitem.item['$modified']}">
+					value="#{workflowController.workitem.item['$lasteventdate']}">
 					<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 						pattern="#{message.dateTimePatternShort}" />
 				</h:outputText>
 				<h:outputText
-					value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['namCurrentEditor'])}" />
+					value=" #{message.by} #{userController.getUserName(workflowController.workitem.item['$Editor'])}" />
 			</h:panelGroup>
 
 		</h:panelGrid>
