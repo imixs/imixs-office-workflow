@@ -65,12 +65,11 @@
 				</ui:repeat>
 			</h:panelGroup>
 
-			<div class="pull-right">
-
+			<div class="date-time">
 				<h:outputText value="#{workitem.item['$lasteventdate']}"
 					style="font-weight: normal;">
 					<f:convertDateTime timeZone="#{message.timeZone}"
-						pattern="dd. MMM (HH:mm)" />
+						pattern="#{message.dateTimePattern}" />
 				</h:outputText>
 
 			</div>

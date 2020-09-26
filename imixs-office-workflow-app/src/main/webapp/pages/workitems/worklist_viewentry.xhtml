@@ -65,6 +65,8 @@
 				</ui:repeat>
 			</h:panelGroup>
 			<div class="pull-right">
+				<h:outputText
+					value="#{userController.getUserName(workitem.item['$Editor'])} - " />
 				<h:outputText value="#{workitem.item['$lasteventdate']}"
 					style="font-weight: normal;">
 					<f:convertDateTime timeZone="#{message.timeZone}"
