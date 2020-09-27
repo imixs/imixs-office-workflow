@@ -1,7 +1,6 @@
 ---
 ###################################################
 # Persistence Volume Claim for DB
-# using the default storageClassName
 ###################################################
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -10,7 +9,9 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-#  storageClassName: longhorn
+  # The default storageClassName is used here. 
+  # You can overwrite the classname
+  # storageClassName: longhorn
   resources:
     requests:
       storage: 2Gi
@@ -18,18 +19,19 @@ spec:
 
 ---
 ###################################################
-# Persistence Volume Claim for Appdata
-# using the default storageClassName
+# Persistence Volume Claim for index
 ###################################################
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: appdata
+  name: index
 spec:
   accessModes:
     - ReadWriteOnce
-#  storageClassName: longhorn
+  # The default storageClassName is used here. 
+  # You can overwrite the classname
+  # storageClassName: longhorn
   resources:
     requests:
-      storage: 2Gi
+      storage: 1Gi
 

@@ -109,11 +109,10 @@ spec:
 
         volumeMounts:
         - mountPath: /opt/jboss/lucene
-        #- mountPath: /home/imixs
-          name: appdata
+          name: index
       restartPolicy: Always
       volumes:
-      - name: appdata
+      - name: index
         persistentVolumeClaim:
-          claimName: appdata
+          claimName: index
 

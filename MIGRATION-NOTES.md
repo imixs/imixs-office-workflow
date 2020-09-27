@@ -2,6 +2,49 @@
 
 The following section contains migration notes for Imixs-Office-Workflow. 
 
+
+## Imixs-Office-Workflow 4.3.1
+
+ - Upgrade Imixs-Workflow 5.2.5 => 5.2.6
+ - Upgrade Lucene from version 7.5.0 => 7.7.3 - An index update is NOT necessary
+
+
+## Imixs-Office-Workflow 4.3.0
+
+Docker image changed to the official Wildfly version 20. For that reason the lucene index location has changed:
+
+	#Old
+	/home/imixs/
+	
+	# New
+	/opt/jboss/lucene/
+
+For that reason the volume mapping need to be changed. This is an example for Kubernetes:
+
+        volumeMounts:
+        - mountPath: /opt/jboss/lucene
+          name: lucene
+      restartPolicy: Always
+      volumes:
+      - name: lucene
+        persistentVolumeClaim:
+          claimName: lucene
+
+
+**Note:** This path mapping assumes that the property _imixs-office.IndexDir_ points to "lucene/office-workflow-index"
+
+
+
+## Imixs-Office-Workflow 4.2.0
+	
+No migration needed
+
+
+## Imixs-Office-Workflow 4.1.0
+
+No migration needed
+
+
 ## Imixs-Office-Workflow 4.0.0
 
 Based on Imixs-Workflow 5.0.3
