@@ -37,7 +37,7 @@ services:
 
 # Imixs-ML-spaCy Service
   imixs-ml-spacy: 
-    image: imixs/imixs-ml-spacy
+    image: imixs/imixs-ml-spacy:latest
     environment:
       PYTHONUNBUFFERED: 1
       TZ: "Europe/Berlin"
@@ -47,8 +47,8 @@ services:
 
     ports:
       - "8000:8000"  
-    volumes:
-      - ./src/models/:/usr/src/app/models/
+    #volumes:
+    #  - ./src/models/:/usr/src/app/models/
 
 
 # Imixs-ML API sevice
