@@ -125,14 +125,7 @@ The docker-compose file *docker-compose-archive.yml* provides a full archive set
 
 The Imixs-Archive service is accessible on port number 8081
 
-### Imixs-ML
 
-Imixs-Office-Workflow supports the integration of the [Imixs-ML framework](https://github.com/imixs/imixs-ml). To activate the Imixs-ML functionality a Imixs-ML-Spacy service and an optional Imixs-ML-Training Service need to be started. 
-The docker-compose yaml file docker/docker-compose-ml.yml shows an example setup of the service integration.
-
-Optional custom ML models can be integrated by adding a docker volume. E.g:
-
-	./src/models/:/usr/src/app/models/
 
 
 ## Docker for Production
