@@ -72,28 +72,18 @@ select {background-color: transparent;padding: 0.4em 0.15em;}
 fieldset {border: 1px solid #ddd; margin-bottom: 1em; padding: 0.35em 0.625em 0.75em;}
 
 /*** Default DL Definitonen ****/
-dl {	margin: 0;	vertical-align: top;}
+dl {margin: 0;	vertical-align: top;}
+dl dd input[type="text"], dd input[type="password"], dd select {width: 100%;}
+dl dd textarea {width: 100%; height: 5em;}
 
-dl dd input[type="text"],.imixs-form-section-2 dd input[type="password"],.imixs-form-section-2 dd select
-	{width: 100%;}
-
-dd textarea {width: 100%;	height: 5em;}
-
-/** Form Sections */
-.form-section {}
-/** Field size **/
-.form-section dl dd input[type="text"],.form-section dd input[type="password"],.form-section dd select
-{width: 100%;}
 .form-section dl dd textarea {width: 100%;	height: 5em;}
 
-
-.imixs-form-section dd,.imixs-form-section-2 dd {	margin-left: 0px;}
+.imixs-form-section dd,.imixs-form-section-2 dd {margin-left: 0px;}
 
 /* Simulation row */
 .imixs-form-section,.imixs-form-section-2,.imixs-form-section-3 {clear: both;width: 100%;}
 
-.imixs-form-section:after,.imixs-form-section-2:after,.imixs-form-section-3:after
-{
+.imixs-form-section:after,.imixs-form-section-2:after,.imixs-form-section-3:after {
 	content: ".";
 	display: block;
 	clear: left;
@@ -123,10 +113,18 @@ dd textarea {width: 100%;	height: 5em;}
 	padding: 0 10px 10px 0;
 }
 
-/* select boxes fix width */
-.imixs-form-section select, .imixs-form-section-2 select, .imixs-form-section-3 select {
-	width:100%;
+/* Simulation col-4 */
+.imixs-form-section-3 dl {
+	margin: 0;
+	width: 33.3333%;
+	display: inline-block;
+	float: left;
+	min-height: 1px;
+	position: relative;
+	padding: 0 10px 10px 0;
 }
+
+
 
 @media screen and (max-width: 768px) {
 	.imixs-form-section-2 dl {
@@ -137,17 +135,6 @@ dd textarea {width: 100%;	height: 5em;}
 		left: 0;
 		text-align: left;
 	}
-}
-
-/* Simulation col-4 */
-.imixs-form-section-3 dl {
-	margin: 0;
-	width: 33.3333%;
-	display: inline-block;
-	float: left;
-	min-height: 1px;
-	position: relative;
-	padding: 0 10px 10px 0;
 }
 
 @media screen and (max-width: 768px) {

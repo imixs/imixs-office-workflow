@@ -68,7 +68,7 @@ dl dt {
 }
 
 
-dl dt input[type="text"], dl dt input[type="text"]:focus {
+dl dt input[type="text"], dl dt input[type="password"] {
     width: 100%;
     border:none;
     -webkit-box-shadow: none;
@@ -77,10 +77,7 @@ dl dt input[type="text"], dl dt input[type="text"]:focus {
 }
 
 dl dt input[type="text"]:hover {
-    width: 100%;
-    border:none;
     background-color: #f8f8f8;
-    
 }
 
 
@@ -483,8 +480,12 @@ dl dt input[type="text"]:hover {
 	font-weight: bold;
 }
 
-.imixs-form .imixs-body  label {
+.imixs-form .imixs-body label {
 	font-weight: bold;
+}
+
+.imixs-form .imixs-body input[type="radio"] + label {
+    font-weight: normal;
 }
 
 .imixs-form .imixs-header hr {
@@ -1083,25 +1084,29 @@ dl dd  .imixs-datetime-picker select {
 	border: 1px solid #ddd;
 }
 
-.imixsdatatable tr:HOVER td {
+.imixsdatatable  td.ui-state-hover {
+	border: 1px solid #ddd;
+}
+
+.imixsdatatable tbody tr:HOVER td {
 	background: #e4f5fb;
 	background-color: #e4f5fb;
 	color: #222;
 }
 
-.imixsdatatable tr:HOVER a {
+.imixsdatatable tbody tr:HOVER a {
 	color: #428bca;
 }
 
-.imixsdatatable tr:hover {
+.imixsdatatable tbody tr:hover {
 	border-left: 4px solid #428bca;
 }
 
-.imixsdatatable tr td:first-child {
+.imixsdatatable tbody tr td:first-child {
 	padding-left: 4px;
 }
 
-.imixsdatatable tr:hover td:first-child {
+.imixsdatatable tbody tr:hover td:first-child {
 	padding-left: 3px;
 }
 
