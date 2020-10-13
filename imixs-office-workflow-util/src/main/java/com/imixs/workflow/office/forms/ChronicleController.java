@@ -44,6 +44,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.event.Observes;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -53,6 +54,7 @@ import org.imixs.marty.workflow.WorkitemLinkController;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.faces.data.WorkflowController;
+import org.imixs.workflow.faces.data.WorkflowEvent;
 
 /**
  * The ChronicleController collects all chronicle data
@@ -255,6 +257,27 @@ public class ChronicleController implements Serializable {
 		logger.fine("...init in " + (System.currentTimeMillis() - l) + "ms");
 	}
 
+	
+	 /**
+     * WorkflowEvent listener
+     * <p>
+     * If a new WorkItem was created the file upload will be reset.
+     * 
+     * 
+     * @param workflowEvent
+     */
+    public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) {
+        if (workflowEvent == null)
+            return;
+
+        if (WorkflowEvent.WORKITEM_CREATED == workflowEvent.getEventType() 
+                || WorkflowEvent.WORKITEM_CHANGED == workflowEvent.getEventType()) {
+            // reset chronicle data...
+            init();
+        }
+
+    }
+    
 	/**
 	 * Returns the current active filter or null if no filter is active. 
 	 * @return
