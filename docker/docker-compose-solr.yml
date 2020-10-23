@@ -27,7 +27,8 @@ services:
       - db
       - solr
     environment:
-      TZ: "Europe/Berlin" 
+      TZ: "CET" 
+      LANG: "en_US.UTF-8"  
       JAVA_OPTS: "-Dnashorn.args=--no-deprecation-warning"
       MAILGATEWAY: "localhost"
       POSTGRES_USER: "postgres"

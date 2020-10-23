@@ -14,7 +14,8 @@ services:
     depends_on:
       - db
     environment:
-      TZ: "Europe/Berlin" 
+      TZ: "CET" 
+      LANG: "en_US.UTF-8"  
       JAVA_OPTS: "-Xms300m -Xmx300m -XX:MaxRAM=512m -XX:MaxPermSize=130m -Dnashorn.args=--no-deprecation-warning"
       MAILGATEWAY: "localhost"
       POSTGRES_USER: "postgres"

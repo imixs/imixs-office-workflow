@@ -6,7 +6,6 @@ LABEL maintainer="ralph.soika@imixs.com"
 # Copy EclipseLink
 COPY ./docker/configuration/wildfly/modules/ /opt/jboss/wildfly/modules/
 
-
 # Setup configuration
 COPY ./docker/configuration/wildfly/imixsrealm.properties /opt/jboss/wildfly/standalone/configuration/
 COPY ./docker/configuration/wildfly/standalone.xml /opt/jboss/wildfly/standalone/configuration/
