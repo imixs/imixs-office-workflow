@@ -16,14 +16,47 @@
 
 .ml-search-results {
 	display: none;
-	width: 96%;
+	width: 100%;
 	margin-top: 39px;
 	position: absolute;
 	z-index: 1;
-	top: 10px;
-	border: 1px solid #CCC;
+	top: 9px;
+	border: 1px solid #faa732;
+	border-top:none;
 	background: #fff;
-	padding: 1px 5px;
+	padding: 0;
 	box-shadow: 3px 3px 4px #EEE;
-
 }
+
+
+.ml-search-results-element {
+  padding: 4px 5px;
+  cursor: pointer;
+  background-color: #FFF;
+  border-top: 1px solid #d4d4d4; 
+}
+
+
+
+.ml-search-results-element:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e9;
+}
+
+
+.ml-search-results-element a {
+	color: #777;
+	font-weight: bold;
+}
+
+.ml-search-results-element.active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: #2a8aad;
+}
+.ml-search-results-element.active a {
+  color: #ffffff;
+}
+
+
+
+

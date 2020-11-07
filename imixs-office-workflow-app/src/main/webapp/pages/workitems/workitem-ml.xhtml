@@ -34,8 +34,8 @@
 	<!-- 
 		see:
 		https://stackoverflow.com/questions/16588327/how-to-invoke-a-jsf-managed-bean-on-a-html-dom-event-using-native-javascript
-		
 		https://dzone.com/articles/execute-a-jsf-ajax-request-by-just-a-function-call
+		https://www.w3schools.com/howto/howto_js_autocomplete.asp
 	 -->
   		<h:commandScript name="imixsOfficeML.mlSearch" action="#{mlController.search()}" 
   			rendered="#{mlController!=null}" render="ml-search-results" onevent="showMLSearchResult" />
@@ -44,9 +44,9 @@
 
 			<ui:repeat var="suggest" value="#{mlController.searchResult}">
 
-				<div>
+				<div class="ml-search-results-element">
 					<a href="javascript:void(0)" onclick="selectMLSearchResultEntry('#{suggest}')">
-						<h:outputText style="font-weight: bold;" value="#{suggest}" escape="false" />
+						<h:outputText value="#{suggest}" escape="false" />
 					</a>
 				</div>
 			</ui:repeat>

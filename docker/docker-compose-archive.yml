@@ -16,7 +16,7 @@ services:
     environment:
       TZ: "CET" 
       LANG: "en_US.UTF-8"  
-      JAVA_OPTS: "-Xms300m -Xmx300m -XX:MaxRAM=512m -XX:MaxPermSize=130m -Dnashorn.args=--no-deprecation-warning"
+      JAVA_OPTS: "-Dnashorn.args=--no-deprecation-warning"
       MAILGATEWAY: "localhost"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "adminadmin"
@@ -49,9 +49,7 @@ services:
   imixsarchiveservice:
     image: imixs/imixs-archive-service
     environment:
-      TZ: "Europe/Berlin"    
-      #WILDFLY_PASS: adminadmin
-      #DEBUG: "true"
+      TZ: "CET"    
       ARCHIVE_CLUSTER_CONTACTPOINTS: "cassandra"
       ARCHIVE_CLUSTER_KEYSPACE: "imixsdev"
       WORKFLOW_SERVICE_ENDPOINT: "http://app:8080/api"
@@ -68,8 +66,8 @@ services:
 
     ports:
       - "8081:8080"
+      - "8788:8787"
       #- "9009:9009"
-      #- "8788:8787"
 
 # Cassandra
   cassandra:
