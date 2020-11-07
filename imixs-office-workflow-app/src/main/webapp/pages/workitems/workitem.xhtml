@@ -4,6 +4,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	template="/layout/template.xhtml">
 
 	<h:head>
@@ -41,7 +42,7 @@
 	<ui:define name="content">
 		<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
 		<f:view>
-			<h:form id="workitem_form">
+			<h:form id="workitem_form" pt:autocomplete="on">
 				<!-- Imixs-ML integration -->
 				<ui:fragment rendered="#{mlController!=null}">
 					<ui:include src="/pages/workitems/workitem-ml.xhtml">
