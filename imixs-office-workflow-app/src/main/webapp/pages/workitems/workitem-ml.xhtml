@@ -10,47 +10,76 @@
 	<!-- Imixs-ML integration
 	
 		This subform is loaded by the workitem.xhtml page if the MLController is available.
-		The subform loads the current ml status into a json object 'ml_json' and provides a
-		jsf commandScript for a suggestion list 
 		
-		In addition the subform includes a jsf commandScript which calls the mlController.serach method in the backend.
-		The result list of this search is displayed in the current input field. All this is controlled by java script
-		form the imixs-ml.js library!
+		The subform loads the current ml status into a json object 'mlResult'. This element provides the 
+		current ML Status and a list of all ML Items.
+		
+		The subform  provides a jsf commandScript which calls the mlController.search method in the backend.
+			
+		The script below inits a autocompletion feature for each ml-input field. 
+		See imixs-office.autocompletion.js 
 
-	-->
+		See also:
+		https://stackoverflow.com/questions/16588327/how-to-invoke-a-jsf-managed-bean-on-a-html-dom-event-using-native-javascript
+		https://dzone.com/articles/execute-a-jsf-ajax-request-by-just-a-function-call
+		https://www.w3schools.com/howto/howto_js_autocomplete.asp
+	 -->
+  	<h:commandScript name="mlSearch" action="#{mlController.search()}" 
+  			rendered="#{mlController!=null}" render="autocomplete-resultlist" onevent="autocompleteShowResult" />
 	
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/imixs-ml.js?build=#{app.application_build_timestamp}"></script>
+	
 	<script type="text/javascript">
 		/*<![CDATA[*/
+			// get the crurent imixs-ml status
+			var mlResult = #{mlController.getMLResult()};
 
-			// set ml status
-			imixsOfficeML.mlResult = #{mlController.getMLResult()};
+			// init ml input fields...
+			$(document).ready(function() {
+				if (mlResult) {
+					fullItemList = $("input[data-item]");
+					// if suggest mode than update the style for input items asociated with ml.entities.
+					if (mlResult.status == 'suggest') {
+						// find all ml data items
+						$(fullItemList).each(function() {
+							// select data-item value
+							var dataItem = $(this).data('item');
+							var bIgnoreInput=false;
+							var classNamesDef = $(this).attr("class");
+							if (classNamesDef) {
+								classNames = classNamesDef.split(/\s+/);
+								if (classNames.indexOf("imixs-date") > -1) {
+									bIgnoreInput=true; // we skip imixs-date inputs!
+								}
+							}
+							
+							// test if this data-item is a ml-item...
+							if (mlResult.items.indexOf(dataItem) > -1) {
+								// ok we have a ml item!
+								$(this).addClass("imixs-ml");
+								if (!bIgnoreInput) {
+									autocompleteInitInput(this,mlSearch);
+								}
+							}
+						});
+					}
+				}
+
+			});
 
 		/*]]>*/
 	</script>
 		
 		
-	<!-- 
-		see:
-		https://stackoverflow.com/questions/16588327/how-to-invoke-a-jsf-managed-bean-on-a-html-dom-event-using-native-javascript
-		https://dzone.com/articles/execute-a-jsf-ajax-request-by-just-a-function-call
-		https://www.w3schools.com/howto/howto_js_autocomplete.asp
-	 -->
-  		<h:commandScript name="imixsOfficeML.mlSearch" action="#{mlController.search()}" 
-  			rendered="#{mlController!=null}" render="ml-search-results" onevent="showMLSearchResult" />
 	
-		<h:panelGroup id="ml-search-results" layout="block" class="ml-search-results">
-
-			<ui:repeat var="suggest" value="#{mlController.searchResult}">
-
-				<div class="ml-search-results-element">
-					<a href="javascript:void(0)" onclick="selectMLSearchResultEntry('#{suggest}')">
-						<h:outputText value="#{suggest}" escape="false" />
-					</a>
-				</div>
-			</ui:repeat>
-		</h:panelGroup>
+	<h:panelGroup id="autocomplete-resultlist" layout="block" class="autocomplete-resultlist">
+		<ui:repeat var="suggest" value="#{mlController.searchResult}">
+			<div class="autocomplete-resultlist-element">
+				<a href="javascript:void(0)" onclick="autocompleteSelectElement('#{suggest}')">
+					<h:outputText value="#{suggest}" escape="false" />
+				</a>
+			</div>
+		</ui:repeat>
+	</h:panelGroup>
 						
 			
 
