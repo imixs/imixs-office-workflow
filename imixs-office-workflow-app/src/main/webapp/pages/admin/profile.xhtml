@@ -23,205 +23,252 @@
 						</h1>
 					</div>
 
+					<!-- ########## Error ########## -->
+					<ui:include src="/pages/error_message.xhtml" />
+
 					<div class="imixs-body">
 
-						<!-- ########## Error ########## -->
-						<ui:include src="/pages/error_message.xhtml" />
+						<div class="imixs-tabs">
+							<ul>
+								<li><a href="#tab-1">#{message['profile.sub_title_general']}</a></li>
+								<li><a href="#tab-2">#{message['profile.sub_title_settings']}</a></li>
+								<ui:fragment rendered="#{propertyController.getProperty('profile.x509') eq 'true'}">
+									<li><a href="#tab-3">X509</a></li>
+								</ui:fragment>
+							</ul>
+
+							<div id="tab-1">
 
 
-						<div class="imixs-form-panel">
-							<h3>
-								<h:outputText value="#{message['profile.sub_title_general']}" />
-							</h3>
-							<div class="imixs-form-panel imixs-form-section-2">
-								<!-- Enable local database security? -->
-								<h:panelGroup
-									rendered="#{setupController.workitem.item['keyEnableUserDB']}">
+								<div class="imixs-form-panel imixs-form-section-2">
+									<!-- Enable local database security? -->
+									<h:panelGroup
+										rendered="#{setupController.workitem.item['keyEnableUserDB']}">
 
+										<dl>
+											<dt>
+												#{message['profile.userid']}<span class="imixs-required">*</span>
+											</dt>
+											<dd>
+
+												<h:inputText required="true" id="txtname_id"
+													disabled="#{! empty workflowController.workitem.item['txtName']}"
+													value="#{workflowController.workitem.item['txtName']}" />
+
+											</dd>
+										</dl>
+										<dl>
+											<dt>
+												<h:outputLabel value="#{message['profile.password']}" />
+											</dt>
+											<dd>
+												<h:inputSecret redisplay="true" required="false"
+													value="#{workflowController.workitem.item['txtPassword']}" />
+											</dd>
+										</dl>
+									</h:panelGroup>
 									<dl>
 										<dt>
-											#{message['profile.userid']}<span class="imixs-required">*</span>
+											<h:outputLabel value="#{message['profile.displayname']}">
+											</h:outputLabel>
+											<span class="imixs-required">*</span>
 										</dt>
 										<dd>
+											<h:inputText required="true"
+												value="#{workflowController.workitem.item['txtUserName']}"
+												id="displayname_id">
+											</h:inputText>
 
-											<h:inputText required="true" id="txtname_id"
-												disabled="#{! empty workflowController.workitem.item['txtName']}"
-												value="#{workflowController.workitem.item['txtName']}" />
 
 										</dd>
 									</dl>
+
+
 									<dl>
 										<dt>
-											<h:outputLabel value="#{message['profile.password']}" />
+											<h:outputLabel value="#{message['profile.initials']}">
+											</h:outputLabel>
+
 										</dt>
 										<dd>
-											<h:inputSecret redisplay="true" required="false"
-												value="#{workflowController.workitem.item['txtPassword']}" />
-										</dd>
-									</dl>
-								</h:panelGroup>
-								<dl>
-									<dt>
-										<h:outputLabel value="#{message['profile.displayname']}">
-										</h:outputLabel>
-										<span class="imixs-required">*</span>
-									</dt>
-									<dd>
-										<h:inputText required="true"
-											value="#{workflowController.workitem.item['txtUserName']}"
-											id="displayname_id">
-										</h:inputText>
+											<h:inputText required="false"
+												value="#{workflowController.workitem.item['txtInitials']}">
+											</h:inputText>
 
-
-									</dd>
-								</dl>
-
-
-								<dl>
-									<dt>
-										<h:outputLabel value="#{message['profile.initials']}">
-										</h:outputLabel>
-
-									</dt>
-									<dd>
-										<h:inputText required="false"
-											value="#{workflowController.workitem.item['txtInitials']}">
-										</h:inputText>
-
-
-									</dd>
-								</dl>
-
-
-								<dl>
-									<dt>
-										<h:outputLabel for="email_id"
-											value="#{message['profile.email']}">
-
-										</h:outputLabel>
-										<span class="imixs-required">*</span>
-									</dt>
-									<dd>
-										<h:inputText required="true"
-											value="#{workflowController.workitem.item['txtEmail']}"
-											id="email_id">
-										</h:inputText>
-
-									</dd>
-								</dl>
-
-
-								<dl>
-									<dt>#{message['profile.deputy']}</dt>
-									<dd>
-										<marty:userInput
-											value="#{workflowController.workitem.item['namDeputy']}"
-											editmode="true" />
-
-									</dd>
-								</dl>
-
-
-							</div>
-						</div>
-						
-						
-						<!-- custom panel -->
-						<ui:include src="/pages/profile/sub_profile_custom.xhtml">
-							<ui:param name="workitem" value="#{workflowController.workitem}" />
-						</ui:include>
-
-				
-						<!-- User Icon -->
-						<div class="imixs-form-panel">
-
-							<h2>User Icon</h2>
-
-
-							<h:panelGroup layout="block" id="usericonpanel"
-								style="float: left; margin-right: 20px;">
-								<h:graphicImage styleClass="imixs-user-icon"
-									rendered="#{! empty workflowController.workitem.item['txtusericon']}"
-									value="/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{workflowController.workitem.item['txtusericon']}">
-								</h:graphicImage>
-							</h:panelGroup>
-							<h:panelGroup layout="block" styleClass="imixs-form-section"
-								style="clear: none; width:80%;">
-
-								<i:imixsFileUpload id="file_upload_id"
-									workitem="#{workflowController.workitem}"
-									context_url="#{facesContext.externalContext.requestContextPath}/api/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}"
-									hideattachments="true" />
-
-								<div style="clear: left;" />
-
-								<h:commandButton value="#{message.remove}"
-									rendered="#{! empty workflowController.workitem.item['txtusericon']}"
-									actionListener="#{userController.removeUserIcon()}">
-									<f:ajax render="usericonpanel"></f:ajax>
-								</h:commandButton>
-
-							</h:panelGroup>
-						</div>
-
-
-
-						<div class="imixs-form-panel">
-							<h3>
-								<h:outputText value="#{message['profile.sub_title_settings']}" />
-							</h3>
-							<div class="imixs-form-panel imixs-form-section-2">
-
-								<dl>
-									<dt>#{message['profile.locale']}</dt>
-									<dd>
-										<h:selectOneMenu id="locale_id" layout="pageDirection"
-											value="#{workflowController.workitem.item['txtLocale']}">
-											<f:selectItem itemLabel="Deutsch" itemValue="de_DE" />
-											<f:selectItem itemLabel="English" itemValue="en_EN" />
-										</h:selectOneMenu>
-									</dd>
-								</dl>
-
-								<!-- Enable local database security? -->
-								<h:panelGroup
-									rendered="#{setupController.workitem.item['keyEnableUserDB']}">
-									<dl>
-										<dt>
-											<h:outputLabel value="#{message['profile.groups']}" />
-										</dt>
-										<dd>
-											<h:selectManyCheckbox layout="pageDirection"
-												value="#{workflowController.workitem.itemListArray['txtGroups']}">
-												<c:forEach
-													items="#{setupController.workitem.itemList['usergroups']}"
-													var="group">
-													<f:selectItem itemLabel="#{group}" itemValue="#{group}"></f:selectItem>
-												</c:forEach>
-											</h:selectManyCheckbox>
 
 										</dd>
 									</dl>
-								</h:panelGroup>
+
+
+									<dl>
+										<dt>
+											<h:outputLabel for="email_id"
+												value="#{message['profile.email']}">
+
+											</h:outputLabel>
+											<span class="imixs-required">*</span>
+										</dt>
+										<dd>
+											<h:inputText required="true"
+												value="#{workflowController.workitem.item['txtEmail']}"
+												id="email_id">
+											</h:inputText>
+										</dd>
+									</dl>
+									<dl>
+										<dt>#{message['profile.deputy']}</dt>
+										<dd>
+											<marty:userInput
+												value="#{workflowController.workitem.item['namDeputy']}"
+												editmode="true" />
+										</dd>
+									</dl>
+								</div>
+
+
+								<!-- custom panel -->
+								<ui:include src="/pages/profile/sub_profile_custom.xhtml">
+									<ui:param name="workitem"
+										value="#{workflowController.workitem}" />
+								</ui:include>
+
+
+								<!-- User Icon -->
+								<div class="imixs-form-panel">
+
+									<h2>User Icon</h2>
+
+
+									<h:panelGroup layout="block" id="usericonpanel"
+										style="float: left; margin-right: 20px;">
+										<h:graphicImage styleClass="imixs-user-icon"
+											rendered="#{! empty workflowController.workitem.item['txtusericon']}"
+											value="/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{workflowController.workitem.item['txtusericon']}">
+										</h:graphicImage>
+									</h:panelGroup>
+									<h:panelGroup layout="block" styleClass="imixs-form-section"
+										style="clear: none; width:80%;">
+
+										<i:imixsFileUpload id="file_upload_id"
+											workitem="#{workflowController.workitem}"
+											context_url="#{facesContext.externalContext.requestContextPath}/api/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}"
+											hideattachments="true" />
+
+										<div style="clear: left;" />
+
+										<h:commandButton value="#{message.remove}"
+											rendered="#{! empty workflowController.workitem.item['txtusericon']}"
+											actionListener="#{userController.removeUserIcon()}">
+											<f:ajax render="usericonpanel"></f:ajax>
+										</h:commandButton>
+
+									</h:panelGroup>
+								</div>
 							</div>
 
 
+							<!-- Security Groups -->
+							<div id="tab-2">
+								<div class="imixs-form-panel imixs-form-section-2">
 
-							<div class="imixs-form-panel imixs-form-section">
-								<dl>
-									<dt>#{message.description}</dt>
-									<dd>
+									<!-- Enable local database security? -->
+									<h:panelGroup
+										rendered="#{setupController.workitem.item['keyEnableUserDB']}">
+										<dl>
+											<dt>
+												<h:outputLabel value="#{message['profile.groups']}" />
+											</dt>
+											<dd>
+												<h:selectManyCheckbox layout="pageDirection"
+													value="#{workflowController.workitem.itemListArray['txtGroups']}">
+													<c:forEach
+														items="#{setupController.workitem.itemList['usergroups']}"
+														var="group">
+														<f:selectItem itemLabel="#{group}" itemValue="#{group}"></f:selectItem>
+													</c:forEach>
+												</h:selectManyCheckbox>
+
+											</dd>
+										</dl>
+										
+									<dl>
+										<dt>#{message['profile.locale']}</dt>
+										<dd>
+											<h:selectOneMenu id="locale_id" layout="pageDirection"
+												value="#{workflowController.workitem.item['txtLocale']}">
+												<f:selectItem itemLabel="Deutsch" itemValue="de_DE" />
+												<f:selectItem itemLabel="English" itemValue="en_EN" />
+											</h:selectOneMenu>
+										</dd>
+									</dl>
+									</h:panelGroup>
+								</div>
+
+
+
+								<div class="imixs-form-panel imixs-form-section">
+									<dl>
+										<dt>#{message.description}</dt>
+										<dd>
+											<h:inputTextarea required="false"
+												value="#{workflowController.workitem.item['txtComments']}"
+												id="description_id" style="height: 7em; width: 95%">
+											</h:inputTextarea>
+										</dd>
+
+									</dl>
+
+								</div>
+							</div>
+
+
+							<!-- X509 -->
+
+							<h:panelGroup layout="block" id="tab-3" rendered="#{propertyController.getProperty('profile.x509') eq 'true'}">
+
+								<div class="imixs-form-panel imixs-form-section-2">
+
+									<dl>
+										<dt>Organisation</dt>
+										<dd>
+											<h:inputText
+												value="#{workflowController.workitem.item['x509.o']}" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>Org Units</dt>
+										<dd>
 										<h:inputTextarea required="false"
-											value="#{workflowController.workitem.item['txtComments']}"
-											id="description_id" style="height: 7em; width: 95%">
+											converter="org.imixs.VectorConverter" style="height: 4em;"
+											value="#{workflowController.workitem.item['x509.ou']}">
 										</h:inputTextarea>
-									</dd>
-
-								</dl>
-							</div>
+											
+										</dd>
+									</dl>
+									<dl>
+										<dt>City</dt>
+										<dd>
+											<h:inputText
+												value="#{workflowController.workitem.item['x509.city']}" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>State</dt>
+										<dd>
+											<h:inputText
+												value="#{workflowController.workitem.item['x509.state']}" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>Country</dt>
+										<dd>
+											<h:inputText
+												value="#{workflowController.workitem.item['x509.country']}" />
+										</dd>
+									</dl>
+								</div>
+							</h:panelGroup>
 						</div>
-
-
 
 
 
