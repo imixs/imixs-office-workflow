@@ -32,7 +32,8 @@
 							<ul>
 								<li><a href="#tab-1">#{message['profile.sub_title_general']}</a></li>
 								<li><a href="#tab-2">#{message['profile.sub_title_settings']}</a></li>
-								<ui:fragment rendered="#{propertyController.getProperty('profile.x509') eq 'true'}">
+								<ui:fragment
+									rendered="#{propertyController.getProperty('profile.x509') eq 'true'}">
 									<li><a href="#tab-3">X509</a></li>
 								</ui:fragment>
 							</ul>
@@ -190,17 +191,17 @@
 
 											</dd>
 										</dl>
-										
-									<dl>
-										<dt>#{message['profile.locale']}</dt>
-										<dd>
-											<h:selectOneMenu id="locale_id" layout="pageDirection"
-												value="#{workflowController.workitem.item['txtLocale']}">
-												<f:selectItem itemLabel="Deutsch" itemValue="de_DE" />
-												<f:selectItem itemLabel="English" itemValue="en_EN" />
-											</h:selectOneMenu>
-										</dd>
-									</dl>
+
+										<dl>
+											<dt>#{message['profile.locale']}</dt>
+											<dd>
+												<h:selectOneMenu id="locale_id" layout="pageDirection"
+													value="#{workflowController.workitem.item['txtLocale']}">
+													<f:selectItem itemLabel="Deutsch" itemValue="de_DE" />
+													<f:selectItem itemLabel="English" itemValue="en_EN" />
+												</h:selectOneMenu>
+											</dd>
+										</dl>
 									</h:panelGroup>
 								</div>
 
@@ -223,54 +224,54 @@
 
 
 							<!-- X509 -->
+							<ui:fragment
+								rendered="#{propertyController.getProperty('profile.x509') eq 'true'}">
+								<div id="tab-3">
+									<div class="imixs-form-panel imixs-form-section-2">
 
-							<h:panelGroup layout="block" id="tab-3" rendered="#{propertyController.getProperty('profile.x509') eq 'true'}">
+										<dl>
+											<dt>Organisation</dt>
+											<dd>
+												<h:inputText
+													value="#{workflowController.workitem.item['x509.o']}" />
+											</dd>
+										</dl>
+										<dl>
+											<dt>Org Units</dt>
+											<dd>
+												<h:inputTextarea required="false"
+													converter="org.imixs.VectorConverter" style="height: 4em;"
+													value="#{workflowController.workitem.itemList['x509.ou']}">
+												</h:inputTextarea>
 
-								<div class="imixs-form-panel imixs-form-section-2">
-
-									<dl>
-										<dt>Organisation</dt>
-										<dd>
-											<h:inputText
-												value="#{workflowController.workitem.item['x509.o']}" />
-										</dd>
-									</dl>
-									<dl>
-										<dt>Org Units</dt>
-										<dd>
-										<h:inputTextarea required="false"
-											converter="org.imixs.VectorConverter" style="height: 4em;"
-											value="#{workflowController.workitem.item['x509.ou']}">
-										</h:inputTextarea>
-											
-										</dd>
-									</dl>
-									<dl>
-										<dt>City</dt>
-										<dd>
-											<h:inputText
-												value="#{workflowController.workitem.item['x509.city']}" />
-										</dd>
-									</dl>
-									<dl>
-										<dt>State</dt>
-										<dd>
-											<h:inputText
-												value="#{workflowController.workitem.item['x509.state']}" />
-										</dd>
-									</dl>
-									<dl>
-										<dt>Country</dt>
-										<dd>
-											<h:inputText
-												value="#{workflowController.workitem.item['x509.country']}" />
-										</dd>
-									</dl>
+											</dd>
+										</dl>
+										<dl>
+											<dt>City</dt>
+											<dd>
+												<h:inputText
+													value="#{workflowController.workitem.item['x509.city']}" />
+											</dd>
+										</dl>
+										<dl>
+											<dt>State</dt>
+											<dd>
+												<h:inputText
+													value="#{workflowController.workitem.item['x509.state']}" />
+											</dd>
+										</dl>
+										<dl>
+											<dt>Country</dt>
+											<dd>
+												<h:inputText
+													value="#{workflowController.workitem.item['x509.country']}" />
+											</dd>
+										</dl>
+									</div>
 								</div>
-							</h:panelGroup>
+							</ui:fragment>
+
 						</div>
-
-
 
 					</div>
 
