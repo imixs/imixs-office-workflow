@@ -1,16 +1,23 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.imixs.workflow</groupId>
 	<artifactId>imixs-office-workflow</artifactId>
-	<version>4.3.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Imixs Office Workflow</name>
-	<description>The Imixs Workflow Office Suite </description>
+	<version>4.3.2-SNAPSHOT</version>
+
 	<modules>
 		<module>imixs-office-workflow-util</module>
 		<module>imixs-office-workflow-app</module>
 	</modules>
 
+	<description>The Imixs Workflow Office Suite </description>
+	<url>https://github.com/imixs/imixs-office-workflow</url>
+	<organization>
+		<name>Imixs Software Solutions GmbH</name>
+		<url>http://www.imixs.com</url>
+	</organization>
+	<inceptionYear>2016</inceptionYear>
 	<developers>
 		<developer>
 			<id>rsoika</id>
@@ -40,9 +47,7 @@
 			<timezone>2</timezone>
 		</developer>
 	</developers>
-	<issueManagement>
-		<url>https://github.com/imixs/imixs-office-workflow/issues</url>
-	</issueManagement>
+
 	<scm>
 		<connection>scm:git:https://github.com/imixs/imixs-office-workflow.git</connection>
 		<developerConnection>scm:git:https://github.com/imixs/imixs-office-workflow.git</developerConnection>
@@ -50,6 +55,14 @@
 		<tag>HEAD</tag>
 	</scm>
 
+	<issueManagement>
+     	<system>GitHub</system>
+		<url>https://github.com/imixs/imixs-office-workflow/issues</url>
+	</issueManagement>
+
+	<mailingLists>
+		<!-- no mailing lists supported -->
+	</mailingLists>
 
 	<licenses>
 		<license>
@@ -59,9 +72,6 @@
 			<comments>All the results of the imixs workflow project are subject to the GPL licensing model. </comments>
 		</license>
 	</licenses>
-
-
-
 
 	<properties>
 
@@ -107,6 +117,8 @@
 		</resources>
 
 		<plugins>
+
+			<!-- use JDK settings for compiling -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -115,9 +127,7 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
-			</plugin>
-
-		
+			</plugin>		
 			<!-- release management -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -169,8 +179,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
 				<version>3.0.0</version>
-			</plugin>			
-
+			</plugin>
 		</plugins>
 		
 		<finalName>imixs-office-workflow</finalName>
@@ -194,7 +203,6 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	
 	
 	<profiles>
 		<!-- Activate using the release property -->
