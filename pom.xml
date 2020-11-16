@@ -99,23 +99,14 @@
 		java:/mail/org.imixs.workflow.mail
 		 -->
 		<imixs-mail-res-ref-name>java:/mail/org.imixs.workflow.mail</imixs-mail-res-ref-name>
-		<!-- imixs-github-repo on github - see ~/.m2/settings.xml -->
-		<github.global.server>imixs-github-repo</github.global.server>
-
+		
 		<!-- Wildfly unpack war -->
 		<custom.unpackTypes>war</custom.unpackTypes>		
 		<javax.faces.project_stage>Production</javax.faces.project_stage>
 	</properties>
 
 	<build>
-		<resources>
-			<!-- enable resource filtering for multi language version -->
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-
+	
 		<plugins>
 
 			<!-- use JDK settings for compiling -->
@@ -419,6 +410,7 @@
 	</dependencies>
 
 
+	
 	<!-- Distributen Management oss.sonatype.org -->
 	<distributionManagement>
 		<snapshotRepository>
@@ -429,6 +421,6 @@
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
-	</distributionManagement>
+	</distributionManagement>	
 	
 </project>
