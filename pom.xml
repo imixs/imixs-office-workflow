@@ -6,7 +6,10 @@
 	<packaging>pom</packaging>
 	<name>Imixs Office Workflow</name>
 	<description>The Imixs Workflow Office Suite </description>
-
+	<modules>
+		<module>imixs-office-workflow-util</module>
+		<module>imixs-office-workflow-app</module>
+	</modules>
 
 	<developers>
 		<developer>
@@ -59,10 +62,7 @@
 
 
 
-	<modules>
-		<module>imixs-office-workflow-util</module>
-		<module>imixs-office-workflow-app</module>
-	</modules>
+
 	<properties>
 
 		<!-- Build Time -->
@@ -98,23 +98,6 @@
 	</properties>
 
 
-	<repositories>
-		<!-- Sonatype Snapshot repository -->
-		<repository>
-			<id>sonatype-snaptshots</id>
-			<name>Sonatype Snapshot repository</name>
-			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
-		</repository>
-		<!-- Imixs repository -->
-		<repository>
-			<id>imixs-mvn-repo</id>
-			<url>https://raw.githubusercontent.com/imixs/imixs-mvn-repo/master/</url>
-			<snapshots>
-				<enabled>false</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
-		</repository>
-	</repositories>
 
 	<profiles>
 		<profile>
@@ -168,6 +151,7 @@
 				</configuration>
 			</plugin>
 
+		
 			<!-- release management -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -180,54 +164,71 @@
 					<goals>deploy</goals>
 				</configuration>
 			</plugin>
+			<!-- release to Maven central -->
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.8</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
 
-			<!-- Maven Deployment to Github -->
+
 			<plugin>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<version>2.8.1</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.9.0</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>3.1.0</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.2.0</version>
 				<configuration>
-					<altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+					<additionalOptions>-Xdoclint:none</additionalOptions>
 				</configuration>
 			</plugin>
+
 			<plugin>
-				<groupId>com.github.github</groupId>
-				<artifactId>site-maven-plugin</artifactId>
-				<version>0.12</version>
-				<configuration>
-					<!-- git commit message -->
-					<message>Maven artifacts for ${project.version}</message>
-					<!-- disable webpage processing -->
-					<noJekyll>true</noJekyll>
-					<!-- matches distribution management repository url above -->
-					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
-					<!-- remote branch name -->
-					<branch>refs/heads/master</branch>
-					<!-- If you remove this then the old artifact will be removed and new 
-						one will replace. But with the merge tag you can just release by changing 
-						the version -->
-					<merge>true</merge>
-					<includes>
-						<include>**/*</include>
-					</includes>
-					<!-- github repo name -->
-					<repositoryName>imixs-mvn-repo</repositoryName>
-					<!-- github username -->
-					<repositoryOwner>imixs</repositoryOwner>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>site</goal>
-						</goals>
-						<phase>deploy</phase>
-					</execution>
-				</executions>
-			</plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>3.0.0</version>
+			</plugin>			
 
 		</plugins>
 		
 		<finalName>imixs-office-workflow</finalName>
 	</build>
+	
+	<reporting>
+		<plugins>
+			<!-- java doc -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<additionalOptions>-Xdoclint:none</additionalOptions>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>3.0.0</version>
+			</plugin>
+		</plugins>
+	</reporting>
+		
 	<dependencyManagement>
 		<dependencies>
 			<!-- Imixs Workflow -->
@@ -352,4 +353,17 @@
 
 	</dependencies>
 
+
+	<!-- Distributen Management oss.sonatype.org -->
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+	
 </project>
