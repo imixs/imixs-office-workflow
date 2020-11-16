@@ -97,41 +97,6 @@
 		<javax.faces.project_stage>Production</javax.faces.project_stage>
 	</properties>
 
-
-
-	<profiles>
-		<profile>
-			<id>docker</id>
-			<properties>
-				<javax.faces.project_stage>Development</javax.faces.project_stage>
-			</properties>
-			<!-- build latest - see ear module for details -->
-		</profile>
-		<profile>
-			<id>docker-build</id>
-			<!-- build current version local - see app module for details -->
-		</profile>
-		<profile>
-			<id>docker-push</id>
-			<!-- build and push to repo - see app module for details -->
-		</profile>
-		<profile>
-			<id>docker-hub</id>
-			<!-- build and push to docker hub - see web module for details -->
-		</profile>
-		<profile>
-			<id>docker-hub-latest</id>
-			<!-- build and push to docker hub - see app module for details -->
-		</profile>
-		
-		<profile>
-			<id>docker-build-openliberty</id>
-			<properties>
-				<javax.faces.project_stage>Development</javax.faces.project_stage>
-			</properties>
-		</profile>
-	</profiles>
-
 	<build>
 		<resources>
 			<!-- enable resource filtering for multi language version -->
@@ -143,8 +108,9 @@
 
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.8.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -228,6 +194,97 @@
 			</plugin>
 		</plugins>
 	</reporting>
+	
+	
+	<profiles>
+		<!-- Activate using the release property -->
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<!-- To generate javadoc -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>3.2.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>3.2.0</version>
+						<configuration>
+							<additionalOptions>-Xdoclint:none</additionalOptions>
+						</configuration>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- To sign the artifacts -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
+
+		<profile>
+			<id>docker</id>
+			<properties>
+				<javax.faces.project_stage>Development</javax.faces.project_stage>
+			</properties>
+			<!-- build latest - see ear module for details -->
+		</profile>
+		<profile>
+			<id>docker-build</id>
+			<!-- build current version local - see app module for details -->
+		</profile>
+		<profile>
+			<id>docker-push</id>
+			<!-- build and push to repo - see app module for details -->
+		</profile>
+		<profile>
+			<id>docker-hub</id>
+			<!-- build and push to docker hub - see web module for details -->
+		</profile>
+		<profile>
+			<id>docker-hub-latest</id>
+			<!-- build and push to docker hub - see app module for details -->
+		</profile>
+		
+		<profile>
+			<id>docker-build-openliberty</id>
+			<properties>
+				<javax.faces.project_stage>Development</javax.faces.project_stage>
+			</properties>
+		</profile>
+	</profiles>
+	
 		
 	<dependencyManagement>
 		<dependencies>
