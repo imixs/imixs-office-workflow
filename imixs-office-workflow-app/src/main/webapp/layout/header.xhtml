@@ -6,7 +6,7 @@
 	<!-- Header depends on authentication -->
 	<ui:fragment rendered="#{(!loginController.authenticated)}">
 		<div id="imixs-branding">
-			<div id="imixs-branding-text">#{app.application_title} <span style="color:red;">#{propertyController.getProperty('application.mode')}</span></div>
+			<div id="imixs-branding-text">#{resourceBundleHandler.findMessage('app.application_title')} <span style="color:red;">#{propertyController.getProperty('application.mode')}</span></div>
 		</div>
 	</ui:fragment>
 
