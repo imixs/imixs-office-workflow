@@ -35,7 +35,7 @@
 		<h:outputLabel value="#{message.owner}: " />
 		<h:panelGroup>
 			<ui:repeat
-				value="#{workflowController.workitem.itemList['namowner']}"
+				value="#{workflowController.workitem.itemList['$owner']}"
 				var="name">
 				<h:outputText value="#{userController.getUserName(name)}, "
 					rendered="#{! empty name}" />

@@ -40,9 +40,9 @@
 
 
 			<!-- display owner -->
-			<h:panelGroup rendered="#{! empty workitem.item['namowner']}">
+			<h:panelGroup rendered="#{! empty workitem.item['$owner']}">
 				<div style="clear: left;" />
-				<ui:repeat value="#{workitem.itemList['namowner']}" var="name">
+				<ui:repeat value="#{workitem.itemList['$owner']}" var="name">
 
 					<ui:param name="profile" value="#{userController.getProfile(name)}"></ui:param>
 

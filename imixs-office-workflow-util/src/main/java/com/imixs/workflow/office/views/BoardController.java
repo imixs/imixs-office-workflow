@@ -208,7 +208,7 @@ public class BoardController implements Serializable {
 	public String getQuery() {
 		// set default query
 		if (getRef().isEmpty()) {
-			query = "(type:\"workitem\" AND namowner:\"" + loginController.getRemoteUser() + "\")";
+			query = "(type:\"workitem\" AND $owner:\"" + loginController.getRemoteUser() + "\")";
 		} else {
 			query = "(type:\"workitem\" AND $uniqueidref:\"" + getRef() + "\")";
 		}

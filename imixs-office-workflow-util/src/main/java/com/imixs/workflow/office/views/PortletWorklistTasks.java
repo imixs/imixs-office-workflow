@@ -29,7 +29,7 @@ public class PortletWorklistTasks extends ViewController {
 	@PostConstruct
 	public void init() {
 		super.init();
-		this.setQuery("(type:\"workitem\" AND namowner:\"" + loginController.getRemoteUser() + "\")");
+		this.setQuery("(type:\"workitem\" AND $owner:\"" + loginController.getRemoteUser() + "\")");
 		this.setPageSize(setupController.getPortletSize());
 		this.setSortBy(setupController.getSortBy());
 		this.setSortReverse(setupController.getSortReverse());
