@@ -1,7 +1,7 @@
 "use strict";
 
 // define namespace
-IMIXS.namespace("com.imixs.workflow.office");
+IMIXS.namespace("org.imixs.workflow.office");
 
 
 /**
@@ -120,7 +120,7 @@ $.fn.layoutTypIcons = function(options) {
 };
 
 // define core module
-IMIXS.com.imixs.workflow.office = (function() {
+IMIXS.org.imixs.workflow.office = (function() {
 	if (!IMIXS.org.imixs.core) {
 		console.error("ERROR - missing dependency: imixs-core.js");
 	}
@@ -272,5 +272,5 @@ IMIXS.com.imixs.workflow.office = (function() {
 }());
 
 // Define public namespace
-var imixsOfficeMain = IMIXS.com.imixs.workflow.office;
+var imixsOfficeMain = IMIXS.org.imixs.workflow.office;
 

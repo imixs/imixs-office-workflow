@@ -2,7 +2,7 @@
 //
 // Used for a generic autocomplete feature for input fields
 
-IMIXS.namespace("com.imixs.workflow.office.autocomplete");
+IMIXS.namespace("org.imixs.workflow.office.autocomplete");
 
 var autocompleteInputID;
 var autcompleteSelectedElement;
@@ -128,5 +128,5 @@ function delay(callback, ms) {
 }
 
 // Define public namespace
-var imixsOfficeAutocomplete = IMIXS.com.imixs.workflow.office.autocomplete;
+var imixsOfficeAutocomplete = IMIXS.org.imixs.workflow.office.autocomplete;
 

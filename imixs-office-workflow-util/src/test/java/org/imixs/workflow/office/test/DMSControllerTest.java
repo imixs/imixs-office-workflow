@@ -1,9 +1,8 @@
 package org.imixs.workflow.office.test;
 
+import org.imixs.workflow.office.forms.DMSController;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.imixs.workflow.office.forms.DMSController;
 
 public class DMSControllerTest {
 

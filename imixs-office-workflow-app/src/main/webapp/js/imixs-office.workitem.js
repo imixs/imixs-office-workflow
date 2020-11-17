@@ -2,7 +2,7 @@
 
 // workitem scripts
 
-IMIXS.namespace("com.imixs.workflow.workitem");
+IMIXS.namespace("org.imixs.workflow.workitem");
 
 var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
 	"Sep", "Okt", "Nov", "Dec" ];
@@ -92,7 +92,7 @@ function onFileUploadChange() {
 
 
 // define core module
-IMIXS.com.imixs.workflow.workitem = (function() {
+IMIXS.org.imixs.workflow.workitem = (function() {
 	if (!IMIXS.org.imixs.core) {
 		console.error("ERROR - missing dependency: imixs-core.js");
 	}
@@ -417,7 +417,7 @@ IMIXS.com.imixs.workflow.workitem = (function() {
 }());	
 	
 // Define public namespace
-var imixsOfficeWorkitem = IMIXS.com.imixs.workflow.workitem;	
+var imixsOfficeWorkitem = IMIXS.org.imixs.workflow.workitem;	
 			
 	
 	

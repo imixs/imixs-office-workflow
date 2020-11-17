@@ -1,6 +1,6 @@
 // workitem scripts
 
-IMIXS.namespace("com.imixs.workflow.office.worklist");
+IMIXS.namespace("org.imixs.workflow.office.worklist");
 
 /**
  * Init Method for the search view

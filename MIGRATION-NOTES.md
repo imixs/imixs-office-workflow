@@ -3,6 +3,10 @@
 The following section contains migration notes for Imixs-Office-Workflow. 
 
 
+## Imixs-Office-Workflow 4.4.0
+
+ - changed Maven GroupID from com.imixs.workflow => org.imixs.workflow
+
 ## Imixs-Office-Workflow 4.3.1
 
  - Upgrade Imixs-Workflow 5.2.5 => 5.2.6
