@@ -49,7 +49,7 @@ public class PortletWorklistFavorites extends ViewController {
 		}
 
 		// get favorite ids from profile
-		favorites = userController.getWorkitem().getItemValue("txtWorkitemRef");
+		favorites = userController.getWorkitem().getItemValue("$WorkitemRef");
 		if (favorites == null || favorites.size() == 0) {
 			return null;
 		}
