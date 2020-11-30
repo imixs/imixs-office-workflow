@@ -1,3 +1,9 @@
+##############################################################
+# Imixs-Office-Workflow - Docker-Compose Stack
+#
+# - Postgres DB with volume 
+# - Imixs-Office-Workflow running on JDK 11 - Wildfly 20
+##############################################################
 version: "3.1"
 services:
 
@@ -9,7 +15,7 @@ services:
     volumes: 
       - dbdata:/var/lib/postgresql/data
   app:
-    image: imixs/imixs-office-workflow
+    image: imixs/imixs-office-workflow:latest
     depends_on:
       - db
     environment:
@@ -23,6 +29,5 @@ services:
     ports:
       - "8080:8080"
       - "9990:9990"
-      - "8787:8787"
 volumes:
   dbdata:
