@@ -18,6 +18,9 @@ public class PortletWorklistFavorites extends ViewController {
 
 	private static final long serialVersionUID = 1L;
 	
+	public static final String LINK_PROPERTY = "$workitemref";
+	public static final String LINK_PROPERTY_DEPRECATED = "txtworkitemref";
+
 	
 	@Inject
 	protected UserController userController;
@@ -49,7 +52,15 @@ public class PortletWorklistFavorites extends ViewController {
 		}
 
 		// get favorite ids from profile
-		favorites = userController.getWorkitem().getItemValue("$WorkitemRef");
+		  //  support deprecated ref field
+        if (!userController.getWorkitem().hasItem(LINK_PROPERTY) 
+                 && userController.getWorkitem().hasItem(LINK_PROPERTY_DEPRECATED)) {
+            favorites= userController.getWorkitem().getItemValue(LINK_PROPERTY_DEPRECATED);
+        } else {
+            favorites= userController.getWorkitem().getItemValue(LINK_PROPERTY);
+        }
+        
+		
 		if (favorites == null || favorites.size() == 0) {
 			return null;
 		}
