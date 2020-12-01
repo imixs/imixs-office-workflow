@@ -23,7 +23,28 @@
 	</f:subview>
 
 
-	
+	<!-- Dispatch Form -->
+	<ui:param name="spaces" value="#{teamController.spaces}" />
+	<h:panelGroup layout="block" styleClass="imixs-form-section"
+		rendered="#{!empty spaces}">
+		<h3>#{app.sub_dispatch}</h3>
+		<dl>
+			<dt>#{message['form.space']}</dt>
+			<dd>
+				<h:selectOneMenu style="width:20em;" required="false"
+					value="#{workflowController.workitem.item['space.ref']}">
+					<f:selectItem itemLabel=""></f:selectItem>
+					<c:forEach items="#{teamController.spaces}" var="space">
+						<f:selectItem itemLabel="#{space.item['name']}"
+							itemValue="#{space.item['$UniqueID']}">
+						</f:selectItem>
+					</c:forEach>
+				</h:selectOneMenu>
+			</dd>
+		</dl>
+	</h:panelGroup>
+
+
 	<!-- sub forms (optional) -->
 	<c:forEach items="#{formController.formDefinition.sections}"
 		var="section">
