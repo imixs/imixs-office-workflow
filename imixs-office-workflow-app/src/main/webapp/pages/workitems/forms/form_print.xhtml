@@ -5,6 +5,15 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html">
 
 
+
+
+	<!-- show Custom Form if defined -->
+	<ui:fragment  rendered="#{! empty workflowController.workitem.getItemValue('txtWorkflowEditorCustomForm')}">
+		<ui:include src="/pages/workitems/forms/custom_read.xhtml">
+			<ui:param name="workitem" value="#{workflowController.workitem}" />
+		</ui:include>
+	</ui:fragment>
+
 	<c:forEach items="#{formController.formDefinition.sections}"
 		var="section">
 		<div class="imixs-form-panel">
@@ -20,7 +29,7 @@
 	</c:forEach>
 
 
-	<!-- Standard Tab Section -->
+	<!-- comments -->
 	<ui:fragment  rendered="#{! empty workflowController.workitem.getItemValue('txtCommentLog')}">
 		<div class="imixs-form-panel">
 			<h3>#{message.comments}</h3>
@@ -30,8 +39,7 @@
 		</div>
 	</ui:fragment>
 
-
-
+	<!-- documents -->
 	<ui:fragment rendered="#{! empty dmsController.dmsList}">
 		<div class="imixs-form-panel">
 			<h1>#{message.documents}</h1>
@@ -39,8 +47,8 @@
 		</div>
 	</ui:fragment>
 
+	<!-- *** History **** -->
 	<div class="imixs-form-panel">
-		<!-- *** History **** -->
 		<h1>#{message.history}</h1>
 		<ui:include src="/pages/workitems/workitem_history.xhtml" />
 	</div>

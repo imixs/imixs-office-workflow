@@ -68,8 +68,6 @@ import org.xml.sax.SAXException;
 @ConversationScoped
 public class CustomFormController implements Serializable {
 
-    public static final String DEFAULT_EDITOR_ID = "form_panel_simple#basic";
-
     @EJB
     ModelService modelService;
 
