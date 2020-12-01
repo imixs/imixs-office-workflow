@@ -81,7 +81,7 @@
 						<!--  optional teamController.getSpaces() -->
 						<c:forEach items="#{spaceSelection}" var="space">
 							<f:selectItem itemValue="#{space.item['$UniqueID']}"
-								itemLabel="#{space.item['txtname']}" />
+								itemLabel="#{space.item['name']}" />
 						</c:forEach>
 						<f:ajax event="change" render="@form"
 							onevent="imixsOfficeMain.layoutAjaxEvent" />
