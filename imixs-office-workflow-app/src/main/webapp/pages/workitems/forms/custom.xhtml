@@ -70,10 +70,9 @@
 								<f:convertDateTime pattern="#{message.datePatternShort}"
 									timeZone="#{message.timeZone}" />
 							</h:inputText>
-							<h:outputText value="#{workitem.item[item.name]}">
+							<h:outputText value="#{workitem.item[item.name]}" rendered="#{item.readonly}">
 								<f:convertDateTime timeZone="#{message.timeZone}"
-									pattern="#{message.datePatternShort}"
-									rendered="#{item.readonly}" />
+									pattern="#{message.datePatternShort}" />
 							</h:outputText>
 						</c:if>
 
