@@ -45,9 +45,8 @@
 				
 				
 				<div id="hyperlink" class="content-block">
-					
-				<a class="file-open-link" href="#{facesContext.externalContext.requestContextPath}/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{attachment.item['txtName']}">
-				#{attachment.item['txtName']}</a> <h:outputText value=" (#{dmsController.userFriendlyBytes(attachment.item['size'])})" />
+				<a class="file-open-link" href="#{facesContext.externalContext.requestContextPath}/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{attachment.item['name.encoded']}">
+				#{attachment.item['name']}</a> <h:outputText value=" (#{dmsController.userFriendlyBytes(attachment.item['size'])})" />
 				<!-- Delete function -->
 						<f:ajax render=":#{dmsListComponent.clientId}"
 							onevent="imixsOfficeWorkitem.clearDocumentPreview">

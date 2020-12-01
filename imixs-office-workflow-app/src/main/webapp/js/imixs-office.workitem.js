@@ -83,8 +83,11 @@ function onFileUploadChange() {
 				if (window.innerWidth>=1800 ) {
 					imixsOfficeWorkitem.maximizeDocumentPreview();
 				}
-				//$(this).click();
-				imixsOfficeWorkitem.showDocument($(this).text(),$(this).attr('href'));
+				var link=$(this).attr('href');
+				// encode link...
+				var encodedAttachmentName=encodeURIComponent(attachmentName);
+				link=link.replace(attachmentName,encodedAttachmentName);
+				imixsOfficeWorkitem.showDocument($(this).text(),link);
 				return false;
 			}
 		});
@@ -166,13 +169,17 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 			});
 				
 				
-		// chronicle-main  attachmentlink
+		// chronicle-main  imixsFileUpload link
 		$(".imixsFileUpload_uploadlist_name a").each(
 			function(index, element) {						
 				$(this).click(function(){
-					var file_link=$(this).attr('href');
-					//updateIframe(file_link);
-					showDocument($(this).text(),file_link);
+					// we need to encode the filename within the link
+					var attachmentName=$(this).text();
+					var link=$(this).attr('href');
+					// encode link...
+					var encodedAttachmentName=encodeURIComponent(attachmentName);
+					link=link.replace(attachmentName,encodedAttachmentName);
+					showDocument($(this).text(),link);
 					// cancel link
 				    return false;
 				});
@@ -191,19 +198,13 @@ IMIXS.org.imixs.workflow.workitem = (function() {
      */
 	clearDocumentPreview = function(event) {
 		
-		 if (event.status === 'success') {
-			
+		 if (event.status === 'success') {			
 			//documentPreviewIframe.src="";
 			documentPreviewIframe.contentWindow.location.replace("");
 		    documentPreviewURL="";
-			
 			updateAttachmentLinks();
-
-		
-		
 			// autoload first pdf into preview if available.... 
-			autoPreviewPDF();
-		
+			autoPreviewPDF();	
 		}
 	},
 
@@ -346,10 +347,8 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 			title=title.substring(0,64)+"...";
 		}
 		$('.document-title',documentPreview).text(title);
-		//documentPreviewIframe.src=link;
 		documentPreviewURL=link;
 		documentPreviewIframe.contentWindow.location.replace(documentPreviewURL);
-		
 		
 		// update deeplink
 		$('.document-deeplink').attr('href',documentPreviewURL);	
