@@ -31,6 +31,7 @@ The XML definition contains sections and items:
 	  </imixs-form-section>
 	</imixs-form>
 	
+**Note:** The form defintion must start with the xml root element <imixs-form>.
   
 The following common input formats are supported:
 
@@ -54,6 +55,19 @@ The following common input formats are supported:
 	<item name="_date" type="date"
 	        label="Date" />
 
+### Options List
+
+	<item name="invoice.currency" type="selectOneMenu" required="true" 
+	      options="EUR;USD" 
+	      label="Currency:" />
+	      
+The following option list types are supported:
+
+ * selectBooleanCheckbox
+ * selectOneMenu
+ * selectOneRadio
+ * selectManyCheckbox
+
 
 ### Required Inputs
 With the tag 'required' a mandatory input is defined:
@@ -65,13 +79,18 @@ With the tag 'required' a mandatory input is defined:
 
 <br /><img src="imixs-bpmn-custom-forms-example-768x538.png" /> 
 
+### Readonly 
+
+With the tag 'readonly' a readonly input is defined:
+
+	<item name="_date" type="text" readonly="true"
+	        label="Subject" />
+
 
 
 ## Form Sections
 
 A custom form is separated by sections. A section can have an optional label and up to 3 columns:
-
-
 
 	 ....
 	 <imixs-form-section label="Controlling" columns="2">

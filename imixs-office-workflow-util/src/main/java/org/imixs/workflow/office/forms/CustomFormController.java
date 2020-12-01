@@ -164,7 +164,9 @@ public class CustomFormController implements Serializable {
     }
 
     /**
-     * read the form definition from a dataObject if defined.
+     * read the form definition from a dataObject and search for a dataobject with a
+     * imixs-form tag. If not matching dataobject is defined then return an empty
+     * string.
      * 
      * @param workitem
      * @return
@@ -182,14 +184,21 @@ public class CustomFormController implements Serializable {
         }
 
         List<List<String>> dataObjects = task.getItemValue("dataObjects");
-        if (dataObjects.size() > 0) {
-            List<String> firstDataObject = (List<String>) dataObjects.get(0);
-            String templateName = firstDataObject.get(0);
-            String content = firstDataObject.get(1);
-            logger.finest("......DataObject name=" + templateName);
-            logger.finest("......DataObject content=" + content);
-            return content;
+        for (List<String> dataObject : dataObjects) {
+            // there can be more than one dataOjects be attached.
+            // We need the one with the tag <imixs-form>
+            String templateName = dataObject.get(0);
+            String content = dataObject.get(1);
+            // we expect that the content contains at least one occurrence of <imixs-form>
+            if (content.contains("<imixs-form>")) {
+                logger.finest("......DataObject name=" + templateName);
+                logger.finest("......DataObject content=" + content);
+                return content;
+            } else {
+                // seems not to be a imixs-form definition!
+            }
         }
+        // nothing found!
         return "";
     }
 
