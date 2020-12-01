@@ -9,14 +9,14 @@
 
 
 	<c:forEach items="#{customFormController.sections}" var="section">
-	
+
 		<c:if test="#{! empty section.label}">
-				<h3>#{section.label}</h3>
+			<h3>#{section.label}</h3>
 		</c:if>
 		<div
 			class="imixs-form-section#{(empty section.columns)?'':'-'.concat(section.columns)}">
 
-			
+
 
 			<c:forEach items="#{section.items}" var="item">
 				<dl>
@@ -27,77 +27,118 @@
 						</c:if>
 					</dt>
 					<dd>
+						<!-- text -->
 						<c:if test="#{item.type eq 'text'}">
-							<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
-								required="#{item.required}" />
-								
-							
+							<h:inputText value="#{workitem.item[item.name]}"
+								pt:data-item="#{item.name}" required="#{item.required}"
+								rendered="#{!item.readonly}" />
+							<h:outputText value="#{workitem.item[item.name]}"
+								rendered="#{item.readonly}" />
 						</c:if>
 
 						<!-- long -->
 						<c:if test="#{item.type eq 'number'}">
-							<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
-								required="#{item.required}">
-								<f:convertNumber/>
+							<h:inputText value="#{workitem.item[item.name]}"
+								pt:data-item="#{item.name}" required="#{item.required}"
+								rendered="#{!item.readonly}">
+								<f:convertNumber />
 							</h:inputText>
+							<h:outputText value="#{workitem.item[item.name]}"
+								rendered="#{item.readonly}">
+								<f:convertNumber />
+							</h:outputText>
 						</c:if>
 
 						<!-- currency -->
 						<c:if test="#{item.type eq 'currency'}">
-							<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
-								required="#{item.required}">
+							<h:inputText value="#{workitem.item[item.name]}"
+								pt:data-item="#{item.name}" required="#{item.required}"
+								rendered="#{!item.readonly}">
 								<f:convertNumber minFractionDigits="2" locale="de" />
 							</h:inputText>
+							<h:outputText value="#{workitem.item[item.name]}"
+								rendered="#{item.readonly}">
+								<f:convertNumber minFractionDigits="2" locale="de" />
+							</h:outputText>
 						</c:if>
 
-
+						<!-- date -->
 						<c:if test="#{item.type eq 'date'}">
-							<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
-								required="#{item.required}" styleClass="imixs-date">
+							<h:inputText value="#{workitem.item[item.name]}"
+								pt:data-item="#{item.name}" required="#{item.required}"
+								styleClass="imixs-date" rendered="#{!item.readonly}">
 								<f:convertDateTime pattern="#{message.datePatternShort}"
 									timeZone="#{message.timeZone}" />
 							</h:inputText>
+							<h:outputText value="#{workitem.item[item.name]}">
+								<f:convertDateTime timeZone="#{message.timeZone}"
+									pattern="#{message.datePatternShort}"
+									rendered="#{item.readonly}" />
+							</h:outputText>
 						</c:if>
 
+						<!-- text area -->
 						<c:if test="#{item.type eq 'textarea'}">
-							<h:inputTextarea value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
-								required="#{item.required}" />
+							<h:inputTextarea value="#{workitem.item[item.name]}"
+								pt:data-item="#{item.name}" required="#{item.required}"
+								rendered="#{!item.readonly}" />
+							<h:outputText escape="true" value="#{workitem.item[item.name]}"
+								rendered="#{item.readonly}" />
 						</c:if>
 
-
+						<!-- html -->
 						<c:if test="#{item.type eq 'html'}">
-							<h:inputTextarea required="#{item.required}" pt:data-item="#{item.name}"
-								class="imixs-editor-basic" value="#{workitem.item[item.name]}" />
-						</c:if>
-						
-						<c:if test="#{item.type eq 'selectBooleanCheckbox'}">
-							<h:selectBooleanCheckbox required="#{item.required}" pt:data-item="#{item.name}"
-								value="#{workitem.item[item.name]}" >
-							</h:selectBooleanCheckbox>
+							<h:inputTextarea required="#{item.required}"
+								pt:data-item="#{item.name}" class="imixs-editor-basic"
+								value="#{workitem.item[item.name]}" rendered="#{!item.readonly}" />
+							<h:outputText escape="false" value="#{workitem.item[item.name]}"
+								rendered="#{item.readonly}" />
 						</c:if>
 
-						
 						<!-- Options List -->
-						<c:if test="#{item.type eq 'selectOneMenu'}">
-							<h:selectOneMenu required="#{item.required}" pt:data-item="#{item.name}"
-								value="#{workitem.item[item.name]}" >
-								<f:selectItems value="#{item.selectItems}" />
-							</h:selectOneMenu>
+						<c:if
+							test="#{item.type eq 'selectBooleanCheckbox' or item.type eq 'selectOneMenu' or item.type eq 'selectOneRadio' or item.type eq 'selectManyCheckbox'}">
+							<c:choose>
+								<!-- read only mode -->
+								<c:when test="#{item.readonly}">
+									<ui:repeat var="itemvalue"
+										value="#{workitem.itemList[item.name]}">
+										<h:outputText value="#{itemvalue}"></h:outputText>
+										<br />
+									</ui:repeat>
+								</c:when>
+								<!-- Edit mode -->
+								<c:otherwise>
+									<c:if test="#{item.type eq 'selectBooleanCheckbox'}">
+										<h:selectBooleanCheckbox required="#{item.required}"
+											pt:data-item="#{item.name}"
+											value="#{workitem.item[item.name]}">
+										</h:selectBooleanCheckbox>
+									</c:if>
+									<c:if test="#{item.type eq 'selectOneMenu'}">
+										<h:selectOneMenu required="#{item.required}"
+											pt:data-item="#{item.name}"
+											value="#{workitem.item[item.name]}">
+											<f:selectItems value="#{item.selectItems}" />
+										</h:selectOneMenu>
+									</c:if>
+									<c:if test="#{item.type eq 'selectOneRadio'}">
+										<h:selectOneRadio required="#{item.required}"
+											pt:data-item="#{item.name}"
+											value="#{workitem.item[item.name]}">
+											<f:selectItems value="#{item.selectItems}" />
+										</h:selectOneRadio>
+									</c:if>
+									<c:if test="#{item.type eq 'selectManyCheckbox'}">
+										<h:selectManyCheckbox required="#{item.required}"
+											pt:data-item="#{item.name}"
+											value="#{workitem.itemListArray[item.name]}">
+											<f:selectItems value="#{item.selectItems}" />
+										</h:selectManyCheckbox>
+									</c:if>
+								</c:otherwise>
+							</c:choose>
 						</c:if>
-						<c:if test="#{item.type eq 'selectOneRadio'}">
-							<h:selectOneRadio required="#{item.required}" pt:data-item="#{item.name}"
-								value="#{workitem.item[item.name]}" >
-								<f:selectItems value="#{item.selectItems}" />
-							</h:selectOneRadio>
-						</c:if>
-						<c:if test="#{item.type eq 'selectManyCheckbox'}">
-							<h:selectManyCheckbox required="#{item.required}" pt:data-item="#{item.name}"
-								value="#{workitem.itemListArray[item.name]}" >
-								<f:selectItems value="#{item.selectItems}" />
-							</h:selectManyCheckbox>
-						</c:if>
-						
-
 					</dd>
 				</dl>
 			</c:forEach>

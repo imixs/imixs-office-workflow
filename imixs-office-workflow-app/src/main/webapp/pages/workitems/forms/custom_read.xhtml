@@ -6,9 +6,7 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
 
-
 	<c:forEach items="#{customFormController.sections}" var="section">
-
 
 		<div
 			class="imixs-form-section#{(empty section.columns)?'':'-'.concat(section.columns)}">
@@ -26,11 +24,26 @@
 						</c:if>
 					</dt>
 					<dd>
+						<!-- text -->
 						<c:if test="#{item.type eq 'text'}">
-							<h:outputText value="#{workitem.item[item.name]}"
-								/>
+							<h:outputText value="#{workitem.item[item.name]}" />
 						</c:if>
 						
+						<!-- long -->
+						<c:if test="#{item.type eq 'number'}">
+							<h:outputText value="#{workitem.item[item.name]}">
+								<f:convertNumber/>
+							</h:outputText>
+						</c:if>
+						
+						<!-- currency -->
+						<c:if test="#{item.type eq 'currency'}">
+							<h:outputText value="#{workitem.item[item.name]}">
+								<f:convertNumber minFractionDigits="2" locale="de" />
+							</h:outputText>
+						</c:if>
+						
+						<!-- date -->
 						<c:if test="#{item.type eq 'date'}">
 							<h:outputText value="#{workitem.item[item.name]}">
 							   <f:convertDateTime timeZone="#{message.timeZone}"
@@ -38,15 +51,23 @@
 							</h:outputText>
 						</c:if>
 						
+						<!-- text area -->
 						<c:if test="#{item.type eq 'textarea'}">
 							<h:outputText escape="true"
 								value="#{workitem.item[item.name]}" />
 						</c:if>
 
-
+						<!-- HTML -->
 						<c:if test="#{item.type eq 'html'}">
 							<h:outputText escape="false"
 								value="#{workitem.item[item.name]}" />
+						</c:if>
+						
+						<!-- Options List -->
+						<c:if test="#{item.type eq 'selectBooleanCheckbox' or item.type eq 'selectOneMenu' or item.type eq 'selectOneRadio' or item.type eq 'selectManyCheckbox'}">
+							<ui:repeat var="itemvalue" value="#{workitem.itemList[item.name]}">
+								<h:outputText value="#{itemvalue}"></h:outputText><br />
+							</ui:repeat>
 						</c:if>
 
 					</dd>

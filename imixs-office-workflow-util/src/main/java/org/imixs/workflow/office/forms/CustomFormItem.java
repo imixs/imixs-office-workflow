@@ -49,14 +49,16 @@ public class CustomFormItem {
     String type;
     String label;
     boolean required;
+    boolean readonly;
     String options;
 
-    public CustomFormItem(String name, String type, String label, boolean required, String options) {
+    public CustomFormItem(String name, String type, String label, boolean required, boolean readonly, String options) {
         super();
         this.label = label;
         this.name = name;
         this.type = type;
         this.required = required;
+        this.readonly = readonly;
         this.options = options;
     }
 
@@ -92,11 +94,19 @@ public class CustomFormItem {
         this.required = required;
     }
 
+    public boolean isReadonly() {
+        return readonly;
+    }
+
+    public void setReadonly(boolean readonly) {
+        this.readonly = readonly;
+    }
+
     /**
      * SelectItem getter Method provides a getter method to an ArrayList of
      * <SelectItem> objects for a given options String. The options String contains
      * multiple options spearated by ; One option can be devided by a | into a label
-     * and a value component. Example: 
+     * and a value component. Example:
      * <p>
      * <code>
      *   SEPA|sepa_transfer;Bankeinzug/ Kreditkarte|direct_debit"
@@ -115,7 +125,7 @@ public class CustomFormItem {
 
         // check if a value for this param is available...
         // if not return an empty list
-        if (this.options==null || this.options.isEmpty()) {
+        if (this.options == null || this.options.isEmpty()) {
             return selection;
         }
 
