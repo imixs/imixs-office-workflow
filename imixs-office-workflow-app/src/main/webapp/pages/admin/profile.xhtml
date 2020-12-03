@@ -13,6 +13,20 @@
 	</f:metadata>
 
 	<ui:define name="content">
+		<script type="text/javascript">
+		/*<![CDATA[*/
+			$(document).ready(function() {
+				// set default role IMIXS-WORKFLOW-Author if no role is yet set...
+				// test if we have already values for display name
+				var dispn=$("input[id$='displayname_id']").val();
+				if (!dispn || dispn=="") {
+					// seems to be a new profile...
+					$("input[id$='user_groups:1']").prop('checked', true);
+				}
+			});
+		/*]]>*/
+		</script>
+		
 		<f:view>
 			<h:form>
 				<div class="imixs-form">
@@ -83,8 +97,7 @@
 
 										</dd>
 									</dl>
-
-
+																		
 									<dl>
 										<dt>
 											<h:outputLabel value="#{message['profile.initials']}">
@@ -171,7 +184,6 @@
 							<!-- Security Groups -->
 							<div id="tab-2">
 								<div class="imixs-form-panel imixs-form-section-2">
-
 									<!-- Enable local database security? -->
 									<h:panelGroup
 										rendered="#{setupController.workitem.item['keyEnableUserDB']}">
@@ -180,7 +192,7 @@
 												<h:outputLabel value="#{message['profile.groups']}" />
 											</dt>
 											<dd>
-												<h:selectManyCheckbox layout="pageDirection"
+												<h:selectManyCheckbox layout="pageDirection" id="user_groups"
 													value="#{workflowController.workitem.itemListArray['txtGroups']}">
 													<c:forEach
 														items="#{setupController.workitem.itemList['usergroups']}"
@@ -188,7 +200,6 @@
 														<f:selectItem itemLabel="#{group}" itemValue="#{group}"></f:selectItem>
 													</c:forEach>
 												</h:selectManyCheckbox>
-
 											</dd>
 										</dl>
 
@@ -205,8 +216,6 @@
 									</h:panelGroup>
 								</div>
 
-
-
 								<div class="imixs-form-panel imixs-form-section">
 									<dl>
 										<dt>#{message.description}</dt>
@@ -216,12 +225,9 @@
 												id="description_id" style="height: 7em; width: 95%">
 											</h:inputTextarea>
 										</dd>
-
 									</dl>
-
 								</div>
 							</div>
-
 
 							<!-- X509 -->
 							<ui:fragment
@@ -270,16 +276,13 @@
 									</div>
 								</div>
 							</ui:fragment>
-
 						</div>
-
 					</div>
 
 					<!-- form-body end -->
 					<ui:include src="/pages/admin/sub_footer.xhtml">
 						<ui:param name="action" value="/pages/admin/profilelist" />
 					</ui:include>
-
 				</div>
 			</h:form>
 		</f:view>
