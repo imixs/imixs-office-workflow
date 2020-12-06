@@ -242,6 +242,7 @@
 													value="#{workflowController.workitem.item['x509.o']}" />
 											</dd>
 										</dl>
+										
 										<dl>
 											<dt>Org Units</dt>
 											<dd>
@@ -252,6 +253,14 @@
 
 											</dd>
 										</dl>
+									
+										<dl>
+											<dt>Country</dt>
+											<dd>
+												<h:inputText
+													value="#{workflowController.workitem.item['x509.country']}" />
+											</dd>
+										</dl>
 										<dl>
 											<dt>City</dt>
 											<dd>
@@ -259,6 +268,8 @@
 													value="#{workflowController.workitem.item['x509.city']}" />
 											</dd>
 										</dl>
+									
+										
 										<dl>
 											<dt>State</dt>
 											<dd>
@@ -266,11 +277,24 @@
 													value="#{workflowController.workitem.item['x509.state']}" />
 											</dd>
 										</dl>
+										
+									</div>	
+									<div class="imixs-form-panel imixs-form-section-2">
 										<dl>
-											<dt>Country</dt>
+											<dt>Signature</dt>
 											<dd>
-												<h:inputText
-													value="#{workflowController.workitem.item['x509.country']}" />
+												<h:panelGroup id="signatureimage">
+													<h:graphicImage style="max-width:200px;"
+														rendered="#{! empty workflowController.workitem.item['signature.image']}"
+														value="/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{workflowController.workitem.item['signature.image']}">
+													</h:graphicImage>												
+													<br />
+													<h:commandButton value="#{message.remove}"
+														rendered="#{! empty workflowController.workitem.item['signature.image']}"
+														actionListener="#{userController.removeSignature()}">
+														<f:ajax render="signatureimage"></f:ajax>
+													</h:commandButton>
+												</h:panelGroup>
 											</dd>
 										</dl>
 									</div>
