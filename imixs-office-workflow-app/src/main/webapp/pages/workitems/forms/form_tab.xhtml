@@ -7,32 +7,32 @@
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
-				<div class="imixs-tabs">
-				<ul>
-					<c:forEach items="#{formController.formDefinition.sections}"
-						var="section">
-						<li><a href="#tab-#{section.path}">#{(empty section.name)?app.basic:section.name}</a></li>
-					</c:forEach>
-				</ul>
-
+	<div>
+		<div class="imixs-tabs">
+			<ul>
 				<c:forEach items="#{formController.formDefinition.sections}"
 					var="section">
-					<div id="tab-#{section.path}">
-						<f:subview>
-							<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
-								<ui:param name="workitem" value="#{workflowController.workitem}" />
-							</ui:include>
-						</f:subview>
-					</div>
+					<li><a href="#tab-#{section.path}">#{(empty section.name)?app.basic:section.name}</a></li>
 				</c:forEach>
+			</ul>
 
-			</div>
-		
-			<!-- Comments and Documents -->
-	<ui:include src="/pages/workitems/forms/sub_comment_and_documents.xhtml">
-					<ui:param name="workitem" value="#{workflowController.workitem}" />
-	</ui:include>
-	
-	
+			<c:forEach items="#{formController.formDefinition.sections}" var="section">
+				<div id="tab-#{section.path}">
+					<f:subview>
+						<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
+							<ui:param name="workitem" value="#{workflowController.workitem}" />
+						</ui:include>
+					</f:subview>
+				</div>
+			</c:forEach>
+
+		</div>
+
+
+
+	</div>
+
+
+
 </ui:composition>
 

@@ -5,8 +5,7 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html">
 
 
-	<c:forEach items="#{formController.formDefinition.sections}"
-		var="section">
+	<c:forEach items="#{formController.formDefinition.sections}" var="section">
 		<div class="imixs-form-panel">
 			<h3>
 				<h:outputText value="#{section.name}" />
@@ -19,10 +18,5 @@
 		</div>
 	</c:forEach>
 
-	<!-- Comments and Documents -->
-	<ui:include src="/pages/workitems/forms/sub_comment_and_documents.xhtml">
-					<ui:param name="workitem" value="#{workflowController.workitem}" />
-	</ui:include>
-	
-	
 </ui:composition>
+
