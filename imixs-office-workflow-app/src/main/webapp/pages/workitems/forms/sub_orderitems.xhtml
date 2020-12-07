@@ -13,20 +13,18 @@
 			<table class="imixsdatatable imixs-orderitems">
 
 				<tr>
-					<th style="width: 10px;">Pos.</th>
-					<th style="width: 100px;">#{message['form.description']}<span class="imixs-required"> *</span></th>
+					<th style="">Pos.</th>
+					<th style="">#{message['form.description']}<span class="imixs-required"> *</span></th>
 					<th style="width: 100px;">#{message['form.unit']}</th>
 					<th style="width: 50px;">#{message['form.quantity']}</th>
-					<th style="width: 20px;">#{message['form.price']}</th>
-					<th style="width: 20px">#{message['form.total']}<span class="imixs-required"> *</span></th>
+					<th style="width: 100px;">#{message['form.price']}</th>
+					<th style="width: 100px">#{message['form.total']}<span class="imixs-required"> *</span></th>
 					<th style="width: 5px;">
 						<!-- delete -->
 					</th>
 				</tr>
 
 				<ui:repeat var="orderitem" value="#{childItemController.childItems}">
-
-
 					<tr>
 						<!-- pos -->
 						<td><h:outputText value="#{orderitem.item['numpos']}" /></td>
@@ -35,14 +33,17 @@
 						<td><h:inputText value="#{orderitem.item['name']}" style="width:100%" /></td>
 						
 						
-						<td><h:inputText value="#{orderitem.item['unit']}" /></td>
+						<td><h:inputText value="#{orderitem.item['unit']}" style="width:100%;" /></td>
 
 						<td><h:inputText value="#{orderitem.item['quantity']}"
-								 a:data-id="orderitem_ammount" /></td>
-						<td><h:inputText value="#{orderitem.item['price']}"
-								a:data-id="orderitem_price" style="text-align: right;">
+								 a:data-id="orderitem_ammount" style="width:100%;"/>
+						</td>
+						
+						<td><h:inputText value="#{orderitem.item['price']}" 
+								a:data-id="orderitem_price" style="text-align: right;width:100%;">
 								<f:convertNumber minFractionDigits="2" locale="de" />
-							</h:inputText></td>
+							</h:inputText>
+						</td>
 
 						<td data-id="orderitem_summary" style="text-align: right;"></td>
 
@@ -51,17 +52,13 @@
 								<span class="typcn typcn-trash imixs-state-info"></span>
 								<f:ajax render="#{orderlistContainer.clientId}"
 									onevent="updateOrderItems" />
-							</h:commandLink>
-							
-							
+							</h:commandLink>							
 							<!-- item summary -->
-							<h:inputHidden value="#{orderitem.item['total']}" a:data-id="orderitem_total"/>
-							<h:inputHidden value="#{orderitem.item['total_dsp']}" a:data-id="orderitem_total_dsp" />
-							
+							<h:inputHidden value="#{orderitem.item['total']}" a:data-id="orderitem_total">
+							   <f:convertNumber minFractionDigits="2" locale="de" />
+							</h:inputHidden>							
 						</td>
-
 					</tr>
-
 				</ui:repeat>
 
 				<!-- summary -->
@@ -76,8 +73,10 @@
 				</tr>
 			</table>
 			<!-- total summary -->
-			<h:inputHidden value="#{workitem.item['order.total']}" a:data-id="orderitems_capacity" />
-			<h:inputHidden value="#{workitem.item['order.total_dsp']}" a:data-id="orderitems_capacity_dsp" />
+			<h:inputHidden value="#{workitem.item['order.total']}" a:data-id="orderitems_capacity">
+				<f:convertNumber minFractionDigits="2" locale="de" />
+			</h:inputHidden>
+			
 			<!-- add button -->
 			<h:commandButton value="#{message.add}" a:data-id="addposbutton_id"
 				actionListener="#{childItemController.add}">
@@ -109,8 +108,8 @@
 		// This method refreshs the layout 
 		function updateOrderItems(data) {
 			if (data.status === 'success') {
-				$('[id$=oderlist]').imixsLayout();
 				calculateSummary();
+				$('[id$=oderlist]').imixsLayout();
 			}
 		}
 
@@ -125,31 +124,28 @@
 				if (inputammout && inputprice) {
 					ammount = convertToNumber(inputammout.val());
 					price = convertToNumber(inputprice.val());
-					//console.log('ammount=' + ammount);
-					//console.log('price=' + price);
+					console.log('ammount=' + ammount);
+					console.log('price=' + price);
 					if (!isNaN(ammount) && !isNaN(price)) {
 						sum = ammount * price;
 						// round
 						sum = Math.round(sum * 100) / 100;
 						total = total + sum;
 						
-						$("[data-id='orderitem_total']",tableRow).val(sum);
+						$("[data-id='orderitem_price']",tableRow).val(convertToCurrency(price));
 						sum = convertToCurrency(sum);
 						//console.log('sum=' + sum);
-						$("[data-id='orderitem_total_dsp']",tableRow).val(sum);
+						$("[data-id='orderitem_total']",tableRow).val(sum); // hidden field
+						// update display column
 						$("[data-id='orderitem_summary']", tableRow).empty();
 						$("[data-id='orderitem_summary']", tableRow).append(sum);
-						
-						
 					}
 				}
 			});
 
-			// update total _capacity
-			// update orderlist_summary
-			$("[data-id='orderitems_capacity']").val(total);
+			// update total 
 			total = convertToCurrency(total);
-			$("[data-id='orderitems_capacity_dsp']").val(total);
+			$("[data-id='orderitems_capacity']").val(total);
 			$("[data-id='orderlist_summary']", ".imixs-orderitems").empty();
 			$("[data-id='orderlist_summary']", ".imixs-orderitems").append(total);
 
