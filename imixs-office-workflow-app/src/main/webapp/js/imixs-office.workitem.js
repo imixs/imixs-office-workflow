@@ -184,9 +184,6 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 				    return false;
 				});
 			});
-				
-						
-				
 	},
 	
 	
@@ -197,11 +194,10 @@ IMIXS.org.imixs.workflow.workitem = (function() {
      * the method is called after a remove click
      */
 	clearDocumentPreview = function(event) {
-		
-		 if (event.status === 'success') {			
-			//documentPreviewIframe.src="";
+		 if (event.status === 'success') {
 			documentPreviewIframe.contentWindow.location.replace("");
-		    documentPreviewURL="";
+			documentPreviewIframe.src="";
+			documentPreviewURL="";
 			updateAttachmentLinks();
 			// autoload first pdf into preview if available.... 
 			autoPreviewPDF();	
