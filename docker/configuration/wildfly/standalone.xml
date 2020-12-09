@@ -116,6 +116,14 @@
                 <suffix value=".yyyy-MM-dd"/>
                 <append value="true"/>
             </periodic-rotating-file-handler>
+            <!-- added file size handler -->
+            <size-rotating-file-handler name="FILE_SIZE">
+		        <file relative-to="jboss.server.log.dir" path="server.log"/>
+		        <rotate-size value="100m"/> <!-- the size, could be 100k, 10m etc-->
+		        <max-backup-index value="5"/> <!-- backup index, default is 1, please set it to a large number -->
+		        <append value="true"/>
+		    </size-rotating-file-handler>
+		    
             <logger category="com.arjuna">
                 <level name="WARN"/>
             </logger>
@@ -133,6 +141,7 @@
                 <handlers>
                     <handler name="CONSOLE"/>
                     <handler name="FILE"/>
+                    <handler name="FILE_SIZE"/> <!-- add size-rotating-file-handler  -->
                 </handlers>
             </root-logger>
             <formatter name="PATTERN">
