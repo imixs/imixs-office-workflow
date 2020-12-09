@@ -28,8 +28,6 @@
 package org.imixs.workflow.office.forms;
 
 import java.io.Serializable;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
@@ -42,6 +40,7 @@ import javax.inject.Named;
 
 import org.imixs.marty.model.TeamController;
 import org.imixs.marty.profile.UserController;
+import org.imixs.marty.util.ResourceBundleHandler;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.faces.data.WorkflowEvent;
@@ -64,237 +63,207 @@ import org.imixs.workflow.faces.data.WorkflowEvent;
 @ConversationScoped
 public class FormController implements Serializable {
 
-	public static final String DEFAULT_EDITOR_ID = "form_panel_simple#basic";
+    public static final String DEFAULT_EDITOR_ID = "form_panel_simple#basic";
 
-	@Inject
-	protected TeamController processController;
+    @Inject
+    protected TeamController processController;
 
-	@Inject
-	protected UserController userController;
+    @Inject
+    protected UserController userController;
 
-	private static final long serialVersionUID = 1L;
+    @Inject
+    protected ResourceBundleHandler resourceBundleHandler;
 
-	private FormDefinition formDefinition = null;
+    private static final long serialVersionUID = 1L;
 
-	private static Logger logger = Logger.getLogger(FormController.class.getName());
+    private FormDefinition formDefinition = null;
 
-	public FormController() {
-		super();
-	}
+    private static Logger logger = Logger.getLogger(FormController.class.getName());
 
-	/**
-	 * Retuns the FormDefinition for the current workitem
-	 * 
-	 * @return
-	 */
-	public FormDefinition getFormDefinition() {
-		if (formDefinition == null) {
-			logger.warning("formDefinition is null - verify model definition and the workitem 'type' attribute'.");
-			formDefinition = new FormDefinition();
-			computeFormDefinition(new ItemCollection());
+    public FormController() {
+        super();
+    }
 
-		}
-		return formDefinition;
-	}
+    /**
+     * Retuns the FormDefinition for the current workitem
+     * 
+     * @return
+     */
+    public FormDefinition getFormDefinition() {
+        if (formDefinition == null) {
+            logger.warning("formDefinition is null - verify model definition and the workitem 'type' attribute'.");
+            formDefinition = new FormDefinition();
+            computeFormDefinition(new ItemCollection());
 
-	public void setFormDefinition(FormDefinition formDefinition) {
-		this.formDefinition = formDefinition;
-	}
+        }
+        return formDefinition;
+    }
 
-	/**
-	 * WorkflowEvent listener to update the current FormDefinition.
-	 * 
-	 * @param workflowEvent
-	 * @throws AccessDeniedException
-	 */
-	public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) throws AccessDeniedException {
-		if (workflowEvent == null)
-			return;
+    public void setFormDefinition(FormDefinition formDefinition) {
+        this.formDefinition = formDefinition;
+    }
 
-		// skip if no item 'txtWorkflowEditorid' exists
-		if (!workflowEvent.getWorkitem().hasItem("txtWorkflowEditorid")) {
-		    return;
-		}
-		int eventType = workflowEvent.getEventType();
+    /**
+     * WorkflowEvent listener to update the current FormDefinition.
+     * 
+     * @param workflowEvent
+     * @throws AccessDeniedException
+     */
+    public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) throws AccessDeniedException {
+        if (workflowEvent == null)
+            return;
 
-		// if workItem has changed, then update the form definition
-		if (WorkflowEvent.WORKITEM_CHANGED == eventType || WorkflowEvent.WORKITEM_CREATED == eventType
-				|| WorkflowEvent.WORKITEM_AFTER_PROCESS == eventType) {
-			computeFormDefinition(workflowEvent.getWorkitem());
-		}
+        // skip if no item 'txtWorkflowEditorid' exists
+        if (!workflowEvent.getWorkitem().hasItem("txtWorkflowEditorid")) {
+            return;
+        }
+        int eventType = workflowEvent.getEventType();
 
-	}
+        // if workItem has changed, then update the form definition
+        if (WorkflowEvent.WORKITEM_CHANGED == eventType || WorkflowEvent.WORKITEM_CREATED == eventType
+                || WorkflowEvent.WORKITEM_AFTER_PROCESS == eventType) {
+            computeFormDefinition(workflowEvent.getWorkitem());
+        }
 
-	/**
-	 * Computes an new FormDefinition based on a given workitem.
-	 * 
-	 * array list with EditorSection Objects defined by a given workitem. Each
-	 * EditorSection object contains the url and the name of one section.
-	 * EditorSections must be provided by the workitem property
-	 * 'txtWorkflowEditorid' marked with the '#' character and separated with
-	 * charater '|'.
-	 * 
-	 * e.g.: form_tab#basic_project|sub_timesheet[owner,manager]
-	 * 
-	 * This example provides the editor sections 'basic_project' and
-	 * 'sub_timesheet'. The optional marker after the second section in [] defines
-	 * the user membership to access this action. In this example the second section
-	 * is only visible if the current user is member of the project owner or manager
-	 * list.
-	 * 
-	 * The following example illustrates how to iterate over the section array from
-	 * a JSF fragment:
-	 * 
-	 * <code>
-	 * <ui:repeat value="#{workitemMB.editorSections}" var="section">
-	 *   ....
-	 *      <ui:include src="/pages/workitems/forms/#{section.url}.xhtml" />
-	 * </code>
-	 * 
-	 * 
-	 * The array of EditorSections also contains information about the name for a
-	 * section. This name is read from the resouce bundle 'bundle.forms'. The '/'
-	 * character will be replaced with '_'. So for example the section url
-	 * myforms/sub_timesheet will result in resoure bundle lookup for the name
-	 * 'myforms_sub_timersheet'
-	 * 
-	 * @return
-	 */
-	public FormDefinition computeFormDefinition(ItemCollection aworkitem) {
+    }
 
-		formDefinition = new FormDefinition();
+    /**
+     * Computes an new FormDefinition based on a given workitem.
+     * 
+     * array list with EditorSection Objects defined by a given workitem. Each
+     * EditorSection object contains the url and the name of one section.
+     * EditorSections must be provided by the workitem property
+     * 'txtWorkflowEditorid' marked with the '#' character and separated with
+     * charater '|'.
+     * 
+     * e.g.: form_tab#basic_project|sub_timesheet[owner,manager]
+     * 
+     * This example provides the editor sections 'basic_project' and
+     * 'sub_timesheet'. The optional marker after the second section in [] defines
+     * the user membership to access this action. In this example the second section
+     * is only visible if the current user is member of the project owner or manager
+     * list.
+     * 
+     * The following example illustrates how to iterate over the section array from
+     * a JSF fragment:
+     * 
+     * <code>
+     * <ui:repeat value="#{workitemMB.editorSections}" var="section">
+     *   ....
+     *      <ui:include src="/pages/workitems/forms/#{section.url}.xhtml" />
+     * </code>
+     * 
+     * 
+     * The array of EditorSections also contains information about the name for a
+     * section. This name is read from the resouce bundle 'bundle.forms'. The '/'
+     * character will be replaced with '_'. So for example the section url
+     * myforms/sub_timesheet will result in resoure bundle lookup for the name
+     * 'myforms_sub_timersheet'
+     * 
+     * @return
+     */
+    public FormDefinition computeFormDefinition(ItemCollection aworkitem) {
 
-		String editorID = DEFAULT_EDITOR_ID;
+        formDefinition = new FormDefinition();
 
-		if (aworkitem == null) {
-			// return empty array
-			return formDefinition;
-		}
+        String editorID = DEFAULT_EDITOR_ID;
 
-		// test for txtWorkflowEditorid
-		String currentEditor = aworkitem.getItemValueString("txtWorkflowEditorid");
-		if (!currentEditor.isEmpty()) {
-			editorID = currentEditor;
-		}
+        if (aworkitem == null) {
+            // return empty array
+            return formDefinition;
+        }
 
-		if (editorID.indexOf('#') == -1) {
-			// set form as direct path
-			formDefinition.setPath(editorID);
-			return formDefinition;
-		}
+        // test for txtWorkflowEditorid
+        String currentEditor = aworkitem.getItemValueString("txtWorkflowEditorid");
+        if (!currentEditor.isEmpty()) {
+            editorID = currentEditor;
+        }
 
-		// Set the main part
-		String sMainForm = editorID.substring(0, editorID.indexOf('#'));
-		formDefinition.setPath(sMainForm);
-		formDefinition.setName(findResourceNameByPath(sMainForm));
+        if (editorID.indexOf('#') == -1) {
+            // set form as direct path
+            formDefinition.setPath(editorID);
+            return formDefinition;
+        }
 
-		// now get the sections....
+        // Set the main part
+        String sMainForm = editorID.substring(0, editorID.indexOf('#'));
+        formDefinition.setPath(sMainForm);
+        formDefinition.setName(findResourceNameByPath(sMainForm));
 
-		StringTokenizer subSections = new StringTokenizer(editorID.substring(editorID.indexOf('#') + 1), "|");
-		while (subSections.hasMoreTokens()) {
-			try {
-				String path = subSections.nextToken();
+        // now get the sections....
 
-				// if the URL contains a [] section test the defined
-				// user
-				// permissions
-				if (path.indexOf('[') > -1 || path.indexOf(']') > -1) {
-					boolean bPermissionGranted = false;
-					// yes - cut the permissions
-					String sPermissions = path.substring(path.indexOf('[') + 1, path.indexOf(']'));
+        StringTokenizer subSections = new StringTokenizer(editorID.substring(editorID.indexOf('#') + 1), "|");
+        while (subSections.hasMoreTokens()) {
+            try {
+                String path = subSections.nextToken();
 
-					// cut the permissions from the URL
-					path = path.substring(0, path.indexOf('['));
-					StringTokenizer stPermission = new StringTokenizer(sPermissions, ",");
-					while (stPermission.hasMoreTokens()) {
-						String aPermission = stPermission.nextToken();
-						// test for user role
-						ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
-						if (ectx.isUserInRole(aPermission)) {
-							bPermissionGranted = true;
-							break;
-						}
-						// test if user is project member
-						String sProjectUniqueID = aworkitem.getItemValueString("txtProcessRef");
+                // if the URL contains a [] section test the defined
+                // user
+                // permissions
+                if (path.indexOf('[') > -1 || path.indexOf(']') > -1) {
+                    boolean bPermissionGranted = false;
+                    // yes - cut the permissions
+                    String sPermissions = path.substring(path.indexOf('[') + 1, path.indexOf(']'));
 
-						if ("manager".equalsIgnoreCase(aPermission)
-								&& processController.isManagerOf(sProjectUniqueID)) {
-							bPermissionGranted = true;
-							break;
-						}
-						if ("team".equalsIgnoreCase(aPermission)
-								&& this.processController.isTeamMemberOf(sProjectUniqueID)) {
-							bPermissionGranted = true;
-							break;
-						}
+                    // cut the permissions from the URL
+                    path = path.substring(0, path.indexOf('['));
+                    StringTokenizer stPermission = new StringTokenizer(sPermissions, ",");
+                    while (stPermission.hasMoreTokens()) {
+                        String aPermission = stPermission.nextToken();
+                        // test for user role
+                        ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
+                        if (ectx.isUserInRole(aPermission)) {
+                            bPermissionGranted = true;
+                            break;
+                        }
+                        // test if user is project member
+                        String sProjectUniqueID = aworkitem.getItemValueString("txtProcessRef");
 
-					}
+                        if ("manager".equalsIgnoreCase(aPermission)
+                                && processController.isManagerOf(sProjectUniqueID)) {
+                            bPermissionGranted = true;
+                            break;
+                        }
+                        if ("team".equalsIgnoreCase(aPermission)
+                                && this.processController.isTeamMemberOf(sProjectUniqueID)) {
+                            bPermissionGranted = true;
+                            break;
+                        }
 
-					// if not permission is granted - skip this section
-					if (!bPermissionGranted)
-						continue;
+                    }
 
-				}
+                    // if not permission is granted - skip this section
+                    if (!bPermissionGranted)
+                        continue;
 
-				String sName = findResourceNameByPath(path);
+                }
 
-				FormSection aSection = new FormSection(path, sName);
-				formDefinition.getSections().add(aSection);
+                String sName = findResourceNameByPath(path);
 
-			} catch (Exception est) {
-				logger.severe("[getEditorSections] can not parse EditorSections : '" + editorID + "'");
-				logger.severe(est.getMessage());
-			}
+                FormSection aSection = new FormSection(path, sName);
+                formDefinition.getSections().add(aSection);
 
-		}
+            } catch (Exception est) {
+                logger.severe("[getEditorSections] can not parse EditorSections : '" + editorID + "'");
+                logger.severe(est.getMessage());
+            }
 
-		return formDefinition;
+        }
 
-	}
+        return formDefinition;
 
-	/**
-	 * Finds in the resource bundles a name for a URL/Path
-	 * 
-	 * @param path
-	 * @return
-	 */
-	private String findResourceNameByPath(String path) {
-		Locale locale = null;
-		ResourceBundle rb_app = null;
-		ResourceBundle rb_custom = null;
+    }
 
-		String sName = "";
-		String sResouceURL = path.replace('/', '_');
-		// compute name from ressource Bundle....
-		try {
+    /**
+     * Finds in the resource bundles a name for a URL/Path
+     * 
+     * @param path
+     * @return
+     */
+    private String findResourceNameByPath(String path) {
+        String sResouceURL = path.replace('/', '_');
 
-			// get locale from profile
-			if (userController != null) {
-				locale = userController.getLocale();
-			}
-			if (locale != null) {
-				rb_app = ResourceBundle.getBundle("bundle.app", locale);
-			} else {
-				rb_app = ResourceBundle.getBundle("bundle.app");
-			}
-
-			sName = rb_app.getString(sResouceURL);
-		} catch (java.util.MissingResourceException eb) {
-
-			// now let's check the custom bundle...
-			try {
-				if (locale != null) {
-					rb_custom = ResourceBundle.getBundle("bundle.custom", locale);
-				} else {
-					rb_custom = ResourceBundle.getBundle("bundle.custom");
-				}
-				sName = rb_custom.getString(sResouceURL);
-			} catch (java.util.MissingResourceException eb2) {
-
-				sName = "";
-				logger.warning("Form-label not found: " + eb2.getMessage());
-			}
-		}
-		return sName;
-	}
+        // compute name from ressource Bundle....
+        return resourceBundleHandler.get(sResouceURL);
+    }
 }
