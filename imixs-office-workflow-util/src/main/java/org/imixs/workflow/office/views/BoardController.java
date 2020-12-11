@@ -88,6 +88,7 @@ public class BoardController implements Serializable {
 	private int pageIndex = 0;
 	private boolean endOfList = false;
 	private String query;
+	private String view;
 	private String title;
 
 	@Inject
@@ -171,6 +172,19 @@ public class BoardController implements Serializable {
 		searchController.getSearchFilter().setItemValue("phrase", phrase);
 	}
 
+	public String getView() {
+		if (view==null || view.isEmpty()) {
+			view="worklist.owner";
+		}
+		return view;
+	}
+
+	public void setView(String view) {
+		this.view = view;
+	}
+
+
+
 	/**
 	 * Get the board title. The default board title is message['worklist.owner']
 	 * 
@@ -186,7 +200,7 @@ public class BoardController implements Serializable {
 					rb = ResourceBundle.getBundle("bundle.messages", locale);
 				else
 					rb = ResourceBundle.getBundle("bundle.messages");
-				title = rb.getString("worklist.owner");
+				title = rb.getString(getView());
 			} catch (java.util.MissingResourceException eb) {
 				title = "";
 			}
@@ -208,7 +222,12 @@ public class BoardController implements Serializable {
 	public String getQuery() {
 		// set default query
 		if (getRef().isEmpty()) {
-			query = "(type:\"workitem\" AND $owner:\"" + loginController.getRemoteUser() + "\")";
+			// build query form view type...
+			if ("worklist.creator".equals(getView())) {
+				query = "(type:\"workitem\" AND $creator:\"" + loginController.getRemoteUser() + "\")";
+			} else {
+				query = "(type:\"workitem\" AND $owner:\"" + loginController.getRemoteUser() + "\")";
+			}
 		} else {
 			query = "(type:\"workitem\" AND $uniqueidref:\"" + getRef() + "\")";
 		}
@@ -218,7 +237,6 @@ public class BoardController implements Serializable {
 		if (searchphrase != null && !searchphrase.isEmpty()) {
 			// escape search phrase
 			searchphrase = schemaService.normalizeSearchTerm(searchphrase);
-
 			if (searchphrase != null && !"".equals(searchphrase)) {
 				// trim
 				searchphrase = searchphrase.trim();

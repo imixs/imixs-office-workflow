@@ -41,16 +41,14 @@
 			<ul>
 				<li class="active">
 					<!-- board --> 
-					<ui:fragment rendered="#{showBoardView}" >
-						<h:commandLink action="notes_board" immediate="true"
-						styleClass="action-search" actionListener="#{boardController.reset}" >
-						<span class="typcn typcn-th-large-outline"
-							style="margin-right: 8px;"></span><h:outputText styleClass="portlet-title" value="#{title}" />
-						<f:setPropertyActionListener target="#{boardController.title}"
-							value="#{message['worklist.owner']}" />
-					</h:commandLink> 
+					<ui:fragment rendered="#{! empty viewType}" >
+						<h:link outcome="/pages/notes_board.xhtml" styleClass="action-search" >
+							<span class="typcn typcn-th-large-outline"
+								style="margin-right: 8px;"></span><h:outputText styleClass="portlet-title" value="#{title}" />
+							<f:param name="viewType" value="#{viewType}" />
+						</h:link>
 					</ui:fragment>
-					<ui:fragment rendered="#{!showBoardView}" >
+					<ui:fragment rendered="#{empty viewType}" >
 						<h:outputText  styleClass="portlet-title" value="#{title}" />
 					</ui:fragment>
 					

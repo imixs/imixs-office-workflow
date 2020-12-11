@@ -53,7 +53,7 @@
 						<ui:include src="/pages/portlet_worklist.xhtml">
 							<ui:param name="view" value="#{portletWorklistTasks}" />
 							<ui:param name="title" value="#{message['worklist.owner']}" />
-							<ui:param name="showBoardView" value="#{true}" />
+							<ui:param name="viewType" value="worklist.owner" />
 						</ui:include>
 					</f:subview>
 
@@ -62,7 +62,7 @@
 						<ui:include src="/pages/portlet_worklist.xhtml">
 							<ui:param name="view" value="#{portletWorklistCreator}" />
 							<ui:param name="title" value="#{message['worklist.creator']}" />
-							<ui:param name="showBoardView" value="#{false}" />
+							<ui:param name="viewType" value="worklist.creator" />
 						</ui:include>
 					</f:subview>
 
