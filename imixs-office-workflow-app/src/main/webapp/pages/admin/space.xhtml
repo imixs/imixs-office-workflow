@@ -25,16 +25,14 @@
 							<h:outputText
 								rendered="#{! empty workflowController.workitem.item['space.parent.name']}"
 								value="#{workflowController.workitem.item['space.parent.name']}" />
-
 							<h:outputText
 								rendered="#{! empty workflowController.workitem.item['space.parent.name']}"
 								value="." />
-
-
 							<h:outputText
 								value="#{workflowController.workitem.item['space.name']} " />
-						</h1>
+						</h1>						
 					</div>
+					
 					<!-- ########## Error ########## -->
 					<ui:include src="/pages/error_message.xhtml" />
 
@@ -42,8 +40,8 @@
 						<div class="imixs-tabs">
 							<ul>
 								<li><a href="#tab-1">#{message['space.sub_general']}</a></li>
-								<ui:fragment rendered="#{app.containsKey('space.sub_custom')}">
-									<li><a href="#tab-2">#{app['space.sub_custom']}</a></li>
+								<ui:fragment rendered="#{! empty resourceBundleHandler.get('space.sub_custom')}">
+									<li><a href="#tab-2">#{resourceBundleHandler.get('space.sub_custom')}</a></li>
 								</ui:fragment>
 							</ul>
 
@@ -137,11 +135,12 @@
 
 
 							<!-- ******** space custom ********* -->
-							<ui:fragment rendered="#{app.containsKey('space.sub_custom')}">
+								
+							<ui:fragment rendered="#{! empty resourceBundleHandler.get('space.sub_custom')}">
 								<div id="tab-2">
 									<div class="ui-state-highlight ui-corner-all"
 										style="margin-bottom: 10px; padding: .5em;">
-										<p>#{app['space.help_custom']}</p>
+										<p>#{resourceBundleHandler.get('space.help_custom')}</p>
 									</div>
 									<ui:include src="/pages/admin/sub_space_custom.xhtml">
 										<ui:param name="workitem"
