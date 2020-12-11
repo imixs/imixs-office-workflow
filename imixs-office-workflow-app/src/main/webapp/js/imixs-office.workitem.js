@@ -8,12 +8,12 @@ var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
 	"Sep", "Okt", "Nov", "Dec" ];
 
 
-var documentPreview;			// active document preview 
+var documentPreview;			// active document preview element
 var documentPreviewIframe;  	// active iFrame
 var documentPreviewURL;			// URL for current displayed document
 var isWorkitemLoading=true; 	// indicates if the workitem is still loading
 var chornicleSize=1;			// default cronicle size (33%)
-
+var chroniclePreview=true; 		// indicates if documetns should be shown in the cornicle column
 
 
 /**
@@ -24,21 +24,26 @@ var chornicleSize=1;			// default cronicle size (33%)
  */
 $(document).ready(function() {
 	
-	// get chronicle status from cookie
-	var c_value = document.cookie;
 	imixsOfficeMain.imixs_document=true; // default
-	if (c_value.indexOf("imixs.office.document=")>-1) {
-		// read cookie data
-		imixsOfficeMain.imixs_document=c_value.indexOf("imixs.office.document=true")>-1;
-	}
 	imixsOfficeMain.imixs_chronicle_comments=true;
 	imixsOfficeMain.imixs_chronicle_nav=JSON.parse('{ "comment" : true, "files":true, "version":true, "reference":true }'); 
 	
-	chornicleSize=imixsOfficeWorkitem.readCookie('imixs.office.document.chronicle');
+	// read croncicle size form cookie
+	chornicleSize=imixsOfficeWorkitem.readCookie('imixs.office.document.chronicle.size');
 	if (!chornicleSize || chornicleSize=="") {
 		chornicleSize=1;
 	}
+
 	
+	// read croncicle document preview form cookie
+	chroniclePreview=imixsOfficeWorkitem.readCookie('imixs.office.document.chronicle.preview');
+	if (chroniclePreview == "true") {
+		chroniclePreview=true;
+	} else {
+		chroniclePreview=false;
+	}
+	
+		
 	// init...
 	$('.imixs-workitem-chronicle').css('transition','0.0s');
 	imixsOfficeWorkitem.updateChronicleWidth();
@@ -113,6 +118,14 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	    return null;
 	},
 	
+	setCookie = function(cname, cvalue, exdays=999) {
+	  var d = new Date();
+	  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+	  var expires = "expires="+d.toUTCString();
+	  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	},
+	
+	
 	/*
 	 * This method loads the first pdf and starts a autopreview
 	 */
@@ -122,7 +135,7 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 				var attachmentName=$(this).text();
 				if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {		
 					// if we have a pdf and screen is >1800 than maximize preview.
-					if (window.innerWidth>=1800 ) {
+					if (window.innerWidth>=1800 || chroniclePreview==false ) {
 						maximizeDocumentPreview();
 					}
 					//$(this).click();
@@ -215,7 +228,7 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	},
 
 	/*
-	 * The method hides the document preiview window and opens 
+	 * The method hides the document preview window and opens 
 	 * the document in the minimized preview on the documents tab
 	 */
 	minimizeDocumentPreview =function () {
@@ -225,20 +238,12 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		$('.imixs-workitem-document-embedded').show();
 	
 		// set preview cookie
-		document.cookie = "imixs.office.document.preview=false";
+		//document.cookie = "imixs.office.document.chronicle.preview=true; path=/";
+		imixsOfficeWorkitem.setCookie("imixs.office.document.chronicle.preview","true",14);
 		documentPreview=$('.imixs-workitem-document-embedded');
-	
 		// update iframe
-		//var documentPreviewURL="";
-		/*if (documentPreviewIframe) {
-			//currentURL=documentPreviewIframe.src;
-			
-			documentPreviewURL=documentPreviewIframe.contentWindow.location;
-		}*/
 		documentPreviewIframe=document.getElementById('imixs_document_iframe_embedded');
-		//documentPreviewIframe.src=currentURL;
 		documentPreviewIframe.contentWindow.location.replace(documentPreviewURL);
-		
 		
 		if (!isWorkitemLoading) {
 			$(".chronicle-tab-documents").click();
@@ -257,19 +262,12 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		$('.imixs-workitem-document-embedded').hide();
 		
 		// set preview cookie
-		document.cookie = "imixs.office.document.preview=false";
+		//document.cookie = "imixs.office.document.chronicle.preview=false; path=/";
+		imixsOfficeWorkitem.setCookie("imixs.office.document.chronicle.preview","false",14);
 		documentPreview=$('.imixs-document');
-		
 		// update iframe
-		/*var documentPreviewURL="";
-		if (documentPreviewIframe) {
-			//currentURL=documentPreviewIframe.src;
-			documentPreviewURL=documentPreviewIframe.contentWindow.location.href;
-		}*/
 		documentPreviewIframe=document.getElementById('imixs_document_iframe');
-		//documentPreviewIframe.src=currentURL;
 		documentPreviewIframe.contentWindow.location.replace(documentPreviewURL);
-		
 		
 	},
 
@@ -281,7 +279,9 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		if (chornicleSize<2) {
 			chornicleSize++;
 		}
-		document.cookie = "imixs.office.document.chronicle=" + chornicleSize + "; path=/";	
+		//document.cookie = "imixs.office.document.chronicle.size=" + chornicleSize + "; path=/";
+		imixsOfficeWorkitem.setCookie("imixs.office.document.chronicle.size",chornicleSize,14);
+	
 		$('.imixs-workitem-chronicle').css('transition','0.3s');
 		updateChronicleWidth();
 	},
@@ -293,7 +293,8 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		if (chornicleSize>0) {
 			chornicleSize--;
 		}
-		document.cookie = "imixs.office.document.chronicle=" + chornicleSize + "; path=/";	
+		//document.cookie = "imixs.office.document.chronicle.size=" + chornicleSize + "; path=/";
+		imixsOfficeWorkitem.setCookie("imixs.office.document.chronicle.size",chornicleSize,14);	
 		$('.imixs-workitem-chronicle').css('transition','0.3s');
 		updateChronicleWidth();
 	},
@@ -393,6 +394,7 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	// public API
 	return {
 		readCookie : readCookie,
+		setCookie : setCookie,
 		printQRCode : printQRCode,
 		autoPreviewPDF : autoPreviewPDF,
 		expandChronicle : expandChronicle,
