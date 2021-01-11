@@ -12,12 +12,12 @@
 			<table class="imixsdatatable imixs-orderitems">
 
 				<tr>
-					<th style="width: 50px;">Pos.</th>
-					<th>#{message['form.description']}</th>
-					<th style="width: 100px;">#{message['form.unit']}</th>
-					<th style="width: 50px;">#{message['form.quantity']}</th>
-					<th style="width: 100px;">#{message['form.price']}</th>
-					<th style="width: 150px;">#{message['form.total']}</th>
+					<th style="width: 50px;">#{resourceBundleHandler.findMessage('orderitems.pos')}</th>
+					<th>#{resourceBundleHandler.findMessage('orderitems.description')}</th>
+					<th style="width: 100px;">#{resourceBundleHandler.findMessage('orderitems.unit')}</th>
+					<th style="width: 50px;">#{resourceBundleHandler.findMessage('orderitems.quantity')}</th>
+					<th style="width: 100px;">#{resourceBundleHandler.findMessage('orderitems.price')}</th>
+					<th style="width: 150px;">#{resourceBundleHandler.findMessage('orderitems.total')}</th>
 				</tr>
 				<ui:repeat var="orderitem" value="#{childItemController.childItems}">
 					<tr>
