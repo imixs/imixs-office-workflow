@@ -63,7 +63,8 @@ import org.imixs.workflow.faces.data.WorkflowEvent;
 @ConversationScoped
 public class FormController implements Serializable {
 
-    public static final String DEFAULT_EDITOR_ID = "form_panel_simple#basic";
+    //public static final String DEFAULT_EDITOR_ID = "form_panel_simple#basic";
+    public static final String DEFAULT_EDITOR_ID = "form_basic";
 
     @Inject
     protected TeamController processController;
