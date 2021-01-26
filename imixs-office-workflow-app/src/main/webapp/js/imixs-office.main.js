@@ -258,7 +258,7 @@ IMIXS.org.imixs.workflow.office = (function() {
 	
 	// redirect to a given workitem uid
 	openWorkitemByID = function(uid) {
-		document.location.href="/pages/workitems/workitem.xhtml?id="+uid;
+		document.location.href=imixsOfficeMain.contextPath+"/pages/workitems/workitem.xhtml?id="+uid;
 	};
 
 	// public API
