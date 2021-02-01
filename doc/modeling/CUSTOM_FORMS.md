@@ -97,4 +97,28 @@ A custom form is separated by sections. A section can have an optional label and
 	 	.....
 	 </imixs-form-section>
 	 ....
+
+
+## UI Validation
+
+The CDI Bean 'validationController' provides functionality to control the validation of a form in more detail based on a BPMN event workflow result. The following shows an example of a custom validation definition:
+
+
+	<validation name="required">false</validation>
+	<validation name="confirm">Are you sure?</validation>
+
+
+The first tag 'required=false' can be used to skip the required flag of UI input components. The required flag can be set by the validationControler in the following way:
+
+	<h:inputText value="#{workitem.item['myitem']}" required="#{validationController.required}" />
+
+If an event contains the workflow result 
+
+	<validation name="required">false</validation>
+
+than the required flag will be ignored.
+
+With the validation tag 'confirm' an JavaScript Confirm message is shown when the user clicks the button.
+
+
 	 

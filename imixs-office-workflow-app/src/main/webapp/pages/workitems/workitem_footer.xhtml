@@ -6,18 +6,32 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
-	<!-- *** Workflow (Author) **** -->
-
 	
 	<h1>#{message.workflow}</h1>
 	
-
 	<c:choose>
 		<c:when
 			test="#{workflowController.workitem.item['$isAuthor'] or workflowController.newWorkitem}">
 			<h:panelGroup
 				rendered="#{workflowController.workitem.item['type'] ne 'workitemdeleted'}">
-				<i:imixsWorkflowActions workflowController="#{workflowController}" />
+				<!-- we do not use i:imixsWorkflowActions  here because of customization -->
+				<c:forEach items="#{workflowController.events}" var="event">
+				    <ui:param name="confirmMessage" value="#{validationController.getConfirmMessage(event)}" />
+				    <ui:param name="confirmScript" value="return confirm('#{confirmMessage}');" />
+					<h:commandButton action="#{workflowController.process}" id="imixs_workflow_eventid_#{event.item['numactivityid']}"
+						class="imixs-workflow-action" title="" 
+						onclick="#{! empty confirmMessage?confirmScript:''}"
+						value="#{event.item['txtname']}">
+						<f:setPropertyActionListener
+							target="#{workflowController.workitem.item['$eventid']}"
+							value="#{event.item['numactivityid']}" />
+						<h:panelGroup class="imixs-tooltip">
+							<h:outputText value="#{event.item['rtfdescription']}"
+								escape="false" />
+						</h:panelGroup>
+					</h:commandButton>
+				</c:forEach>
+				
 			</h:panelGroup>
 
 		</c:when>

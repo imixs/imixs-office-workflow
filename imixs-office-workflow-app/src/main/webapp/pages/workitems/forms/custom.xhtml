@@ -30,7 +30,7 @@
 						<!-- text -->
 						<c:if test="#{item.type eq 'text'}">
 							<h:inputText value="#{workitem.item[item.name]}"
-								pt:data-item="#{item.name}" required="#{item.required}"
+								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
 								rendered="#{!item.readonly}" />
 							<h:outputText value="#{workitem.item[item.name]}"
 								rendered="#{item.readonly}" />
@@ -39,7 +39,7 @@
 						<!-- number -->
 						<c:if test="#{item.type eq 'number'}">
 							<h:inputText value="#{workitem.item[item.name]}"
-								pt:data-item="#{item.name}" required="#{item.required}"
+								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
 								rendered="#{!item.readonly}">
 								<f:convertNumber />
 							</h:inputText>
@@ -52,7 +52,7 @@
 						<!-- currency -->
 						<c:if test="#{item.type eq 'currency'}">
 							<h:inputText value="#{workitem.item[item.name]}"
-								pt:data-item="#{item.name}" required="#{item.required}"
+								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
 								rendered="#{!item.readonly}">
 								<f:convertNumber minFractionDigits="2" locale="de" />
 							</h:inputText>
@@ -65,7 +65,7 @@
 						<!-- date -->
 						<c:if test="#{item.type eq 'date'}">
 							<h:inputText value="#{workitem.item[item.name]}"
-								pt:data-item="#{item.name}" required="#{item.required}"
+								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
 								styleClass="imixs-date" rendered="#{!item.readonly}">
 								<f:convertDateTime pattern="#{message.datePatternShort}"
 									timeZone="#{message.timeZone}" />
@@ -79,7 +79,7 @@
 						<!-- text area -->
 						<c:if test="#{item.type eq 'textarea'}">
 							<h:inputTextarea value="#{workitem.item[item.name]}"
-								pt:data-item="#{item.name}" required="#{item.required}"
+								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
 								rendered="#{!item.readonly}" />
 							<h:outputText escape="true" value="#{workitem.item[item.name]}"
 								rendered="#{item.readonly}" />
@@ -87,7 +87,7 @@
 
 						<!-- html -->
 						<c:if test="#{item.type eq 'html'}">
-							<h:inputTextarea required="#{item.required}"
+							<h:inputTextarea required="#{item.required?validationController.required:false}"
 								pt:data-item="#{item.name}" class="imixs-editor-basic"
 								value="#{workitem.item[item.name]}" rendered="#{!item.readonly}" />
 							<h:outputText escape="false" value="#{workitem.item[item.name]}"
@@ -109,27 +109,27 @@
 								<!-- Edit mode -->
 								<c:otherwise>
 									<c:if test="#{item.type eq 'selectBooleanCheckbox'}">
-										<h:selectBooleanCheckbox required="#{item.required}"
+										<h:selectBooleanCheckbox required="#{item.required?validationController.required:false}"
 											pt:data-item="#{item.name}"
 											value="#{workitem.item[item.name]}">
 										</h:selectBooleanCheckbox>
 									</c:if>
 									<c:if test="#{item.type eq 'selectOneMenu'}">
-										<h:selectOneMenu required="#{item.required}"
+										<h:selectOneMenu required="#{item.required?validationController.required:false}"
 											pt:data-item="#{item.name}"
 											value="#{workitem.item[item.name]}">
 											<f:selectItems value="#{item.selectItems}" />
 										</h:selectOneMenu>
 									</c:if>
 									<c:if test="#{item.type eq 'selectOneRadio'}">
-										<h:selectOneRadio required="#{item.required}"
+										<h:selectOneRadio required="#{item.required?validationController.required:false}"
 											pt:data-item="#{item.name}"
 											value="#{workitem.item[item.name]}">
 											<f:selectItems value="#{item.selectItems}" />
 										</h:selectOneRadio>
 									</c:if>
 									<c:if test="#{item.type eq 'selectManyCheckbox'}">
-										<h:selectManyCheckbox required="#{item.required}"
+										<h:selectManyCheckbox required="#{item.required?validationController.required:false}"
 											pt:data-item="#{item.name}"
 											value="#{workitem.itemListArray[item.name]}">
 											<f:selectItems value="#{item.selectItems}" />
