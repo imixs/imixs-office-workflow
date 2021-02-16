@@ -120,6 +120,7 @@
 										<dd>
 											<select id="imixs-report-output">
 												<option value="html">HTML</option>
+												<option value="xlsx">Microsoft-Excel</option>
 												<option value="xml">XML</option>
 												<option value="json">JSON</option>
 											</select>
@@ -193,7 +194,6 @@
 					var pageIndex = $('#imixs-report-pageindex').val();
 					var sortBy = $('#imixs-report-sortby').val();
 					var sortReverse = $('#imixs-report-sortreverse').val();
-					
 					var outputFormat = $('#imixs-report-output').val();
 					var paramList = $('.imixs-report-param');
 					var paramsValid = true;
@@ -209,8 +209,16 @@
 						pageSize = "100";
 					}
 					
-					reportURI = reportURI + reportBaseURI + reportName + "."
-							+ outputFormat + "?pageSize=" +pageSize;
+					if (outputFormat=="xlsx") {
+						// custom report format for ms-excel
+						reportURI = reportURI + reportBaseURI + "custom/"+ reportName + "."
+						+ outputFormat + "?pageSize=" +pageSize;
+						
+					} else {
+						reportURI = reportURI + reportBaseURI + reportName + "."
+						+ outputFormat + "?pageSize=" +pageSize;
+						
+					}
 
 					
 					if (pageIndex) {
