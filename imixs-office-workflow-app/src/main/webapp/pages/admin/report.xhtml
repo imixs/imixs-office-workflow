@@ -211,8 +211,8 @@
 					
 					if (outputFormat=="xlsx") {
 						// custom report format for ms-excel
-						reportURI = reportURI + reportBaseURI + "custom/"+ reportName + "."
-						+ outputFormat + "?pageSize=" +pageSize;
+						// we use the file extension .xml instead of .xlsx because of Microsoft wish. 
+						reportURI = reportURI + reportBaseURI + "custom/"+ reportName + ".xml?pageSize=" +pageSize;
 						
 					} else {
 						reportURI = reportURI + reportBaseURI + reportName + "."
