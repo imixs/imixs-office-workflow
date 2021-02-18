@@ -120,7 +120,9 @@
 										<dd>
 											<select id="imixs-report-output">
 												<option value="html">HTML</option>
-												<option value="xlsx">Microsoft-Excel</option>
+												<ui:fragment rendered="#{poiController!=null}">
+													<option value="xlsx">Microsoft-Excel</option>
+												</ui:fragment>
 												<option value="xml">XML</option>
 												<option value="json">JSON</option>
 											</select>
@@ -166,7 +168,7 @@
 
 			<script type="text/javascript">
 				/*<![CDATA[*/
-				var reportBaseURI = "#{facesContext.externalContext.requestContextPath}/api/report/";
+				var reportBaseURI = "#{facesContext.externalContext.requestContextPath}/api/";
 				var reportName = "#{documentController.document.item['txtname']}";
 
 				// check of date input fields
@@ -210,12 +212,11 @@
 					}
 					
 					if (outputFormat=="xlsx") {
-						// custom report format for ms-excel
-						// we use the file extension .xml instead of .xlsx because of Microsoft wish. 
-						reportURI = reportURI + reportBaseURI + "custom/"+ reportName + ".xml?pageSize=" +pageSize;
+						// custom report format for ms-excel using the imixs-adapters-poi module
+						reportURI = reportURI + reportBaseURI + "poi/report/"+ reportName + ".xlsx?pageSize=" +pageSize;
 						
 					} else {
-						reportURI = reportURI + reportBaseURI + reportName + "."
+						reportURI = reportURI +  reportBaseURI + "report/" + reportName + "."
 						+ outputFormat + "?pageSize=" +pageSize;
 						
 					}

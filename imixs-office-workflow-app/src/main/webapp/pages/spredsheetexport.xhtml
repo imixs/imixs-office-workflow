@@ -1,0 +1,165 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/layout/template.xhtml">
+
+
+	<!--  Spredsheet export 
+	     imixs-adapers-poi
+	     
+	     Only reports with contenttype=vnd.openxmlformats-officedocument. spreadsheetml.sheet   or application/vnd.ms-excel
+	-->
+	<ui:define name="content">
+
+		<f:view>
+			<h:form>
+				<div class="imixs-view">
+					<!-- *** Header **** -->
+					<div class="imixs-header">
+						<h1>
+							<h:outputText value="#{message['report.view']}" />
+						</h1>
+					</div>
+
+					<div class="imixs-body">
+
+						<div class="imixs-form-section-3">
+							
+							<dl>
+								<dt>From</dt>
+								<dd>
+									<input type="text" data-id="from_id" /> <input type="hidden"
+										data-id="altfrom_id" />
+								</dd>
+							</dl>
+							<dl>
+								<dt>To</dt>
+								<dd>
+									<input type="text" data-id="to_id" /> <input type="hidden"
+										data-id="altto_id" />
+								</dd>
+							</dl>
+						</div>
+
+						<!-- build a table showing only reports with contenttype spredsheet -->
+						<table class="imixsdatatable">
+							<tr>
+								<th style="width:70%;">#{message['report.title']}</th>
+								<th>Format</th>
+
+							</tr>
+
+							<ui:repeat var="report" value="#{reportController.reports}">
+								<ui:param name="contenttype"
+									value="#{report.item['contenttype']}"></ui:param>
+								<ui:fragment rendered="#{contenttype.contains('spreadsheetml') or contenttype.contains('excel')}">
+									<tr>
+										<td><a href="#"
+											onclick="openReport('#{report.item['txtName']}')"><span
+												class="typcn typcn-arrow-forward imixs-state-info"></span>#{report.item['txtName']}</a></td>
+
+										<td>
+											<!-- open --> 
+											<a href="#" style="margin-right:10px;"
+											onclick="openReport('#{report.item['txtName']}')"><span class="typcn typcn-vendor-microsoft imixs-state-info"></span>MS-Excel</a>
+
+											<a href="#" style="margin-right:10px;"
+											onclick="openHTML('#{report.item['txtName']}')"><span
+												class="typcn typcn-world imixs-state-info"></span>HTML</a>
+												
+											<a href="#"
+											onclick="openXML('#{report.item['txtName']}')"><span
+												class="typcn typcn-code imixs-state-info"></span>XML</a>
+												
+										</td>
+									</tr>
+								</ui:fragment>
+
+							</ui:repeat>
+						</table>
+
+					</div>
+
+					<div class="imixs-footer">
+						<h:commandButton action="home" value="#{message.close}">
+						</h:commandButton>
+					</div>
+				</div>
+			</h:form>
+
+
+			<script type="text/javascript">
+				/*<![CDATA[*/
+				var reportBaseURI = "#{facesContext.externalContext.requestContextPath}/api/";
+				var reportName = "#{documentController.document.item['txtname']}";
+
+				// check of date input fields
+				$(document).ready(function() {
+					
+					 var now = new Date();
+					 var day = ("0" + now.getDate()).slice(-2);
+					 var month = ("0" + (now.getMonth() + 1)).slice(-2);
+					 var today = (day) + "." + (month) + "." + now.getFullYear() ;
+					 var start="01.01."+now.getFullYear();
+					
+					 $("[data-id='from_id']").val(start);
+					 $("[data-id='to_id']").val(today);
+					 
+					 // set alt-date fields
+					 $("[data-id='altfrom_id']").val(now.getFullYear()+"0101");
+					 $("[data-id='altto_id']").val(now.getFullYear() +month+day);
+					 
+					$("[data-id='from_id']").addClass('imixs-date').datepicker({
+						showOtherMonths : true,
+						selectOtherMonths : true,
+						dateFormat : 'dd.mm.yy',
+						altFormat : 'yymmdd',
+						altField : "[data-id='altfrom_id']"
+					});
+					$("[data-id='to_id']").addClass('imixs-date').datepicker({
+						showOtherMonths : true,
+						selectOtherMonths : true,
+						dateFormat : 'dd.mm.yy',
+						altFormat : 'yymmdd',
+						altField : "[data-id='altto_id']"
+					});
+					
+					
+			
+				});
+
+				// test if all params are provided and open URI
+				function openReport(reportName) {
+					var reportURI = reportBaseURI + "poi/report/"+ reportName +  ".xlsx?pageSize=5000&sortBy=$created&sortReverse=true";
+					var datFrom=$("[data-id='altfrom_id']").val();
+					var datTo=$("[data-id='altto_id']").val();
+					reportURI = reportURI + "&date_from=" + datFrom + "&date_to="+datTo;
+					window.open(reportURI,"_blank");
+					
+				}
+				function openHTML(reportName) {
+					var reportURI = reportBaseURI + "report/"+ reportName +  ".html?pageSize=5000&sortBy=$created&sortReverse=true";
+					var datFrom=$("[data-id='altfrom_id']").val();
+					var datTo=$("[data-id='altto_id']").val();
+					reportURI = reportURI + "&date_from=" + datFrom + "&date_to="+datTo;
+					window.open(reportURI,"_blank");
+					
+				}
+				function openXML(reportName) {
+					var reportURI = reportBaseURI + "report/"+ reportName +  ".xml?pageSize=5000&sortBy=$created&sortReverse=true";
+					var datFrom=$("[data-id='altfrom_id']").val();
+					var datTo=$("[data-id='altto_id']").val();
+					reportURI = reportURI + "&date_from=" + datFrom + "&date_to="+datTo;
+					window.open(reportURI,"_blank");
+					
+				}
+
+				/*]]>*/
+			</script>
+
+		</f:view>
+	</ui:define>
+
+</ui:composition>

@@ -90,6 +90,15 @@
 						<span class="typcn typcn-book"></span>
 					</h:link>
 				</h:panelGroup>
+				
+				<!-- Reporting POI integration (optional) if imixs-adpaters-poi module is available -->
+				<h:panelGroup rendered="#{poiController!=null}" layout="block" styleClass="toolbar">
+					<h:commandLink
+							action="/pages/spredsheetexport?faces-redirect=true"
+							title="Excel Export">
+							<span class="typcn typcn-vendor-microsoft"></span>
+						</h:commandLink>
+				</h:panelGroup>
 
 				<!-- Custom Section -->
 				<ui:include src="servicenav_custom.xhtml" />
