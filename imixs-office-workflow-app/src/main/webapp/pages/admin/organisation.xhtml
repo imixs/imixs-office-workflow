@@ -29,19 +29,78 @@
 			// compute data structure by OrganigramController			
 			var datasource_processes=#{organigramController.processDatasource};
 			var datasource_spaces = #{organigramController.spaceDatasource};
+			var ocSpaces;
+			var ocProcesses; 
+			
 			
 			$(document).ready(function() {
-				$('#organigram-spaces').orgchart({
-					'data' : datasource_spaces,
-					'nodeContent' : 'title'
-					//,'verticalLevel': 4
-				});
-				$('#organigram-processes').orgchart({
+				
+				ocProcesses=$('#organigram-processes').orgchart({
 					'data' : datasource_processes,
 					'nodeContent' : 'title',
 					'verticalLevel': 2
 				});
+				
+				ocSpaces=$('#organigram-spaces').orgchart({
+					'data' : datasource_spaces,
+					'nodeContent' : 'title'
+					//,'verticalLevel': 4
+				});
+				
+				// on click event handler for space nodes and process nodes only
+				ocSpaces.$chartContainer.on('click', '.node.space',toggleTeamlist);
+				ocProcesses.$chartContainer.on('click', '.node.process',toggleTeamlist);
 			});
+			
+			
+			/*
+			 * This method toggles the team list members of a node 
+			 */
+			function toggleTeamlist() {
+				var $this = $(this);
+				var id=$this.attr('id');
+			    // show teamlist only for non-root nodes
+			      
+				     // get content element of selected node
+				     contentNode=$(".content",$this);
+				     // toggle team list
+				      teamlist=$(contentNode).find('.teams');
+				     if (teamlist && teamlist.length>0) {
+				    	// clean team list if available
+				    	$(teamlist).remove();
+				     } else {
+				        $(contentNode).append( buildTeamTable() );
+				     }
+			}
+			
+			/*
+			 * Helper method to build a team table html template
+			 */
+			function buildTeamTable() {
+				var html="<div class='teams'>";
+				
+				html=html+"<div class='members'><p class='lead'><strong>Manager</strong></p>";
+				html=html+"<p>Hans</p>";
+				html=html+"</div>";
+				
+				html=html+"<div class='members'><p class='lead'><strong>Team</strong></p>";
+				html=html+"<p>John Denver</p>";
+				html=html+"<p>Hans</p>";
+				html=html+"<p>Sepp</p>";
+				html=html+"</div>";
+				
+				html=html+"<div class='members'><p class='lead'><strong>Assitenz</strong></p>";
+				html=html+"<p>Melman</p>";
+				html=html+"</div>";
+				
+				
+				
+				html=html+"</div>"
+				return html;
+			}
+			
+			
+			
 
 			/*]]>*/
 		</script>
