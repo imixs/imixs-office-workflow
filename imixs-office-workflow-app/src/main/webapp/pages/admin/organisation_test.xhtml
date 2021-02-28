@@ -1,0 +1,191 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty"
+	template="/layout/template.xhtml">
+
+
+	<!-- 
+	  Organisation diagram for processes and spaces based on OrgChart
+	  
+	  See: https://github.com/dabeng/OrgChart
+	
+	 -->
+
+
+
+	<ui:define name="scripts">
+		<link
+			href="#{facesContext.externalContext.requestContextPath}/layout/css/jquery.orgchart.css?build=#{app.application_build_timestamp}"
+			type="text/css" rel="stylesheet" />
+
+		<script type="text/javascript"
+			src="#{facesContext.externalContext.requestContextPath}/js/jquery.orgchart.js"></script>
+		<script type="text/javascript">
+			/*<![CDATA[*/
+
+			var datasource_processes = {
+				'name' : 'Prozesse',
+				'id' : 'root',
+				'title' : 'Organisations Bereiche',
+				'children' : [
+						{
+							'name' : 'Rechnungseingnag',
+							'id' : 'unter-id1',
+							'title' : 'Rechnungen',
+							'className' : 'process'
+							
+						}, {
+							'name' : 'Controlling',
+							'title' : 'department manager',
+							'className' : 'process'
+						}, {
+							'name' : 'Controlling mit Zusatzlänge',
+							'title' : 'department manager',
+							'className' : 'process'
+							
+						} ]
+			};
+			
+			var datasource_spaces = {
+				'name' : 'Bereiche',
+				'id' : 'root',
+				'title' : 'Organisations Bereiche',
+				'children' : [
+						{
+							'name' : 'Purchase orga unit with a much more lengthly title......',
+							'id' : 'unter-id1',
+							'quatschi' : 'supi ',
+							'title' : 'department manager mit vielen zusatz infors',
+							'className' : 'space',
+							'children' : [ {
+								'name' : 'Motoren',
+								'title' : 'senior engineer',
+								'className' : 'space',
+							}, {
+								'name' : 'Elektronik',
+								'title' : 'senior engineer',
+								'className' : 'space',
+								'children' : [ {
+									'name' : 'CAPEX',
+									'title' : 'engineer',
+									'className' : 'space',
+								}, {
+									'name' : 'COST',
+									'title' : 'engineer',
+									'className' : 'space',
+								}, {
+									'name' : 'INVEST',
+									'title' : 'engineer',
+									'className' : 'space',
+								} ]
+							} ]
+						}, {
+							'name' : 'Vertrieb',
+							'title' : 'department manager',
+							'className' : 'space',
+							'children' : [ {
+								'name' : 'München',
+								'title' : 'senior engineer',
+								'className' : 'space',
+							}, {
+								'name' : 'Hamburg',
+								'title' : 'senior engineer',
+								'className' : 'space',
+								'children' : [ {
+									'name' : 'CAPEX',
+									'title' : 'UE engineer',
+									'className' : 'space',
+								}, {
+									'name' : 'COST',
+									'title' : 'engineer',
+									'className' : 'space',
+								}, {
+									'name' : 'INVEST',
+									'title' : 'engineer',
+									'className' : 'space',
+								} ]
+							} ]
+						} ]
+			};
+
+			$(document).ready(function() {
+				//alert('los gehts');
+				$('#organigram-spaces').orgchart({
+					'data' : datasource_spaces,
+					'nodeContent' : 'title'
+					//,'verticalLevel': 4
+				});
+				$('#organigram-processes').orgchart({
+					'data' : datasource_processes,
+					'nodeContent' : 'title',
+					'verticalLevel': 2
+				});
+			});
+
+			/*]]>*/
+		</script>
+
+		<link
+			href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-organigram.css?build=#{app.application_build_timestamp}"
+			type="text/css" rel="stylesheet" />
+
+
+	</ui:define>
+
+	<ui:define name="content">
+
+
+		<f:view>
+
+
+
+			<h:form id="organisation_form_id">
+
+				<div class="imixs-header">
+					<h1 style="text-align: center;">Organisation</h1>
+				</div>
+
+				<div class="imixs-body organigram-container">
+					<div>
+
+						
+						<div id="organigram-processes" style="border-right: 1px solid #eee;height:100%;"></div>
+
+					</div>
+					<div>
+
+					
+						<div id="organigram-spaces"  ></div>
+
+					</div>
+
+
+
+
+
+				</div>
+			</h:form>
+			
+			<code>
+			Todos: 
+			
+			default colapse
+			
+			exprot to pdf
+			
+			pan-zoom.html
+			
+			/custom-template.html
+			
+			</code>
+		</f:view>
+	</ui:define>
+
+
+
+
+</ui:composition>

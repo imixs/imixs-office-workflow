@@ -1,0 +1,80 @@
+
+.organigram-container {
+	display: flex;
+	border: 1px solid #eee;
+}
+
+
+.organigram-container .orgchart table {
+    border: none;
+}
+
+.orgchart {
+	background: none;
+}
+
+
+#organigram-processes {
+
+ text-align: center;
+}
+
+#organigram-spaces {
+
+  text-align: center;
+}
+
+
+#organigram-processes #root {
+ width:200px;	
+}
+
+/* Collering */
+#organigram-processes #root .title {
+    background-color: #006699;
+}
+#organigram-processes #root .content { 
+	border-color: #006699; 
+}
+#organigram-spaces #root .title {
+    background-color: #006699;
+}
+#organigram-spaces #root .content { 
+	border-color: #006699; 
+}
+
+#organigram-spaces #root .title {
+    background-color: #006699;
+}
+#organigram-spaces #root .content { 
+	border-color: #006699; 
+}
+
+#organigram-processes .orgchart .process .title { background-color: #996633; }
+#organigram-processes .orgchart .process .content { border-color: #996633; }
+
+#organigram-spaces .orgchart .space .title { background-color: #009933; }
+#organigram-spaces .orgchart .space .content { border-color: #009933; }
+
+/* Line Collering */
+
+.orgchart .node:not(:only-child)::after {    background-color: #006699;}
+.orgchart .hierarchy::before {    border-top: 2px solid #006699; }
+.orgchart > ul > li > ul li > .node::before {    background-color: #006699;}
+.orgchart .nodes.vertical::before {  background-color: #006699;}
+.orgchart .nodes.vertical .hierarchy::before, .orgchart .nodes.vertical .hierarchy::after {  border-color: #006699;}
+
+
+
+/* Layout Fix  https://github.com/dabeng/OrgChart/issues/612 */
+.orgchart .node .title {
+	width: 100%;
+	min-width:130px;	
+}
+
+/* Vertical layout fix adjust */
+.orgchart .nodes.vertical > .hierarchy:first-child::before {
+    top: -6px;
+}
+
+
