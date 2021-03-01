@@ -47,34 +47,32 @@
 		<f:view>
 			<h:form id="organisation_form_id">
 				<div class="imixs-header">
-					<h1 style="text-align: center;">Organisation</h1>
+					<h1 style="text-align: center;">#{message['organigram.title']}</h1>
 				</div>
 				<div class="imixs-body organigram-container">
 					<div>
 						<div id="organigram-processes" style="border-right: 1px solid #eee;height:100%;"></div>
 					</div>
-					<div>
+					<div style="width:100%">
 						<div id="organigram-spaces"  ></div>
 					</div>
 				</div>
+				
+				<div class="imixs-footer" style="padding-top:20px;">
+					<h:commandButton value="#{message['nav.admin_processlist']}"
+						actionListener="#{workflowController.reset}"
+							immediate="true" styleClass="imixs-action"
+							action="/pages/admin/processlist?faces-redirect=true"/>
+					<h:commandButton value="#{message['nav.admin_spaces']}"
+						actionListener="#{workflowController.reset}"
+							immediate="true" styleClass="imixs-action"
+							action="/pages/admin/spaces?faces-redirect=true"/>
+					<h:commandButton value="#{message.close}"
+							immediate="true" styleClass="imixs-close-action"
+							action="notes" />
+				</div>
 			</h:form>
-			
-			<code>
-			Todos: 
-			
-			default collapse
-			
-			export to pdf
-			
-			pan-zoom
-			
-			custom-template.html
-			
-			</code>
 		</f:view>
 	</ui:define>
-
-
-
 
 </ui:composition>

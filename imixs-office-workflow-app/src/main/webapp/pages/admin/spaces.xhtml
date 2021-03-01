@@ -188,11 +188,14 @@
 
 
 					<div class="imixs-footer">
+						<h:commandButton action="/pages/admin/organisation?faces-redirect=true" value="#{message['organigram.title']}"  styleClass="imixs-action">
+						</h:commandButton>
+					
 						<h:commandButton value="#{message.add}"
 							action="/pages/admin/space"
 							actionListener="#{workflowController.create(propertyController.getProperty('setup.system.model'),100,null)}">
 						</h:commandButton>
-						<h:commandButton action="home" value="#{message.close}">
+						<h:commandButton action="home" value="#{message.close}"  styleClass="imixs-close-action">
 						</h:commandButton>
 
 					</div>

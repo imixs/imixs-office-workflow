@@ -23,13 +23,22 @@ $(document).ready(function() {
 	
 	ocSpaces=$('#organigram-spaces').orgchart({
 		'data' : datasource_spaces,
-		'nodeContent' : 'title'
+		'nodeContent' : 'title',
+		'toggleSiblingsResp' : false,
+        'pan': true,
+        'zoom': true
 		//,'verticalLevel': 4
 	});
 	
 	// on click event handler for space nodes and process nodes only
 	ocSpaces.$chartContainer.on('click', '.node.space',toggleTeamlist);
 	ocProcesses.$chartContainer.on('click', '.node.process',toggleTeamlist);	
+
+	// zoom function
+    ocSpaces.$chartContainer.on('touchmove', function(event) {
+      event.preventDefault();
+    });
+
 
 });
 
@@ -52,7 +61,7 @@ function toggleTeamlist() {
      // get content element of selected node
      var contentNode=$(".content",$this);
      // toggle team list
-     var teamlist=$(contentNode).find('.teams');
+     var teamlist=$(contentNode).find('.content-custom');
      if (teamlist && teamlist.length>0) {
     	// clean team list if available
     	$(teamlist).remove();
@@ -60,19 +69,19 @@ function toggleTeamlist() {
     	// find the selected node in the organigram...
 	    var node = findNodeById(rootNode,id);
     	if (node) {
-			$(contentNode).append( buildTeamTable(node) );
+			$(contentNode).append( buildCustomContentTable(node) );
     	}
         
      }
 }
 
 /*
- * Helper method to build a team table html template
+ * Helper method to build a team table element within the content div
  */
-function buildTeamTable(node) {
+function buildCustomContentTable(node) {
 	
-	//alert('bind drin wir haben '+space.id);
-	var html="<div class='teams'>";
+	
+	var html="<div class='content-custom'><div class='teams'>";
 	
 	// build manager list
 	html=html+"<div class='members'><p class='lead'><strong>Manager</strong></p>";
@@ -90,16 +99,51 @@ function buildTeamTable(node) {
 	html=html+"</div>";
 	
 	// build assist list
-	html=html+"<div class='members'><p class='lead'><strong>Assitenz</strong></p>";
+	html=html+"<div class='members'><p class='lead'><strong>Assistenz</strong></p>";
 	for (let member of node.assist) {
 		html=html+"<p>" + member + "</p>";
 	}
 	html=html+"</div>";
 	
 	
+	
+	// build footer with edit and add symbols....
+	html=html+"</div>"
+	
+	
+	
+	html=html + "<div class='controls'><span class='typcn typcn-edit' onclick='editNode(&quot;" + node.id +"&quot;,&quot;" + node.className + "&quot;);'></span>";
+	if (node.className=="space") {
+		// add sub space...
+		html=html + "<span class='typcn typcn-flow-children'  onclick='addNode(&quot;" + node.id +"&quot;);'></span>";
+	}
+	html=html + "</div>";
+	
+	
+	
 	html=html+"</div>"
 	return html;
 }
+
+
+/**
+ * Open the edit form for a space or process
+ */
+function editNode(id,className) {
+	//http://localhost:8080/pages/admin/space.jsf?id=aa8fbc5c-34b4-46b2-8ec0-773b64159b86
+	if (className=="space") {
+		document.location.href="/pages/admin/space.jsf?id="+id;
+	} 
+	if (className=="process") {
+		document.location.href="/pages/admin/process.jsf?id="+id;
+	} 
+}
+function addNode(id) {
+	//http://localhost:8080/pages/admin/space.jsf?id=aa8fbc5c-34b4-46b2-8ec0-773b64159b86
+	//document.location.href="/pages/admin/space.jsf?id="+id;
+	// TODO
+}
+
 
 /**
  * Helper method to search a node by id in a given node
