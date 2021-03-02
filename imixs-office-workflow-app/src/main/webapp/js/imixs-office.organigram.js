@@ -31,7 +31,6 @@ $(document).ready(function() {
 		'toggleSiblingsResp' : false,
         'pan': true,
         'zoom': true
-		//,'verticalLevel': 4
 	});
 	
 	// on click event handler for space nodes and process nodes only
