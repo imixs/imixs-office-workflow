@@ -14,51 +14,36 @@
 	background: none;
 }
 
-
 #organigram-processes {
-
- text-align: center;
+	border-right: 1px solid #eee;
+ 	min-height: 500px;
+ 	text-align: center;
 }
 
 #organigram-spaces {
   min-height: 500px;
+  width:100%;
   text-align: center;
 }
 
-
-#organigram-processes #root, #organigram-spaces #root  {
+/* Root Node */
+#organigram-processes #root, #organigram-spaces #root {
  width:200px;	
 }
 
-/* Collering */
-#organigram-processes #root .title {
-    background-color: #faa732;
-}
-#organigram-processes #root .content { 
-	border-color: #faa732; 
-}
-#organigram-spaces #root .title {
-    background-color: #faa732;
-}
-#organigram-spaces #root .content { 
-	border-color: #faa732; 
-}
-
-#organigram-spaces #root .title {
-    background-color: #faa732;
-}
-#organigram-spaces #root .content { 
-	border-color: #faa732;  
-}
-
+/* Node Collering */
+#organigram-processes #root .title { background-color: #faa732; }
+#organigram-processes #root .content { border-color: #faa732; }
+#organigram-spaces #root .title { background-color: #faa732; }
+#organigram-spaces #root .content { border-color: #faa732; }
+#organigram-spaces #root .title { background-color: #faa732;}
+#organigram-spaces #root .content { border-color: #faa732;  }
 #organigram-processes .orgchart .process .title { background-color: #4c8067; }
 #organigram-processes .orgchart .process .content { border-color: #4c8067; }
-
 #organigram-spaces .orgchart .space .title { background-color: #31708f; }
 #organigram-spaces .orgchart .space .content { border-color: #31708f; }
 
 /* Line Collering */ 
-
 .orgchart .node:not(:only-child)::after {    background-color: #31708f;}
 .orgchart .hierarchy::before {    border-top: 2px solid #31708f; }
 .orgchart > ul > li > ul li > .node::before {    background-color: #31708f;}
@@ -108,8 +93,6 @@
 	text-align: right;
 	font-size:18px;
 	color: #777;
-	
-	
 }
 .orgchart .node .content .content-custom .controls .typcn {
  	margin-left:10px;

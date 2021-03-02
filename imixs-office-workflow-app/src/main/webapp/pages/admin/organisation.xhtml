@@ -15,34 +15,25 @@
 	
 	 -->
 
-
 	<ui:define name="scripts">
-		<link
-			href="#{facesContext.externalContext.requestContextPath}/layout/css/jquery.orgchart.css?build=#{app.application_build_timestamp}"
+		<link href="#{facesContext.externalContext.requestContextPath}/layout/css/jquery.orgchart.css?build=#{app.application_build_timestamp}"
+			type="text/css" rel="stylesheet" />
+		<link href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-organigram.css?build=#{app.application_build_timestamp}"
 			type="text/css" rel="stylesheet" />
 
-		<script type="text/javascript"
-			src="#{facesContext.externalContext.requestContextPath}/js/jquery.orgchart.js"></script>
-		<script type="text/javascript"
-			src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.organigram.js"></script>
+		<script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/jquery.orgchart.js"></script>
+		<script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.organigram.js"></script>
 		<script type="text/javascript">
 			/*<![CDATA[*/
-				
-			// compute data structure by OrganigramController			
-			datasource_processes=#{organigramController.processDatasource};
-			datasource_spaces = #{organigramController.spaceDatasource};
-			direction = "#{propertyController.getProperty('organigram.direction','t2b')}";
-			verticalLevel = #{propertyController.getProperty('organigram.verticalLevel','0')};
-			
+
+				// compute data structure by OrganigramController			
+				datasource_processes=#{organigramController.processDatasource};
+				datasource_spaces = #{organigramController.spaceDatasource};
+				direction = "#{propertyController.getProperty('organigram.direction','t2b')}";
+				verticalLevel = #{propertyController.getProperty('organigram.verticalLevel','4')};
 
 			/*]]>*/
 		</script>
-
-		<link
-			href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-organigram.css?build=#{app.application_build_timestamp}"
-			type="text/css" rel="stylesheet" />
-
-
 	</ui:define>
 
 	<ui:define name="content">
@@ -52,12 +43,8 @@
 					<h1 style="text-align: center;">#{message['organigram.title']}</h1>
 				</div>
 				<div class="imixs-body organigram-container">
-					<div>
-						<div id="organigram-processes" style="border-right: 1px solid #eee;height:100%;"></div>
-					</div>
-					<div style="width:100%;">
-						<div id="organigram-spaces"  ></div>
-					</div>
+					<div id="organigram-processes" style="border-right: 1px solid #eee;height:100%;"></div>
+					<div id="organigram-spaces"></div>
 				</div>
 				
 				<div class="imixs-footer" style="padding-top:20px;">
