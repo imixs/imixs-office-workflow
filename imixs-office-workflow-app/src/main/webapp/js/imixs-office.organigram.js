@@ -6,6 +6,8 @@ IMIXS.namespace("org.imixs.workflow.organigram");
 
 	var datasource_processes;
 	var datasource_spaces;
+	var direction;
+	var verticalLevel;
 	var ocSpaces;
 	var ocProcesses; 
 
@@ -24,6 +26,8 @@ $(document).ready(function() {
 	ocSpaces=$('#organigram-spaces').orgchart({
 		'data' : datasource_spaces,
 		'nodeContent' : 'title',
+		'direction' : direction,
+		'verticalLevel' : verticalLevel,
 		'toggleSiblingsResp' : false,
         'pan': true,
         'zoom': true
