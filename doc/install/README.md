@@ -31,10 +31,11 @@ docker-compose.yml
 	    depends_on:
 	      - db
 	    environment:
-	      WILDFLY_PASS: "adminadmin"
+	      JAVA_OPTS: "-Dnashorn.args=--no-deprecation-warning"
 	      POSTGRES_USER: "imixs"
 	      POSTGRES_PASSWORD: "adminadmin"
 	      POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
+	      MAILGATEWAY: "localhost"
 	    volumes: 
 	      - appdata:/home/imixs
 	    ports:
@@ -68,11 +69,11 @@ You can login with the default account 'admin' with the password 'adminadmin'.
 
 ## 	Setup your Application
 
-After Imixs-Office-Workflow is up and running you need to setup a process with a worklfow. 
+After Imixs-Office-Workflow is up and running you need to setup a process with a workflow. 
 
 <img src="setup-01.png" width="800px">
 
-First upload a BPMN Workflow model. You can find many examples [here](https://github.com/imixs/imixs-office-workflow/tree/master/src/workflow). 
+First upload a BPMN Workflow model. You can find many examples [here](https://github.com/imixs/imixs-documents/tree/master/workflow). 
 To upload a model go to "Administration >> Models" and add a BPMN file to your model list.
 
 <img src="setup-02.png" width="800px">
