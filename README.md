@@ -29,7 +29,7 @@ But please note that Imixs-Office-Workflow is an comprehensive open source proje
 
 ## Modeling
  
-In Imixs-Office workflow, you define your business process with BPMN 2.0 – “Business Process Model and Notation “. This is the common standard to model a business process. 
+In Imixs-Office workflow, you define your business process with BPMN 2.0 – “Business Process Model and Notation “. This is the common standard to model a business process. You can install the Imixs-BPMN modeling tool with the official [Install Guide](https://www.imixs.org/doc/modelling/install.html).
 
 <br /><img src="doc/modeler-workspace-001-768x432.png" />    
 
@@ -42,7 +42,7 @@ Within a BPMN Business Model you can define:
  * Business Rules
  * Forms & Descriptions
     
-With the concept of [Custom Forms](https://imixs.github.io/imixs-documents/#custom-forms) you can build your own form element.    
+With the concept of [Custom Forms](https://imixs.github.io/imixs-documents/#custom-forms) you can also build your own form elements within a BPMN model.    
     
     
 
