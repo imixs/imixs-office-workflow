@@ -24,14 +24,14 @@ With a pull request on GitHub you can share your ideas or improvements that you 
  
 ## Quick Installation
 
-To run Imixs-Office-Workflow in a local test environment you can follow the [Quick-Installation Guide](doc/install/README.md). This is a good starting point if you just want to setup a local demo version. 
+To run Imixs-Office-Workflow in a local test environment you can follow the [Quick-Installation Guide of Imixs-Documents](https://imixs.github.io/imixs-documents/install/). This is a good starting point if you just want to setup a local demo version. 
 But please note that Imixs-Office-Workflow is an comprehensive open source project designed for productive enterprise use. A professional use requires a detailed planning of architecture. 
 
 ## Modeling
  
 In Imixs-Office workflow, you define your business process with BPMN 2.0 – “Business Process Model and Notation “. This is the common standard to model a business process. 
 
-<br /><img src="doc/modeling/modeler-workspace-001-768x432.png" />    
+<br /><img src="doc/modeler-workspace-001-768x432.png" />    
 
 
 Within a BPMN Business Model you can define:
@@ -42,8 +42,7 @@ Within a BPMN Business Model you can define:
  * Business Rules
  * Forms & Descriptions
     
-Imixs-Office-Workflow defines a set of [Standard Forms](doc/modeling/STANDARD_FORMS.md) which can be used within a model description.
-With the [Custom Forms](doc/modeling/CUSTOM_FORMS.md) you can build your own form element.    
+With the concept of [Custom Forms](https://imixs.github.io/imixs-documents/#custom-forms) you can build your own form element.    
     
     
 
