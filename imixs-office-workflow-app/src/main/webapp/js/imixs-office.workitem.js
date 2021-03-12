@@ -381,13 +381,16 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	},
 
 
+	/**
+	* Opens a popup window with the QR-Code to print
+    */
 	printQRCode=function () {
-		fenster = window
+		var qrCodeWindow = window
 				.open(
 						imixsOfficeMain.contextPath+"/pages/workitems/qrcode_print.jsf?id="+imixsOfficeMain.workitem_uid,
 						"message.print",
-						"width=760,height=300,status=no,scrollbars=no,resizable=yes");
-		fenster.focus();
+						"width=300,height=280,status=no,scrollbars=no,resizable=yes");
+		qrCodeWindow.focus();
 	};
 	
 

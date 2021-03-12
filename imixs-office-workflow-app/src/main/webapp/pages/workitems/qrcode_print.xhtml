@@ -19,47 +19,78 @@
 
 	<title>#{app.application_title}</title>
 
-	<!-- creatix-css -->
+	<!-- *** CSS *** -->
+	
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{facesContext.externalContext.requestContextPath}/layout/favicon.ico" />
+
+	<!-- imixs-responsive css -->
 	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/creatix-basic.css"
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/imixs-basic.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/creatix-layout.css"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
-
-	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/creatix-forms.css"
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/imixs-layout.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
 
-	<i:imixsHeader disablecss="false" disabletinymce="true"
+
+	<!-- imixsHeader (must be loaded before office-css! -->
+	<i:imixsHeader disablecss="false"
 		dateformat="#{message.datePatternShort}"
-		theme="#{facesContext.externalContext.requestContextPath}/layout/themes/#{app.application_theme}" />
+		build="#{app.application_workflow_build}"
+		xtheme="#{facesContext.externalContext.requestContextPath}/layout/themes/#{app.application_theme}" />
 
-
+	<!--  font icons -->
 	<link
-		href="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.css"
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/fonts/open_sans.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
-
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/fonts/typicons.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
-	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme.css"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
 
+	<!-- imixs-office-workflow css -->
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+		
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-print.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
-
-
-
+		
 	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom.css"
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom-qrcode.css"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
+	
+	<!-- custom css --> 
 	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom-print.css"
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+
+	<!-- *** MS IE Support *** -->
+
+	<!-- IE 7 support -->
+	<h:outputText
+		value="&lt;!--[if IE 7]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
+		escape="false" />
+	<!-- IE 8 support -->
+	<h:outputText
+		value="&lt;!--[if IE 8]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
+		escape="false" />
+	<!-- IE 9 support -->
+	<h:outputText
+		value="&lt;!--[if IE 9]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
+		escape="false" />
+	<!-- IE 10 support -->
+	<h:outputText
+		value="&lt;!--[if IE 10]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
+		escape="false" />
+		
+	
+
 
 	<!-- support deep link for workitems to be loaded by the WorkflowController (optional params 'id' and 'workitem' supported) -->
 	<f:metadata>
@@ -69,43 +100,32 @@
 
 
 <h:body>
-	<f:view locale="#{userController.locale}">
+		<f:view>
+			
+			<ui:param name="qrprafix"
+				value="#{propertyController.getProperty('qr-code.url.prafix')}"></ui:param>
+			<center><h:graphicImage rendered="#{!empty qrprafix}"
+				styleClass="imixsQrCode" style="display: block !important"
+				url="/api/qr-code?size=130&amp;key=#{qrprafix}#{workflowController.workitem.uniqueID}"></h:graphicImage></center>
 
-		<div id="imixs-container">
-
-			<div id="imixs-wrapper">
-
-				<div id="imixs-content">
-
-
-
-					<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
-					<f:view>
-						<ui:param name="qrprafix"
-							value="#{propertyController.getProperty('qr-code.url.prafix')}"></ui:param>
-						<h:graphicImage rendered="#{!empty qrprafix}"
-							styleClass="imixsQrCode"
-							url="/api/qr-code?size=130&amp;key=#{qrprafix}#{workflowController.workitem.uniqueID}"></h:graphicImage>
-							<br />
-							#{workflowController.workitem.uniqueID}
-					</f:view>
-				</div>
+			<div class="noprint" style="margin-left:15px;">
+				<br />
+				<!-- *** Close  *** -->
+				<input type="button"  class="imixs-close-action"  onclick="javascript:window.close()" value="#{message.close}" />
+				<input type="button" value="#{message.print}"
+					class="imixs-print-action" onclick="window.print();" />
 			</div>
-		</div>
-	</f:view>
-	
-	<script type="text/javascript">
-	/*<![CDATA[*/
-		$(document).ready(function() {
-			// autoprint 
-			window.print();
-		});
-		
-		
-	/*]]>*/
-	</script>
-	
-	
-</h:body>
-</html>
 
+		</f:view>
+
+		<script type="text/javascript">
+			/*<![CDATA[*/
+			$(document).ready(function() {
+				// autoprint 
+				window.print();
+			});
+
+			/*]]>*/
+		</script>
+	</h:body>
+</html>
