@@ -74,9 +74,9 @@
 		</div>
 		
 		 
-		<!-- QR-Code if property 'qr-code.url.prafix' is filled -->
+		<!-- QR-Code displayed only if property 'qr-code.url.prafix' is filled -->
 		<ui:param name="qrprafix" value="#{propertyController.getProperty('qr-code.url.prafix')}"></ui:param>
-		<ui:fragment rendered="#{(!userController.mobileUser) and (!empty qrprafix)}">
+		<ui:fragment rendered="#{(! empty workflowController.workitem.uniqueID) and (!userController.mobileUser) and (!empty qrprafix)}">
 			<div style="flex-grow: 1;"></div>
 			<div>
 				<a href="#" onclick="imixsOfficeWorkitem.printQRCode();">
@@ -86,8 +86,6 @@
 			</div>
 		</ui:fragment>
 		 
-		 
-		
 		
 	</div>
 
