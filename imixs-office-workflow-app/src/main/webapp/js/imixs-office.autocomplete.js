@@ -7,6 +7,7 @@ IMIXS.namespace("org.imixs.workflow.office.autocomplete");
 var autocompleteInputID;
 var autcompleteSelectedElement;
 var autocompleteSearchReady=false;
+var currentSelectCallback;
 
 
 
@@ -71,6 +72,9 @@ function autocompleteSelectElement(text) {
 	// select the inital input element by its name...
 	var inputField = $('input[name ="' + autocompleteInputID + '"]')
 	inputField.val(text);
+	if (currentSelectCallback) {
+		currentSelectCallback(text);
+	}
 }
 
 
@@ -78,8 +82,10 @@ function autocompleteSelectElement(text) {
  * initializes an input element for autocompletion. 
  * the param 'resultlistid' is optional and defines the element 
  * containing the search result.
+ * The callback method is optional and triggered when a new element was selected 
+ * from the suggest list
  */
-function autocompleteInitInput(inputElement,searchCallback, resultlistId) {
+function autocompleteInitInput(inputElement,searchCallback, resultlistId, selectCallback) {
 	
 	// set id for result list element
 	if (!resultlistId || resultlistId==='') {
@@ -94,7 +100,7 @@ function autocompleteInitInput(inputElement,searchCallback, resultlistId) {
 		}
 		// store the current input id
 		autocompleteInputID = inputElement.name;
-		//imixsOfficeML.mlSearch({ phrase: this.value });
+		currentSelectCallback=selectCallback;
 		searchCallback({ phrase: this.value });
 	}, 500)).trigger('input');
 
@@ -119,7 +125,7 @@ function autocompleteInitInput(inputElement,searchCallback, resultlistId) {
 		} else if (e.keyCode == 13) {
 			/*If the ENTER key is pressed, prevent the form from being submitted,*/
 			e.preventDefault();
-			selectActiveElement(this);
+			selectActiveElement(this);			
 		}
 	});
 
