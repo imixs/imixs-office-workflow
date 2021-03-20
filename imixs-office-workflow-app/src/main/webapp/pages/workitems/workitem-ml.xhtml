@@ -70,11 +70,10 @@
 	</script>
 		
 		
-	
 	<h:panelGroup id="autocomplete-resultlist" layout="block" class="autocomplete-resultlist">
 		<ui:repeat var="suggest" value="#{mlController.searchResult}">
-			<div class="autocomplete-resultlist-element">
-				<a href="javascript:void(0)" onclick="autocompleteSelectElement('#{suggest}')">
+			<div class="autocomplete-resultlist-element" onclick="autocompleteSelectElement('#{suggest}')">
+				<a href="#">
 					<h:outputText value="#{suggest}" escape="false" />
 				</a>
 			</div>

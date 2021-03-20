@@ -10,18 +10,9 @@ var autocompleteSearchReady=false;
 
 
 
-/* Helper method to select the current element in the result list */
-function selectActiveElement(id) {
-	var parent=$( "div[id$='" + id +"']" );
-	var resultElementListActive = $(".autocomplete-resultlist-element.active",parent);
-	$("a",resultElementListActive).click();
-	$(parent).hide();
-}
-
 /* Helper method to highligt the current element in the result list */
-function autocompleteSelectNextElement(id) {
-	var parent=$( "div[id$='" + id +"']" );
-	var resultElementList = $(".autocomplete-resultlist-element",parent);
+function autocompleteSelectNextElement() {
+	var resultElementList = $(".autocomplete-resultlist-element");
 	// remove acitve if set	
 	$(resultElementList).removeClass("active");
 	// next element...?
@@ -29,14 +20,13 @@ function autocompleteSelectNextElement(id) {
 	if (autcompleteSelectedElement >= resultElementList.length) {
 		// reset if overflow...
 		autcompleteSelectedElement = 0;
-	} 
+	}
 	// set new active
 	$(resultElementList[autcompleteSelectedElement]).addClass("active");
 }
 
-function autocompleteSelectPrevElement(id) {
-	var parent=$( "div[id$='" + id +"']" );
-	var resultElementList = $(".autocomplete-resultlist-element",parent);
+function autocompleteSelectPrevElement() {
+	var resultElementList = $(".autocomplete-resultlist-element");
 	// remove acitve if set	
 	$(resultElementList).removeClass("active");
 	autcompleteSelectedElement--;
@@ -57,26 +47,12 @@ function autocompleteShowResult(data) {
 	var status = data.status;
 	if (status === "success") {
 		// select the inital input element by its name...
-		var inputElement = $('input[name ="' + autocompleteInputID + '"]')
+		var inputField = $('input[name ="' + autocompleteInputID + '"]')
+
 		// now we pull the result html list to this input field.....
-		$("[id$=" + getResultListID(inputElement)  + "]").insertAfter(inputElement).show();
+		$("[id$=autocomplete-resultlist]").insertAfter(inputField).show();
 	}
 }
-
-/*
- * This helper method finds the result list corespondign to the input element
- * this is nonly necessary if more auto sugest lists exist in one form
- */
-function getResultListID(inputField) {
-	// get optional result list
-	var id=inputField.data('resultlist');
-	if (!id) {
-		// default
-		id='autocomplete-resultlist';
-	}
-	return id;
-}
-
 
 function autocompleteSelectElement(text) {
 	// select the inital input element by its name...
@@ -103,7 +79,7 @@ function autocompleteInitInput(inputElement,searchCallback) {
 
 	// hide the suggest list on blur event
 	$(inputElement).on("blur", delay(function(event) {
-		$("[id$=" + getResultListID($(this)) + "]").hide();
+		$("[id$=autocomplete-resultlist]").hide();
 	}, 200));
 
 
@@ -113,15 +89,21 @@ function autocompleteInitInput(inputElement,searchCallback) {
 		if (e.keyCode == 40) {
 	        /*If the arrow DOWN key is pressed,
 	        increase the currentFocus variable:*/
-			autocompleteSelectNextElement(getResultListID($(this)));
+			autocompleteSelectNextElement();
 		} else if (e.keyCode == 38) { //up
 	        /*If the arrow UP key is pressed,
 	        decrease the currentFocus variable:*/
-			autocompleteSelectPrevElement(getResultListID($(this)));
+			autocompleteSelectPrevElement();
 		} else if (e.keyCode == 13) {
 			/*If the ENTER key is pressed, prevent the form from being submitted,*/
 			e.preventDefault();
-			selectActiveElement(getResultListID($(this)));
+			var resultElementListActive = $(".autocomplete-resultlist-element.active");
+			//if (mlResultFocus >= 0 && mlResultFocus < resultElementList.length) {
+			$("a",resultElementListActive).click();
+				//$("a", resultElementList[mlResultFocus]).click();
+				// hide list
+			$("[id$=autocomplete-resultlist]").hide();
+			//}
 		}
 	});
 
