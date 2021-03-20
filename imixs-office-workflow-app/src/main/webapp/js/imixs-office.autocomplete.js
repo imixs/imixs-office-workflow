@@ -11,7 +11,8 @@ var autocompleteSearchReady=false;
 
 
 /* Helper method to select the current element in the result list */
-function selectActiveElement(id) {
+function selectActiveElement(inputElement) {
+	var id=$(inputElement).data('resultlist');
 	var parent=$( "div[id$='" + id +"']" );
 	var resultElementListActive = $(".autocomplete-resultlist-element.active",parent);
 	$("a",resultElementListActive).click();
@@ -19,7 +20,8 @@ function selectActiveElement(id) {
 }
 
 /* Helper method to highligt the current element in the result list */
-function autocompleteSelectNextElement(id) {
+function autocompleteSelectNextElement(inputElement) {
+	var id=$(inputElement).data('resultlist');
 	var parent=$( "div[id$='" + id +"']" );
 	var resultElementList = $(".autocomplete-resultlist-element",parent);
 	// remove acitve if set	
@@ -34,7 +36,8 @@ function autocompleteSelectNextElement(id) {
 	$(resultElementList[autcompleteSelectedElement]).addClass("active");
 }
 
-function autocompleteSelectPrevElement(id) {
+function autocompleteSelectPrevElement(inputElement) {
+	var id=$(inputElement).data('resultlist');
 	var parent=$( "div[id$='" + id +"']" );
 	var resultElementList = $(".autocomplete-resultlist-element",parent);
 	// remove acitve if set	
@@ -59,22 +62,8 @@ function autocompleteShowResult(data) {
 		// select the inital input element by its name...
 		var inputElement = $('input[name ="' + autocompleteInputID + '"]')
 		// now we pull the result html list to this input field.....
-		$("[id$=" + getResultListID(inputElement)  + "]").insertAfter(inputElement).show();
+		$("[id$=" +  inputElement.data('resultlist')  + "]").insertAfter(inputElement).show();
 	}
-}
-
-/*
- * This helper method finds the result list corespondign to the input element
- * this is nonly necessary if more auto sugest lists exist in one form
- */
-function getResultListID(inputField) {
-	// get optional result list
-	var id=inputField.data('resultlist');
-	if (!id) {
-		// default
-		id='autocomplete-resultlist';
-	}
-	return id;
 }
 
 
@@ -87,8 +76,17 @@ function autocompleteSelectElement(text) {
 
 /*
  * initializes an input element for autocompletion. 
+ * the param 'resultlistid' is optional and defines the element 
+ * containing the search result.
  */
-function autocompleteInitInput(inputElement,searchCallback) {
+function autocompleteInitInput(inputElement,searchCallback, resultlistId) {
+	
+	// set id for result list element
+	if (!resultlistId || resultlistId==='') {
+		resultlistId='autocomplete-resultlist'; // default name
+	} 
+	$(inputElement).attr('data-resultlist', resultlistId);
+	
 	// add a input event handler with delay to serach for suggestions....
 	$(inputElement).on('input', delay(function() {
 		if (!autocompleteSearchReady) {
@@ -103,7 +101,7 @@ function autocompleteInitInput(inputElement,searchCallback) {
 
 	// hide the suggest list on blur event
 	$(inputElement).on("blur", delay(function(event) {
-		$("[id$=" + getResultListID($(this)) + "]").hide();
+		$("[id$=" + $(this).data('resultlist')  + "]").hide();
 	}, 200));
 
 
@@ -113,15 +111,15 @@ function autocompleteInitInput(inputElement,searchCallback) {
 		if (e.keyCode == 40) {
 	        /*If the arrow DOWN key is pressed,
 	        increase the currentFocus variable:*/
-			autocompleteSelectNextElement(getResultListID($(this)));
+			autocompleteSelectNextElement(this);
 		} else if (e.keyCode == 38) { //up
 	        /*If the arrow UP key is pressed,
 	        decrease the currentFocus variable:*/
-			autocompleteSelectPrevElement(getResultListID($(this)));
+			autocompleteSelectPrevElement(this);
 		} else if (e.keyCode == 13) {
 			/*If the ENTER key is pressed, prevent the form from being submitted,*/
 			e.preventDefault();
-			selectActiveElement(getResultListID($(this)));
+			selectActiveElement(this);
 		}
 	});
 

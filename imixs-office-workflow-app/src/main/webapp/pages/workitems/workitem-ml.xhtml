@@ -27,7 +27,7 @@
   	<h:commandScript name="mlSearch" action="#{mlController.search()}" 
   			rendered="#{mlController!=null}" render="autocomplete-resultlist" onevent="autocompleteShowResult" />
 	
-	
+	 
 	<script type="text/javascript">
 		/*<![CDATA[*/
 			// get the crurent imixs-ml status
@@ -57,7 +57,7 @@
 								// ok we have a ml item!
 								$(this).addClass("imixs-ml");
 								if (!bIgnoreInput) {
-									autocompleteInitInput(this,mlSearch);
+									autocompleteInitInput(this,mlSearch,'autocomplete-resultlist-ml');
 								}
 							}
 						});
@@ -70,7 +70,7 @@
 	</script>
 		
 		
-	<h:panelGroup id="autocomplete-resultlist" layout="block" class="autocomplete-resultlist">
+	<h:panelGroup id="autocomplete-resultlist-ml" layout="block" class="autocomplete-resultlist">
 		<ui:repeat var="suggest" value="#{mlController.searchResult}">
 			<div class="autocomplete-resultlist-element" onclick="autocompleteSelectElement('#{suggest}')">
 				<a href="#">
