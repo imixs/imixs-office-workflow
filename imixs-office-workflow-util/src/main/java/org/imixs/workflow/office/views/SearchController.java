@@ -40,6 +40,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -183,37 +184,50 @@ public class SearchController extends ViewController implements Serializable {
     public void reset() {
         searchFilter = new ItemCollection();
         searchFilter.replaceItemValue("type", "workitem");
+        this.setPageIndex(0);
         super.reset();
     }
 
     /**
-     * Resets the search filter but not the search phrase (txtSearch) The method
+     * Resets the search filter but not the search phrase (phrase) The method
      * reset the current result.
      * 
      * @param event
      */
-    public void resetFilter() {
-        String searchPhrase = searchFilter.getItemValueString("txtSearch");
-        searchFilter = new ItemCollection();
-        searchFilter.replaceItemValue("type", "workitem");
-        super.reset();
-        // restore search phrase
-        searchFilter.replaceItemValue("txtSearch", searchPhrase);
+    public String resetFilter() {
+        String searchPhrase = searchFilter.getItemValueString("phrase");
+        reset();
+        searchFilter.replaceItemValue("phrase", searchPhrase);
+        return refreshSearch();
     }
 
     /**
-     * Creates a bookmarkable search link to the worklist including the current
-     * search phrase.
+     * This method reset the search filter and the search pageIndex and creates a
+     * new bookmarkable search link to the worklist including the current search
+     * phrase.
      * 
-     * @param action - post-redirect link to worklist
      */
-    public String doSearch() {
+    public String resetSearch() {
+        reset();
+        return refreshSearch();
+    }
+
+    /**
+     * This method resets the search PageIndex to 0 and updates the bookmarkable
+     * search link to the worklist including the current search phrase.
+     * 
+     */
+    public String refreshSearch() {
         String action = "/pages/workitems/worklist.xhtml?faces-redirect=true&phrase="
                 + searchFilter.getItemValueString("phrase");
-
-        searchFilter = new ItemCollection();
+        this.setPageIndex(0);
         return action;
     }
+    
+    public String refreshSearch(AjaxBehaviorEvent event) {
+        return refreshSearch();
+    }
+    
 
     public ItemCollection getSearchFilter() {
         if (searchFilter == null)

@@ -59,7 +59,7 @@
 						value="#{searchController.searchFilter.itemListArray['my_requests']}">
 
 						<f:selectItem itemLabel="#{message['worklist.creator_selection']}" itemValue="true" />
-						<f:ajax event="change" render="@form"
+						<f:ajax event="change" render="@form" listener="#{searchController.refreshSearch}"
 							onevent="imixsOfficeMain.layoutAjaxEvent" />
 					</h:selectManyCheckbox>
 				</dd>
@@ -74,11 +74,11 @@
 				<dt>#{message['worklist.archive']}:</dt>
 				<dd>
 
-					<h:selectManyCheckbox id="view_filter"
+					<h:selectManyCheckbox id="view_filter" 
 						value="#{searchController.searchFilter.itemListArray['type']}">
 						<f:selectItem itemLabel="#{message['worklist.archive_selection']}"
 							itemValue="workitemarchive" />
-						<f:ajax event="change" render="@form"
+						<f:ajax event="change" render="@form" listener="#{searchController.refreshSearch}"
 							onevent="imixsOfficeMain.layoutAjaxEvent" />
 					</h:selectManyCheckbox>
 				</dd>
@@ -96,7 +96,11 @@
 
 
 			<h:commandButton value="#{message.search}"
-				style="float:left;margin-right:10px;">
+			    action="#{searchController.refreshSearch()}">
+				<f:ajax render="@form" execute="@form" onevent="updateSearchForm" />
+			</h:commandButton>
+			<h:commandButton value="#{message.reset}"
+			    action="#{searchController.resetSearch()}">
 				<f:ajax render="@form" execute="@form" onevent="updateSearchForm" />
 			</h:commandButton>
 			
@@ -110,7 +114,7 @@
 					<f:selectItem itemValue="" itemLabel="#{message['worklist.sortorder_relevance']}" />
 					<f:selectItem itemValue="1" itemLabel="#{message['worklist.sortorder_newest']}" />
 					<f:selectItem itemValue="2" itemLabel="#{message['worklist.sortorder_oldest']}" />
-					<f:ajax event="change" render="@form"
+					<f:ajax event="change" render="@form" listener="#{searchController.refreshSearch}"
 							onevent="imixsOfficeMain.layoutAjaxEvent" />
 				</h:selectOneMenu>
 			</div>
