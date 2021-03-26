@@ -14,6 +14,7 @@ import org.imixs.marty.model.TeamController;
 import org.imixs.marty.profile.UserController;
 import org.imixs.marty.util.ResourceBundleHandler;
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.faces.data.ViewController;
 
 /**
@@ -56,190 +57,239 @@ import org.imixs.workflow.faces.data.ViewController;
 @ViewScoped
 public class OrganigramController extends ViewController {
 
-	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(OrganigramController.class.getName());
+    private static final long serialVersionUID = 1L;
+    private static Logger logger = Logger.getLogger(OrganigramController.class.getName());
 
-	@Inject
-	TeamController teamController;
+    @Inject
+    TeamController teamController;
 
-	@Inject
-	ResourceBundleHandler resourceBundleHandler;
-	
-	@Inject
-	UserController userController;
+    @Inject
+    ResourceBundleHandler resourceBundleHandler;
 
-	/**
-	 * Returns a json structure with the process data
-	 * 
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public String getProcessDatasource() {
-		List<ItemCollection> processList = teamController.getProcessList();
+    @Inject
+    UserController userController;
+    
+    @Inject
+    DocumentService documentService;
 
-		// 'name' : 'Prozesse',
-		// 'id' : 'root',
-		// 'title' : 'Organisations Bereiche',
-		JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
-		jsonBuilder.add("id", "root").add("name", resourceBundleHandler.findMessage("organigram.processes"))
-				.add("title", resourceBundleHandler.findMessage("organigram.processes.description"));
+    private String selectedNodeID = null;
+    private ItemCollection selectedNode = null;
 
-		// build childs...
-		JsonArrayBuilder childList = Json.createArrayBuilder();
-		for (ItemCollection process : processList) {
-			// 'name' : 'Controlling',
-			// 'id' : 'id1',
-			// 'title' : 'Invoices',
-			// 'className' : 'process'
-			JsonObjectBuilder processObject = Json.createObjectBuilder();
+    /**
+     * returns the currently selected node id or null if no node was selected
+     * 
+     * @return
+     */
+    public String getSelectedNodeID() {
+        return selectedNodeID;
+    }
 
-			processObject.add("name", process.getItemValueString("name"))
-					.add("title", process.getItemValueString("txtdescription")).add("id", process.getUniqueID())
-					.add("className", "process");
+    public void setSelectedNodeID(String selectedNodeID) {
+        this.selectedNodeID = selectedNodeID;
+    }
 
-			// add team members....
-			List<String> members = process.getItemValue("process.team");
-			JsonArrayBuilder memberArray = Json.createArrayBuilder();
-			for (String member : members) {
-				String userName=userController.getUserName(member);
-				if (userName!=null) {
-					memberArray.add(userName);
-				}
-			}
-			processObject.add("team", memberArray);
+    /**
+     * returns the currently selected node ItemCollection or null if no node was
+     * selected
+     * 
+     * @return
+     */
+    public ItemCollection getSelectedNode() {
+        return selectedNode;
+    }
 
-			members = process.getItemValue("process.manager");
-			memberArray = Json.createArrayBuilder();
-			for (String member : members) {
-				String userName=userController.getUserName(member);
-				if (userName!=null) {
-					memberArray.add(userName);
-				}
-			}
-			processObject.add("manager", memberArray);
+    public void setSelectedNode(ItemCollection selectedNode) {
+        this.selectedNode = selectedNode;
+    }
 
-			members = process.getItemValue("process.assist");
-			memberArray = Json.createArrayBuilder();
-			for (String member : members) {
-				String userName=userController.getUserName(member);
-				if (userName!=null) {
-					memberArray.add(userName);
-				}
-			}
-			processObject.add("assist", memberArray);
-			childList.add(processObject);
-		}
-		// add childs
-		jsonBuilder.add("children", childList);
+    /**
+     * Returns a json structure with the process data
+     * 
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public String getProcessDatasource() {
+        List<ItemCollection> processList = teamController.getProcessList();
 
-		String result = jsonBuilder.build().toString();
-		// logger.info(result);
-		return result;
+        // 'name' : 'Prozesse',
+        // 'id' : 'root',
+        // 'title' : 'Organisations Bereiche',
 
-	}
+        JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+        jsonBuilder.add("id", "root").add("name", resourceBundleHandler.findMessage("organigram.processes"))
+                .add("title", resourceBundleHandler.findMessage("organigram.processes.description"));
+        if (processList != null && processList.size() > 0) {
 
-	/**
-	 * Returns a json structure with the space data
-	 * 
-	 * @return
-	 */
-	public String getSpaceDatasource() {
+            // build childs...
+            JsonArrayBuilder childList = Json.createArrayBuilder();
+            for (ItemCollection process : processList) {
+                // 'name' : 'Controlling',
+                // 'id' : 'id1',
+                // 'title' : 'Invoices',
+                // 'className' : 'process'
+                JsonObjectBuilder processObject = Json.createObjectBuilder();
 
-		// 'name' : 'Prozesse',
-		// 'id' : 'root',
-		// 'title' : 'Organisations Bereiche',
-		JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
-		jsonBuilder.add("id", "root").add("name", resourceBundleHandler.findMessage("organigram.spaces")).add("title",
-				resourceBundleHandler.findMessage("organigram.spaces.description"));
+                processObject.add("name", process.getItemValueString("name"))
+                        .add("title", process.getItemValueString("txtdescription")).add("id", process.getUniqueID())
+                        .add("className", "process");
 
-		// create root space structure including all sub spaces
-		JsonArrayBuilder rootSpaces = buildSpacesObjectArray(null);
-		// add root spaces
-		jsonBuilder.add("children", rootSpaces);
+                // add team members....
+                List<String> members = process.getItemValue("process.team");
+                JsonArrayBuilder memberArray = Json.createArrayBuilder();
+                for (String member : members) {
+                    String userName = userController.getUserName(member);
+                    if (userName != null) {
+                        memberArray.add(userName);
+                    }
+                }
+                processObject.add("team", memberArray);
 
-		String result = jsonBuilder.build().toString();
-		// logger.info(result);
-		return result;
+                members = process.getItemValue("process.manager");
+                memberArray = Json.createArrayBuilder();
+                for (String member : members) {
+                    String userName = userController.getUserName(member);
+                    if (userName != null) {
+                        memberArray.add(userName);
+                    }
+                }
+                processObject.add("manager", memberArray);
 
-	}
+                members = process.getItemValue("process.assist");
+                memberArray = Json.createArrayBuilder();
+                for (String member : members) {
+                    String userName = userController.getUserName(member);
+                    if (userName != null) {
+                        memberArray.add(userName);
+                    }
+                }
+                processObject.add("assist", memberArray);
+                childList.add(processObject);
+            }
+            // add childs
+            jsonBuilder.add("children", childList);
+        }
 
-	/**
-	 * Returns a JsonArrayBuilder object containing all sub spaces to a given root
-	 * space reference.
-	 * <p>
-	 * The method returns null if no spaces were found
-	 * <p>
-	 * If the parentSpaceID is null, only root spaces are returned.
-	 */
-	@SuppressWarnings("unchecked")
-	private JsonArrayBuilder buildSpacesObjectArray(String parentSpaceID) {
-		List<ItemCollection> spacesList = null;
+        String result = jsonBuilder.build().toString();
+        // logger.info(result);
+        return result;
 
-		// test if we should return root spaces or subspaces
-		if (parentSpaceID == null || parentSpaceID.isEmpty()) {
-			spacesList = teamController.getRootSpaces();
-			logger.finest("...add root spaces...");
-		} else {
-			spacesList = teamController.getSpacesByRef(parentSpaceID);
-			logger.finest("...add sub spaces for " + parentSpaceID);
-		}
-		if (spacesList == null || spacesList.size() == 0) {
-			return null;
-		}
+    }
 
-		// build childs...
-		JsonArrayBuilder childListArray = Json.createArrayBuilder();
-		for (ItemCollection space : spacesList) {
-			// 'name' : 'Controlling',
-			// 'id' : 'id1',
-			// 'title' : 'Invoices',
-			// 'className' : 'process'
+    /**
+     * Returns a json structure with the space data
+     * 
+     * @return
+     */
+    public String getSpaceDatasource() {
+        // 'name' : 'Prozesse',
+        // 'id' : 'root',
+        // 'title' : 'Organisations Bereiche',
+        JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+        jsonBuilder.add("id", "root").add("name", resourceBundleHandler.findMessage("organigram.spaces")).add("title",
+                resourceBundleHandler.findMessage("organigram.spaces.description"));
 
-			JsonObjectBuilder spaceObject = Json.createObjectBuilder()
-					.add("name", space.getItemValueString("space.name"))
-					.add("title", space.getItemValueString("txtdescription")).add("id", space.getUniqueID())
-					.add("className", "space");
+        // create root space structure including all sub spaces
+        JsonArrayBuilder rootSpaces = buildSpacesObjectArray(null);
+        if (rootSpaces != null) {
+            // add root spaces
+            jsonBuilder.add("children", rootSpaces);
+        }
+        String result = jsonBuilder.build().toString();
+        // logger.info(result);
+        return result;
 
-			// add team members....
-			List<String> members = space.getItemValue("space.team");
-			JsonArrayBuilder memberArray = Json.createArrayBuilder();
-			for (String member : members) {
-				String userName=userController.getUserName(member);
-				if (userName!=null) {
-					memberArray.add(userName);
-				}
-			}
-			spaceObject.add("team", memberArray);
+    }
 
-			members = space.getItemValue("space.manager");
-			memberArray = Json.createArrayBuilder();
-			for (String member : members) {
-				String userName=userController.getUserName(member);
-				if (userName!=null) {
-					memberArray.add(userName);
-				}
-			}
-			spaceObject.add("manager", memberArray);
+    /**
+     * Returns a JsonArrayBuilder object containing all sub spaces to a given root
+     * space reference.
+     * <p>
+     * The method returns null if no spaces were found
+     * <p>
+     * If the parentSpaceID is null, only root spaces are returned.
+     */
+    @SuppressWarnings("unchecked")
+    private JsonArrayBuilder buildSpacesObjectArray(String parentSpaceID) {
+        List<ItemCollection> spacesList = null;
 
-			members = space.getItemValue("space.assist");
-			memberArray = Json.createArrayBuilder();
-			for (String member : members) {
-				String userName=userController.getUserName(member);
-				if (userName!=null) {
-					memberArray.add(userName);
-				}
-			}
-			spaceObject.add("assist", memberArray);
+        // test if we should return root spaces or subspaces
+        if (parentSpaceID == null || parentSpaceID.isEmpty()) {
+            spacesList = teamController.getRootSpaces();
+            logger.finest("...add root spaces...");
+        } else {
+            spacesList = teamController.getSpacesByRef(parentSpaceID);
+            logger.finest("...add sub spaces for " + parentSpaceID);
+        }
+        if (spacesList == null || spacesList.size() == 0) {
+            return null;
+        }
 
-			// we recursive all sub spaces....
-			JsonArrayBuilder subSpaces = buildSpacesObjectArray(space.getUniqueID());
-			if (subSpaces != null) {
-				logger.finest("...found sub spaces!");
-				spaceObject.add("children", subSpaces);
-			}
-			childListArray.add(spaceObject);
-		}
-		return childListArray;
+        // build childs...
+        JsonArrayBuilder childListArray = Json.createArrayBuilder();
+        for (ItemCollection space : spacesList) {
+            // 'name' : 'Controlling',
+            // 'id' : 'id1',
+            // 'title' : 'Invoices',
+            // 'className' : 'process'
 
-	}
+            JsonObjectBuilder spaceObject = Json.createObjectBuilder()
+                    .add("name", space.getItemValueString("space.name"))
+                    .add("title", space.getItemValueString("txtdescription")).add("id", space.getUniqueID())
+                    .add("manager.label", space.getItemValueString("space.manager.label"))
+                    .add("team.label", space.getItemValueString("space.team.label"))
+                    .add("assist.label", space.getItemValueString("space.assist.label")).add("className", "space");
+
+            // add team members....
+            List<String> members = space.getItemValue("space.team");
+            JsonArrayBuilder memberArray = Json.createArrayBuilder();
+            for (String member : members) {
+                String userName = userController.getUserName(member);
+                if (userName != null) {
+                    memberArray.add(userName);
+                }
+            }
+            spaceObject.add("team", memberArray);
+
+            members = space.getItemValue("space.manager");
+            memberArray = Json.createArrayBuilder();
+            for (String member : members) {
+                String userName = userController.getUserName(member);
+                if (userName != null) {
+                    memberArray.add(userName);
+                }
+            }
+            spaceObject.add("manager", memberArray);
+
+            members = space.getItemValue("space.assist");
+            memberArray = Json.createArrayBuilder();
+            for (String member : members) {
+                String userName = userController.getUserName(member);
+                if (userName != null) {
+                    memberArray.add(userName);
+                }
+            }
+            spaceObject.add("assist", memberArray);
+
+            // we recursive all sub spaces....
+            JsonArrayBuilder subSpaces = buildSpacesObjectArray(space.getUniqueID());
+            if (subSpaces != null) {
+                logger.finest("...found sub spaces!");
+                spaceObject.add("children", subSpaces);
+            }
+            childListArray.add(spaceObject);
+        }
+        return childListArray;
+
+    }
+
+    /**
+     * Loads the selected node by its ID.
+     * 
+     */
+    public void loadNode() {
+        // it is necessary to load the full object here
+        logger.finest("...load selected node : " + getSelectedNodeID());
+        //selectedNode = teamController.getEntityById(getSelectedNodeID());
+        selectedNode = documentService.load(selectedNodeID);
+    }
 }

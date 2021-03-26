@@ -16,13 +16,17 @@
 	 -->
 
 	<ui:define name="scripts">
-		<link href="#{facesContext.externalContext.requestContextPath}/layout/css/jquery.orgchart.css?build=#{app.application_build_timestamp}"
+		<link
+			href="#{facesContext.externalContext.requestContextPath}/layout/css/jquery.orgchart.css?build=#{app.application_build_timestamp}"
 			type="text/css" rel="stylesheet" />
-		<link href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-organigram.css?build=#{app.application_build_timestamp}"
+		<link
+			href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-organigram.css?build=#{app.application_build_timestamp}"
 			type="text/css" rel="stylesheet" />
 
-		<script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/jquery.orgchart.js"></script>
-		<script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.organigram.js"></script>
+		<script type="text/javascript"
+			src="#{facesContext.externalContext.requestContextPath}/js/jquery.orgchart.js"></script>
+		<script type="text/javascript"
+			src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.organigram.js"></script>
 		<script type="text/javascript">
 			/*<![CDATA[*/
 
@@ -43,24 +47,144 @@
 					<h1 style="text-align: center;">#{message['organigram.title']}</h1>
 				</div>
 				<div class="imixs-body organigram-container">
-					<div id="organigram-processes" style="border-right: 1px solid #eee;height:100%;"></div>
+					<div id="organigram-processes"
+						style="border-right: 1px solid #eee; height: 100%;"></div>
 					<div id="organigram-spaces"></div>
 				</div>
-				
-				<div class="imixs-footer" style="padding-top:20px;">
+
+				<div class="imixs-footer" style="padding-top: 20px;">
 					<h:commandButton value="#{message['nav.admin_processlist']}"
-						actionListener="#{workflowController.reset}"
-							immediate="true" styleClass="imixs-action"
-							action="/pages/admin/processlist?faces-redirect=true"/>
+						actionListener="#{workflowController.reset}" immediate="true"
+						styleClass="imixs-action"
+						action="/pages/admin/processlist?faces-redirect=true" />
 					<h:commandButton value="#{message['nav.admin_spaces']}"
-						actionListener="#{workflowController.reset}"
-							immediate="true" styleClass="imixs-action"
-							action="/pages/admin/spaces?faces-redirect=true"/>
-					<h:commandButton value="#{message.close}"
-							immediate="true" styleClass="imixs-close-action"
-							action="notes" />
+						actionListener="#{workflowController.reset}" immediate="true"
+						styleClass="imixs-action"
+						action="/pages/admin/spaces?faces-redirect=true" />
+					<h:commandButton value="#{message.close}" immediate="true"
+						styleClass="imixs-close-action" action="notes" />
 				</div>
+
+
+
+
+				<!-- Node Details template (called via ajax form imixs-office-organigram.js 
+	
+					The Template  provides a jsf commandScript which called by teh organigram.js 
+						
+					See also:
+					https://stackoverflow.com/questions/16588327/how-to-invoke-a-jsf-managed-bean-on-a-html-dom-event-using-native-javascript
+					https://dzone.com/articles/execute-a-jsf-ajax-request-by-just-a-function-call
+					https://www.w3schools.com/howto/howto_js_autocomplete.asp
+			 	-->
+				<h:inputHidden id="selected_node_id"
+					value="#{organigramController.selectedNodeID}" />
+				<h:commandScript name="loadTeamDetails" execute="selected_node_id"
+					action="#{organigramController.loadNode()}"
+					render="node-details-template" onevent="showNodeDetails">
+				</h:commandScript>
+
+
+				<h:panelGroup id="node-details-template" style="display:none;">
+					<ui:param name="selectedNode"
+						value="#{organigramController.selectedNode}"></ui:param>
+					<ui:param name="selectedNodeID"
+						value="#{organigramController.selectedNodeID}"></ui:param>
+
+					<!-- the node detail block -->
+					<h:panelGroup layout="block" styleClass="node-details"
+						rendered="#{! empty selectedNode}">
+
+
+						<!-- process -->
+						<ui:fragment rendered="#{selectedNode.item['type'] eq 'process'}">
+							<div class="teams">
+								<div class="members">
+									<p class="lead">
+										<strong>Manager</strong>
+									</p>
+									<ui:repeat var="member"
+										value="#{selectedNode.itemList['process.manager']}">
+										<p>#{userController.getUserName(member)}</p>
+									</ui:repeat>
+
+								</div>
+								<div class="members">
+									<p class="lead">
+										<strong>Team</strong>
+									</p>
+									<ui:repeat var="member"
+										value="#{selectedNode.itemList['process.team']}">
+										<p>#{userController.getUserName(member)}</p>
+									</ui:repeat>
+								</div>
+								<div class="members">
+									<p class="lead">
+										<strong>Assist</strong>
+									</p>
+									<ui:repeat var="member"
+										value="#{selectedNode.itemList['process.assist']}">
+										<p>#{userController.getUserName(member)}</p>
+									</ui:repeat>
+								</div>
+							</div>
+							<div class="controls">
+								<span class="typcn typcn-edit"
+									onclick="event.stopPropagation();editNode('#{selectedNodeID}','process');"></span>
+							</div>
+						</ui:fragment>
+
+
+						<!-- space -->
+						<ui:fragment rendered="#{selectedNode.item['type'] eq 'space'}">
+							<div class="teams">
+								<div class="members">
+									<p class="lead">
+										<strong>#{selectedNode.item['space.manager.label']}</strong>
+									</p>
+									<ui:repeat var="member"
+										value="#{selectedNode.itemList['space.manager']}">
+										<p>#{userController.getUserName(member)}</p>
+									</ui:repeat>
+
+								</div>
+								<div class="members">
+									<p class="lead">
+										<strong>#{selectedNode.item['space.team.label']}</strong>
+									</p>
+									<ui:repeat var="member"
+										value="#{selectedNode.itemList['space.team']}">
+										<p>#{userController.getUserName(member)}</p>
+									</ui:repeat>
+								</div>
+								<div class="members">
+									<p class="lead">
+										<strong>#{selectedNode.item['space.assist.label']}</strong>
+									</p>
+									<ui:repeat var="member"
+										value="#{selectedNode.itemList['space.assist']}">
+										<p>#{userController.getUserName(member)}</p>
+									</ui:repeat>
+								</div>
+							</div>
+							<!-- custom form -->
+							<ui:include src="/pages/admin/organistaion_space_custom.xhtml">
+								<ui:param name="selectedNode"
+											value="#{selectedNode}" />
+							</ui:include>
+
+
+							<div class="controls">
+								<span class="typcn typcn-edit"
+									onclick="event.stopPropagation();editNode('#{selectedNodeID}','space');"></span>
+							</div>
+						</ui:fragment>
+					</h:panelGroup>
+				</h:panelGroup>
+
 			</h:form>
+
+
 		</f:view>
 	</ui:define>
 
