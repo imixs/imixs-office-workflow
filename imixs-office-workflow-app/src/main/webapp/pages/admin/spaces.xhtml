@@ -67,7 +67,7 @@
 									</h:panelGroup>
 								</f:facet>
 
-								<h:link outcome="/pages/admin/space?faces-redirect=true"
+								<h:link outcome="/pages/admin/space"
 									styleClass="imixs-viewentry-main-link">
 									<h:panelGroup rendered="#{(record.item['$processid'] eq 100)}"
 										styleClass="typcn typcn-tick imixs-state-success"
@@ -75,7 +75,6 @@
 									<h:panelGroup rendered="#{(record.item['$processid'] eq 180)}"
 										pt:title="#{record.item['$workflowstatus']}"
 										styleClass="typcn typcn-delete-outline imixs-state-warning" />
-
 									<h:outputText value="#{record.item['name']}" />
 									<h:outputText rendered="#{empty record.item['name']}"
 										value=" - no name - " />
@@ -164,7 +163,7 @@
 							<h:column>
 								<f:facet name="header">#{message.action}</f:facet>
 								<!-- Edit -->
-								<h:link outcome="/pages/admin/space?faces-redirect=true"
+								<h:link outcome="/pages/admin/space"
 									styleClass="imixs-viewentry-main-link">
 									<span class="typcn typcn-pencil imixs-state-info"></span>
 									#{message.edit}
@@ -172,15 +171,12 @@
 								</h:link>
 
 								<!-- Subspace -->
-								<h:commandLink styleClass="imixs-viewentry-action-link"
-									title="#{message.add}" action="/pages/admin/space"
-									actionListener="#{workflowController.create(propertyController.getProperty('setup.system.model'),100,record.item['$uniqueid'])}">
+								<h:link outcome="/pages/admin/space"
+									styleClass="imixs-viewentry-action-link"
+									title="#{message.add}">
 									<span class="typcn typcn-flow-children imixs-state-info"></span>#{message.add}
-									<f:setPropertyActionListener
-										target="#{workflowController.workitem.item['space.parent.name']}"
-										value="#{record.item['name']}" />
-								</h:commandLink>
-
+									<f:param name="parent" value="#{record.item['$uniqueid']}" />
+								</h:link>
 							</h:column>
 						</h:dataTable>
 					</div>

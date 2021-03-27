@@ -8,9 +8,14 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	template="/layout/template.xhtml">
 
-
+	<!-- The view accepts the params 'id' and 'parent' -->
 	<f:metadata>
-		<f:viewAction action="#{workflowController.onLoad()}" />
+		<ui:param name="parentSpace" value="#{teamController.getSpaceById(param.parent)}"></ui:param>
+		<f:viewAction action="#{workflowController.onLoad()}" if="#{not empty param.id}" />
+		<f:viewAction action="#{workflowController.create(propertyController.getProperty('setup.system.model'),100,param.parent)}" 
+			if="#{empty param.id}"  />
+		<f:viewAction action="#{workflowController.workitem.setItemValue('space.parent.name',parentSpace.getItemValueString('name'))}" 
+			if="#{not empty parentSpace}"  />
 	</f:metadata>
 
 	<ui:define name="content">
@@ -18,7 +23,6 @@
 			<h:form id="space_form_id">
 
 				<div class="imixs-form">
-
 					<div class="imixs-header">
 						<h1>
 							<h:outputText value="#{message['space.title']}: " />

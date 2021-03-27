@@ -129,8 +129,7 @@
 								</div>
 							</div>
 							<div class="controls">
-								<span class="typcn typcn-edit"
-									onclick="event.stopPropagation();editNode('#{selectedNodeID}','process');"></span>
+								<a href="/pages/admin/process.xhtml?id=#{selectedNodeID}" onclick="event.stopPropagation();"><span class="typcn typcn-pencil"></span></a>
 							</div>
 						</ui:fragment>
 
@@ -172,11 +171,9 @@
 								<ui:param name="selectedNode"
 											value="#{selectedNode}" />
 							</ui:include>
-
-
 							<div class="controls">
-								<span class="typcn typcn-edit"
-									onclick="event.stopPropagation();editNode('#{selectedNodeID}','space');"></span>
+								<a href="/pages/admin/space.xhtml?id=#{selectedNodeID}" onclick="event.stopPropagation();"><span class="typcn typcn-pencil"></span></a>
+								<a href="/pages/admin/space.xhtml?parent=#{selectedNodeID}" onclick="event.stopPropagation();"><span class="typcn typcn-folder-add"></span></a>
 							</div>
 						</ui:fragment>
 					</h:panelGroup>
