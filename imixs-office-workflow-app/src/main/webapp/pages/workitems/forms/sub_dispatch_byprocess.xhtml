@@ -10,9 +10,9 @@
 			<dt>#{message['form.space']}</dt>
 			<dd>
 				<h:selectOneMenu style="width:20em;" required="false"
-					value="#{workflowController.workitem.item['txtSpaceRef']}">
+					value="#{workflowController.workitem.item['Space.Ref']}">
 					<f:selectItem itemLabel=""></f:selectItem>
-					<c:forEach items="#{teamController.getSpacesByProcessId(workflowController.workitem.item['txtProcessRef'])}" var="space">
+					<c:forEach items="#{teamController.getSpacesByProcessId(workflowController.workitem.item['Process.Ref'])}" var="space">
 						<f:selectItem itemLabel="#{space.item['name']}"
 							itemValue="#{space.item['$UniqueID']}">
 						</f:selectItem>
