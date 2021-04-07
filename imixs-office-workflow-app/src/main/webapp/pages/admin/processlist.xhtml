@@ -189,17 +189,9 @@
 
 
 					<div class="imixs-footer">
-					
-						<h:commandButton action="/pages/admin/organisation?faces-redirect=true" value="#{message['organigram.title']}"  styleClass="imixs-action">
-						</h:commandButton>
-						
-						<h:commandButton value="#{message.add}"
-							action="/pages/admin/process"
-							actionListener="#{workflowController.create(propertyController.getProperty('setup.system.model'),300,null)}">
-						</h:commandButton>
-						
-						<h:commandButton action="home" value="#{message.close}"  styleClass="imixs-close-action">
-						</h:commandButton>
+						<h:button outcome="/pages/admin/organisation" value="#{message['organigram.title']}" />
+						<h:button outcome="/pages/admin/process?id=" value="#{message.add}" />
+						<h:commandButton action="home" value="#{message.close}"  styleClass="imixs-close-action" />
 					</div>
 				</div>
 			</h:form>

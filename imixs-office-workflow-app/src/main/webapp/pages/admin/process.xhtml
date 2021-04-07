@@ -9,7 +9,9 @@
 
 
 	<f:metadata>
-		<f:viewAction action="#{workflowController.onLoad()}" />
+		<f:viewAction action="#{workflowController.onLoad()}" if="#{not empty param.id}" />
+		<f:viewAction action="#{workflowController.create(propertyController.getProperty('setup.system.model'),300,null)}" 
+			if="#{empty param.id}"  />
 	</f:metadata>
 
 	<ui:define name="content">
@@ -202,7 +204,7 @@
 					</div>
 					<!-- form-body end -->
 					<ui:include src="/pages/admin/sub_footer.xhtml">
-						<ui:param name="action" value="/pages/admin/processlist" />
+						<ui:param name="action" value="/pages/admin/organisation" />
 					</ui:include>
 				</div>
 			</h:form>

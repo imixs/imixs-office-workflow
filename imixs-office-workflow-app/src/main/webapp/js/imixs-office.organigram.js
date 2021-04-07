@@ -36,7 +36,16 @@ $(document).ready(function() {
 	
 	// on click event handler for space nodes and process nodes only
 	ocSpaces.$chartContainer.on('click', '.node.space',toggleTeamlist);
-	ocProcesses.$chartContainer.on('click', '.node.process',toggleTeamlist);	
+	ocProcesses.$chartContainer.on('click', '.node.process',toggleTeamlist);
+	
+	
+	// add a create link for the root nodes...
+	var linkProcess="<div class='node-details'><div class='controls'><a href='/pages/admin/process.xhtml?id=' ><span class='typcn typcn-folder-add'></span></a></div></div>";
+	var linkSpace="<div class='node-details'><div class='controls'><a href='/pages/admin/space.xhtml?id=' ><span class='typcn typcn-folder-add'></span></a></div></div>";
+	$("#root .content","#organigram-processes").append( linkProcess );
+	$("#root .content","#organigram-spaces").append( linkSpace );
+	
+	
 
 	// zoom function
     ocSpaces.$chartContainer.on('touchmove', function(event) {
