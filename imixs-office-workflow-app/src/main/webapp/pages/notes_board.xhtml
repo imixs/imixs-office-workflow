@@ -9,26 +9,34 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	template="/layout/template.xhtml">
 
-
-	<f:metadata>
-		<f:viewParam name="ref" value="#{boardController.ref}"></f:viewParam>
-		<f:viewParam name="viewType" value="#{boardController.view}"></f:viewParam>
-	</f:metadata>
-
 	<ui:define name="content">
 		<f:view>
 			<script type="text/javascript">
 				/*<![CDATA[*/
-				$(document)
-						.ready(
-								function() {
-									// set navigation cookie
-									document.cookie = "imixs.office.navigation=/pages/notes_board.jsf?ref=#{boardController.ref};path=#{facesContext.externalContext.requestContextPath}/";
-									// refresh portlets every 5 minutes
-									setInterval(function() {
-										$(".imixs-portlet-refresh").click()
-									}, 300000);
-								});
+				$(document).ready(
+					function() {
+						// set navigation cookie
+						document.cookie = "imixs.office.navigation=/pages/notes_board.jsf?processref=#{boardController.processRef}&page=#{boardController.pageIndex}&phrase=#{boardController.phrase};path=#{facesContext.externalContext.requestContextPath}/";
+						// refresh portlets every 5 minutes
+						setInterval(function() {
+							$(".imixs-portlet-refresh").click()
+						}, 300000);
+						
+						
+						$("input.search_input").on('keypress',function(e) {
+						    if(e.which == 13) {
+						       search();
+						       e.preventDefault(); //stop event
+						    }
+						});
+
+					});
+				
+					function search() {
+						var phrase=$("input.search_input").val();
+						document.location.href="/pages/notes_board.jsf?processref=#{boardController.processRef}&page=0&phrase="+phrase;
+					}
+				
 				/*]]>*/
 			</script>
 			<h:form>
@@ -44,29 +52,17 @@
 							#{boardController.title}
 							<!-- Search box -->
 							<h:panelGroup styleClass="search" id="search_box">
-								<h:inputText pt:placeholder="#{message.search}..."
+								<h:inputText pt:placeholder="#{message.search}..." styleClass="search_input"
 									value="#{boardController.phrase}"
 									onfocus="this.value='';" />
-									
-								<h:commandLink actionListener="#{boardController.refresh()}"><span class="typcn typcn-zoom" style="margin-left:4px;"></span>
-									<f:ajax render="portlet_board" execute="search_box"
-										onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
-								</h:commandLink>
-									
+								<a href="javascript:search();" title="#{message.refresh}" styleClass="search_link"><span class="typcn typcn-zoom" style="margin-left:4px;"></span></a>
 								<!-- dummy botton to hit enter -->
-								<h:commandButton
-									style="visibility:hidden;display: none;width:1px;height:1px;"
-									actionListener="#{boardController.refresh()}" >
-									<f:ajax render="portlet_board" execute="search_box"
-										onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
-								</h:commandButton>
-								
-								<span class="extended-search">
-									<h:link outcome="/pages/workitems/worklist?_processref=#{boardController.ref}">#{message['nav.search_extended']}<span class="typcn typcn-zoom-in" style="margin-left:4px;"></span></h:link>
+									<span class="extended-search">
+									<h:link outcome="/pages/workitems/worklist?processref=#{boardController.processRef}">#{message['nav.search_extended']}<span class="typcn typcn-zoom-in" style="margin-left:4px;"></span></h:link>
 								</span>
 								
 								<span class="extended-search">
-									<h:link outcome="/pages/workitems/worklist?_processref=#{boardController.ref}&amp;archive=true">#{message['nav.search_archive']}<span class="typcn typcn-archive" style="margin-left:4px;"></span></h:link>
+									<h:link outcome="/pages/workitems/worklist?processref=#{boardController.processRef}&amp;archive=true">#{message['nav.search_archive']}<span class="typcn typcn-archive" style="margin-left:4px;"></span></h:link>
 								</span>
 							</h:panelGroup>
 
@@ -75,28 +71,34 @@
 								id="portlet_worklist_nav">
 
 								<!-- refresh -->
-								<h:commandLink actionListener="#{boardController.refresh()}"
-									styleClass="imixs-portlet-refresh" title="#{message.refresh}">
+								<h:link title="#{message.refresh}" styleClass="imixs-portlet-refresh"
+									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=0&amp;phrase=#{boardController.phrase}">
 									<span class="typcn typcn-arrow-sync"></span>
-									<f:ajax render="portlet_board"
-										onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
-								</h:commandLink>
+								</h:link>
 								<!-- prev -->
-								<h:commandLink title="#{message.prev}"
-									actionListener="#{boardController.doLoadPrev}"
-									disabled="#{boardController.pageIndex==0}"
-									style="margin-left:8px;">
+								<h:link title="#{message.prev}" disabled="#{boardController.pageIndex==0}" style="margin-left:8px;"
+									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=#{boardController.pageIndex-1}&amp;phrase=#{boardController.phrase}">
 									<span
 										class="typcn #{(boardController.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
-								</h:commandLink>
+								</h:link>
+							
+								
+								<!-- show page numbers... -->
+								<c:forEach begin="0" end="#{boardController.pageMax-1}" varStatus="loop">
+									<h:link  rendered="#{loop.index ne boardController.pageIndex}" style="margin:0 4px 0 4px;font-size:0.65em;"
+									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=#{loop.index}&amp;phrase=#{boardController.phrase}"><span >#{loop.index+1}</span>
+									</h:link>										
+									<h:outputText style="margin:0 4px 0 4px;font-size:0.75em;font-weight:bold;" rendered="#{loop.index eq boardController.pageIndex}" value="#{loop.index+1}"/>
+								</c:forEach>
+								
 								<!-- next -->
-								<h:commandLink title="#{message.next}"
-									actionListener="#{boardController.doLoadNext}"
-									disabled="#{boardController.endOfList}"
-									style="margin-left:8px;">
-									<span
-										class="typcn #{(boardController.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
-								</h:commandLink>
+								<h:link title="#{message.next}" disabled="#{boardController.endOfList}" style="margin-left:8px;"
+									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=#{boardController.pageIndex+1}&amp;phrase=#{boardController.phrase}">
+									<span class="typcn #{(boardController.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
+								</h:link>
+			
+			
+			
 
 							</h:panelGroup>
 						</h1>

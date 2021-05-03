@@ -27,14 +27,15 @@
 			<h:form>
 				<ui:param name="searchresult" value="#{viewHandler.getData(searchController)}"></ui:param>
 				
-				<div class="imixs-view">
+				
+				<h:panelGroup styleClass="imixs-view" layout="block" id="serach_view">				
 				
 				
 					<div class="imixs-header">
 						<h1 id="worklist-title">
 							<!-- Back Link to board -->
 							<ui:fragment rendered="#{!empty searchController.process}">
-								<h:link outcome="/pages/notes_board?ref=#{searchController.process.uniqueID}"><span class="typcn typcn-th-large-outline" style="margin-right:5px;"></span></h:link>
+								<h:link outcome="/pages/notes_board?processref=#{searchController.process.uniqueID}"><span class="typcn typcn-th-large-outline" style="margin-right:5px;"></span></h:link>
 								<h:outputText value="#{searchController.process.item['Name']}" />
 							</ui:fragment>
 							<!-- Search -->
@@ -93,16 +94,25 @@
 							<div class="imixs-footer">
 								<h:commandButton actionListener="#{viewHandler.back(searchController)}"
 									disabled="#{searchController.pageIndex==0}" value="#{message.prev}">
+									<f:ajax render="serach_view"
+									onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }"
+										 />
 								</h:commandButton>
 								<h:commandButton actionListener="#{viewHandler.forward(searchController)}"
 									disabled="#{searchController.endOfList}" value="#{message.next}">
+									
+									<f:ajax render="serach_view"
+									onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }"
+										 />
+						
 								</h:commandButton>
 							</div>
 	
 						</ui:fragment>
 	
 					</div>
-				</div>
+				</h:panelGroup>
+				
 			</h:form>
 		</f:view>
 		
