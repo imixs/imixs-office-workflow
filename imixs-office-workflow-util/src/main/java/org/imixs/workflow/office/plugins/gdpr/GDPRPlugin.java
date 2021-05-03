@@ -76,7 +76,7 @@ public class GDPRPlugin extends AbstractPlugin {
 	public ItemCollection run(ItemCollection documentContext, ItemCollection documentActivity) throws PluginException {
 
 		// do we have a gdpr case?
-		ItemCollection evalItemCollection = this.getWorkflowService().evalWorkflowResult(documentActivity,
+		ItemCollection evalItemCollection = this.getWorkflowService().evalWorkflowResult(documentActivity,"item",
 				documentContext);
 
 		// find the data object
