@@ -29,8 +29,8 @@ The searchResult should contain a List of String elements representing the sugge
 The integration into a JSF page can look like this:
 
 
-	<h:commandScript name="cargosoftSearch" action="#{cargosoftController.searchCreditor()}" 
-		render="autocomplete-resultlist-cargosoft" onevent="autocompleteShowResult" />
+	<h:commandScript name="mySearch" action="#{myController.searchCreditor()}" 
+		render="autocomplete-resultlist" onevent="autocompleteShowResult" />
 	<script type="text/javascript">
 		/*<![CDATA[*/
 			$(document).ready(function() {
@@ -38,7 +38,7 @@ The integration into a JSF page can look like this:
 				var creditorField= $("input[data-item='cdtr.number']");
 				$(creditorField).each(function() {
 					$(this).addClass("imixs-ml");
-					autocompleteInitInput(this,cargosoftSearch,'autocomplete-resultlist-cargosoft',myCallback);
+					autocompleteInitInput(this,mySearch,'autocomplete-resultlist',myCallback);
 				});
 			});
 			function myCallback(selection) {
@@ -46,8 +46,8 @@ The integration into a JSF page can look like this:
 			}
 		/*]]>*/
 	</script>
-	<h:panelGroup id="autocomplete-resultlist-cargosoft" layout="block" class="autocomplete-resultlist">
-		<ui:repeat var="suggest" value="#{cargosoftController.searchResult}">
+	<h:panelGroup id="autocomplete-resultlist" layout="block" class="autocomplete-resultlist">
+		<ui:repeat var="suggest" value="#{myController.searchResult}">
 			<div class="autocomplete-resultlist-element" onclick="autocompleteSelectElement('#{suggest}')">
 				<a href="#">
 					<h:outputText value="#{suggest}" escape="false"/>
