@@ -20,6 +20,14 @@
 		<script type="text/javascript"
 			src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.workitem.custom.js?build=#{app.application_build_timestamp}"></script>
 
+		<!-- Imixs-Adapter-Wopi integration -->
+		<ui:fragment rendered="#{wopiController!=null}">
+			<script type="text/javascript"
+				src="#{facesContext.externalContext.requestContextPath}/js/imixs-wopi.js?build=#{app.application_build_timestamp}"></script>
+			<script type="text/javascript"
+				src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.workitem.wopi.js?build=#{app.application_build_timestamp}"></script>
+		</ui:fragment>
+
 		<script type="text/javascript">
 			/*<![CDATA[*/
 		
@@ -46,19 +54,32 @@
 			 	<!-- Dummy button to avoid hit enter to submit form other input fields.. -->
 			 	<button type="submit" onclick="return false;" style="display:none;"></button>
 			
+
 			 	<!-- Imixs-ML integration -->
 				<ui:fragment rendered="#{mlController!=null}">
 					<ui:include src="/pages/workitems/workitem-ml.xhtml">
 						<ui:param name="workitem" value="#{workflowController.workitem}" />
 					</ui:include>
 				</ui:fragment>
-				
-				<div class="imixs-workitem">
 			
+				<div class="imixs-workitem">		
 				
 					<!-- Workitem Main Form -->
-					<div class="imixs-workitem-form">
-						<div class="imixs-form">
+					<div class="imixs-workitem-form">				
+					
+						<!-- Imixs-Adapter-Wopi integration -->
+						<ui:fragment rendered="#{wopiController!=null}">
+						    <h:commandScript name="wopiControllerUpdateFile" action="#{wopiController.updateFile()}" />
+							<div style="display: none;" class="imixs-form" id="wopi_controlls">
+							    <h1 id="wopi_header_filename_id">Document</h1>
+								<button onclick="imixsWopi.save(); return false;">Update</button><button onclick="closeWopiViewer(); return false;">Close</button>
+								
+							</div>
+							<div id="wopi_canvas" style="display: none;"></div>
+						</ui:fragment>
+					
+					
+						<div class="imixs-form" id="imixs_workitem_form_id">
 							<div class="imixs-header">
 								<ui:include src="/pages/workitems/workitem_header.xhtml" />
 							</div>
@@ -67,8 +88,7 @@
 								<ui:include
 									src="/pages/workitems/forms/#{formController.formDefinition.path}.xhtml" />
 							</div>
-						</div>
-						
+						</div>						
 						<div class="imixs-document">
 							
 							<h1>
@@ -102,6 +122,11 @@
 					</div>
 				</div>
 			</h:form>
+			
+			
+			
+		
+			
 		</f:view>
 		
 

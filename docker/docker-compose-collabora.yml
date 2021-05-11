@@ -1,0 +1,58 @@
+version: "3.6"
+services:
+
+  db:
+    image: postgres:9.6.1
+    environment:
+      POSTGRES_PASSWORD: adminadmin
+      POSTGRES_DB: office
+    volumes: 
+      - dbdata:/var/lib/postgresql/data
+
+  app:
+    image: imixs/imixs-office-workflow
+    depends_on:
+      - db
+    environment:
+      TZ: "CET" 
+      LANG: "en_US.UTF-8"  
+      JAVA_OPTS: "-Dnashorn.args=--no-deprecation-warning"
+      MAILGATEWAY: "localhost"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "adminadmin"
+      POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
+
+      WOPI_DISCOVERY_ENDPOINT: "http://libreoffice-app:9980/hosting/discovery"
+      WOPI_HOST_ENDPOINT: "http://app:8080/api/wopi/"
+
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+      - "8787:8787"
+    volumes:
+        - ./deployments:/opt/jboss/wildfly/standalone/deployments/
+
+
+
+  libreoffice-app:
+    image: collabora/code:6.4.8.4
+    container_name: libreoffice-app
+    expose:
+      - 9980
+    ports:
+      - "9980:9980"
+    environment:
+      - username=admin
+      - password=adminadmin
+    volumes:
+      - ./configuration/collabora/loolwsd.xml:/etc/loolwsd/loolwsd.xml
+    restart: always
+
+
+  #imixsadmin:
+  #  image: imixs/imixs-admin
+  #  ports:
+  #    - "8888:8080"
+
+volumes:
+  dbdata: 

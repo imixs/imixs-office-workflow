@@ -14,7 +14,6 @@
 		
 		
 	 -->
-
 	<dl>
 		<dt style="clear: left;">
 			<h:outputText value="#{global.attachments}" />
@@ -46,7 +45,19 @@
 				
 				<div id="hyperlink" class="content-block">
 				<a class="file-open-link" href="#{facesContext.externalContext.requestContextPath}/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{attachment.item['name.encoded']}">
-				#{attachment.item['name']}</a> <h:outputText value=" (#{dmsController.userFriendlyBytes(attachment.item['size'])})" />
+				#{attachment.item['name']}</a>
+				
+				
+			
+				<!-- Imixs WOPI Integration -->
+				<ui:fragment rendered="#{wopiController!=null}">
+				    <ui:param name="uri" value="#{wopiController.getWopiAccessURL(workflowController.workitem.uniqueID,attachment.item['name'],loginController.userNameList,userController.workitem.item['txtUserName'])}"></ui:param>
+					<a href="#" onclick="openWopiViewer('#{uri}','#{attachment.item['name']}');return false;">
+					<span class="typcn typcn-pencil"></span></a>
+				</ui:fragment>
+				
+				
+				<h:outputText style="margin-left:10px;" value=" (#{dmsController.userFriendlyBytes(attachment.item['size'])})" />
 				<!-- Delete function -->
 						<f:ajax render=":#{dmsListComponent.clientId}"
 							onevent="imixsOfficeWorkitem.clearDocumentPreview">
