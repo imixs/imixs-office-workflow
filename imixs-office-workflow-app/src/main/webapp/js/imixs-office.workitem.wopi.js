@@ -14,7 +14,13 @@ function openWopiViewer(url,filename) {
 }
 
 // close the wopi viewer
-function closeWopiViewer() {
+function closeWopiViewer(confirmMessage) {
+	// if document was modifed without save then ask the user....
+	if (imixsWopi.isModified) {
+		if (confirm(confirmMessage)) {
+			imixsWopi.save(); return false;
+		}
+	}
 	console.log("close ");
 	$('#wopi_controlls').hide();
 	imixsWopi.closeViewer();

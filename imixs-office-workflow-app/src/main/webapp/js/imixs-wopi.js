@@ -36,7 +36,8 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 	var imixs = IMIXS.org.imixs.core,
 
 		viewerID = "",
-		saveCallback = null,		
+		saveCallback = null,	
+		isModified = false,	
 		
 		// Receive Editor Messages
 		// This function is invoked when the editor posts a message back.
@@ -65,8 +66,17 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 					if (msg.Values.Status == 'Document_Loaded') {
 						console.log('==== Document loaded ...init viewer...');
 						initViewer();
+						imixsWopi.isModified=false;
 					}
 				}
+				
+			} else if (msg.MessageId == 'Doc_ModifiedStatus') {
+				if (msg.Values) {
+					if (msg.Values.Modified == true) {
+						console.log('====  document modified.');
+						imixsWopi.isModified=true;
+					}
+				}				
 			// custom click events
 			} else if (msg.MessageId == 'Clicked_Button') {
 				if (msg.Values && msg.Values.Id=="imixs.save") {
@@ -85,6 +95,7 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 				if (msg.Values) {
 					if (msg.Values.success == true) {
 						console.log('==== Saved');
+						imixsWopi.isModified=false;
 						if (imixsWopi.saveCallback) {
 							imixsWopi.saveCallback();
 						}
@@ -191,6 +202,7 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 		postMessage: postMessage,
 		openViewer: openViewer,
 		closeViewer: closeViewer,
+		isModified: isModified,
 		save: save,
 		saveCallback: saveCallback
 	};

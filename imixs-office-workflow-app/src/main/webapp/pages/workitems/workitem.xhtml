@@ -22,6 +22,8 @@
 
 		<!-- Imixs-Adapter-Wopi integration -->
 		<ui:fragment rendered="#{wopiController!=null and wopiController.enabled}">
+			<link href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-wopi.css?build=#{app.application_build_timestamp}"
+				type="text/css" rel="stylesheet" />
 			<script type="text/javascript"
 				src="#{facesContext.externalContext.requestContextPath}/js/imixs-wopi.js?build=#{app.application_build_timestamp}"></script>
 			<script type="text/javascript"
@@ -71,9 +73,8 @@
 						<ui:fragment rendered="#{wopiController!=null}">
 						    <h:commandScript name="wopiControllerUpdateFile" action="#{wopiController.updateFile()}" />
 							<div style="display: none;" class="imixs-form" id="wopi_controlls">
-							    <h1 id="wopi_header_filename_id">Document</h1>
-								<button onclick="imixsWopi.save(); return false;">Update</button><button onclick="closeWopiViewer(); return false;">Close</button>
-								
+							    <h1 id="wopi_header_filename_id"></h1>
+								<input type="button" onclick="imixsWopi.save(); return false;" class="imixs-workflow-action" value="#{message.update}" /><input type="button" onclick="closeWopiViewer('#{message.confirm_update}'); return false;" class="imixs-workflow-action" value="#{message.close}" />
 							</div>
 							<div id="wopi_canvas" style="display: none;"></div>
 						</ui:fragment>
