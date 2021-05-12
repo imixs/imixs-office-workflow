@@ -21,7 +21,7 @@
 			src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.workitem.custom.js?build=#{app.application_build_timestamp}"></script>
 
 		<!-- Imixs-Adapter-Wopi integration -->
-		<ui:fragment rendered="#{wopiController!=null}">
+		<ui:fragment rendered="#{wopiController!=null and wopiController.enabled}">
 			<script type="text/javascript"
 				src="#{facesContext.externalContext.requestContextPath}/js/imixs-wopi.js?build=#{app.application_build_timestamp}"></script>
 			<script type="text/javascript"
