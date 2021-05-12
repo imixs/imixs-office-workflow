@@ -116,10 +116,6 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 			var wopiuri = ref;			
 			var wopiViewer = $('#' + imixsWopi.viewerID);
 			wopiViewer.show();
-			
-			// hack.....
-			wopiuri = wopiuri.replace("libreoffice-app", "localhost");
-			
 			buildViewer(imixsWopi.viewerID,wopiuri);			
 			var form = $('#wopi-iframe').contents().find('#libreoffice-form');
 			form.submit();
