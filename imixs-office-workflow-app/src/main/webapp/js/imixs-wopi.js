@@ -38,6 +38,7 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 		viewerID = "",
 		saveCallback = null,	
 		isModified = false,	
+		filename = filename,
 		
 		// Receive Editor Messages
 		// This function is invoked when the editor posts a message back.
@@ -97,12 +98,7 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 						console.log('==== Saved');
 						imixsWopi.isModified=false;
 						if (imixsWopi.saveCallback) {
-							imixsWopi.saveCallback();
-						}
-						if (typeof wopiControllerUpdateFile !== "undefined") {
-							wopiControllerUpdateFile();
-						} else {
-							console.log("callback method 'wopiControllerUpdateFile' is undefined!")
+							imixsWopi.saveCallback(imixsWopi.filename);
 						}
 					} else {
 						console.log('==== Error during save');
@@ -116,14 +112,14 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 		postMessage = function(msg) {
 			console.log(msg);
 			var iframe = document.getElementById('wopi-iframe');
-			iframe = iframe.contentWindow || (iframe.contentDocument.document || iframe.contentDocument);
-						
+			iframe = iframe.contentWindow || (iframe.contentDocument.document || iframe.contentDocument);						
 			iframe.postMessage(JSON.stringify(msg), '*');
 		},
 
 		// switch to iframe mode and load editor
-		openViewer = function(viewerID,ref) {
+		openViewer = function(viewerID,ref,filename) {
 			imixsWopi.viewerID=viewerID;
+			imixsWopi.filename=filename;
 			var wopiuri = ref;			
 			var wopiViewer = $('#' + imixsWopi.viewerID);
 			wopiViewer.show();
@@ -198,6 +194,7 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 	// public API
 	return {
 		viewerID: viewerID,
+		filename: filename,
 		receiveMessage: receiveMessage,
 		postMessage: postMessage,
 		openViewer: openViewer,

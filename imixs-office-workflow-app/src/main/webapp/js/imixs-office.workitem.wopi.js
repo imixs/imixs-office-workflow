@@ -7,10 +7,17 @@ function openWopiViewer(url,filename) {
 	$('#imixs_workitem_form_id').hide();
 	// open viewer...	
 	$('#wopi_controlls').show();	
-	imixsWopi.openViewer('wopi_canvas', url);
+	imixsWopi.openViewer('wopi_canvas', url, filename);
 	// define save callback for close
-	imixsWopi.saveCallback = closeWopiViewer;
+	imixsWopi.saveCallback = uiSaveCallback;
 
+}
+
+function uiSaveCallback(filename) {
+	// we can do a ui update based on the filename
+	// ....
+	
+	closeWopiViewer();
 }
 
 // close the wopi viewer
