@@ -48,7 +48,7 @@
 				#{attachment.item['name']}</a>
 				<!-- Imixs WOPI Integration -->
 				<ui:fragment rendered="#{wopiController!=null and wopiController.enabled}">					
-				    <ui:param name="uri" value="#{wopiController.getWopiAccessURL(workflowController.workitem.uniqueID,attachment.item['name'],loginController.userNameList,userController.workitem.item['txtUserName'])}"></ui:param>
+				    <ui:param name="uri" value="#{wopiController.getWopiAccessURL(workflowController.workitem.uniqueID,attachment.item['name'],loginController.userPrincipal,userController.workitem.item['txtUserName'])}"></ui:param>
 				    <ui:fragment rendered="#{! empty uri}">
 						<a href="#" onclick="openWopiViewer('#{uri}','#{attachment.item['name']}');return false;">
 						<span class="typcn typcn-pencil"></span></a>
