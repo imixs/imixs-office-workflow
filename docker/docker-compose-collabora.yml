@@ -23,6 +23,7 @@ services:
       POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
 
       WOPI_PUBLIC_ENDPOINT: "http://localhost:9980/loleaflet/6a844e4/loleaflet.html?"
+      #WOPI_PUBLIC_ENDPOINT: "http://libreoffice.foo.muc:9980/loleaflet/6a844e4/loleaflet.html?"
       WOPI_HOST_ENDPOINT: "http://app:8080/api/wopi/"
 
     ports:
@@ -44,6 +45,7 @@ services:
     environment:
       - username=admin
       - password=adminadmin
+      #- domain=application.foo.muc
     volumes:
       - ./configuration/collabora/loolwsd.xml:/etc/loolwsd/loolwsd.xml
 
