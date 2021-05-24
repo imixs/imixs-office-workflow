@@ -47,10 +47,11 @@
 				<a class="file-open-link" href="#{facesContext.externalContext.requestContextPath}/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{attachment.item['name.encoded']}">
 				#{attachment.item['name']}</a>
 				<!-- Imixs WOPI Integration -->
-				<ui:fragment rendered="#{wopiController!=null and wopiController.enabled}">					
+				<ui:fragment rendered="#{wopiController!=null and wopiController.enabled}">				    			
 				    <ui:param name="uri" value="#{wopiController.getWopiAccessURL(workflowController.workitem.uniqueID,attachment.item['name'],loginController.userPrincipal,userController.workitem.item['txtUserName'])}"></ui:param>
+				    <ui:param name="autoload" value="#{workflowController.workitem.item['wopi.auto.open'] eq attachment.item['name']?true:false}" />
 				    <ui:fragment rendered="#{! empty uri}">
-						<a href="#" onclick="openWopiViewer('#{uri}','#{attachment.item['name']}');return false;">
+						<a href="#" class="wopi-editor-link" data-wopi-openonload="#{autoload}" onclick="openWopiViewer('#{uri}','#{attachment.item['name']}');return false;">
 						<span class="typcn typcn-pencil"></span></a>
 					</ui:fragment>
 				</ui:fragment>

@@ -1,5 +1,18 @@
 // Imixs-Adapters-Wopi Integration
 
+
+/**
+ * Init Method for the wop document integration
+ * 
+ *  - we verify if a wopo link has the tag 'data-wopi-openonload=true'. In this case we trigger the link
+ *    to automatically load the wopi editor. 
+ */
+$(document).ready(function() {
+	// if an wopi-editor-link has the tag data-wopi-openonload=true than we click the link on load....
+	$('a[data-wopi-openonload="true"]').click();
+});
+
+
 // open the wopi viewer
 function openWopiViewer(url,filename) {
 	$('#wopi_header_filename_id').html(filename);
