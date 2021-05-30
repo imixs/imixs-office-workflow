@@ -6,7 +6,7 @@
 	<xsl:strip-space elements="*" />
 
 	<xsl:key name="groups" match="/data/document"
-		use="item[@name='_invoicedate']/value" />
+		use="item[@name='invoice.date']/value" />
 
 	<xsl:template match="/">
 		{
@@ -17,9 +17,9 @@
 		    			},
 			"labels" : [
 						<!--Select the first element of each group -->
-						<xsl:for-each select="/data/document[generate-id() =generate-id(key('groups', item[@name='_invoicedate']/value)[1])]" >
-							<xsl:sort select="item[@name='_invoicedate']/value" data-type="text" order="ascending"/>
-							<xsl:text><![CDATA["]]></xsl:text><xsl:value-of select="item[@name='_invoicedate']/value" /><xsl:text><![CDATA["]]></xsl:text>
+						<xsl:for-each select="/data/document[generate-id() =generate-id(key('groups', item[@name='invoice.date']/value)[1])]" >
+							<xsl:sort select="item[@name='invoice.date']/value" data-type="text" order="ascending"/>
+							<xsl:text><![CDATA["]]></xsl:text><xsl:value-of select="item[@name='invoice.date']/value" /><xsl:text><![CDATA["]]></xsl:text>
 							<!-- comma separator only if not last one -->
 							<xsl:if test="position() != last()" ><xsl:text><![CDATA[,]]></xsl:text></xsl:if>
 						</xsl:for-each>
@@ -35,9 +35,9 @@
 				"pointHighlightStroke" : "rgba(220,220,220,1)",
 				"data" : [
 			<xsl:apply-templates
-					select="/data/document[generate-id() = generate-id(key('groups', item[@name='_invoicedate']/value)[1])]" >
+					select="/data/document[generate-id() = generate-id(key('groups', item[@name='invoice.date']/value)[1])]" >
 					<!-- sort -->
-					<xsl:sort select="item[@name='_invoicedate']/value" data-type="text" order="ascending"/>
+					<xsl:sort select="item[@name='invoice.date']/value" data-type="text" order="ascending"/>
 			</xsl:apply-templates>
 				]
 			}
@@ -52,7 +52,7 @@
 		
 		<!-- build sum variable -->
 		<xsl:variable name="summe"
-			select="count(key('groups', item[@name='_invoicedate']/value)//item[@name='_amount']/value)"/>
+			select="count(key('groups', item[@name='invoice.date']/value)//item[@name='invoice.total']/value)"/>
 			
 			<!-- output sum  -->
 			<xsl:choose>
