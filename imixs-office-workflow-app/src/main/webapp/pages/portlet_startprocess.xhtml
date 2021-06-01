@@ -21,8 +21,7 @@
 				rendered="#{(process.item['$taskid'] eq 301 || loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isMember'])}">
 				<h1>
 					<h:link outcome="/pages/notes_board?processref=#{process.item['$uniqueId']}"><span class="typcn typcn-th-large-outline" style="margin-right:5px;"></span><h:outputText value="#{process.item['name']}" /><span class="typcn typcn-zoom-outline" style="margin-left:8px;"></span></h:link>
-					
-					<h:link outcome="/pages/monitoring_board?processref=#{process.item['$uniqueId']}"><span class="typcn typcn-chart-pie-outline"></span></h:link>
+					<h:link rendered="#{process.item['isManager']}" outcome="/pages/monitoring_board?processref=#{process.item['$uniqueId']}"><span class="typcn typcn-chart-pie-outline"></span></h:link>
 				</h1>
 				<p>
 					<h:outputText value="#{process.item['txtdescription']}" />
