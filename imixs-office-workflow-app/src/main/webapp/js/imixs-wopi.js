@@ -31,12 +31,12 @@ $(document).ready(function() {
 	var expireDate = new Date();
 	expireDate.setHours(expireDate.getHours() + 24);	
 	var topDomain=window.location.hostname;
-	console.log("...domain=" + topDomain);
+	//console.log("...domain=" + topDomain);
 	var domainParts = topDomain.split('.');
 	if (domainParts && domainParts.length>1) {
 		// extract top domain (last to parts)
 	   topDomain='.'+domainParts[domainParts.length-2] +'.'+domainParts[domainParts.length-1];
-	   console.log("..top domain = " + topDomain);
+	   //console.log("..top domain = " + topDomain);
 	}
 	document.cookie = "imixs_wopi_dummy=true;expires=" + expireDate 
 	                  + ";domain=" + topDomain+";path=/";
@@ -79,12 +79,12 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 			if (!msg) {
 				return;
 			}
-			console.log('==== framed.doc.html receiveMessage: ' + event.data);
+			//console.log('==== framed.doc.html receiveMessage: ' + event.data);
 			
 			if (msg.MessageId == 'App_LoadingStatus') {
 				if (msg.Values) {
 					if (msg.Values.Status == 'Document_Loaded') {
-						console.log('==== Document loaded ...init viewer...');
+						//console.log('==== Document loaded ...init viewer...');
 						initViewer();
 						imixsWopi.isModified=false;
 					}
@@ -93,28 +93,28 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 			} else if (msg.MessageId == 'Doc_ModifiedStatus') {
 				if (msg.Values) {
 					if (msg.Values.Modified == true) {
-						console.log('====  document modified.');
+						//console.log('====  document modified.');
 						imixsWopi.isModified=true;
 					}
 				}				
 			// custom click events
 			} else if (msg.MessageId == 'Clicked_Button') {
 				if (msg.Values && msg.Values.Id=="imixs.save") {
-					console.log('====  imixs.save');
+					//console.log('====  imixs.save');
 					postMessage({
 						'MessageId': 'Action_Save',
 						'Values': { 'Notify': true }
 					});
 					//save();
 				} else if (msg.Values && msg.Values.Id=="imixs.close") {
-					console.log('====  imixs.close');
+					//console.log('====  imixs.close');
 					imixsWopi.closeViewer();
 				}
 			// action save completed 
 			} else if (msg.MessageId == 'Action_Save_Resp') {
 				if (msg.Values) {
 					if (msg.Values.success == true) {
-						console.log('==== Saved');
+						//console.log('==== Saved');
 						imixsWopi.isModified=false;
 						if (imixsWopi.saveCallback) {
 							imixsWopi.saveCallback(imixsWopi.filename);
@@ -129,7 +129,7 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 		
 		// send a message to the Editor to customize the behaviour
 		postMessage = function(msg) {
-			console.log(msg);
+			//console.log(msg);
 			var iframe = document.getElementById('wopi-iframe');
 			iframe = iframe.contentWindow || (iframe.contentDocument.document || iframe.contentDocument);						
 			iframe.postMessage(JSON.stringify(msg), '*');
@@ -156,12 +156,14 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 			var iframeElement = $("#" + elementid);
 			$(iframeElement).empty();
 			// build iframe....
-			var content = '<iframe id="wopi-iframe" src="" width="100%" height="1000" allowfullscreen="true" title="Office"></iframe>';
+			var content = '<iframe id="wopi-iframe" src="" width="100%" height="1340" allowfullscreen="true" title="Office"></iframe>';
 			$(iframeElement).append(content);
 			var iframe = document.getElementById('wopi-iframe');
 			iframe = iframe.contentWindow || (iframe.contentDocument.document || iframe.contentDocument);
 			iframe.document.open();
-			iframe.document.write('<html><body><form action="'+actionuri+'" enctype="multipart/form-data" method="post" id="libreoffice-form" style="display:none;"><input name="dummy" value="" type="hidden" id="dummy"/> <input type="submit" value="Load..." /></form></body></html>');
+			// uimode hack: https://sdk.collaboraonline.com/docs/theming.html
+			var uiMode = '<input name="ui_defaults" value="TextSidebar=false" type="hidden"/>';
+			iframe.document.write('<html><body><form action="'+actionuri+'" enctype="multipart/form-data" method="post" id="libreoffice-form" style="display:none;">' + uiMode + '<input type="submit" value="Load..." /></form></body></html>');
 			iframe.document.close();
 		},
 
@@ -172,6 +174,20 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 			wopiviewer.hide();
 		},
 		
+		switchToFullScreen = function() {	
+			var iframe = document.getElementById('wopi-iframe');
+		    // Do fullscreen
+		    if (iframe.requestFullscreen) {
+		      iframe.requestFullscreen();
+		    } else if (iframe.webkitRequestFullscreen) {
+		      iframe.webkitRequestFullscreen();
+		    } else if (iframe.mozRequestFullScreen) {
+		      iframe.mozRequestFullScreen();
+		    } else if (iframe.msRequestFullscreen) {
+		      iframe.msRequestFullscreen();
+		    }
+		},
+		
 		// method to initalize the PostMessage communication
 		// and to customize the editor
 		initViewer = function() {
@@ -180,7 +196,7 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 
 				iframe.postMessage(JSON.stringify({ 'MessageId': 'Host_PostmessageReady' }), '*');
 				//window.frames[0].postMessage(JSON.stringify({ 'MessageId': 'Host_PostmessageReady' }), '*');
-				console.log('==== Host_PostmessageReady message send....');
+				//console.log('==== Host_PostmessageReady message send....');
 				
 				// hide default UI_save button
 				imixsWopi.postMessage({
@@ -195,7 +211,7 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 		// sends a post mesage to save the document
 		save = function() {
 			var date=Date.now();
-			console.log('external save '+date);
+			//console.log('external save '+date);
 			postMessage({
 				"MessageId" : "Action_Save",
 				//"SendTime" :  date,
@@ -220,6 +236,7 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 		closeViewer: closeViewer,
 		isModified: isModified,
 		save: save,
+		switchToFullScreen: switchToFullScreen,
 		saveCallback: saveCallback
 	};
 
