@@ -381,6 +381,29 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	},
 
 
+	saveWorkitemHandler=function (confirmMessage,confirmWopiMessage,uiWorkflowAction) {
+			
+		if (confirmMessage) {
+			if (confirm(confirmMessage)==false) {
+				return false;
+			}
+		}
+		
+		// wopi Callback?
+		if (imixsWopi.isModified) {
+			if (confirm(confirmWopiMessage)) {
+				imixsWopi.save(); 
+				wopiLastWorkflowEvent=uiWorkflowAction;
+				//alert(wopiLastWorkflowEvent);
+				return false;
+			} else {
+				// workflow wird fortgeseztt
+			}
+		}
+		
+		return true;
+	},
+
 	/**
 	* Opens a popup window with the QR-Code to print
     */
@@ -411,6 +434,7 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		minimizeDocumentPreview : minimizeDocumentPreview,
 		maximizeDocumentPreview : maximizeDocumentPreview,
 		closeDocumentPreview : closeDocumentPreview,
+		saveWorkitemHandler: saveWorkitemHandler,
 		onFileUploadChange : onFileUploadChange
 	};
 
