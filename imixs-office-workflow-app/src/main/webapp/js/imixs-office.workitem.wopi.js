@@ -1,6 +1,7 @@
 // Imixs-Adapters-Wopi Integration
 
-var wopiLastWorkflowEvent; // stores the last workfow UI action button
+//var wopiLastWorkflowEvent; // stores the last workfow UI action button
+var wopiConfirmMessage;
 /**
  * Init Method for the wop document integration
  * 
@@ -14,7 +15,17 @@ $(document).ready(function() {
 
 
 // open the wopi viewer
-function openWopiViewer(url,filename) {
+function openWopiViewer(url,filename, discardMessage) {
+	
+	// do we have unsaved changes?
+		// if document was modifed without save then ask the user....
+	if (imixsWopi.isModified) {
+		if (!confirm(discardMessage)) {
+			// cancel operation!
+			return false;
+		} 
+	}
+	
 	$('#wopi_header_filename_id').html(filename);
 	// hide the workflow form
 	$('#imixs_workitem_form_id').hide();
@@ -22,20 +33,15 @@ function openWopiViewer(url,filename) {
 	$('#wopi_controlls').show();	
 	imixsWopi.openViewer('wopi_canvas', url, filename);
 	// define save callback for close
-	imixsWopi.saveCallback = uiSaveCallback;
+	//imixsWopi.saveCallback = uiSaveCallback;
 
 }
 
-function uiSaveCallback(filename) {
-	// we can do a ui update based on the filename
-	// ....	
-	//console.log("uiSaveCallback");
-	closeWopiViewer();
-	
-	// if we have a last wopi action buttion than click it
-	if (wopiLastWorkflowEvent) {
-		//console.log("processing wopiLastWorkflowEvent");
-		wopiLastWorkflowEvent.click();
+
+
+function workitemSaveCallback(action) {
+	if (imixsWopi.isModified) {
+		return confirm(wopiConfirmMessage);
 	}
 }
 
@@ -44,19 +50,20 @@ function closeWopiViewer(confirmMessage) {
 	
 	// if document was modifed without save then ask the user....
 	if (imixsWopi.isModified) {
-		imixsWopi.isModified=false;
-		if (confirm(confirmMessage)) {
-			imixsWopi.save(); 
+		if (!confirm(confirmMessage)) {
+			// cancel operation!
 			return false;
-		} else {
-			imixsWopi.isModified=false;
-		}
+		} 
+		imixsWopi.isModified=false;
 	}
-	//console.log("close ");
-	$('#wopi_controlls').hide();
-	imixsWopi.closeViewer();
-	// show workflow form
-	$('#imixs_workitem_form_id').show();
+	
+	if ($('#wopi_controlls').is(":visible")) {
+		//console.log("close ");
+		$('#wopi_controlls').hide();
+		imixsWopi.closeViewer();
+		// show workflow form
+		$('#imixs_workitem_form_id').show();
+	}
 }
 
 

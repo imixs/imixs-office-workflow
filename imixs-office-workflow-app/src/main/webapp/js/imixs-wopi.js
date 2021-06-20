@@ -92,10 +92,11 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 				
 			} else if (msg.MessageId == 'Doc_ModifiedStatus') {
 				if (msg.Values) {
-					if (msg.Values.Modified == true) {
+					imixsWopi.isModified=msg.Values.Modified;
+					/*if (msg.Values.Modified == true) {
 						//console.log('====  document modified.');
 						imixsWopi.isModified=true;
-					}
+					}*/
 				}				
 			// custom click events
 			} else if (msg.MessageId == 'Clicked_Button') {
@@ -199,12 +200,12 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 				//console.log('==== Host_PostmessageReady message send....');
 				
 				// hide default UI_save button
-				imixsWopi.postMessage({
+				/*imixsWopi.postMessage({
 					'MessageId' : 'Hide_Button',
 					'Values' : {
 						'id' : "save"
 					}
-				});	
+				});	*/
 			
 			},
 		

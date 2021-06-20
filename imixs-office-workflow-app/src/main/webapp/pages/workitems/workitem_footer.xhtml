@@ -15,11 +15,10 @@
 				rendered="#{workflowController.workitem.item['type'] ne 'workitemdeleted'}">
 				<!-- we do not use i:imixsWorkflowActions  here because of customization -->
 				<c:forEach items="#{workflowController.events}" var="event">
-				    <ui:param name="confirmMessage" value="#{validationController.getConfirmMessage(event)}" />
-				    <ui:param name="confirmWopiMessage" value="#{wopiController!=null?wopiController.confirmMessage:''}" />
+				    <ui:param name="confirmMessage" value="#{validationController.getConfirmMessage(event)}" />				   
 				    <h:commandButton action="#{workflowController.process}" id="imixs_workflow_eventid_#{event.item['numactivityid']}"
 						class="imixs-workflow-action" title="" 
-						onclick="return imixsOfficeWorkitem.saveWorkitemHandler('#{confirmMessage}','#{confirmWopiMessage}',this);"
+						onclick="return imixsOfficeWorkitem.saveWorkitemHandler('#{confirmMessage}',this);"
 						value="#{event.item['txtname']}">
 						<f:setPropertyActionListener
 							target="#{workflowController.workitem.item['$eventid']}"

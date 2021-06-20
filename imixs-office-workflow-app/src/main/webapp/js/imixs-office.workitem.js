@@ -14,6 +14,7 @@ var documentPreviewURL;			// URL for current displayed document
 var isWorkitemLoading=true; 	// indicates if the workitem is still loading
 var chornicleSize=1;			// default cronicle size (33%)
 var chroniclePreview=true; 		// indicates if documetns should be shown in the cornicle column
+var callbackRegistrySaveWorkitem=[];
 
 
 /**
@@ -381,7 +382,15 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	},
 
 
-	saveWorkitemHandler=function (confirmMessage,confirmWopiMessage,uiWorkflowAction) {
+
+	registerSaveWorkitemListener=function (callback) {
+		callbackRegistrySaveWorkitem.push(callback);
+	},
+
+    /*
+     * Helper method handles registered callback methods
+     */
+	saveWorkitemHandler=function (confirmMessage,uiWorkflowAction) {
 			
 		if (confirmMessage) {
 			if (confirm(confirmMessage)==false) {
@@ -389,17 +398,15 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 			}
 		}
 		
-		// wopi Callback?
-		if (imixsWopi.isModified) {
-			if (confirm(confirmWopiMessage)) {
-				imixsWopi.save(); 
-				wopiLastWorkflowEvent=uiWorkflowAction;
-				//alert(wopiLastWorkflowEvent);
-				return false;
-			} else {
-				// workflow wird fortgeseztt
-			}
-		}
+		// do we have callbacks?
+		if (callbackRegistrySaveWorkitem) {
+			for (const saveCallback of callbackRegistrySaveWorkitem) {
+			  var callBackResult=saveCallback(uiWorkflowAction);
+	 		  if (callBackResult===false) {
+		         	return false;
+			  } 
+		    }    
+		}	
 		
 		return true;
 	},
@@ -435,6 +442,7 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		maximizeDocumentPreview : maximizeDocumentPreview,
 		closeDocumentPreview : closeDocumentPreview,
 		saveWorkitemHandler: saveWorkitemHandler,
+		registerSaveWorkitemListener: registerSaveWorkitemListener,
 		onFileUploadChange : onFileUploadChange
 	};
 

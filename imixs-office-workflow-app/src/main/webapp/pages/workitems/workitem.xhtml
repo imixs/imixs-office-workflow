@@ -71,10 +71,17 @@
 					
 						<!-- Imixs-Adapter-Wopi integration -->
 						<ui:fragment rendered="#{wopiController!=null}">
+						    <ui:param name="confirmWopiMessage" value="#{wopiController!=null?wopiController.confirmMessage:''}" />
+						    <script type="text/javascript">
+								/*<![CDATA[*/
+									imixsOfficeWorkitem.registerSaveWorkitemListener(workitemSaveCallback);
+									wopiConfirmMessage="#{message.discard_changes}";
+								/*]]>*/
+							</script>
 							<div style="display: none;" class="imixs-form" id="wopi_controlls">
 							    <h1 id="wopi_header_filename_id"></h1>
 							    <div class="wopi-action-bar">
-								<input type="button" onclick="imixsWopi.save(); return false;" style="display:none;" class="imixs-workflow-action" value="#{message.update}" /><input type="button" onclick="closeWopiViewer('#{message.confirm_update}'); return false;" class="imixs-workflow-action" value="#{message.close}" /><input type="button" onclick="imixsWopi.switchToFullScreen(); return false;" class="imixs-workflow-action" value="#{message.fullscreen}" />
+								<input type="button" onclick="imixsWopi.save(); return false;" style="display:none;" class="imixs-workflow-action" value="#{message.update}" /><input type="button" onclick="closeWopiViewer('#{message.discard_changes}'); return false;" class="imixs-workflow-action" value="#{message.close}" /><input type="button" onclick="imixsWopi.switchToFullScreen(); return false;" class="imixs-workflow-action" value="#{message.fullscreen}" />
 								</div>
 							</div>
 							<div id="wopi_canvas" style="display: none;"></div>
