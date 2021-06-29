@@ -61,7 +61,28 @@
 
 
 	<!-- Main panel - shows entries filtered by optional category -->
-	<h:panelGroup id="chronicle-main" layout="block">
+	<h:panelGroup id="chronicle-main" layout="block" style="">
+
+
+		<h:panelGrid columns="2" style="">	
+			<h:panelGroup><strong>#{message.created}: </strong></h:panelGroup>
+			<h:panelGroup><h:outputText value="#{workflowController.workitem.item['$created']}"
+										style="font-weight: normal;">
+										<f:convertDateTime timeZone="#{message.timeZone}"
+											pattern="#{message.dateTimePattern}" />
+									</h:outputText> #{message.by} #{userController.getUserName(workflowController.workitem.item['$creator'])}
+			</h:panelGroup>
+			
+			<h:panelGroup><strong>#{message.modified}: </strong></h:panelGroup>
+			<h:panelGroup>
+					<h:outputText value="#{workflowController.workitem.item['$lasteventdate']}"
+										style="font-weight: normal;">
+										<f:convertDateTime timeZone="#{message.timeZone}"
+											pattern="#{message.dateTimePattern}" />
+				 	</h:outputText> #{message.by} #{userController.getUserName(workflowController.workitem.item['$editor'])}
+			</h:panelGroup>
+		</h:panelGrid>
+
 
 		<table>
 			<!-- print a headline for each year -->
@@ -69,8 +90,8 @@
 
 				<!-- print YEAR -->
 				<tr class="year">
-					<td colspan="3"><h2
-							style="text-align: center; border-bottom: 1px solid #ddd;">#{year}</h2></td>
+					<td colspan="3" ><h2
+							style="text-align: center; border-bottom: 1px solid #ddd; margin-top:20px;">#{year}</h2></td>
 				</tr>
 
 				<!-- print all MONTHs -->

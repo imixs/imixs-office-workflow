@@ -31,7 +31,7 @@ public class ChronicleEntity {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		cal.set(Calendar.MILLISECOND, 0);
-		cal.set(Calendar.SECOND, 0);
+		//cal.set(Calendar.SECOND, 0);
 		this.date = cal.getTime();
 		entries = new ArrayList<ItemCollection>();
 	}
