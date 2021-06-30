@@ -44,10 +44,12 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.marty.config.SetupController;
 import org.imixs.marty.model.TeamController;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.index.SchemaService;
+import org.imixs.workflow.exceptions.InvalidAccessException;
 import org.imixs.workflow.faces.data.ViewController;
 import org.imixs.workflow.faces.util.LoginController;
 
@@ -93,6 +95,10 @@ public class SearchController extends ViewController implements Serializable {
 
     @EJB
     SchemaService schemaService;
+
+    @Inject
+    @ConfigProperty(name = "office.search.noanalyze", defaultValue = "undefined")
+    String officeSearchNoanalyse;
 
     ItemCollection process;
     ItemCollection space;
@@ -189,8 +195,8 @@ public class SearchController extends ViewController implements Serializable {
     }
 
     /**
-     * Resets the search filter but not the search phrase (phrase) The method
-     * reset the current result.
+     * Resets the search filter but not the search phrase (phrase) The method reset
+     * the current result.
      * 
      * @param event
      */
@@ -223,11 +229,10 @@ public class SearchController extends ViewController implements Serializable {
         this.setPageIndex(0);
         return action;
     }
-    
+
     public String refreshSearch(AjaxBehaviorEvent event) {
         return refreshSearch();
     }
-    
 
     public ItemCollection getSearchFilter() {
         if (searchFilter == null)
@@ -398,19 +403,38 @@ public class SearchController extends ViewController implements Serializable {
 
         // Search phrase....
         String searchphrase = searchFilter.getItemValueString("phrase");
-        // escape search phrase
-        searchphrase = schemaService.normalizeSearchTerm(searchphrase);
 
         if (searchphrase != null && !"".equals(searchphrase)) {
+
+            // test if search phrase contains special characters
+            String normalizedSearchphrase = schemaService.normalizeSearchTerm(searchphrase);
+            if ("undefined".equals(officeSearchNoanalyse) || searchphrase.equalsIgnoreCase(normalizedSearchphrase)) {
+                sSearchTerm += " (" + normalizedSearchphrase.trim() + ") ";
+            } else {
+                // String officeSearchFields = officeSearchNoanalyse;
+                String[] officeFields = officeSearchNoanalyse.split(",");
+
+                sSearchTerm += " (";
+                Iterator<String> itemIterator = Arrays.asList(officeFields).iterator();
+                while (itemIterator.hasNext()) {
+                    String itemName = itemIterator.next();
+                    if (!schemaService.getFieldListNoAnalyze().contains(itemName)) {
+                        throw new InvalidAccessException("SEARCH_ERROR", "office.search.noanalyze contains the item '"
+                                + itemName + "' which is not listed in 'index.fields.noanalyze'!");
+                    }
+
+                    sSearchTerm += itemName + ":\"" + searchphrase.trim() + "\" ";
+                    if (itemIterator.hasNext())
+                        sSearchTerm += " OR ";
+                }
+                sSearchTerm += " )";
+            }
+
             // we do not sort the result other then by relevance. Sorting by date does not
             // make sense.
             setSortBy(null);
             this.setSortReverse(false);
-            // trim
-            searchphrase = searchphrase.trim();
-            // lower case....
-            searchphrase = searchphrase.toLowerCase();
-            sSearchTerm += " (" + searchphrase + ") ";
+
         } else {
             // set sortBy and sortReverse
             this.setSortBy(setupController.getSortBy());
