@@ -28,6 +28,8 @@
 package org.imixs.workflow.office.views;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -102,6 +104,8 @@ public class SearchController extends ViewController implements Serializable {
 
     ItemCollection process;
     ItemCollection space;
+
+    //private String query = null;
 
     @Override
     public String getSortBy() {
@@ -188,6 +192,7 @@ public class SearchController extends ViewController implements Serializable {
      */
     @Override
     public void reset() {
+       // query=null;
         searchFilter = new ItemCollection();
         searchFilter.replaceItemValue("type", "workitem");
         this.setPageIndex(0);
@@ -224,8 +229,15 @@ public class SearchController extends ViewController implements Serializable {
      * 
      */
     public String refreshSearch() {
-        String action = "/pages/workitems/worklist.xhtml?faces-redirect=true&phrase="
-                + searchFilter.getItemValueString("phrase");
+        String phrase = searchFilter.getItemValueString("phrase");
+
+        try {
+            phrase = URLEncoder.encode(phrase, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            logger.severe("unable to encode search phrase!");
+            e.printStackTrace();
+        }
+        String action = "/pages/workitems/worklist.xhtml?faces-redirect=true&phrase=" + phrase;
         this.setPageIndex(0);
         return action;
     }
@@ -269,191 +281,198 @@ public class SearchController extends ViewController implements Serializable {
     @SuppressWarnings({ "unchecked", "unlikely-arg-type" })
     @Override
     public String getQuery() {
-        String sSearchTerm = "";
-        String emptySearchTerm = ""; // indicates that no query as the default type-query was defined.
+        //if (query == null || query.isEmpty()) {
+        String    query="";
+            String emptySearchTerm = ""; // indicates that no query as the default type-query was defined.
 
-        // read the filter parameters and removes duplicates
-        List<Integer> processIDs = searchFilter.getItemValue("$taskID");
-        List<String> processRefList = searchFilter.getItemValue("ProcessRef");
-        List<String> spacesRefList = searchFilter.getItemValue("SpaceRef");
-        List<String> workflowGroups = searchFilter.getItemValue("$WorkflowGroup");
-        // trim lists
-        while (processIDs.contains(""))
-            processIDs.remove("");
-        while (processRefList.contains(""))
-            processRefList.remove("");
-        while (spacesRefList.contains(""))
-            spacesRefList.remove("");
-        while (workflowGroups.contains(""))
-            workflowGroups.remove("");
-        while (processRefList.contains("-"))
-            processRefList.remove("-");
-        while (spacesRefList.contains("-"))
-            spacesRefList.remove("-");
+            // read the filter parameters and removes duplicates
+            List<Integer> processIDs = searchFilter.getItemValue("$taskID");
+            List<String> processRefList = searchFilter.getItemValue("ProcessRef");
+            List<String> spacesRefList = searchFilter.getItemValue("SpaceRef");
+            List<String> workflowGroups = searchFilter.getItemValue("$WorkflowGroup");
+            // trim lists
+            while (processIDs.contains(""))
+                processIDs.remove("");
+            while (processRefList.contains(""))
+                processRefList.remove("");
+            while (spacesRefList.contains(""))
+                spacesRefList.remove("");
+            while (workflowGroups.contains(""))
+                workflowGroups.remove("");
+            while (processRefList.contains("-"))
+                processRefList.remove("-");
+            while (spacesRefList.contains("-"))
+                spacesRefList.remove("-");
 
-        List<String> typeList = searchFilter.getItemValue("Type");
-        if (typeList.isEmpty() || "".equals(typeList.get(0))) {
-            // typeList = Arrays.asList(new String[] { "workitem", "workitemarchive" });
-            // default restrict to workitem
-            typeList = Arrays.asList(new String[] { "workitem" });
-        }
+            List<String> typeList = searchFilter.getItemValue("Type");
+            if (typeList.isEmpty() || "".equals(typeList.get(0))) {
+                // typeList = Arrays.asList(new String[] { "workitem", "workitemarchive" });
+                // default restrict to workitem
+                typeList = Arrays.asList(new String[] { "workitem" });
+            }
 
-        // convert type list into comma separated list
-        String sTypeQuery = "";
-        Iterator<String> iterator = typeList.iterator();
-        while (iterator.hasNext()) {
-            sTypeQuery += "type:\"" + iterator.next() + "\"";
-            if (iterator.hasNext())
-                sTypeQuery += " OR ";
-        }
-        sSearchTerm += "(" + sTypeQuery + ") AND";
-        emptySearchTerm = sSearchTerm; // define empty serach query
-
-        // test if dms_search==true
-        if ("true".equals(searchFilter.getItemValueString("dms_search"))) {
-            sSearchTerm += " ($file.count:[1 TO 999]) AND";
-        }
-
-        String sCreator = "";
-        // test if result should be restricted to creator?
-        if ("true".equals(this.getSearchFilter().getItemValueString("my_requests"))) {
-            // searchFilter.replaceItemValue("Creator", );
-            sCreator = loginController.getUserPrincipal();
-        }
-        // test if result should be restricted to creator?
-
-        Date datFrom = searchFilter.getItemValueDate("date.From");
-        Date datTo = searchFilter.getItemValueDate("date.To");
-
-        // process ref
-        if (!processRefList.isEmpty()) {
-            sSearchTerm += " (";
-            iterator = processRefList.iterator();
+            // convert type list into comma separated list
+            String sTypeQuery = "";
+            Iterator<String> iterator = typeList.iterator();
             while (iterator.hasNext()) {
-                sSearchTerm += "$uniqueidref:\"" + iterator.next() + "\"";
+                sTypeQuery += "type:\"" + iterator.next() + "\"";
                 if (iterator.hasNext())
-                    sSearchTerm += " OR ";
+                    sTypeQuery += " OR ";
             }
-            sSearchTerm += " ) AND";
-        }
+            query += "(" + sTypeQuery + ") AND";
+            emptySearchTerm = query; // define empty serach query
 
-        // Space ref
-        if (!spacesRefList.isEmpty()) {
-            sSearchTerm += " (";
-            iterator = spacesRefList.iterator();
-            while (iterator.hasNext()) {
-                sSearchTerm += "$uniqueidref:\"" + iterator.next() + "\"";
-                if (iterator.hasNext())
-                    sSearchTerm += " OR ";
+            // test if dms_search==true
+            if ("true".equals(searchFilter.getItemValueString("dms_search"))) {
+                query += " ($file.count:[1 TO 999]) AND";
             }
-            sSearchTerm += " ) AND";
-        }
 
-        // Workflow Group...
-        if (!workflowGroups.isEmpty()) {
-            sSearchTerm += " (";
-            iterator = workflowGroups.iterator();
-            while (iterator.hasNext()) {
-                sSearchTerm += "txtworkflowgroup:\"" + iterator.next() + "\"";
-                if (iterator.hasNext())
-                    sSearchTerm += " OR ";
+            String sCreator = "";
+            // test if result should be restricted to creator?
+            if ("true".equals(this.getSearchFilter().getItemValueString("my_requests"))) {
+                // searchFilter.replaceItemValue("Creator", );
+                sCreator = loginController.getUserPrincipal();
             }
-            sSearchTerm += " ) AND";
+            // test if result should be restricted to creator?
 
-        }
+            Date datFrom = searchFilter.getItemValueDate("date.From");
+            Date datTo = searchFilter.getItemValueDate("date.To");
 
-        // serach date range?
-        String sDateFrom = "191401070000"; // because * did not work here
-        String sDateTo = "211401070000";
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMddHHmm");
-
-        if (datFrom != null) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(datFrom);
-            sDateFrom = dateformat.format(cal.getTime());
-        }
-        if (datTo != null) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(datTo);
-            cal.add(Calendar.DATE, 1);
-            sDateTo = dateformat.format(cal.getTime());
-        }
-
-        if (datFrom != null || datTo != null) {
-            // expected format $created:[20020101 TO 20030101]
-            sSearchTerm += " ($created:[" + sDateFrom + " TO " + sDateTo + "]) AND";
-        }
-
-        // filter my requests = $create or $owner
-        if (!"".equals(sCreator)) {
-            sSearchTerm += " ($creator:\"" + sCreator.toLowerCase() + "\" OR $owner:\"" + sCreator.toLowerCase()
-                    + "\") AND";
-        }
-
-        if (!processIDs.isEmpty()) {
-            sSearchTerm += " (";
-            Iterator<Integer> iteratorID = processIDs.iterator();
-            while (iteratorID.hasNext()) {
-                sSearchTerm += "$taskid:\"" + iteratorID.next() + "\"";
-                if (iteratorID.hasNext())
-                    sSearchTerm += " OR ";
-            }
-            sSearchTerm += " ) AND";
-        }
-
-        // Search phrase....
-        String searchphrase = searchFilter.getItemValueString("phrase");
-
-        if (searchphrase != null && !"".equals(searchphrase)) {
-
-            // test if search phrase contains special characters
-            String normalizedSearchphrase = schemaService.normalizeSearchTerm(searchphrase);
-            if ("undefined".equals(officeSearchNoanalyse) || searchphrase.equalsIgnoreCase(normalizedSearchphrase)) {
-                sSearchTerm += " (" + normalizedSearchphrase.trim() + ") ";
-            } else {
-                // String officeSearchFields = officeSearchNoanalyse;
-                String[] officeFields = officeSearchNoanalyse.split(",");
-
-                sSearchTerm += " (";
-                Iterator<String> itemIterator = Arrays.asList(officeFields).iterator();
-                while (itemIterator.hasNext()) {
-                    String itemName = itemIterator.next();
-                    if (!schemaService.getFieldListNoAnalyze().contains(itemName)) {
-                        throw new InvalidAccessException("SEARCH_ERROR", "office.search.noanalyze contains the item '"
-                                + itemName + "' which is not listed in 'index.fields.noanalyze'!");
-                    }
-
-                    sSearchTerm += itemName + ":\"" + searchphrase.trim() + "\" ";
-                    if (itemIterator.hasNext())
-                        sSearchTerm += " OR ";
+            // process ref
+            if (!processRefList.isEmpty()) {
+                query += " (";
+                iterator = processRefList.iterator();
+                while (iterator.hasNext()) {
+                    query += "$uniqueidref:\"" + iterator.next() + "\"";
+                    if (iterator.hasNext())
+                        query += " OR ";
                 }
-                sSearchTerm += " )";
+                query += " ) AND";
             }
 
-            // we do not sort the result other then by relevance. Sorting by date does not
-            // make sense.
-            setSortBy(null);
-            this.setSortReverse(false);
+            // Space ref
+            if (!spacesRefList.isEmpty()) {
+                query += " (";
+                iterator = spacesRefList.iterator();
+                while (iterator.hasNext()) {
+                    query += "$uniqueidref:\"" + iterator.next() + "\"";
+                    if (iterator.hasNext())
+                        query += " OR ";
+                }
+                query += " ) AND";
+            }
 
-        } else {
-            // set sortBy and sortReverse
-            this.setSortBy(setupController.getSortBy());
-            this.setSortReverse(setupController.getSortReverse());
-        }
+            // Workflow Group...
+            if (!workflowGroups.isEmpty()) {
+                query += " (";
+                iterator = workflowGroups.iterator();
+                while (iterator.hasNext()) {
+                    query += "txtworkflowgroup:\"" + iterator.next() + "\"";
+                    if (iterator.hasNext())
+                        query += " OR ";
+                }
+                query += " ) AND";
 
-        // test if a seach query was finally defined....
-        if (sSearchTerm.equals(emptySearchTerm)) {
-            // no query defined
-            sSearchTerm = null;
-        }
+            }
 
-        // cut last AND
-        if (sSearchTerm != null && sSearchTerm.endsWith("AND")) {
-            sSearchTerm = sSearchTerm.substring(0, sSearchTerm.length() - 3);
-        }
+            // serach date range?
+            String sDateFrom = "191401070000"; // because * did not work here
+            String sDateTo = "211401070000";
+            SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMddHHmm");
 
-        logger.fine("Query=" + sSearchTerm);
-        return sSearchTerm;
+            if (datFrom != null) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(datFrom);
+                sDateFrom = dateformat.format(cal.getTime());
+            }
+            if (datTo != null) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(datTo);
+                cal.add(Calendar.DATE, 1);
+                sDateTo = dateformat.format(cal.getTime());
+            }
+
+            if (datFrom != null || datTo != null) {
+                // expected format $created:[20020101 TO 20030101]
+                query += " ($created:[" + sDateFrom + " TO " + sDateTo + "]) AND";
+            }
+
+            // filter my requests = $create or $owner
+            if (!"".equals(sCreator)) {
+                query += " ($creator:\"" + sCreator.toLowerCase() + "\" OR $owner:\"" + sCreator.toLowerCase()
+                        + "\") AND";
+            }
+
+            if (!processIDs.isEmpty()) {
+                query += " (";
+                Iterator<Integer> iteratorID = processIDs.iterator();
+                while (iteratorID.hasNext()) {
+                    query += "$taskid:\"" + iteratorID.next() + "\"";
+                    if (iteratorID.hasNext())
+                        query += " OR ";
+                }
+                query += " ) AND";
+            }
+
+            // Search phrase....
+            String searchphrase = searchFilter.getItemValueString("phrase");
+
+            if (searchphrase != null && !"".equals(searchphrase)) {
+
+                query += " (";
+
+                // test if search phrase contains special characters
+                String normalizedSearchphrase = schemaService.normalizeSearchTerm(searchphrase);
+                if (!"undefined".equals(officeSearchNoanalyse)
+                        && !searchphrase.equalsIgnoreCase(normalizedSearchphrase)) {
+                    String[] officeFields = officeSearchNoanalyse.split(",");
+
+                    query += " (";
+                    Iterator<String> itemIterator = Arrays.asList(officeFields).iterator();
+                    while (itemIterator.hasNext()) {
+                        String itemName = itemIterator.next();
+                        if (!schemaService.getFieldListNoAnalyze().contains(itemName)) {
+                            throw new InvalidAccessException("SEARCH_ERROR",
+                                    "office.search.noanalyze contains the item '" + itemName
+                                            + "' which is not listed in 'index.fields.noanalyze'!");
+                        }
+
+                        query += itemName + ":\"" + searchphrase.trim() + "\" ";
+                        if (itemIterator.hasNext())
+                            query += " OR ";
+                    }
+                    query += ") OR ";
+                }
+
+                // standard search phrase
+                query += "(" + normalizedSearchphrase.trim() + ") ";
+
+                query += ")";
+                // we do not sort the result other then by relevance. Sorting by date does not
+                // make sense.
+                setSortBy(null);
+                this.setSortReverse(false);
+
+            } else {
+                // set sortBy and sortReverse
+                this.setSortBy(setupController.getSortBy());
+                this.setSortReverse(setupController.getSortReverse());
+            }
+
+            // test if a seach query was finally defined....
+            if (query.equals(emptySearchTerm)) {
+                // no query defined
+                query = null;
+            }
+
+            // cut last AND
+            if (query != null && query.endsWith("AND")) {
+                query = query.substring(0, query.length() - 3);
+            }
+
+            logger.info("Search Query=" + query);
+       // }
+        return query;
     }
 
 }

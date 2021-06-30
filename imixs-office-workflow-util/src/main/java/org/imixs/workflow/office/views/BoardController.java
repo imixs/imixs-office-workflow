@@ -28,6 +28,8 @@
 package org.imixs.workflow.office.views;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -88,7 +90,7 @@ public class BoardController implements Serializable {
     private int pageMax = 0;
 
     private boolean endOfList = false;
-    private String query;
+    //private String query;
     private String view;
     private String title;
 
@@ -116,6 +118,9 @@ public class BoardController implements Serializable {
     @Inject
     @ConfigProperty(name = "boardcontroller.categorysize", defaultValue = "5")
     int categoryPageSize;
+    
+    @Inject
+    SearchController searchController;
 
     public BoardController() {
         super();
@@ -127,6 +132,7 @@ public class BoardController implements Serializable {
      */
     @PostConstruct
     public void init() {
+        searchController.reset();
         // extract the processref and page from the query string
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String, String> paramMap = fc.getExternalContext().getRequestParameterMap();
@@ -194,6 +200,18 @@ public class BoardController implements Serializable {
     public String getPhrase() {
         return phrase;
     }
+    public String getPhraseEncoded() {
+        if (phrase==null) {
+            return null;
+        }
+        try {
+            return URLEncoder.encode(phrase,"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            
+            e.printStackTrace();
+            return phrase;
+        }
+    }
 
     public void setPhrase(String _phrase) {
         phrase = _phrase;
@@ -250,39 +268,28 @@ public class BoardController implements Serializable {
      * 
      * @return
      */
-    public String getQuery() {
-        // set default query
-        if (getProcessRef().isEmpty()) {
-            // build query form view type...
-            if ("worklist.creator".equals(getView())) {
-                query = "(type:\"workitem\" AND $creator:\"" + loginController.getRemoteUser() + "\")";
-            } else {
-                query = "(type:\"workitem\" AND $owner:\"" + loginController.getRemoteUser() + "\")";
-            }
-        } else {
-            query = "(type:\"workitem\" AND $uniqueidref:\"" + getProcessRef() + "\")";
-        }
-
-        // Search phrase....
-        String searchphrase = getPhrase();
-        if (searchphrase != null && !searchphrase.isEmpty()) {
-            // escape search phrase
-            searchphrase = schemaService.normalizeSearchTerm(searchphrase);
-            if (searchphrase != null && !"".equals(searchphrase)) {
-                // trim
-                searchphrase = searchphrase.trim();
-                // lower case....
-                searchphrase = searchphrase.toLowerCase();
-                query = query + " AND (" + searchphrase + ") ";
-            }
-        }
-
-        return query;
-    }
-
-    public void setQuery(String query) {
-        this.query = query;
-    }
+//    public String getQuery() {
+//        // set default query
+//        searchController.reset();
+//        
+//        if (getProcessRef().isEmpty()) {
+//            searchController.getSearchFilter().setItemValue("my_requests",true);
+//        } else {
+//            searchController.getSearchFilter().setItemValue("ProcessRef",getProcessRef());
+//        }
+//
+//        
+//        searchController.getSearchFilter().setItemValue("phrase",getPhrase());
+//        
+//        query=searchController.getQuery();
+//        
+//        logger.info("Board Query=" + query);
+//        return query;
+//    }
+//
+//    public void setQuery(String query) {
+//        this.query = query;
+//    }
 
     /**
      * This method discards the cache an reset the current ref.
@@ -420,11 +427,31 @@ public class BoardController implements Serializable {
         boolean bReverse = setupController.getSortReverse();
         List<ItemCollection> taskList;
         try {
-            taskList = documentService.findStubs(getQuery(), getPageSize(), getPageIndex(), sortBy, bReverse);
+            
+            // set default query
+            searchController.reset();
+            
+            if (getProcessRef().isEmpty()) {
+                searchController.getSearchFilter().setItemValue("my_requests",true);
+            } else {
+                searchController.getSearchFilter().setItemValue("ProcessRef",getProcessRef());
+            }
+
+            
+            searchController.getSearchFilter().setItemValue("phrase",getPhrase());
+            
+           // query=searchController.getQuery();
+            
+//            logger.info("Board Query=" + query);
+//            return query;
+//            
+            String query=searchController.getQuery();
+            
+            taskList = documentService.findStubs(query, getPageSize(), getPageIndex(), sortBy, bReverse);
 
             // count pages only once...
             if (pageMax == 0) {
-                pageMax = documentService.countPages(getQuery(), getPageSize());
+                pageMax = documentService.countPages(query, getPageSize());
             }
         } catch (QueryException e) {
             logger.warning("failed to read task list: " + e.getMessage());

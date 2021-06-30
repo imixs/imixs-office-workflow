@@ -16,7 +16,7 @@
 				$(document).ready(
 					function() {
 						// set navigation cookie
-						document.cookie = "imixs.office.navigation=/pages/notes_board.jsf?processref=#{boardController.processRef}&page=#{boardController.pageIndex}&phrase=#{boardController.phrase};path=#{facesContext.externalContext.requestContextPath}/";
+						document.cookie = "imixs.office.navigation=/pages/notes_board.jsf?processref=#{boardController.processRef}&page=#{boardController.pageIndex}&phrase=#{boardController.phraseEncoded};path=#{facesContext.externalContext.requestContextPath}/";
 						// refresh portlets every 5 minutes
 						setInterval(function() {
 							$(".imixs-portlet-refresh").click()
@@ -34,7 +34,8 @@
 				
 					function search() {
 						var phrase=$("input.search_input").val();
-						document.location.href="/pages/notes_board.jsf?processref=#{boardController.processRef}&page=0&phrase="+phrase;
+						//alert('go:'+encodeURI(phrase));
+						document.location.href="/pages/notes_board.jsf?processref=#{boardController.processRef}&page=0&phrase="+encodeURI(phrase);
 					}
 				
 				/*]]>*/
@@ -56,6 +57,9 @@
 									value="#{boardController.phrase}"
 									onfocus="this.value='';" />
 								<a href="javascript:search();" title="#{message.refresh}" styleClass="search_link"><span class="typcn typcn-zoom" style="margin-left:4px;"></span></a>
+							
+						
+
 								<!-- dummy botton to hit enter -->
 									<span class="extended-search">
 									<h:link outcome="/pages/workitems/worklist?processref=#{boardController.processRef}">#{message['nav.search_extended']}<span class="typcn typcn-zoom-in" style="margin-left:4px;"></span></h:link>
@@ -72,12 +76,12 @@
 
 								<!-- refresh -->
 								<h:link title="#{message.refresh}" styleClass="imixs-portlet-refresh"
-									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=0&amp;phrase=#{boardController.phrase}">
+									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=0&amp;phrase=#{boardController.phraseEncoded}">
 									<span class="typcn typcn-arrow-sync"></span>
 								</h:link>
 								<!-- prev -->
 								<h:link title="#{message.prev}" disabled="#{boardController.pageIndex==0}" style="margin-left:8px;"
-									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=#{boardController.pageIndex-1}&amp;phrase=#{boardController.phrase}">
+									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=#{boardController.pageIndex-1}&amp;phrase=#{boardController.phraseEncoded}">
 									<span
 										class="typcn #{(boardController.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
 								</h:link>
@@ -86,14 +90,14 @@
 								<!-- show page numbers... -->
 								<c:forEach begin="0" end="#{boardController.pageMax-1}" varStatus="loop">
 									<h:link  rendered="#{loop.index ne boardController.pageIndex}" style="margin:0 4px 0 4px;font-size:0.65em;"
-									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=#{loop.index}&amp;phrase=#{boardController.phrase}"><span >#{loop.index+1}</span>
+									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=#{loop.index}&amp;phrase=#{boardController.phraseEncoded}"><span >#{loop.index+1}</span>
 									</h:link>										
 									<h:outputText style="margin:0 4px 0 4px;font-size:0.75em;font-weight:bold;" rendered="#{loop.index eq boardController.pageIndex}" value="#{loop.index+1}"/>
 								</c:forEach>
 								
 								<!-- next -->
 								<h:link title="#{message.next}" disabled="#{boardController.endOfList}" style="margin-left:8px;"
-									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=#{boardController.pageIndex+1}&amp;phrase=#{boardController.phrase}">
+									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=#{boardController.pageIndex+1}&amp;phrase=#{boardController.phraseEncoded}">
 									<span class="typcn #{(boardController.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
 								</h:link>
 			
