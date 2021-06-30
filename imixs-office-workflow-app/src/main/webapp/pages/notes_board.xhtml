@@ -6,6 +6,7 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	template="/layout/template.xhtml">
 
@@ -25,18 +26,12 @@
 						
 						$("input.search_input").on('keypress',function(e) {
 						    if(e.which == 13) {
-						       search();
 						       e.preventDefault(); //stop event
+						       // simulate click on search_action
+  						   	   $("[data-id='search_action']").click();
 						    }
 						});
-
 					});
-				
-					function search() {
-						var phrase=$("input.search_input").val();
-						//alert('go:'+encodeURI(phrase));
-						document.location.href="/pages/notes_board.jsf?processref=#{boardController.processRef}&page=0&phrase="+encodeURI(phrase);
-					}
 				
 				/*]]>*/
 			</script>
@@ -53,20 +48,12 @@
 							#{boardController.title}
 							<!-- Search box -->
 							<h:panelGroup styleClass="search" id="search_box">
-								<h:inputText pt:placeholder="#{message.search}..." styleClass="search_input"
-									value="#{boardController.phrase}"
-									onfocus="this.value='';" />
-								<a href="javascript:search();" title="#{message.refresh}" styleClass="search_link"><span class="typcn typcn-zoom" style="margin-left:4px;"></span></a>
-							
-						
-
-								<!-- dummy botton to hit enter -->
-									<span class="extended-search">
-									<h:link outcome="/pages/workitems/worklist?processref=#{boardController.processRef}">#{message['nav.search_extended']}<span class="typcn typcn-zoom-in" style="margin-left:4px;"></span></h:link>
-								</span>
-								
+								<h:inputText a:data-id="input_phrase" pt:placeholder="#{message.search}..." styleClass="search_input"
+										value="#{searchController.searchFilter.item['phrase']}" /><h:commandLink a:data-id="search_action"
+								    action="#{boardController.refreshSearch()}"><f:ajax render="@form" execute="@form" /><span class="typcn typcn-zoom" style="margin-left:4px;"></span>
+								</h:commandLink>
 								<span class="extended-search">
-									<h:link outcome="/pages/workitems/worklist?processref=#{boardController.processRef}&amp;archive=true">#{message['nav.search_archive']}<span class="typcn typcn-archive" style="margin-left:4px;"></span></h:link>
+										<h:link outcome="/pages/workitems/worklist?processref=#{boardController.processRef}&amp;archive=true">#{message['nav.search_archive']}<span class="typcn typcn-archive" style="margin-left:4px;"></span></h:link>
 								</span>
 							</h:panelGroup>
 
@@ -75,35 +62,26 @@
 								id="portlet_worklist_nav">
 
 								<!-- refresh -->
-								<h:link title="#{message.refresh}" styleClass="imixs-portlet-refresh"
-									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=0&amp;phrase=#{boardController.phraseEncoded}">
-									<span class="typcn typcn-arrow-sync"></span>
-								</h:link>
-								<!-- prev -->
-								<h:link title="#{message.prev}" disabled="#{boardController.pageIndex==0}" style="margin-left:8px;"
-									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=#{boardController.pageIndex-1}&amp;phrase=#{boardController.phraseEncoded}">
-									<span
-										class="typcn #{(boardController.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
-								</h:link>
-							
+								<h:commandLink   title="#{message.refresh}" 
+								    action="#{boardController.refreshSearch()}"><f:ajax render="@form" execute="@form" /><span class="typcn typcn-arrow-sync"></span>
+								</h:commandLink>
 								
+								<!-- prev -->
+								<h:commandLink  disabled="#{boardController.pageIndex == 0}"
+								    action="#{boardController.getPrev()}"><f:ajax render="@form" execute="@form" /><span
+										class="typcn #{(boardController.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
+								</h:commandLink>
 								<!-- show page numbers... -->
 								<c:forEach begin="0" end="#{boardController.pageMax-1}" varStatus="loop">
-									<h:link  rendered="#{loop.index ne boardController.pageIndex}" style="margin:0 4px 0 4px;font-size:0.65em;"
-									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=#{loop.index}&amp;phrase=#{boardController.phraseEncoded}"><span >#{loop.index+1}</span>
-									</h:link>										
+									<h:commandLink   rendered="#{loop.index ne boardController.pageIndex}" 
+								    action="#{boardController.getPage(loop.index)}"><f:ajax render="@form" execute="@form" /><span  style="margin:0 4px 0 4px;font-size:0.65em;">#{loop.index+1}</span>
+								</h:commandLink>
 									<h:outputText style="margin:0 4px 0 4px;font-size:0.75em;font-weight:bold;" rendered="#{loop.index eq boardController.pageIndex}" value="#{loop.index+1}"/>
 								</c:forEach>
-								
 								<!-- next -->
-								<h:link title="#{message.next}" disabled="#{boardController.endOfList}" style="margin-left:8px;"
-									outcome="/pages/notes_board?processref=#{boardController.processRef}&amp;page=#{boardController.pageIndex+1}&amp;phrase=#{boardController.phraseEncoded}">
-									<span class="typcn #{(boardController.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
-								</h:link>
-			
-			
-			
-
+								<h:commandLink disabled="#{boardController.endOfList}"
+								    action="#{boardController.getNext()}"><f:ajax render="@form" execute="@form" /><span class="typcn #{(boardController.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
+								</h:commandLink>
 							</h:panelGroup>
 						</h1>
 						

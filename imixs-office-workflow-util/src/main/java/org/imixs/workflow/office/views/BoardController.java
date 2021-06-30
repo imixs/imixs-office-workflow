@@ -85,12 +85,12 @@ public class BoardController implements Serializable {
 
     // view params
     private String processRef;
-    private String phrase;
+
     private int pageIndex = 0;
     private int pageMax = 0;
 
     private boolean endOfList = false;
-    //private String query;
+    // private String query;
     private String view;
     private String title;
 
@@ -118,7 +118,7 @@ public class BoardController implements Serializable {
     @Inject
     @ConfigProperty(name = "boardcontroller.categorysize", defaultValue = "5")
     int categoryPageSize;
-    
+
     @Inject
     SearchController searchController;
 
@@ -146,7 +146,7 @@ public class BoardController implements Serializable {
 
         String _phrase = paramMap.get("phrase");
         if (_phrase != null && !_phrase.isEmpty()) {
-            setPhrase(_phrase);
+            searchController.getSearchFilter().setItemValue("phrase", _phrase);
         }
 
         // initalize the task list...
@@ -197,32 +197,6 @@ public class BoardController implements Serializable {
         }
     }
 
-    public String getPhrase() {
-        return phrase;
-    }
-    public String getPhraseEncoded() {
-        if (phrase==null) {
-            return null;
-        }
-        try {
-            return URLEncoder.encode(phrase,"UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            
-            e.printStackTrace();
-            return phrase;
-        }
-    }
-
-    public void setPhrase(String _phrase) {
-        phrase = _phrase;
-        if (phrase == null) {
-            phrase = "";
-        }
-
-        // force to recalculate the number of pages....
-        pageMax = 0;
-    }
-
     public String getView() {
         if (view == null || view.isEmpty()) {
             view = "worklist.owner";
@@ -262,34 +236,18 @@ public class BoardController implements Serializable {
         this.title = title;
     }
 
-    /**
-     * This method computes the search query based on the property ref. If no ref is
-     * defined, the default query selects the task list for the current user.
-     * 
-     * @return
-     */
-//    public String getQuery() {
-//        // set default query
-//        searchController.reset();
-//        
-//        if (getProcessRef().isEmpty()) {
-//            searchController.getSearchFilter().setItemValue("my_requests",true);
-//        } else {
-//            searchController.getSearchFilter().setItemValue("ProcessRef",getProcessRef());
-//        }
-//
-//        
-//        searchController.getSearchFilter().setItemValue("phrase",getPhrase());
-//        
-//        query=searchController.getQuery();
-//        
-//        logger.info("Board Query=" + query);
-//        return query;
-//    }
-//
-//    public void setQuery(String query) {
-//        this.query = query;
-//    }
+    public String getPhraseEncoded() {
+        if (searchController.getSearchFilter() == null) {
+            return null;
+        }
+        try {
+            return URLEncoder.encode(searchController.getSearchFilter().getItemValueString("phrase"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+
+            e.printStackTrace();
+            return searchController.getSearchFilter().getItemValueString("phrase");
+        }
+    }
 
     /**
      * This method discards the cache an reset the current ref.
@@ -307,6 +265,56 @@ public class BoardController implements Serializable {
         cacheTasks = null;
         pageIndex = 0;
         endOfList = false;
+    }
+
+    /**
+     * This method resets the search PageIndex to 0 and updates the bookmarkable
+     * search link to the worklist including the current search phrase.
+     * 
+     */
+    public String refreshSearch() {
+        this.setPageIndex(0);
+        return getBookmark();
+    }
+
+    private String getBookmark() {
+        String phrase = searchController.getSearchFilter().getItemValueString("phrase");
+
+        try {
+            phrase = URLEncoder.encode(phrase, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            logger.severe("unable to encode search phrase!");
+            e.printStackTrace();
+        }
+        String action = "/pages/notes_board.xhtml?faces-redirect=true&page=" + getPageIndex() + "&processref="
+                + getProcessRef() + "&phrase=" + phrase;
+
+        return action;
+    }
+
+    /**
+     * This method increases the search PageIndex and updates the bookmarkable
+     * search link to the worklist including the current search phrase.
+     * 
+     */
+    public String getNext() {
+        this.setPageIndex(this.getPageIndex() + 1);
+        return getBookmark();
+    }
+
+    /**
+     * This method increases the search PageIndex and updates the bookmarkable
+     * search link to the worklist including the current search phrase.
+     * 
+     */
+    public String getPrev() {
+        this.setPageIndex(this.getPageIndex() - 1);
+        return getBookmark();
+    }
+
+    public String getPage(int index) {
+        this.setPageIndex(index);
+        return getBookmark();
     }
 
     /**
@@ -403,13 +411,10 @@ public class BoardController implements Serializable {
     public boolean isEndOfList(BoardCategory category) {
         List<ItemCollection> temp = cacheTasks.get(category);
         int i = (category.getPageIndex() + 1) * category.getPageSize();
-
         if (i >= temp.size()) {
             return true;
         }
-
         return false;
-
     }
 
     /**
@@ -427,28 +432,14 @@ public class BoardController implements Serializable {
         boolean bReverse = setupController.getSortReverse();
         List<ItemCollection> taskList;
         try {
-            
-            // set default query
-            searchController.reset();
-            
             if (getProcessRef().isEmpty()) {
-                searchController.getSearchFilter().setItemValue("my_requests",true);
+                searchController.getSearchFilter().setItemValue("my_requests", true);
             } else {
-                searchController.getSearchFilter().setItemValue("ProcessRef",getProcessRef());
+                searchController.getSearchFilter().setItemValue("ProcessRef", getProcessRef());
             }
 
-            
-            searchController.getSearchFilter().setItemValue("phrase",getPhrase());
-            
-           // query=searchController.getQuery();
-            
-//            logger.info("Board Query=" + query);
-//            return query;
-//            
-            String query=searchController.getQuery();
-            
+            String query = searchController.getQuery();
             taskList = documentService.findStubs(query, getPageSize(), getPageIndex(), sortBy, bReverse);
-
             // count pages only once...
             if (pageMax == 0) {
                 pageMax = documentService.countPages(query, getPageSize());
