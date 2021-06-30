@@ -64,25 +64,27 @@
 	<h:panelGroup id="chronicle-main" layout="block" style="">
 
 
-		<h:panelGrid columns="2" style="">	
-			<h:panelGroup><strong>#{message.created}: </strong></h:panelGroup>
-			<h:panelGroup><h:outputText value="#{workflowController.workitem.item['$created']}"
+		<table class="imixs-workitem-chronicle-small">	
+			<tr>
+			  <td style=""><strong>#{message.created}: </strong></td>
+			  <td style="width:100%;"><h:outputText value="#{workflowController.workitem.item['$created']}"
 										style="font-weight: normal;">
 										<f:convertDateTime timeZone="#{message.timeZone}"
 											pattern="#{message.dateTimePattern}" />
 									</h:outputText> #{message.by} #{userController.getUserName(workflowController.workitem.item['$creator'])}
-			</h:panelGroup>
-			
-			<h:panelGroup><strong>#{message.modified}: </strong></h:panelGroup>
-			<h:panelGroup>
-					<h:outputText value="#{workflowController.workitem.item['$lasteventdate']}"
+			  </td>
+			</tr>
+			<tr>
+			  <td style=""><strong>#{message.modified}: </strong></td>
+			  <td style="width:100%;"><h:outputText value="#{workflowController.workitem.item['$lasteventdate']}"
 										style="font-weight: normal;">
 										<f:convertDateTime timeZone="#{message.timeZone}"
 											pattern="#{message.dateTimePattern}" />
 				 	</h:outputText> #{message.by} #{userController.getUserName(workflowController.workitem.item['$editor'])}
-			</h:panelGroup>
-		</h:panelGrid>
-
+			  </td>
+			 </tr>
+		</table>
+		
 
 		<table>
 			<!-- print a headline for each year -->
