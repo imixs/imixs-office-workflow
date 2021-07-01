@@ -63,7 +63,7 @@
 	<!-- Main panel - shows entries filtered by optional category -->
 	<h:panelGroup id="chronicle-main" layout="block" style="">
 
-
+		<ui:fragment rendered="#{! empty workflowController.workitem.item['$lasteventdate']}">
 		<table class="imixs-workitem-chronicle-small">	
 			<tr>
 			  <td style=""><strong>#{message.created}: </strong></td>
@@ -74,8 +74,9 @@
 									</h:outputText> #{message.by} #{userController.getUserName(workflowController.workitem.item['$creator'])}
 			  </td>
 			</tr>
+			
 			<tr>
-			  <td style=""><strong>#{message.modified}: </strong></td>
+			  <td style="min-width:95px;"><strong>#{message.modified}: </strong></td>
 			  <td style="width:100%;"><h:outputText value="#{workflowController.workitem.item['$lasteventdate']}"
 										style="font-weight: normal;">
 										<f:convertDateTime timeZone="#{message.timeZone}"
@@ -83,8 +84,9 @@
 				 	</h:outputText> #{message.by} #{userController.getUserName(workflowController.workitem.item['$editor'])}
 			  </td>
 			 </tr>
+			 
 		</table>
-		
+		</ui:fragment>
 
 		<table>
 			<!-- print a headline for each year -->
