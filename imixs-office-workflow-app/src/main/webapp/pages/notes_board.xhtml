@@ -53,7 +53,14 @@
 								    action="#{boardController.refreshSearch()}"><f:ajax render="@form" execute="@form" /><span class="typcn typcn-zoom" style="margin-left:4px;"></span>
 								</h:commandLink>
 								<span class="extended-search">
-										<h:link outcome="/pages/workitems/worklist?processref=#{boardController.processRef}&amp;archive=true">#{message['nav.search_archive']}<span class="typcn typcn-archive" style="margin-left:4px;"></span></h:link>
+									<h:link outcome="/pages/workitems/worklist?processref=#{boardController.processRef}">#{message['nav.search_extended']}<span class="typcn typcn-zoom-in" style="margin-left:4px;"></span></h:link>
+								</span>
+								<span class="extended-search">
+									<h:link outcome="/pages/workitems/worklist?processref=#{boardController.processRef}&amp;archive=true">#{message['nav.search_archive']}<span class="typcn typcn-archive" style="margin-left:4px;"></span></h:link>
+								</span>
+								<span class="extended-search">
+									<ui:param name="process" value="#{teamController.getProcessById(boardController.processRef)}" />	
+									<h:link rendered="#{process.item['isManager']}" outcome="/pages/monitoring_board?processref=#{boardController.processRef}"><span class="typcn typcn-chart-pie-outline"></span></h:link>
 								</span>
 							</h:panelGroup>
 

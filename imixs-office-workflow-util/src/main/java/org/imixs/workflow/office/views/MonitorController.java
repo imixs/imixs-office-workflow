@@ -68,7 +68,7 @@ public class MonitorController implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // view params
-    private String processRef;
+  //  private String processRef;
     private ItemCollection process = null;
     private List<String> workflowGroups = null;
     private List<String> activeWorkflowGroups = null;
@@ -78,6 +78,9 @@ public class MonitorController implements Serializable {
     @Inject
     protected LoginController loginController = null;
 
+    @Inject
+    protected BoardController boardController;
+    
     @Inject
     SetupController setupController;
 
@@ -106,7 +109,9 @@ public class MonitorController implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String, String> paramMap = fc.getExternalContext().getRequestParameterMap();
 
-        setProcessRef(paramMap.get("processref"));
+        //setProcessRef(paramMap.get("processref"));
+        
+        boardController.setProcessRef(paramMap.get("processref"));
 
         // reset borad stats...
         reset();
@@ -114,15 +119,15 @@ public class MonitorController implements Serializable {
     }
 
     public String getProcessRef() {
-        if (processRef == null) {
-            processRef = "";
-        }
-        return processRef;
+//        if (processRef == null) {
+//            processRef = "";
+//        }
+        return  boardController.getProcessRef();
     }
 
-    public void setProcessRef(String processRef) {
-        this.processRef = processRef;
-    }
+//    public void setProcessRef(String processRef) {
+//        this.processRef = processRef;
+//    }
 
     public ItemCollection getProcess() {
         return process;
@@ -181,6 +186,7 @@ public class MonitorController implements Serializable {
     @SuppressWarnings("unchecked")
     public void reset() {
         workflowGroups = new ArrayList<String>();
+        String processRef = boardController.getProcessRef();
         if (processRef != null && !processRef.isEmpty()) {
             process = documentService.load(processRef);
             workflowGroups = process.getItemValue("txtWorkflowList");

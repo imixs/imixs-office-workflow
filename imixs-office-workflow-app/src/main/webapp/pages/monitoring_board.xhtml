@@ -6,6 +6,7 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	template="/layout/template.xhtml">
 
@@ -41,32 +42,17 @@
 								// set navigation cookie
 								document.cookie = "imixs.office.navigation=/pages/monitoring.jsf?processref=#{monitorController.processRef};path=#{facesContext.externalContext.requestContextPath}/";
 								
-								$("input.search_input").on('keypress',
-										function(e) {
-											if (e.which == 13) {
-												search();
-												e.preventDefault(); //stop event
-											}
-										});
+								$("input.search_input").on('keypress',function(e) {
+								    if(e.which == 13) {
+								       e.preventDefault(); //stop event
+								       // simulate click on search_action
+		  						   	   $("[data-id='search_action']").click();
+								    }
+								});
 
 							});
 
-			function search() {
-				var phrase = $("input.search_input").val();
-				document.location.href = "/pages/notes_board.jsf?processref=#{monitorController.processRef}&page=0&phrase="
-						+ phrase;
-			}
 			
-			
-			
-			
-
-			
-				
-				
-				
-				
-
 			/*]]>*/
 		</script>
 	</ui:define>
@@ -86,25 +72,18 @@
 							<h:link outcome="/pages/notes">
 								<span class="typcn typcn-home-outline"></span>
 							</h:link>
-							#{monitorController.process.item['name']}
+							#{boardController.title}
 							<!-- Search box -->
 							<h:panelGroup styleClass="search" id="search_box">
-								<h:inputText pt:placeholder="#{message.search}..."
-									styleClass="search_input" value="#{boardController.phrase}"
-									onfocus="this.value='';" />
-								<a href="javascript:search();" title="#{message.refresh}"
-									styleClass="search_link"><span class="typcn typcn-zoom"
-									style="margin-left: 4px;"></span></a>
-								<!-- dummy botton to hit enter -->
-								<span class="extended-search"> <h:link
-										outcome="/pages/workitems/worklist?processref=#{monitorController.processRef}">#{message['nav.search_extended']}<span
-											class="typcn typcn-zoom-in" style="margin-left: 4px;"></span>
-									</h:link>
+								<h:inputText a:data-id="input_phrase" pt:placeholder="#{message.search}..." styleClass="search_input"
+										value="#{searchController.searchFilter.item['phrase']}" /><h:commandLink a:data-id="search_action"
+								    action="#{boardController.refreshSearch()}"><f:ajax render="@form" execute="@form" /><span class="typcn typcn-zoom" style="margin-left:4px;"></span>
+								</h:commandLink>
+								<span class="extended-search">
+									<h:link outcome="/pages/workitems/worklist?processref=#{boardController.processRef}">#{message['nav.search_extended']}<span class="typcn typcn-zoom-in" style="margin-left:4px;"></span></h:link>
 								</span>
-
-								<span class="extended-search"> <h:link
-										outcome="/pages/workitems/worklist?processref=#{monitorController.processRef}&amp;archive=true">#{message['nav.search_archive']}<span
-											class="typcn typcn-archive" style="margin-left: 4px;"></span>
+								<span class="extended-search">
+								 	<h:link outcome="/pages/workitems/worklist?processref=#{monitorController.processRef}&amp;archive=true">#{message['nav.search_archive']}<span class="typcn typcn-archive" style="margin-left: 4px;"></span>
 									</h:link>
 								</span>
 							</h:panelGroup>
@@ -155,7 +134,9 @@
 							</div>
 						</div>
 
-						<div class="monitoring-section">
+
+						<h:panelGroup layout="block" rendered="#{! empty monitorController.process.itemList['txtReportList']}" styleClass="monitoring-section">
+						
 							<h2>Custom Reports</h2>
 							<div class="monitoring-container">
 
@@ -178,7 +159,7 @@
 									</div>
 								</ui:repeat>
 							</div>
-						</div>
+						</h:panelGroup>
 
 					</div>
 

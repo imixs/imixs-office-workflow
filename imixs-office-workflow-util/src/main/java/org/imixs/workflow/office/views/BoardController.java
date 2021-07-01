@@ -42,7 +42,6 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.event.Observes;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -56,7 +55,6 @@ import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.exceptions.QueryException;
-import org.imixs.workflow.faces.data.WorkflowEvent;
 import org.imixs.workflow.faces.util.LoginController;
 
 /**
@@ -85,12 +83,12 @@ public class BoardController implements Serializable {
 
     // view params
     private String processRef;
-
+    private ItemCollection process;
     private int pageIndex = 0;
     private int pageMax = 0;
 
     private boolean endOfList = false;
-    // private String query;
+    
     private String view;
     private String title;
 
@@ -189,7 +187,7 @@ public class BoardController implements Serializable {
         this.processRef = processRef;
         // try to load ref...
         if (processRef != null && !processRef.isEmpty()) {
-            ItemCollection process = documentService.load(processRef);
+            process = documentService.load(processRef);
             if (process != null) {
                 String title = process.getItemValueString("name");
                 setTitle(title);
@@ -206,6 +204,10 @@ public class BoardController implements Serializable {
 
     public void setView(String view) {
         this.view = view;
+    }
+
+    public ItemCollection getProcess() {
+        return process;
     }
 
     /**
@@ -372,14 +374,14 @@ public class BoardController implements Serializable {
      * 
      * @param workflowEvent
      **/
-    public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) {
-        if (workflowEvent == null || workflowEvent.getWorkitem() == null) {
-            return;
-        }
-        if (WorkflowEvent.WORKITEM_AFTER_PROCESS == workflowEvent.getEventType()) {
-            refresh();
-        }
-    }
+//    public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) {
+//        if (workflowEvent == null || workflowEvent.getWorkitem() == null) {
+//            return;
+//        }
+//        if (WorkflowEvent.WORKITEM_AFTER_PROCESS == workflowEvent.getEventType()) {
+//            refresh();
+//        }
+//    }
 
     public int getCategoryPageSize() {
         return categoryPageSize;
