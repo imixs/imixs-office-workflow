@@ -40,12 +40,14 @@ public class CustomFormSection {
 	
 	String label;
 	String columns;
+	String path;
 	List<CustomFormItem> items;
 
-	public CustomFormSection(String label, String columns) {
+	public CustomFormSection(String label, String columns, String path) {
 		super();
 		this.label = label;
 		this.columns = columns;
+		this.path = path;
 	}
 
 	public String getLabel() {
@@ -71,6 +73,14 @@ public class CustomFormSection {
 	public void setItems(List<CustomFormItem> items) {
 		this.items = items;
 	}
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 
 	
 

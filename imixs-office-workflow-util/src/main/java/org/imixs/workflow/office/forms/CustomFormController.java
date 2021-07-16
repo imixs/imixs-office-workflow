@@ -144,8 +144,9 @@ public class CustomFormController implements Serializable {
                     logger.finest("parsing section...");
                     if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                         Element eElement = (Element) nNode;
+                        
                         CustomFormSection customSection = new CustomFormSection(eElement.getAttribute("label"),
-                                eElement.getAttribute("columns"));
+                                eElement.getAttribute("columns"),eElement.getAttribute("path"));
                         customSection.setItems(findItems(eElement));
                         sections.add(customSection);
                     }

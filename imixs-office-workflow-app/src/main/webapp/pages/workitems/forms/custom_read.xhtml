@@ -8,6 +8,17 @@
 
 	<c:forEach items="#{customFormController.sections}" var="section">
 
+		<!-- test if custom form section -->
+		<c:if test="#{! empty section.path}">
+		    <ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
+				<ui:param name="workitem" value="#{workflowController.workitem}" />
+				<ui:param name="readonly" value="#{true}" />
+			</ui:include>
+		</c:if>
+		
+		<!-- standard form section -->
+		<c:if test="#{empty section.path}">
+		
 		<div
 			class="imixs-form-section#{(empty section.columns)?'':'-'.concat(section.columns)}">
 
@@ -70,10 +81,25 @@
 							</ui:repeat>
 						</c:if>
 
+
+
+						<!-- custom subview -->
+						<c:if test="#{item.type eq 'custom'}">
+						
+						    <ui:include src="/pages/workitems/parts/#{item.name}.xhtml">
+								<ui:param name="workitem" value="#{workflowController.workitem}" />
+								<ui:param name="required" value="#{item.required}" />
+								<ui:param name="readonly" value="#{true}" />
+								<ui:param name="name" value="#{item.name}" />
+							</ui:include>
+							
+							
+						</c:if>
 					</dd>
 				</dl>
 			</c:forEach>
 		</div>
+		</c:if>
 
 	</c:forEach>
 </ui:composition>
