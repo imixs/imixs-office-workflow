@@ -47,7 +47,9 @@ public class CustomFormSection {
 		super();
 		this.label = label;
 		this.columns = columns;
-		this.path = path;
+		if (path!=null) {
+	        this.path = path.trim();
+		}
 	}
 
 	public String getLabel() {
