@@ -29,6 +29,7 @@ package org.imixs.workflow.office.forms;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.faces.model.SelectItem;
 
@@ -51,8 +52,13 @@ public class CustomFormItem {
     boolean required;
     boolean readonly;
     String options;
+    String path; // used for custom types
+    
 
-    public CustomFormItem(String name, String type, String label, boolean required, boolean readonly, String options) {
+    private static Logger logger = Logger.getLogger(CustomFormItem.class.getName());
+
+
+    public CustomFormItem(String name, String type, String label, boolean required, boolean readonly, String options, String path) {
         super();
         this.label = label;
         this.name = name;
@@ -60,6 +66,10 @@ public class CustomFormItem {
         this.required = required;
         this.readonly = readonly;
         this.options = options;
+        this.path=path;
+        if ("custom".equalsIgnoreCase(type) && (path ==null || path.isEmpty()) ) {
+        	logger.warning("Custom Form Item requires 'path' attribute - please check your BPMN model");
+        }
     }
 
     public String getName() {
@@ -143,4 +153,17 @@ public class CustomFormItem {
         }
         return selection;
     }
+
+    /**
+     * optional path for custom items.
+     * @return
+     */
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+    
 }
