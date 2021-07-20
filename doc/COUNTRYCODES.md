@@ -12,17 +12,17 @@ To integrate a select box with all countries in JSF you can use the following ex
 		<f:selectItems value="#{countryController.getCountriesSelectItems()}"></f:selectItems>
 	</h:selectOneMenu>
 
-You can also use the form part *pages/workitems/parts/country.xhtml* located in the JSF component
+You can also use the form part *pages/workitems/parts/country.xhtml* 
 
 	 <item name="contract.country" type="custom"  path="country" required="true"   label="Membership Country:" />
 	 
 	
 	
 
-## Country Name Text adapter
+## Country Name Text Adapter
 
 The country component typically stores only the ISO country code in a workitem (2 letters).
-To display the country name you can used the integrated text adapter feature:
+To display the country name you can use the integrated text adapter feature:
 
 	<countryname locale="de_DE">company.country</countryname>
 
