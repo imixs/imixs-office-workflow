@@ -9,7 +9,8 @@
 	<marty:userInput
 		value="#{workflowController.workitem.item['#{item.name}']}"
 		editmode="#{!item.readonly}" required="#{item.required}" />
-
+		
+	<h:outputText  rendered="#{item.readonly}"  value="#{userController.getUserName(workflowController.workitem.item['#{item.name}'])}"></h:outputText>
 
 </ui:composition>
 
