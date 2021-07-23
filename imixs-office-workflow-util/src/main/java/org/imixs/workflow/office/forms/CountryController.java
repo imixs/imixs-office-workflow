@@ -98,6 +98,7 @@ public class CountryController implements Serializable {
      *  Example: {@code<countryname locale="de_DE">company.country</countryname>}
      * @param event
      */
+    @SuppressWarnings("unchecked")
     public void onEvent(@Observes TextEvent event) {
         String text = event.getText();
         ItemCollection documentContext = event.getDocument();
@@ -111,6 +112,7 @@ public class CountryController implements Serializable {
             // next we check if the start tag contains a 'locale' attribute
             Locale locale = null;
             String sLocale = XMLParser.findAttribute(tag, "locale");
+            String separator = XMLParser.findAttribute(tag, "separator");
             if (sLocale != null && !sLocale.isEmpty()) {
                 // split locale
                 StringTokenizer stLocale = new StringTokenizer(sLocale, "_");
@@ -130,11 +132,26 @@ public class CountryController implements Serializable {
 
             // extract Item name containing the country code           
             String sItemName = XMLParser.findTagValue(tag, "countryname");
-
-            String countryCode=documentContext.getItemValueString(sItemName);
-            Locale countryLocale = new Locale("", countryCode);
-            // get the country name
-            String country = countryLocale.getDisplayCountry(locale);
+            String country ="";
+            if (separator==null || separator.isEmpty()) {
+                String countryCode=documentContext.getItemValueString(sItemName);
+                Locale countryLocale = new Locale("", countryCode);
+                // get the country name
+                 country = countryLocale.getDisplayCountry(locale);
+              
+            } else {
+                 List<String> countryCodes = documentContext.getItemValue(sItemName);
+                 for (String countryCode: countryCodes ) {
+                     Locale countryLocale = new Locale("", countryCode);
+                     // get the country name
+                     country = country+countryLocale.getDisplayCountry(locale);
+                     country = country + separator;
+                 }
+                 // cut last separator
+                 if (country.endsWith(separator)) {
+                     country=country.substring(0,country.length()-separator.length());
+                 }
+            }
             
          
             // now replace the tag with the result string
