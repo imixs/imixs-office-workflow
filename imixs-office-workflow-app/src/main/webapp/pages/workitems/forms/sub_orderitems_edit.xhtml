@@ -1,0 +1,180 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+ 
+ 
+	<h:panelGroup layout="block" styleClass="imixs-form-section" rendered="#{!readonly}"
+		id="oderlist"  binding="#{orderlistContainer}">
+
+		<f:ajax render="oderlist" onevent="updateOrderItems">
+			<table class="imixsdatatable imixs-orderitems">
+
+				<tr>
+					<th style="">#{resourceBundleHandler.findMessage('orderitems.pos')}</th>
+					<th style="">#{resourceBundleHandler.findMessage('orderitems.description')}<span class="imixs-required"> *</span></th>
+					<th style="width: 100px;">#{resourceBundleHandler.findMessage('orderitems.unit')}</th>
+					<th style="width: 50px;">#{resourceBundleHandler.findMessage('orderitems.quantity')}</th>
+					<th style="width: 100px;">#{resourceBundleHandler.findMessage('orderitems.price')}</th>
+					<th style="width: 100px">#{resourceBundleHandler.findMessage('orderitems.total')}<span class="imixs-required"> *</span></th>
+					<th style="width: 5px;">
+						<!-- delete -->
+					</th>
+				</tr>
+
+				<ui:repeat var="orderitem" value="#{childItemController.childItems}">
+					<tr>
+						<!-- pos -->
+						<td><h:outputText value="#{orderitem.item['numpos']}" /></td>
+
+						<!-- Name -->
+						<td><h:inputText value="#{orderitem.item['name']}" style="width:100%" /></td>
+						
+						
+						<td><h:inputText value="#{orderitem.item['unit']}" style="width:100%;" /></td>
+
+						<td><h:inputText value="#{orderitem.item['quantity']}"
+								 a:data-id="orderitem_ammount" style="width:100%;"/>
+						</td>
+						
+						<td><h:inputText value="#{orderitem.item['price']}" 
+								a:data-id="orderitem_price" style="text-align: right;width:100%;">
+								<f:convertNumber minFractionDigits="2" locale="de" />
+							</h:inputText>
+						</td>
+
+						<td data-id="orderitem_summary" style="text-align: right;"></td>
+
+						<td><h:commandLink
+								actionListener="#{childItemController.remove(orderitem.item['numpos'])}">
+								<span class="typcn typcn-trash imixs-state-info"></span>
+								<f:ajax render="#{orderlistContainer.clientId}"
+									onevent="updateOrderItems" />
+							</h:commandLink>							
+							<!-- item summary -->
+							<h:inputHidden value="#{orderitem.item['total']}" a:data-id="orderitem_total">
+							   <f:convertNumber minFractionDigits="2" locale="de" />
+							</h:inputHidden>							
+						</td>
+					</tr>
+				</ui:repeat>
+
+				<!-- summary -->
+				<tr>
+					<td />
+					<td />
+					<td />
+					<td />
+					<td />
+					<td data-id="orderlist_summary" style="text-align: right;font-wight:bold;"></td>
+					<td />
+				</tr>
+			</table>
+			<!-- total summary -->
+			<h:inputHidden value="#{workitem.item['order.total']}" a:data-id="orderitems_capacity">
+				<f:convertNumber minFractionDigits="2" locale="de" />
+			</h:inputHidden>
+			
+			<!-- add button -->
+			<h:commandButton value="#{message.add}" a:data-id="addposbutton_id"
+				actionListener="#{childItemController.add}">
+			</h:commandButton>
+		</f:ajax>
+	</h:panelGroup>
+
+
+
+
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		// display summary
+		$(document).ready(function() {
+			// erste Zeile hinzufügen, falls tabelle noch leer ist
+			var posTableEmpty=#{empty childItemController.childItems};
+			if (posTableEmpty) {
+				// click on add button
+				posButton=$("[data-id='addposbutton_id']");
+				if (posButton) {
+					$(posButton).click();
+				}
+			}
+			calculateSummary();
+		});
+
+		// This method refreshs the layout 
+		function updateOrderItems(data) {
+			if (data.status === 'success') {
+				calculateSummary();
+				$('[id$=oderlist]').imixsLayout();
+			}
+		}
+
+		//Rechnet die Preise zusammen
+		function calculateSummary() {
+			var price = 0, ammount = 0, sum = 0, total = 0;
+			var summaryItems = $("[data-id='orderitem_summary']");
+			$(summaryItems).each(function(index, value) {
+				var tableRow = $(this).closest('tr');
+				var inputammout = $("[data-id='orderitem_ammount']", tableRow);
+				var inputprice = $("[data-id='orderitem_price']", tableRow);
+				if (inputammout && inputprice) {
+					ammount = convertToNumber(inputammout.val());
+					price = convertToNumber(inputprice.val());
+					console.log('ammount=' + ammount);
+					console.log('price=' + price);
+					if (!isNaN(ammount) && !isNaN(price)) {
+						sum = ammount * price;
+						// round
+						sum = Math.round(sum * 100) / 100;
+						total = total + sum;
+						
+						$("[data-id='orderitem_price']",tableRow).val(convertToCurrency(price));
+						sum = convertToCurrency(sum);
+						//console.log('sum=' + sum);
+						$("[data-id='orderitem_total']",tableRow).val(sum); // hidden field
+						// update display column
+						$("[data-id='orderitem_summary']", tableRow).empty();
+						$("[data-id='orderitem_summary']", tableRow).append(sum);
+					}
+				}
+			});
+
+			// update total 
+			total = convertToCurrency(total);
+			$("[data-id='orderitems_capacity']").val(total);
+			$("[data-id='orderlist_summary']", ".imixs-orderitems").empty();
+			$("[data-id='orderlist_summary']", ".imixs-orderitems").append(total);
+
+		}
+
+		function convertToNumber(currency) {
+			// has ,?
+			if (currency && currency.indexOf(',')>-1) {
+				currency=currency.trim();
+				//remove .
+				currency = currency.replace('.', '');
+				// replace ,
+				currency = currency.replace(',', '.');
+			} 		
+			return currency;	
+		}
+		
+		function convertToCurrency(sum) {
+			sum = ("" + sum).replace('.', ',');
+			if (sum.indexOf(',') == -1)
+				sum = sum + ",00";
+			if (sum.indexOf(',') == sum.length - 2)
+				sum = sum + "0";
+			return sum;
+		}
+
+		/*]]>*/
+	</script>
+
+
+
+</ui:composition>
