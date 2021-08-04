@@ -163,7 +163,7 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 			iframe = iframe.contentWindow || (iframe.contentDocument.document || iframe.contentDocument);
 			iframe.document.open();
 			// uimode hack: https://sdk.collaboraonline.com/docs/theming.html
-			var uiMode = '<input name="ui_defaults" value="TextSidebar=false" type="hidden"/>';
+			var uiMode = '<input name="ui_defaults" value="TextSidebar=false;SpreadsheetSidebar=false" type="hidden"/>';
 			iframe.document.write('<html><body><form action="'+actionuri+'" enctype="multipart/form-data" method="post" id="libreoffice-form" style="display:none;">' + uiMode + '<input type="submit" value="Load..." /></form></body></html>');
 			iframe.document.close();
 		},
