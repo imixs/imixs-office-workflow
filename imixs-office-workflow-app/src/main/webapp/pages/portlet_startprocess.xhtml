@@ -24,7 +24,7 @@
 					<h:link rendered="#{process.item['isManager'] or loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}" outcome="/pages/monitoring_board?processref=#{process.item['$uniqueId']}"><span class="typcn typcn-chart-pie-outline"></span></h:link>
 				</h1>
 				<p>
-					<h:outputText value="#{process.item['txtdescription']}" />
+					<h:outputText value="#{process.item['txtdescription']}"  escape="false"/>
 				</p>
 
 				<!-- *** WorkflowGroup List if user is member*** -->
