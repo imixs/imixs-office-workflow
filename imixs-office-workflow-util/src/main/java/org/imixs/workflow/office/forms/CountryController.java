@@ -94,8 +94,9 @@ public class CountryController implements Serializable {
      * <p>
      * Example: {@code<countryname>company.country</countryname>}
      * <p>
-     * Optional a locale can be provided to specify the target language
-     *  Example: {@code<countryname locale="de_DE">company.country</countryname>}
+     * Optional a locale can be provided to specify the target language Example:
+     * {@code<countryname locale="de_DE">company.country</countryname>}
+     * 
      * @param event
      */
     @SuppressWarnings("unchecked")
@@ -103,7 +104,6 @@ public class CountryController implements Serializable {
         String text = event.getText();
         ItemCollection documentContext = event.getDocument();
 
-     
         List<String> tagList = XMLParser.findTags(text, "countryname");
         logger.finest(tagList.size() + " tags found");
         // test if a <value> tag exists...
@@ -127,33 +127,37 @@ public class CountryController implements Serializable {
                     String sCount = stLocale.nextToken();
                     locale = new Locale(sLang, sCount);
                 }
+            } else {
+                // get user default locale
+                locale = userController.getLocale();
             }
-            
 
-            // extract Item name containing the country code           
+            // extract Item name containing the country code
             String sItemName = XMLParser.findTagValue(tag, "countryname");
-            String country ="";
-            if (separator==null || separator.isEmpty()) {
-                String countryCode=documentContext.getItemValueString(sItemName);
+            String country = "";
+
+            if (separator == null || separator.isEmpty()) {
+                String countryCode = documentContext.getItemValueString(sItemName);
+
                 Locale countryLocale = new Locale("", countryCode);
                 // get the country name
-                 country = countryLocale.getDisplayCountry(locale);
-              
+                if (countryLocale != null) {
+                    country = countryLocale.getDisplayCountry(locale);
+                }
             } else {
-                 List<String> countryCodes = documentContext.getItemValue(sItemName);
-                 for (String countryCode: countryCodes ) {
-                     Locale countryLocale = new Locale("", countryCode);
-                     // get the country name
-                     country = country+countryLocale.getDisplayCountry(locale);
-                     country = country + separator;
-                 }
-                 // cut last separator
-                 if (country.endsWith(separator)) {
-                     country=country.substring(0,country.length()-separator.length());
-                 }
+                List<String> countryCodes = documentContext.getItemValue(sItemName);
+                for (String countryCode : countryCodes) {
+                    Locale countryLocale = new Locale("", countryCode);
+                    // get the country name
+                    country = country + countryLocale.getDisplayCountry(locale);
+                    country = country + separator;
+                }
+                // cut last separator
+                if (country.endsWith(separator)) {
+                    country = country.substring(0, country.length() - separator.length());
+                }
             }
-            
-         
+
             // now replace the tag with the result string
             int iStartPos = text.indexOf(tag);
             int iEndPos = text.indexOf(tag) + tag.length();
