@@ -1,0 +1,20 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+			<h:selectOneMenu style="width:20em;"
+				required="#{empty required?false:required}"
+				value="#{workflowController.workitem.item['space.ref']}">
+				<f:selectItem itemLabel=""></f:selectItem>
+				<c:forEach items="#{byprocess?teamController.getSpacesByProcessId(workflowController.workitem.item['process.ref']):teamController.spaces}" var="space">
+					<f:selectItem itemLabel="#{space.item['space.name']}"
+						itemValue="#{space.item['$UniqueID']}">
+					</f:selectItem>
+				</c:forEach>
+			</h:selectOneMenu>
+
+
+</ui:composition>
+
