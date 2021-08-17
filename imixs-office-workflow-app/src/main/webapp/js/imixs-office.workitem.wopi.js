@@ -18,13 +18,16 @@ $(document).ready(function() {
 function openWopiViewer(url,filename, discardMessage) {
 	
 	// do we have unsaved changes?
-		// if document was modifed without save then ask the user....
+	// if document was modifed without save then ask the user....
 	if (imixsWopi.isModified) {
 		if (!confirm(discardMessage)) {
 			// cancel operation!
 			return false;
 		} 
 	}
+
+	// minimize Document Preview (if open )
+	imixsOfficeWorkitem.closeDocumentPreview();
 	
 	$('#wopi_header_filename_id').html(filename);
 	// hide the workflow form
@@ -32,8 +35,7 @@ function openWopiViewer(url,filename, discardMessage) {
 	// open viewer...	
 	$('#wopi_controlls').show();	
 	imixsWopi.openViewer('wopi_canvas', url, filename);
-	// define save callback for close
-	//imixsWopi.saveCallback = uiSaveCallback;
+	
 
 }
 
