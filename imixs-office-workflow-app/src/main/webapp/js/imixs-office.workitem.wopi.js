@@ -27,7 +27,7 @@ function openWopiViewer(url,filename, discardMessage) {
 	}
 
 	// minimize Document Preview (if open )
-	imixsOfficeWorkitem.closeDocumentPreview();
+	//imixsOfficeWorkitem.closeDocumentPreview();
 	
 	$('#wopi_header_filename_id').html(filename);
 	// hide the workflow form
