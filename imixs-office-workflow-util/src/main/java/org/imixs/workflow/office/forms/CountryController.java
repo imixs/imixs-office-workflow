@@ -88,6 +88,27 @@ public class CountryController implements Serializable {
 
     }
 
+    public String getCountryName(String countryCode) {
+        // next we check if the start tag contains a 'locale' attribute
+        Locale countryLocale = new Locale("", countryCode);
+        // get the country name
+        return countryLocale.getDisplayCountry(userController.getLocale());
+
+    }
+    
+    public String getCountryNames(List<String> countryCodes) {
+        String result="";
+        // next we check if the start tag contains a 'locale' attribute
+        // get the country name
+        for (String countryCode: countryCodes) {
+            Locale countryLocale = new Locale("", countryCode);
+            result=result+ countryLocale.getDisplayCountry(userController.getLocale())+", ";
+        }
+
+        result=result.substring(0,result.length()-2);
+        return result;
+    }
+
     /**
      * Observer method for CDI TextEvetns to convert a country code into
      * getDisplayCountry

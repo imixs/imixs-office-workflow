@@ -6,10 +6,15 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
 
-<h:selectManyListbox style="height:5em;" required="#{required}" value="#{workitem.itemListArray[item.name]}">
-		<f:selectItem itemLabel=""></f:selectItem>
-		<f:selectItems itemDisabled="#{readonly}"
-			value="#{countryController.getCountriesSelectItems()}"></f:selectItems>
-	</h:selectManyListbox>
+	<ui:fragment rendered="#{!item.readonly}" >	
+		<h:selectManyListbox style="height:5em;" required="#{required}" value="#{workitem.itemListArray[item.name]}">
+			<f:selectItem itemLabel=""></f:selectItem>
+			<f:selectItems itemDisabled="#{readonly}"
+				value="#{countryController.getCountriesSelectItems()}"></f:selectItems>
+		</h:selectManyListbox>
+	</ui:fragment>		
+	<ui:fragment rendered="#{item.readonly}" >
+		<h:outputText value="#{countryController.getCountryNames(workitem.itemList[item.name])}"></h:outputText>
+	</ui:fragment>
 </ui:composition>
 

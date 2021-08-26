@@ -6,10 +6,15 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
 
+	<ui:fragment rendered="#{!item.readonly}" >
 	<h:selectOneMenu required="#{required}" value="#{workitem.item[item.name]}">
 		<f:selectItem itemLabel=""></f:selectItem>
 		<f:selectItems itemDisabled="#{readonly}"
 			value="#{countryController.getCountriesSelectItems()}"></f:selectItems>
 	</h:selectOneMenu>
+	</ui:fragment>
+	<ui:fragment rendered="#{item.readonly}" >
+		<h:outputText value="#{countryController.getCountryName(workitem.item[item.name])}"></h:outputText>
+	</ui:fragment>
 </ui:composition>
 
