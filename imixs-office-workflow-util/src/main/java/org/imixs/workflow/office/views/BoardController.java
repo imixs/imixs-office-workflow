@@ -48,7 +48,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.imixs.marty.config.SetupController;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.engine.DocumentService;
@@ -56,6 +55,7 @@ import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.util.LoginController;
+import org.imixs.workflow.office.config.SetupController;
 
 /**
  ** The BoardController provides a logic to split up the worklist by there
@@ -76,7 +76,7 @@ import org.imixs.workflow.faces.util.LoginController;
  */
 @Named
 @ViewScoped
-public class BoardController implements Serializable {
+public class BoardController implements Serializable { 
 
     private static final long serialVersionUID = 1L;
     private Map<BoardCategory, List<ItemCollection>> cacheTasks;

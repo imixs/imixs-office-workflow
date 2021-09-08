@@ -80,11 +80,11 @@
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 
 		<!-- Dependency Versions -->
-		<org.imixs.workflow.version>5.2.12</org.imixs.workflow.version>
-		<org.imixs.marty.version>4.1.13</org.imixs.marty.version>
-		<org.imixs.office.version />
+		<org.imixs.workflow.version>5.2.13-SNAPSHOT</org.imixs.workflow.version>
 		<org.imixs.archive.version>2.2.12</org.imixs.archive.version>
-		<org.imixs.melman.version>1.0.20</org.imixs.melman.version>
+		<org.imixs.office.version />
+		<org.imixs.marty.version>4.2.0-SNAPSHOT</org.imixs.marty.version>
+		<org.imixs.mock.version>5.2.0</org.imixs.mock.version>
 		<microprofile.version>2.2</microprofile.version>
 		<net.sf.saxon.version>9.9.1-4</net.sf.saxon.version>
 
@@ -328,27 +328,19 @@
 				<artifactId>imixs-workflow-index-solr</artifactId>
 				<version>${org.imixs.workflow.version}</version>
 			</dependency>
-
-
+			
 			<!-- Marty -->
 			<dependency>
-				<groupId>org.imixs.marty</groupId>
-				<artifactId>imixs-marty-util</artifactId>
+				<groupId>org.imixs.workflow</groupId>
+				<artifactId>imixs-marty</artifactId>
 				<version>${org.imixs.marty.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.imixs.marty</groupId>
-				<artifactId>imixs-marty-ejb</artifactId>
-				<version>${org.imixs.marty.version}</version>
-				<scope>provided</scope>
-			</dependency>
-
 			
 			<!-- Imixs Melman -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-melman</artifactId>
-				<version>${org.imixs.melman.version}</version>
+				<version>1.0.20</version>
 				<scope>provided</scope>
 			</dependency>
 			

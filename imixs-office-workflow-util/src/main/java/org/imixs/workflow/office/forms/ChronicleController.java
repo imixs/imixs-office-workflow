@@ -49,8 +49,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.imixs.marty.ejb.WorkitemService;
-import org.imixs.marty.workflow.WorkitemLinkController;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.faces.data.WorkflowController;

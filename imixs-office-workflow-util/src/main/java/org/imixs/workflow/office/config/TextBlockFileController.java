@@ -1,4 +1,4 @@
-package org.imixs.workflow.office.util;
+package org.imixs.workflow.office.config;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.imixs.workflow.office.plugins.gdpr;
+package org.imixs.workflow.office.gdpr;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -47,13 +47,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.imixs.marty.config.SetupController;
-import org.imixs.marty.model.TeamController;
+import org.imixs.marty.team.TeamController;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.exceptions.InvalidAccessException;
 import org.imixs.workflow.faces.data.ViewController;
 import org.imixs.workflow.faces.util.LoginController;
+import org.imixs.workflow.office.config.SetupController;
 
 /**
  * The SearchController provides methods for a convenient search experience.

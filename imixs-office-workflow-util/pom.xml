@@ -9,6 +9,14 @@
 	<name>Imixs Office Workflow Util</name>
 
 	<dependencies>
+	<!-- Imixs-Archive -->
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-archive-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		
 		<!-- Imixs Workflow -->
 		<dependency>
 			<groupId>org.imixs.workflow</groupId>
@@ -35,34 +43,23 @@
 			<scope>provided</scope>
 		</dependency>
 		
-		<!-- Marty -->
-		<dependency>
-			<groupId>org.imixs.marty</groupId>
-			<artifactId>imixs-marty-ejb</artifactId>
-			<type>jar</type>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.imixs.marty</groupId>
-			<artifactId>imixs-marty-util</artifactId>
-			<type>jar</type>
-			<scope>provided</scope>
-		</dependency>
-
-
-		<!-- Imixs-Archive -->
+		
 		<dependency>
 			<groupId>org.imixs.workflow</groupId>
-			<artifactId>imixs-archive-api</artifactId>
+			<artifactId>imixs-marty</artifactId>
+			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
-		<!-- JEE Dependencies -->
+
+
 		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<version>8.0</version>
-			<scope>provided</scope>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-mock</artifactId>
+			<version>${org.imixs.mock.version}</version>
+			<scope>test</scope>
 		</dependency>
+
+		
 
 
 	</dependencies>

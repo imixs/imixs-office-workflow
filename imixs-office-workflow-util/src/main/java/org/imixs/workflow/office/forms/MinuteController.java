@@ -13,7 +13,7 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.imixs.marty.plugins.minutes.MinutePlugin;
+import org.imixs.marty.plugins.MinutePlugin;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ItemCollectionComparator;
 import org.imixs.workflow.WorkflowKernel;

@@ -7,9 +7,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.imixs.marty.config.SetupController;
 import org.imixs.marty.profile.UserController;
 import org.imixs.workflow.faces.data.ViewController;
+import org.imixs.workflow.office.config.SetupController;
 
 
 @Named

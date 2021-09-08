@@ -44,7 +44,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.imixs.marty.config.SetupController;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.Model;
 import org.imixs.workflow.engine.DocumentService;
@@ -53,6 +52,7 @@ import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.util.LoginController;
+import org.imixs.workflow.office.config.SetupController;
 
 /**
  ** The MonitorController provides analytic information about the current process
