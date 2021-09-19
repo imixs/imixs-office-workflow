@@ -6,11 +6,11 @@
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
 
 
-	<marty:userInput
-		value="#{workitem.item[name]}"
+	<marty:userListInput
+		value="#{workitem.itemList[name]}"
 		editmode="#{!readonly}" required="#{required}" />
 		
 	<h:outputText  rendered="#{readonly}"  value="#{userController.getUserName(workitem.item[name])}"></h:outputText>
-
+	
 </ui:composition>
 
