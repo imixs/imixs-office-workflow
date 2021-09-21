@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+
+
+
+	<ui:remove>
+		<!-- WorkitemLink Component
+	
+			Requires that the subform workitemlink_resultlist is places at once in the ui:form
+			
+			NOTE: The Input Item is fixed to the item name '$workitemref'
+	-->
+	</ui:remove>
+	
+	
+	
+	<h:inputTextarea style="display:none;" value="#{workitem.itemList['$workitemref']}" converter="org.imixs.VectorConverter" >
+		<f:ajax  render="datalist"></f:ajax>
+	</h:inputTextarea>
+	<h:inputText styleClass="workitemlink-input" />
+		
+	<!-- workitem link data table -->
+	<h:panelGroup id="datalist">
+	
+		<table class="workitemlinktable" >
+			<ui:repeat var="workitem_ref" value="#{workitemLinkController.getReferences(options)}">
+				<tr>
+					<td style="width:100%;">
+						<h:link outcome="/pages/workitems/workitem">
+							<h:outputText escape="false"
+								value="#{workitem_ref.item['$WorkflowSummary']}"
+								rendered="#{!empty workitem_ref.item['$WorkflowSummary']}" />
+							<h:outputText value="#{workitem_ref.item['$lasteventdate']}"
+								rendered="#{empty workitem_ref.item['$WorkflowSummary']}">
+								<f:convertDateTime timeZone="#{message.timeZone}"
+									pattern="#{message.dateTimePatternShort}" />
+							</h:outputText>
+							<f:param name="id" value="#{workitem_ref.item['$uniqueid']}" />
+						</h:link>
+						<br /> <span class="workitemlink-entry-abstract"> <h:outputText
+								value="#{workitem_ref.item['$workflowgroup']}: " /> <h:outputText
+								value="#{workitem_ref.item['$workflowstatus']}" />
+						</span>
+					</td>
+					<!-- Delete member -->
+					<td>
+						<a href="javascript:void(0);" onclick="imixsOfficeWorkitem.deleteWorkitemRef(this)" tabindex="-1"
+						    data-workitemref="#{workitem_ref.item['$uniqueid']}" 
+							class="imixs-no-print" style="margin-left:5px;">
+							<span class="typcn typcn-times"></span>
+						</a>
+					</td>
+				</tr>
+			</ui:repeat>
+		</table>
+					
+			
+					
+					
+	</h:panelGroup>	
+
+
+
+</ui:composition>
+

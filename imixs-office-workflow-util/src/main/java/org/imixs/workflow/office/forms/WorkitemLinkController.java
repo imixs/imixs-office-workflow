@@ -25,13 +25,14 @@ package org.imixs.workflow.office.forms;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.naming.NamingException;
@@ -60,340 +61,279 @@ import org.imixs.workflow.office.util.WorkitemHelper;
  */
 
 @Named
-@ViewScoped
+@RequestScoped
 public class WorkitemLinkController implements Serializable {
 
     public static final String LINK_PROPERTY = "$workitemref";
-	public static final String LINK_PROPERTY_DEPRECATED = "txtworkitemref";
-	public static final int MAX_SEARCH_RESULT = 20;
-	public static Logger logger = Logger.getLogger(WorkitemLinkController.class.getName());
+    public static final String LINK_PROPERTY_DEPRECATED = "txtworkitemref";
+    public static final int MAX_SEARCH_RESULT = 20;
+    public static Logger logger = Logger.getLogger(WorkitemLinkController.class.getName());
 
-	@EJB
-	protected WorkflowService workflowService;
+    @EJB
+    protected WorkflowService workflowService;
 
-	@EJB
-	protected SchemaService schemaService;
+    @EJB
+    protected SchemaService schemaService;
 
-	@Inject
-	protected WorkflowController workflowController;
+    @Inject
+    protected WorkflowController workflowController;
 
-	private static final long serialVersionUID = 1L;
-	private List<ItemCollection> searchResult = null;
-	// private Map<String, List<ItemCollection>> externalReferences = null;
-	// private Map<String, List<ItemCollection>> references = null;
+    private static final long serialVersionUID = 1L;
+    private List<ItemCollection> searchResult = null;
 
-	private String input = null;
-	private int minimumChars = 3; // minimum input required for a suggestion
+    public WorkitemLinkController() {
+        super();
+        searchResult = new ArrayList<ItemCollection>();
+    }
 
-	public WorkitemLinkController() {
-		super();
-		searchResult = new ArrayList<ItemCollection>();
-	}
+    /**
+     * This method searches a text phrase within the user profile objects
+     * (type=profile).
+     * <p>
+     * JSF Integration:
+     * 
+     * {@code 
+     * 
+     * <h:commandScript name="imixsOfficeWorkflow.mlSearch" action=
+     * "#{cargosoftController.search()}" rendered="#{cargosoftController!=null}"
+     * render= "cargosoft-results" /> }
+     * 
+     * <p>
+     * JavaScript Example:
+     * 
+     * <pre>
+     * {@code
+     *  imixsOfficeWorkflow.cargosoftSearch({ item: '_invoicenumber' })
+     *  }
+     * </pre>
+     * 
+     */
+    public void searchWorkitems() {
 
-	public String getInput() {
-		if (input==null) {
-			input="";
-		}
-		return input;
-	}
+        searchResult = new ArrayList<ItemCollection>();
+        // get the param from faces context....
+        FacesContext fc = FacesContext.getCurrentInstance();
+        String phrase = fc.getExternalContext().getRequestParameterMap().get("phrase");
+        if (phrase == null) {
+            return;
+        }
 
-	public void setInput(String input) {
-		this.input = input;
-	}
+        logger.finest("......user search prase '" + phrase + "'");
+        searchResult = searchWorkitems(phrase);
 
-	/**
-	 * minimum input required for a suggestion Default is 3
-	 * 
-	 * @return
-	 */
-	public int getMinimumChars() {
-		return minimumChars;
-	}
+        if (searchResult != null) {
+            logger.finest("found " + searchResult.size() + " user profiles...");
+        }
 
-	public void setMinimumChars(int minimumChars) {
-		this.minimumChars = minimumChars;
-	}
+    }
 
-	/**
-	 * This method reset the search and input state.
-	 */
-	public void reset() {
-		searchResult = new ArrayList<ItemCollection>();
-		input = "";
-		logger.fine("workitemLinkController reset");
-	}
+    /**
+     * This method returns a list of profile ItemCollections matching the search
+     * phrase. The search statement includes the items 'txtName', 'txtEmail' and
+     * 'txtUserName'. The result list is sorted by txtUserName
+     * 
+     * @param phrase - search phrase
+     * @return - list of matching profiles
+     */
+    public List<ItemCollection> searchWorkitems(String phrase) {
+        List<ItemCollection> searchResult = new ArrayList<ItemCollection>();
 
-	/**
-	 * This ajax event method reset the search and input state.
-	 * 
-	 * @param event
-	 */
-	public void reset(AjaxBehaviorEvent event) {
-		reset();
-	}
+        logger.info(".......search workitem links : " + phrase);
+        if (phrase == null || phrase.isEmpty())
+            return searchResult;
 
-	/**
-	 * Starts a lucene search to provide searchResult for suggest list
-	 * 
-	 * @param filter
-	 *            - search filter
-	 * @param minchars
-	 *            - the minimum length for the filter string
-	 */
-	public void search(String filter, int minchars) {
+        // start lucene search
+        Collection<ItemCollection> col = null;
 
-		if (input == null || input.isEmpty() || input.length() < minchars) {
-			return;
-		}
-		
-			
-		logger.fine("search: filter=" + filter);
-		searchResult = new ArrayList<ItemCollection>();
+        try {
+            phrase = phrase.trim().toLowerCase();
+            phrase = schemaService.escapeSearchTerm(phrase);
+            // issue #170
+            phrase = schemaService.normalizeSearchTerm(phrase);
 
-		try {
-			String sSearchTerm = "";
-			// search only type workitem and workitemsarchive
-			sSearchTerm += "((type:workitem) OR (type:workitemarchive)) AND ";
+            String sQuery = "";
+            // search only type workitem and workitemsarchive
+            sQuery += "((type:workitem) OR (type:workitemarchive)) AND  (*" + phrase + "*)";
 
-			if (filter != null && !"".equals(filter)) {
-				String sNewFilter = filter;
-				sNewFilter = sNewFilter.replace(".", "?");
-				sSearchTerm += "(" + sNewFilter + ") AND ";
-			}
-			if (!"".equals(input)) {
-				// escape input..
-				input = schemaService.escapeSearchTerm(input);
-				sSearchTerm += " (*" + input.toLowerCase() + "*)";
-			}
+//            if (filter != null && !"".equals(filter)) {
+//                String sNewFilter = filter;
+//                sNewFilter = sNewFilter.replace(".", "?");
+//                sSearchTerm += "(" + sNewFilter + ") AND ";
+//            }
 
-			searchResult = workflowService.getDocumentService().findStubs(sSearchTerm, MAX_SEARCH_RESULT, 0,
-					WorkflowKernel.LASTEVENTDATE, true);
+            col = workflowService.getDocumentService().find(sQuery, MAX_SEARCH_RESULT, 0);
 
+            if (col != null) {
+                for (ItemCollection aWorkitem : col) {
+                    searchResult.add(WorkitemHelper.clone(aWorkitem));
+                }
+                // sort by $workflowabstract..
+                Collections.sort(searchResult, new ItemCollectionComparator("$workflowabstract", true));
+            }
 
-		} catch (Exception e) {
-			logger.warning("  lucene error!");
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
+            logger.warning("Lucene error error: " + e.getMessage());
+        }
 
-	}
+        return searchResult;
 
-	/*
-	 * Starts a lucene search to provide searchResult for suggest list
-	 */
-	public void search(String filter) {
-		search(filter, minimumChars);
-	}
+    }
 
-	public List<ItemCollection> getSearchResult() {
-		return searchResult;
-	}
+    public List<ItemCollection> getSearchResult() {
+        return searchResult;
+    }
 
-	/**
-	 * This methods adds a new workItem reference
-	 */
-	@SuppressWarnings("unchecked")
-    public void add(String aUniqueID) {
-		logger.fine("LinkController add workitem reference: " + aUniqueID);
-		List<String> refList=null;
-		//  support deprecated ref field
-		if (!workflowController.getWorkitem().hasItem(LINK_PROPERTY) 
-		         && workflowController.getWorkitem().hasItem(LINK_PROPERTY_DEPRECATED)) {
-		    refList = workflowController.getWorkitem().getItemValue(LINK_PROPERTY_DEPRECATED);
-		} else {
-		    refList = workflowController.getWorkitem().getItemValue(LINK_PROPERTY);
-		}
-		
-		// clear empty entry if set
-		if (refList.size() == 1 && "".equals(refList.get(0)))
-			refList.remove(0);
+    /**
+     * This method returns a list of all ItemCollections referred by the current
+     * workItem (txtWorkitemRef).
+     * 
+     * @return - list of ItemCollection
+     */
+    public List<ItemCollection> getReferences() {
+        return getReferences("");
+    }
 
-		// test if not yet a member of
-		if (refList.indexOf(aUniqueID) == -1) {
-			refList.add(aUniqueID);
-			workflowController.getWorkitem().replaceItemValue(LINK_PROPERTY, refList);
-		}
+    /**
+     * This method returns a list of ItemCollections referred by the current
+     * workItem ($WorkitemRef).
+     * <p>
+     * The filter will be applied to the result list. So each WorkItem will be
+     * tested if it matches the filter expression.
+     * <p>
+     * The resultset is sorted by $created
+     * 
+     * @return - list of ItemCollection with matches the current filter
+     */
+    @SuppressWarnings("unchecked")
+    public List<ItemCollection> getReferences(String filter) {
+        long l = System.currentTimeMillis();
+        List<ItemCollection> result = new ArrayList<ItemCollection>();
 
-		// reset
-		reset(null);
-	}
+        if (workflowController.getWorkitem() == null) {
+            return result;
+        }
 
-	/**
-	 * This methods removes a workItem reference
-	 */
-	@SuppressWarnings("unchecked")
-    public void remove(String aUniqueID) {
+        logger.finest("......lookup references for: " + filter);
 
-		logger.fine("LinkController remove workitem reference: " + aUniqueID);
-		List<String> refList =null;
-		//  support deprecated ref field
-        if (!workflowController.getWorkitem().hasItem(LINK_PROPERTY) 
-                 && workflowController.getWorkitem().hasItem(LINK_PROPERTY_DEPRECATED)) {
+        // lookup the references...
+        List<String> refList = null;
+
+        // support deprecated ref field
+        if (!workflowController.getWorkitem().hasItem(LINK_PROPERTY)
+                && workflowController.getWorkitem().hasItem(LINK_PROPERTY_DEPRECATED)) {
             refList = workflowController.getWorkitem().getItemValue(LINK_PROPERTY_DEPRECATED);
         } else {
             refList = workflowController.getWorkitem().getItemValue(LINK_PROPERTY);
         }
-        
-		// test if a member of
-		if (refList.indexOf(aUniqueID) > -1) {
-			refList.remove(aUniqueID);
-			workflowController.getWorkitem().replaceItemValue(LINK_PROPERTY, refList);
-		}
-		// reset
-		reset(null);
-		// references = null;
-	}
 
-	/**
-	 * This method returns a list of all ItemCollections referred by the current
-	 * workItem (txtWorkitemRef).
-	 * 
-	 * @return - list of ItemCollection
-	 */
-	public List<ItemCollection> getReferences() {
-		return getReferences("");
-	}
+        if (refList != null && !refList.isEmpty()) {
+            // select all references.....
+            String sQuery = "(";
+            for (String ref : refList) {
+                sQuery = sQuery + "$uniqueid:\"" + ref + "\" OR ";
+            }
 
-	/**
-	 * This method returns a list of ItemCollections referred by the current
-	 * workItem ($WorkitemRef).
-	 * <p>
-	 * The filter will be applied to the result list. So each WorkItem will be
-	 * tested if it matches the filter expression.
-	 * <p>
-	 * The resultset is sorted by $created
-	 * 
-	 * @return - list of ItemCollection with matches the current filter
-	 */
-	@SuppressWarnings("unchecked")
-	public List<ItemCollection> getReferences(String filter) {
-		long l=System.currentTimeMillis();
-		List<ItemCollection> result = new ArrayList<ItemCollection>();
+            // cust last OR
+            if (sQuery.endsWith("OR ")) {
+                sQuery = sQuery.substring(0, sQuery.lastIndexOf("OR "));
+            }
 
-		if (workflowController.getWorkitem() == null) {
-			return result;
-		}
+            sQuery = sQuery + ")";
 
-		logger.finest("......lookup references for: " + filter);
+            List<ItemCollection> workitems = null;
 
-		// lookup the references...
-		List<String> refList = null;
-		
-		//  support deprecated ref field
-        if (!workflowController.getWorkitem().hasItem(LINK_PROPERTY) 
-                 && workflowController.getWorkitem().hasItem(LINK_PROPERTY_DEPRECATED)) {
-            refList = workflowController.getWorkitem().getItemValue(LINK_PROPERTY_DEPRECATED);
-        } else {
-            refList = workflowController.getWorkitem().getItemValue(LINK_PROPERTY);
+            try {
+                workitems = workflowService.getDocumentService().findStubs(sQuery, MAX_SEARCH_RESULT, 0,
+                        WorkflowKernel.CREATED, true);
+            } catch (QueryException e) {
+
+                e.printStackTrace();
+            }
+            // do we have a result?
+            if (workitems != null) {
+                // now test if filter matches if defined....
+                if (filter != null && !filter.isEmpty()) {
+                    for (ItemCollection itemcol : workitems) {
+                        // test
+                        if (WorkitemHelper.matches(itemcol, filter)) {
+                            result.add(itemcol);
+                        }
+                    }
+                } else {
+                    // no filter - add all
+                    result.addAll(workitems);
+                }
+            }
         }
-        
-		
-		if (refList != null && !refList.isEmpty()) {
-			// select all references.....
-			String sQuery = "(";
-			for (String ref : refList) {
-				sQuery = sQuery + "$uniqueid:\"" + ref + "\" OR ";
-			}
 
-			// cust last OR
-			if (sQuery.endsWith("OR ")) {
-				sQuery = sQuery.substring(0, sQuery.lastIndexOf("OR "));
-			}
+        logger.fine("...lookup references for: " + filter + " in " + (System.currentTimeMillis() - l) + "ms");
 
-			sQuery = sQuery + ")";
+        return result;
+    }
 
-			List<ItemCollection> workitems = null;
+    /**
+     * Returns a list of all workItems holding a reference to the current workItem.
+     * 
+     * @return
+     * @throws NamingException
+     */
+    public List<ItemCollection> getExternalReferences() {
+        return getExternalReferences("");
+    }
 
-			try {
-				workitems = workflowService.getDocumentService().findStubs(sQuery, MAX_SEARCH_RESULT, 0,
-						WorkflowKernel.CREATED, true);
-			} catch (QueryException e) {
+    /**
+     * returns a list of all workItems holding a reference to the current workItem.
+     * If the filter is set the processID will be tested for the filter regex
+     * 
+     * @return
+     * @param filter
+     * @throws NamingException
+     */
+    public List<ItemCollection> getExternalReferences(String filter) {
+        List<ItemCollection> result = new ArrayList<ItemCollection>();
 
-				e.printStackTrace();
-			}
-			// do we have a result?
-			if (workitems != null) {
-				// now test if filter matches if defined....
-				if (filter != null && !filter.isEmpty()) {
-					for (ItemCollection itemcol : workitems) {
-						// test
-						if (WorkitemHelper.matches(itemcol, filter)) {
-							result.add(itemcol);
-						}
-					}
-				} else {
-					// no filter - add all
-					result.addAll(workitems);
-				}
-			}
-		}
+        if (workflowController.getWorkitem() == null) {
+            return result;
+        }
 
-		logger.fine("...lookup references for: " + filter + " in " + (System.currentTimeMillis()-l) + "ms");
-		
-		return result;
-	}
+        String uniqueid = workflowController.getWorkitem().getUniqueID();
 
-	/**
-	 * Returns a list of all workItems holding a reference to the current workItem.
-	 * 
-	 * @return
-	 * @throws NamingException
-	 */
-	public List<ItemCollection> getExternalReferences() {
-		return getExternalReferences("");
-	}
+        // return an empty list if still no $uniqueid is defined for the
+        // current workitem
+        if ("".equals(uniqueid)) {
+            return result;
+        }
 
-	/**
-	 * returns a list of all workItems holding a reference to the current workItem.
-	 * If the filter is set the processID will be tested for the filter regex
-	 * 
-	 * @return
-	 * @param filter
-	 * @throws NamingException
-	 */
-	public List<ItemCollection> getExternalReferences(String filter) {
-		List<ItemCollection> result = new ArrayList<ItemCollection>();
+        // select all references.....
+        String sQuery = "(";
+        sQuery = " (type:\"workitem\" OR type:\"workitemarchive\") AND (" + LINK_PROPERTY + ":\"" + uniqueid + "\"  OR "
+                + LINK_PROPERTY_DEPRECATED + ":\"" + uniqueid + "\")";
 
-		if (workflowController.getWorkitem() == null) {
-			return result;
-		}
+        List<ItemCollection> workitems = null;
 
-		String uniqueid = workflowController.getWorkitem().getUniqueID();
+        try {
+            workitems = workflowService.getDocumentService().findStubs(sQuery, MAX_SEARCH_RESULT, 0,
+                    WorkflowKernel.LASTEVENTDATE, true);
+        } catch (QueryException e) {
 
-		// return an empty list if still no $uniqueid is defined for the
-		// current workitem
-		if ("".equals(uniqueid)) {
-			return result;
-		}
+            e.printStackTrace();
+        }
+        // sort by modified
+        Collections.sort(workitems, new ItemCollectionComparator("$created", true));
 
-		// select all references.....
-		String sQuery = "(";
-		sQuery = " (type:\"workitem\" OR type:\"workitemarchive\") AND (" + LINK_PROPERTY + ":\"" + uniqueid + "\"  OR " + LINK_PROPERTY_DEPRECATED + ":\"" + uniqueid + "\")";
+        // now test if filter matches, and clone the workItem
+        if (filter != null && !filter.isEmpty()) {
+            for (ItemCollection itemcol : workitems) {
+                // test
+                if (WorkitemHelper.matches(itemcol, filter)) {
+                    result.add(itemcol);
+                }
+            }
+        } else {
+            result.addAll(workitems);
+        }
+        return result;
 
-		List<ItemCollection> workitems = null;
-
-		try {
-			workitems = workflowService.getDocumentService().findStubs(sQuery, MAX_SEARCH_RESULT, 0,
-					WorkflowKernel.LASTEVENTDATE, true);
-		} catch (QueryException e) {
-
-			e.printStackTrace();
-		}
-		// sort by modified
-		Collections.sort(workitems, new ItemCollectionComparator("$created", true));
-
-		// now test if filter matches, and clone the workItem
-		if (filter != null && !filter.isEmpty()) {
-			for (ItemCollection itemcol : workitems) {
-				// test
-				if (WorkitemHelper.matches(itemcol, filter)) {
-					result.add(itemcol);
-				}
-			}
-		} else {
-			result.addAll(workitems);
-		}
-		return result;
-
-	}
+    }
 
 }

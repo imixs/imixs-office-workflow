@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
+
+
+	<ui:remove>
+		<!-- WorkitemLink_SuggestList is used by teh workitemlink.xhtml form.
+	
+			This subform needs to be placed once in the ui:form
+	-->
+	</ui:remove>
+
+
+
+	<h:commandScript name="workitemLinkSearch"
+		action="#{workitemLinkController.searchWorkitems()}"
+		render="autocomplete-resultlist" onevent="autocompleteShowResult" />
+	<script type="text/javascript">
+		/*<![CDATA[*/
+		$(document).ready(
+				function() {
+					// add autocomplete feature to cdtr.number...
+					var workitemLinkField = $("input.workitemlink-input");
+					$(workitemLinkField).each(
+							function() {
+								autocompleteInitInput(this, workitemLinkSearch,
+										'autocomplete-resultlist', imixsOfficeWorkitem.addWorkitemRef);
+								// the main behavior is implementen in the method imixsOfficeWorkitem.addWorkitemRef
+							});
+				});
+		
+		/*]]>*/
+	</script>
+	<h:panelGroup id="autocomplete-resultlist" layout="block"
+		class="autocomplete-resultlist">
+		<ui:repeat var="suggest" value="#{workitemLinkController.searchResult}">
+			<div class="autocomplete-resultlist-element"
+				onclick="autocompleteSelectElement('#{suggest.item['$uniqueid']}')">
+				<a href="#">
+				
+					<h:outputText escape="false"
+								value="#{suggest.item['$WorkflowSummary']}"
+								rendered="#{!empty suggest.item['$WorkflowSummary']}" />
+							<h:outputText value="#{workitem_ref.item['$lasteventdate']}"
+								rendered="#{empty suggest.item['$WorkflowSummary']}">
+								<f:convertDateTime timeZone="#{message.timeZone}"
+									pattern="#{message.dateTimePatternShort}" />
+						</h:outputText>
+				</a>
+			</div>
+		</ui:repeat>
+	</h:panelGroup>
+
+
+</ui:composition>
+

@@ -411,6 +411,90 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		return true;
 	},
 
+
+
+	/**
+	 * Callback method for workiemLink Autocomplete feature
+	 */
+	addWorkitemRef = function(selection,inputSearchField) {
+		
+		// find textarea....
+		var inputField = $(inputSearchField ).prev();
+		// user list 
+		if (inputField.is("textarea")) {
+			var list= inputField.val();
+			
+			var list=inputField.val().split(/\r?\n/);
+			var newList= new Array();
+			$.each(list, function( key, value ) {
+				if (value!='') {
+					if (!newList.includes(value)) {
+						newList.push(value);
+					}  
+				}
+			});
+			if (!newList.includes(selection)) {
+				newList.push(selection);
+			}  
+
+			var newValue="";
+			$.each(newList, function( key, value ) {
+				if (key==0) {
+					newValue=newValue+value;
+				} else {
+					newValue=newValue + "\n"+value;
+				}
+			});
+
+			inputField.val(newValue);
+			// trigger on change event
+			inputField.trigger('change');
+			// clear input
+			inputSearchField.val('');			
+		}
+		
+	},
+	
+		
+	/* Deletes a given $uniqueid from the item $workitemref  */
+	deleteWorkitemRef = function(link) {
+		// find the value field based on the given link.
+		var parent=$(link).closest( "span[id$='datalist']" );
+		var inputField=$(parent).prevAll('textarea');
+		
+		var workitemref=$(link).data('workitemref');
+		
+		// only user list is supported 
+		if (inputField.is("textarea")) {
+			var list=inputField.val().split(/\r?\n/);
+			var newList= new Array();
+			$.each(list, function( key, value ) {
+				if (value!='' && value!=workitemref) {
+					if (!newList.includes(value)) {
+						newList.push(value);
+					}  
+				}
+			});
+			
+			var newValue="";
+			$.each(newList, function( key, value ) {
+				if (key==0) {
+					newValue=newValue+value;
+				} else {
+					newValue=newValue + "\n"+value;
+				}
+			});
+
+			inputField.val(newValue);
+			// trigger on change event
+			inputField.trigger('change');
+				
+		}
+		
+		
+	},
+
+
 	/**
 	* Opens a popup window with the QR-Code to print
     */
@@ -443,6 +527,8 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		closeDocumentPreview : closeDocumentPreview,
 		saveWorkitemHandler: saveWorkitemHandler,
 		registerSaveWorkitemListener: registerSaveWorkitemListener,
+		addWorkitemRef: addWorkitemRef,
+		deleteWorkitemRef: deleteWorkitemRef,
 		onFileUploadChange : onFileUploadChange
 	};
 

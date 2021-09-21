@@ -154,6 +154,22 @@ public class CustomFormItem {
         return selection;
     }
 
+    
+    /**
+     * Optional option string.
+     * <p>
+     * Can contain custom parts data
+     * 
+     * @return
+     */
+    public String getOptions() {
+        return options;
+    }
+
+    public void setOptions(String options) {
+        this.options = options;
+    }
+
     /**
      * optional path for custom items.
      * @return
