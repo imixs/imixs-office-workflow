@@ -413,54 +413,122 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 
 
 
+
+	/**
+	 * WorkitemRef Input Widget
+	 */
+
+	/*
+	 * initializes an input element for autocompletion. 
+	 * the param 'resultlistid' is optional and defines the element 
+	 * containing the search result.
+	 * The callback method is optional and triggered when a new element was selected 
+	 * from the suggest list
+	 */
+	workitemRefInitInput = function (inputElement,searchCallback, resultlistId, selectCallback) {
+	
+		// set id for result list element
+		if (!resultlistId || resultlistId==='') {
+			resultlistId='autocomplete-resultlist'; // default name
+		} 
+		$(inputElement).attr('data-resultlist', resultlistId);
+		
+		// add a input event handler with delay to serach for suggestions....
+		$(inputElement).on('input', delay(function() {
+			if (!autocompleteSearchReady) {
+				return; // start only after first key down! (see below)
+			}
+			// store the current input id
+			autocompleteInputID = inputElement.name;
+			currentSelectCallback=selectCallback;
+			
+			// get data options
+			var options=$(inputElement).attr('data-options');
+			searchCallback({ phrase: this.value, options: options });
+		}, 500)).trigger('input');
+	
+	
+		// hide the suggest list on blur event
+		$(inputElement).on("blur", delay(function(event) {
+			$("[id$=" + $(this).data('resultlist')  + "]").hide();
+		}, 200));
+	
+	
+		/*execute a function presses a key on the keyboard:*/
+		$(inputElement).keydown(function(e) {
+			autocompleteSearchReady=true; // init serach mode
+			if (e.keyCode == 40) {
+		        /*If the arrow DOWN key is pressed,
+		        increase the currentFocus variable:*/
+				autocompleteSelectNextElement(this);
+			} else if (e.keyCode == 38) { //up
+		        /*If the arrow UP key is pressed,
+		        decrease the currentFocus variable:*/
+				autocompleteSelectPrevElement(this);
+			} else if (e.keyCode == 13) {
+				/*If the ENTER key is pressed, prevent the form from being submitted,*/
+				e.preventDefault();
+				selectActiveElement(this);			
+			}
+		});
+	
+		// turn autocomplete of
+		$(inputElement).attr('autocomplete', 'off');
+	},
+
+
 	/**
 	 * Callback method for workiemLink Autocomplete feature
 	 */
 	addWorkitemRef = function(selection,inputSearchField) {
 		
 		// find textarea....
-		var inputField = $(inputSearchField ).prev();
-		// user list 
-		if (inputField.is("textarea")) {
-			var list= inputField.val();
-			
-			var list=inputField.val().split(/\r?\n/);
-			var newList= new Array();
-			$.each(list, function( key, value ) {
-				if (value!='') {
-					if (!newList.includes(value)) {
-						newList.push(value);
-					}  
-				}
-			});
-			if (!newList.includes(selection)) {
-				newList.push(selection);
-			}  
+		var inputField = $('textarea.workitemlink-textarea-input');
+		var list= inputField.val();
+		
+		var list=inputField.val().split(/\r?\n/);
+		var newList= new Array();
+		$.each(list, function( key, value ) {
+			if (value!='') {
+				if (!newList.includes(value)) {
+					newList.push(value);
+				}  
+			}
+		});
+		if (!newList.includes(selection)) {
+			newList.push(selection);
+		}  
 
-			var newValue="";
-			$.each(newList, function( key, value ) {
-				if (key==0) {
-					newValue=newValue+value;
-				} else {
-					newValue=newValue + "\n"+value;
-				}
-			});
+		var newValue="";
+		$.each(newList, function( key, value ) {
+			if (key==0) {
+				newValue=newValue+value;
+			} else {
+				newValue=newValue + "\n"+value;
+			}
+		});
 
-			inputField.val(newValue);
-			// trigger on change event
-			inputField.trigger('change');
-			// clear input
-			inputSearchField.val('');			
-		}
+		inputField.val(newValue);
+		// trigger on change event
+		inputSearchField.trigger('change');
+		// clear input
+		inputSearchField.val('');			
+	
 		
 	},
 	
 		
 	/* Deletes a given $uniqueid from the item $workitemref  */
 	deleteWorkitemRef = function(link) {
-		// find the value field based on the given link.
+		
+		// find the input field based on the given link.
 		var parent=$(link).closest( "span[id$='datalist']" );
-		var inputField=$(parent).prevAll('textarea');
+		var inputSearchField=$(parent).prevAll('input');
+		
+		
+		
+		// find textarea....
+		var inputField = $('textarea.workitemlink-textarea-input');
 		
 		var workitemref=$(link).data('workitemref');
 		
@@ -487,7 +555,9 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 
 			inputField.val(newValue);
 			// trigger on change event
-			inputField.trigger('change');
+		//	inputField.trigger('change');
+			
+			inputSearchField.trigger('change');
 				
 		}
 		
@@ -527,8 +597,11 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		closeDocumentPreview : closeDocumentPreview,
 		saveWorkitemHandler: saveWorkitemHandler,
 		registerSaveWorkitemListener: registerSaveWorkitemListener,
+		
+		workitemRefInitInput: workitemRefInitInput,
 		addWorkitemRef: addWorkitemRef,
 		deleteWorkitemRef: deleteWorkitemRef,
+		
 		onFileUploadChange : onFileUploadChange
 	};
 

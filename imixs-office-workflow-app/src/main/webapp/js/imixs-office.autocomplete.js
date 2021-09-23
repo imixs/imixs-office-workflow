@@ -73,7 +73,7 @@ function autocompleteSelectElement(text) {
 	var inputField = $('input[name ="' + autocompleteInputID + '"]')
 	inputField.val(text);
 	if (currentSelectCallback) {
-		currentSelectCallback(text);
+		currentSelectCallback(text,inputField);
 	}
 }
 

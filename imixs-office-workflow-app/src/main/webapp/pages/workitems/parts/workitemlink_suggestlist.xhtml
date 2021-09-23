@@ -26,14 +26,17 @@
 					var workitemLinkField = $("input.workitemlink-input");
 					$(workitemLinkField).each(
 							function() {
-								autocompleteInitInput(this, workitemLinkSearch,
+								imixsOfficeWorkitem.workitemRefInitInput(this, workitemLinkSearch,
 										'autocomplete-resultlist', imixsOfficeWorkitem.addWorkitemRef);
-								// the main behavior is implementen in the method imixsOfficeWorkitem.addWorkitemRef
+								// the main behavior is implemented in the method imixsOfficeWorkitem.addWorkitemRef
 							});
 				});
 		
 		/*]]>*/
 	</script>
+	<h:inputTextarea style="xdisplay:none;" styleClass="workitemlink-textarea-input" value="#{workflowController.workitem.itemList['$workitemref']}" converter="org.imixs.VectorConverter" >
+		
+	</h:inputTextarea>
 	<h:panelGroup id="autocomplete-resultlist" layout="block"
 		class="autocomplete-resultlist">
 		<ui:repeat var="suggest" value="#{workitemLinkController.searchResult}">

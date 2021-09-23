@@ -114,12 +114,13 @@ public class WorkitemLinkController implements Serializable {
         // get the param from faces context....
         FacesContext fc = FacesContext.getCurrentInstance();
         String phrase = fc.getExternalContext().getRequestParameterMap().get("phrase");
+        String options = fc.getExternalContext().getRequestParameterMap().get("options");
         if (phrase == null) {
             return;
         }
 
-        logger.finest("......user search prase '" + phrase + "'");
-        searchResult = searchWorkitems(phrase);
+        logger.info("......workitemLink search prase '" + phrase + "'  options="+options);
+        searchResult = searchWorkitems(phrase,options);
 
         if (searchResult != null) {
             logger.finest("found " + searchResult.size() + " user profiles...");
@@ -135,7 +136,7 @@ public class WorkitemLinkController implements Serializable {
      * @param phrase - search phrase
      * @return - list of matching profiles
      */
-    public List<ItemCollection> searchWorkitems(String phrase) {
+    public List<ItemCollection> searchWorkitems(String phrase, String filter) {
         List<ItemCollection> searchResult = new ArrayList<ItemCollection>();
 
         logger.info(".......search workitem links : " + phrase);
@@ -155,11 +156,11 @@ public class WorkitemLinkController implements Serializable {
             // search only type workitem and workitemsarchive
             sQuery += "((type:workitem) OR (type:workitemarchive)) AND  (*" + phrase + "*)";
 
-//            if (filter != null && !"".equals(filter)) {
-//                String sNewFilter = filter;
-//                sNewFilter = sNewFilter.replace(".", "?");
-//                sSearchTerm += "(" + sNewFilter + ") AND ";
-//            }
+            if (filter != null && !"".equals(filter.trim())) {
+                String sNewFilter = filter.trim().replace(".", "?");
+                sQuery += " AND (" + sNewFilter + ") ";
+            }
+            logger.info("......query=" + sQuery);
 
             col = workflowService.getDocumentService().find(sQuery, MAX_SEARCH_RESULT, 0);
 
@@ -213,7 +214,7 @@ public class WorkitemLinkController implements Serializable {
             return result;
         }
 
-        logger.finest("......lookup references for: " + filter);
+        logger.info("......lookup references for: " + filter);
 
         // lookup the references...
         List<String> refList = null;
@@ -227,6 +228,10 @@ public class WorkitemLinkController implements Serializable {
         }
 
         if (refList != null && !refList.isEmpty()) {
+            
+            logger.info("... we have " + refList.size() + " references stored");
+            
+            
             // select all references.....
             String sQuery = "(";
             for (String ref : refList) {

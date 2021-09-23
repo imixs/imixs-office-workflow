@@ -19,10 +19,10 @@
 	
 	
 	
-	<h:inputTextarea style="display:none;" value="#{workitem.itemList['$workitemref']}" converter="org.imixs.VectorConverter" >
-		<f:ajax  render="datalist"></f:ajax>
-	</h:inputTextarea>
-	<h:inputText styleClass="workitemlink-input" />
+	
+	<h:inputText styleClass="workitemlink-input" pt:data-options="#{options}"  >
+		<f:ajax  render="datalist" execute="@form"></f:ajax>
+	</h:inputText>
 		
 	<!-- workitem link data table -->
 	<h:panelGroup id="datalist">
