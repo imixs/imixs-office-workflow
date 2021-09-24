@@ -523,16 +523,9 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		
 		// find the input field based on the given link.
 		var parent=$(link).closest( "span[id$='datalist']" );
-	//	var parent=$(link).closest( "span[id$='datalist']" );
-		
-		
 		var inputSearchField=$(parent).prevAll('input');
-		
-		alert('falsche Suche nach parent !!');
-		
 		// find textarea....
 		var inputField = $('textarea.workitemlink-textarea-input');
-		
 		var workitemref=$(link).data('workitemref');
 		
 		// only user list is supported 
