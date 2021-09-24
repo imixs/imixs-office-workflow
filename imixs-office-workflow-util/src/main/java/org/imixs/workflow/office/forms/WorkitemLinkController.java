@@ -244,6 +244,14 @@ public class WorkitemLinkController implements Serializable {
             }
 
             sQuery = sQuery + ")";
+            
+            
+            if (filter != null && !"".equals(filter.trim())) {
+                String sNewFilter = filter.trim().replace(".", "?");
+                sQuery += " AND (" + sNewFilter + ") ";
+            }
+            logger.info("......query=" + sQuery);
+
 
             List<ItemCollection> workitems = null;
 
@@ -257,17 +265,17 @@ public class WorkitemLinkController implements Serializable {
             // do we have a result?
             if (workitems != null) {
                 // now test if filter matches if defined....
-                if (filter != null && !filter.isEmpty()) {
-                    for (ItemCollection itemcol : workitems) {
-                        // test
-                        if (WorkitemHelper.matches(itemcol, filter)) {
-                            result.add(itemcol);
-                        }
-                    }
-                } else {
+//                if (filter != null && !filter.isEmpty()) {
+//                    for (ItemCollection itemcol : workitems) {
+//                        // test
+//                        if (WorkitemHelper.matches(itemcol, filter)) {
+//                            result.add(itemcol);
+//                        }
+//                    }
+//                } else {
                     // no filter - add all
                     result.addAll(workitems);
-                }
+              //  }
             }
         }
 
