@@ -119,7 +119,7 @@ public class WorkitemLinkController implements Serializable {
             return;
         }
 
-        logger.info("......workitemLink search prase '" + phrase + "'  options="+options);
+        logger.finest("......workitemLink search prase '" + phrase + "'  options="+options);
         searchResult = searchWorkitems(phrase,options);
 
         if (searchResult != null) {
@@ -139,7 +139,7 @@ public class WorkitemLinkController implements Serializable {
     public List<ItemCollection> searchWorkitems(String phrase, String filter) {
         List<ItemCollection> searchResult = new ArrayList<ItemCollection>();
 
-        logger.info(".......search workitem links : " + phrase);
+        logger.finest(".......search workitem links : " + phrase);
         if (phrase == null || phrase.isEmpty())
             return searchResult;
 
@@ -160,7 +160,7 @@ public class WorkitemLinkController implements Serializable {
                 String sNewFilter = filter.trim().replace(".", "?");
                 sQuery += " AND (" + sNewFilter + ") ";
             }
-            logger.info("......query=" + sQuery);
+            logger.finest("......query=" + sQuery);
 
             col = workflowService.getDocumentService().find(sQuery, MAX_SEARCH_RESULT, 0);
 
@@ -214,7 +214,7 @@ public class WorkitemLinkController implements Serializable {
             return result;
         }
 
-        logger.info("......lookup references for: " + filter);
+        logger.finest("......lookup references for: " + filter);
 
         // lookup the references...
         List<String> refList = null;
@@ -229,7 +229,7 @@ public class WorkitemLinkController implements Serializable {
 
         if (refList != null && !refList.isEmpty()) {
             
-            logger.info("... we have " + refList.size() + " references stored");
+            logger.finest("... we have " + refList.size() + " references stored");
             
             
             // select all references.....
@@ -250,7 +250,7 @@ public class WorkitemLinkController implements Serializable {
                 String sNewFilter = filter.trim().replace(".", "?");
                 sQuery += " AND (" + sNewFilter + ") ";
             }
-            logger.info("......query=" + sQuery);
+            logger.finest("......query=" + sQuery);
 
 
             List<ItemCollection> workitems = null;
@@ -264,18 +264,7 @@ public class WorkitemLinkController implements Serializable {
             }
             // do we have a result?
             if (workitems != null) {
-                // now test if filter matches if defined....
-//                if (filter != null && !filter.isEmpty()) {
-//                    for (ItemCollection itemcol : workitems) {
-//                        // test
-//                        if (WorkitemHelper.matches(itemcol, filter)) {
-//                            result.add(itemcol);
-//                        }
-//                    }
-//                } else {
-                    // no filter - add all
                     result.addAll(workitems);
-              //  }
             }
         }
 
