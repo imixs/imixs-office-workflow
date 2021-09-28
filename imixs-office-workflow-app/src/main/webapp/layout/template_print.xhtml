@@ -21,7 +21,12 @@
 	<meta name="robots" content="noindex" />
 
 
-	<title>#{app.application_title}</title>
+	<title>
+		<ui:param name="title"
+				value="#{propertyController.getProperty('application.title')}"></ui:param>
+		<h:outputText rendered="#{empty title}" value="#{resourceBundleHandler.findMessage('application_title')}" />
+		<h:outputText rendered="#{!empty title}" value="#{title}" />
+	</title>
 
 	<!-- creatix-css -->
 	<link

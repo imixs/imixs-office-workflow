@@ -6,11 +6,19 @@
 	<!-- Header depends on authentication -->
 	<ui:fragment rendered="#{(!loginController.authenticated)}">
 		<div id="imixs-branding">
-			<div id="imixs-branding-text">#{resourceBundleHandler.findMessage('application_title')} <span style="color:red;">#{propertyController.getProperty('application.mode')}</span></div>
+			<div id="imixs-branding-text">
+				<ui:param name="title"
+					value="#{propertyController.getProperty('application.title')}"></ui:param>
+				<h:outputText rendered="#{empty title}" value="#{resourceBundleHandler.findMessage('application_title')}" />
+				<h:outputText rendered="#{!empty title}" value="#{title}" />
+				<span style="color: red;">
+					#{propertyController.getProperty('application.mode')}</span>
+			</div>
 		</div>
 	</ui:fragment>
 
-	<ui:fragment rendered="#{(loginController.authenticated) and (!empty historyController.workitems)}">
+	<ui:fragment
+		rendered="#{(loginController.authenticated) and (!empty historyController.workitems)}">
 		<ui:include src="/layout/historynav.xhtml" />
 	</ui:fragment>
 </ui:composition>

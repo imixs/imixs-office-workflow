@@ -26,7 +26,11 @@
 					<h:commandLink actionListener="#{workflowController.close}"
 						immediate="true" title="home"
 						action="/pages/notes?faces-redirect=true">
-						<span>#{resourceBundleHandler.findMessage('application_title')}</span>
+						<ui:param name="title" value="#{propertyController.getProperty('application.title')}"></ui:param>
+						<span>
+							<h:outputText rendered="#{empty title}" value="#{resourceBundleHandler.findMessage('application_title')}" />
+							<h:outputText rendered="#{!empty title}" value="#{title}" />
+						</span>
 						<f:actionListener binding="#{searchController.reset()}" />
 					</h:commandLink>
 				</div>

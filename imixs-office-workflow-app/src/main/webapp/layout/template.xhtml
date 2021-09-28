@@ -19,7 +19,12 @@
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<meta name="robots" content="noindex" />
 
-	<title>#{resourceBundleHandler.findMessage('application_title')}</title>
+	<title>
+		<ui:param name="title"
+				value="#{propertyController.getProperty('application.title')}"></ui:param>
+		<h:outputText rendered="#{empty title}" value="#{resourceBundleHandler.findMessage('application_title')}" />
+		<h:outputText rendered="#{!empty title}" value="#{title}" />
+	</title>
 
 	<!-- *** CSS *** -->
 	
