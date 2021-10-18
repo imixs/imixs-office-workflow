@@ -12,10 +12,10 @@ import javax.json.JsonObjectBuilder;
 
 import org.imixs.marty.model.TeamController;
 import org.imixs.marty.profile.UserController;
-import org.imixs.marty.util.ResourceBundleHandler;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.faces.data.ViewController;
+import org.imixs.workflow.faces.util.ResourceBundleHandler;
 
 /**
  * The OrganigramController generates the JSON data structure used by the

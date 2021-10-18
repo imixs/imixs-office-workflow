@@ -40,10 +40,10 @@ import javax.inject.Named;
 
 import org.imixs.marty.model.TeamController;
 import org.imixs.marty.profile.UserController;
-import org.imixs.marty.util.ResourceBundleHandler;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.faces.data.WorkflowEvent;
+import org.imixs.workflow.faces.util.ResourceBundleHandler;
 
 /**
  * The FormController provides information about the Form, FormSections and
