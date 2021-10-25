@@ -235,7 +235,15 @@ public class WorkitemLinkController implements Serializable {
             // select all references.....
             String sQuery = "(";
             for (String ref : refList) {
-                sQuery = sQuery + "$uniqueid:\"" + ref + "\" OR ";
+                if (ref!=null && !ref.trim().isEmpty()) {
+                    sQuery = sQuery + "$uniqueid:\"" + ref + "\" OR ";
+                }
+            }
+            // in case we do not have any ids we can skip
+            // this can happen in some rare cases
+            if (!sQuery.contains("$uniqueid")) {
+                // no valid references found
+                return result;
             }
 
             // cust last OR
