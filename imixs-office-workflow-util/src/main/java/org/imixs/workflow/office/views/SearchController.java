@@ -105,6 +105,54 @@ public class SearchController extends ViewController implements Serializable {
     ItemCollection process;
     ItemCollection space;
 
+    /**
+     * This method set the sort order and sort criteria
+     * 
+     **/
+    @Override
+    public void init() {
+        this.setSortBy(setupController.getSortBy());
+        this.setSortReverse(setupController.getSortReverse());
+
+        if (searchFilter == null) {
+            reset();
+            //searchFilter = new ItemCollection();
+            // set default user mode
+            //searchFilter.replaceItemValue("usermode", "owner");
+        }
+        // extract the id from the query string
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String, String> paramMap = fc.getExternalContext().getRequestParameterMap();
+
+        String processRef = paramMap.get("processref");
+        if (processRef != null && !processRef.isEmpty()) {
+            searchFilter.replaceItemValue("processref", processRef);
+        }
+
+        // archive mode?
+        if ("true".equals(paramMap.get("archive"))) {
+            searchFilter.replaceItemValue("type", "workitemarchive");
+        } else {
+            // searchFilter.replaceItemValue("type", "workitem");
+        }
+
+        String spaceRef = paramMap.get("spaceref");
+        if (spaceRef != null && !spaceRef.isEmpty()) {
+            searchFilter.replaceItemValue("spaceref", spaceRef);
+        }
+
+        String phrase = paramMap.get("phrase");
+        if (phrase != null && !phrase.isEmpty()) {
+            searchFilter.replaceItemValue("phrase", phrase);
+        }
+
+        
+        // try to load process/space objects
+        process = processController.getEntityById(searchFilter.getItemValueString("processref"));
+        space = processController.getEntityById(searchFilter.getItemValueString("spaceref"));
+
+    }
+
     // private String query = null;
 
     @Override
@@ -133,50 +181,6 @@ public class SearchController extends ViewController implements Serializable {
         return super.isSortReverse();
     }
 
-    /**
-     * This method set the sort order and sort criteria
-     * 
-     **/
-    @Override
-    public void init() {
-        this.setSortBy(setupController.getSortBy());
-        this.setSortReverse(setupController.getSortReverse());
-
-        if (searchFilter == null) {
-            searchFilter = new ItemCollection();
-        }
-        // extract the id from the query string
-        FacesContext fc = FacesContext.getCurrentInstance();
-        Map<String, String> paramMap = fc.getExternalContext().getRequestParameterMap();
-
-        String processRef = paramMap.get("processref");
-        if (processRef != null && !processRef.isEmpty()) {
-            searchFilter.replaceItemValue("processref", processRef);
-        }
-
-        // archive mode?
-        if ("true".equals(paramMap.get("archive"))) {
-            searchFilter.replaceItemValue("type", "workitemarchive");
-        } else {
-            searchFilter.replaceItemValue("type", "workitem");
-        }
-
-        String spaceRef = paramMap.get("spaceref");
-        if (spaceRef != null && !spaceRef.isEmpty()) {
-            searchFilter.replaceItemValue("spaceref", spaceRef);
-        }
-
-        String phrase = paramMap.get("phrase");
-        if (phrase != null && !phrase.isEmpty()) {
-            searchFilter.replaceItemValue("phrase", phrase);
-        }
-
-        // try to load process/space objects
-        process = processController.getEntityById(searchFilter.getItemValueString("processref"));
-        space = processController.getEntityById(searchFilter.getItemValueString("spaceref"));
-
-    }
-
     public ItemCollection getProcess() {
         return process;
     }
@@ -194,6 +198,8 @@ public class SearchController extends ViewController implements Serializable {
     public void reset() {
         searchFilter = new ItemCollection();
         searchFilter.replaceItemValue("type", "workitem");
+        // set default user mode
+        searchFilter.replaceItemValue("usermode", "owner");
         this.setPageIndex(0);
         super.reset();
     }
@@ -246,8 +252,10 @@ public class SearchController extends ViewController implements Serializable {
     }
 
     public ItemCollection getSearchFilter() {
-        if (searchFilter == null)
-            searchFilter = new ItemCollection();
+        if (searchFilter == null) {
+            reset();
+        }
+            //searchFilter = new ItemCollection();
         return searchFilter;
     }
 
@@ -326,14 +334,6 @@ public class SearchController extends ViewController implements Serializable {
             query += " ($file.count:[1 TO 999]) AND";
         }
 
-        String sCreator = "";
-        // test if result should be restricted to creator?
-        if ("true".equals(this.getSearchFilter().getItemValueString("my_requests"))) {
-            // searchFilter.replaceItemValue("Creator", );
-            sCreator = loginController.getUserPrincipal();
-        }
-        // test if result should be restricted to creator?
-
         Date datFrom = searchFilter.getItemValueDate("date.From");
         Date datTo = searchFilter.getItemValueDate("date.To");
 
@@ -396,9 +396,15 @@ public class SearchController extends ViewController implements Serializable {
             query += " ($created:[" + sDateFrom + " TO " + sDateTo + "]) AND";
         }
 
-        // filter my requests = $create or $owner
-        if (!"".equals(sCreator)) {
-            query += " ($creator:\"" + sCreator.toLowerCase() + "\" OR $owner:\"" + sCreator.toLowerCase() + "\") AND";
+        // filter requests by $create or $owner
+        String sUser = this.getSearchFilter().getItemValueString("user");
+        String sUserMode = this.getSearchFilter().getItemValueString("usermode");
+        if (!"".equals(sUser)) {
+            if ("creator".equals(sUserMode)) {
+                query += " ($creator:\"" + sUser.toLowerCase() + "\") AND";
+            } else {
+                query += " ($owner:\"" + sUser.toLowerCase() + "\") AND";
+            }
         }
 
         if (!processIDs.isEmpty()) {

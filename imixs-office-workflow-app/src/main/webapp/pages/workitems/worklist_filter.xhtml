@@ -23,7 +23,7 @@
 						<f:selectItem itemValue="#{workflow}" itemLabel="#{workflow}" />
 					</c:forEach>
 					<f:ajax event="change" render="@form"
-						onevent="imixsOfficeMain.layoutAjaxEvent" />
+						onevent="updateSearchForm" />
 				</h:selectOneMenu>
 			</dd>
 		</dl>
@@ -46,13 +46,13 @@
 								itemLabel="#{processentity.item['txtname']}" />
 						</c:forEach>
 						<f:ajax event="change" render="@form"
-							onevent="imixsOfficeMain.layoutAjaxEvent" />
+							onevent="updateSearchForm" />
 					</h:selectOneMenu>
 				</dd>
 			</dl>
 		</h:panelGroup>
 
-		<!-- Spaces are shown if the process defines space selection of if property search.filter.spaces=true -->
+		<!-- Spaces are shown if the process defines space selection or if property search.filter.spaces=true -->
 		<ui:param name="spaceSelection"
 			value="#{teamController.getSpacesByProcessId(process.uniqueID)}"></ui:param>
 		<c:if test="#{empty spaceSelection}">
@@ -84,7 +84,7 @@
 								itemLabel="#{space.item['name']}" />
 						</c:forEach>
 						<f:ajax event="change" render="@form"
-							onevent="imixsOfficeMain.layoutAjaxEvent" />
+							onevent="updateSearchForm" />
 					</h:selectOneMenu>
 				</dd>
 			</dl>

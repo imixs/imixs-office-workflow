@@ -28,10 +28,16 @@ function focusSearchPhrase() {
 
 
 //ajax refresh...
-function updateSearchForm(data) {
+function updateSearchForm(data,context) {
 	if (data.status === 'success') {
 		imixsOfficeMain.layoutAjaxEvent(data);
 		// auto focus
 		focusSearchPhrase();
+		
+		// add autocomplete feature to all user input...
+		var userInputField= $("input[data-item='marty.user.input']");
+		$(userInputField).each(function() {
+			imixsMarty.userInputInit(this,martyUserSearch,'marty-userinput-resultlist'); // optional callback method allowed here!
+		});
 	}
 }

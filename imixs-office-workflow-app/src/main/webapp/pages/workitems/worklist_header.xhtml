@@ -7,18 +7,22 @@
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
-	<h:panelGroup id="worklist_filter_panel">
-		<div style="clear: both;" />
 
-		<!-- show filter section only in core process selection -->
+		
+	<!-- Marty User Search Integration -->
+	<marty:userSearch />
+	
+	
+	<!-- show filter section only in core process selection -->
 		<c:if test="#{!empty searchController.process}">
 			<ui:include src="/pages/workitems/worklist_filter.xhtml" />
 		</c:if>
+	
+	<h:panelGroup id="worklist_filter_panel">
+		<div style="clear: both;" />
 
-		<ui:include src="/pages/workitems/worklist_search.xhtml" />
-
+	
 		<div class="imixs-form-section-3">
-
 			<!-- date range -->
 			<dl>
 				<dt>
@@ -40,26 +44,22 @@
 							timeZone="#{message.timeZone}" />
 					</h:inputText>
 				</dd>
-
 			</dl>
 
-
-
+			<!-- by owner/creator -->
 			<dl>
-				<dt>#{message['worklist.creator']}:</dt>
+				<dt><h:selectOneRadio value="#{searchController.searchFilter.itemListArray['usermode']}">
+						<f:selectItem itemLabel="#{message['owner']}" itemValue="owner" />
+						<f:selectItem itemLabel="#{message['creator']}" itemValue="creator" />
+						<f:ajax event="change" execute="@form" render="@form" listener="#{searchController.refreshSearch}"
+							onevent="updateSearchForm"  /> 
+					</h:selectOneRadio>
+				</dt>
 				<dd>
-					<h:selectManyCheckbox
-						value="#{searchController.searchFilter.itemListArray['my_requests']}">
-
-						<f:selectItem itemLabel="#{message['worklist.creator_selection']}" itemValue="true" />
-						<f:ajax event="change" render="@form" listener="#{searchController.refreshSearch}"
-							onevent="imixsOfficeMain.layoutAjaxEvent" />
-					</h:selectManyCheckbox>
+					<marty:userInput value="#{searchController.searchFilter.item['user']}" editmode="true" />
 				</dd>
 			</dl>
-
-
-
+			
 
 
 			<!-- archive -->
@@ -71,14 +71,17 @@
 						value="#{searchController.searchFilter.itemListArray['type']}">
 						<f:selectItem itemLabel="#{message['worklist.archive_selection']}"
 							itemValue="workitemarchive" />
-						<f:ajax event="change" render="@form" listener="#{searchController.refreshSearch}"
-							onevent="imixsOfficeMain.layoutAjaxEvent" />
+						<f:ajax event="change" execute="@form" render="@form" listener="#{searchController.refreshSearch}"
+							onevent="updateSearchForm"  /> 
 					</h:selectManyCheckbox>
 				</dd>
 			</dl>
 
 		</div>
 
+	
+
+		<ui:include src="/pages/workitems/worklist_search.xhtml" />
 
 
 

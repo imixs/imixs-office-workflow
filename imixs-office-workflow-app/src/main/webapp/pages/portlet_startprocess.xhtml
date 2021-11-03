@@ -20,8 +20,14 @@
 			<h:panelGroup layout="block" styleClass="imixs-viewentry"
 				rendered="#{(process.item['$taskid'] eq 301 || loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isMember'])}">
 				<h1>
-					<h:link outcome="/pages/notes_board?processref=#{process.item['$uniqueId']}"><span class="typcn typcn-th-large-outline" style="margin-right:5px;"></span><h:outputText value="#{process.item['name']}" /><span class="typcn typcn-zoom-outline" style="margin-left:8px;"></span></h:link>
-					<h:link rendered="#{process.item['isManager'] or loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}" outcome="/pages/monitoring_board?processref=#{process.item['$uniqueId']}"><span class="typcn typcn-chart-pie-outline"></span></h:link>
+				    <!-- board -->
+					<h:link outcome="/pages/notes_board?processref=#{process.item['$uniqueId']}" style="margin-right:10px;"><span class="typcn typcn-th-large-outline" style="margin-right:8px;"></span><h:outputText value="#{process.item['name']}" /></h:link>
+				    <!-- extended search -->
+					<h:link outcome="/pages/workitems/worklist?processref=#{process.item['$uniqueId']}" title="#{message['nav.search_extended']}"><span class="typcn typcn-zoom-outline" style="margin-left:8px;"></span></h:link>
+				    <!-- archive search -->
+					<h:link outcome="/pages/workitems/worklist?processref=#{process.item['$uniqueId']}&amp;archive=true" title="#{message['nav.search_archive']}"><span class="typcn typcn-archive" style=""></span></h:link>
+					<!-- reports -->
+					<h:link rendered="#{process.item['isManager'] or loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}" outcome="/pages/monitoring_board?processref=#{process.item['$uniqueId']}" title="Monitoring"><span class="typcn typcn-chart-pie-outline"></span></h:link>
 				</h1>
 				<p>
 					<h:outputText value="#{process.item['txtdescription']}"  escape="false"/>

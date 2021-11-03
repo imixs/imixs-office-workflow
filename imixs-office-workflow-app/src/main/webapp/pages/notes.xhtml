@@ -41,7 +41,7 @@
 
 				<div class="row imixs-notes">
 
-					<!--  Box 1 -->
+					<!--  My Tasks -->
 					<f:subview id="portlet_owner">
 						<ui:include src="/pages/portlet_worklist.xhtml">
 							<ui:param name="view" value="#{portletWorklistTasks}" />
@@ -50,7 +50,21 @@
 						</ui:include>
 					</f:subview>
 
-					<!--  Box 2 -->
+				
+
+					<!--  My Favorites -->
+					<f:subview id="portlet_favorites">
+						<ui:include src="/pages/portlet_worklist.xhtml">
+							<ui:param name="view" value="#{portletWorklistFavorites}" />
+							<ui:param name="title" value="#{message['worklist.favorite']}" />
+						</ui:include>
+					</f:subview>
+
+					<!--  Start Process -->
+					<ui:include src="/pages/portlet_startprocess.xhtml" />
+
+
+					<!--  My Requests -->
 					<f:subview id="portlet_creator">
 						<ui:include src="/pages/portlet_worklist.xhtml">
 							<ui:param name="view" value="#{portletWorklistCreator}" />
@@ -60,19 +74,7 @@
 					</f:subview>
 
 
-					<!--  Box 4 -->
-					<f:subview id="portlet_favorites">
-						<ui:include src="/pages/portlet_worklist.xhtml">
-							<ui:param name="view" value="#{portletWorklistFavorites}" />
-							<ui:param name="title" value="#{message['worklist.favorite']}" />
-						</ui:include>
-					</f:subview>
-
-					<!--  Box 3 -->
-					<ui:include src="/pages/portlet_startprocess.xhtml" />
-
-
-					<!--  Box 5 -->
+					<!--  Administration -->
 					<c:choose>
 						<!-- Admin Menu -->
 						<c:when

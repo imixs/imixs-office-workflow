@@ -76,7 +76,7 @@ import org.imixs.workflow.office.config.SetupController;
  */
 @Named
 @ViewScoped
-public class BoardController implements Serializable { 
+public class BoardController implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Map<BoardCategory, List<ItemCollection>> cacheTasks;
@@ -88,7 +88,7 @@ public class BoardController implements Serializable {
     private int pageMax = 0;
 
     private boolean endOfList = false;
-    
+
     private String view;
     private String title;
 
@@ -146,6 +146,8 @@ public class BoardController implements Serializable {
         if (_phrase != null && !_phrase.isEmpty()) {
             searchController.getSearchFilter().setItemValue("phrase", _phrase);
         }
+
+        view = paramMap.get("viewType");
 
         // initalize the task list...
         cacheTasks = new HashMap<>();
@@ -368,21 +370,6 @@ public class BoardController implements Serializable {
         this.endOfList = endOfList;
     }
 
-    /**
-     * WorkflowEvent listener listens to WORKITEM events and reset the result list
-     * after changing a workitem.
-     * 
-     * @param workflowEvent
-     **/
-//    public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) {
-//        if (workflowEvent == null || workflowEvent.getWorkitem() == null) {
-//            return;
-//        }
-//        if (WorkflowEvent.WORKITEM_AFTER_PROCESS == workflowEvent.getEventType()) {
-//            refresh();
-//        }
-//    }
-
     public int getCategoryPageSize() {
         return categoryPageSize;
     }
@@ -435,7 +422,12 @@ public class BoardController implements Serializable {
         List<ItemCollection> taskList;
         try {
             if (getProcessRef().isEmpty()) {
-                searchController.getSearchFilter().setItemValue("my_requests", true);
+                if ("worklist.creator".equals(view)) {
+                    searchController.getSearchFilter().setItemValue("usermode", "creator");
+                } else {
+                    searchController.getSearchFilter().setItemValue("usermode", "owner");
+                }
+                searchController.getSearchFilter().setItemValue("user", loginController.getUserPrincipal());
             } else {
                 searchController.getSearchFilter().setItemValue("ProcessRef", getProcessRef());
             }
