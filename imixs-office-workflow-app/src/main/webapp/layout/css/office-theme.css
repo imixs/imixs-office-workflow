@@ -726,13 +726,26 @@ dl dt input[type="text"]:hover {
 
 /* --- Imixs-Portlet ---------------------------------- */
 .imixs-portlet {
-	width: 33.33333%;
+	width: 25%;
 	float: left;
 	min-height: 1px;
 	position: relative;
 	padding: 10px;
 	border-right: 2px solid #ddd;
 	margin-bottom: 30px;
+}
+
+.imixs-portlet.imixs-portlet-worklist {
+	width: 37.5%;
+}
+
+.imixs-portlet.imixs-portlet-startprocess {
+	width: 25%;
+	clear: left;
+}
+
+.imixs-portlet.imixs-portlet-favorites {
+	width: 37.5%;
 }
 
 .imixs-portlet h3 {
@@ -746,7 +759,7 @@ dl dt input[type="text"]:hover {
 }
 
 /* nth-child(5n+5) */
-.imixs-portlet:nth-child(3n+1) {
+.imixs-portlet:nth-child(4n+1) {
 	clear: left;
 }
 
@@ -1531,6 +1544,10 @@ input:disabled.imixs-date {
 		width: 33.3333%;
 		float: left;
 	}
+	.imixs-portlet-worklist, .imixs-portlet-startprocess, .imixs-portlet-favorites {
+		width: 33.3333% !important;
+	}
+	
 	.imixs-portlet:nth-child(4n+4) {
 		border-right: 1px solid #aaaaaa;
 	}
@@ -1575,6 +1592,9 @@ input:disabled.imixs-date {
 	.imixs-portlet {
 		width: 50%;
 		float: left;
+	}
+	.imixs-portlet-worklist, .imixs-portlet-startprocess, .imixs-portlet-favorites {
+		width: 50% !important;
 	}
 	#imixs-servicenav {
 		height: 82px;
@@ -1637,6 +1657,9 @@ input:disabled.imixs-date {
 		float: none;
 		clear: left;
 		border-right: none;
+	}
+	.imixs-portlet-worklist, .imixs-portlet-startprocess, .imixs-portlet-favorites {
+		width: 100% !important;
 	}
 	.imixs-portlet:nth-child(4n+4) {
 		border-right: none;
