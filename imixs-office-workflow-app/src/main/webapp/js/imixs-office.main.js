@@ -256,6 +256,13 @@ IMIXS.org.imixs.workflow.office = (function() {
 		}
 	},
 	
+	setCookie = function(cname, cvalue, exdays=999) {
+	  var d = new Date();
+	  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+	  var expires = "expires="+d.toUTCString();
+	  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	},
+	
 	// redirect to a given workitem uid
 	openWorkitemByID = function(uid) {
 		document.location.href=imixsOfficeMain.contextPath+"/pages/workitems/workitem.xhtml?id="+uid;
@@ -266,7 +273,8 @@ IMIXS.org.imixs.workflow.office = (function() {
 		layoutAjaxEvent : layoutAjaxEvent,
 		initLayout : initLayout,
 		openWorkitemByID : openWorkitemByID,
-		layoutOfficeEditor : layoutOfficeEditor
+		layoutOfficeEditor : layoutOfficeEditor,
+		setCookie : setCookie
 	};
 
 }());

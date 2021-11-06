@@ -22,15 +22,17 @@
 				rendered="#{!userController.isFavorite(workitem.item['$uniqueid'])}"
 				actionListener="#{userController.addFavorite(workitem.item['$uniqueid'])}">
 				<span class="typcn typcn-star-outline"></span>
-				<f:ajax render="marked_id :notes_form:portlet_favorites:portlet_worklist"
-				onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, 'notes_form:portlet_favorites:portlet_worklist') }" />
+				<f:ajax render="marked_id :notes_form:portlet_mytasks:portlet_worklist"
+				onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, 'notes_form:portlet_mytasks:portlet_worklist') }"
+				 />
+			
 			</h:commandLink>
 			<h:commandLink title="#{message['worklist.favorite.help']}"
 				rendered="#{userController.isFavorite(workitem.item['$uniqueid'])}"
 				actionListener="#{userController.removeFavorite(workitem.item['$uniqueid'])}">
 				<span class="typcn typcn-star imixs-info"></span>
-				<f:ajax render="marked_id :notes_form:portlet_favorites:portlet_worklist"
-				onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, 'notes_form:portlet_favorites:portlet_worklist') }" />
+				<f:ajax render="marked_id :notes_form:portlet_mytasks:portlet_worklist"
+				onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, 'notes_form:portlet_mytasks:portlet_worklist') }" />
 			</h:commandLink>
 		</h:panelGroup>
 

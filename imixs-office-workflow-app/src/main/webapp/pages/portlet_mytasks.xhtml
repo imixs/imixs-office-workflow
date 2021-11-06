@@ -1,0 +1,114 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+	
+	
+	<h:panelGroup id="portlet_worklist" layout="block"
+		class="imixs-portlet #{portletclassname}">
+
+		<!-- pre-compute: #{viewHandler.onLoad(view)}  -->
+
+		<h:panelGroup id="portlet_worklist_header" layout="block"
+			class="imixs-header">
+
+			<div align="right" style="float: right;margin-bottom:5px;">
+				<h:commandLink actionListener="#{view.reset()}"
+					styleClass="imixs-portlet-refresh" title="#{message.refresh}"><span class="typcn typcn-arrow-sync"></span>
+					<f:ajax render="portlet_worklist"
+						onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+				</h:commandLink>
+				<h:commandLink actionListener="#{viewHandler.back(view)}"
+					styleClass="imixs-portlet-prev" title="#{message.prev}"
+					disabled="#{(view.pageIndex == 0)}"><span
+						class="typcn #{(view.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
+					<f:ajax render="portlet_worklist"
+						onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+				</h:commandLink>
+				<h:commandLink actionListener="#{viewHandler.forward(view)}"
+					styleClass="imixs-portlet-next" title="#{message.next}"
+					disabled="#{(view.endOfList)}"><span
+						class="typcn #{(view.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
+					<f:ajax render="portlet_worklist"
+						onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+				</h:commandLink>
+			</div>
+
+			<!-- Title -->
+			<div style="">
+				<div class="active" style="float:left;margin-right:15px">
+					<!-- board --> 
+					<ui:fragment rendered="#{! empty viewType}" >
+						<h:link outcome="/pages/notes_board.xhtml" styleClass="action-search" >
+							<span class="typcn typcn-th-large-outline"
+								style="margin-right: 8px;"></span><h:outputText styleClass="portlet-title" value="#{title}" />
+							<f:param name="viewType" value="#{viewType}" />
+						</h:link>
+					</ui:fragment>
+					<ui:fragment rendered="#{empty viewType}" >
+						<h:outputText  styleClass="portlet-title" value="#{title}" />
+					</ui:fragment>
+					
+				</div>
+				
+				
+				<div style="float:left;padding-top:10px;color:#428bca;font-size:0.9rem;">
+						<!--  My Tasklist Selector -->
+						<h:selectOneRadio value="#{portletWorklistFavorites.mode}" 
+						 style=" border:none;" onchange="imixsOfficeMain.setCookie('imixs.office.document.mytasks.mode',this.value,14);">
+							<f:selectItem itemLabel="#{message['worklist.favorite']}" itemValue="1" />
+							<f:selectItem itemLabel="#{message['worklist.all']}" itemValue="2" />
+							<f:ajax render="portlet_worklist" listener="#{portletWorklistFavorites.reset}"
+							onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />		
+								
+						</h:selectOneRadio>
+						
+				</div>
+				
+			</div>
+		
+			<div style="clear:both;" />
+			
+			
+			
+		</h:panelGroup>
+
+		<div class="imixs-body">
+					
+			<!-- **** Workitems ***** -->
+			<ui:repeat var="workitem" value="#{viewHandler.getData(view)}">
+				<ui:include src="portlet_worklist_viewentry.xhtml">
+					<ui:param name="workitem" value="#{workitem}" />
+				</ui:include>
+			</ui:repeat>
+			<h3>
+				<h:outputText rendered="#{empty viewHandler.getData(view)}"
+					value="#{message.empty_worklist}" />
+			</h3>
+			<!-- navigation -->
+			<h:panelGroup layout="block" id="portlet_worklist_nav"
+				class="imixs-footer">
+				<h:commandLink actionListener="#{viewHandler.back(view)}"
+					title="#{message.prev}" disabled="#{(view.pageIndex == 0)}"><span
+						class="typcn #{(view.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
+					<f:ajax render="portlet_worklist"
+						onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+				</h:commandLink>
+				<h:commandLink actionListener="#{viewHandler.forward(view)}"
+					title="#{message.next}" disabled="#{(view.endOfList)}"><span
+						class="typcn #{(view.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
+					<f:ajax render="portlet_worklist"
+						onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+				</h:commandLink>
+			</h:panelGroup>
+			<div style="clear: right;" />
+		</div>
+
+	</h:panelGroup>
+
+</ui:composition>
+

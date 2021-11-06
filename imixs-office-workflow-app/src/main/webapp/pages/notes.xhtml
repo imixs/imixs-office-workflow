@@ -41,7 +41,7 @@
 
 				<div class="row imixs-notes">
 
-					<!--  My Tasks -->
+					<!--  My Tasklist -->
 					<f:subview id="portlet_owner">
 						<ui:include src="/pages/portlet_worklist.xhtml">
 							<ui:param name="view" value="#{portletWorklistTasks}" />
@@ -53,29 +53,17 @@
 
 				 
 
-					<!--  My Favorites -->
-					<f:subview id="portlet_favorites">
-						<ui:include src="/pages/portlet_worklist.xhtml">
+					<!--  My Tasks -->
+					<f:subview id="portlet_mytasks">
+						<ui:include src="/pages/portlet_mytasks.xhtml">
 							<ui:param name="view" value="#{portletWorklistFavorites}" />
-							<ui:param name="title" value="#{message['worklist.favorite']}" />
-							<ui:param name="portletclassname" value="imixs-portlet-favorites" />
+							<ui:param name="title" value="#{message['worklist.creator']}" />
+							<ui:param name="portletclassname" value="imixs-portlet-worklist" />
 						</ui:include>
 					</f:subview>
 
 					<!--  Start Process -->
 					<ui:include src="/pages/portlet_startprocess.xhtml" />
-
-
-					<!--  My Requests -->
-					<f:subview id="portlet_creator">
-						<ui:include src="/pages/portlet_worklist.xhtml">
-							<ui:param name="view" value="#{portletWorklistCreator}" />
-							<ui:param name="title" value="#{message['worklist.creator']}" />
-							<ui:param name="viewType" value="worklist.creator" />
-							<ui:param name="portletclassname" value="imixs-portlet-worklist" />
-						</ui:include>
-					</f:subview>
-
 
 					<!--  Administration -->
 					<c:choose>
