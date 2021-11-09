@@ -92,15 +92,17 @@
 						</ui:fragment>
 					
 					
+						
 						<div class="imixs-form" id="imixs_workitem_form_id">
 							<div class="imixs-header">
 								<ui:include src="/pages/workitems/workitem_header.xhtml" />
 							</div>
-							<div class="imixs-body">
+							
+							<h:panelGroup layout="block" styleClass="imixs-body" id="formComponents" binding="#{formComponents}">
 								<ui:include src="/pages/error_message.xhtml" />
 								<ui:include
 									src="/pages/workitems/forms/#{formController.formDefinition.path}.xhtml" />
-							</div>
+							</h:panelGroup>
 						</div>						
 						<div class="imixs-document">
 							
