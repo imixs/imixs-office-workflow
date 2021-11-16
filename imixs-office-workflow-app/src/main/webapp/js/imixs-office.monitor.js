@@ -4,9 +4,7 @@
 
 IMIXS.namespace("org.imixs.workflow.monitor");
 
-var overallData;		// dataset over all workflow groups
 var groupData;  		// all datasets for each group
-
 /**
  * Init Method for the workitem page
  * 
@@ -15,27 +13,35 @@ var groupData;  		// all datasets for each group
  */
 $(document).ready(function() {
 	
-	
-	// generate over all chart
-	var ctx = document.getElementById('overallChart').getContext('2d');
-	if (ctx) {
-		var overallChart = new Chart(ctx, {
-			type : 'doughnut',
-			data : imixsOfficeMonitor.overallData
-		});
-	}
-								
-								
-	
-	// generate Group Charts....
+					
+	// generate Chart objects for each WorkflowGroup....
 	for (let chart of imixsOfficeMonitor.groupData) {
 		// console.log("chart id=" + chart.id + " group="+chart.name);
 		var ctx = document.getElementById(chart.id).getContext('2d');
 		if (ctx) {
 			var groupChart = new Chart(ctx, {
 				type : 'doughnut',
-				data : chart.data
+				data : chart.data,
+				options: {
+			        plugins: {
+			            legend: {
+			                display: true,
+                            position: 'left'
+			            }
+			        },
+					onClick: function(e, activeEls){
+						// on click example
+						let datasetIndex = activeEls[0].datasetIndex;
+					    let dataIndex = activeEls[0].index;
+					    let datasetLabel = e.chart.data.datasets[datasetIndex].label;
+					    let value = e.chart.data.datasets[datasetIndex].data[dataIndex];
+					    let label = e.chart.data.labels[dataIndex];
+					    console.log("In click", datasetLabel, label, value);
+				    }
+			    }
+				
 			});
+            
 		}
 	}
 
@@ -50,7 +56,6 @@ $(document).ready(function() {
 
 	
 });
-
 
 
 
@@ -172,6 +177,8 @@ IMIXS.org.imixs.workflow.monitor = (function() {
 		}
 		
 	};
+	
+
 	
 
 	// public API

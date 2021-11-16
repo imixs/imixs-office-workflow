@@ -34,7 +34,6 @@
 			/*<![CDATA[*/
 				
 			// set json objects with monitoring datasets 
-			imixsOfficeMonitor.overallData = #{monitorController.overallData};
 			imixsOfficeMonitor.groupData = #{monitorController.groupData};
 			
 			$(document).ready(
@@ -99,18 +98,7 @@
 
 					<div class="imixs-body" style="margin-left: 10px;">
 
-						<div class="monitoring-section">
-							<h2>Monitoring</h2>
-							<div class="monitoring-container">
-								<!-- Overall View -->
-								<div class="monitoring-pane">
-									<canvas id="overallChart"></canvas>
-								</div>
-								<div class="monitoring-pane"></div>
-								<div class="monitoring-pane"></div>
-								<div class="monitoring-pane"></div>
-							</div>
-						</div>
+					
 
 						<div class="monitoring-section">
 							<h2>Workflows</h2>
@@ -120,7 +108,7 @@
 								<ui:repeat var="group"
 									value="#{monitorController.activeWorkflowGroups}">
 									<div class="monitoring-pane">
-										<h3>#{group}</h3>
+										<h3>#{group} (#{monitorController.countTotalWorkitems(group)})</h3>
 										<canvas class="monitoring-group-chart"
 											id="#{monitorController.getBase64(group)}"></canvas>
 									</div>

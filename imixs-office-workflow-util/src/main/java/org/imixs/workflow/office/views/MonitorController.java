@@ -30,6 +30,8 @@ package org.imixs.workflow.office.views;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +61,7 @@ import org.imixs.workflow.office.config.SetupController;
  * instance.
  * 
  * @author rsoika
- * @version 1.0
+ * @version 1.1
  */
 @Named
 @ViewScoped
@@ -67,12 +69,8 @@ public class MonitorController implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    // view params
-  //  private String processRef;
-    private ItemCollection process = null;
     private List<String> workflowGroups = null;
     private List<String> activeWorkflowGroups = null;
-
     private Set<BoardCategory> boardCategories;
 
     @Inject
@@ -80,7 +78,7 @@ public class MonitorController implements Serializable {
 
     @Inject
     protected BoardController boardController;
-    
+
     @Inject
     SetupController setupController;
 
@@ -108,33 +106,21 @@ public class MonitorController implements Serializable {
         // extract the processref and page from the query string
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String, String> paramMap = fc.getExternalContext().getRequestParameterMap();
-
-        //setProcessRef(paramMap.get("processref"));
-        
         boardController.setProcessRef(paramMap.get("processref"));
 
+        // get all workflow groups
+        workflowGroups = modelService.getGroups();
         // reset borad stats...
         reset();
 
     }
 
     public String getProcessRef() {
-//        if (processRef == null) {
-//            processRef = "";
-//        }
-        return  boardController.getProcessRef();
+        return boardController.getProcessRef();
     }
-
-//    public void setProcessRef(String processRef) {
-//        this.processRef = processRef;
-//    }
 
     public ItemCollection getProcess() {
-        return process;
-    }
-
-    public void setProcess(ItemCollection process) {
-        this.process = process;
+        return boardController.getProcess();
     }
 
     /**
@@ -147,29 +133,15 @@ public class MonitorController implements Serializable {
     }
 
     /**
-     * Returns a string list with all active workflow groups
+     * Returns a string list with all active workflow groups within the current
+     * processRef
      * <p>
-     * A workflowGroup is ative if the group contains workitems
+     * A workflowGroup is active if the group contains workItems
      * 
      * @return
      */
     public List<String> getActiveWorkflowGroups() {
         return activeWorkflowGroups;
-    }
-
-    /**
-     * Helper method to convert a Group name into a base64 encoded string.
-     * <p>
-     * This is necessary to work with the group name as a key in javaScript
-     * 
-     * @param key
-     * @return
-     */
-    public String getBase64(String key) {
-        byte[] data = Base64.getEncoder().encode(key.getBytes());
-        String result = new String(data);
-        result = result.replace("=", "_");
-        return result;
     }
 
     public Set<BoardCategory> getBoardCategories() {
@@ -181,24 +153,31 @@ public class MonitorController implements Serializable {
     }
 
     /**
-     * This method discards the cache an reset the current ref.
+     * This method returns the total count of workItems in a given Group.
+     * 
+     * @param group
+     * @return
      */
-    @SuppressWarnings("unchecked")
-    public void reset() {
-        workflowGroups = new ArrayList<String>();
-        String processRef = boardController.getProcessRef();
-        if (processRef != null && !processRef.isEmpty()) {
-            process = documentService.load(processRef);
-            workflowGroups = process.getItemValue("txtWorkflowList");
+    public long countTotalWorkitems(String group) {
+        int result = 0;
+        if (group != null) {
+            for (BoardCategory boardCat : boardCategories) {
+                if (group.equals(boardCat.getWorkflowGroup())) {
+                    result = result + boardCat.getPageSize();
+                }
+            }
+        }
+        return result;
+    }
 
-        }
+    /**
+     * This method discards the cache and rebuilds the board categories for the
+     * current ProcessRef.
+     * 
+     */
+    public void reset() {
         // initalize the task list...
-        boardCategories = new HashSet<BoardCategory>();
-        try {
-            countWorkList();
-        } catch (QueryException | ModelException e) {
-            logger.severe("failed to reset monitoring board: " + e.getMessage());
-        }
+        buildBoardCategories();
 
         // find active groups..
         activeWorkflowGroups = new ArrayList<String>();
@@ -208,58 +187,14 @@ public class MonitorController implements Serializable {
             }
         }
 
+        // sort active workflowGroups
+        Collections.sort(activeWorkflowGroups);
     }
 
     /**
      * This method discards the cache.
      */
     public void refresh() {
-
-    }
-
-    /**
-     * This method counts the workitems form the task list and puts them into a
-     * cache.
-     * 
-     * @throws QueryException
-     * @throws ModelException
-     * 
-     */
-    private void countWorkList() throws QueryException, ModelException {
-        long l = System.currentTimeMillis();
-
-        String query = "(type:\"workitem\" AND $uniqueidref:\"" + getProcessRef() + "\")";
-
-        for (String group : workflowGroups) {
-            // find latest version....
-            List<String> versions = modelService.findVersionsByGroup(group);
-            if (versions != null && versions.size() > 0) {
-                // get the latest version
-                String version = versions.get(0);
-
-                // load the model
-                Model model = modelService.getModel(version);
-                // iterate over all tasks....
-                List<ItemCollection> tasks = model.findTasksByGroup(group);
-                for (ItemCollection task : tasks) {
-                    // count the workitems for this task....
-                    int taskID = task.getItemValueInteger("numprocessid");
-                    String taskName = task.getItemValueString("name");
-                    String taskQuery = query + " AND ($taskid:" + taskID + " AND $workflowgroup:\"" + group + "\")";
-                    int count = documentService.count(taskQuery);
-                    if (count > 0) {
-                        // we have active tasks - so cache the info.....
-
-                        BoardCategory tmpCat = new BoardCategory(group, taskName, taskID, count);
-                        boardCategories.add(tmpCat);
-                    }
-                }
-
-            }
-
-        }
-
-        logger.info("...counted all tasks in " + (System.currentTimeMillis() - l) + "ms");
 
     }
 
@@ -281,21 +216,22 @@ public class MonitorController implements Serializable {
      * 
      * @return
      */
+    @Deprecated
     public String getOverallData() {
         String result = "{";
 
         // Lables
         result = result + "labels : [ ";
-        result = result + workflowGroups.stream().collect(Collectors.joining("','", "'", "'"));
+        result = result + activeWorkflowGroups.stream().collect(Collectors.joining("','", "'", "'"));
         result = result + "],";
 
         // Datasets
         result = result + " datasets : [ { ";
         result = result + " label : 'All Groups', ";
-
         // build array of overall count
         List<String> overAllCount = new ArrayList<String>();
-        for (String group : workflowGroups) {
+        // for (String group : workflowGroups) {
+        for (String group : activeWorkflowGroups) {
             int count = 0;
             for (BoardCategory cat : boardCategories) {
                 if (group.equals(cat.getWorkflowGroup())) {
@@ -305,11 +241,8 @@ public class MonitorController implements Serializable {
             overAllCount.add("" + count);
         }
         result = result + " data: [ " + overAllCount.stream().collect(Collectors.joining(",")) + "],";
-
         // colors...
-        result = result + " backgroundColor : [\n" + "                        'rgb(255, 99, 132)',\n"
-                + "                        'rgb(54, 162, 235)',\n" + "                        'rgb(255, 205, 86)' ]";
-
+        result = result + generateBackgroundColorScheme();
         result = result + " } ] }";
         return result;
     }
@@ -330,22 +263,86 @@ public class MonitorController implements Serializable {
      * @return
      */
     public String getGroupData() {
-        
-        //  "{cars":[ {"id":"Ford"}, "BMW", "Fiat" ]}
+
+        // "{cars":[ {"id":"Ford"}, "BMW", "Fiat" ]}
         String result = "[";
-        
-        for (String group: activeWorkflowGroups) {
-            result=result + "{id:'"+getBase64(group) + "', name:'"+group + "',";
-            result=result + "data:" + buildChartData(group) + "},";
+
+        for (String group : activeWorkflowGroups) {
+            result = result + "{id:'" + getBase64(group) + "', name:'" + group + "',";
+            result = result + "data:" + buildChartData(group) + "},";
         }
-        
-        result=result.substring(0,result.length()-1);
-        
-        result=result+"]";
+
+        result = result.substring(0, result.length() - 1);
+
+        result = result + "]";
         return result;
     }
-    
-    
+
+    /**
+     * Helper method to convert a Group name into a base64 encoded string.
+     * <p>
+     * This is necessary to work with the group name as a key in javaScript
+     * 
+     * @param key
+     * @return
+     */
+    public String getBase64(String key) {
+        byte[] data = Base64.getEncoder().encode(key.getBytes());
+        String result = new String(data);
+        result = result.replace("=", "_");
+        return result;
+    }
+
+    /**
+     * This method counts the workItems for each WorklfowGroup/TaskID combination
+     * within the current ProcessRef. The results are stored in a Map. The
+     * BoardCategories are used to computed chart data.
+     * 
+     */
+    private void buildBoardCategories() {
+        long l = System.currentTimeMillis();
+
+        boardCategories = new HashSet<BoardCategory>();
+
+        try {
+            String query = "(type:\"workitem\" AND $uniqueidref:\"" + getProcessRef() + "\")";
+
+            for (String group : workflowGroups) {
+                // find latest version....
+                List<String> versions = modelService.findVersionsByGroup(group);
+                if (versions != null && versions.size() > 0) {
+                    // get the latest version
+                    String version = versions.get(0);
+
+                    // load the model
+                    Model model;
+                    model = modelService.getModel(version);
+
+                    // iterate over all tasks....
+                    List<ItemCollection> tasks = model.findTasksByGroup(group);
+                    for (ItemCollection task : tasks) {
+                        // count the workitems for this task....
+                        int taskID = task.getItemValueInteger("numprocessid");
+                        String taskName = task.getItemValueString("name");
+                        String taskQuery = query + " AND ($taskid:" + taskID + " AND $workflowgroup:\"" + group + "\")";
+                        int count = documentService.count(taskQuery);
+                        if (count > 0) {
+                            // we have active tasks - so cache the info.....
+                            BoardCategory tmpCat = new BoardCategory(group, taskName, taskID, count);
+                            boardCategories.add(tmpCat);
+                        }
+                    }
+                }
+            }
+
+            logger.info("...build " + boardCategories.size() + " BoardCategories in " + (System.currentTimeMillis() - l)
+                    + "ms");
+        } catch (ModelException | QueryException e) {
+            logger.severe("...failed to BoardCategories: " + e.getMessage());
+        }
+
+    }
+
     /**
      * 
      * <pre>
@@ -365,15 +362,35 @@ public class MonitorController implements Serializable {
      * @return
      */
     private String buildChartData(String group) {
-        
+
         // build a list of all lables....
-        List<String> statusLabels=new ArrayList<String>();
+        List<String> statusLabels = new ArrayList<String>();
+
+        // create a sublist of categories for the given group
+        List<BoardCategory> sortedBoardCategoriesByGroup = new ArrayList<BoardCategory>();
         for (BoardCategory cat : boardCategories) {
             if (group.equals(cat.getWorkflowGroup())) {
-                statusLabels.add(cat.workflowStatus);
+                sortedBoardCategoriesByGroup.add(cat);
             }
         }
-        
+
+        // sortedBoardCategoriesByGroup.addAll(0, sortedBoardCategoriesByGroup)
+
+        // now we sort the categories by $taskID
+        Collections.sort(sortedBoardCategoriesByGroup, new Comparator<BoardCategory>() {
+            @Override
+            public int compare(BoardCategory p1, BoardCategory p2) {
+                return p1.toString().compareTo(p2.toString());
+            }
+        });
+
+        // get the status lables
+        for (BoardCategory cat : sortedBoardCategoriesByGroup) {
+            // if (group.equals(cat.getWorkflowGroup())) {
+            statusLabels.add(cat.workflowStatus);
+            // }
+        }
+
         String result = "{";
 
         // Lables
@@ -387,20 +404,29 @@ public class MonitorController implements Serializable {
 
         // build array of overall count
         List<String> statusCount = new ArrayList<String>();
-        for (BoardCategory cat : boardCategories) {
+        for (BoardCategory cat : sortedBoardCategoriesByGroup) {
             if (group.equals(cat.getWorkflowGroup())) {
-                statusCount.add(""+cat.pageSize);
+                statusCount.add("" + cat.pageSize);
             }
         }
-         
-        
+
         result = result + " data: [ " + statusCount.stream().collect(Collectors.joining(",")) + "],";
 
         // colors...
-        result = result + " backgroundColor : [\n" + "                        'rgb(255, 99, 132)',\n"
-                + "                        'rgb(54, 162, 235)',\n" + "                        'rgb(255, 205, 86)' ]";
+        result = result + generateBackgroundColorScheme();
 
         result = result + " } ] }";
+        return result;
+    }
+
+    /**
+     * This helper method generates a backgroundColorScheme for chart diagrams.
+     * 
+     * @return
+     */
+    private String generateBackgroundColorScheme() {
+        String result = " backgroundColor : [\n"
+                + "   '#F3E500','#F28E1C','#E32322','#6D398B','#2A71AF','#008F5A','#FBC50A','#E96220','#C5037D','#454E99','#0696BB','#8DBB25' ]";
         return result;
     }
 
