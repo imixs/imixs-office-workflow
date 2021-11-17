@@ -49,8 +49,10 @@ import javax.inject.Named;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.marty.team.TeamController;
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.exceptions.InvalidAccessException;
+import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.data.ViewController;
 import org.imixs.workflow.faces.util.LoginController;
 import org.imixs.workflow.office.config.SetupController;
@@ -99,6 +101,9 @@ public class SearchController extends ViewController implements Serializable {
     SchemaService schemaService;
 
     @Inject
+    DocumentService documentService;
+
+    @Inject
     @ConfigProperty(name = "office.search.noanalyze", defaultValue = "undefined")
     String officeSearchNoanalyse;
 
@@ -116,9 +121,9 @@ public class SearchController extends ViewController implements Serializable {
 
         if (searchFilter == null) {
             reset();
-            //searchFilter = new ItemCollection();
+            // searchFilter = new ItemCollection();
             // set default user mode
-            //searchFilter.replaceItemValue("usermode", "owner");
+            // searchFilter.replaceItemValue("usermode", "owner");
         }
         // extract the id from the query string
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -146,7 +151,6 @@ public class SearchController extends ViewController implements Serializable {
             searchFilter.replaceItemValue("phrase", phrase);
         }
 
-        
         // try to load process/space objects
         process = processController.getEntityById(searchFilter.getItemValueString("processref"));
         space = processController.getEntityById(searchFilter.getItemValueString("spaceref"));
@@ -255,7 +259,7 @@ public class SearchController extends ViewController implements Serializable {
         if (searchFilter == null) {
             reset();
         }
-            //searchFilter = new ItemCollection();
+        // searchFilter = new ItemCollection();
         return searchFilter;
     }
 
@@ -477,4 +481,13 @@ public class SearchController extends ViewController implements Serializable {
         return query;
     }
 
+    public long getCount() {
+        long result = 0;
+        try {
+            result = documentService.count(getQuery());
+        } catch (QueryException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }

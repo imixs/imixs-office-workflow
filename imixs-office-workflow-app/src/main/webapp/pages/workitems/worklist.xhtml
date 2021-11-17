@@ -26,9 +26,10 @@
 		<f:view>
 			<h:form>
 				<ui:param name="searchresult" value="#{viewHandler.getData(searchController)}"></ui:param>
+				<ui:param name="searchresultCount" value="#{searchController.getCount()}"></ui:param>
 				
 				
-				<h:panelGroup styleClass="imixs-view" layout="block" id="serach_view">				
+				<h:panelGroup styleClass="imixs-view imixs-search" layout="block" id="serach_view">				
 				
 				
 					<div class="imixs-header">
@@ -48,9 +49,10 @@
 				
 					<div class="imixs-body">
 						<!-- *** Header **** -->
-						<div class="imixs-header" style="margin-bottom:30px;">
+						<div class="imixs-header" style="">
 							<!-- *** Header **** -->
 							<ui:include src="/pages/workitems/worklist_header.xhtml" />
+						
 						</div>
 	
 						<ui:param name="noresult"
@@ -58,7 +60,10 @@
 	
 						<ui:fragment rendered="#{!noresult}">
 							<h:panelGroup layout="block" id="worklist-body">
-	
+							
+							
+								<div class="search-result-summary">Gesamtergebnis #{searchresultCount} Treffer</div	>
+
 								<!-- display search result  -->
 								<ui:repeat var="workitem" value="#{searchresult}">
 									<ui:include src="worklist_viewentry.xhtml">
