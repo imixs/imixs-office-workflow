@@ -49,6 +49,7 @@ import javax.inject.Named;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.marty.team.TeamController;
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.Model;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.exceptions.InvalidAccessException;
@@ -56,6 +57,7 @@ import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.data.ViewController;
 import org.imixs.workflow.faces.util.LoginController;
 import org.imixs.workflow.office.config.SetupController;
+import org.imixs.workflow.office.model.ModelController;
 
 /**
  * The SearchController provides methods for a convenient search experience.
@@ -97,6 +99,9 @@ public class SearchController extends ViewController implements Serializable {
     @Inject
     LoginController loginController;
 
+    @Inject
+    ModelController modelController;
+
     @EJB
     SchemaService schemaService;
 
@@ -129,6 +134,7 @@ public class SearchController extends ViewController implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String, String> paramMap = fc.getExternalContext().getRequestParameterMap();
 
+        // process Ref?
         String processRef = paramMap.get("processref");
         if (processRef != null && !processRef.isEmpty()) {
             searchFilter.replaceItemValue("processref", processRef);
@@ -137,13 +143,51 @@ public class SearchController extends ViewController implements Serializable {
         // archive mode?
         if ("true".equals(paramMap.get("archive"))) {
             searchFilter.replaceItemValue("type", "workitemarchive");
-        } else {
-            // searchFilter.replaceItemValue("type", "workitem");
-        }
+        } 
 
         String spaceRef = paramMap.get("spaceref");
         if (spaceRef != null && !spaceRef.isEmpty()) {
             searchFilter.replaceItemValue("spaceref", spaceRef);
+        }
+
+        String owner = paramMap.get("owner");
+        if (owner != null && !owner.isEmpty()) {
+            searchFilter.replaceItemValue("user", owner);
+            searchFilter.replaceItemValue("usermode", "owner");
+        }
+        String creator = paramMap.get("creator");
+        if (creator != null && !creator.isEmpty()) {
+            searchFilter.replaceItemValue("user", creator);
+            searchFilter.replaceItemValue("usermode", "creator");
+        }
+
+        // extract optional workflowgorup and task
+        String workflowgroup = paramMap.get("workflowgroup");
+        if (workflowgroup != null && !workflowgroup.isEmpty()) {
+            searchFilter.replaceItemValue("$WorkflowGroup", workflowgroup);
+
+            // do we also have a task?
+            String task = paramMap.get("task");
+            if (task != null && !task.isEmpty()) {
+                // if task is a number take it as is
+                int taskID = 0;
+                try {
+                    taskID = Integer.parseInt(task);
+                } catch (NumberFormatException nfe) {
+                    // try to find the task based on the name of the given task....
+                    Model model = modelController.getModelByGroup(workflowgroup);
+                    List<ItemCollection> tasks = model.findTasksByGroup(workflowgroup);
+                    for (ItemCollection taskElement: tasks) {
+                        if (task.equals(taskElement.getItemValueString("txtname"))) {
+                            taskID=taskElement.getItemValueInteger("numProcessID");
+                            break;
+                        }
+                    }
+                }
+                if (taskID > 0) {
+                    searchFilter.replaceItemValue("$taskid", taskID);
+                }
+            }
         }
 
         String phrase = paramMap.get("phrase");

@@ -50,11 +50,8 @@ import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.Model;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.ModelService;
-import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.QueryException;
-import org.imixs.workflow.faces.util.LoginController;
-import org.imixs.workflow.office.config.SetupController;
 
 /**
  ** The MonitorController provides analytic information about the current process
@@ -74,13 +71,7 @@ public class MonitorController implements Serializable {
     private Set<BoardCategory> boardCategories;
 
     @Inject
-    protected LoginController loginController = null;
-
-    @Inject
     protected BoardController boardController;
-
-    @Inject
-    SetupController setupController;
 
     private static Logger logger = Logger.getLogger(MonitorController.class.getName());
 
@@ -89,9 +80,6 @@ public class MonitorController implements Serializable {
 
     @EJB
     DocumentService documentService;
-
-    @EJB
-    SchemaService schemaService;
 
     public MonitorController() {
         super();

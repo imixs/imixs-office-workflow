@@ -35,7 +35,7 @@
 				
 			// set json objects with monitoring datasets 
 			imixsOfficeMonitor.groupData = #{monitorController.groupData};
-			
+			imixsOfficeMonitor.processRef = "#{monitorController.processRef}";
 			$(document).ready(
 							function() {
 								// set navigation cookie
@@ -99,9 +99,10 @@
 					<div class="imixs-body" style="margin-left: 10px;">
 
 					
-
+						<!-- *** Chart Overview -->
+						
 						<div class="monitoring-section">
-							<h2>Workflows</h2>
+							<h2>Monitoring</h2>
 							<div class="monitoring-container">
 
 								<!-- provide a char pane for each active group -->
@@ -113,16 +114,43 @@
 											id="#{monitorController.getBase64(group)}"></canvas>
 									</div>
 								</ui:repeat>
-								<!-- dummys -->
-								<div class="monitoring-pane"></div>
-								<div class="monitoring-pane"></div>
-								<div class="monitoring-pane"></div>
-								<div class="monitoring-pane"></div>
+								
 
+							</div>
+						</div>
+						
+						
+						
+						
+						<!-- *** Chart Details -->
+						<div style="display:none;" class="monitoring-section monitoring-section-details" id="monitoring-details-section-id">
+							<h3 id="monitoring-details-title-id"></h3>
+							<div class="monitoring-container monitoring-details">
+								<div class="monitoring-pane">
+									<h4 id="monitoring-details-owner-title-id">#{message.owner}</h4>
+									<!-- place holder for the detail chart -->
+									<canvas class="monitoring-group-chart" id="monitoring-details-owner-pane-id" >
+									</canvas>
+								</div>
+								
+								<div class="monitoring-pane">
+									<h4 id="monitoring-details-space-title-id">#{message.space}</h4>
+									<!-- place holder for the detail chart -->
+									<canvas class="monitoring-group-chart" id="monitoring-details-space-pane-id" >
+									</canvas>
+								</div>
+								
+								
 							</div>
 						</div>
 
 
+
+
+
+
+
+						<!-- *** Custom Reports -->
 						<h:panelGroup layout="block" rendered="#{! empty monitorController.process.itemList['txtReportList']}" styleClass="monitoring-section">
 						
 							<h2>Custom Reports</h2>
@@ -154,6 +182,8 @@
 					<div class="imixs-footer"></div>
 
 				</h:panelGroup>
+				
+			
 
 			</h:form>
 		</f:view>
