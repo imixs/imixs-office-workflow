@@ -2,6 +2,7 @@
 
 //var wopiLastWorkflowEvent; // stores the last workfow UI action button
 var wopiConfirmMessage;
+var restoreDocumentPreview=false
 /**
  * Init Method for the wop document integration
  * 
@@ -13,7 +14,7 @@ $(document).ready(function() {
 	$('a[data-wopi-openonload="true"]').click();
 });
 
-
+ 
 // open the wopi viewer
 function openWopiViewer(url,filename, discardMessage) {
 	
@@ -27,7 +28,10 @@ function openWopiViewer(url,filename, discardMessage) {
 	}
 
 	// minimize Document Preview (if open )
-	//imixsOfficeWorkitem.closeDocumentPreview();
+	if ($('.imixs-workitem-form .imixs-document').hasClass('split')) {
+		imixsOfficeWorkitem.closeDocumentPreview();
+		restoreDocumentPreview=true;
+	}
 	
 	$('#wopi_header_filename_id').html(filename);
 	// hide the workflow form
@@ -65,6 +69,12 @@ function closeWopiViewer(confirmMessage) {
 		imixsWopi.closeViewer();
 		// show workflow form
 		$('#imixs_workitem_form_id').show();
+		
+		if (restoreDocumentPreview==true) {
+			imixsOfficeWorkitem.maximizeDocumentPreview();
+			restoreDocumentPreview=false;
+		}
+	
 	}
 }
 
