@@ -75,11 +75,11 @@
 					
 						<!-- Imixs-Adapter-Wopi integration -->
 						<ui:fragment rendered="#{wopiController!=null}">
-						    <ui:param name="confirmWopiMessage" value="#{wopiController!=null?wopiController.confirmMessage:''}" />
 						    <script type="text/javascript">
 								/*<![CDATA[*/
 									imixsOfficeWorkitem.registerSaveWorkitemListener(workitemSaveCallback);
-									wopiConfirmMessage="#{message.discard_changes}";
+									dialogActionConfirm="#{message.wopi_ok}";
+									dialogActionCancel="#{message.wopi_cancel}";
 								/*]]>*/
 							</script>
 							<div style="display: none;" class="imixs-form" id="wopi_controlls">
@@ -89,6 +89,10 @@
 								</div>
 							</div>
 							<div id="wopi_canvas" style="display: none;"></div>
+							<!-- confirm close alert -->
+							<div id="wopi-save-dialog" title="#{message.wopi_confirm_title}">
+								<h:outputText escape="false" value="#{message.wopi_confirm_message}"></h:outputText>
+							</div>
 						</ui:fragment>
 					
 					
