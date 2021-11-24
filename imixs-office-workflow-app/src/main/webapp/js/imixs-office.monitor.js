@@ -4,6 +4,7 @@
 
 IMIXS.namespace("org.imixs.workflow.monitor");
 
+var mainCharts;		 	// arrayl of all visible main charts
 var groupData;  		// all datasets for each group
 var processRef; 	    // holding the current process ref - set form the monitor page
 var detailChartOwner;
@@ -49,17 +50,45 @@ IMIXS.org.imixs.workflow.monitor = (function() {
 	/** MONITORING CHARTS  **/
 
 
+	// Helper Method to destroy all existing charts
+	// used to overwrite content
+	destoryCharts = function() {
+		
+		if (mainCharts) {
+			mainCharts.forEach((achart) => {
+			  if(achart instanceof Chart) {
+				    achart.destroy();
+				}
+			});
+		} 
+		if(detailChartOwner instanceof Chart) {
+		    detailChartOwner.destroy();
+		}
+		if(detailChartSpace instanceof Chart) {
+			detailChartSpace.destroy();
+		}
+		// show details secition
+		document.getElementById('monitoring-details-section-id').style.display = "none";
+		$('.monitoring-table').remove();
+		$(".monitoring-datatable").remove();
+	},
 
 	// This mehtod generate Chart objects for each WorkflowGroup.
 	// Each chart registers an onClick listener to react on clicks 
 	// loading the details Charts.
 	initMainWorkflowCharts = function() {
+		
+		// destroy existing main charts if availalbe
+		destoryCharts();
+		
 		console.log("init main workflow charts....")
+		mainCharts=[];
 		for (let chart of imixsOfficeMonitor.groupData) {
 			// console.log("chart id=" + chart.id + " group="+chart.name);
 			var ctx = document.getElementById(chart.id).getContext('2d');
 			
 			if (ctx) {
+				document.getElementById(chart.id).style.display = "block";
 				// generate a new chart object
 				var mainChart = new Chart(ctx, {
 					type : 'doughnut',
@@ -80,12 +109,13 @@ IMIXS.org.imixs.workflow.monitor = (function() {
 						    imixsOfficeMonitor.currentWorkflowGroupSelection = e.chart.data.datasets[datasetIndex].label;
 						    imixsOfficeMonitor.currentWorkflowStatusSelection = e.chart.data.labels[dataIndex];
 						    //console.log("In click", datasetLabel, label, value,imixsOfficeMonitor.processRef );
-							imixsOfficeMonitor.loadDetailChartByOwner(imixsOfficeMonitor.currentWorkflowGroupSelection,imixsOfficeMonitor.currentWorkflowStatusSelection);
-							imixsOfficeMonitor.loadDetailChartBySpace(imixsOfficeMonitor.currentWorkflowGroupSelection,imixsOfficeMonitor.currentWorkflowStatusSelection);
+							imixsOfficeMonitor.loadDetailChartByOwner();
+							imixsOfficeMonitor.loadDetailChartBySpace();
 					    }
 				    }					
 				});
 				mainChart.resize();
+				mainCharts.push(mainChart);
 	            
 			}
 		}	
@@ -93,17 +123,50 @@ IMIXS.org.imixs.workflow.monitor = (function() {
 	},
 
 
+
+	// This mehtod generate Table views for each WorkflowGroup.
+	// Each view registers an onClick listener to react on clicks 
+	// loading the details Charts.
+	initMainWorkflowTableView = function() {		
+		// destroy existing main charts if availalbe
+		destoryCharts();
+		
+		console.log("init main workflow charts....")
+		mainCharts=[];
+		for (let chart of imixsOfficeMonitor.groupData) {
+			var ctx = document.getElementById(chart.id);
+			if (ctx) {
+				$(ctx).hide();
+				// generate a new table view
+				//ctx.
+				var content = "<table class='monitoring-datatable'>";
+				content += '<tr><th>Status</th><th></th></tr>';
+				for (var i=0;i<chart.data.labels.length; i++) {
+					
+					var jsclick="imixsOfficeMonitor.currentWorkflowGroupSelection = '" + chart.data.datasets[0].label + "';imixsOfficeMonitor.currentWorkflowStatusSelection = '" +chart.data.labels[i] +"';imixsOfficeMonitor.loadDetailTableByOwner();imixsOfficeMonitor.loadDetailTableBySpace();"
+					content += '<tr><td class="imixs-viewentry-main-link"><a href="javascript:' + jsclick +'">' + chart.data.labels[i] +'</a></td>';
+					content += '<td style="text-align:center;">'+chart.data.datasets[0].data[i] + '</td></tr>';
+				}
+				content += "</table>"
+				$(ctx).parent().append(content);
+
+			}
+		}
+		
+	},
+	
+	
 	// THis method starts an ajax request to load the details for a specific
 	// workflowgroup/task grouped by Owner
-	loadDetailChartByOwner = function(workflowgroup, task) {
+	loadDetailChartByOwner = function() {
 		//console.log("...loadDetailChartByOwner for " + workflowgroup + "/" + task);
 		// show details secition
 		document.getElementById('monitoring-details-section-id').style.display = "block";
 		// update title
-		document.getElementById('monitoring-details-title-id').innerHTML = workflowgroup + " / " + task;
+		document.getElementById('monitoring-details-title-id').innerHTML = imixsOfficeMonitor.currentWorkflowGroupSelection + " / " + imixsOfficeMonitor.currentWorkflowStatusSelection;
 		// load chart
 		$.ajax({
-			url : "/api/monitor/" + imixsOfficeMonitor.processRef + "/" + workflowgroup +"/" + task + "/$owner",
+			url : "/api/monitor/" + imixsOfficeMonitor.processRef + "/" + imixsOfficeMonitor.currentWorkflowGroupSelection +"/" +  imixsOfficeMonitor.currentWorkflowStatusSelection + "/$owner",
 			type : "GET",
 			//contentType: "application/json;charset=utf-8",
 			dataType : "json"
@@ -117,6 +180,7 @@ IMIXS.org.imixs.workflow.monitor = (function() {
 				// construct a new doughnut chart in the details pane
 				var ctx = document.getElementById("monitoring-details-owner-pane-id").getContext('2d');
 				if (ctx) {
+					document.getElementById("monitoring-details-owner-pane-id").style.display = "block";
 					// generate a new chart object
 					detailChartOwner=new Chart(ctx, {
 						type : 'doughnut',
@@ -149,23 +213,24 @@ IMIXS.org.imixs.workflow.monitor = (function() {
 						}				
 					});
 					detailChartOwner.resize();
-				}
+				}				
 				
-				
-				});
+			});
 
 	},
 
+
+
 	// THis method starts an ajax request to load the details for a specific
 	// workflowgroup/task grouped by Owner
-	loadDetailChartBySpace = function(workflowgroup, task) {
+	loadDetailChartBySpace = function() {
 		
 		//console.log("...loadDetailChartBySpace for " + workflowgroup + "/" + task);
 		// show details secition
 		document.getElementById('monitoring-details-section-id').style.display = "block";
 		// load chart
 		$.ajax({
-			url : "/api/monitor/" + imixsOfficeMonitor.processRef + "/" + workflowgroup +"/" + task + "/space.ref",
+			url : "/api/monitor/" + imixsOfficeMonitor.processRef + "/" + imixsOfficeMonitor.currentWorkflowGroupSelection +"/" +  imixsOfficeMonitor.currentWorkflowStatusSelection  + "/space.ref",
 			type : "GET",
 			//contentType: "application/json;charset=utf-8",
 			dataType : "json"
@@ -179,6 +244,7 @@ IMIXS.org.imixs.workflow.monitor = (function() {
 				// construct a new doughnut chart in the details pane
 				var ctx = document.getElementById("monitoring-details-space-pane-id").getContext('2d');
 				if (ctx) {
+					document.getElementById("monitoring-details-space-pane-id").style.display = "block";
 					// generate a new chart object
 					detailChartSpace=new Chart(ctx, {
 						type : 'doughnut',
@@ -218,6 +284,72 @@ IMIXS.org.imixs.workflow.monitor = (function() {
 
 	},
 
+
+	// THis method starts an ajax request to load the details for a specific
+	// workflowgroup/task grouped by Owner
+	loadDetailTableByOwner = function() {
+		$(".monitoring-datatable-owner").remove();
+		//console.log("...loadDetailChartByOwner for " + workflowgroup + "/" + task);
+		// show details secition
+		document.getElementById('monitoring-details-section-id').style.display = "block";
+		// update title
+		document.getElementById('monitoring-details-title-id').innerHTML = imixsOfficeMonitor.currentWorkflowGroupSelection + " / " + imixsOfficeMonitor.currentWorkflowStatusSelection;
+		// load chart
+		$.ajax({
+			url : "/api/monitor/" + imixsOfficeMonitor.processRef + "/" + imixsOfficeMonitor.currentWorkflowGroupSelection +"/" +  imixsOfficeMonitor.currentWorkflowStatusSelection + "/$owner",
+			type : "GET",
+			//contentType: "application/json;charset=utf-8",
+			dataType : "json"
+		}).done(
+			function(data) {
+				// construct a new table in the details pane
+				var ctx = document.getElementById("monitoring-details-owner-pane-id");
+				$(ctx).hide();
+				// generate a new table view
+				var content = "<table class='monitoring-datatable monitoring-datatable-owner'>";
+				content += '<tr><th>Status</th><th></th></tr>';
+				for (var i=0;i<data.labels.length; i++) {
+					content += '<tr><td class="imixs-viewentry-main-link"><a href="' + "./workitems/worklist.xhtml?processref=" + imixsOfficeMonitor.processRef+ "&owner="+data.origins[i] + "&workflowgroup=" + imixsOfficeMonitor.currentWorkflowGroupSelection+ "&task=" + imixsOfficeMonitor.currentWorkflowStatusSelection +'">' + data.labels[i] +'</a></td>';
+					content += '<td style="text-align:center;">'+data.datasets[0].data[i] + '</td></tr>';
+				}
+				content += "</table>"
+				$(ctx).parent().append(content);
+			});
+	},
+
+
+
+	// THis method starts an ajax request to load the details for a specific
+	// workflowgroup/task grouped by Owner
+	loadDetailTableBySpace = function() {
+		$(".monitoring-datatable-space").remove();
+		//console.log("...loadDetailChartByOwner for " + workflowgroup + "/" + task);
+		// show details secition
+		document.getElementById('monitoring-details-section-id').style.display = "block";
+		// update title
+		document.getElementById('monitoring-details-title-id').innerHTML = imixsOfficeMonitor.currentWorkflowGroupSelection + " / " + imixsOfficeMonitor.currentWorkflowStatusSelection;
+		// load chart
+		$.ajax({
+			url : "/api/monitor/" + imixsOfficeMonitor.processRef + "/" + imixsOfficeMonitor.currentWorkflowGroupSelection +"/" +  imixsOfficeMonitor.currentWorkflowStatusSelection + "/space.ref",
+			type : "GET",
+			//contentType: "application/json;charset=utf-8",
+			dataType : "json"
+		}).done(
+			function(data) {
+				// construct a new table in the details pane
+				var ctx = document.getElementById("monitoring-details-space-pane-id");
+				$(ctx).hide();
+				// generate a new table view
+				var content = "<table class='monitoring-datatable monitoring-datatable-space'>";
+				content += '<tr><th>Status</th><th></th></tr>';
+				for (var i=0;i<data.labels.length; i++) {
+					content += '<tr><td class="imixs-viewentry-main-link"><a href="' + "./workitems/worklist.xhtml?processref=" + imixsOfficeMonitor.processRef+ "&spaceref="+data.origins[i] + "&workflowgroup=" + imixsOfficeMonitor.currentWorkflowGroupSelection+ "&task=" + imixsOfficeMonitor.currentWorkflowStatusSelection +'">' + data.labels[i] +'</a></td>';
+					content += '<td style="text-align:center;">'+data.datasets[0].data[i] + '</td></tr>';
+				}
+				content += "</table>"
+				$(ctx).parent().append(content);
+			});
+	},
 
 
 	/** CUSTOM REPORTs  **/
@@ -336,8 +468,11 @@ IMIXS.org.imixs.workflow.monitor = (function() {
 	// public API
 	return {
 		initMainWorkflowCharts : initMainWorkflowCharts,
+		initMainWorkflowTableView : initMainWorkflowTableView,
 		loadDetailChartByOwner : loadDetailChartByOwner,
 		loadDetailChartBySpace : loadDetailChartBySpace,
+		loadDetailTableByOwner : loadDetailTableByOwner,
+		loadDetailTableBySpace : loadDetailTableBySpace,
 		loadReportData : loadReportData,
 		refreshChartDiagramm : refreshChartDiagramm,
 		getStoredDataObject : getStoredDataObject
