@@ -75,28 +75,30 @@ public class PortletWorklistFavorites extends ViewController {
     @SuppressWarnings("unchecked")
     @Override
     public String getQuery() {
-        List<String> favorites = null;
+        
         if (userController.getWorkitem() == null) {
             return null;
         }
 
-        // get favorite ids from profile
-        // support deprecated ref field
-        if (!userController.getWorkitem().hasItem(LINK_PROPERTY)
-                && userController.getWorkitem().hasItem(LINK_PROPERTY_DEPRECATED)) {
-            favorites = userController.getWorkitem().getItemValue(LINK_PROPERTY_DEPRECATED);
-        } else {
-            favorites = userController.getWorkitem().getItemValue(LINK_PROPERTY);
-        }
-
-        if (favorites == null || favorites.size() == 0) {
-            return null;
-        }
+      
 
         String sQuery = "";
 
         // favorites?
         if (mode == 1) {
+            List<String> favorites = null;
+            // get favorite ids from profile
+            // support deprecated ref field
+            if (!userController.getWorkitem().hasItem(LINK_PROPERTY)
+                    && userController.getWorkitem().hasItem(LINK_PROPERTY_DEPRECATED)) {
+                favorites = userController.getWorkitem().getItemValue(LINK_PROPERTY_DEPRECATED);
+            } else {
+                favorites = userController.getWorkitem().getItemValue(LINK_PROPERTY);
+            }
+
+            if (favorites == null || favorites.size() == 0) {
+                return null;
+            }
             sQuery = "(type:\"workitem\" OR type:\"workitemarchive\") ";
 
             // create IN list
