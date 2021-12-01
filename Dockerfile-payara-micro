@@ -1,0 +1,13 @@
+FROM payara/micro:5.2021.9-jdk11
+USER root
+# create a custom config folder
+RUN mkdir ${PAYARA_HOME}/config
+COPY ./docker/configuration/payara/domain-micro.xml ${PAYARA_HOME}/config/
+COPY ./docker/configuration/payara/postgresql-42.2.5.jar ${PAYARA_HOME}/config
+COPY ./docker/configuration/payara/keyfile ${PAYARA_HOME}/config
+RUN chown -R payara:payara ${PAYARA_HOME}/config
+USER payara
+WORKDIR ${PAYARA_HOME}
+# Deploy artefacts
+COPY /imixs-office-workflow-app/target/imixs-office-workflow*.war $DEPLOY_DIR
+CMD ["--addLibs","/opt/payara/config/postgresql-42.2.5.jar", "--deploymentDir", "/opt/payara/deployments", "--rootDir", "/opt/payara/config","--domainConfig", "/opt/payara/config/domain-micro.xml"]]
