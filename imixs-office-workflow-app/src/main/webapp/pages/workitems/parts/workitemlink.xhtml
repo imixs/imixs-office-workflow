@@ -17,15 +17,11 @@
 	-->
 	</ui:remove>
 
-
-
 	<f:subview id="workitemlink-view">
 		<h:inputText styleClass="workitemlink-input" rendered="#{!readonly}"
 			pt:data-options="#{options}">
-			<f:ajax render="datalist" execute="@form"></f:ajax>
+			<f:ajax render="datalist" execute=":#{workitemlinkcollector.clientId} @this" ></f:ajax>
 		</h:inputText>
-		
-		
 		
 		<!-- workitem link data table -->
 		<h:panelGroup id="datalist" class="workitemlink-refs">
