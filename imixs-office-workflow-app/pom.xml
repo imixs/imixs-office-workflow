@@ -146,6 +146,41 @@
 			</build>
 		</profile>		
 		
+		
+		<profile>
+			<id>docker-wildfly25</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
+							<execution>
+								<phase>install</phase>
+								<configuration>
+									<target>
+										<exec executable="docker">
+											<arg value="build" />
+											<arg value="-f" />
+											<arg value="../Dockerfile-wildfly-25" />
+											<arg value="-t" />
+											<arg value="imixs/${imixs-office.applicationname}" />
+											<arg value="../." />
+										</exec>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>			
+		
 		<profile>
 			<id>debug</id>
 			<build>

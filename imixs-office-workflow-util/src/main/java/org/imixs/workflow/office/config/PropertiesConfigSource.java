@@ -54,7 +54,11 @@ public class PropertiesConfigSource implements ConfigSource {
 
     @Override
     public Set<String> getPropertyNames() {
-        return properties.keySet();
+        if (properties != null) {
+            return properties.keySet();
+        } else {
+            return null;
+        }
     }
 
 }
