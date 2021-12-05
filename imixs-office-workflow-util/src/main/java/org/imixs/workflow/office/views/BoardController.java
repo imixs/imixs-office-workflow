@@ -111,11 +111,11 @@ public class BoardController implements Serializable {
 
     @Inject
     @ConfigProperty(name = "boardcontroller.pagesize", defaultValue = "100")
-    int pageSize;
+    transient int pageSize;
 
     @Inject
     @ConfigProperty(name = "boardcontroller.categorysize", defaultValue = "5")
-    int categoryPageSize;
+    transient int categoryPageSize;
 
     @Inject
     SearchController searchController;

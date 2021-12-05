@@ -110,7 +110,7 @@ public class SearchController extends ViewController implements Serializable {
 
     @Inject
     @ConfigProperty(name = "office.search.noanalyze", defaultValue = "undefined")
-    String officeSearchNoanalyse;
+    transient String officeSearchNoanalyse;
 
     ItemCollection process;
     ItemCollection space;
@@ -143,7 +143,7 @@ public class SearchController extends ViewController implements Serializable {
         // archive mode?
         if ("true".equals(paramMap.get("archive"))) {
             searchFilter.replaceItemValue("type", "workitemarchive");
-        } 
+        }
 
         String spaceRef = paramMap.get("spaceref");
         if (spaceRef != null && !spaceRef.isEmpty()) {
@@ -177,9 +177,9 @@ public class SearchController extends ViewController implements Serializable {
                     // try to find the task based on the name of the given task....
                     Model model = modelController.getModelByGroup(workflowgroup);
                     List<ItemCollection> tasks = model.findTasksByGroup(workflowgroup);
-                    for (ItemCollection taskElement: tasks) {
+                    for (ItemCollection taskElement : tasks) {
                         if (task.equals(taskElement.getItemValueString("txtname"))) {
-                            taskID=taskElement.getItemValueInteger("numProcessID");
+                            taskID = taskElement.getItemValueInteger("numProcessID");
                             break;
                         }
                     }
