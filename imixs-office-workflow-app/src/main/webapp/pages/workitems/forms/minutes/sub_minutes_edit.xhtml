@@ -1,0 +1,138 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+
+
+	<h:panelGroup layout="block" styleClass="imixs-form-section"
+		rendered="#{!readonly}" id="oderlist" binding="#{minutelistContainer}">
+
+
+		<f:ajax render="oderlist" onevent="updateminuteItems">
+
+			<ui:repeat var="minuteitem" value="#{childItemController.childItems}">
+
+				<!-- Minute Block -->
+				<h:panelGroup layout="block" styleClass="imixs-viewentry">
+					<!-- *** Sequence Number and scrop position for onload -->
+					<div class="minute-number">
+						<h2>#{minuteitem.item['numpos']}.</h2>
+
+					</div>
+					<div class="minute-info">
+
+						<!-- Edit Mode? -->
+						<h:panelGroup
+							rendered="#{minuteitem.item['numpos'] eq minuteController.selectedMinute}">
+
+							<h:panelGroup styleClass="minute-summary">
+								<h:inputText title="#{message['form.minutes.help_subject']}"
+									required="false" value="#{minuteitem.item['_subject']}" />
+							</h:panelGroup>
+							<div class="imixs-form-section">
+
+								<dl>
+									<dt>#{message['form.minutes.description']}</dt>
+									<dd>
+										<h:inputTextarea id="tinymce-minute-editor"
+											class="imixs-editor-basic"
+											value="#{minuteitem.item['_description']}" />
+									</dd>
+								</dl>
+							</div>
+
+							<!-- close minute  -->
+							<h:commandButton value="#{message.close}"
+								a:data-id="addposbutton_id"
+								actionListener="#{minuteController.toggleMinute(minuteitem.item['numpos'])}">
+								<f:ajax render="#{minutelistContainer.clientId}"
+									onevent="updateMinuteItems"></f:ajax>
+							</h:commandButton>
+						</h:panelGroup>
+
+						<!-- Read Mode -->
+						<h:panelGroup
+							rendered="#{minuteitem.item['numpos'] ne minuteController.selectedMinute}">
+							<h:panelGroup styleClass="minute-summary">
+								<h2>
+									<h:commandLink value="#{minuteitem.item['_subject']}"
+										actionListener="#{minuteController.toggleMinute(minuteitem.item['numpos'])}">
+										<f:ajax render="#{minutelistContainer.clientId}"
+											onevent="updateMinuteItems"></f:ajax>
+											
+											
+											<h:outputText style="margin-left:10px;font-size:0.7rem;" value="[#{message.edit}]" />
+									</h:commandLink>
+									
+
+								</h2>
+							</h:panelGroup>
+							<div class="imixs-form-section">
+
+								<dl>
+									<dt>#{message['form.minutes.description']}</dt>
+									<dd>
+										<h:outputText escape="false"
+											value="#{minuteitem.item['_description']}" />
+									</dd>
+								</dl>
+							</div>
+
+
+						</h:panelGroup>
+
+
+					</div>
+
+				</h:panelGroup>
+			</ui:repeat>
+
+
+
+			<!-- add new minute button -->
+			<h:commandButton value="#{message.add}" a:data-id="addposbutton_id"
+				actionListener="#{childItemController.add}">
+			</h:commandButton>
+		</f:ajax>
+	</h:panelGroup>
+
+
+
+
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		// display summary
+		$(document).ready(function() {
+			// erste Zeile hinzufügen, falls tabelle noch leer ist
+			var posTableEmpty=#{empty childItemController.childItems};
+			if (posTableEmpty) {
+				// click on add button
+				posButton=$("[data-id='addposbutton_id']");
+				if (posButton) {
+					$(posButton).click();
+				}
+			}
+			
+		});
+
+		// This method refreshs the layout 
+		function updateMinuteItems(data) {
+			if (data.status === 'success') {
+				$('[id$=oderlist]').imixsLayout();
+				imixsOfficeMain.layoutOfficeEditor();
+			}
+		}
+
+		
+
+		/*]]>*/
+	</script>
+
+
+
+</ui:composition>
