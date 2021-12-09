@@ -1,80 +1,151 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-	<!-- minutes body -->
-	<h:panelGroup layout="block"
-		styleClass="imixs-form-section minutes-body-section" id="minutes_body"
-		binding="#{minutesBody}">
 
-		<h:panelGroup id="minute_list">
-			<!-- minute list  -->
-			<c:forEach var="minute" items="#{minuteController.minutes}">
-				<ui:include src="/pages/workitems/forms/minutes/body_entry.xhtml">
-					<!-- compute edit/read mode -->
-					<ui:param name="editmode" value="#{(workitem.item['minuteslocked'] or !minute.item['$isauthor'])?false:true}" />
-					<!-- bind data workitem and component -->
-					<ui:param name="workitem" value="#{minute}" />
-					<ui:param name="minutesBody" value="#{minutesBody}" />
-				</ui:include>
-			</c:forEach>
-		</h:panelGroup>
+
+	<h:panelGroup layout="block" styleClass="imixs-form-section"
+		rendered="#{!readonly}" id="menuitemlist"
+		binding="#{minutelistContainer}">
+		<ui:repeat var="minuteitem" value="#{childItemController.childItems}">
+
+			<!-- Minute Block -->
+			<h:panelGroup layout="block" styleClass="imixs-viewentry">
+				<div class="minute-number">
+					<h2>#{minuteitem.item['numpos']}.</h2>
+				</div>
+				<div class="minute-info">
+
+					<!-- Edit Mode? -->
+					<h:panelGroup
+						rendered="#{minuteitem.item['numpos'] eq minuteController.selectedMinute}">
+
+						<h:panelGroup styleClass="minute-summary">
+							<h:inputText title="#{message['form.minutes.help_subject']}"
+								required="false" value="#{minuteitem.item['_subject']}" />
+						</h:panelGroup>
+						<div class="imixs-form-section">
+							<dl>
+								<dt>#{message['form.minutes.description']}</dt>
+								<dd>
+									<h:inputTextarea id="tinymce-minute-editor"
+										class="imixs-editor-basic"
+										value="#{minuteitem.item['_description']}" />
+								</dd>
+							</dl>
+							
+							<dl>
+								<dd>
+									<h:selectOneRadio value="#{minuteitem.item['minute.type']}">
+									
+										<f:selectItem itemLabel="Beschluss" itemValue="decision"/>
+										<f:selectItem itemLabel="Aufgabe" itemValue="task"/>
+										<f:selectItem itemLabel="Erledigt" itemValue="completed"/>
+									</h:selectOneRadio>
+								</dd>
+							</dl>
+						</div>
+
+						<!-- close minute  -->
+						<h:commandButton value="#{message.close}"
+							onclick="closeMinuteEditor();"
+							actionListener="#{minuteController.toggleMinute(minuteitem.item['numpos'])}">
+							<f:ajax render="#{minutelistContainer.clientId}" immediate="true"
+								onevent="updateMinuteItems"
+								execute="#{minutelistContainer.clientId}"></f:ajax>
+						</h:commandButton>
+					</h:panelGroup>
+
+					<!-- Read Mode -->
+					<h:panelGroup
+						rendered="#{minuteitem.item['numpos'] ne minuteController.selectedMinute}">
+						<h:panelGroup styleClass="minute-summary">
+							<h2>
+								<h:commandLink value="#{minuteitem.item['_subject']}"
+									onclick="closeMinuteEditor();"
+									actionListener="#{minuteController.toggleMinute(minuteitem.item['numpos'])}">
+									<f:ajax render="#{minutelistContainer.clientId}"
+										immediate="true" onevent="updateMinuteItems"
+										execute="#{minutelistContainer.clientId}"></f:ajax>
+									<h:outputText style="margin-left:10px;font-size:0.7rem;"
+										value="[#{message.edit}]" />
+								</h:commandLink>
+							</h2>
+						</h:panelGroup>
+						<div class="imixs-form-section">
+							<dl>
+								<dt>#{message['form.minutes.description']}</dt>
+								<dd>
+									<h:outputText escape="false"
+										value="#{minuteitem.item['_description']}" />
+								</dd>
+							</dl>
+						</div>
+					</h:panelGroup>
+				</div>
+
+			</h:panelGroup>
+		</ui:repeat>
+
+
+		<!-- add new minute button -->
+		<h:commandButton value="#{message.add}" a:data-id="addposbutton_id"
+			actionListener="#{childItemController.add}">
+		</h:commandButton>
+
 	</h:panelGroup>
-	
-	
-	
-	
-	<!--  Init script -->
+
+
+
+
+
 	<script type="text/javascript">
 		/*<![CDATA[*/
-			
+
+		// display summary
 		$(document).ready(function() {
-			// jump to editor if open...
-			var element_to_scroll_to = document.getElementById("minute-editor-position");
-			if (element_to_scroll_to) {
-				// see https://stackoverflow.com/questions/3163615/how-to-scroll-html-page-to-given-anchor
-				element_to_scroll_to.scrollIntoView();
+			// erste Zeile hinzufügen, falls tabelle noch leer ist
+			var posTableEmpty=#{empty childItemController.childItems};
+			if (posTableEmpty) {
+				// click on add button
+				posButton=$("[data-id='addposbutton_id']");
+				if (posButton) {
+					$(posButton).click();
+				}
 			}
+			
 		});
-		
 
-
-		// method to refresh create buttons 
-		function layoutBodySection(e) {
-			if (e.status == 'success') {
-				$(".minutes-body-section").imixsLayout();
-				// layout tinymce for minutes
-				layoutOfficeEditor();
-				// init all UserInput Widgets for this section	
-				initUserListInput($(".minutes-body-section"));
+		// This method refreshs the layout 
+		function updateMinuteItems(data) {
+			if (data.status === 'success') {
+				$('[id$=menuitemlist]').imixsLayout();
+				imixsOfficeMain.layoutOfficeEditor();
 			}
 		}
+
+		
+	
 
 		/* This method removes the tiny mce editor before closed. 
 		   This call is important to rerender new editor in minute body */
 		function closeMinuteEditor() {
-			alert('..close editor');
 			if (tinyMCE) {
+				console.log("...remove tinyMCE...");
 				tinyMCE.remove("textarea.imixs-editor-basic");
 			}
 		}
 
-		/* This method saves the tinyMCE content. 
-			This can not by handled automatically by ajax call */
-		function saveTinyMCE() {
-			if (tinyMCE) {
-				tinyMCE.triggerSave();
-				closeMinuteEditor();
-			}
-		}
+		
+
+		
 
 		/*]]>*/
 	</script>
-</ui:composition>
 
+
+
+</ui:composition>
