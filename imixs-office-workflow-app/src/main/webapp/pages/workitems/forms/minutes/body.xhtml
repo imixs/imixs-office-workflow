@@ -56,11 +56,12 @@
 			}
 		}
 
-		/* This method removes the tiny mce editor befor closed. 
+		/* This method removes the tiny mce editor before closed. 
 		   This call is important to rerender new editor in minute body */
 		function closeMinuteEditor() {
+			alert('..close editor');
 			if (tinyMCE) {
-				tinymce.remove("textarea.imixs-editor-basic");
+				tinyMCE.remove("textarea.imixs-editor-basic");
 			}
 		}
 
