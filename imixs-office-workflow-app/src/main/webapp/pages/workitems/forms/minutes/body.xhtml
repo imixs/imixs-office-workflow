@@ -8,8 +8,7 @@
 
 
 	<h:panelGroup layout="block" styleClass="imixs-form-section"
-		rendered="#{!readonly}" id="menuitemlist"
-		binding="#{minutelistContainer}">
+		id="menuitemlist" binding="#{minutelistContainer}">
 		<ui:repeat var="minuteitem" value="#{childItemController.childItems}">
 
 			<!-- Minute Block -->
@@ -25,28 +24,27 @@
 
 						<h:panelGroup styleClass="minute-summary">
 							<h:inputText title="#{message['form.minutes.help_subject']}"
-								required="false" value="#{minuteitem.item['_subject']}" />
+								required="false" value="#{minuteitem.item['minute.subject']}" />
 						</h:panelGroup>
 						<div class="imixs-form-section">
 							<dl>
-								<dt>#{message['form.minutes.description']}</dt>
+								<dt>
+									<h:selectOneRadio value="#{minuteitem.item['minute.type']}">
+										<f:selectItem itemLabel="#{app.minutes_status_decision}"
+											itemValue="decision" />
+										<f:selectItem itemLabel="#{app.minutes_status_task}"
+											itemValue="task" />
+										<f:selectItem itemLabel="#{app.minutes_status_completed}"
+											itemValue="completed" />
+									</h:selectOneRadio>
+								</dt>
 								<dd>
 									<h:inputTextarea id="tinymce-minute-editor"
 										class="imixs-editor-basic"
-										value="#{minuteitem.item['_description']}" />
+										value="#{minuteitem.item['minute.description']}" />
 								</dd>
 							</dl>
-							
-							<dl>
-								<dd>
-									<h:selectOneRadio value="#{minuteitem.item['minute.type']}">
-									
-										<f:selectItem itemLabel="Beschluss" itemValue="decision"/>
-										<f:selectItem itemLabel="Aufgabe" itemValue="task"/>
-										<f:selectItem itemLabel="Erledigt" itemValue="completed"/>
-									</h:selectOneRadio>
-								</dd>
-							</dl>
+
 						</div>
 
 						<!-- close minute  -->
@@ -60,11 +58,12 @@
 					</h:panelGroup>
 
 					<!-- Read Mode -->
+
 					<h:panelGroup
 						rendered="#{minuteitem.item['numpos'] ne minuteController.selectedMinute}">
 						<h:panelGroup styleClass="minute-summary">
 							<h2>
-								<h:commandLink value="#{minuteitem.item['_subject']}"
+								<h:commandLink value="#{minuteitem.item['minute.subject']}"
 									onclick="closeMinuteEditor();"
 									actionListener="#{minuteController.toggleMinute(minuteitem.item['numpos'])}">
 									<f:ajax render="#{minutelistContainer.clientId}"
@@ -73,16 +72,28 @@
 									<h:outputText style="margin-left:10px;font-size:0.7rem;"
 										value="[#{message.edit}]" />
 								</h:commandLink>
+
 							</h2>
 						</h:panelGroup>
 						<div class="imixs-form-section">
 							<dl>
-								<dt>#{message['form.minutes.description']}</dt>
+								<dt class="minute-summary-status">
+									<h:outputText
+										rendered="#{minuteitem.item['minute.type'] eq 'decision'}"
+										value="#{app.minutes_status_decision}" />
+									<h:outputText
+										rendered="#{minuteitem.item['minute.type'] eq 'task'}"
+										value="#{app.minutes_status_task}" />
+									<h:outputText
+										rendered="#{minuteitem.item['minute.type'] eq 'completed'}"
+										value="#{app.minutes_status_completed}" />
+								</dt>
 								<dd>
 									<h:outputText escape="false"
-										value="#{minuteitem.item['_description']}" />
+										value="#{minuteitem.item['minute.description']}" />
 								</dd>
 							</dl>
+
 						</div>
 					</h:panelGroup>
 				</div>
@@ -92,12 +103,14 @@
 
 
 		<!-- add new minute button -->
-		<h:commandButton value="#{message.add}" a:data-id="addposbutton_id"
-			actionListener="#{childItemController.add}">
+		<h:commandButton value="#{message.add}" a:data-id="addposbutton_id" onclick="closeMinuteEditor();"
+			actionListener="#{minuteController.add}">
+			<f:ajax render="#{minutelistContainer.clientId}" immediate="true"
+				onevent="updateMinuteItems"
+				execute="#{minutelistContainer.clientId}"></f:ajax>
 		</h:commandButton>
-
+		
 	</h:panelGroup>
-
 
 
 

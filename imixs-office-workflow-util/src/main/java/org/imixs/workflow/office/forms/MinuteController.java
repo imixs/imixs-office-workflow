@@ -3,6 +3,7 @@ package org.imixs.workflow.office.forms;
 import java.io.Serializable;
 
 import javax.enterprise.context.ConversationScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -23,14 +24,21 @@ public class MinuteController implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String selectedMinute = null;
+    
+    @Inject
+    ChildItemController childItemController;
 
     /**
      * Here we initialize the formController for the minute workitem
      */
     public MinuteController() {
         super();
-        // initialize formControlller
-        // formController = new FormController();
+    }
+    
+    
+    public  void add() {
+        childItemController.add();
+        selectedMinute=""+childItemController.getChildItems().size();
     }
 
     /**
@@ -39,7 +47,6 @@ public class MinuteController implements Serializable {
      * @param id
      */
     public void toggleMinute(String id) {
-        System.out.println("togle " + id);
         if (selectedMinute != null && selectedMinute.equals(id)) {
             // close edit mode
             selectedMinute = "";
