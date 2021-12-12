@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Imixs IX XML QueyObject  -  www.imixs.com-->
+<query>
+  <itemcollection>
+    <itemcollection>
+      <item name="txtworkflowmanageruri">
+        <value>http://localhost:8080/office-rest/report</value>
+      </item>
+      <item name="txtquery">
+        <value>SELECT
+ wi FROM Entity AS wi
+ JOIN wi.textItems AS v
+ WHERE wi.type IN ('ProcessEntity','ActivityEntity','WorkflowEnvironmentEntity')
+ AND v.itemName = '$modelversion' AND v.itemValue = '?1'</value>
+      </item>
+      <item name="txtname">
+        <value>export.ixr</value>
+      </item>
+    </itemcollection>
+  </itemcollection>
+</query>
