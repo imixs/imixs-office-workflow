@@ -2,6 +2,24 @@
 
 The following section contains migration notes for Imixs-Office-Workflow. 
 
+## Imixs-Office-Workflow 4.5.1
+
+ - Changed Security Model - core access roles are now mandatory, empty passwords are no longer supported
+ 
+	# Fix Postgres DB Data for empty password of user 'imixs-workflow-service'
+	DELETE FROM userid_usergroup WHERE id='imixs-workflow-service';
+	DELETE FROM userid WHERE id='imixs-workflow-service';
+
+
+## Imixs-Office-Workflow 4.5.0
+
+ - changed imixs.properties default entries:
+ 
+	model.default.data=system-de-1.2.0.bpmn
+	.....
+	.....
+	index.fields.store=process.name,txtProcessName,txtWorkflowImageURL
+
 
 ## Imixs-Office-Workflow 4.4.0
 
