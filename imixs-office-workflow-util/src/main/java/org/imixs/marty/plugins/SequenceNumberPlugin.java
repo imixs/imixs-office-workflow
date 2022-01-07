@@ -99,7 +99,7 @@ public class SequenceNumberPlugin extends AbstractPlugin {
 			return documentContext;
 		}
 		/* check if worktitem still have a sequence number? */
-		if (documentContext.getItemValueInteger("numsequencenumber") > 0) {
+		if (sequenceService.hasSequenceNumber(documentContext)) {
 			return documentContext;
 		}
 

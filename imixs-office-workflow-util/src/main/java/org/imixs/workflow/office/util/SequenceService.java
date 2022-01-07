@@ -27,6 +27,8 @@
 
 package org.imixs.workflow.office.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -43,6 +45,7 @@ import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.office.config.ConfigService;
+import org.imixs.workflow.util.XMLParser;
 
 /**
  * The SequcneceService is a singleton EJB which handles continuous
@@ -65,114 +68,220 @@ import org.imixs.workflow.office.config.ConfigService;
  */
 
 @DeclareRoles({ "org.imixs.ACCESSLEVEL.NOACCESS", "org.imixs.ACCESSLEVEL.READERACCESS",
-		"org.imixs.ACCESSLEVEL.AUTHORACCESS", "org.imixs.ACCESSLEVEL.EDITORACCESS",
-		"org.imixs.ACCESSLEVEL.MANAGERACCESS" })
+        "org.imixs.ACCESSLEVEL.AUTHORACCESS", "org.imixs.ACCESSLEVEL.EDITORACCESS",
+        "org.imixs.ACCESSLEVEL.MANAGERACCESS" })
 @RolesAllowed({ "org.imixs.ACCESSLEVEL.NOACCESS", "org.imixs.ACCESSLEVEL.READERACCESS",
-		"org.imixs.ACCESSLEVEL.AUTHORACCESS", "org.imixs.ACCESSLEVEL.EDITORACCESS",
-		"org.imixs.ACCESSLEVEL.MANAGERACCESS" })
+        "org.imixs.ACCESSLEVEL.AUTHORACCESS", "org.imixs.ACCESSLEVEL.EDITORACCESS",
+        "org.imixs.ACCESSLEVEL.MANAGERACCESS" })
 @Singleton
 @RunAs("org.imixs.ACCESSLEVEL.MANAGERACCESS")
 public class SequenceService {
 
-	private static Logger logger = Logger.getLogger(SequenceService.class.getName());
+    public static final String ITEM_SEQUENCENUMBER = "sequencenumber";
+    public static final String ITEM_SEQUENCENUMBER_DEPRECATED = "numsequencenumber";
 
-	@EJB
-	ConfigService configService;
+    private static Logger logger = Logger.getLogger(SequenceService.class.getName());
 
-	@EJB
-	DocumentService documentService;
+    @EJB
+    ConfigService configService;
 
-	/**
-	 * This method computes the sequence number based on a configuration entity with
-	 * the name "BASIC". The configuration provides a property 'sequencenumbers'
-	 * with the current number range for each workflowGroup. If a Workitem have a
-	 * WorkflowGroup with no corresponding entry the method will not compute a new
-	 * number.
-	 * <p>
-	 * This method loads and updates the configuration entity in a new transaction.
-	 * In combination with the
-	 * 
-	 * @Singleton pattern a conflict of multipl running processing steps is no
-	 *            longer possible. See issue #290.
-	 * 
-	 * @throws InvalidWorkitemException
-	 * @throws AccessDeniedException
-	 */
-	@TransactionAttribute(value = TransactionAttributeType.REQUIRES_NEW)
-	public void computeSequenceNumber(ItemCollection documentContext) throws AccessDeniedException {
+    @EJB
+    DocumentService documentService;
 
-		// if the worktitem already have a sequence number than skip!
-		if (documentContext.getItemValueInteger("numsequencenumber") > 0) {
-			return;
-		}
+    /**
+     * This method computes the sequence number based on a configuration entity with
+     * the name "BASIC". The configuration provides a property 'sequencenumbers'
+     * with the current number range for each workflowGroup. If a Workitem have a
+     * WorkflowGroup with no corresponding entry the method will not compute a new
+     * number.
+     * <p>
+     * This method loads and updates the configuration entity in a new transaction.
+     * In combination with the
+     * 
+     * @Singleton pattern a conflict of multipl running processing steps is no
+     *            longer possible. See issue #290.
+     * 
+     * @throws InvalidWorkitemException
+     * @throws AccessDeniedException
+     */
+    @TransactionAttribute(value = TransactionAttributeType.REQUIRES_NEW)
+    public void computeSequenceNumber(ItemCollection documentContext) throws AccessDeniedException {
 
-		ItemCollection configItemCollection = configService.loadConfiguration("BASIC", true);
-		if (configItemCollection != null) {
-			// read configuration and test if a corresponding configuration
-			// exists
-			String sWorkflowGroup = documentContext.getItemValueString(WorkflowKernel.WORKFLOWGROUP);
-			@SuppressWarnings("unchecked")
-			List<String> vNumbers = configItemCollection.getItemValue("sequencenumbers");
+        // if the worktitem already have a sequence number than skip!
+        if (hasSequenceNumber(documentContext)) {
+            return;
+        }
 
-			// find a matching identifier
-			String groupIdentifier = null;
-			String generalIdentifier = null;
-			int identifierPosition = -1;
-			// test if we have a group identifier...
-			for (String aIdentifier : vNumbers) {
-				// test for group identifier...
-				if (aIdentifier.startsWith(sWorkflowGroup + "=")) {
-					groupIdentifier = aIdentifier;
-				}
-				// test for general identifier...
-				if (aIdentifier.startsWith("[GENERAL]=")) {
-					generalIdentifier = aIdentifier;
-				}
-			}
+        ItemCollection configItemCollection = configService.loadConfiguration("BASIC", true);
+        if (configItemCollection != null) {
+            // read configuration and test if a corresponding configuration
+            // exists
+            String sWorkflowGroup = documentContext.getItemValueString(WorkflowKernel.WORKFLOWGROUP);
+            @SuppressWarnings("unchecked")
+            List<String> vNumbers = configItemCollection.getItemValue("sequencenumbers");
 
-			// if we did not find a group identifier we choose the GroupIdentifier if
-			// available...
-			if (groupIdentifier == null && generalIdentifier != null) {
-				// select the general identifier...
-				groupIdentifier = generalIdentifier;
-				sWorkflowGroup = "[GENERAL]";
-			}
+            // find a matching identifier
+            String groupIdentifier = null;
+            String generalIdentifier = null;
+            int identifierPosition = -1;
+            // test if we have a group identifier...
+            for (String aIdentifier : vNumbers) {
+                // test for group identifier...
+                if (aIdentifier.startsWith(sWorkflowGroup + "=")) {
+                    groupIdentifier = aIdentifier;
+                }
+                // test for general identifier...
+                if (aIdentifier.startsWith("[GENERAL]=")) {
+                    generalIdentifier = aIdentifier;
+                }
+            }
 
-			// did we found an identifier?
-			if (groupIdentifier != null) {
-				// we got the next number....
-				String sequcenceNumber = groupIdentifier.substring(groupIdentifier.indexOf('=') + 1);
-				long currentSequenceNumber = Long.parseLong(sequcenceNumber);
-				documentContext.replaceItemValue("numsequencenumber",currentSequenceNumber); 
-				
-				long newSequenceNumber = currentSequenceNumber + 1;
-				// Save the new Number back into the config entity
-				groupIdentifier = sWorkflowGroup + "=" + newSequenceNumber;
+            // if we did not find a group identifier we choose the GroupIdentifier if
+            // available...
+            if (groupIdentifier == null && generalIdentifier != null) {
+                // select the general identifier...
+                groupIdentifier = generalIdentifier;
+                sWorkflowGroup = "[GENERAL]";
+            }
 
-				// update identifier....
-				for (int i = 0; i < vNumbers.size(); i++) {
-					if (vNumbers.get(i).startsWith(sWorkflowGroup + "=")) {
-						identifierPosition = i;
-						break;
-					}
-				}
-				if (identifierPosition > -1) {
-					vNumbers.set(identifierPosition, sWorkflowGroup + "=" + newSequenceNumber);
-					configItemCollection.replaceItemValue("sequencenumbers", vNumbers);
-					// do not use documentService here - cache need to be
-					// updated!
-					configService.save(configItemCollection);
-				}
-			} else {
-				// to avoid problems with incorrect data values we remove the
-				// property numsequencenumber in this case
-				documentContext.removeItem("numsequencenumber");
-			}
+            // did we found an identifier?
+            if (groupIdentifier != null) {
+                // compute the next number....
+                SequenceNumber seqn = new SequenceNumber(groupIdentifier.substring(groupIdentifier.indexOf('=') + 1));
 
-		} else {
-			logger.warning("No BASIC configuration found!");
-		}
+                documentContext.replaceItemValue(ITEM_SEQUENCENUMBER, seqn.nextSequenceNumber);
+                // support deprecated item name
+                documentContext.replaceItemValue(ITEM_SEQUENCENUMBER_DEPRECATED, seqn.nextSequenceNumber);
+                
+                
+                // update identifier....
+                for (int i = 0; i < vNumbers.size(); i++) {
+                    if (vNumbers.get(i).startsWith(sWorkflowGroup + "=")) {
+                        identifierPosition = i;
+                        break;
+                    }
+                }
+                if (identifierPosition > -1) {
+                    vNumbers.set(identifierPosition, sWorkflowGroup + "=" + seqn.nextDev);
+                    configItemCollection.replaceItemValue("sequencenumbers", vNumbers);
+                    // do not use documentService here - cache need to be
+                    // updated!
+                    configService.save(configItemCollection);
+                }
+            } else {
+                // to avoid problems with incorrect data values we remove the
+                // property numsequencenumber in this case
+                documentContext.removeItem(ITEM_SEQUENCENUMBER);
+            }
 
-	}
+        } else {
+            logger.warning("No BASIC configuration found!");
+        }
+
+    }
+
+    /**
+     * This method verifies if a sequence number already exists.
+     * <p>
+     * The method also migrate the old item name 'numsequencenumber' into the new
+     * item name 'sequencenumber'
+     * 
+     * @param documentContext
+     */
+    public boolean hasSequenceNumber(ItemCollection documentContext) {
+        // if the worktitem already have a sequence number than skip!
+        if (documentContext.hasItem(ITEM_SEQUENCENUMBER)
+                && !documentContext.getItemValueString(ITEM_SEQUENCENUMBER).isEmpty()) {
+            // support old item name if not available (backward compatibility)
+            if (!documentContext.hasItem(ITEM_SEQUENCENUMBER_DEPRECATED)) {
+                documentContext.replaceItemValue(ITEM_SEQUENCENUMBER_DEPRECATED,
+                        documentContext.getItemValue(ITEM_SEQUENCENUMBER));
+            }
+            return true;
+        }
+
+        // test for deprecated item name
+        if (documentContext.hasItem(ITEM_SEQUENCENUMBER_DEPRECATED)
+                && !documentContext.getItemValueString(ITEM_SEQUENCENUMBER_DEPRECATED).isEmpty()) {
+            documentContext.replaceItemValue(ITEM_SEQUENCENUMBER,
+                    documentContext.getItemValue(ITEM_SEQUENCENUMBER_DEPRECATED));
+            return true;
+        }
+        // no sequencenumer defined!
+        return false;
+    }
+  
+    /**
+     * A SequenceNumber is a internal object separating a fixed part form a number
+     * part. It computes the next sequence number as also its new definition
+     * <p>
+     * e.g. R<YEAR>0001
+     * 
+     * @author rsoika
+     *
+     */
+    public class SequenceNumber {
+
+        private String digit = "";
+        private String nextDigit = "";
+        private String prafix = "";
+        private String nextSequenceNumber = "";
+        private String nextDev = "";
+
+        public SequenceNumber(String def) {
+            super();
+            // find the number part (we expect the number at the end
+            for (int i = def.length() - 1; i >= 0; i--) {
+                if (Character.isDigit(def.charAt(i))) {
+                    digit = def.charAt(i) + digit;
+                }
+            }
+            prafix = def.substring(0, def.length() - digit.length());
+
+            // now we compute the next absolute number
+            long l = Long.parseLong(digit);
+            nextDigit = "" + (l + 1);
+            // fill leading zeros..
+            while (nextDigit.length() < digit.length()) {
+                nextDigit = "0" + nextDigit;
+            }
+
+            nextDev = prafix + nextDigit;
+
+            // compute next sequecne number
+            nextSequenceNumber = def;
+            // replace <date>...</date>
+            List<String> dateTags = XMLParser.findTags(nextSequenceNumber, "date");
+            for (String tag : dateTags) {
+                // extract the value with the formating information
+                String pattern = XMLParser.findTagValue(tag, "date");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                String dateValue = simpleDateFormat.format(new Date());
+                nextSequenceNumber = nextSequenceNumber.replace(tag, dateValue);
+            }
+
+        }
+
+        public String getDigit() {
+            return digit;
+        }
+
+        public String getNextDigit() {
+            return nextDigit;
+        }
+
+        public String getPrafix() {
+            return prafix;
+        }
+
+        public String getNextSequenceNumber() {
+            return nextSequenceNumber;
+        }
+
+        public String getNextDev() {
+            return nextDev;
+        }
+
+    }
 
 }
