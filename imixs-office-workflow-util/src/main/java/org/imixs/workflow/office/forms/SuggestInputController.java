@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Observes;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -44,6 +45,7 @@ import org.imixs.workflow.ItemCollectionComparator;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.faces.data.WorkflowController;
+import org.imixs.workflow.faces.data.WorkflowEvent;
 
 /**
  * The SuggestInputController can be used to suggest inputs from earlier
@@ -87,7 +89,7 @@ public class SuggestInputController implements Serializable {
 	 */
 	public void reset() {
 		searchResult = new ArrayList<ItemCollection>();
-		logger.fine("reset");
+		logger.info("reset");
 	}
 
 	/**
@@ -109,7 +111,7 @@ public class SuggestInputController implements Serializable {
 	 *            - item names to be updated.
 	 */
 	public void update(ItemCollection workitem, ItemCollection suggest, String itemList) {
-		logger.finest("......update " + itemList + "...");
+		logger.info("......update " + itemList + "...");
 		String[] itemNames = itemList.split("[\\s,;]+");
 		for (String itemName : itemNames) {
 			logger.finest("......update item " + itemName);
@@ -118,6 +120,7 @@ public class SuggestInputController implements Serializable {
 			logger.finest("......new value=" + suggest.getItemValue(itemName));
 		}
 		
+		reset();
 	}
 
 	/**
@@ -139,13 +142,38 @@ public class SuggestInputController implements Serializable {
 	}
 
 	public void search(String keyItemName, String input, String searchItemList, String workflowGroup, String query) {
+	    
+	    
+	    input=workflowController.getWorkitem().getItemValueString(keyItemName);
+	    
+	    
 		if (input == null || input.length() < 3)
 			return;
-		logger.finest("......search for=" + input);
+		logger.info("......search for=" + input);
 		searchResult = searchEntity(keyItemName, searchItemList, workflowGroup, input, query);
 
 	}
 
+	   public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) {
+	       reset();
+	   }
+	/**
+	 * Creates the entry line output for the resultlist.
+	 * 
+	 * @param displayItemList
+	 * @param suggestItemCol
+	 * @return
+	 */
+	public String getDisplayLine(String displayItemList, ItemCollection suggestItemCol) {
+	    String result="";
+	    String[] itemNames = displayItemList.split("[\\s,;]+");
+     
+        for (String itemName : itemNames) {
+            result =result+ suggestItemCol.getItemValueString(itemName) + " | ";
+        }
+        
+        return result;
+	}
 	/**
 	 * This method returns a list of ItemCollections matching the search phrase and
 	 * workflowgroup.
@@ -207,10 +235,10 @@ public class SuggestInputController implements Serializable {
 			sQuery = sQuery.substring(0, sQuery.length() - 3);
 			sQuery += ")";
 
-			logger.finest("......search: " + sQuery);
+			logger.info("......search: " + sQuery);
 
 			col = documentService.find(sQuery, MAX_RESULT, 0, "$modified", true);
-			logger.finest("......found: " + col.size());
+			logger.info("......found: " + col.size());
 		} catch (Exception e) {
 			logger.warning("  lucene error - " + e.getMessage());
 		}
@@ -220,7 +248,7 @@ public class SuggestInputController implements Serializable {
 
 		Set<ItemCollection> uniqueResultList = col.stream().collect(
 				Collectors.toCollection(() -> new TreeSet<>(new SuggestItemCollectionComparator(keyItemName))));
-		logger.finest("...filtert result list in " + (System.currentTimeMillis() - l1) + "ms");
+		logger.info("...filtert result list in " + (System.currentTimeMillis() - l1) + "ms");
 
 		searchResult.addAll(uniqueResultList);
 
