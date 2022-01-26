@@ -89,7 +89,7 @@ public class SuggestInputController implements Serializable {
 	 */
 	public void reset() {
 		searchResult = new ArrayList<ItemCollection>();
-		logger.info("reset");
+		logger.finest("reset");
 	}
 
 	/**
@@ -111,15 +111,12 @@ public class SuggestInputController implements Serializable {
 	 *            - item names to be updated.
 	 */
 	public void update(ItemCollection workitem, ItemCollection suggest, String itemList) {
-		logger.info("......update " + itemList + "...");
+		logger.finest("......update " + itemList + "...");
 		String[] itemNames = itemList.split("[\\s,;]+");
 		for (String itemName : itemNames) {
-			logger.finest("......update item " + itemName);
 			workitem.replaceItemValue(itemName, suggest.getItemValue(itemName));
-
-			logger.finest("......new value=" + suggest.getItemValue(itemName));
 		}
-		
+		// reset the search result
 		reset();
 	}
 
@@ -136,29 +133,25 @@ public class SuggestInputController implements Serializable {
 	 *            - itemName list to serach for
 	 * 
 	 */
-	public void search(String keyItemName, String input, String searchItemList, String workflowGroup) {
-		search(keyItemName, input, searchItemList, workflowGroup, null);
-
-	}
-
-	public void search(String keyItemName, String input, String searchItemList, String workflowGroup, String query) {
-	    
-	    
+	public void search(String keyItemName, String input, String searchItemList, String query) {
 	    input=workflowController.getWorkitem().getItemValueString(keyItemName);
-	    
-	    
-		if (input == null || input.length() < 3)
+	    if (input == null || input.length() < 3)
 			return;
-		logger.info("......search for=" + input);
-		searchResult = searchEntity(keyItemName, searchItemList, workflowGroup, input, query);
+		logger.finest("......search for=" + input);
+		searchResult = searchEntity(keyItemName, searchItemList, input, query);
 
 	}
 
-	   public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) {
-	       reset();
-	   }
 	/**
-	 * Creates the entry line output for the resultlist.
+	 * If the current workitem changed reset the last search result
+	 * @param workflowEvent
+	 */
+	public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) {
+       reset();
+	}
+	
+	/**
+	 * Helper method that creates an entry line output for the suggest resultlist.
 	 * 
 	 * @param displayItemList
 	 * @param suggestItemCol
@@ -167,13 +160,16 @@ public class SuggestInputController implements Serializable {
 	public String getDisplayLine(String displayItemList, ItemCollection suggestItemCol) {
 	    String result="";
 	    String[] itemNames = displayItemList.split("[\\s,;]+");
-     
         for (String itemName : itemNames) {
             result =result+ suggestItemCol.getItemValueString(itemName) + " | ";
         }
-        
+        // cut last |
+        if (result.endsWith(" | ")) {
+            result=result.substring(0,result.length()-3);
+        }
         return result;
 	}
+	
 	/**
 	 * This method returns a list of ItemCollections matching the search phrase and
 	 * workflowgroup.
@@ -187,7 +183,7 @@ public class SuggestInputController implements Serializable {
 	 *            - search phrase
 	 * @return - list of matching requests
 	 */
-	private List<ItemCollection> searchEntity(String keyItemName, String searccItemList, String workflowGroup,
+	private List<ItemCollection> searchEntity(String keyItemName, String searccItemList, 
 			String phrase, String _query) {
 		long l = System.currentTimeMillis();
 		List<ItemCollection> searchResult = new ArrayList<ItemCollection>();
@@ -210,11 +206,8 @@ public class SuggestInputController implements Serializable {
 			} else {
 				// build the default query based on the current workflow group
 				sQuery = "(type:\"workitem\" OR type:\"workitemarchive\")";
-				// add workflow group if provided
-				if (workflowGroup != null && !workflowGroup.isEmpty()) {
-					sQuery = sQuery + " AND ($workflowgroup:\"" + workflowGroup + "\")";
-				}
-
+				// add the current workflow group 
+				sQuery = sQuery + " AND ($workflowgroup:\"" + workflowController.getWorkitem().getWorkflowGroup() + "\")";
 			}
 			
 			// we need to ignore the current workitem
@@ -225,7 +218,7 @@ public class SuggestInputController implements Serializable {
 				}
 			}
 
-			// build query for each search item...
+			// finally build query for each search item...
 			String[] itemNames = searccItemList.split("[\\s,;]+");
 			sQuery += " AND (";
 			for (String itemName : itemNames) {
@@ -235,10 +228,10 @@ public class SuggestInputController implements Serializable {
 			sQuery = sQuery.substring(0, sQuery.length() - 3);
 			sQuery += ")";
 
-			logger.info("......search: " + sQuery);
+			logger.finest("......search: " + sQuery);
 
 			col = documentService.find(sQuery, MAX_RESULT, 0, "$modified", true);
-			logger.info("......found: " + col.size());
+			logger.finest("......found: " + col.size());
 		} catch (Exception e) {
 			logger.warning("  lucene error - " + e.getMessage());
 		}
@@ -248,14 +241,14 @@ public class SuggestInputController implements Serializable {
 
 		Set<ItemCollection> uniqueResultList = col.stream().collect(
 				Collectors.toCollection(() -> new TreeSet<>(new SuggestItemCollectionComparator(keyItemName))));
-		logger.info("...filtert result list in " + (System.currentTimeMillis() - l1) + "ms");
+		logger.finest("...filtert result list in " + (System.currentTimeMillis() - l1) + "ms");
 
 		searchResult.addAll(uniqueResultList);
 
 		// sort by txtname..
 		Collections.sort(searchResult, new ItemCollectionComparator(keyItemName, true));
 
-		logger.info("...computed suggestion result in " + (System.currentTimeMillis() - l) + "ms");
+		logger.finest("...computed suggestion result in " + (System.currentTimeMillis() - l) + "ms");
 
 		return searchResult;
 

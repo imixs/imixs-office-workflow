@@ -25,6 +25,10 @@ function autocompleteSelectNextElement(inputElement) {
 	var id=$(inputElement).data('resultlist');
 	var parent=$( "div[id$='" + id +"']" );
 	var resultElementList = $(".autocomplete-resultlist-element",parent);
+	
+	if (autcompleteSelectedElement == undefined) {
+		autcompleteSelectedElement =-1;
+	}
 	// remove acitve if set	
 	$(resultElementList).removeClass("active");
 	// next element...?
@@ -41,6 +45,10 @@ function autocompleteSelectPrevElement(inputElement) {
 	var id=$(inputElement).data('resultlist');
 	var parent=$( "div[id$='" + id +"']" );
 	var resultElementList = $(".autocomplete-resultlist-element",parent);
+	
+	if (autcompleteSelectedElement == undefined ) {
+		autcompleteSelectedElement =-1;
+	}
 	// remove acitve if set	
 	$(resultElementList).removeClass("active");
 	autcompleteSelectedElement--;
@@ -133,6 +141,56 @@ function autocompleteInitInput(inputElement,searchCallback, resultlistId, select
 	$(inputElement).attr('autocomplete', 'off');
 }
 
+
+
+
+/*
+ * Init Suggest Input function
+ * The method expect the id of a suggest input element
+ * and registers key down events to control the resultlist by keys
+ * The resultlist is the next div after the input
+ 
+ * The method makes use of the 'autocomplet' functions as the suggestInput has
+ * the same dom tree structure 
+ * 
+ * The callback method is optional and is called before the init code!
+ */
+function suggestInputInit(inputElementID) {
+	
+	var iObj=document.getElementById(inputElementID);
+	var inputElement=$(iObj);
+	// find the resultlist element
+	var resultlist=$(inputElement).next()[0];
+	var resultlistId=$(resultlist)[0].id;
+	if (!resultlistId || resultlistId==='') {
+		resultlistId='suggest-resultlist'; // default name
+	} 
+	$(inputElement).attr('data-resultlist', resultlistId);
+	autcompleteSelectedElement = -1;
+	/*execute a function presses a key on the keyboard:*/
+	$(inputElement).keydown(function(e) {
+		autocompleteSearchReady=true; // init serach mode
+		if (e.keyCode == 40) {
+	        /*If the arrow DOWN key is pressed,
+	        increase the currentFocus variable:*/
+			autocompleteSelectNextElement(this);
+		} else if (e.keyCode == 38) { //up
+	        /*If the arrow UP key is pressed,
+	        decrease the currentFocus variable:*/
+			autocompleteSelectPrevElement(this);
+		} else if (e.keyCode == 13) {
+			/*If the ENTER key is pressed, prevent the form from being submitted,*/
+			e.preventDefault();
+			selectActiveElement(this);			
+		}
+	});
+	
+	// on blur hide the suggestinput-resultlist
+	$(inputElement).on("blur", delay(function(event) {
+		$(".suggestinput-resultlist").hide();
+	}, 200));
+		
+}
 
 /*
  * delay function

@@ -6,14 +6,8 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 
-
-
 	<ui:remove>
 		<!-- Suggest Component
-	
-			Requires that the subform workitemlink_resultlist is places at once in the ui:form
-			
-			NOTE: The Input Item is fixed to the item name '$workitemref'
 	-->
 	</ui:remove>
 
@@ -23,32 +17,36 @@
 			<!-- Input Field -->
 			<h:panelGroup id="input_box" layout="block"
 				class="office-suggestinput-inputbox">
-				<h:inputText id="suggest_input" value="#{workitem.item[itemname]}" required="#{required}" autocomplete="off"   class="imixs-suggest" requiredMessage="#{app.ERROR_REQUIRED}" >
-					<f:ajax event="keyup" render="suggest_box" delay="600"
+				<h:inputText id="suggest_input" value="#{workitem.item[itemname]}" required="#{required}" binding="#{suggestInput}"
+				             autocomplete="off" class="office-suggestinput-inputtext">
+					<f:ajax event="keyup" render="suggest_box" delay="900"
 					    execute="suggest_input"
-						listener="#{suggestInputController.search(itemname,itemname,searchitemlist,workflowgroup,query)}" />
+						listener="#{suggestInputController.search(itemname,itemname,searchitemlist,query)}" />
 				</h:inputText>
 				
-				<h:commandLink immediate="true"
-					actionListener="#{suggestInputController.update(workitem,suggest,updateitemlist)}">
-				</h:commandLink>
-				
-				
-				
-				<h:panelGroup id="suggest_box" layout="block"
+				<h:panelGroup id="suggest_box" layout="block"  
 					class="suggestinput-resultlist" style="#{empty suggestInputController.searchResult?'display:none':''}">
 						<c:forEach var="suggest"
 							items="#{suggestInputController.searchResult}">
-							<div class="suggestinput-resultlist-element" >
-								<h:commandLink immediate="true" actionListener="#{suggestInputController.update(workitem,suggest,updateitemlist)}">
+							<div class="autocomplete-resultlist-element suggestinput-resultlist-element" >
+								<h:commandLink immediate="true"
+								 id="link" actionListener="#{suggestInputController.update(workitem,suggest,updateitemlist)}">
 									<h:outputText value="#{suggestInputController.getDisplayLine(displayitemlist,suggest)}" />
 									<f:ajax render="input_box #{render}" execute="#{execute}"  onevent="#{onevent}" />
 								</h:commandLink>
-	
 							</div>
 						</c:forEach>
 					
 				</h:panelGroup>
+				
+					<script type="text/javascript">
+		/*<![CDATA[*/
+			// init suggest input
+			suggestInputInit("#{suggestInput.clientId}");
+		/*]]>*/
+	</script>
+	
+				
 			</h:panelGroup>
 		</div>
 		
