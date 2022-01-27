@@ -24,15 +24,24 @@
 <cc:implementation>
 
 	
-	<div class="marty-userinput">
+	<div class="office-suggestinput">
 		<!-- Input Field -->
 		<h:panelGroup id="input_box" layout="block"
-			class="marty-suggestinput-inputbox">
+			class="office-suggestinput-inputbox">
 			<h:inputText value="#{cc.attrs.value}" required="#{cc.attrs.required}" autocomplete="off"  id="suggest_input" class="imixs-suggest" requiredMessage="#{app.ERROR_REQUIRED}" >
 				<f:ajax event="keyup" render="suggest_box" delay="600"
 					listener="#{suggestInputController.search(cc.attrs.itemname,cc.attrs.value,cc.attrs.searchitemlist,cc.attrs.workflowgroup,cc.attrs.query)}" />
-				<f:ajax event="blur" render="suggest_box" listener="#{suggestInputController.reset}" />
+				
 			</h:inputText>
+			
+		Halllo???		<h:commandLink immediate="true"
+								
+								actionListener="#{suggestInputController.update(workitem,suggest,cc.attrs.updateitemlist)}">
+								depp
+								</h:commandLink>
+			
+			
+			
 			<h:panelGroup id="suggest_box">
 				<h:panelGroup id="suggest_resultlist" layout="block"
 					style="width:100%;margin-top:15px;"
@@ -44,7 +53,7 @@
 						<div class="marty-userinput-suggestresultlist-entry"
 							style="width: 100%;">
 							<h:commandLink immediate="true"
-								onclick="updateSuggestID($(this).parents('[id$=input_box]')[0],'#{suggest.item[cc.attrs.itemname]}')"
+								
 								actionListener="#{suggestInputController.update(workitem,suggest,cc.attrs.updateitemlist)}">
 								<h:outputText style="font-weight: bold;"
 									value="#{suggest.item[cc.attrs.itemname]}" />

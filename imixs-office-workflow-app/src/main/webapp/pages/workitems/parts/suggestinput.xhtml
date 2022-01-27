@@ -20,7 +20,7 @@
 				<h:inputText id="suggest_input" value="#{workitem.item[itemname]}" required="#{required}" binding="#{suggestInput}"
 				             autocomplete="off" class="office-suggestinput-inputtext">
 					<f:ajax event="keyup" render="suggest_box" delay="900"
-					    execute="suggest_input"
+					    execute="suggest_input" onevent="highlightResultList"
 						listener="#{suggestInputController.search(itemname,itemname,searchitemlist,query)}" />
 				</h:inputText>
 				
@@ -39,13 +39,12 @@
 					
 				</h:panelGroup>
 				
-					<script type="text/javascript">
-		/*<![CDATA[*/
-			// init suggest input
-			suggestInputInit("#{suggestInput.clientId}");
-		/*]]>*/
-	</script>
+			<script type="text/javascript">
+				// init suggest input - need to be called after each render
+				suggestInputInit("#{suggestInput.clientId}");
+			</script>
 	
+				
 				
 			</h:panelGroup>
 		</div>

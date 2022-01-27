@@ -1,6 +1,6 @@
 // Imixs-Office Autocomplete Script
 //
-// Used for a generic autocomplete feature for input fields
+// Used for a generic autocomplete and suggest feature for input fields
 
 IMIXS.namespace("org.imixs.workflow.office.autocomplete");
 
@@ -9,6 +9,15 @@ var autcompleteSelectedElement;
 var autocompleteSearchReady=false;
 var currentSelectCallback;
 
+/**
+ * This onLoad method initializes the suggest inputs
+ */
+$(document).ready(function() {
+	/*var suggestInputList=$(".office-suggestinput-inputtext");
+	$(suggestInputList).each(function(index) {
+		suggestInputInit(this.id);
+	});  */
+});
 
 
 /* Helper method to select the current element in the result list */
@@ -156,7 +165,6 @@ function autocompleteInitInput(inputElement,searchCallback, resultlistId, select
  * The callback method is optional and is called before the init code!
  */
 function suggestInputInit(inputElementID) {
-	
 	var iObj=document.getElementById(inputElementID);
 	var inputElement=$(iObj);
 	// find the resultlist element
@@ -166,8 +174,9 @@ function suggestInputInit(inputElementID) {
 		resultlistId='suggest-resultlist'; // default name
 	} 
 	$(inputElement).attr('data-resultlist', resultlistId);
-	autcompleteSelectedElement = -1;
-	/*execute a function presses a key on the keyboard:*/
+	
+	
+	/* execute a function presses a key on the keyboard */
 	$(inputElement).keydown(function(e) {
 		autocompleteSearchReady=true; // init serach mode
 		if (e.keyCode == 40) {
@@ -185,11 +194,39 @@ function suggestInputInit(inputElementID) {
 		}
 	});
 	
+		
 	// on blur hide the suggestinput-resultlist
 	$(inputElement).on("blur", delay(function(event) {
 		$(".suggestinput-resultlist").hide();
 	}, 200));
-		
+		 
+}
+
+/*
+ * This helper method highligts a element in the 
+ * suggest result list if possible.
+ * The method is called by the f:ajax of the suggest_input
+ */
+function highlightResultList(data) {
+	var inputElement=$(data.source);
+	var resultlistId=$(inputElement).attr('data-resultlist');
+	
+	// set active if possible
+	if (autcompleteSelectedElement == undefined) {
+		autcompleteSelectedElement =-1;
+	} else {
+		var parent=$( "div[id$='" + resultlistId +"']" );
+		var resultElementList = $(".autocomplete-resultlist-element",parent);
+		// remove acitve if set	
+		$(resultElementList).removeClass("active");
+		if (autcompleteSelectedElement >= resultElementList.length) {
+			// reset if overflow...
+			autcompleteSelectedElement = -1;
+		} else {
+			// set active
+			$(resultElementList[autcompleteSelectedElement]).addClass("active");
+		}
+	}
 }
 
 /*
