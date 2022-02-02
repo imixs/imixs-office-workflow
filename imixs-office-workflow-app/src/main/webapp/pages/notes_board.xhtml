@@ -134,9 +134,13 @@
 									<!-- Title -->
 									<h:panelGroup>
 										<ul>
-											<li class="active"><h:outputText
-													value="#{category.workflowGroup} / #{category.workflowStatus}" />
-
+											<li class="active">											
+													<h:link style="text-decoration:none;"
+													outcome="/pages/workitems/worklist?processref=#{process.item['$uniqueId']}&amp;workflowgroup=#{category.workflowGroup}&amp;task=#{category.workflowStatus}"
+													title="#{message['nav.search_extended']}">
+														<h:outputText value="#{category.workflowGroup} / #{category.workflowStatus}" />
+													<span class="typcn typcn-zoom-outline" style="xmargin-left:8px;"></span>
+													</h:link>
 											</li>
 										</ul>
 									</h:panelGroup>
