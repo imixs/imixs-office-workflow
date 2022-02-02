@@ -20,8 +20,8 @@
 				// test if we have already values for display name
 				var dispn=$("input[id$='displayname_id']").val();
 				if (!dispn || dispn=="") {
-					// seems to be a new profile...
-					$("input[id$='user_groups:1']").prop('checked', true);
+					// seems to be a new profile, we set author access...
+					$("input[id$='user_groups:2']").prop('checked', true);
 				}
 			});
 		/*]]>*/
@@ -194,14 +194,14 @@
 												<h:outputLabel value="#{message['profile.groups']}" />
 											</dt>
 											<dd>
-												<h:selectManyCheckbox layout="pageDirection" id="user_groups"
-													value="#{workflowController.workitem.itemListArray['txtGroups']}">
+												<h:selectOneRadio layout="pageDirection" id="user_groups"
+													value="#{accessRoleController.userRole}">
 													<c:forEach
-														items="#{setupController.workitem.itemList['usergroups']}"
+														items="#{accessRoleController.accessRoles}"
 														var="group">
 														<f:selectItem itemLabel="#{group}" itemValue="#{group}"></f:selectItem>
 													</c:forEach>
-												</h:selectManyCheckbox>
+												</h:selectOneRadio>
 											</dd>
 										</dl>
 

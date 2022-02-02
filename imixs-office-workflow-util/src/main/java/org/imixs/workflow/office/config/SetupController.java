@@ -28,7 +28,6 @@
 package org.imixs.workflow.office.config;
 
 import java.util.Optional;
-import java.util.Vector;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -49,12 +48,15 @@ import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.office.model.ModelController;
 
 /**
- * This Marty SetupController extends the Marty ConfigController and holds the
- * data from the configuration entity 'BASIC'. This is the general configuration
- * entity used by the Marty framework.
+ * This SetupController extends the ConfigController and holds the data from the
+ * configuration entity 'BASIC'. This is the general configuration entity used
+ * by Imixs-Office-Workflow.
  * <p>
  * The item 'properties' managed by the 'BASIC' configuration entity is also
  * used by the MartyConfigSource to provide optional config parameters.
+ * <p>
+ * Since version 4.5.1 the SetupController provides a list of fixed UserGroups.
+ * @see AccessRoleController
  * 
  * @see PropertiesConfigSource
  * @author rsoika
@@ -68,6 +70,8 @@ public class SetupController extends ConfigController {
 
     public final static String CONFIGURATION_NAME = "BASIC";
     public final static int DEFAULT_PORTLET_SIZE = 5;
+
+ 
 
     @Inject
     @ConfigProperty(name = "setup.system.model", defaultValue = "")
@@ -135,14 +139,7 @@ public class SetupController extends ConfigController {
 
         // if the BASIC configuration was not yet saved before we need to
         // Initialize it with a default setup
-        if (!getWorkitem().hasItem(WorkflowKernel.UNIQUEID)) {
-            Vector<String> v = new Vector<String>();
-            v.add("IMIXS-WORKFLOW-Manager");
-            v.add("IMIXS-WORKFLOW-Author");
-            v.add("IMIXS-WORKFLOW-Reader");
-            v.add("IMIXS-WORKFLOW-Editor");
-
-            getWorkitem().replaceItemValue("usergroups", v);
+        if (!getWorkitem().hasItem(WorkflowKernel.UNIQUEID)) {         
             getWorkitem().replaceItemValue("keyenableuserdb", true);
             this.save();
         }
@@ -210,6 +207,7 @@ public class SetupController extends ConfigController {
         return moduleName;
     }
 
+    
     /**
      * This method resets the propertyService and modelController
      * 
