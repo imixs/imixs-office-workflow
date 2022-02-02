@@ -112,6 +112,11 @@ public class SearchController extends ViewController implements Serializable {
     @ConfigProperty(name = "office.search.noanalyze", defaultValue = "undefined")
     transient String officeSearchNoanalyse;
 
+    @Inject
+    @ConfigProperty(name = "office.search.pagesize", defaultValue = "10")
+    transient int officeSearchSize;
+
+    
     ItemCollection process;
     ItemCollection space;
 
@@ -123,6 +128,8 @@ public class SearchController extends ViewController implements Serializable {
     public void init() {
         this.setSortBy(setupController.getSortBy());
         this.setSortReverse(setupController.getSortReverse());
+        this.setPageSize(officeSearchSize);
+        this.setPageIndex(getPageIndex());
 
         if (searchFilter == null) {
             reset();
