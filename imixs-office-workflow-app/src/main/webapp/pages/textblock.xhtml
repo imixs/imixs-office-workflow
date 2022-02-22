@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	template="/layout/template_plain.xhtml">
+
+	<!-- out textbock content as html page -->
+
+	<f:metadata>
+		<f:viewAction action="#{documentController.onLoad()}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<f:view>
+			<h:form id="textblock_form_id">
+				<div class="imixs-body">
+					<h:outputText escape="false"
+						value="#{documentController.document.item['txtcontent']}"></h:outputText>
+				</div>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>
+
