@@ -41,6 +41,7 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
@@ -109,6 +110,9 @@ public class SearchController extends ViewController implements Serializable {
     DocumentService documentService;
 
     @Inject
+    protected Event<SearchEvent> searchEvents;
+
+    @Inject
     @ConfigProperty(name = "office.search.noanalyze", defaultValue = "undefined")
     transient String officeSearchNoanalyse;
 
@@ -116,7 +120,6 @@ public class SearchController extends ViewController implements Serializable {
     @ConfigProperty(name = "office.search.pagesize", defaultValue = "10")
     transient int officeSearchSize;
 
-    
     ItemCollection process;
     ItemCollection space;
 
@@ -471,6 +474,19 @@ public class SearchController extends ViewController implements Serializable {
                     query += " OR ";
             }
             query += " ) AND";
+        }
+
+        // extend custom by search phrase....
+        if (searchEvents != null) {
+            SearchEvent event = new SearchEvent(searchFilter, SearchEvent.ON_QUERY);
+            searchEvents.fire(event); // extend query
+            String customQuery = event.getQuery();
+            if (customQuery!=null && !customQuery.isEmpty()) {
+                if (!customQuery.trim().endsWith("AND")) {
+                    customQuery = customQuery + " AND";
+                }
+                query += customQuery;
+            }
         }
 
         // Search phrase....
