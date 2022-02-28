@@ -2,6 +2,13 @@
 
 Imixs-Office-Workflow provides a rich search feature by providing different search forms. 
 
+## Search Page
+
+The size of the result page can be configured by imixs.properties:
+
+	"office.search.pagesize", defaultValue = "10"
+
+
 ## Extending Custom Search Filter
 
 The search filter fomr can be extended by custom search filters. For that the page `worklist_search_custom.xhtml` can be overwritten with additional search filters. See the following example:
