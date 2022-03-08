@@ -112,7 +112,7 @@
 									<ui:param name="displayname"
 										value="#{userController.getUserName(grp)}"></ui:param>
 									<h:outputText value="#{userController.getUserName(grp)}"
-										title="#{grp}" />
+										title="#{grp} - #{userController.getEmail(grp)}" />
 									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
 										<ui:param name="isrole"
 											value="#{userInputController.isRole(grp)}" />
@@ -130,7 +130,7 @@
 									<ui:param name="displayname"
 										value="#{userController.getUserName(grp)}"></ui:param>
 									<h:outputText value="#{userController.getUserName(grp)}"
-										title="#{grp}" />
+										title="#{grp} - #{userController.getEmail(grp)}" />
 									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
 										<ui:param name="isrole"
 											value="#{userInputController.isRole(grp)}" />
@@ -149,7 +149,7 @@
 									<ui:param name="displayname"
 										value="#{userController.getUserName(grp)}" />
 									<h:outputText value="#{userController.getUserName(grp)}"
-										title="#{grp}" />
+										title="#{grp} - #{userController.getEmail(grp)}" />
 									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
 										<ui:param name="isrole"
 											value="#{userInputController.isRole(grp)}" />

@@ -108,7 +108,7 @@
 								<ui:repeat var="grp"
 									value="#{record.itemListArray['process.manager']}">
 									<ui:param name="displayname" value="#{userController.getUserName(grp)}"></ui:param>
-									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp}" />
+									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp} - #{userController.getEmail(grp)}" />
 									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
 										<ui:param name="isrole" value="#{userInputController.isRole(grp)}"/>
 										<h:outputText value="#{grp}"  title="#{isrole?'Access Role':'Unknown User!'}"
@@ -123,7 +123,7 @@
 								<ui:repeat var="grp"
 									value="#{record.itemListArray['process.team']}">
 									<ui:param name="displayname" value="#{userController.getUserName(grp)}"></ui:param>
-									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp}" />
+									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp} - #{userController.getEmail(grp)}" />
 									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
 										<ui:param name="isrole" value="#{userInputController.isRole(grp)}"/>
 										<h:outputText value="#{grp}"  title="#{isrole?'Access Role':'Unknown User!'}"
@@ -138,7 +138,7 @@
 								<ui:repeat var="grp"
 									value="#{record.itemListArray['process.assist']}">
 									<ui:param name="displayname" value="#{userController.getUserName(grp)}"></ui:param>
-									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp}" />
+									<h:outputText value="#{userController.getUserName(grp)}" title="#{grp} - #{userController.getEmail(grp)}" />
 									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
 										<ui:param name="isrole" value="#{userInputController.isRole(grp)}"/>
 										<h:outputText value="#{grp}"  title="#{isrole?'Access Role':'Unknown User!'}"
