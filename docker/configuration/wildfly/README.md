@@ -89,6 +89,22 @@ Add the postgreSQL driver and Imixs-Office-Workflow Datasoruce
 Add the security entires for the eltron framework to create the imixsrealm
 
 
+### Transaction timeout
+
+We also increase the transaction timeout form 5 minutes to 15 minutes
+
+        <subsystem xmlns="urn:jboss:domain:transactions:6.0">
+            <core-environment node-identifier="${jboss.tx.node.id:1}">
+                <process-id>
+                    <uuid/>
+                </process-id>
+            </core-environment>
+            <recovery-environment socket-binding="txn-recovery-environment" status-socket-binding="txn-status-manager"/>
+            <!-- set transaction timeout from 5min to 15min -->
+            <coordinator-environment default-timeout="900" statistics-enabled="${wildfly.transactions.statistics-enabled:${wildfly.statistics-enabled:false}}"/>
+            <object-store path="tx-object-store" relative-to="jboss.server.data.dir"/>
+        </subsystem>
+
 ### Add Mailhost
 
 Finally add the mail-smtp configuration
