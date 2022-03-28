@@ -5,6 +5,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.workflow.faces.data.ViewController;
 import org.imixs.workflow.faces.util.LoginController;
 
@@ -18,6 +19,10 @@ public class TextBlockViewController extends ViewController {
 	@Inject
 	LoginController loginController;
 	
+    @Inject
+    @ConfigProperty(name = "admin.view.pagesize", defaultValue = "999")
+    transient int adminViewPageSize;
+	
 	@Override
 	@PostConstruct
 	public void init() {
@@ -25,7 +30,7 @@ public class TextBlockViewController extends ViewController {
 		this.setQuery("(type:\"textblock\")");
 		this.setSortBy("txtname");
 		this.setSortReverse(false);
-		this.setPageSize(999);
+		this.setPageSize(adminViewPageSize);
 		this.setLoadStubs(false);
 	}
 
