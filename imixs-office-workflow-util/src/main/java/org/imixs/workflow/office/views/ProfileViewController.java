@@ -20,7 +20,7 @@ public class ProfileViewController extends ViewController {
 	LoginController loginController;
 	
     @Inject
-    @ConfigProperty(name = "admin.view.pagesize", defaultValue = "999")
+    @ConfigProperty(name = "admin.view.entries.max", defaultValue = "999")
     transient int adminViewPageSize;
     
 	@Override

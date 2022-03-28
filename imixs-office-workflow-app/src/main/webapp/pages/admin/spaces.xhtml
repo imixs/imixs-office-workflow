@@ -32,7 +32,7 @@
 					if ($('tbody tr:nth-child(1) td', $(this)).length > 1)
 						$(this).dataTable({
 							"bRetrieve" : true,
-							"iDisplayLength" : 30,
+							"iDisplayLength" : #{propertyController.getProperty('admin.view.table.displaylength','30')},
 							"bLengthChange" : false,
 							"bSortable" : false,
 							"bJQueryUI" : true,

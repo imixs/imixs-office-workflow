@@ -4,9 +4,17 @@ The Admin area provides different sections to administrate system configuration
 
 ## General Admin Config Paramters
 
-**admin.view.pagesize**
+**admin.view.entries.max**
 
-The property  `admin.view.pagesize` defines the maximum entries loaded into the admin view, e.g. Profilelist, Spaces, ....
+The property  `admin.view.entries.max` defines the maximum entries loaded into the admin view, e.g. Profilelist, Spaces, ....
+
+
+**admin.view.table.displaylength**
+
+The property  `admin.view.table.displaylength` defines the maximum entries displayed by the JQuery Table Plugin in one page.
+
+
+<img src="../images/admin-view-001.png" />
 
 **application.url**
 
