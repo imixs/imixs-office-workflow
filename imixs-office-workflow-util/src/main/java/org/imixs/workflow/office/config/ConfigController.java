@@ -193,8 +193,13 @@ public class ConfigController implements Serializable {
 		// update name
 		configItemCollection.replaceItemValue("txtname", this.getName());
 		// save entity
-		configItemCollection = configService.save(configItemCollection);
-
+		try {
+			configItemCollection = configService.save(configItemCollection);
+			System.out.println("...configuration " + this.getName() + " updated!");
+		} catch (Exception e) {
+			System.out.println("...Failed to save configuration " + this.getName() + " : " + e.getMessage() + " - reloading config!");
+			configItemCollection = configService.loadConfiguration(getName(), true);
+		}
 	}
 
 }
