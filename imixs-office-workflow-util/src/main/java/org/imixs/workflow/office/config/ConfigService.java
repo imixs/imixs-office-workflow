@@ -178,17 +178,27 @@ public class ConfigService {
 	 * @return
 	 * @throws AccessDeniedException
 	 */
-	public ItemCollection save(ItemCollection configItemCollection) throws AccessDeniedException {
-		// update write and read access
-		configItemCollection.replaceItemValue("type", TYPE);
+    public ItemCollection save(ItemCollection configItemCollection) throws AccessDeniedException {
+        // save $version
+        int version=configItemCollection.getItemValueInteger(DocumentService.VERSION);
+        
+        // update write and read access
+        configItemCollection.replaceItemValue("type", TYPE);
 
-		// save entity
-		configItemCollection = documentService.save(configItemCollection);
+        // save entity
+        configItemCollection = documentService.save(configItemCollection);
 
-		cache.put(configItemCollection.getItemValueString("txtName"), configItemCollection);
-
-		return configItemCollection;
-	}
+        // here we verify if the $version was removed from the documentService.save method!
+        // issue #380
+        if (!configItemCollection.hasItem(DocumentService.VERSION)) {
+            // force update $version
+            version ++;
+            configItemCollection.setItemValue(DocumentService.VERSION,version);
+        }
+        
+        cache.put(configItemCollection.getItemValueString("txtName"), configItemCollection);
+        return configItemCollection;
+    }
 
 	/**
 	 * Returns a list of all configuration entities. The method uses JQPL staements instead of lucene index. 
