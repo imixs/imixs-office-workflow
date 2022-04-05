@@ -11,23 +11,34 @@
 		when a session expired 
 	 -->
 	<ui:define name="content">
-		<h:form id="logoutform">
-			<div class="imixs-form">
-			
-				<div class="imixs-header">
-				<h2><span class="typcn typcn-messages"></span> #{message['login.optimisticlock_exception_title']}</h2>
-				</div>
-				<div class="imixs-body">
-					<div class="imixs-form-panel">
-						<p>#{message['login.optimisticlock_exception_help']}</p>
-						
-						<br /> <br />
-						<h:commandButton value="#{message['continue']}"
-							action="/index.xhtml" />
-					</div>
-				</div>
+	
+	
+		<h:panelGroup styleClass="ui-widget">
+			<div class="ui-state-error ui-corner-all"
+				style="padding: .7em; margin-bottom: .7em;">
+				<h3>
+					<span class="typcn typcn-messages"> </span>
+						#{message['login.optimisticlock_exception_title']}
+				</h3>
+				<p>#{message['login.optimisticlock_exception_help']}</p>
+				<strong><h:outputText value="#{session.lastAccessedTime}">
+						<f:convertDateTime pattern="#{message.dateTimePatternLong}"
+							type="date" />
+					</h:outputText> </strong> <br />
+				
 			</div>
-		</h:form>
+			<h:form>
+				<h:commandButton action="home" value="#{message.close}"
+					immediate="true" />
+			</h:form>
+
+		</h:panelGroup>	
+	
+	
+	
+	
+	
+
 
 	</ui:define>
 </ui:composition>

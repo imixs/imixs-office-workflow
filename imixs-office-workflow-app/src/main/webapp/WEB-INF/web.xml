@@ -65,10 +65,8 @@
 	<!-- Error handling -->
 	 <error-page>   
      	<exception-type>javax.enterprise.context.NonexistentConversationException</exception-type>
-     	<location>/error_conversationexpired.xhtml?nocid=true</location>   
+     	<location>/errorhandler.jsf?nocid=true</location>   
     </error-page>  
-    
-    
     <error-page>   
      	<exception-type>javax.faces.view.facelets.TagAttributeException</exception-type>   
      	<location>/errorhandler.jsf</location>   
@@ -80,7 +78,7 @@
     
 	<error-page>
 		<exception-type>java.lang.RuntimeException</exception-type>
-		<location>/error.jsf</location>
+		<location>/errorhandler.jsf</location>
 	</error-page>
 	<error-page>
 		<error-code>401</error-code>

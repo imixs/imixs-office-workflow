@@ -4,67 +4,91 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	template="/layout/template.xhtml">
-
-
-	<h:head>
-
-		<c:choose>
-			<!-- Handle WELD-000321: No conversation found to restore for .... -->
-			<c:when
-				test="#{(!empty requestScope['javax.servlet.error.exception'].cause) and (!empty requestScope['javax.servlet.error.exception'].cause.cause) and (requestScope['javax.servlet.error.exception'].cause.cause.class.name eq 'javax.enterprise.context.NonexistentConversationException')}">
-				<meta http-equiv="refresh"
-					content="0; URL=#{facesContext.externalContext.requestContextPath}/error_conversationexpired.xhtml?nocid=true" />
-			</c:when>
-
-			<!-- Handle javax.persistence.OptimisticLockException .... -->
-			<c:when
-				test="#{requestScope['javax.servlet.error.exception'].toString().contains('OptimisticLockException')}">
-				<meta http-equiv="refresh"
-					content="0; URL=#{facesContext.externalContext.requestContextPath}/error_optimisticlock.xhtml?nocid=true" />
-			</c:when>
-			<!--  handle rollback exceptions -->
-			<c:when
-				test="#{!requestScope['javax.servlet.error.exception'].toString().contains('javax.ejb.EJBTransactionRolledbackException')}">
-				<meta http-equiv="refresh"
-					content="10; URL=#{facesContext.externalContext.requestContextPath}/error.jsf" />
-			</c:when>
-		</c:choose>
-	</h:head>
-	
-	
-	
 	<!-- 
-		Display the cause of a rollback excepiton
+		Display a error message depending on the cause of a exception
 	 -->
-	 
-	 <ui:define name="content">
+	<ui:define name="content">
 		<!-- Display only if error messages available -->
-		<h:panelGroup styleClass="ui-widget">
-			<div class="ui-state-error ui-corner-all"
+		<h:panelGroup styleClass="" layout="block">
+			<div class="ui-state-error ui-corner-all imixs-header"
 				style="padding: .7em; margin-bottom: .7em;">
-				<h3>
-					<span class="typcn typcn-weather-stormy"></span>
-					#{message.error_message_rollback_title}
-				</h3>
-				<p>#{message.error_message_rollback}</p>
-				<strong><h:outputText value="#{session.lastAccessedTime}">
-						<f:convertDateTime pattern="#{message.dateTimePatternLong}"
-							type="date" />
-					</h:outputText> :</strong> <br />
-				<!-- display exception details -->
-				<h:panelGroup layout="block"
-					style="background: #EEE;   padding: 10px; margin: 5px 0 20px 0;border: 1px solid #999;"
-					rendered="#{! empty requestScope['javax.servlet.error.exception']}">
-					<h:outputText
-						value="#{requestScope['javax.servlet.error.exception']}" />
-				</h:panelGroup>
+
+				<!-- Show different Error Message types -->
+
+				<c:choose>
+					<!-- Handle WELD-000321: No conversation found to restore for .... -->
+					<c:when
+						test="#{errorController.isCausedBy(requestScope['javax.servlet.error.exception'],'ConversationException')}">
+
+						<h3>
+							<span class="typcn typcn-stopwatch"></span>
+							#{message['login.conversation_expired_title']}
+						</h3>
+						<p>#{message['login.optimisticlock_exception_help']}</p>
+						<h:outputText value="#{session.lastAccessedTime}">
+							<f:convertDateTime pattern="#{message.dateTimePatternLong}"
+								type="date" />
+						</h:outputText>
+					</c:when>
+
+					<!-- Handle javax.persistence.OptimisticLockException .... -->
+					<c:when
+						test="#{errorController.isCausedBy(requestScope['javax.servlet.error.exception'],'OptimisticLockException')}">
+
+						<h3>
+							<span class="typcn typcn-messages"> </span>
+							#{message['login.optimisticlock_exception_title']}
+						</h3>
+						<p>#{message['login.optimisticlock_exception_help']}</p>
+						<h:outputText value="#{session.lastAccessedTime}">
+							<f:convertDateTime pattern="#{message.dateTimePatternLong}"
+								type="date" />
+						</h:outputText>
+					</c:when>
+
+					<!--  handle rollback exceptions -->
+					<c:when
+						test="#{errorController.isCausedBy(requestScope['javax.servlet.error.exception'],'RolledbackException')}">
+
+						<h3>
+							<span class="typcn typcn-weather-stormy"></span>
+							#{message.error_message_rollback_title}
+						</h3>
+						<p>#{message['login.error_message_rollback']}</p>
+						<h:outputText value="#{session.lastAccessedTime}">
+							<f:convertDateTime pattern="#{message.dateTimePatternLong}"
+								type="date" />
+						</h:outputText>
+
+					</c:when>
+
+					<!-- Display Stacktrace Inforamtion as we encountered a undefiend error -->
+					<c:otherwise>
+						<h3>
+							<span class="typcn typcn-weather-stormy"></span>
+							#{message.error_message_rollback_title}
+						</h3>
+						<p>#{message.error_message_rollback}</p>
+						<strong><h:outputText value="#{session.lastAccessedTime}">
+								<f:convertDateTime pattern="#{message.dateTimePatternLong}"
+									type="date" />
+							</h:outputText> :</strong>
+						<br />
+						<!-- display exception details -->
+						<h:panelGroup layout="block"
+							style="background: #EEE;   padding: 10px; margin: 5px 0 20px 0;border: 1px solid #999;"
+							rendered="#{! empty requestScope['javax.servlet.error.exception']}">
+							<h:outputText
+								value="#{requestScope['javax.servlet.error.exception']}" />
+						</h:panelGroup>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<h:form>
 				<h:commandButton action="home" value="#{message.close}"
 					immediate="true" />
 			</h:form>
-
 		</h:panelGroup>
 	</ui:define>
-	
+
 </ui:composition>
