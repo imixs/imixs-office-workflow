@@ -30,11 +30,13 @@ package org.imixs.workflow.office.config;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.model.SelectItem;
+import javax.persistence.OptimisticLockException;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.exceptions.AccessDeniedException;
@@ -85,6 +87,8 @@ import org.imixs.workflow.exceptions.AccessDeniedException;
 public class ConfigController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	private static Logger logger = Logger.getLogger(ConfigController.class.getName());
 
 	private String name = "CONFIGURATION";
 
@@ -195,10 +199,12 @@ public class ConfigController implements Serializable {
 		// save entity
 		try {
 			configItemCollection = configService.save(configItemCollection);
-			System.out.println("...configuration " + this.getName() + " updated!");
-		} catch (Exception e) {
-			System.out.println("...Failed to save configuration " + this.getName() + " : " + e.getMessage() + " - reloading config!");
+			logger.info("...configuration " + this.getName() + " updated!");
+		} catch (OptimisticLockException e) {
+		    logger.warning("...Failed to save configuration " + this.getName() + " : " + e.getMessage() + " - reloading config!");
 			configItemCollection = configService.loadConfiguration(getName(), true);
+			// force Exception
+			throw e;
 		}
 	}
 
