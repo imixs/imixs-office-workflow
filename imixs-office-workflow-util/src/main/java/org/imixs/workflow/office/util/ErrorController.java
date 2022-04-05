@@ -57,7 +57,6 @@ public class ErrorController implements Serializable {
      * @return
      */
     public boolean isCausedBy(Exception e, String excpetionType) {
-        logger.info("test is caused by: " + e);
         if (e==null) {
             return false;
         }
