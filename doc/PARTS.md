@@ -1,4 +1,4 @@
-# Pats
+# Parts
 
 Imixs-Office-Workflow provides so called 'Form Parts' to be used to design custom forms via the BPMN model.
 
