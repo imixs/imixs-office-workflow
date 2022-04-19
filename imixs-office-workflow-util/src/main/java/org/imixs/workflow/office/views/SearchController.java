@@ -136,9 +136,6 @@ public class SearchController extends ViewController implements Serializable {
 
         if (searchFilter == null) {
             reset();
-            // searchFilter = new ItemCollection();
-            // set default user mode
-            // searchFilter.replaceItemValue("usermode", "owner");
         }
         // extract the id from the query string
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -169,6 +166,11 @@ public class SearchController extends ViewController implements Serializable {
         if (creator != null && !creator.isEmpty()) {
             searchFilter.replaceItemValue("user", creator);
             searchFilter.replaceItemValue("usermode", "creator");
+        }
+        String participant = paramMap.get("participant");
+        if (participant != null && !participant.isEmpty()) {
+            searchFilter.replaceItemValue("user", participant);
+            searchFilter.replaceItemValue("usermode", "participant");
         }
 
         // extract optional workflowgorup and task
@@ -460,6 +462,8 @@ public class SearchController extends ViewController implements Serializable {
         if (!"".equals(sUser)) {
             if ("creator".equals(sUserMode)) {
                 query += " ($creator:\"" + sUser.toLowerCase() + "\") AND";
+            } else if ("participant".equals(sUserMode)) {
+                query += " ($participants:\"" + sUser.toLowerCase() + "\") AND";
             } else {
                 query += " ($owner:\"" + sUser.toLowerCase() + "\") AND";
             }

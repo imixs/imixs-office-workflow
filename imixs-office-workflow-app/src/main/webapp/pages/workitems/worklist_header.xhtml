@@ -49,7 +49,8 @@
 			<!-- by owner/creator -->
 			<dl>
 				<dt><h:selectOneRadio value="#{searchController.searchFilter.itemListArray['usermode']}">
-						<f:selectItem itemLabel="#{message['owner']}" itemValue="owner" />
+						<f:selectItem itemLabel="#{message['currenteditor']}" itemValue="owner" />
+						<f:selectItem itemLabel="#{message['participants']}" itemValue="participant" />
 						<f:selectItem itemLabel="#{message['creator']}" itemValue="creator" />
 						<f:ajax event="change" execute="@form" render="@form" listener="#{searchController.refreshSearch}"
 							onevent="updateSearchForm"  /> 
