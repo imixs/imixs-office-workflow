@@ -230,7 +230,9 @@ public class ModelController implements Serializable {
 	 * @return
 	 */
 	public List<String> getVersions() {
-		return modelService.getVersions();
+	    List<String> list=modelService.getVersions();
+	    Collections.sort(list);
+		return list;
 	}
 
 	public ItemCollection getModelEntity(String version) {
