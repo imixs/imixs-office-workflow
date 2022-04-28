@@ -27,18 +27,23 @@
 
 package org.imixs.workflow.office.forms;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.event.Observes;
+import javax.faces.application.Application;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -77,8 +82,11 @@ public class CustomFormController implements Serializable {
 
     private List<CustomFormSection> sections;
 
+    private String supportedExpressions = "";
+
     public CustomFormController() {
         super();
+        loadCustomFormExpressions();
     }
 
     public List<CustomFormSection> getSections() {
@@ -92,7 +100,7 @@ public class CustomFormController implements Serializable {
      * @throws AccessDeniedException
      * @throws ModelException
      */
-    public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) {
+    public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) throws ModelException {
         if (workflowEvent == null)
             return;
 
@@ -120,7 +128,7 @@ public class CustomFormController implements Serializable {
      * @return
      * @throws ModelException
      */
-    public void computeFieldDefinition(ItemCollection workitem) {
+    public void computeFieldDefinition(ItemCollection workitem) throws ModelException {
         sections = new ArrayList<CustomFormSection>();
         String content = fetchFormDefinitionFromModel(workitem);
         if (content.isEmpty()) {
@@ -144,9 +152,9 @@ public class CustomFormController implements Serializable {
                     logger.finest("parsing section...");
                     if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                         Element eElement = (Element) nNode;
-                        
+
                         CustomFormSection customSection = new CustomFormSection(eElement.getAttribute("label"),
-                                eElement.getAttribute("columns"),eElement.getAttribute("path"));
+                                eElement.getAttribute("columns"), eElement.getAttribute("path"));
                         customSection.setItems(findItems(eElement));
                         sections.add(customSection);
                     }
@@ -206,8 +214,9 @@ public class CustomFormController implements Serializable {
      * 
      * @param sectionElement
      * @return
+     * @throws ModelException 
      */
-    private List<CustomFormItem> findItems(Element sectionElement) {
+    private List<CustomFormItem> findItems(Element sectionElement) throws ModelException {
         List<CustomFormItem> result = new ArrayList<CustomFormItem>();
         NodeList itemList = sectionElement.getElementsByTagName("item");
         for (int temp = 0; temp < itemList.getLength(); temp++) {
@@ -218,9 +227,9 @@ public class CustomFormController implements Serializable {
                 Element itemElement = (Element) itemNode;
                 CustomFormItem customItem = new CustomFormItem(itemElement.getAttribute("name"),
                         itemElement.getAttribute("type"), itemElement.getAttribute("label"),
-                        Boolean.parseBoolean(itemElement.getAttribute("required")),
-                        Boolean.parseBoolean(itemElement.getAttribute("readonly")),
-                        itemElement.getAttribute("options"), itemElement.getAttribute("path"));
+                        evaluateBoolean(itemElement.getAttribute("required")),
+                        evaluateBoolean(itemElement.getAttribute("readonly")), itemElement.getAttribute("options"),
+                        itemElement.getAttribute("path"), evaluateBoolean(itemElement.getAttribute("hide")));
 
                 result.add(customItem);
             }
@@ -228,5 +237,89 @@ public class CustomFormController implements Serializable {
 
         return result;
 
+    }
+
+    /**
+     * This method evaluates a Expression to a boolean.
+     * <p>
+     * An expression can be a EL expression if it starts with '#{' and ends with
+     * '}'. In this case the method evaluates the EL expression to boolean.
+     * <p>
+     * If the expression is a string with 'true' or 'false', then the provided
+     * string will be evaluated with Boolean.parseBoolean
+     * <p>
+     * Example valid values are: 'true', 'false', #{1 eq 1}
+     * 
+     * @param expression
+     * @return
+     * @throws ModelException 
+     */
+    private boolean evaluateBoolean(String expression) throws ModelException {
+        if (expression == null || expression.isEmpty()) {
+            return false;
+        }
+
+        // is it a el expression?
+        if (expression.startsWith("#{") && expression.endsWith("}")) {
+            
+            // test if expression is supported
+            if (supportedExpressions.contains(expression)) {
+                FacesContext ctx = FacesContext.getCurrentInstance();
+                Application app = ctx.getApplication();
+                boolean result = app.evaluateExpressionGet(ctx, expression, Boolean.class);
+                return result;
+            } else {
+                throw new ModelException(ModelException.INVALID_MODEL_ENTRY, "The custom-form expression is not allowed: "
+            + expression  );
+            }
+            
+        } else {
+            // default simple Bollean parsing....
+            return Boolean.parseBoolean(expression);
+        }
+
+    }
+
+    /**
+     * This helper method loads the epxressions.properties file
+     */
+    private void loadCustomFormExpressions() {
+        try {
+            StringBuilder resultStringBuilder = new StringBuilder();
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(getFileFromResourceAsStream("customform.expressions")))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    resultStringBuilder.append(line).append("\n");
+                }
+            }
+            supportedExpressions = resultStringBuilder.toString();
+        } catch (Exception e) {
+            logger.warning("unable to find customform.expressions in current classpath");
+            if (logger.isLoggable(Level.FINE)) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    /**
+     * Helper method to get a file from the resources folder works everywhere, IDEA,
+     * unit test and JAR file.
+     * 
+     * @see https://mkyong.com/java/java-read-a-file-from-resources-folder/
+     * @param fileName
+     * @return
+     */
+    private InputStream getFileFromResourceAsStream(String fileName) {
+        // The class loader that loaded the class
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+        // the stream holding the file content
+        if (inputStream == null) {
+            throw new IllegalArgumentException("file not found! " + fileName);
+        } else {
+            return inputStream;
+        }
     }
 }

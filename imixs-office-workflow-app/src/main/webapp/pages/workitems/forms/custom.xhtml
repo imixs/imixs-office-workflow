@@ -8,6 +8,7 @@
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
 
 	<h:panelGroup id="custom_subview_id"  binding="#{customFormComponents}">
+	
 	<c:forEach items="#{customFormController.sections}" var="section">
 
 		<c:if test="#{! empty section.label}">
@@ -24,11 +25,11 @@
 		
 		<!-- standard form section -->
 		<c:if test="#{empty section.path}">
-		
 		<div
 			class="imixs-form-section#{(empty section.columns)?'':'-'.concat(section.columns)}">
 
 			<c:forEach items="#{section.items}" var="item">
+				<c:if test="#{!item.hide}">
 				<dl>
 					<dt>
 						#{item.label}
@@ -164,13 +165,14 @@
 						</c:if>
 						<!-- custom subview -->
 						<c:if test="#{item.type eq 'custom'}">
-						
+							<ui:param name="formel" value="1 ne 1"></ui:param>
 						    <ui:include src="/pages/workitems/parts/#{item.path}.xhtml">
 								<ui:param name="workitem" value="#{workflowController.workitem}" />
 								<ui:param name="required" value="#{item.required}" />
 								<ui:param name="readonly" value="#{item.readonly}" />
 								<ui:param name="name" value="#{item.name}" />
 								<ui:param name="options" value="#{item.options}" />
+								<ui:param name="rendered" value="#{formel}" />
 							</ui:include>
 							
 							
@@ -178,6 +180,9 @@
 						
 					</dd>
 				</dl>
+				
+				</c:if>
+				
 			</c:forEach>
 		</div>
 		</c:if>

@@ -27,6 +27,7 @@
 			</c:if>
 
 			<c:forEach items="#{section.items}" var="item">
+			<c:if test="#{!item.hide}">
 				<dl>
 					<dt>
 						#{item.label}
@@ -98,6 +99,7 @@
 						</c:if>
 					</dd>
 				</dl>
+				</c:if>
 			</c:forEach>
 		</div>
 		</c:if>
