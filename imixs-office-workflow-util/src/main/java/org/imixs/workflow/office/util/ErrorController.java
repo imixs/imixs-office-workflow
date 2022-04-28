@@ -47,12 +47,14 @@ public class ErrorController implements Serializable {
 
 	private static Logger logger = Logger.getLogger(ErrorController.class.getName());
 
+	private String message=null;
+	
 	public ErrorController() {
 		super();
 	}
 
     /**
-     * Returns true if the exception is caused by a OptimisticLockException
+     * Returns true if the exception is caused by a specific Exception type
      * @param e
      * @return
      */
@@ -60,11 +62,13 @@ public class ErrorController implements Serializable {
         if (e==null) {
             return false;
         }
+      
         // iterate over the full exception stack trace
         Throwable cause = e.getCause();
         while (cause!=null) {
             if (cause.toString().contains(excpetionType)) {
                 logger.warning("...exception caused by " + excpetionType );
+                setMessage(cause.getMessage());
                 return true;
             }
             // take next cause from stack
@@ -72,4 +76,13 @@ public class ErrorController implements Serializable {
         }
         return false;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+    
 }

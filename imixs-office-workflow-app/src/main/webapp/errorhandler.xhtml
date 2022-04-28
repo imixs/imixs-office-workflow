@@ -16,6 +16,40 @@
 				<!-- Show different Error Message types -->
 
 				<c:choose>
+					<!-- Handle ModelException .... -->
+					<c:when
+						test="#{errorController.isCausedBy(requestScope['javax.servlet.error.exception'],'ModelException')}">
+
+						<h3>
+							<span class="typcn typcn-flow-merge"></span>
+							#{message['model_exception_title']}
+						</h3>
+						<p>#{message['model_exception_help']}:</p>
+						<p>#{errorController.message}</p>
+					
+						<h:outputText value="#{session.lastAccessedTime}">
+							<f:convertDateTime pattern="#{message.dateTimePatternLong}"
+								type="date" />
+						</h:outputText>
+					</c:when>
+					
+					<!-- Handle PluginException .... -->
+					<c:when
+						test="#{errorController.isCausedBy(requestScope['javax.servlet.error.exception'],'PluginException')}">
+
+						<h3>
+							<span class="typcn typcn-plug"></span>
+							#{message['plugin_exception_title']}
+						</h3>
+						<p>#{message['plugin_exception_help']}:</p>
+						<p>#{errorController.message}</p>
+					
+						<h:outputText value="#{session.lastAccessedTime}">
+							<f:convertDateTime pattern="#{message.dateTimePatternLong}"
+								type="date" />
+						</h:outputText>
+					</c:when>					
+									
 					<!-- Handle WELD-000321: No conversation found to restore for .... -->
 					<c:when
 						test="#{errorController.isCausedBy(requestScope['javax.servlet.error.exception'],'ConversationException')}">
@@ -24,7 +58,7 @@
 							<span class="typcn typcn-stopwatch"></span>
 							#{message['login.conversation_expired_title']}
 						</h3>
-						<p>#{message['login.optimisticlock_exception_help']}</p>
+						<p>#{message['login.conversation_exception_help']}</p>
 						<h:outputText value="#{session.lastAccessedTime}">
 							<f:convertDateTime pattern="#{message.dateTimePatternLong}"
 								type="date" />
