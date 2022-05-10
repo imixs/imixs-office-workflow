@@ -28,7 +28,7 @@
 						<p>#{errorController.message}</p>
 					
 						<h:outputText value="#{session.lastAccessedTime}">
-							<f:convertDateTime pattern="#{message.dateTimePatternLong}"
+							<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
 								type="date" />
 						</h:outputText>
 					</c:when>
@@ -45,7 +45,7 @@
 						<p>#{errorController.message}</p>
 					
 						<h:outputText value="#{session.lastAccessedTime}">
-							<f:convertDateTime pattern="#{message.dateTimePatternLong}"
+							<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
 								type="date" />
 						</h:outputText>
 					</c:when>					
@@ -60,7 +60,7 @@
 						</h3>
 						<p>#{message['login.conversation_exception_help']}</p>
 						<h:outputText value="#{session.lastAccessedTime}">
-							<f:convertDateTime pattern="#{message.dateTimePatternLong}"
+							<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
 								type="date" />
 						</h:outputText>
 					</c:when>
@@ -75,7 +75,7 @@
 						</h3>
 						<p>#{message['login.optimisticlock_exception_help']}</p>
 						<h:outputText value="#{session.lastAccessedTime}">
-							<f:convertDateTime pattern="#{message.dateTimePatternLong}"
+							<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
 								type="date" />
 						</h:outputText>
 					</c:when>
@@ -90,7 +90,7 @@
 						</h3>
 						<p>#{message['login.error_message_rollback']}</p>
 						<h:outputText value="#{session.lastAccessedTime}">
-							<f:convertDateTime pattern="#{message.dateTimePatternLong}"
+							<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
 								type="date" />
 						</h:outputText>
 
@@ -104,7 +104,7 @@
 						</h3>
 						<p>#{message.error_message_rollback}</p>
 						<strong><h:outputText value="#{session.lastAccessedTime}">
-								<f:convertDateTime pattern="#{message.dateTimePatternLong}"
+								<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
 									type="date" />
 							</h:outputText> :</strong>
 						<br />
