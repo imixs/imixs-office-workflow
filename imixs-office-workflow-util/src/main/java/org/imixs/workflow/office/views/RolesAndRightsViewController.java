@@ -49,16 +49,16 @@ public class RolesAndRightsViewController implements Serializable {
     @PostConstruct
     void init() throws QueryException {
         String _query = "(type:\"profile\") AND ($taskid:[210 TO 299]) ";
-        profiles = documentService.find(_query, 99999, 0);
+        profiles = documentService.find(_query, 9999, 0);
         Collections.sort(profiles, new ItemCollectionComparator("txtusername", true));
         
         
         _query = "type:\"space\"";
-        spaces = documentService.find(_query, 99999, 0);
+        spaces = documentService.find(_query, 9999, 0);
         Collections.sort(spaces, new ItemCollectionComparator("name", true));
         
         _query = "type:\"process\"";
-        processList = documentService.find(_query, 99999, 0);
+        processList = documentService.find(_query, 9999, 0);
         Collections.sort(processList, new ItemCollectionComparator("name", true));
     }
 
