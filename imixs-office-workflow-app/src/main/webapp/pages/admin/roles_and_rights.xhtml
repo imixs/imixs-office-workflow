@@ -1,0 +1,210 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	template="/layout/template.xhtml">
+
+
+	<ui:define name="content">
+		<script type="text/javascript">
+			/*<![CDATA[*/
+
+			/*]]>*/
+		</script>
+
+
+		<f:view>
+			<h:form>
+				<div class="imixs-view">
+					<!-- *** Header **** -->
+					<div class="imixs-header">
+						<h1>
+							<h:outputText value="#{message['roles_and_rights.title']}" />
+							
+							<h:outputText styleClass="pull-right" style="font-size:0.7em;line-height: 2.7em;" value="#{session.lastAccessedTime}">
+								<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+									pattern="#{message.dateTimePattern}" />
+							</h:outputText>
+						</h1>
+					</div>
+
+					<div class="imixs-body">
+
+						<figure style="overflow: auto;">
+							<table class="roles-and-rights">
+								<thead>
+									<tr>
+										<th></th>
+
+
+										<ui:repeat var="profile"
+											value="#{rolesAndRightsViewController.profiles}">
+											<th>
+												<div class="header">
+													<div class="content">#{profile.item['txtUserName']}</div>
+												</div>
+											</th>
+										</ui:repeat>
+
+
+
+
+									</tr>
+
+
+								</thead>
+								<tbody>
+
+									<!-- Workflow Roles  -->
+
+									<tr class="acl-roles">
+										<td class="main">#{message['profile.groups']}</td>
+										<td class="blank" colspan="9999"></td>
+									</tr>
+
+									<ui:repeat value="#{accessRoleController.accessRoles}"
+										var="group">
+
+										<tr class="acl-roles">
+											<td class="main2">#{group}</td>
+											<!-- für jeden user ein x -->
+											<ui:repeat var="profile"
+												value="#{rolesAndRightsViewController.profiles}">
+												<td class="xcol"><h:outputText value="x"
+														rendered="#{profile.itemList['txtgroups'].contains(group)}"></h:outputText></td>
+											</ui:repeat>
+										</tr>
+									</ui:repeat>
+
+
+
+
+									<!--  Processes -->
+									<tr class="processes">
+										<td class="main">#{message['nav.admin_processlist']}</td>
+										<td class="blank" colspan="9999"></td>
+
+									</tr>
+									<ui:repeat value="#{rolesAndRightsViewController.processList}"
+										var="process">
+										<tr class="processes">
+											<td class="main1">#{process.item['name']}</td>
+											<td class="blank" colspan="9999"></td>
+										</tr>
+
+										<tr class="processes">
+											<td class="main2">#{process.item['process.manager.label']}</td>
+											<!-- für jeden user ein x -->
+											<ui:repeat var="profile"
+												value="#{rolesAndRightsViewController.profiles}">
+												<td class="xcol"><h:outputText value="x"
+														rendered="#{process.itemList['process.manager'].contains(profile.item['txtname'])}" /></td>
+											</ui:repeat>
+
+										</tr>
+										<tr class="processes">
+											<td class="main2">#{process.item['process.team.label']}</td>
+											<!-- für jeden user ein x -->
+											<ui:repeat var="profile"
+												value="#{rolesAndRightsViewController.profiles}">
+												<td class="xcol"><h:outputText value="x"
+														rendered="#{process.itemList['process.team'].contains(profile.item['txtname'])}" /></td>
+											</ui:repeat>
+										</tr>
+										<tr class="processes">
+											<td class="main2">#{process.item['process.assist.label']}</td>
+											<!-- für jeden user ein x -->
+											<ui:repeat var="profile"
+												value="#{rolesAndRightsViewController.profiles}">
+												<td class="xcol"><h:outputText value="x"
+														rendered="#{process.itemList['process.assist'].contains(profile.item['txtname'])}" /></td>
+											</ui:repeat>
+										</tr>
+
+										<ui:include
+											src="/pages/admin/roles_and_rights_process_custom.xhtml">
+											<ui:param name="process" value="#{process}" />
+										</ui:include>
+
+									</ui:repeat>
+
+
+
+									<!-- Spaces -->
+									<tr class="spaces">
+										<td class="main">#{message['nav.admin_spaces']}</td>
+										<td class="space" colspan="9999"></td>
+
+									</tr>
+									<ui:repeat value="#{rolesAndRightsViewController.spaces}"
+										var="space">
+										<tr class="spaces">
+											<td class="main1">#{space.item['name']}</td>
+											<td class="blank" colspan="9999"></td>
+
+										</tr>
+
+										<tr class="spaces">
+											<td class="main2">#{space.item['space.manager.label']}</td>
+											<!-- für jeden user ein x -->
+											<ui:repeat var="profile"
+												value="#{rolesAndRightsViewController.profiles}">
+												<td class="xcol"><h:outputText value="x"
+														rendered="#{space.itemList['space.manager'].contains(profile.item['txtname'])}" /></td>
+											</ui:repeat>
+										</tr>
+										<tr class="spaces">
+											<td class="main2">#{space.item['space.team.label']}</td>
+											<!-- für jeden user ein x -->
+											<ui:repeat var="profile"
+												value="#{rolesAndRightsViewController.profiles}">
+												<td class="xcol"><h:outputText value="x"
+														rendered="#{space.itemList['space.team'].contains(profile.item['txtname'])}" /></td>
+											</ui:repeat>
+										</tr>
+										<tr class="spaces">
+											<td class="main2">#{space.item['space.assist.label']}</td>
+											<!-- für jeden user ein x -->
+											<ui:repeat var="profile"
+												value="#{rolesAndRightsViewController.profiles}">
+												<td class="xcol"><h:outputText value="x"
+														rendered="#{space.itemList['space.assist'].contains(profile.item['txtname'])}" /></td>
+											</ui:repeat>
+										</tr>
+
+
+										<ui:include
+											src="/pages/admin/roles_and_rights_space_custom.xhtml">
+											<ui:param name="space" value="#{space}" />
+										</ui:include>
+
+
+									</ui:repeat>
+
+
+
+
+
+
+								</tbody>
+							</table>
+						</figure>
+					</div>
+
+					<div class="imixs-footer">
+						<h:button outcome="/pages/admin/organisation"
+							value="#{message['organigram.title']}" />
+						<h:button outcome="/pages/admin/space?id=" value="#{message.add}" />
+						<h:commandButton action="home" value="#{message.close}"
+							styleClass="imixs-close-action" />
+					</div>
+				</div>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>
