@@ -234,6 +234,9 @@ public class SequenceService {
             for (int i = def.length() - 1; i >= 0; i--) {
                 if (Character.isDigit(def.charAt(i))) {
                     digit = def.charAt(i) + digit;
+                } else {
+                	// no more number digits (see also issue #501)
+                	break;
                 }
             }
             prafix = def.substring(0, def.length() - digit.length());
