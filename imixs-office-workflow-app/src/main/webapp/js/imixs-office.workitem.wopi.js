@@ -46,10 +46,14 @@ $(document).ready(function() {
 
 });
 
- 
-// open the wopi viewer
+/* 
+ * This method opens the Office Editor. 
+ * The method verfies the last state of a open editor and shows
+ * additional dialogs. 
+ * Finally this method calls the imixsWopi.openViewer method which 
+ * is responsible to create the wopi host page (iframe)
+ */ 
 function openWopiViewer(url,filename, discardMessage) {
-	
 	// do we have unsaved changes?
 	// if document was modifed without save then ask the user....
 	if (imixsWopi.isModified) {
@@ -73,8 +77,6 @@ function openWopiViewer(url,filename, discardMessage) {
 	// open viewer...	
 	$('#wopi_controlls').show();	
 	imixsWopi.openViewer('wopi_canvas', url, filename);
-	
-
 }
 
 

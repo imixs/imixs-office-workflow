@@ -16,18 +16,14 @@ IMIXS.namespace("org.imixs.workflow.wopi");
  * 
  */
 
-
 // add a event listner to receife messages from the Wopi Editor
 $(document).ready(function() {
-	
 	// Install the wopi message listener.
 	// receive messages form libreoffice online
 	window.addEventListener("message", imixsWopi.receiveMessage, false);
 	
-	
-	// because of a bug we need to construct a dummy cookie here
+	// because of a bug in collabora we need to construct a dummy cookie here
 	// https://github.com/CollaboraOnline/online/issues/2380
-	//console.log("adding dummy cookie");
 	var expireDate = new Date();
 	expireDate.setHours(expireDate.getHours() + 24);	
 	var topDomain=window.location.hostname;
@@ -43,15 +39,12 @@ $(document).ready(function() {
     // we hope that we can remove this cooie hack if issue 2380 is fixed
 });
 
-
-
 // The imixsWopi core module
 // Provide method for UI integration
 IMIXS.org.imixs.workflow.wopi = (function() {
 	if (!IMIXS.org.imixs.core) {
 		console.error("ERROR - missing dependency: imixs-core.js");
 	}
-
 	var imixs = IMIXS.org.imixs.core,
 
 		viewerID = "",
@@ -83,7 +76,7 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 			
 			if (msg.MessageId == 'App_LoadingStatus') {
 				if (msg.Values) {
-					if (msg.Values.Status == 'Document_Loaded') {
+					if (msg.Values.Status && msg.Values.Status == 'Document_Loaded') {
 						//console.log('==== Document loaded ...init viewer...');
 						initViewer();
 						imixsWopi.isModified=false;
@@ -136,7 +129,11 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 			iframe.postMessage(JSON.stringify(msg), '*');
 		},
 
-		// switch to iframe mode and load editor
+		/* This is the main method to lauch the office editor.
+		 * The method switch to iframe mode and loads the editor.
+		 * The content of the iframe is constructed by the method 
+		 * buildViewer();
+		 */
 		openViewer = function(viewerID,ref,filename) {
 			imixsWopi.viewerID=viewerID;
 			imixsWopi.filename=filename;
@@ -148,27 +145,44 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 			form.submit();
 		},
 
-
 		/*
 		 * This helper method builds a iframe with a form at a given 
-		 * element. This is used to show the LibreOffice editor later
+		 * element. This is used to show the Office editor later.
+		 * The form has two hidden input fields 'access_token' and
+		 * 'access_token_ttl'. The token is extracted from the actionUri 
+		 *
 		 */
 		buildViewer = function(elementid, actionuri) {
 			var iframeElement = $("#" + elementid);
 			$(iframeElement).empty();
 			// build iframe....
-			var content = '<iframe id="wopi-iframe" src="" width="100%" height="1340" allowfullscreen="true" title="Office"></iframe>';
+			var style_attr = 'width: 100%;height: 600px;margin: 0;border: none;display: block;';
+			var sandbox_attr ='allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation allow-popups-to-escape-sandbox allow-downloads allow-modals';
+			var allow_attr='autoplay camera microphone display-capture';
+			 
+	        // extract token from uri
+	        var tokenPos=actionuri.indexOf('access_token=');
+	        var access_token=actionuri.substring(tokenPos+13);
+	        // console.log(' actionuri='+actionuri);	        
+	        // console.log(' access_token='+access_token);	     
+	        actionuri=actionuri.substring(0,tokenPos);   
+			// console.log(' short actionuri='+actionuri);	        
+			
+			
+			/* Old Construction */
+			var content = '<iframe id="wopi-iframe" src="" allow="' + allow_attr + '" style="' + style_attr + ' allowfullscreen="true" sendbox="' + sandbox_attr + '" title="Office"></iframe>';
 			$(iframeElement).append(content);
 			var iframe = document.getElementById('wopi-iframe');
 			iframe = iframe.contentWindow || (iframe.contentDocument.document || iframe.contentDocument);
 			iframe.document.open();
+			var uiHiddenFields = '<input name="access_token" value="'+access_token+'" type="text" /><input name="access_token_ttl" value="0" type="text" />';
 			// uimode hack: https://sdk.collaboraonline.com/docs/theming.html
-			var uiMode = '<input name="ui_defaults" value="TextSidebar=false;SpreadsheetSidebar=false" type="hidden"/>';
-			iframe.document.write('<html><body><form action="'+actionuri+'" enctype="multipart/form-data" method="post" id="libreoffice-form" style="display:none;">' + uiMode + '<input type="submit" value="Load..." /></form></body></html>');
+			var uiModeCollabora = '<input name="ui_defaults" value="TextSidebar=false;SpreadsheetSidebar=false" type="hidden"/>';
+			iframe.document.write('<html><body><form action="'+actionuri+'" enctype="multipart/form-data" method="post" id="libreoffice-form" style="display:none;">' +uiHiddenFields+ uiModeCollabora + '<input type="submit" value="Load..." /></form></body></html>');
 			iframe.document.close();
 		},
 
-		// close the libreoffice viewer and show the form part again
+		// close the office viewer and show the form part again
 		closeViewer = function() {		
 			var wopiviewer = $('#' + imixsWopi.viewerID);
 			$(wopiviewer).empty();
@@ -223,9 +237,6 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 				}
 			});
 		};
-		
-		
-
 
 	// public API
 	return {
@@ -245,4 +256,3 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 
 // Define public namespace
 var imixsWopi = IMIXS.org.imixs.workflow.wopi;
-
