@@ -156,7 +156,7 @@ IMIXS.org.imixs.workflow.wopi = (function() {
 			var iframeElement = $("#" + elementid);
 			$(iframeElement).empty();
 			// build iframe....
-			var style_attr = 'width: 100%;height: 600px;margin: 0;border: none;display: block;';
+			var style_attr = 'width: 100%;height: 800px;margin: 0;border: none;display: block;';
 			var sandbox_attr ='allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation allow-popups-to-escape-sandbox allow-downloads allow-modals';
 			var allow_attr='autoplay camera microphone display-capture';
 			 
