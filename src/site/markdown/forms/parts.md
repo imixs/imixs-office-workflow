@@ -1,8 +1,6 @@
 # Parts
 
-Imixs-Office-Workflow provides so called 'Form Parts' to be used to design custom forms via the BPMN model.
-
-The following section describs some custom part elements
+With 'Form Parts' you can design custom forms via the BPMN model. The following section describs some custom part elements
 
 # Workitem Linking
 

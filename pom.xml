@@ -153,57 +153,38 @@
 				</configuration>
 			</plugin>
 
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.9.0</version>
+			   
 			</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>3.1.0</version>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.2.0</version>
-				<configuration>
-					<additionalOptions>-Xdoclint:none</additionalOptions>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<version>3.0.0</version>
-			</plugin>
 		</plugins>
 		
 		<finalName>imixs-office-workflow</finalName>
 	</build>
 	
-	<reporting>
-		<plugins>
-			<!-- java doc -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.2.0</version>
-				<configuration>
-					<additionalOptions>-Xdoclint:none</additionalOptions>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<version>3.0.0</version>
-			</plugin>
-		</plugins>
-	</reporting>
 	
+	<reporting>
+	     <plugins>
+	         <plugin>
+	             <groupId>org.apache.maven.plugins</groupId>
+	             <artifactId>maven-project-info-reports-plugin</artifactId>
+	             <version>3.4.0</version>
+	             <reportSets>
+	                 <reportSet>
+	                     <configuration>
+	                         <!-- Just disable the generation of default files like index.html -->
+	                         <skip>true</skip>
+	                     </configuration>
+	                 </reportSet>
+	             </reportSets>
+	         </plugin>
+	     </plugins>
+	 </reporting>
+ 
+ 
 	<profiles>
 		<!-- Activate using the release property -->
 		<profile>

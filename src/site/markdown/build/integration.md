@@ -1,5 +1,4 @@
-How to integrate from an external System?
-~~~~~~~~~~~~~~
+# How to integrate from an external System?
 
  Imixs Office Workflow supports several ways to integrate from any external software system. 
  An integration from an external system means to interact with the imixs workflow to 
@@ -15,8 +14,7 @@ How to integrate from an external System?
 
  * fetching information about the actual workflow model
 
- []
- 
+
  Before you can interact with the various modules of Imixs Office Workflow from an 
  external system you need to provide a user principal. As all of the interfaces can only 
  be accessed with an authenticated user (principal), the user principal used for interaction 
@@ -30,7 +28,7 @@ How to integrate from an external System?
 
  * org.imixs.ACCESSLEVEL.MANAGERACCESS
 
- []
+
 
  If you want to create or update a process instance from Imixs Office Workflow the 
  external system has to know the workflow models deployed on Imixs Office Workflow. 
@@ -42,8 +40,8 @@ How to integrate from an external System?
  common ways and interfaces which can be used for an integration. The following section 
  describes the recommended usage of these interfaces.
 
-The Imixs REST api
-~~~~~~~~~~~~~~
+## The Imixs REST api
+
  REST is an architectural style that can be used to guide the construction of web services 
  in a more easy kind as a service which uses the SOAP specification. The Imixs XML & Web 
  Services provide a REST Service Implementation which allows you to use the Imixs Workflow 
@@ -83,13 +81,13 @@ The Imixs REST api
  
  Note: using the REST api is the recommended way to interact with Imixs Office Workflow.
 
-*Java Example:
-~~~~~~~~~~~~~~
+### Java Example:
+
  This is an example how to use the Imixs Rest Client api to interact with a rest service. 
  The example creates a new workitem for a pre defined workflow model. You can also use 
  any other http client:
 
-+---------------------+
+```java
 package org.imixs.workflow.office.test;
 import java.util.logging.Logger;
  
@@ -145,21 +143,21 @@ Assert.fail();
 }
 }
 }
-+---------------------+
+```
 
  Please note that this example uses jax-b which makes it easy to create and post a xml 
  object to the rest service. It is also possible to post a XML stream directly. See the 
  details in the Imixs REST api.
 
-*Imixs Script
-~~~~~~~~~~~~~~
+## Imixs Script
+
 
  Imixs Script provides another easy way to interact with the imxis REST Api based on the 
  javaScript library jQuery. Using Imixs Script simplifies the way to interact with the 
  imixs rest api from a web application. See : http://www.imixs.org/script/
 
-*Remote EJB calls
-~~~~~~~~~~~~~~
+## Remote EJB calls
+
  All Imixs Workflow Services provide EJB remote interfaces based on EJB 3.1. Having access 
  to the remote EJB container any service can be accessed remotely. A remote interface of a 
  imixs workflow service ejb provide the same functionality like local calls. Please note 
@@ -169,7 +167,7 @@ Assert.fail();
  A remote lookup of an ejb depends on the deployment scenario. The following example 
  demonstrates the remote lookup of an ejb running on the same application server instance.
 
-+---------------------+
+```
 try {
 // building the global jndi name....
 globalJNDIName = "java:global/"
@@ -179,12 +177,12 @@ InitialContext ic = new InitialContext();
 workflowService = (WorkflowServiceRemote) ic.lookup(globalJNDIName);
 ...
 } catch (Exception e) {
-+---------------------+
 
+```
 
  With the workflowService instance different methods can be called:
 
-+---------------------+
+```
 @EJB
 WorkflowService wfm;
 ....
@@ -198,7 +196,7 @@ workitem.replaceItemValue("some_data", "abc");
 // process workitem
 workitem=workflowService.processWorkItem(workitem);
 .......
-+---------------------+
+```
 
 
  This example creates a new ItemCollection and provides some data. Next the ItemCollection 
@@ -214,48 +212,48 @@ workitem=workflowService.processWorkItem(workitem);
  workitem containing all additional workflow information controlled by the WorkflowManager. 
  For example the internal universalID or the current workflow status:
 
-+---------------------+
+```
 //....
 workitem=wfm.processWorkItem(workitem);
 String unqiueID=workitem.getItemValueString("$unqiueid");
 String status=worktiem.getItemValueString("txtworkflowstatus");
-+---------------------+
+```
 
  The property "$uniqueid" identifies the workitem controlled by the workflowManager. 
  This ID can be used to load a workitem from the WorkflowManager:
 
-+---------------------+
+```
   workitem=wfm.getWorkItem(uniqueid);
-+---------------------+
+```
 
  You can also receive a list of workitems for the current user by calling the method getWorkList().
 
-+---------------------+
+```
   List<ItemCollection> worklist=wfm.getWorkList();
-+---------------------+
+```
 
  The method returns a list of all workItems assigned to the current user.
  A workitem is typically managed by a WorkflowManger for the complete life cycle. To remove a workitem from the WorkflowManager underlying database you can call the removeWorkitem method:
 
-+---------------------+
+```
   wfm.removeWorkItem(workitem);
-+---------------------+
+```
 
  This method removes an instance of a workitem form the WorkflowManger.
 
  See also the section WorkflowService at http://www.imixs.org for additional information.
 
-*Programatic login
-~~~~~~~~~~~~~~
+## Programatic login
+
  Using a programatic GlassFish login is another way to interact with Imixs Workflow. This is typical used in jUnit Tests. To use GlassFish programatic login you need to add the gf_client.jar directly into your classpath. The gf_client.jar is located in your Glassfish Installation at
 
-+---------------------+ 
+```
 $GLASSFISH_HOME/glassfish/lib/gf-client.jar
-+---------------------+
+```
 
  See the following junit example for a simple remote lookup to Imixs Entity Service inside a jUnit test:
 
-+---------------------+
+```
 public class TestEntityService {
 EntityServiceRemote entityService = null;
  
@@ -279,22 +277,22 @@ Assert.assertNotNull(entityService);
 //....
  
 }
-+--------------------------+
+```
 
  As remote ejbs are annotated with the security annotation @RolesAllowed you need to 
  authenticate your remote lookup. In GlassFish this can be done using the programmatic 
  Login. To setup a programmatic login in your JUnit test first create a File named 
  'auth.conf'. The content of that file should look like this:
 
-+--------------------------+ 
+``` 
 default { 
  com.sun.enterprise.security.auth.login.ClientPasswordLoginModule required debug=false; 
  }; 
-+--------------------------+
+```
 
  This in an example how you can setup a login in a jUnit test:
 
-+--------------------------+
+```
 @Before
 public void setup() {
  
@@ -313,7 +311,7 @@ e.printStackTrace();
 entityService = null;
 }
 }
-+--------------------------+
+```
 
  The username/password have to be defined in this case in a file realm which is typically 
  the default security realm of GlassFish
