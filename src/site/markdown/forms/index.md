@@ -1,8 +1,8 @@
-# Custom Forms
+# Forms
 
 With Imixs-Office-Workflow you can create forms completely model-based. No programming knowledge in HTML 
 or Java Script is required.
-The custom form component enables you to design your forms at runtime. The definition of a custom form is done within the Imixs-BPMN modeler.  To activate this feature you need to add the from "custom" into the section "Application -> Input Form" of your task element.
+The Imixs-Office-Workflow Form Component enables you to design your forms at runtime. This is also named a 'Custom Form'.  The definition of a custom form is done within the Imixs-BPMN modeler.  To activate this feature you leaf the section "*Application -> Input Form*" of your task element empty or add the form name `custom` :
 
 
 <img class="screenshot" src="custom_forms_01.png" /> 
@@ -74,6 +74,13 @@ You can choose one of the following types for select boxes:
 
  - *selectManyCheckboxPageDirection* - a list of checkboxes (layout=page direction)
  - *selectOneRadioPageDirection* - radio buttons (layout=page direction)
+
+
+You can also add a mapping of the name displayed in the select box and an optional value by using the '|' char:
+
+
+	<item name"myfield" type="selectOneMenu" required="true" label="Your Choice"
+	  options="management.it|Option A;management.backoffice|Option B" />
 						
 
 ### Required Inputs
@@ -82,8 +89,8 @@ With the tag 'required' a mandatory input is defined:
 	<item name="_date" type="date" required="true"
 	        label="Date" />
 
-
-
+   	 
+ 
 <img class="screenshot" src="imixs-bpmn-custom-forms-example-768x538.png" /> 
 
 
@@ -105,7 +112,7 @@ A custom form is separated by sections. A section can have an optional label and
 
 It is also possible to define more complex input fields with the item type 'custom'
 
-	    <item name="mycustomitem" path="[PART_NAME]" type="custom" label="My Custom Label" required="true" readonly="false" />
+	<item name="mycustomitem" path="[PART_NAME]" type="custom" label="My Custom Label" required="true" readonly="false" />
 
 **Note:** A custom item is defined by a JSF ui:composition placed in the directory */pages/workitems/parts/*: 
 
@@ -207,3 +214,51 @@ If you just want to update the elements of the custom form you can refere to the
 	</h:selectOneMenu>
 
 This will trigger a render event only on the parts within the customForm Container	 
+
+
+
+
+# Input Fields & Item Names
+
+Even if you can define the item names of your input fields in your custom form free, it is recommended to use a naming concept. This allows you to reuse code in a more easy way. *Imixs-Office-Workflow* defines already a set of standard item names used for different business objects. This naming convention makes it more easy to group related items and to exchange data with your business process architecture. 
+
+The following sections list the business items predefined by *Imixs-Office-Workflow*.
+For application specific item names the ‘dot.Case’ format is recommended. It’s basically a convention that makes it easier to see what properties are related.
+
+
+ 
+| Item            | Type   	| Description													|
+|-----------------|---------|---------------------------------------------------------------|
+|**Order** 	      |      	|                                                               |
+|order.name       | text 	| Order name													|
+|order.number     | text	| Order number													|
+|order.delivery   | date	| Delivery date													|
+|**Contract** 	  |      	|                                                               |
+|contract.name    | text 	| Contract name													|
+|contract.partner | text 	| Contract partner name											|
+|contract.number  | text	| Contract number												|
+|contract.start   | date	| Contract start date											|
+|contract.end     | date 	| Contract end date												|
+|contract.fee     | float 	| Contract fee per billing cycle								|
+|**Creditor**     |        	|                                                               |
+|cdtr.name        | text  	| Creditor name													|
+|cdtr.iban        | text  	| IBAN number													|
+|cdtr.bic         | text  	| BIC number													|
+|**Debitor**  	  |        	|                                                               |
+|dbtr.name        | text  	| debitor name													|
+|dbtr.iban        | text  	| IBAN number													|
+|dbtr.bic         | text  	| BIC number													|
+|**Invoice**      |     	|                                                               |
+|invoice.number   | text   	| Invoice number												|
+|invoice.date     | date  	| Invoice Date													|
+|invoice.total    | float  	| Invoice total amount											|
+|invoice.vat      | float  	| Invoice vat 													|
+|invoice.gross    | float  	| Invoice gross amount 											|
+|**Payment**      |        	|                                                               |
+|payment.type 	  | text   	| credit card, SEPA												|
+|payment.date 	  | date   	| payment date													|
+|payment.total 	  | float   | payment amount												|
+|payment.cycle 	  | text  	| payment cycle (monthly, yearly, fixed date					|
+
+
+

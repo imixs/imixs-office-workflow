@@ -71,21 +71,17 @@
 
  * application/json
  
-  []
+
   
 
- So if you typing in the URI into a Web Browser you will typical receife an HTML representation 
- of the business Objects. An detailed overview about the general usege of the imixs rest 
- api can be found here: http://www.imixs.org/xml/restservice.html
+So if you typing in the URI into a Web Browser you will typical receife an HTML representation  of the business Objects. An detailed overview about the general usege of the imixs rest api can be found in the documentation of the [Imixs Workflow Rest API](https://www.imixs.org/doc/restapi/index.html).
 
  
- Note: using the REST api is the recommended way to interact with Imixs Office Workflow.
+**Note:** Using the Imixs Workflow REST api is the recommended way to interact with Imixs Office Workflow.
 
 ### Java Example:
 
- This is an example how to use the Imixs Rest Client api to interact with a rest service. 
- The example creates a new workitem for a pre defined workflow model. You can also use 
- any other http client:
+This is an example how to use the Imixs Rest Client api to interact with a rest service.   The example creates a new workitem for a pre defined workflow model. You can also use  any other http client:
 
 ```java
 package org.imixs.workflow.office.test;
@@ -115,33 +111,32 @@ restClient.setCredentials(USERID, PASSWORD);
  
 @Test
 public void test() {
-logger.info("create new workitem");
-ItemCollection workitem = new ItemCollection();
-workitem.replaceItemValue("$ModelVersion", "office-de-0.0.2");
-workitem.replaceItemValue("$ProcessID", 1000);
-workitem.replaceItemValue("$ActivityID", 10);
-workitem.replaceItemValue("_subject", "sample record");
-try {
-int iHTTPResult = restClient.postEntity(URI,
-XMLItemCollectionAdapter.putItemCollection(workitem));
- 
-if (iHTTPResult < 200 || iHTTPResult > 299) {
-if (iHTTPResult == 404)
-logger.severe("The requested resource could not be found. Please verifiy your web service location.");
-else if (iHTTPResult == 403)
-logger.severe("The username/password you entered were not correct. Your request was denied as you have no permission to access the server. Please try again.");
-else
-logger.severe("The model data could not be uploaded to the workflow server. Please verifiy your server settings. HTTP Result");
-Assert.fail();
-}
-Assert.assertTrue(iHTTPResult >= 200 && iHTTPResult < 300);
- 
-} catch (Exception e) {
- 
-e.printStackTrace();
-Assert.fail();
-}
-}
+	logger.info("create new workitem");
+	ItemCollection workitem = new ItemCollection();
+	workitem.replaceItemValue("$ModelVersion", "office-de-0.0.2");
+	workitem.replaceItemValue("$ProcessID", 1000);
+	workitem.replaceItemValue("$ActivityID", 10);
+	workitem.replaceItemValue("_subject", "sample record");
+	try {
+	int iHTTPResult = restClient.postEntity(URI,
+	XMLItemCollectionAdapter.putItemCollection(workitem));
+	 
+	if (iHTTPResult < 200 || iHTTPResult > 299) {
+		if (iHTTPResult == 404)
+		logger.severe("The requested resource could not be found. Please verifiy your web service location.");
+		else if (iHTTPResult == 403)
+			logger.severe("The username/password you entered were not correct. Your request was denied as you have no permission to access the server. Please try again.");
+		else
+			logger.severe("The model data could not be uploaded to the workflow server. Please verifiy your server settings. HTTP Result");
+		Assert.fail();
+	}
+	Assert.assertTrue(iHTTPResult >= 200 && iHTTPResult < 300);
+	 
+	} catch (Exception e) {
+		e.printStackTrace();
+		Assert.fail();
+	}
+	}
 }
 ```
 
@@ -180,37 +175,30 @@ workflowService = (WorkflowServiceRemote) ic.lookup(globalJNDIName);
 
 ```
 
- With the workflowService instance different methods can be called:
+With the workflowService instance different methods can be called:
 
 ```
 @EJB
 WorkflowService wfm;
-....
-ItemCollection workitem=new ItemCollection();
-// set some data
-//....
-workitem.replaceItemValue("$modelversion", "office-de-0.0.1");
-workitem.replaceItemValue("$processid", 100);
-workitem.replaceItemValue("$activityid", 10);
-workitem.replaceItemValue("some_data", "abc");
-// process workitem
-workitem=workflowService.processWorkItem(workitem);
-.......
+	....
+	ItemCollection workitem=new ItemCollection();
+	// set some data
+	//....
+	workitem.replaceItemValue("$modelversion", "office-de-0.0.1");
+	workitem.replaceItemValue("$processid", 100);
+	workitem.replaceItemValue("$activityid", 10);
+	workitem.replaceItemValue("some_data", "abc");
+	// process workitem
+	workitem=workflowService.processWorkItem(workitem);
+	.......
 ```
 
 
- This example creates a new ItemCollection and provides some data. Next the ItemCollection 
- is processed by the WorkflowService EJB which is returning a new instance of a workitem.
+This example creates a new ItemCollection and provides some data. Next the ItemCollection  is processed by the WorkflowService EJB which is returning a new instance of a workitem.
 
- To process a workItem at least the properties "$modelversion", "$processid" and "$activityid" 
- need to be provided. These properties are selecting the corresponding process- and 
- activity-entity in the current workflow model. If these model entities selected by the
-  workitem are not defined in the current workflow model the WorkflowManager throws an 
-  ProcessingErrorException.
+To process a workItem at least the properties "$modelversion", "$processid" and "$activityid"  need to be provided. These properties are selecting the corresponding process- and activity-entity in the current workflow model. If these model entities selected by the workitem are not defined in the current workflow model the WorkflowManager throws an ProcessingErrorException.
 
- After the workitem was processed by the WorkflowManager you will get a new instance of your 
- workitem containing all additional workflow information controlled by the WorkflowManager. 
- For example the internal universalID or the current workflow status:
+After the workitem was processed by the WorkflowManager you will get a new instance of your workitem containing all additional workflow information controlled by the WorkflowManager. For example the internal universalID or the current workflow status:
 
 ```
 //....
@@ -219,29 +207,25 @@ String unqiueID=workitem.getItemValueString("$unqiueid");
 String status=worktiem.getItemValueString("txtworkflowstatus");
 ```
 
- The property "$uniqueid" identifies the workitem controlled by the workflowManager. 
- This ID can be used to load a workitem from the WorkflowManager:
+The property "$uniqueid" identifies the workitem controlled by the workflowManager.  This ID can be used to load a workitem from the WorkflowManager:
 
 ```
   workitem=wfm.getWorkItem(uniqueid);
 ```
 
- You can also receive a list of workitems for the current user by calling the method getWorkList().
+You can also receive a list of workitems for the current user by calling the method getWorkList().
 
 ```
   List<ItemCollection> worklist=wfm.getWorkList();
 ```
 
- The method returns a list of all workItems assigned to the current user.
- A workitem is typically managed by a WorkflowManger for the complete life cycle. To remove a workitem from the WorkflowManager underlying database you can call the removeWorkitem method:
+The method returns a list of all workItems assigned to the current user. A workitem is typically managed by a WorkflowManger for the complete life cycle. To remove a workitem from the WorkflowManager underlying database you can call the removeWorkitem method:
 
 ```
   wfm.removeWorkItem(workitem);
 ```
 
- This method removes an instance of a workitem form the WorkflowManger.
-
- See also the section WorkflowService at http://www.imixs.org for additional information.
+This method removes an instance of a workitem form the WorkflowManger. See also the section WorkflowService at http://www.imixs.org for additional information.
 
 ## Programatic login
 
@@ -259,30 +243,27 @@ EntityServiceRemote entityService = null;
  
 @Before
 public void setup() {
-try {
-// set jndi name
-String ejbName = "java:global/imixs-workflow-web-sample-0.0.5-SNAPSHOT/EntityService!org.imixs.workflow.jee.ejb.EntityServiceRemote";
-InitialContext ic = new InitialContext();
-entityService = (EntityServiceRemote) ic.lookup(ejbName);
-} catch (Exception e) {
-e.printStackTrace();
-entityService = null;
-}
+	try {
+		// set jndi name
+		String ejbName = "java:global/imixs-workflow-web-sample-0.0.5-SNAPSHOT/EntityService!org.imixs.workflow.jee.ejb.EntityServiceRemote";
+		InitialContext ic = new InitialContext();
+		entityService = (EntityServiceRemote) ic.lookup(ejbName);
+	} catch (Exception e) {
+		e.printStackTrace();
+		entityService = null;
+	}
 }
  
 @Test
 @Category(org.imixs.workflow.jee.ejb.EntityServiceRemote.class)
 public void testService() {
-Assert.assertNotNull(entityService);
-//....
+	Assert.assertNotNull(entityService);
+	//....
  
 }
 ```
 
- As remote ejbs are annotated with the security annotation @RolesAllowed you need to 
- authenticate your remote lookup. In GlassFish this can be done using the programmatic 
- Login. To setup a programmatic login in your JUnit test first create a File named 
- 'auth.conf'. The content of that file should look like this:
+As remote ejbs are annotated with the security annotation @RolesAllowed you need to  authenticate your remote lookup. In GlassFish this can be done using the programmatic Login. To setup a programmatic login in your JUnit test first create a File named `auth.conf`. The content of that file should look like this:
 
 ``` 
 default { 
@@ -295,21 +276,20 @@ default {
 ```
 @Before
 public void setup() {
- 
-try {
-// set jndi name
-String ejbName = "java:global/imixs-workflow-web-sample-0.0.5-SNAPSHOT/EntityService!org.imixs.workflow.jee.ejb.EntityServiceRemote";
-// setup programmatic login for GlassFish 3
-System.setProperty("java.security.auth.login.config", "/home/rsoika/eclipse_37/imixs-workflow/imixs-workflow-engine/src/test/resources/auth.conf");
-ProgrammaticLogin programmaticLogin = new ProgrammaticLogin();
-// set password
-programmaticLogin.login("Anna", "anna");
-InitialContext ic = new InitialContext();
-entityService = (EntityServiceRemote) ic.lookup(ejbName);
-} catch (Exception e) {
-e.printStackTrace();
-entityService = null;
-}
+	try {
+		// set jndi name
+		String ejbName = "java:global/imixs-workflow-web-sample-0.0.5-SNAPSHOT/EntityService!org.imixs.workflow.jee.ejb.EntityServiceRemote";
+		// setup programmatic login for GlassFish 3
+		System.setProperty("java.security.auth.login.config", "/home/rsoika/eclipse_37/imixs-workflow/imixs-workflow-engine/src/test/resources/auth.conf");
+		ProgrammaticLogin programmaticLogin = new ProgrammaticLogin();
+		// set password
+		programmaticLogin.login("Anna", "anna");
+		InitialContext ic = new InitialContext();
+		entityService = (EntityServiceRemote) ic.lookup(ejbName);
+	} catch (Exception e) {
+		e.printStackTrace();
+		entityService = null;
+	}
 }
 ```
 
