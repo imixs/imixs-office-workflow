@@ -63,25 +63,25 @@ You can login with the default account 'admin' with the password 'adminadmin'.
 
 After Imixs-Office-Workflow is up and running you need to setup a process with a worklfow. 
 
-<img src="setup-01.png" width="800px" />
+<img class="screenshot" src="setup-01.png" width="800px" />
 
 First upload a BPMN Workflow model. You can find many examples [here](https://github.com/imixs/imixs-documents/tree/master/workflow/de). 
 To upload a model go to "Administration >> Models" and add a BPMN file to your model list.
 
-<img src="setup-02.png" width="800px" />
+<img class="screenshot" src="setup-02.png" width="800px" />
 
 
 Next create a new Process in the section "Administration >> Processes" and assign the uploaded workflow model with your new process:
 
 
-<img src="setup-03.png" width="800px" />
+<img class="screenshot" src="setup-03.png" width="800px" />
 
 
 Now you will see the new process and its workflow in the home screen under the section 'Processes'. 
 You can start the corresponding workflow:
 
 
-<img src="setup-04.png" width="800px" />
+<img class="screenshot" src="setup-04.png" width="800px" />
 
 
 Imixs-Office-Workflow provides a huge list of features to setup a professional Process Management Platform. You will find information in the several sub-projects of [Imixs-Workflow](https://github.com/imixs).

@@ -1,17 +1,27 @@
-*Imixs-Documents* provides a **Open Source Document Management Suite** for small, medium and large enterprises.
-The Project is based on the Workflow Suite [Imixs-Office-Workflow](https://github.com/imixs/imixs-office-workflow/)
-and is licensed under the GPL.  
+# How to Get Started
+
+*Imixs-Office-Workflow* is a **Open Source Business Process Management Suite** that enables you to digitize your business processes in a fast and easy way. You can either start with a production ready application setup following our [Quick Start Guide](./quickstart.html), or you can build your own business process management platform by developing a custom build. A custom build gives you more flexibility in design and allows you to integrate Imixs-Office-Workflow with more complex enterprise business workflows. 
+
+<img class="screenshot" src="office-workflow-screen-201-1024x549.png" />
+
+Of course your are not alone. You can take a look into the [discussion forum](https://github.com/imixs/imixs-workflow/discussions) and ask the community for help, or you can get professional support from our team using the [contact form](https://www.office-workflow.com/contact/).
+
+In the following sections you will learn some core functionality of Imixs-Office-Workflow and how to get started. 
+
+## The Goal
 
 The goal of the project is to provide a powerful and easy-to-use *Business Process* and *Document Management* suite for companies and organizations.
-With the help of '[Imixs-BPMN](https://www.imixs.org/sub_modeler.html)', business processes can be designed within the BPMN 2.0 standard and easily adapted to the individually needs of an enterprise.
+With the help of '[Imixs-BPMN](https://www.imixs.org/sub_modeler.html)', business processes can be designed within the BPMN 2.0 standard and easily adapted to the individually needs of an enterprise. This means there is no need to write code. Most of the functionality of a business process can be designed in a BPMN 2.0 workflow model. This includes defining business rules, manage access rights to your business data, defining input forms or send out notifications via E-Mail. 
 
- - [Quick-Installation guide](./install)
- - [Workflow Models](#workflow-models)
- - [Input Forms](#input-forms)
+ - [Quick Install Guide](#Quick_Install_Guide)
+ - [Workflow Models](#Workflow_Models)
+ - [Forms](#Forms)
 
-## Quick-Installation Guide
+## Quick Install Guide
 
-Imixs-Office-Workflow provides a Docker Container to run the service on any Docker host. With the [Quick-Installation guide](./install) you can setup an instance of Imixs-Office-Workflow in minutes.
+Imixs-Office-Workflow provides a Docker Container to run the service on any Docker host. There are various predefined container setups and workflow models which can help to get started easily. The only thing you need is a Docker environment to run Imixs-Office-Workflow in Docker. Of course you can also run Imixs-Office-Worklfow in any Kubernetes platform. 
+
+Read the [Quick-Installation guide](./install) to learn how you can setup an instance of Imixs-Office-Workflow in minutes.
 
 ## Workflow Models
 
@@ -22,10 +32,13 @@ The workflow modls are provided in different laguages. Switch into your prefered
  - [English international workflow models](https://github.com/imixs/imixs-documents/tree/master/workflow/en)
 
 All standard models have included a multi-level approval workflow. The approval is determined by team management at the process and space levels. 
+
+<img class="screenshot" src="modeler-workspace-001-768x432.png" />
+
 To add a management approval just add a manager into the corresponding process manager section.
 
 
-## Input Forms
+## Forms
 
 With Imixs-Office-Workflow you can create individual forms completely based on your BPMN 2.0 model. No programming knowledge in HTML 
 or Java Script is required.

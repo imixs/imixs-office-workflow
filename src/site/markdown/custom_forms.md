@@ -5,14 +5,14 @@ or Java Script is required.
 The custom form component enables you to design your forms at runtime. The definition of a custom form is done within the Imixs-BPMN modeler.  To activate this feature you need to add the from "custom" into the section "Application -> Input Form" of your task element.
 
 
-<br /><img src="custom_forms_01.png" /> 
+<img class="screenshot" src="custom_forms_01.png" /> 
 
 	form_panel#custom
 
 
 The definition of your custom form is defined by a "Data Object Element" with an association to your task element:
 
-<br /><img src="imixs-bpmn-custom-forms.png" /> 
+<img class="screenshot" src="imixs-bpmn-custom-forms.png" /> 
 
 
 ## The Form Definition
@@ -84,7 +84,7 @@ With the tag 'required' a mandatory input is defined:
 
 
 
-<br /><img src="imixs-bpmn-custom-forms-example-768x538.png" /> 
+<img class="screenshot" src="imixs-bpmn-custom-forms-example-768x538.png" /> 
 
 
 

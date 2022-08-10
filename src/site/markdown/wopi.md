@@ -2,7 +2,7 @@
 
 [LibreOffice Online](https://www.libreoffice.org/download/libreoffice-online/) is powerful online office suite that supports all major document, spreadsheet and presentation file formats, which can be integrated into Imixs-Documents. Key features are collaborative editing and excellent office file format support.
 
-<img src="wopi-01.png" width="900" />
+<img class="screenshot" src="wopi-01.png" width="900" />
 
 LibreOffice Online is available as a Docker image and is developed by [Collabora](https://www.collaboraoffice.com/code/). Collabora is the community mainly developing the LibreOffice Online code. You can get the collabora docker image from [here](https://hub.docker.com/r/collabora/code).
 
