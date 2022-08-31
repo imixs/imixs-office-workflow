@@ -153,8 +153,13 @@ public class CustomFormController implements Serializable {
                     if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                         Element eElement = (Element) nNode;
 
+                        String sReadOnly=eElement.getAttribute("readonly");
+                        boolean bReadOnly=false;
+                        if (sReadOnly!=null && !sReadOnly.isEmpty()) {
+                            bReadOnly=Boolean.parseBoolean(sReadOnly);
+                        }
                         CustomFormSection customSection = new CustomFormSection(eElement.getAttribute("label"),
-                                eElement.getAttribute("columns"), eElement.getAttribute("path"));
+                                eElement.getAttribute("columns"), eElement.getAttribute("path"),bReadOnly);
                         customSection.setItems(findItems(eElement));
                         sections.add(customSection);
                     }

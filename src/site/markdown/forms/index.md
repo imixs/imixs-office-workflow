@@ -254,11 +254,13 @@ For application specific item names the ‘dot.Case’ format is recommended. It
 |invoice.total    | float  	| Invoice total amount											|
 |invoice.vat      | float  	| Invoice vat 													|
 |invoice.gross    | float  	| Invoice gross amount 											|
+|invoice.currency | text    | currency											|
 |**Payment**      |        	|                                                               |
 |payment.type 	  | text   	| credit card, SEPA												|
 |payment.date 	  | date   	| payment date													|
-|payment.total 	  | float   | payment amount												|
-|payment.cycle 	  | text  	| payment cycle (monthly, yearly, fixed date					|
+|payment.amount	  | float   | payment amount												|
+|payment.currency | text    | currency											|
+|payment.cycle 	  | text  	| payment cycle (monthly, yearly, fixed date)					|
 
 
 

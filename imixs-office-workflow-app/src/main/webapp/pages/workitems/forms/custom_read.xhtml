@@ -8,6 +8,10 @@
 
 	<c:forEach items="#{customFormController.sections}" var="section">
 
+		<c:if test="#{! empty section.label}">
+			<h3>#{section.label}</h3>
+		</c:if>
+		
 		<!-- test if custom form section -->
 		<c:if test="#{! empty section.path}">
 		    <ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
@@ -17,14 +21,9 @@
 		</c:if>
 		
 		<!-- standard form section -->
-		<c:if test="#{empty section.path}">
-		
+		<c:if test="#{empty section.path}">	
 		<div
 			class="imixs-form-section#{(empty section.columns)?'':'-'.concat(section.columns)}">
-
-			<c:if test="#{! empty section.label}">
-				<h2>#{section.label}</h2>
-			</c:if>
 
 			<c:forEach items="#{section.items}" var="item">
 			<c:if test="#{!item.hide}">

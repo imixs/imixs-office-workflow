@@ -19,7 +19,7 @@
 		<c:if test="#{! empty section.path}">
 		    <ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
 				<ui:param name="workitem" value="#{workflowController.workitem}" />
-				<ui:param name="readonly" value="#{false}" />
+				<ui:param name="readonly" value="#{section.readonly}" />
 			</ui:include>
 		</c:if>
 		
