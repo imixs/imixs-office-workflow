@@ -10,9 +10,10 @@ With the help of '[Imixs-BPMN](https://www.imixs.org/sub_modeler.html)', busines
 
 ## Open Source
 Imixs-Workflow is a free and open source technology. Therefore, this solution can be easily customized and extended with custom plugins and modules. 
-You can find further information on the web site [Imixs-Office-Workflow](https://www.office-workflow.com).
+You can find further information on the [Imixs-Office-Workflow Project Site](https://doc.office-workflow.com/index.html).
 
 * **Blog & News** can be found on the [home page](https://www.office-workflow.com).
+* **Documentation** [online documentation](https://doc.office-workflow.com/index.html)
 * **Release notes** can be read [here](https://github.com/imixs/imixs-office-workflow/releases).
 * **Migration notes** can be found [here](MIGRATION-NOTES.md)
 
@@ -24,7 +25,7 @@ With a pull request on GitHub you can share your ideas or improvements that you 
  
 ## Quick Installation
 
-To run Imixs-Office-Workflow in a local test environment you can follow the [Quick-Installation Guide of Imixs-Documents](https://imixs.github.io/imixs-documents/install/). This is a good starting point if you just want to setup a local demo version. 
+To run Imixs-Office-Workflow in a local test environment you can follow the [Quick-Installation Guide of Imixs-Documents](https://doc.office-workflow.com/quickstart.html). This is a good starting point if you just want to setup a local demo version. 
 But please note that Imixs-Office-Workflow is an comprehensive open source project designed for productive enterprise use. A professional use requires a detailed planning of architecture. 
 
 ## Modeling
