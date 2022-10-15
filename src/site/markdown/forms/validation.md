@@ -4,17 +4,17 @@ There are several ways how you can validate the user input before the form is pr
 The following section provides an overview of the various possibilities. 
 
 
-					
 
-## Input Required
 
-Using the custom forms you can use the tag `required` to mark a input field as mandatory :
+## Required Inputs
+
+
+With the tag `required` a mandatory input is defined:
 
 	<item name="order.name" type="text"  label="Description:" required="true"/>
 
 The input field is marked with a '*' and an error message is shown if no field value was added on submit.
    	 
- 
 <img class="screenshot" src="validation-01.png" /> 
 
 ### Disabling Validation of Required Inputs

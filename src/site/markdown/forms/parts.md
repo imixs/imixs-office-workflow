@@ -104,16 +104,3 @@ With the `options` tag you can specify the search filter to lookup for workitems
 
 
 
-## Required Inputs
-With the tag 'required' a mandatory input is defined:
-
-	<item name="_date" type="date" required="true"
-	        label="Date" />
-
-   	 
- 
-<img class="screenshot" src="imixs-bpmn-custom-forms-example-768x538.png" /> 
-
-
-
-
