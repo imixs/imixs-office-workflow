@@ -150,22 +150,26 @@ The custom tag 'workitemlink' provides the following attributes:
 Note: the references displayed by the widget are bound directly to the workitem managed by 
  the workflowController bean. This is independet from the property 'workitem'
  
-### Display external references
-It is also possible to display workitems referred by the current workitem using the widget _workitemExternalReferences_
+## Display external references
 
-	<marty:workitemExternalReferences workitem="#{workflowController.workitem}"
-					filter="$processid:9..." /> 
+It is also possible to display workitems with a referrence to the current workitem:
 
-External references can not be edited by the current workitem. 
+	<item name="payment.ref" 
+      type="custom"  
+      path="workitemref"
+      options="($workflowgroup:Payment) "
+      label="Payments" />
 
+External references can not be edited by the current workitem.
+
+The references can also be displayed in a table layout.
  
-## The Marty Tag Libray
-
-The WorkitemLink component requires that the subform workitemlink_resultlist is places at once in the ui:form
-			
-	<ui:include src="/pages/workitems/parts/workitemlinkSearch.xhtml" />
-			   
-			
+	<item name="payment.ref" 
+      type="custom"  
+      path="workitemreftable"
+      options="($workflowgroup:Payment) "
+      label="Payments" />
+ 
  
 
 ## Layout and CSS

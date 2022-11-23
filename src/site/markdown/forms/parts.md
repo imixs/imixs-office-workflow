@@ -34,6 +34,11 @@ The various input item definitions are called 'input parts':
 	<item name="invoice.date" type="date"
 	        label="Date" />
 
+### Currency Input
+
+	<item name="invoice.amount" type="currency"
+	        label="Amount" />
+
 ### Select Boxes
 
 You can also create different type of select boxes with predefined values:
