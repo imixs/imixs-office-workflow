@@ -144,9 +144,9 @@ public class WorkitemHelper {
 		while (regexTokens.hasMoreElements()) {
 			String regEx = regexTokens.nextToken();
 			// remove columns
-			regEx.replace("(", "");
-			regEx.replace(")", "");
-			regEx.replace(",", "");
+			regEx=regEx.replace("(", "");
+			regEx=regEx.replace(")", "");
+			regEx=regEx.replace(",", "");
 			// test if ':' found
 			if (regEx.indexOf(':') > -1) {
 				regEx = regEx.trim();
