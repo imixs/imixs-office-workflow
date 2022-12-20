@@ -26,7 +26,8 @@
 						<h1>
 							<h:outputText value="#{message['process.title']}: " />
 							<h:outputText
-								value="#{workflowController.workitem.item['name']}" />
+								value="#{workflowController.workitem.item['name']}" /><h:outputText
+								value=" - #{workflowController.workitem.item['$workflowstatus']}" />
 						</h1>
 					</div>
 					<!-- ########## Error ########## -->

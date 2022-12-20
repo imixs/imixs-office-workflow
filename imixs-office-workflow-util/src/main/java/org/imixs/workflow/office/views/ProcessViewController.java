@@ -27,7 +27,7 @@ public class ProcessViewController extends ViewController {
 	@PostConstruct
 	public void init() {
 		super.init();
-		this.setQuery("(type:\"process\")");
+		this.setQuery("(type:process*)");
 		this.setSortBy("name");
 		this.setSortReverse(false);
 		this.setPageSize(adminViewPageSize);

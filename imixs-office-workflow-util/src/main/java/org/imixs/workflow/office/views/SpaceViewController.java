@@ -27,7 +27,7 @@ public class SpaceViewController extends ViewController {
 	@PostConstruct
 	public void init() {
 		super.init();
-		this.setQuery("(type:\"space\")");
+		this.setQuery("(type:space*)");
 		this.setSortBy("name");
 		this.setSortReverse(false);
 		this.setPageSize(adminViewPageSize);

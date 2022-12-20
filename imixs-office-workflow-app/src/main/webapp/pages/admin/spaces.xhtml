@@ -161,6 +161,10 @@
 								</ui:repeat>
 							</h:column>
 							<h:column>
+								<f:facet name="header">Status</f:facet>
+								<h:outputText value="#{record.item['$workflowstatus']}" />
+							</h:column>							
+							<h:column>
 								<f:facet name="header">#{message.action}</f:facet>
 								<!-- Edit -->
 								<h:link outcome="/pages/admin/space"
