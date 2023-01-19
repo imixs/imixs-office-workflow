@@ -309,7 +309,41 @@
 						</resource>
 					</webResources>
 				</configuration>
-			</plugin>			
+			</plugin>		
+			
+			<!-- Manik Hot Deployment -->	
+			<plugin>
+				<groupId>org.imixs.maven</groupId>
+				<artifactId>manik-hotdeploy-maven-plugin</artifactId>
+				<version>2.0.0</version>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- List Source and Target folders for Autodeploy and Hotdeploy -->
+					<autodeployments>
+						<deployment>
+							<!-- wildcard deployment -->
+							<source>target/*.{war,ear,jar}</source>
+							<target>../docker/deployments/</target>
+							<unpack>true</unpack>
+						</deployment>
+					</autodeployments>
+					<hotdeployments>
+						<deployment>
+							<source>src/main/webapp</source>
+							<target>../docker/deployments/imixs-office-workflow.war</target>
+						</deployment>
+					</hotdeployments>
+
+				</configuration>
+			</plugin>	
+						
 		</plugins>
 		<finalName>imixs-office-workflow</finalName>
 	</build>
