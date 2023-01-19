@@ -10,7 +10,7 @@
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
-	
+
 <h:head>
 	<meta name="viewport" content="width=device-width" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -19,15 +19,14 @@
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<meta name="robots" content="noindex" />
 
-	<title>
-		<ui:param name="title"
-				value="#{propertyController.getProperty('application.title')}"></ui:param>
-		<h:outputText rendered="#{empty title}" value="#{resourceBundleHandler.findMessage('application_title')}" />
-		<h:outputText rendered="#{!empty title}" value="#{title}" />
-	</title>
+	<title><ui:param name="title"
+			value="#{propertyController.getProperty('application.title')}"></ui:param>
+		<h:outputText rendered="#{empty title}"
+			value="#{resourceBundleHandler.findMessage('application_title')}" />
+		<h:outputText rendered="#{!empty title}" value="#{title}" /></title>
 
 	<!-- *** CSS *** -->
-	
+
 	<link rel="shortcut icon" type="image/x-icon"
 		href="#{facesContext.externalContext.requestContextPath}/layout/favicon.ico" />
 
@@ -62,28 +61,28 @@
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
-		
-		
-		
+
+
+
 	<!-- Chronicle Feature css -->
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-chronicle.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
-	
-	
+
+
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-autocomplete.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-suggestinput.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
-	
+
 	<!-- ML Feature css -->
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-ml.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
-	
-	<!-- custom css --> 
+
+	<!-- custom css -->
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
@@ -107,15 +106,16 @@
 	<h:outputText
 		value="&lt;!--[if IE 10]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
 		escape="false" />
-		
+
 	<!-- The Top-Margin form the content container depends on the HistoryNav panel. If not history entries are displayed the 
 		top margin is reduced -->
-	<ui:fragment rendered="#{(loginController.authenticated) and (!empty historyController.workitems)}">
+	<ui:fragment
+		rendered="#{(loginController.authenticated) and (!empty historyController.workitems)}">
 		<style>
-			#container {
-				margin-top: 100px;
-			}
-		</style>
+#container {
+	margin-top: 100px;
+}
+</style>
 	</ui:fragment>
 
 	<!-- *** SCRIPTS *** -->
@@ -136,12 +136,12 @@
 	<!-- Imixs-Office-Workflow  -->
 	<script type="text/javascript"
 		src="#{facesContext.externalContext.requestContextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
-		
+
 	<!-- Load the marty component script -->
 	<script type="text/javascript"
 		src="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.js?build=#{app.application_build_timestamp}"></script>
 
-		
+
 	<script type="text/javascript"
 		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.main.js?build=#{app.application_build_timestamp}"></script>
 
@@ -157,15 +157,14 @@
 		/*<![CDATA[*/
 		// define script name spaces
 		var imixs = IMIXS.org.imixs.core;
-		
-		
+
 		// define variables for office scripts loaded from resource bundles....
-		imixsOfficeMain.contextPath="#{facesContext.externalContext.requestContextPath}";
-		imixsOfficeMain.error_message_mce_image_size="#{message.error_message_mce_image_size}";
-		imixsOfficeMain.imixs_date_showWeek=("true"==="#{app['jquey.datepicker.showWeek']}");
+		imixsOfficeMain.contextPath = "#{facesContext.externalContext.requestContextPath}";
+		imixsOfficeMain.error_message_mce_image_size = "#{message.error_message_mce_image_size}";
+		imixsOfficeMain.imixs_date_showWeek = ("true" === "#{app['jquey.datepicker.showWeek']}");
 		/*]]>*/
 	</script>
-	
+
 
 	<ui:insert name="scripts">
 		<!-- default  -->
@@ -174,60 +173,62 @@
 </h:head>
 <h:body>
 	<f:view locale="#{userController.locale}">
-	
-		<!-- SystemSetupStatus=#{initController.initStatus} -->
-		
-		
 
-		<div id="header">
-			<div id="imixs-servicenav">
+		<!-- SystemSetupStatus=#{initController.initStatus} -->
+		<div id="imixs-app">
+			<div id="imixs-header" class="imixs-servicenav">
 				<ui:insert name="servicenav">
 					<ui:include src="servicenav.xhtml" />
 				</ui:insert>
 			</div>
-			<div id="imixs-header">
-				<ui:insert name="header">
-					<ui:include src="header.xhtml" />
-				</ui:insert>
-			</div>
 
-		</div>
-		<!-- END header -->
-
-		<!-- content -->
-		<div id="container">
-			<ui:fragment rendered="#{(!loginController.authenticated)}">
-				<div style="height:140px;">
-				</div>
-			</ui:fragment>
-		
+			<!-- content -->
 			<div id="imixs-content">
-				<ui:insert name="content">
-					<h1>Default Content</h1>
+
+				<ui:fragment rendered="#{(!loginController.authenticated)}">
+					<div id="imixs-branding" class="imixs-header-branding">
+						<ui:include src="branding.xhtml" />
+					</div>
+				</ui:fragment>
+
+				<ui:fragment
+					rendered="#{(loginController.authenticated) and (!empty historyController.workitems)}">
+					<div id="imixs-history" class="imixs-header-history">
+						<ui:include src="historynav.xhtml" />
+					</div>
+				</ui:fragment>
+
+				<div id="imixs-main">
+					<ui:insert name="content">
+						<!-- Default Content -->
+					</ui:insert>
+				</div>
+
+
+				<!-- footer -->
+				<ui:insert name="footer">
+					<div id="imixs-footer">
+						<div id="footer1">
+							<ui:insert name="extra">
+								<ui:include src="/layout/extra.xhtml" />
+							</ui:insert>
+						</div>
+						<div id="footer2">
+							<ui:insert name="footer">
+								<ui:include src="/layout/footer.xhtml" />
+							</ui:insert>
+						</div>
+					</div>
 				</ui:insert>
-			</div>
-		</div>
-		<!-- END content -->
+				<!-- END footer -->
 
-		<!-- footer -->
-		<ui:insert name="footer">
-			<div id="footer">
-				<div id="footer1">
-					<ui:insert name="extra">
-						<ui:include src="/layout/extra.xhtml" />
-					</ui:insert>
-				</div>
-				<div id="footer2">
-					<ui:insert name="footer">
-						<ui:include src="/layout/footer.xhtml" />
-					</ui:insert>
-				</div>
 			</div>
-		</ui:insert>
-		<!-- END footer -->
+			<!-- END content -->
 
-		<div class="imixs-wait">
-			<!-- empty -->
+			<div class="imixs-wait">
+				<!-- empty -->
+			</div>
+
 		</div>
 	</f:view>
 </h:body>

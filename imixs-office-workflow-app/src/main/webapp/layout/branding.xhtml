@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
+	<!-- Branding -->
+
+	<div id="imixs-branding-text">
+		<ui:param name="title"
+			value="#{propertyController.getProperty('application.title')}"></ui:param>
+		<h:outputText rendered="#{empty title}"
+			value="#{resourceBundleHandler.findMessage('application_title')}" />
+		<h:outputText rendered="#{!empty title}" value="#{title}" />
+		<span style="color: red;">
+			#{propertyController.getProperty('application.mode')}</span>
+	</div>
+</ui:composition>

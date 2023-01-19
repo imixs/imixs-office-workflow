@@ -1,5 +1,12 @@
+/*
+ Flex Layout
+ See: https://www.freecodecamp.org/news/fixed-side-and-bottom-navbar-with-css-flexbox/
+ 
+*/
 body {
 	font-size: 0.85rem;
+	overflow: hidden;
+	height: 100vh;
 }
 
 body.loading {
@@ -10,17 +17,139 @@ body.loading .imixs-wait {
 	display: block;
 }
 
+/* Ajax loader */
+.imixs-wait {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(255, 255, 255, .8) url('../icons/ajax-loader.gif') 50%
+		50% no-repeat;
+}
+
 .loading {
 	background: rgba(255, 255, 255, .8) url(../icons/ajax-loader.gif) 50%
 		50% no-repeat;
 	color: #ccc;
 }
 
+/*************
+ Base Layout 
+ *************/
+#imixs-app {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	max-width: none;
+}
 
-button:hover, input[type="button"]:hover, input[type="submit"]:hover, .button:hover, a.button:hover {
+#imixs-header {
+	background-color: #145267;
+	width: 100%;
+	padding: 5px;
+	color: #FFF;
+	border-bottom: 1px solid #fff;
+	margin: 0;
+	background-color: #145267;
+}
+
+#imixs-header  .branding {
+	min-width: 120px;
+}
+
+#imixs-header .imixs-about {
+	font-size: 0.9rem;
+}
+
+#imixs-header .typcn {
+	font-size: 1.7rem;
+	line-height: 1;
+}
+
+#imixs-header ul {
+	list-style-type: none;
+	margin: 0 5px 0 0;
+	padding: 0px;
+	text-align: right;
+}
+
+#imixs-header li {
+	list-style: none;
+	display: inline;
+	margin: 0em 0em 0em 2em;
+	padding: 0px;
+	line-height: 18px;
+	color: #fff;
+}
+
+#imixs-header a {
+	color: #fff;
+}
+
+#imixs-content {
+	overflow-y: auto;
+}
+
+#imixs-main {
+	padding: 20px;
+}
+
+#imixs-branding {
+	background-color: #145267;
+	background-image: url("../css/background.png");
+	background-repeat: no-repeat;
+	background-position: 10px 21px;
+	min-height: 120px;
+	color: #fff;
+}
+
+#imixs-branding-text {
+	margin-left: 370px;
+	font-size: 3rem;
+	padding-top: 4px;
+}
+
+#imixs-footer li {
+	list-style: none;
+	display: inline;
+	margin: 0em 0em 0em 2em;
+}
+
+#footer1, #footer2 {
+	background-color: #f4f4f4;
+	color: #888;
+}
+
+#footer2 {
+	text-align: right;
+}
+
+#footer2 li, #footer a {
+	color: #888;
+}
+
+
+.imixs-header-history {
+	flex: 1 0 10%;
+}
+
+section {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	column-gap: 10px;
+}
+
+button:hover, input[type="button"]:hover, input[type="submit"]:hover,
+	.button:hover, a.button:hover {
 	font-weight: 700;
 }
-button:active, input[type="button"]:active, input[type="submit"]:active, input[type="submit"]:focus, .button:active, a.button:active,  button:focus, input[type="button"]:focus {
+
+button:active, input[type="button"]:active, input[type="submit"]:active,
+	input[type="submit"]:focus, .button:active, a.button:active, button:focus,
+	input[type="button"]:focus {
 	font-weight: 700;
 }
 
@@ -43,10 +172,9 @@ select {
 :-ms-input-placeholder {
 	color: #aaa;
 }
- 
 
-input[type="text"]:focus,input[type="password"]:focus,textarea:focus,select:focus
-	{
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus,
+	select:focus {
 	border: 1px solid #ccc;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -62,42 +190,25 @@ input[type="text"]:focus,input[type="password"]:focus,textarea:focus,select:focu
 		rgba(102, 102, 102, 0.2);
 }
 
-
 dl dt {
 	font-weight: bold;
 }
 
-
 dl dt input[type="text"], dl dt input[type="password"] {
-    width: 100%;
-    border:none;
-    -webkit-box-shadow: none;
-	-moz-box-shadow:none;
+	width: 100%;
+	border: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
 	box-shadow: none;
 }
 
 dl dt input[type="text"]:hover {
-    background-color: #f8f8f8;
+	background-color: #f8f8f8;
 }
-
-
 
 .pull-right {
 	float: right;
 	margin-left: 20px;
-}
-
-/* Ajax loader */
-.imixs-wait {
-	display: none;
-	position: fixed;
-	z-index: 1000;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	background: rgba(255, 255, 255, .8) url('../icons/ajax-loader.gif') 50%
-		50% no-repeat;
 }
 
 .imixs-state-info {
@@ -123,84 +234,6 @@ dl dt input[type="text"]:hover {
 	padding: 5px;
 }
 
-/*************
- Base Layout 
- *************/
-
-#header {
-	position: fixed;
-	top: 0;
-	z-index: 1;
-	background: none;
-	padding: 0;
-}
-
-#container {
-	margin-top: 50px;
-	max-width: none;
-}
-
-
-#imixs-branding {
-	background-color: #145267;
-	background-image: url("../css/background.png");
-	background-repeat: no-repeat;
-	background-position: 10px 21px;
-	min-height: 120px;
-	color: #fff;
-}
-
-#imixs-branding-text {
-	margin-left: 370px;
-	font-size: 3rem;
-	padding-top: 4px;
-}
-
-
-
-#footer {
-	clear: both;
-	margin: 0 auto;
-	padding: 0;
-}
-
-#footer1, #footer2 {
-    background-color: #f4f4f4;
-    color:#888;
-}
-
-#footer2 {
-	text-align: right;
-}
-
-
-#footer2 li, #footer a {
-    color:#888;
-}
-
-#footer li {
-	list-style: none;
-	display: inline;
-	margin: 0em 0em 0em 2em;
-}
-
-
-#imixs-servicenav {
-	height: 46px;
-	width: 100%;
-	padding: 5px;
-	color: #FFF;
-	border-bottom: 1px solid #fff;
-	margin: 0;
-	background-color: #145267;
-}
-
-
-#imixs-content {
-	 padding: 20px 20px 20px 20px;
-}
-
-
 .toolbar {
 	float: left;
 	height: 36px;
@@ -218,8 +251,8 @@ dl dt input[type="text"]:hover {
 	display: flex;
 	flex-wrap: nowrap;
 	flex-direction: row;
-    overflow: auto;
-    scrollbar-width: thin;
+	overflow: auto;
+	scrollbar-width: thin;
 	height: 60px;
 	background-color: #fff;
 }
@@ -264,40 +297,6 @@ dl dt input[type="text"]:hover {
 	font-size: 1rem;
 }
 
-#imixs-servicenav  .branding {
-	min-width: 120px;
-}
-
-#imixs-servicenav .imixs-about {
-	font-size: 0.9rem;
-}
-
-#imixs-servicenav .typcn {
-	font-size: 1.7rem;
-	line-height: 1;
-}
-
-#imixs-servicenav ul{
-	list-style-type: none;
-	margin: 0 5px 0 0;
-	padding: 0px;
-	text-align: right;
-}
-
-#imixs-servicenav li {
-	list-style: none;
-	display: inline;
-	margin: 0em 0em 0em 2em;
-	padding: 0px;
-	line-height: 18px;
-	color: #fff;
-}
-
-#imixs-servicenav a {
-	color: #fff;
-}
-
-
 .imixs-checkbox-button {
 	font-weight: bold;
 	line-height: 1.8em;
@@ -317,12 +316,12 @@ dl dt input[type="text"]:hover {
 	border-radius: 4px;
 }
 /* f4f4f4 145267  */
-.imixs-historyentry {	
+.imixs-historyentry {
 	display: flex;
 	overflow: hidden;
 	min-width: 280px;
 	background-color: #f4f4f4;
-    color:#666;
+	color: #666;
 	padding: 5px;
 	line-height: 1.4em;
 	font-size: 0.8rem;
@@ -333,24 +332,21 @@ dl dt input[type="text"]:hover {
 	flex: 1;
 	border-bottom: 2px solid #f4f4f4;
 }
-	
+
 .imixs-historyentry:hover {
 	background-color: #f4f4f4;
-	border-bottom:4px solid #428bca;
+	border-bottom: 4px solid #428bca;
 	cursor: pointer;
 }
 
-
-
 .imixs-historyentry a {
-    color: #145267;
-    text-decoration: none;
+	color: #145267;
+	text-decoration: none;
 }
 
 .imixs-historyentry .image-block .imixs-typicon {
-    color: #333;
+	color: #333;
 }
-
 
 .imixs-historyentry .image-block .imixs-typicon {
 	color: #888;
@@ -358,35 +354,22 @@ dl dt input[type="text"]:hover {
 
 /* 145267  faa732 */
 .imixs-historyentry.active {
-    background-color: #fefefe;
-    border-bottom:4px solid #faa732;
-    color: #2a6496;;
+	background-color: #fefefe;
+	border-bottom: 4px solid #faa732;
+	color: #2a6496;;
 }
-
 
 .imixs-historyentry.active .image-block .imixs-typicon {
 	color: #333;
 }
 
-
-
-/*
-
-.imixs-historyentry-action {
-	xfloat: left;	
-	xpadding-right: 15px;
-
-}
-*/
 .imixs-historyentry .image-block {
 	min-height: 10px;
 }
 
-
 .imixs-historyentry .close {
 	font-size: 1.3rem;
 }
-
 
 .content-block {
 	margin-left: 45px;
@@ -412,9 +395,7 @@ dl dt input[type="text"]:hover {
 	margin-left: 20px;
 }
 
-
 /* --- Imixs-Viewentry ---------------------------------- */
-
 .imixs-viewentry a {
 	color: #666;
 }
@@ -465,11 +446,7 @@ dl dt input[type="text"]:hover {
 	margin-right: 5px;
 }
 
-
-
-
 /* --- Imixs-Form --------------------------- */
-
 .imixs-form .imixs-header {
 	padding: 0px 10px 10px 10px;
 	margin-bottom: 5px;
@@ -484,8 +461,9 @@ dl dt input[type="text"]:hover {
 	font-weight: bold;
 }
 
-.imixs-form .imixs-body input[type="radio"] + label, .imixs-form .imixs-body input[type="checkbox"] + label {
-    font-weight: normal;
+.imixs-form .imixs-body input[type="radio"]+label, .imixs-form .imixs-body input[type="checkbox"]+label
+	{
+	font-weight: normal;
 }
 
 .imixs-form .imixs-header hr {
@@ -500,7 +478,6 @@ dl dt input[type="text"]:hover {
 	padding: 10px 10px;
 }
 
-
 .imixs-form .imixs-body .imixs-form-instruction-right {
 	float: right;
 	padding-left: 10px;
@@ -514,7 +491,6 @@ dl dt input[type="text"]:hover {
 	font-size: 1.8em;
 	margin-bottom: 0.3em;
 }
-
 
 .imixs-form  h2 {
 	font-size: 1.5em;
@@ -540,10 +516,10 @@ dl dt input[type="text"]:hover {
 	margin: 10px 0 0 0;
 }
 
-.imixs-form-section, .imixs-form-section-1, .imixs-form-section-2, .imixs-form-section-3 {
-    margin-top: 10px;
-    margin-bottom: 10px;
-
+.imixs-form-section, .imixs-form-section-1, .imixs-form-section-2,
+	.imixs-form-section-3 {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 .imixs-form-section-2 table {
@@ -558,8 +534,6 @@ dl dt input[type="text"]:hover {
 	border: none;
 }
 
-
-
 /* --- Imixs-Form-Panel --------------------------- */
 .imixs-form-panel {
 	margin-top: 10px;
@@ -567,7 +541,7 @@ dl dt input[type="text"]:hover {
 }
 
 .imixs-form-panel h1 {
-	padding-top:10px;
+	padding-top: 10px;
 }
 /* --- Imixs-Tabs ---------------------------------- */
 .imixs-form .imixs-body .imixs-tabs {
@@ -583,8 +557,8 @@ dl dt input[type="text"]:hover {
 }
 
 .ui-widget-header {
-    border: none;
-    background: none;
+	border: none;
+	background: none;
 }
 
 .imixs-tabs .ui-tabs-nav .ui-state-default {
@@ -645,36 +619,36 @@ dl dt input[type="text"]:hover {
 	margin-top: 20px;
 }
 
-.imixs-comment-tabs .imixs-form-section, .imixs-comment-tabs .imixs-form-section-1, .imixs-comment-tabs .imixs-form-section-2,
-	.imixs-comment-tabs .imixs-form-section-3 {
+.imixs-comment-tabs .imixs-form-section, .imixs-comment-tabs .imixs-form-section-1,
+	.imixs-comment-tabs .imixs-form-section-2, .imixs-comment-tabs .imixs-form-section-3
+	{
 	margin-top: 0px;
 }
 
-
 .imixs-tabs.embedded {
-	border:none;
-	padding:0;
+	border: none;
+	padding: 0;
 }
 
 .imixs-tabs.embedded .ui-tabs-panel {
-	padding:0;
-}
-.imixs-tabs.embedded .ui-tabs-tab a {
-	padding:0px;
-	margin:10px 10px 10px 0px;
+	padding: 0;
 }
 
+.imixs-tabs.embedded .ui-tabs-tab a {
+	padding: 0px;
+	margin: 10px 10px 10px 0px;
+}
 
 /* --- Imixs-View ---------------------------------- */
-
 .imixs-view .imixs-header {
 	margin-bottom: 5px;
-    margin-left:10px;
-    border-bottom: 2px solid #ddd;
+	margin-left: 10px;
+	border-bottom: 2px solid #ddd;
 }
+
 .imixs-view .imixs-header h1 {
-    font-size: 1.8em;
-    margin-bottom: 0.3em;
+	font-size: 1.8em;
+	margin-bottom: 0.3em;
 }
 
 .imixs-view .imixs-body {
@@ -687,29 +661,25 @@ dl dt input[type="text"]:hover {
 	padding-bottom: 20px;
 }
 
-
 .imixs-view .imixs-footer {
 	padding: 10px 10px;
 }
 
-
-
-
 /* --- Imixs-Board ---------------------------------- */
-
 .imixs-board .imixs-header {
-    margin-bottom: 20px;
-    margin-left:10px;
-    border-bottom: 2px solid #ddd;
-}
-.imixs-board .imixs-header h1 {
-    font-size: 1.8em;
-    margin-bottom: 0.3em;
+	margin-bottom: 20px;
+	margin-left: 10px;
+	border-bottom: 2px solid #ddd;
 }
 
+.imixs-board .imixs-header h1 {
+	font-size: 1.8em;
+	margin-bottom: 0.3em;
+}
 
 .imixs-board .imixs-body {
 	margin-top: 10px;
+	clear: both;
 }
 
 .imixs-board .search input {
@@ -729,26 +699,23 @@ dl dt input[type="text"]:hover {
 
 /* --- Imixs-Portlet ---------------------------------- */
 .imixs-portlet {
-	width: 25%;
-	float: left;
-	min-height: 1px;
-	position: relative;
 	padding: 10px;
 	border-right: 2px solid #ddd;
 	margin-bottom: 30px;
+	grid-column-start: span 3;
 }
 
 .imixs-portlet.imixs-portlet-worklist {
-	width: 37.5%;
-}
-
-.imixs-portlet.imixs-portlet-startprocess {
-	width: 25%;
-	clear: left;
+	grid-column-start: span 4;
 }
 
 .imixs-portlet.imixs-portlet-favorites {
-	width: 37.5%;
+	grid-column-start: span 4;
+}
+
+.imixs-portlet.startprocess {
+	grid-column-start: span 4;
+	border-right: none;
 }
 
 .imixs-portlet h3 {
@@ -757,13 +724,8 @@ dl dt input[type="text"]:hover {
 	color: #666;
 }
 
-.imixs-portlet:nth-child(3n+3) {
+.imixs-portlet:nth-child(4n+4) {
 	border-right: none;
-}
-
-/* nth-child(5n+5) */
-.imixs-portlet:nth-child(4n+1) {
-	clear: left;
 }
 
 .imixs-portlet .imixs-header {
@@ -821,6 +783,7 @@ dl dt input[type="text"]:hover {
 .imixs-portlet a .portlet-title {
 	color: #666;
 }
+
 .imixs-portlet a:hover .portlet-title {
 	color: #428bca;
 }
@@ -842,17 +805,17 @@ dl dt input[type="text"]:hover {
 	margin-top: 100px;
 }
 
-
 /*
  * Search 
  */
 .imixs-search .imixs-header {
-
+	
 }
+
 .search-result-summary {
 	padding: 0 10px 10px;
-font-size: 0.9em;
-color: #666;
+	font-size: 0.9em;
+	color: #666;
 }
 
 /*
@@ -866,7 +829,6 @@ color: #666;
 	font-size: 18px;
 	margin-right: 5px;
 }
-
 
 /*
  * Reports 
@@ -897,7 +859,6 @@ color: #666;
 	border-radius: 10px;
 }
 
-
 .imixs-form-footer, .imixs-view-footer {
 	background: #ECF3F8;
 	padding: 10px 10px;
@@ -923,17 +884,15 @@ color: #666;
 	margin: 10px 0;
 }
 
-
 /* --- Imixs Attachments ------------------------------ */
-
-.imixs-form-panel-documentviewer .imixs-form-attachments .col-6, .imixs-form-tab-documentviewer .imixs-form-attachments  .col-6
-		{
-		clear: both;
-		float: none;
-		width: 100% !important;
-		left: 0;
-		text-align: left;
-	}
+.imixs-form-panel-documentviewer .imixs-form-attachments .col-6,
+	.imixs-form-tab-documentviewer .imixs-form-attachments  .col-6 {
+	clear: both;
+	float: none;
+	width: 100% !important;
+	left: 0;
+	text-align: left;
+}
 
 .imixs-form-attachments .image-block {
 	float: left;
@@ -948,7 +907,6 @@ color: #666;
 	width: 90%;
 }
 
-
 .imixs-form-attachments .typcn {
 	margin: 0;
 	font-size: 1.3rem;
@@ -956,13 +914,15 @@ color: #666;
 }
 
 /* --- File Upload ----------------------------------------- */
-.imixs-form-attachments-upload  {
-	border-right:1px solid #ccc;
+.imixs-form-attachments-upload {
+	border-right: 1px solid #ccc;
 }
+
 .imixs-form-attachments-upload h3 {
 	color: #999;
 	font-size: 1.4em;
 }
+
 .imixs-form-attachments-upload .typcn, .imixs-document-storage .typcn {
 	font-size: 1.6rem;
 }
@@ -979,11 +939,9 @@ color: #666;
 .imixs-history-col2 {
 	white-space: nowrap;
 }
-	
-
 
 /* --- Imixs Instruction ------------------------------ */
-.imixs-instruction {	
+.imixs-instruction {
 	padding-bottom: 20px;
 	background: none;
 	border: none;
@@ -995,10 +953,10 @@ color: #666;
 }
 
 /* --- Imixs Comments ---------------------------------------*/
-
 .imixs-comments-and-documents .documents {
 	min-width: 600px;
 }
+
 .imixs-comments-and-documents .comment {
 	min-width: 600px;
 }
@@ -1007,10 +965,9 @@ color: #666;
 	white-space: pre-wrap;
 }
 
-
-
 /* --- Imixs Workflow Actions ------------------------------ */
 .imixs-workflow-action.ui-button {
+	
 }
 
 .imixs-close-action.ui-button {
@@ -1077,7 +1034,7 @@ dl dd  .imixs-datetime-picker select {
 .ui-datepicker-header {
 	border: none;
 	background: #206B87;
-	color:#fff;
+	color: #fff;
 }
 
 .imixs-required {
@@ -1086,7 +1043,6 @@ dl dd  .imixs-datetime-picker select {
 
 .imixsdatatable {
 	width: 100%;
-	
 }
 
 .imixsdatatable th {
@@ -1096,7 +1052,6 @@ dl dd  .imixs-datetime-picker select {
 	border-left: 4px solid #206B87;
 	border-bottom: 1px solid #206B87;
 }
-
 
 .imixs-form .imixsdatatable td, th {
 	padding: 5px;
@@ -1139,7 +1094,6 @@ dl dd  .imixs-datetime-picker select {
 .imixsdatatable tbody tr:hover td:first-child {
 	padding-left: 3px;
 }
-
 
 .imixs-label {
 	-webkit-border-radius: 3px;
@@ -1279,9 +1233,6 @@ dl dd  .imixs-datetime-picker select {
 }
 
 /** Office WorkitemLink Widget -  **/
-
-
-
 .workitemlinktable td {
 	border-bottom: 1px solid #ccc;
 }
@@ -1289,7 +1240,6 @@ dl dd  .imixs-datetime-picker select {
 .workitemlinktable td .typcn {
 	color: #999;
 }
-
 
 .image-block {
 	float: left;
@@ -1313,7 +1263,6 @@ dl dd  .imixs-datetime-picker select {
 	float: left;
 }
 */
-
 .imixs-favorite {
 	position: absolute;
 	top: 37px;
@@ -1347,9 +1296,6 @@ dl dd  .imixs-datetime-picker select {
 	position: absolute;
 	font-size: 16px;
 	line-height: 1em;
-	x-webkit-border-radius: 10px;
-	x-khtml-border-radius: 10px;
-	x-moz-border-radius: 10px;
 	border-radius: 10px;
 	border: none;
 	padding-left: 1px;
@@ -1379,7 +1325,6 @@ dl dd  .imixs-datetime-picker select {
 	left: -4px;
 }
 
-
 /*
 .icon-sub-ne.imixs-default, .icon-sub-ne.imixs-info, .icon-sub-ne.imixs-success,
 	.icon-sub-ne.imixs-warning, .icon-sub-ne.imixs-error {
@@ -1396,7 +1341,6 @@ dl dd  .imixs-datetime-picker select {
 }
 */
 
-
 /*
 .icon-sub-sw.imixs-default, .icon-sub-sw.imixs-info, .icon-sub-sw.imixs-success,
 	.icon-sub-sw.imixs-warning, .icon-sub-sw.imixs-error {
@@ -1412,7 +1356,6 @@ dl dd  .imixs-datetime-picker select {
 	left: 4px;
 }
 */
-
 .icon-sub.imixs-default {
 	font-size: 14px;
 	color: #fff;
@@ -1442,7 +1385,6 @@ dl dd  .imixs-datetime-picker select {
 	background-color: #cf5e6f;
 	color: #fff;
 }
-
 
 .dms-list a {
 	color: #428bca;
@@ -1518,8 +1460,6 @@ dl dd  .imixs-datetime-picker select {
 	color: #888;
 }
 
-
-
 .imixs-form-section.minutes-body-section .imixs-viewentry:hover {
 	background: transparent;
 }
@@ -1535,8 +1475,8 @@ dl dd  .imixs-datetime-picker select {
 
 .minute-summary-status {
 	line-height: 2em;
-	font-size:1.2em;
-	color:#999;
+	font-size: 1.2em;
+	color: #999;
 }
 
 .minute-icon {
@@ -1570,8 +1510,6 @@ input:disabled.imixs-date {
 	background: #EBEBE4;
 }
 
-
-
 /* Roles And Rights */
 .roles-and-rights th {
 	height: 140px;
@@ -1579,44 +1517,50 @@ input:disabled.imixs-date {
 	text-align: left;
 	line-height: 1;
 }
+
 .roles-and-rights td {
-	font-size:0.9em;
+	font-size: 0.9em;
 }
+
 .roles-and-rights tr:hover td {
 	background: #f2f2f2
 }
+
 .roles-and-rights .header {
 	width: 25px;
 }
 
-.roles-and-rights td.main  {
-	font-size:1.5em;
+.roles-and-rights td.main {
+	font-size: 1.5em;
 }
-.roles-and-rights td.main1  {
+
+.roles-and-rights td.main1 {
 	font-weight: bold;
 	font-size: 1.0em;
 }
-.roles-and-rights td.main2  {
+
+.roles-and-rights td.main2 {
 	padding-left: 10px;
 }
-.roles-and-rights td.main3  {
+
+.roles-and-rights td.main3 {
 	padding-left: 20px;
 }
-.roles-and-rights td.blank  {
-	xbackground: #efefef;
+
+.roles-and-rights td.blank {
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 }
 
-.roles-and-rights tr.acl-roles  {
+.roles-and-rights tr.acl-roles {
 	background: #ffe6c0;;
 }
 
-.roles-and-rights tr.processes  {
+.roles-and-rights tr.processes {
 	background: #beffc2;
 }
 
-.roles-and-rights tr.spaces  {
+.roles-and-rights tr.spaces {
 	background: #bad4f6;
 }
 
@@ -1639,36 +1583,20 @@ input:disabled.imixs-date {
 .roles-and-rights .xcol {
 	border: 1px solid #ccc;
 }
+
 .roles-and-rights th {
-    position: sticky;
-    top: 0;
-    z-index: 0;
+	position: sticky;
+	top: 0;
+	z-index: 0;
 }
-
-
-
 
 /* RESPONSIVE BEHAVIOUR */
 @media screen and (max-width: 1400px) {
 	.imixs-portlet {
-		width: 33.3333%;
-		float: left;
-	}
-	.imixs-portlet-worklist, .imixs-portlet-startprocess, .imixs-portlet-favorites {
-		width: 33.3333% !important;
-	}
-	
-	.imixs-portlet:nth-child(4n+4) {
-		border-right: 1px solid #aaaaaa;
+		grid-column-start: span 4;
 	}
 	.imixs-portlet:nth-child(3n+3) {
 		border-right: none;
-	}
-	.imixs-portlet:nth-child(4n+1) {
-		clear: none;
-	}
-	.imixs-portlet:nth-child(3n+1) {
-		clear: left;
 	}
 	.imixs-form .imixs-body .imixs-form-tabs .col-8, .imixs-form .imixs-body .imixs-form-tabs .col-4
 		{
@@ -1682,7 +1610,6 @@ input:disabled.imixs-date {
 		width: 100% !important;
 		padding: 0;
 	}
-	
 	.imixs-form-panel-documentviewer .col-6, .imixs-form-tab-documentviewer .col-6
 		{
 		clear: both;
@@ -1691,53 +1618,32 @@ input:disabled.imixs-date {
 		left: 0;
 		text-align: left;
 	}
-	
 }
 
 @media screen and (max-width: 1100px) {
 	#imixs-historynav {
 		display: none;
 	}
-	
-	.imixs-portlet {
-		width: 50%;
-		float: left;
-	}
-	.imixs-portlet-worklist, .imixs-portlet-startprocess, .imixs-portlet-favorites {
-		width: 50% !important;
-	}
-	#imixs-servicenav {
-		height: 82px;
-	}
-	#imixs-header {
-		margin-top: 82px;
-	}
-	#imixs-servicenav .imixs-about {
+	#imixs-header .imixs-about {
 		display: none;
 	}
 	#imixs-branding-text {
 		font-size: 2.6rem;
 		padding-top: 10px;
 	}
-	.imixs-portlet:nth-child(4n+4) {
-		border-right: 1px solid #aaaaaa;
+	.imixs-portlet {
+		grid-column-start: span 6;
 	}
-	.imixs-portlet:nth-child(3n+3) {
-		border-right: 1px solid #aaaaaa;
+	.imixs-portlet.imixs-portlet-worklist, .imixs-portlet.imixs-portlet-favorites,
+		.imixs-portlet.startprocess {
+		grid-column-start: span 6;
+	}
+	.imixs-portlet:nth-child(1n+1) {
+		border-right: 2px solid #ddd;
 	}
 	.imixs-portlet:nth-child(2n+2) {
 		border-right: none;
 	}
-	.imixs-portlet:nth-child(4n+1) {
-		clear: none;
-	}
-	.imixs-portlet:nth-child(3n+1) {
-		clear: none;
-	}
-	.imixs-portlet:nth-child(2n+1) {
-		clear: left;
-	}
-	
 	.imixs-form, .imixs-view {
 		font-size: 1.1em;
 	}
@@ -1751,65 +1657,59 @@ input:disabled.imixs-date {
 	}
 }
 
-
-
-
 /* 868 */
-@media screen and (max-width: 768px) {
-	#container {
-		margin-top: 90px;
-	}
-	#imixs-content {
-		padding: 10px;
-	}
-	.imixs-portlet {
-		width: 100%;
-		float: none;
-		clear: left;
-		border-right: none;
-	}
-	.imixs-portlet-worklist, .imixs-portlet-startprocess, .imixs-portlet-favorites {
-		width: 100% !important;
-	}
-	.imixs-portlet:nth-child(4n+4) {
-		border-right: none;
-	}
-	.imixs-portlet:nth-child(3n+3) {
-		border-right: none;
-	}
-	#imixs-servicenav {
-		height: 82px;
-	}
-	#imixs-servicenav .toolbar {
-		border: none;
-	}
-
-	#imixs-header {
-		margin-top: 82px;
-	}
-	#imixs-branding {
-		background-image: none;
-		display: none;
-	}
-	
-	.imixs-form, .imixs-view {
-		font-size: 1.2em;
-	}
-	.imixs-footer .imixs-delete-action, .imixs-footer .imixs-workflow-action,
-		.imixs-footer .imixs-close-action, .imixs-footer .imixs-print-action {
-		margin: 0 10px 10px 0;
-		font-size: 1.1em;
-	}
-	.imixsQrCode {
-		display: none;
-	}
-	.imixs-form .imixs-body .imixs-form-instruction-right {
-		padding-left: 0px;
-	}
+@media
+screen
+and
+(max-width:
+768px)
+{
+.imixs-portlet {
+	grid-column-start: span 12;
 }
 
+.imixs-portlet.imixs-portlet-worklist, .imixs-portlet.imixs-portlet-favorites,
+	.imixs-portlet.startprocess {
+	grid-column-start: span 12;
+}
+
+.imixs-portlet {
+	border-right: none;
+}
+
+.imixs-portlet:nth-child(1n+1) {
+	border-right: none;
+}
+
+#imixs-servicenav .toolbar {
+	border: none;
+}
+
+#imixs-branding {
+	background-image: none;
+	display: none;
+}
+
+.imixs-form, .imixs-view {
+	font-size: 1.2em;
+}
+
+.imixs-footer .imixs-delete-action, .imixs-footer .imixs-workflow-action,
+	.imixs-footer .imixs-close-action, .imixs-footer .imixs-print-action {
+	margin: 0 10px 10px 0;
+	font-size: 1.1em;
+}
+
+.imixsQrCode {
+	display: none;
+}
+
+.imixs-form .imixs-body .imixs-form-instruction-right {
+	padding-left: 0px;
+}
+
+}
 @media screen and (max-width: 548px) {
-	
 	#imixs-servicenav .toolbar {
 		padding: 0 8px;
 	}
@@ -1819,19 +1719,16 @@ input:disabled.imixs-date {
 	#imixs-servicenav li {
 		margin: 0em 0em 0em 0em;
 	}
-	#imixs-header {
-		min-height: 0px;
-	}
 	#imixs-content {
 		padding: 0px;
 	}
 	.imixs-header h1, .imixs-footer h1 {
 		font-size: 1.7em;
 	}
-	#imixs-servicenav .toolbar.search {
+	#imixs-header .toolbar.search {
 		margin-left: 0px;
 	}
-	#imixs-servicenav .toolbar.login span.login-name {
+	#imixs-header .toolbar.login span.login-name {
 		display: none;
 	}
 	.imixs-form-panel {
@@ -1840,11 +1737,10 @@ input:disabled.imixs-date {
 	.imixs-form, .imixs-view {
 		font-size: 1.2em;
 	}
-	
-
-	
-	.imixs-workitem-chronicle .imixs-delete-action, .imixs-workitem-chronicle .imixs-workflow-action,
-		.imixs-workitem-chronicle .imixs-close-action, .imixs-workitem-chronicle .imixs-print-action {
+	.imixs-workitem-chronicle .imixs-delete-action,
+		.imixs-workitem-chronicle .imixs-workflow-action,
+		.imixs-workitem-chronicle .imixs-close-action,
+		.imixs-workitem-chronicle .imixs-print-action {
 		width: 100%;
 		margin: 0 0 15px 0;
 		font-size: 1.2em;
@@ -1852,18 +1748,4 @@ input:disabled.imixs-date {
 	.imixs-tabs ul li {
 		width: 100%;
 	}
-	
-	
-	
 }
-
-
-
-
-
-
-
-
-
-
-
