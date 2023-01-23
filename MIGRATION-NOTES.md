@@ -2,6 +2,10 @@
 
 The following section contains migration notes for Imixs-Office-Workflow. 
 
+## Imixs-Office-Workflow 4.5.4
+
+ - New Main Layout  - New CSS Class names for header and content container!
+
 ## Imixs-Office-Workflow 4.5.1
 
  - Changed Security Model - core access roles are now mandatory, empty passwords are no longer supported
