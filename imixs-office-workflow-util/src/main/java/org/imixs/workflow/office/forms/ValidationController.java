@@ -108,7 +108,7 @@ public class ValidationController implements Serializable {
                                 if (evalItemCollection != null) {
                                     // evaluate the validation rules...
                                     if (!evalItemCollection.getItemValueBoolean("required")) {
-                                        logger.info("validation: event=" + eventid + " required=false");
+                                        logger.finest("validation: event=" + eventid + " required=false");
                                         required = false;
                                         break;
                                     }
