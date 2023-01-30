@@ -2,9 +2,10 @@
 
 The following section contains migration notes for Imixs-Office-Workflow. 
 
-## Imixs-Office-Workflow 4.5.4
+## Imixs-Office-Workflow 4.6.0
 
  - New Main Layout  - New CSS Class names for header and content container!
+ - Upgrade Imixs-Archive API to 2.4.1-SNAPSHOT - This change requires a new Backup-Service Setup in the Archive Deployment too.
 
 ## Imixs-Office-Workflow 4.5.1
 
