@@ -15,7 +15,10 @@ var isWorkitemLoading=true; 	// indicates if the workitem is still loading
 var chornicleSize=1;			// default cronicle size (33%)
 var chroniclePreview=true; 		// indicates if documetns should be shown in the cornicle column
 var callbackRegistrySaveWorkitem=[];
-
+var isChronicleResizing=false 		// tangable divider
+var sliderPosX;				    // current position of moving slider
+var chronicleElement;			// the chronical bar
+var formElement;			// the chronical bar
 
 /**
  * Init Method for the workitem page
@@ -30,10 +33,10 @@ $(document).ready(function() {
 	imixsOfficeMain.imixs_chronicle_nav=JSON.parse('{ "comment" : true, "files":true, "version":true, "reference":true }'); 
 	
 	// read croncicle size form cookie
-	chornicleSize=imixsOfficeWorkitem.readCookie('imixs.office.document.chronicle.size');
-	if (!chornicleSize || chornicleSize=="") {
-		chornicleSize=1;
-	}
+//	chornicleSize=imixsOfficeWorkitem.readCookie('imixs.office.document.chronicle.size');
+//	if (!chornicleSize || chornicleSize=="") {
+//		chornicleSize=1;
+//	}
 
 	
 	// read croncicle document preview form cookie
@@ -43,17 +46,38 @@ $(document).ready(function() {
 	} else {
 		chroniclePreview=false;
 	}
+
 	
-		
-	// init...
-	$('.imixs-workitem-chronicle').css('transition','0.0s');
-	imixsOfficeWorkitem.updateChronicleWidth();
+	// Init tangible slider
+	chronicleElement = document.querySelector('.imixs-workitem > .imixs-workitem-chronicle');
+	formElement=document.querySelector('.imixs-workitem > .imixs-workitem-form');
+	//formElement.parentElement.style.display = "none";
+
+	const lastFormWidth=imixsOfficeWorkitem.readCookie('imixs.office.document.workitem.formwidth');
 	
+    imixsOfficeWorkitem.updateFormWidth(lastFormWidth);
+
+	const sliderElement = document.querySelector('.imixs-workitem > .imixs-slider');
+	sliderElement.addEventListener('mousedown', (e) => {
+	  isChronicleResizing = true;
+	  sliderPosX = e.clientX;
+	  console.log('slider posX = '+ sliderPosX);
+	});
+	window.addEventListener('mouseup', (e) => {
+	  isChronicleResizing = false;
+	});
+	window.addEventListener('mousemove', (e) => {
+	  if (!isChronicleResizing) return;
+	  let _newWidth=formElement.offsetWidth + (e.clientX - sliderPosX);
+	  
+	  imixsOfficeWorkitem.updateFormWidth(_newWidth);
+	  sliderPosX = e.clientX;
+	  imixsOfficeWorkitem.setCookie("imixs.office.document.workitem.formwidth",_newWidth,14);
+	});
+
 	$('.document-nav').hide();
 	
-	
 	imixsOfficeWorkitem.updateAttachmentLinks();
-
 		
 	// set the default preview frame
 	documentPreviewIframe=document.getElementById('imixs_document_iframe_embedded');
@@ -62,6 +86,7 @@ $(document).ready(function() {
 	imixsOfficeWorkitem.autoPreviewPDF();
 	
 	isWorkitemLoading=false;
+	//formElement.parentElement.style.display = "block";
 });
 
 /*
@@ -273,61 +298,15 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	},
 
 	
-	/*
-	 * reduce the with of the chronicle
-	 */
-	expandChronicle= function () {
-		if (chornicleSize<2) {
-			chornicleSize++;
-		}
-		//document.cookie = "imixs.office.document.chronicle.size=" + chornicleSize + "; path=/";
-		imixsOfficeWorkitem.setCookie("imixs.office.document.chronicle.size",chornicleSize,14);
-	
-		$('.imixs-workitem-chronicle').css('transition','0.3s');
-		updateChronicleWidth();
-	},
 
-	/*
-	 * increase the with of the chronicle
-	 */
-	shrinkChronicle = function () {
-		if (chornicleSize>0) {
-			chornicleSize--;
-		}
-		//document.cookie = "imixs.office.document.chronicle.size=" + chornicleSize + "; path=/";
-		imixsOfficeWorkitem.setCookie("imixs.office.document.chronicle.size",chornicleSize,14);	
-		$('.imixs-workitem-chronicle').css('transition','0.3s');
-		updateChronicleWidth();
-	},
 	
 	/*
-	 * updates the screen size of the chronical frame
+	 * updates the screen size of the form and chronical frame
 	 */	
-	updateChronicleWidth=function () {	
-		
-		if (chornicleSize==2) {
-			$('.imixs-workitem-form').css('width','58.3333%');
-			$('.imixs-workitem-chronicle').css('width','calc(41.6666% - 30px)');
-			$('.imixs-slider-nav .expand').removeClass('typcn-media-play-reverse');
-			$('.imixs-slider-nav .expand').addClass('typcn-media-play-reverse-outline');
-			return;
-		}
-		if (chornicleSize==1) {
-			$('.imixs-workitem-form').css('width','66.6666%');
-			$('.imixs-workitem-chronicle').css('width','calc(33.3333% - 30px)');
-			$('.imixs-slider-nav .expand').removeClass('typcn-media-play-reverse-outline');
-			$('.imixs-slider-nav .expand').addClass('typcn-media-play-reverse');
-			$('.imixs-slider-nav .shrink').removeClass('typcn-media-play-outline');
-			$('.imixs-slider-nav .shrink').addClass('typcn-media-play');
-			return;
-		}	
-		if (chornicleSize==0) {
-			$('.imixs-workitem-form').css('width','75%');
-			$('.imixs-workitem-chronicle').css('width','calc(25% - 30px)');
-			$('.imixs-slider-nav .shrink').removeClass('typcn-media-play');
-			$('.imixs-slider-nav .shrink').addClass('typcn-media-play-outline');
-			return;
-		}
+	updateFormWidth=function(_newWidth) {	
+      const parent=formElement.parentElement;
+      formElement.style.width =  `${_newWidth}px`; 
+  	  chronicleElement.style.width =  `${parent.offsetWidth-formElement.offsetWidth-40}px`; 
 	},
 
 
@@ -580,9 +559,7 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		setCookie : setCookie,
 		printQRCode : printQRCode,
 		autoPreviewPDF : autoPreviewPDF,
-		expandChronicle : expandChronicle,
-		shrinkChronicle : shrinkChronicle,
-		updateChronicleWidth : updateChronicleWidth,
+		updateFormWidth : updateFormWidth,
 		clearDocumentPreview : clearDocumentPreview,
 		updateAttachmentLinks : updateAttachmentLinks,
 		showDocument : showDocument,
