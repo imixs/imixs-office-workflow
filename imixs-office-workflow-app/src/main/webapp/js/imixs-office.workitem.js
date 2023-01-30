@@ -44,7 +44,8 @@ $(document).ready(function() {
 	// Init tangible slider
 	workitemElement = document.querySelector('.imixs-workitem');
 	workitemFormElement=document.querySelector('.imixs-workitem > .imixs-workitem-form');
-	const lastFormWidth=imixsOfficeWorkitem.readCookie('imixs.office.document.workitem.formwidth');
+	let lastFormWidth=imixsOfficeWorkitem.readCookie('imixs.office.document.workitem.formwidth');
+	lastFormWidth=imixsOfficeWorkitem.validateFormMinMaxWidth(lastFormWidth);
     imixsOfficeWorkitem.updateFormWidth(lastFormWidth);
 	const sliderElement = document.querySelector('.imixs-workitem > .imixs-slider');
 	sliderElement.addEventListener('mousedown', (e) => {
@@ -58,13 +59,7 @@ $(document).ready(function() {
 	  if (!isChronicleResizing) return;
 	  let _newWidth=workitemFormElement.offsetWidth + (e.clientX - sliderPosX);
 	  // adjust minwidth....
-	  if (_newWidth<500) {
-		 _newWidth=500;
-	  }
-	  if (_newWidth>workitemElement.offsetWidth-340) {
-		_newWidth=workitemElement.offsetWidth-340;
-	  }
-	  
+	  _newWidth=imixsOfficeWorkitem.validateFormMinMaxWidth(_newWidth);
 	  imixsOfficeWorkitem.updateFormWidth(_newWidth);
 	  sliderPosX = e.clientX;
 	  
@@ -148,8 +143,10 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	
 	/*
 	 * This method loads the first pdf and starts a autopreview
+	 * if chroniclePreview == true
 	 */
 	autoPreviewPDF = function() {
+		//if (!chroniclePreview) return;
 		$("[id$='dmslist'] .file-open-link").each(
 			function(index, element) {
 				var attachmentName=$(this).text();
@@ -237,6 +234,21 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		}
 	},
 
+    /*
+     * This helper method adjusts the minimum/maximum 
+     * width of the from view
+     */
+	validateFormMinMaxWidth = function (_width) {	
+		// adjust minwidth....
+	    if (_width<500) {
+	  	 _width=500;
+	    }
+	    if (_width>workitemElement.offsetWidth-340) {
+	  	_width=workitemElement.offsetWidth-340;
+	    }
+	    return _width;
+	},
+
 	/*
 	 * This method hides the document preiview window
 	 * and shows the history tab.
@@ -258,7 +270,6 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		$('.imixs-workitem-document-embedded').show();
 	
 		// set preview cookie
-		//document.cookie = "imixs.office.document.chronicle.preview=true; path=/";
 		imixsOfficeWorkitem.setCookie("imixs.office.document.chronicle.preview","true",14);
 		documentPreview=$('.imixs-workitem-document-embedded');
 		// update iframe
@@ -304,14 +315,16 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	 * reduce the with of the chronicle
 	 */
 	expandChronicle= function () {
-		imixsOfficeWorkitem.updateFormWidth(1000);
+		let newSize=validateFormMinMaxWidth(workitemElement.offsetWidth/2);
+		imixsOfficeWorkitem.updateFormWidth(newSize);
 	},
 
 	/*
 	 * increase the with of the chronicle
 	 */
 	shrinkChronicle = function () {
-		imixsOfficeWorkitem.updateFormWidth(workitemElement.offsetWidth-400);
+		let newSize=validateFormMinMaxWidth(workitemElement.offsetWidth-350);
+		imixsOfficeWorkitem.updateFormWidth(newSize);
 	},
 
 
@@ -578,7 +591,7 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		closeDocumentPreview : closeDocumentPreview,
 		saveWorkitemHandler: saveWorkitemHandler,
 		registerSaveWorkitemListener: registerSaveWorkitemListener,
-		
+		validateFormMinMaxWidth: validateFormMinMaxWidth,
 		workitemRefInitInput: workitemRefInitInput,
 		addWorkitemRef: addWorkitemRef,
 		deleteWorkitemRef: deleteWorkitemRef,

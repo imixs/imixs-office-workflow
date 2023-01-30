@@ -4,9 +4,7 @@
  */
  
 .imixs-workitem {
-	 /* Use flexbox */
   	display: flex;
-  	xflex-wrap: wrap;
 	flex-direction: row;
 } 
 
@@ -15,17 +13,13 @@
 	flex-basis: 1000px;
 }
 .imixs-workitem-chronicle {
-	height: 100%;
 	display: flex;
 	flex-wrap: nowrap;
-	flex-direction: column;
-	
+	flex-direction: column;	
 	padding: 0px 20px 0px 10px;
-	
-	
-	
 	flex-basis: 0;
 	flex-grow: 1;
+	min-width: 350px;
 }
 
 
@@ -59,11 +53,13 @@
 	font-size: 0.7rem;
 }
 .imixs-workitem-chronicle-actions {
-	
+flex-basis: 100px;	
 }
+
 
 .imixs-workitem-chronicle-tabs  {
 	margin-bottom: 10px;
+	flex-basis: 40px;
 }
 .imixs-workitem-chronicle-tabs  ul {
 	padding:0;
@@ -97,12 +93,11 @@
 }
 
 .imixs-workitem-chronicle-content {
-	xxwidth: calc(100% - 30px);
-	min-height: 100px;
 	overflow: auto;
-	flex: 1;
-	scrollbar-width: thin;
 	margin-bottom:20px;
+	flex-basis: 200px;
+	flex-grow: 1;
+	padding-right: 10px;
 }
 
 
@@ -117,7 +112,7 @@
   margin: 0;
   padding: 6px 0;
   position: relative;
-  top: 33%;
+  top: 250px;
   border-right: 1px dotted #e0e4e7;
   border-top: 1px dotted #e0e4e7;
   border-bottom: 1px dotted #e0e4e7;
