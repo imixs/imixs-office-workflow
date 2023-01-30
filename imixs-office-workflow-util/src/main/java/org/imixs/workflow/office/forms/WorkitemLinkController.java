@@ -345,5 +345,15 @@ public class WorkitemLinkController implements Serializable {
         return result;
 
     }
+    
+    /**
+     * Helper method to load a full workitem from the frontend
+     * 
+     * @param id
+     * @return
+     */
+    public ItemCollection getWorkitem(String id) {
+        return workflowService.getWorkItem(id);
+    }
 
 }

@@ -1,0 +1,136 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
+
+
+
+	<!-- **** General info ***** -->
+	<div class="row imixs-form-attachments">
+
+
+		<ui:remove>
+			<!-- WorkitemLink Component
+	
+			Requires that the subform workitemlinkSearch is places at once in the ui:form
+			
+			NOTE: The Input Item is fixed to the item name '$workitemref'
+			-->
+		</ui:remove>
+
+		<f:subview id="workitemlink-view">
+			<!-- show external references -->
+			<h:panelGroup id="reference_box" layout="block"
+				class="marty-workitemlink-referencebox">
+				<c:forEach var="workitem"
+					items="#{workitemLinkController.getExternalReferences(options)}">
+
+					<!-- load document -->
+					<ui:param name="refWorkitem"
+						value="#{workitemLinkController.getWorkitem(workitem.item['$uniqueid'])}"></ui:param>
+					<ui:param name="dmsList"
+						value="#{dmsController.getDmsListByWorkitem(refWorkitem)}" />
+
+					<div class="marty-workitemlink-referencebox-entry">
+						<h:link outcome="/pages/workitems/workitem" style="font-weight:bold;">
+							<h:outputText escape="false"
+								value="#{workitem.item['$WorkflowSummary']}"
+								rendered="#{!empty workitem.item['$WorkflowSummary']}" />
+							<h:outputText value="#{suggest.item['$created']}"
+								rendered="#{empty workitem.item['$WorkflowSummary']}">
+								<f:convertDateTime timeZone="#{message.timeZone}"
+									pattern="#{message.dateTimePatternShort}" />
+							</h:outputText>
+							<f:param name="id" value="#{workitem.item['$uniqueid']}" />
+						</h:link>
+						<br /> <span class="marty-workitemlink-entry-abstract"> <h:outputText
+								value="#{workitem.item['$workflowgroup']}: " /> <h:outputText
+								value="#{workitem.item['$workflowstatus']}" />
+						</span>
+					</div>
+
+					<div id="ref_document_search">
+						<table class="ximixs-workitem-chronicle-small">
+							<tr>
+								<td style=""><strong>#{message.created}: </strong></td>
+								<td style="width: 100%;"><h:outputText
+										value="#{refWorkitem.item['$created']}"
+										style="font-weight: normal;">
+										<f:convertDateTime timeZone="#{message.timeZone}"
+											pattern="#{message.dateTimePattern}" />
+									</h:outputText> #{message.by}
+									#{userController.getUserName(refWorkitem.item['$creator'])}
+								</td>
+							</tr>
+
+							<tr>
+								<td style="min-width: 95px;"><strong>#{message.modified}:
+								</strong></td>
+								<td style="width: 100%;"><h:outputText
+										value="#{refWorkitem.item['$lasteventdate']}"
+										style="font-weight: normal;">
+										<f:convertDateTime timeZone="#{message.timeZone}"
+											pattern="#{message.dateTimePattern}" />
+									</h:outputText> #{message.by}
+									#{userController.getUserName(refWorkitem.item['$editor'])}
+								</td>
+							</tr>
+
+							<ui:repeat var="dmsentry" value="#{dmsList}">
+								<tr>
+									<td class="dms-link" colspan="2">
+										<!-- Attachment link --> <h:panelGroup
+											rendered="#{empty dmsentry.item['url']}">
+											<a href="#"
+												onclick="openRefWorkitemDoc('#{facesContext.externalContext.requestContextPath}/api/snapshot/#{refWorkitem.item['$uniqueid']}/file/#{dmsentry.item['name.encoded']}','#{dmsentry.item['txtName']}')"><span
+												class="typcn typcn-document-text"></span>#{dmsentry.item['txtName']}</a>
+										</h:panelGroup>
+									</td>
+								</tr>
+							</ui:repeat>
+						</table>
+					</div>
+					<hr />
+				</c:forEach>
+			</h:panelGroup>
+
+		</f:subview>
+
+
+	</div>
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		$(document).ready(
+				function() {
+				
+				});
+		/*
+		 * Helper Method to open a PDF file in the document preview
+		 */
+		function openRefWorkitemDoc(file_link,file_name) {
+			// test if we have a pdf file
+			if (file_link.endsWith('.pdf') || file_link.endsWith('.PDF')) {
+				// Auto Open documentPreview Mode
+				imixsOfficeWorkitem.maximizeDocumentPreview();
+			    imixsOfficeWorkitem.showDocument(file_name, file_link);
+			     // cancel link
+				return false;
+			} else {
+				// open normal link
+				window.open(file_link);
+			}
+		}
+		/*]]>*/
+	</script>
+
+
+</ui:composition>
+
