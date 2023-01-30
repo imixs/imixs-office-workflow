@@ -17,8 +17,9 @@ var chroniclePreview=true; 		// indicates if documetns should be shown in the co
 var callbackRegistrySaveWorkitem=[];
 var isChronicleResizing=false 		// tangable divider
 var sliderPosX;				    // current position of moving slider
-var chronicleElement;			// the chronical bar
-var formElement;			// the chronical bar
+var workitemElement;
+var workitemFormElement;			// the chronical bar
+
 
 /**
  * Init Method for the workitem page
@@ -32,13 +33,6 @@ $(document).ready(function() {
 	imixsOfficeMain.imixs_chronicle_comments=true;
 	imixsOfficeMain.imixs_chronicle_nav=JSON.parse('{ "comment" : true, "files":true, "version":true, "reference":true }'); 
 	
-	// read croncicle size form cookie
-//	chornicleSize=imixsOfficeWorkitem.readCookie('imixs.office.document.chronicle.size');
-//	if (!chornicleSize || chornicleSize=="") {
-//		chornicleSize=1;
-//	}
-
-	
 	// read croncicle document preview form cookie
 	chroniclePreview=imixsOfficeWorkitem.readCookie('imixs.office.document.chronicle.preview');
 	if (chroniclePreview == "true") {
@@ -47,32 +41,33 @@ $(document).ready(function() {
 		chroniclePreview=false;
 	}
 
-	
 	// Init tangible slider
-	chronicleElement = document.querySelector('.imixs-workitem > .imixs-workitem-chronicle');
-	formElement=document.querySelector('.imixs-workitem > .imixs-workitem-form');
-	//formElement.parentElement.style.display = "none";
-
+	workitemElement = document.querySelector('.imixs-workitem');
+	workitemFormElement=document.querySelector('.imixs-workitem > .imixs-workitem-form');
 	const lastFormWidth=imixsOfficeWorkitem.readCookie('imixs.office.document.workitem.formwidth');
-	
     imixsOfficeWorkitem.updateFormWidth(lastFormWidth);
-
 	const sliderElement = document.querySelector('.imixs-workitem > .imixs-slider');
 	sliderElement.addEventListener('mousedown', (e) => {
 	  isChronicleResizing = true;
 	  sliderPosX = e.clientX;
-	  console.log('slider posX = '+ sliderPosX);
 	});
 	window.addEventListener('mouseup', (e) => {
 	  isChronicleResizing = false;
 	});
 	window.addEventListener('mousemove', (e) => {
 	  if (!isChronicleResizing) return;
-	  let _newWidth=formElement.offsetWidth + (e.clientX - sliderPosX);
+	  let _newWidth=workitemFormElement.offsetWidth + (e.clientX - sliderPosX);
+	  // adjust minwidth....
+	  if (_newWidth<500) {
+		 _newWidth=500;
+	  }
+	  if (_newWidth>workitemElement.offsetWidth-340) {
+		_newWidth=workitemElement.offsetWidth-340;
+	  }
 	  
 	  imixsOfficeWorkitem.updateFormWidth(_newWidth);
 	  sliderPosX = e.clientX;
-	  imixsOfficeWorkitem.setCookie("imixs.office.document.workitem.formwidth",_newWidth,14);
+	  
 	});
 
 	$('.document-nav').hide();
@@ -86,7 +81,6 @@ $(document).ready(function() {
 	imixsOfficeWorkitem.autoPreviewPDF();
 	
 	isWorkitemLoading=false;
-	//formElement.parentElement.style.display = "block";
 });
 
 /*
@@ -298,16 +292,28 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	},
 
 	
-
-	
 	/*
-	 * updates the screen size of the form and chronical frame
+	 * updates the workitem form width and update the corresponding cookie
 	 */	
 	updateFormWidth=function(_newWidth) {	
-      const parent=formElement.parentElement;
-      formElement.style.width =  `${_newWidth}px`; 
-  	  chronicleElement.style.width =  `${parent.offsetWidth-formElement.offsetWidth-40}px`; 
+      workitemFormElement.style.flexBasis = `${_newWidth}px`;
+      imixsOfficeWorkitem.setCookie("imixs.office.document.workitem.formwidth",_newWidth,14);
 	},
+		
+	/*
+	 * reduce the with of the chronicle
+	 */
+	expandChronicle= function () {
+		imixsOfficeWorkitem.updateFormWidth(1000);
+	},
+
+	/*
+	 * increase the with of the chronicle
+	 */
+	shrinkChronicle = function () {
+		imixsOfficeWorkitem.updateFormWidth(workitemElement.offsetWidth-400);
+	},
+
 
 
 	/*
@@ -560,6 +566,8 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		printQRCode : printQRCode,
 		autoPreviewPDF : autoPreviewPDF,
 		updateFormWidth : updateFormWidth,
+		expandChronicle : expandChronicle,
+		shrinkChronicle : shrinkChronicle,
 		clearDocumentPreview : clearDocumentPreview,
 		updateAttachmentLinks : updateAttachmentLinks,
 		showDocument : showDocument,

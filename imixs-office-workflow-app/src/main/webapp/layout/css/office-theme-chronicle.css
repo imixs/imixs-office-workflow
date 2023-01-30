@@ -6,25 +6,26 @@
 .imixs-workitem {
 	 /* Use flexbox */
   	display: flex;
-  	flex-wrap: wrap;
+  	xflex-wrap: wrap;
 	flex-direction: row;
-}
+} 
 
 
 .imixs-workitem-form {
-	xwidth: 66.666%;
+	flex-basis: 1000px;
 }
 .imixs-workitem-chronicle {
 	height: 100%;
 	display: flex;
 	flex-wrap: nowrap;
 	flex-direction: column;
-	justify-content: space-between;
-
-	position: fixed;
-	right: 40px;
-	bottom: 0;
-	padding: 120px 20px 0px 10px;
+	
+	padding: 0px 20px 0px 10px;
+	
+	
+	
+	flex-basis: 0;
+	flex-grow: 1;
 }
 
 
@@ -106,7 +107,7 @@
 
 
 .imixs-slider {
-  width: 16px;
+  flex-basis: 16px;
   padding: 0;
   cursor: col-resize;
 }
@@ -128,6 +129,7 @@
 	color:#ababab;
 	font-size:16px;
 	line-height: 1.7em;
+	cursor: default;
 }
 
 .imixs-slider .typcn:hover {
@@ -136,7 +138,6 @@
 
 
 .imixs-workitem-form {
-	xxwidth: calc(66.6666% - 0px); 
 	margin-bottom: 40px;
 }
 
