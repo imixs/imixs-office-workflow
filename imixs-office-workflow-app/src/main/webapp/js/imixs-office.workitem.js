@@ -19,7 +19,8 @@ var isChronicleResizing=false 		// tangable divider
 var sliderPosX;				    // current position of moving slider
 var workitemElement;
 var workitemFormElement;			// the chronical bar
-
+var workitemSliderElement;
+var workitemChronicleElement;
 
 /**
  * Init Method for the workitem page
@@ -44,11 +45,17 @@ $(document).ready(function() {
 	// Init tangible slider
 	workitemElement = document.querySelector('.imixs-workitem');
 	workitemFormElement=document.querySelector('.imixs-workitem > .imixs-workitem-form');
+	workitemChronicleElement=document.querySelector('.imixs-workitem > .imixs-workitem-chronicle');
+	workitemSliderElement = document.querySelector('.imixs-workitem > .imixs-slider');
 	let lastFormWidth=imixsOfficeWorkitem.readCookie('imixs.office.document.workitem.formwidth');
+	// set a default if cookie not yet defined
+	if (!lastFormWidth) {
+		lastFormWidth=workitemElement.offsetWidth*0.75;
+	} 
 	lastFormWidth=imixsOfficeWorkitem.validateFormMinMaxWidth(lastFormWidth);
     imixsOfficeWorkitem.updateFormWidth(lastFormWidth);
-	const sliderElement = document.querySelector('.imixs-workitem > .imixs-slider');
-	sliderElement.addEventListener('mousedown', (e) => {
+	workitemSliderElement = document.querySelector('.imixs-workitem > .imixs-slider');
+	workitemSliderElement.addEventListener('mousedown', (e) => {
 	  isChronicleResizing = true;
 	  sliderPosX = e.clientX;
 	});
@@ -241,10 +248,12 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	validateFormMinMaxWidth = function (_width) {	
 		// adjust minwidth....
 	    if (_width<500) {
-	  	 _width=500;
+	  	  _width=500;
+	  	  isChronicleResizing = false;
 	    }
 	    if (_width>workitemElement.offsetWidth-340) {
-	  	_width=workitemElement.offsetWidth-340;
+	  	  _width=workitemElement.offsetWidth-340;
+	  	  isChronicleResizing = false;
 	    }
 	    return _width;
 	},
@@ -307,7 +316,8 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	 * updates the workitem form width and update the corresponding cookie
 	 */	
 	updateFormWidth=function(_newWidth) {	
-      workitemFormElement.style.flexBasis = `${_newWidth}px`;
+      const chronicleWidth=workitemElement.offsetWidth - _newWidth - workitemSliderElement.offsetWidth;
+      workitemChronicleElement.style.flexBasis = `${chronicleWidth}px`;
       imixsOfficeWorkitem.setCookie("imixs.office.document.workitem.formwidth",_newWidth,14);
 	},
 		
@@ -323,11 +333,9 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	 * increase the with of the chronicle
 	 */
 	shrinkChronicle = function () {
-		let newSize=validateFormMinMaxWidth(workitemElement.offsetWidth-350);
+		let newSize=validateFormMinMaxWidth(workitemElement.offsetWidth-340);
 		imixsOfficeWorkitem.updateFormWidth(newSize);
 	},
-
-
 
 	/*
 	 * A document loads the current document (link) into the documentPreviewIframe
@@ -352,8 +360,7 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		// activate preview if minimized!
 		if (!isWorkitemLoading && documentPreviewIframe.id==='imixs_document_iframe_embedded') {
 			toggleChronicleDocuments();
-		}
-		
+		}		
 		$('.document-nav').show();
 	},
 
@@ -380,7 +387,6 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	},
 
 
-
 	registerSaveWorkitemListener=function (callback) {
 		callbackRegistrySaveWorkitem.push(callback);
 	},
@@ -389,13 +395,11 @@ IMIXS.org.imixs.workflow.workitem = (function() {
      * Helper method handles registered callback methods
      */
 	saveWorkitemHandler=function (confirmMessage,uiWorkflowAction) {
-			
 		if (confirmMessage) {
 			if (confirm(confirmMessage)==false) {
 				return false;
 			}
 		}
-		
 		// do we have callbacks?
 		if (callbackRegistrySaveWorkitem) {
 			for (const saveCallback of callbackRegistrySaveWorkitem) {
@@ -405,11 +409,8 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 			  } 
 		    }    
 		}	
-		
 		return true;
 	},
-
-
 
 
 	/**
@@ -511,8 +512,6 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		inputSearchField.trigger('change');
 		// clear input
 		inputSearchField.val('');			
-	
-		
 	},
 	
 		
@@ -549,13 +548,8 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 
 			inputField.val(newValue);
 			// trigger on change event
-		//	inputField.trigger('change');
-			
 			inputSearchField.trigger('change');
-				
 		}
-		
-		
 	},
 
 
