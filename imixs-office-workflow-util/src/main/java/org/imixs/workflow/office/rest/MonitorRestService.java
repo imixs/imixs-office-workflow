@@ -25,7 +25,7 @@
  *  	Ralph Soika - Software Developer
  *******************************************************************************/
 
-package org.imixs.workflow.office.views;
+package org.imixs.workflow.office.rest;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -216,9 +216,9 @@ public class MonitorRestService implements Serializable {
      * 
      * @return
      */
-    private String generateBackgroundColorScheme() {
+    public static String generateBackgroundColorScheme() {
         String result = " \"backgroundColor\" : [\n"
-                + "   \"#F3E500\",\"#F28E1C\",\"#E32322\",\"#6D398B\",\"#2A71AF\",\"#008F5A\",\"#FBC50A\",\"#E96220\",\"#C5037D\",\"#454E99\",\"#0696BB\",\"#8DBB25\" ]";
+                + "   \"#3B6B82\",\"#70B088\",\"#EBA05F\",\"#9B3425\",\"#CFE9F5\",\"#F1D437\",\"#E73B65\",\"#462645\",\"#2D6CA8\",\"#2B5C33\",\"#F28E1C\",\"#F3E500\" ]";
         return result;
     }
 

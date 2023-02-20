@@ -7,6 +7,14 @@
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
+	<!-- the following code computes the txtworkflow abstract from the current modelversion and processid  -->
+	<ui:param name="instruction"
+		value="#{modelController.getProcessDescription(workflowController.workitem.item['$taskid'],workflowController.workitem.item['$ModelVersion'],workflowController.workitem)}"></ui:param>
+	<h:panelGroup layout="block" styleClass="imixs-instruction"
+		rendered="#{! empty instruction}">
+		<h:outputText escape="false" value="#{instruction}"/>
+	</h:panelGroup> 
+	
 	<div>
 		<div class="imixs-tabs">
 			<ul>
@@ -15,7 +23,6 @@
 					<li><a href="#tab-#{section.path}">#{(empty section.name)?app.basic:section.name}</a></li>
 				</c:forEach>
 			</ul>
-
 			<c:forEach items="#{formController.formDefinition.sections}" var="section">
 				<div id="tab-#{section.path}">
 					<f:subview>
@@ -25,14 +32,8 @@
 					</f:subview>
 				</div>
 			</c:forEach>
-
 		</div>
-
-
-
 	</div>
-
-
 
 </ui:composition>
 

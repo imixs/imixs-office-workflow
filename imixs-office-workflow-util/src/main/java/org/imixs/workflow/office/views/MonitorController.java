@@ -52,6 +52,7 @@ import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.QueryException;
+import org.imixs.workflow.office.rest.MonitorRestService;
 
 /**
  ** The MonitorController provides analytic information about the current process
@@ -230,7 +231,7 @@ public class MonitorController implements Serializable {
         }
         result = result + " data: [ " + overAllCount.stream().collect(Collectors.joining(",")) + "],";
         // colors...
-        result = result + generateBackgroundColorScheme();
+        result = result + MonitorRestService.generateBackgroundColorScheme();
         result = result + " } ] }";
         return result;
     }
@@ -401,21 +402,10 @@ public class MonitorController implements Serializable {
         result = result + " data: [ " + statusCount.stream().collect(Collectors.joining(",")) + "],";
 
         // colors...
-        result = result + generateBackgroundColorScheme();
+        result = result + MonitorRestService.generateBackgroundColorScheme();
 
         result = result + " } ] }";
         return result;
     }
-
-    /**
-     * This helper method generates a backgroundColorScheme for chart diagrams.
-     * 
-     * @return
-     */
-    private String generateBackgroundColorScheme() {
-        String result = " backgroundColor : [\n"
-                + "   '#F3E500','#F28E1C','#E32322','#6D398B','#2A71AF','#008F5A','#FBC50A','#E96220','#C5037D','#454E99','#0696BB','#8DBB25' ]";
-        return result;
-    }
-
+    
 }
