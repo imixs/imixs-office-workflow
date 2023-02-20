@@ -117,7 +117,8 @@
 		 */
 		function openRefWorkitemDoc(file_link,file_name) {
 			// test if we have a pdf file
-			if (file_link.endsWith('.pdf') || file_link.endsWith('.PDF')) {
+			const _file=file_link.toLowerCase();
+			if (_file.endsWith('.pdf') || _file.endsWith('.jpg') || _file.endsWith('.gif') || _file.endsWith('.png') ) {
 				// Auto Open documentPreview Mode
 				imixsOfficeWorkitem.maximizeDocumentPreview();
 			    imixsOfficeWorkitem.showDocument(file_name, file_link);
