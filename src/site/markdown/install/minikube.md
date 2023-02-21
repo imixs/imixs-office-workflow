@@ -6,7 +6,7 @@ After you have followed the [Install Guide for Minikube](https://kubernetes.io/d
 
 	$ minikube start
 
-<img class="screenshot" src="minikube01.png" /> 	
+<img class="screenshot" src="../minikube01.png" /> 	
                              
 
 With the commandline tool kubectl you can now deploy the dev version of Imixs-Office-Workflow into minikube:
