@@ -1,0 +1,42 @@
+---
+###################################################
+# Service db 
+#   - running with ClusterIP=None
+###################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  labels: 
+    app: postgres
+spec:
+  clusterIP: None
+  ports:
+    - name: tcp
+      port: 5432
+  selector:
+    app: postgres
+
+
+---
+###################################################
+# Service imixs-office-workflow
+###################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: imixs-office-workflow
+  labels: 
+    app: imixs-office-workflow
+spec:
+  type: LoadBalancer
+  ports:
+  - name: web
+    port: 8080
+  selector:
+    app: imixs-office-workflow
+
+
+
+
+

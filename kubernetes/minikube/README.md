@@ -16,7 +16,7 @@ You can check the deployment status with:
 
 	$ kubectl get pods
 
-We recommend the [k9s](https://github.com/derailed/k9s) tool to check you minikube cluster and your deployments.
+We recommend the [k9s](https://github.com/derailed/k9s) tool to check your minikube cluster and your deployments.
 
 
 ## Network
