@@ -18,7 +18,6 @@ If you don't have kubectl installed you can use the k3s command instead
 	$ sudo k3s kubectl cluster-info
 
 
-	
 We recommend the [k9s](https://github.com/derailed/k9s) tool to check your K3S cluster and your local deployments.
 
 ## Network
@@ -34,7 +33,11 @@ When deploying Imixs-Office-Workflow you need to retain data storage for the SQL
 
 A local volume represents a mounted local storage device such as a disk, partition or directory. Find details about Kubernetes Local Storage [here](https://kubernetes.io/docs/concepts/storage/volumes/#local).
 
-To use local storage first create your storage directory localy. For example:
+To use local storage first deploy the dev-storage-class:
+
+	$ kubectl apply -f 010-local-storage.yaml
+
+next create your storage directory localy. For example:
 
 	$ mkdir -p /opt/kubernetes-local-pv/office-dbdata
 	$ mkdir -p /opt/kubernetes-local-pv/office-index
@@ -91,32 +94,25 @@ provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer
 ```
 
-
-
-### K3S Rancher's Local Path Provisioner
-
-For K3S in its most easiest setup you can use local disk storage from you node when running a Single-Node-Cluster. (For details on how PVs and PVCs work, see the official Kubernetes [documentation on storage](https://kubernetes.io/docs/concepts/storage/volumes/)).
-
-For the usage with a local storage K3s comes with Rancher's Local Path Provisioner and this enables the ability to create persistent volume claims out of the box using local storage on the respective node.
-
-To install the Rancher's Local Path Provisioner simply run:
-
-	$ kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.23/deploy/local-path-storage.yaml
-
-Now volumes will be placed into `/opt/local-path-provisioner` on your host node.
-
 # Deployment
 
 To deploy Imixs-Office-Workflow on K3S you can use the deployment configuration located in /kubernetes/k3s
 
-	$ kubectl apply -f imixs-office-workflow/kubernetes/k3s
+	$ kubectl apply -f imixs-office-workflow/kubernetes/k3s/office-workflow
 
 
 
 
 
 
+# Registry
 
+You can install a private registry in K3s to push custom container images into your dev environment:
+
+	# Create the registry storage directory
+	$ mkdir -p /opt/kubernetes-local-pv/registry-storage
+	# Deploy a Docker Registry
+	$ kubectl apply -f 010-local-storage.yaml
 
 
 
