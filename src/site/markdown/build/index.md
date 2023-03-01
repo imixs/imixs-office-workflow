@@ -103,7 +103,7 @@ After the maven build process was successful you can install the war file into y
  * a jaas security realm named 'imixsrealm' with at least one user assigned to the group 'IMIXS-WORKFLOW-Manager'
 
  
- A detailed description of the install process on wildfly can be found {{{../install/wildfly.html}here}}.
+ A detailed description of the install process on wildfly can be found [here](../install/wildfly.html).
  
    
  
