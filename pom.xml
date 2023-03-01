@@ -74,7 +74,8 @@
 	</licenses>
 
 	<properties>
-
+		<java.source>11</java.source>
+		<java.target>11</java.target>
 		<!-- Build Time -->
 		<org.imixs.build.timestamp>${maven.build.timestamp}</org.imixs.build.timestamp>
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
@@ -119,12 +120,11 @@
 
 			<!-- use JDK settings for compiling -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>${java.source}</source>
+					<target>${java.target}</target>
 				</configuration>
 			</plugin>		
 			<!-- release management -->
@@ -358,7 +358,14 @@
 			<version>8.0</version>
 			<scope>provided</scope>
 		</dependency>
-
+		<!-- JDK 11 - XML Bind -->
+		<dependency>
+		    <groupId>jakarta.xml.bind</groupId>
+		    <artifactId>jakarta.xml.bind-api</artifactId>
+		    <version>2.3.3</version>
+		    <scope>provided</scope>
+		</dependency>
+		
 		<!-- Microprofile -->
 		<dependency>
 			<groupId>org.eclipse.microprofile</groupId>
