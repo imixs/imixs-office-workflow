@@ -1,0 +1,47 @@
+---
+###################################################
+# Service db 
+#   - running with ClusterIP=None
+###################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: docker-registry
+  labels:
+    app: docker-registry
+spec:
+  type: LoadBalancer
+  ports:
+  - name: web
+    port: 5000
+  selector:
+    app: docker-registry
+
+
+---
+kind: Middleware
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: registry-basic-auth
+spec:
+  basicAuth:
+    secret: registry-basic-auth
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: docker-registry
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`example.foo.com`)
+      kind: Rule
+      middlewares:
+        - name: registry-basic-auth
+      services:
+      - name: docker-registry
+        port: 5000
+
+

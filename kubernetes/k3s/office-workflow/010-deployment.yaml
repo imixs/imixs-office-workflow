@@ -87,8 +87,6 @@ spec:
           value: "en_US.UTF-8"
         - name: MAILGATEWAY
           value: "localhost"
-        #- name: IMIXS-OFFICE_INDEXDIR
-        #  value: "/home/imixs/lucenetest/office-workflow-index"
         # run as root because of persistence volume storage
         securityContext:
           runAsUser: 0
@@ -98,12 +96,15 @@ spec:
             containerPort: 8080
           - name: admin
             containerPort: 9990
+
         livenessProbe:
-          httpGet:
-            path: /health
-            port: 9990
+          exec:
+            command: ["sh", "-c", "curl -s http://localhost:9990/health | grep -q '\"name\":\"imixs-workflow\",\"status\":\"UP\"'"]
           initialDelaySeconds: 60
-          periodSeconds: 5
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+
         # Memory Request and Limits
         resources:
           requests:
