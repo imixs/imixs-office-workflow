@@ -28,7 +28,7 @@ Now you can access your k3s cluster with kubectl directly:
 
 We recommend the [k9s](https://github.com/derailed/k9s) tool to check your K3S cluster and your local deployments.
 
-<img src="install/k9s.png" />
+<img src="../install/k9s.png" />
 
 To run k9s connecting to your local k3s Cluster run:
 
