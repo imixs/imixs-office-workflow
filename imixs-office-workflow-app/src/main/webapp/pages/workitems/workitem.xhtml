@@ -83,10 +83,17 @@
 								/*]]>*/
 							</script>
 							<div style="display: none;" class="imixs-form" id="wopi_controlls">
-							    <h1 id="wopi_header_filename_id"></h1>
-							    <div class="wopi-action-bar">
-								<input type="button" onclick="imixsWopi.save(); return false;" style="display:none;" class="imixs-workflow-action" value="#{message.update}" /><input type="button" onclick="closeWopiViewer('#{message.discard_changes}'); return false;" class="imixs-workflow-action" value="#{message.close}" /><input type="button" onclick="imixsWopi.switchToFullScreen(); return false;" class="imixs-workflow-action" value="#{message.fullscreen}" />
-								</div>
+							    <span class="wopi-filename" id="wopi_header_filename_id"></span>	
+							    <span class="wopi-action-bar">
+									<!-- nav -->								
+									<span onclick="imixsWopi.switchToFullScreen(); return false;" 
+										title="#{message.fullscreen}"
+										class="wopi-action typcn typcn-arrow-maximise"></span>
+									<span onclick="closeWopiViewer('#{message.discard_changes}'); return false;" 
+										title="#{message.close}"
+										class="wopi-action typcn typcn-times-outline"></span>
+							
+								</span>							
 							</div>
 							<div id="wopi_canvas" style="display: none;"></div>
 							<!-- confirm close alert -->
