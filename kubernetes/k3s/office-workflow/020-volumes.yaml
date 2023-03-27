@@ -1,12 +1,13 @@
 
 ###################################################
-# Persistence Volume dbdata
+# Persistence Volume Claim for dbdata
 ###################################################
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: dbdata
+  namespace: imixs   
 spec:
   accessModes:
     - ReadWriteOnce
@@ -48,6 +49,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: index
+  namespace: imixs  
 spec:
   accessModes:
     - ReadWriteOnce

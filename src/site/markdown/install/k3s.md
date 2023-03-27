@@ -1,23 +1,28 @@
 # K3S
 
-During development and also for production you can run Imixs-Office-Workflwo in the lithweight Kubernetes Environment [K3S](https://docs.k3s.io/).
+**Imixs-Office-Workflow** offers a container based architecture that fits perfectly into any kind of Kubernetes clusters.
+Since running a native Kubernetes cluster can be some effort, in some scenarios a lightweight Kubernetes Environment can be the right choice.
+During development but also for production you can run Imixs-Office-Workflwo in [K3S](https://docs.k3s.io/). K3S offers a lightweight certified Kubernetes dnvironment for single node or multi node clusters. The following guideline helps you to run Imixs-Office-Workflow in K3S.
+
+## Installation
 
 In it's most easiest setup you can install and start K3S following the [Quick-Start Guide](https://docs.k3s.io/quick-start)
 
     $ curl -sfL https://get.k3s.io | sh -
     $ sudo systemctl status k3s.service
 
-A kubeconfig file will be written to `/etc/rancher/k3s/k3s.yaml` and the kubectl installed by K3s will automatically use it. Verify your cluster and node info.
+A kubeconfig file will be written to `/etc/rancher/k3s/k3s.yaml` and the kubectl installed by K3s will automatically use it. To verify your K3S cluster and node info run:
 
     $ sudo k3s kubectl cluster-info
     $ sudo k3s kubectl get node
 
-If you have  kubectl installed you can configure your cluster to use the k3s configuration. 
+If you already have `kubectl` installed on your machine,  you can configure it to use the K3S cluster configuration per default.
 
-    # grant access to all users
-    $ sudo chmod a+r /etc/rancher/k3s/k3s.yaml
-    # setting a environment variable or
-    $ export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+    # Backup current config
+    $ cp $HOME/.kube/config $HOME/.kube/config.backup
+    # Copy K3S config
+    $ sudo cp -i /etc/rancher/k3s/k3s.yaml $HOME/.kube/config
+    $ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 
 Now you can access your k3s cluster with kubectl directly:
@@ -36,38 +41,35 @@ To run k9s connecting to your local k3s Cluster run:
 
 ## Start, Stop, Autostart Function
 
-You can stop the k3s service if it is currently running by running the following command:
-
-    $ sudo systemctl stop k3s
-
-This will stop the k3s service immediately. To start k3s again run:
-
-    $ sudo systemctl start k3s
-
-K3s is typically managed as a service in Linux systems, so it will typically start on boot. You can disable it from starting automatically by using the systemctl command:
+K3s is installed as a service in Linux systems, so it will start on boot automatically. You can prevent k3s from starting automatically by using the systemctl command:
 
     $ sudo systemctl disable k3s
 
-This will prevent k3s from starting automatically when the system boots up.
+To enable the autostart feature again run:
 
-Another option to stop k3s and all related tasks is to run:
+    $ sudo systemctl enable k3s
+
+You can always start/stop the k3s service manually by running the following command:
+
+    $ sudo systemctl start k3s
+    $ sudo systemctl stop k3s
+
+Another option to stop k3s and all related tasks is to run the `k3s-killall` command:
 
     $ /usr/local/bin/k3s-killall.sh
 
-
 ## Network
 
-In difference to the Minikube System K3S does not require additional network configuration for local testing. The network traffic is controlled by the [Traefik ingress](https://traefik.io/) controller which is part of K3S.
-
+In difference to the Minikube System K3S does not require additional network configuration for local environments. The network traffic is controlled by the [Traefik ingress controller](https://traefik.io/)  which is part of K3S. Traefik provides a lot of features to route network traefic into your cluster.
 
 ## Persistence Volumes
 
-When deploying Imixs-Office-Workflow or other services you may need to retain data storage for the SQL Database or the Search Index. Within Kubernetes this is managed by providing a persistent storage. A storage solution is in general not part of Kubernetes but you can use the so called 'Local Storage' to use local disk space.
+When deploying Imixs-Office-Workflow or other services in K3S, you may need to retain data storage for the SQL Database or the Search Index. Within Kubernetes this is managed by providing a persistent storage. A storage solution is in general not part of Kubernetes but you can use the so called 'Local Storage' to use local disk space.
 
 ### Kuberentes Local Storage
 
-A local volume represents a mounted local storage device such as a disk, partition or directory. 
-To use local storage within your local Kubernetes cluster first deploy the dev-storage-class:
+A local volume represents a mounted local storage device such as a disk, a partition or a directory.
+To use local storage within your K3S cluster first deploy the dev-storage-class:
 
     $ kubectl apply -f git/imixs-office-workflow/kubernetes/k3s/local-storage-class.yaml
 
@@ -127,10 +129,24 @@ First ensure that you have created your local storage directories to store the S
 	$ mkdir -p /opt/kubernetes-local-pv/office-index
 ```
 
-next you can apply the deployment:
+next you can switch into your imixs-office-workflow folder and apply the K3S deployment:
 
-    $ kubectl apply -f git/imixs-office-workflow/kubernetes/k3s/office-workflow
+    $ kubectl apply -f ./kubernetes/k3s/office-workflow
 
+
+## Imixs-ML
+
+You can install Imixs-ML as an additional service providing OCR and ML capabilities. 
+
+First create a directory for your ML models and copy the default model:
+
+    $ mkdir -p /opt/kubernetes-local-pv/office-imixs-ml
+    $ cp -r ./kubernetes/k3s/imixs-ml/models/invoice-de-0.2.0 /opt/kubernetes-local-pv/office-imixs-ml/
+
+Next you can deploy the Imixs-ML module
+
+
+    $ kubectl apply -f ./kubernetes/k3s/imixs-ml
 
 ## Container Registry
 
