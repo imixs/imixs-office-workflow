@@ -81,6 +81,8 @@ $(document).ready(function() {
 	
 	// autoload first pdf into preview if available.... 
 	imixsOfficeWorkitem.autoPreviewPDF();
+
+	imixsOfficeWorkitem.initSignaturePad();
 	
 	isWorkitemLoading=false;
 });
@@ -169,6 +171,65 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 			});			
 	},
 
+	/*
+	 * This method initializes a signature pad if part of the form.
+	 * The signature widget supports a 2d canvas to draw a signature
+	 * with the mouse cursor. 
+	 */
+	initSignaturePad = function() {
+		const signatureCanvas = document.querySelector('.imixs-signature-pad canvas');
+		const workitemForm = document.querySelector('#workitem_form');
+		const signatureClearButton = document.querySelector('.imixs-signature-clear-action');
+		const ctx = signatureCanvas.getContext('2d');
+		ctx.lineWidth = 3; 
+		ctx.lineJoin = ctx.lineCap = 'round';
+		let writingMode = false;
+
+		// add event listeners
+		signatureCanvas.addEventListener('pointerdown', (event) => { 
+			writingMode = true; 
+			ctx.beginPath(); 
+			const positionX = event.clientX - event.target.getBoundingClientRect().x; 
+			const positionY = event.clientY - event.target.getBoundingClientRect().y; 			
+			ctx.moveTo(positionX, positionY); 			
+			}, { passive: true }
+		); 
+		
+		signatureCanvas.addEventListener('pointerup',  (event) => { 
+			writingMode = false;
+		}, { passive: true }); 
+
+		signatureCanvas.addEventListener('pointermove', (event) => { 
+			if (!writingMode) {
+				return;
+			}
+			const positionX = event.clientX - event.target.getBoundingClientRect().x; 
+			const positionY = event.clientY - event.target.getBoundingClientRect().y; 
+			ctx.lineTo(positionX, positionY); 
+			ctx.stroke(); 			
+		}, { passive: true });
+
+		// clear button
+		signatureClearButton.addEventListener('click', (event) => { 
+			event.preventDefault(); 
+			ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+		});
+
+		// submit event
+		workitemForm.addEventListener('submit', (event) => {
+			// crate image url...
+			const imageURL = signatureCanvas.toDataURL(); 
+			// find hidden field to store the url data...
+			let nextElement = signatureCanvas.nextElementSibling;
+			while (nextElement) {
+				if (nextElement.tagName === 'INPUT' && nextElement.type === 'hidden') {
+				  	nextElement.value=imageURL;
+				  	break;
+				}
+				nextElement = nextElement.nextElementSibling;
+			}
+		})
+	},
 
 	/*
 	 * This helper method updates the attachment links
@@ -572,6 +633,7 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		setCookie : setCookie,
 		printQRCode : printQRCode,
 		autoPreviewPDF : autoPreviewPDF,
+		initSignaturePad : initSignaturePad,
 		updateFormWidth : updateFormWidth,
 		expandChronicle : expandChronicle,
 		shrinkChronicle : shrinkChronicle,

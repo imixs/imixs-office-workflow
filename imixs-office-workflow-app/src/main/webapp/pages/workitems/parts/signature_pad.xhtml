@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
+
+	<ui:fragment rendered="#{!item.readonly}" >
+		<div class="imixs-signature-pad">
+			<canvas  height="150" width="360"><!-- Signature field --></canvas>
+			<p><a href="#" class="imixs-signature-clear-action">Clear</a></p>
+			<h:inputHidden class="imixs-signature-input" value="#{workitem.item[item.name]}"/>		
+		</div>
+	</ui:fragment>
+	<ui:fragment rendered="#{item.readonly}" >
+		<h:graphicImage  
+		value="#{workitem.item[item.name]}"/> 
+	</ui:fragment>
+</ui:composition>
+
