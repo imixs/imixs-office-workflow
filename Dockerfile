@@ -1,4 +1,5 @@
-FROM quay.io/wildfly/wildfly:25.0.0.Final
+FROM quay.io/wildfly/wildfly:27.0.1.Final-jdk11
+#FROM quay.io/wildfly/wildfly:25.0.0.Final
 
 LABEL description="Imixs-Office-Workflow"
 LABEL maintainer="ralph.soika@imixs.com"
@@ -12,6 +13,6 @@ COPY ./docker/configuration/wildfly/standalone.xml /opt/jboss/wildfly/standalone
 
 # Deploy artefact
 ADD ./imixs-office-workflow-app/target/imixs-office-workflow*.war /opt/jboss/wildfly/standalone/deployments/
-
+WORKDIR /opt/jboss/wildfly
 # Run with management interface
 CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]

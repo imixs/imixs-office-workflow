@@ -4,7 +4,7 @@
 	<artifactId>imixs-office-workflow</artifactId>
 	<packaging>pom</packaging>
 	<name>Imixs Office Workflow</name>
-	<version>4.6.1-SNAPSHOT</version>
+	<version>5.0.0-SNAPSHOT</version>
 
 	<modules>
 		<module>imixs-office-workflow-util</module>
@@ -81,10 +81,11 @@
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 
 		<!-- Dependency Versions -->
-		<org.imixs.workflow.version>5.2.19-SNAPSHOT</org.imixs.workflow.version>
-		<org.imixs.archive.version>2.2.12</org.imixs.archive.version>
+		<jakarta.version>10.0.0</jakarta.version>
+		<org.imixs.workflow.version>6.0.3-SNAPSHOT</org.imixs.workflow.version>
+		<org.imixs.archive.version>3.0.0-SNAPSHOT</org.imixs.archive.version>
 		<org.imixs.office.version />
-		<org.imixs.marty.version>4.2.3</org.imixs.marty.version>
+		<org.imixs.marty.version>5.0.0-SNAPSHOT</org.imixs.marty.version>
 		<org.imixs.mock.version>5.2.0</org.imixs.mock.version>
 		<!-- 2.2 -->
 		<microprofile.version>3.3</microprofile.version>
@@ -282,6 +283,7 @@
 		
 	<dependencyManagement>
 		<dependencies>
+
 			<!-- Imixs Workflow -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
@@ -351,20 +353,14 @@
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
-		<!-- JEE Dependencies -->
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<version>8.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- JDK 11 - XML Bind -->
-		<dependency>
-		    <groupId>jakarta.xml.bind</groupId>
-		    <artifactId>jakarta.xml.bind-api</artifactId>
-		    <version>2.3.3</version>
-		    <scope>provided</scope>
-		</dependency>
+			<!-- Jakarta EE -->
+			<dependency>
+				<groupId>jakarta.platform</groupId>
+				<artifactId>jakarta.jakartaee-api</artifactId>
+				<version>${jakarta.version}</version>
+				<scope>provided</scope>
+			</dependency>
+		
 		
 		<!-- Microprofile -->
 		<dependency>
@@ -375,7 +371,26 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- JUnit Tests -->
+		<!-- Testing -->
+		<dependency>
+			<groupId>org.eclipse.parsson</groupId>
+			<artifactId>jakarta.json</artifactId>
+			<version>1.1.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.glassfish.jaxb</groupId>
+		    <artifactId>jaxb-runtime</artifactId>
+		    <version>3.0.0</version>
+		    <scope>test</scope>
+		</dependency>
+    	<dependency>
+	       <groupId>jakarta.xml.bind</groupId>
+	       <artifactId>jakarta.xml.bind-api</artifactId>
+	       <version>3.0.0</version>
+	       <scope>test</scope>
+	    </dependency>		
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
