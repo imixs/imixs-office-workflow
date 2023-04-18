@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.mail.internet.AddressException;
+import jakarta.mail.internet.AddressException;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;

@@ -31,10 +31,10 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.event.Observes;
-import javax.inject.Named;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Named;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.exceptions.AccessDeniedException;

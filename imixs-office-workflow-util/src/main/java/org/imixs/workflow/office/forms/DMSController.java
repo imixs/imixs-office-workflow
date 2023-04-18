@@ -39,13 +39,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.event.Observes;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.enterprise.context.ConversationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.ActionEvent;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import org.imixs.workflow.FileData;
 import org.imixs.workflow.ItemCollection;

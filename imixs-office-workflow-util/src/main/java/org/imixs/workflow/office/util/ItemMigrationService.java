@@ -1,8 +1,8 @@
 package org.imixs.workflow.office.util;
 
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.enterprise.event.Observes;
+import jakarta.ejb.LocalBean;
+import jakarta.ejb.Stateless;
+import jakarta.enterprise.event.Observes;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.DocumentEvent;

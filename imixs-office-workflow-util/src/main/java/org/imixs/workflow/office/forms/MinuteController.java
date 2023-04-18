@@ -2,9 +2,9 @@ package org.imixs.workflow.office.forms;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.ConversationScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.enterprise.context.ConversationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * The MinuteController is a session scoped backing bean controlling a list of

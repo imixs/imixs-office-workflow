@@ -6,8 +6,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 
 import org.imixs.workflow.engine.plugins.RulePlugin;
 import org.imixs.workflow.exceptions.ModelException;

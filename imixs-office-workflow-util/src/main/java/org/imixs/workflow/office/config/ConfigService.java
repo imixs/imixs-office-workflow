@@ -34,13 +34,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.ConcurrencyManagement;
-import javax.ejb.ConcurrencyManagementType;
-import javax.ejb.EJB;
-import javax.ejb.Singleton;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.ConcurrencyManagement;
+import jakarta.ejb.ConcurrencyManagementType;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Singleton;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ItemCollectionComparator;

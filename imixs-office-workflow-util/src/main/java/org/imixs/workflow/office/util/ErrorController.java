@@ -30,8 +30,8 @@ package org.imixs.workflow.office.util;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Named;
 
 /**
  * The ErrorController provides methods to analyse a exception stack trace.

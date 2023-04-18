@@ -32,10 +32,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.RequestScoped;
-import javax.faces.model.SelectItem;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.model.SelectItem;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import org.imixs.marty.profile.UserController;
 

@@ -32,13 +32,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.RolesAllowed;
-import javax.annotation.security.RunAs;
-import javax.ejb.EJB;
-import javax.ejb.Singleton;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.annotation.security.RunAs;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Singleton;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;

@@ -2,7 +2,7 @@ package org.imixs.workflow.office.gdpr;
 
 import java.util.logging.Logger;
 
-import javax.mail.internet.AddressException;
+import jakarta.mail.internet.AddressException;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.plugins.AbstractPlugin;

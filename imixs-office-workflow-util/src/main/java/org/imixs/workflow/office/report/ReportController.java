@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.xml.bind.JAXBException; 
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.xml.bind.JAXBException; 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.imixs.workflow.FileData;

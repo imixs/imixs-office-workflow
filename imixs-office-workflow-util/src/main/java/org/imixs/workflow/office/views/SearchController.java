@@ -39,13 +39,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.enterprise.event.Event;
-import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.AjaxBehaviorEvent;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.marty.team.TeamController;

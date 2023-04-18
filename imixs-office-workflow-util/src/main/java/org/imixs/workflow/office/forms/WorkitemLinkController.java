@@ -30,12 +30,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.naming.NamingException;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ItemCollectionComparator;

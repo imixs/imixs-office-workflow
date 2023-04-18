@@ -32,11 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.enterprise.context.ApplicationScoped;
-import javax.faces.model.SelectItem;
-import javax.persistence.OptimisticLockException;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.model.SelectItem;
+import jakarta.persistence.OptimisticLockException;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.exceptions.AccessDeniedException;

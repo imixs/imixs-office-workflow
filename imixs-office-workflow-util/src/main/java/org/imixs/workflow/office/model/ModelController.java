@@ -39,11 +39,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.event.ActionEvent;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.event.ActionEvent;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.imixs.workflow.FileData;

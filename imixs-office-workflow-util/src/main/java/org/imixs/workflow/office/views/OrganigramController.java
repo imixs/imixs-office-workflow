@@ -3,12 +3,12 @@ package org.imixs.workflow.office.views;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObjectBuilder;
 
 import org.imixs.marty.profile.UserController;
 import org.imixs.marty.team.TeamController;

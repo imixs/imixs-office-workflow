@@ -33,12 +33,12 @@ import java.util.TreeSet;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.enterprise.event.Observes;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.faces.event.AjaxBehaviorEvent;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ItemCollectionComparator;

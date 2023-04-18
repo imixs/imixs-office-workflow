@@ -31,12 +31,12 @@ import java.io.Serializable;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.event.Observes;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.enterprise.context.ConversationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import org.imixs.marty.profile.UserController;
 import org.imixs.marty.team.TeamController;

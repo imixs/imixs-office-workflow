@@ -30,12 +30,12 @@ package org.imixs.workflow.office.config;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ejb.EJB;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.marty.profile.ProfileService;

@@ -3,10 +3,10 @@ package org.imixs.workflow.office.config;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.enterprise.context.ConversationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import org.imixs.workflow.FileData;
 import org.imixs.workflow.faces.data.DocumentController;

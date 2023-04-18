@@ -1,9 +1,9 @@
 package org.imixs.workflow.office.views;
 
-import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.workflow.faces.data.ViewController;

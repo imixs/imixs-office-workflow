@@ -39,12 +39,12 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.Model;

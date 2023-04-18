@@ -25,9 +25,9 @@ package org.imixs.workflow.office.config;
 
 import java.io.Serializable;
 
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Named;
 
 import org.imixs.workflow.ItemCollection;
 

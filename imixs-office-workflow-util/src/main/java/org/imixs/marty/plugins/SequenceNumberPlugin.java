@@ -29,8 +29,8 @@ package org.imixs.marty.plugins;
 
 import java.util.logging.Logger;
 
-import javax.ejb.EJB;
-import javax.mail.internet.AddressException;
+import jakarta.ejb.EJB;
+import jakarta.mail.internet.AddressException;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;

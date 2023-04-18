@@ -26,11 +26,11 @@ package org.imixs.workflow.office.forms;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 
 import org.imixs.workflow.faces.data.WorkflowController;
 

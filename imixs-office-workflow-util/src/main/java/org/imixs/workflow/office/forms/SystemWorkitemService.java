@@ -29,9 +29,9 @@ package org.imixs.workflow.office.forms;
 
 import java.util.logging.Logger;
 
-import javax.annotation.security.RunAs;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
+import jakarta.annotation.security.RunAs;
+import jakarta.ejb.LocalBean;
+import jakarta.ejb.Stateless;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.exceptions.AccessDeniedException;
