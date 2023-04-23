@@ -48,6 +48,7 @@ import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.index.Category;
 import org.imixs.workflow.engine.index.SearchService;
+import org.imixs.workflow.office.views.MonitorController;
 
 /**
  ** The MonitorController provides analytic information about the current process
@@ -192,7 +193,7 @@ public class MonitorRestService implements Serializable {
             result = result + "\"label\": \"By Category\",";
             result = result + "\"data\" : [ ],";
         }
-        result = result + generateBackgroundColorScheme();
+        result = result + MonitorController.generateBackgroundColorScheme();
         result = result + "}]}";
 
         for (Category cat : taxResult) {
@@ -208,17 +209,6 @@ public class MonitorRestService implements Serializable {
 
         logger.finest("result=" + result);
 
-        return result;
-    }
-
-    /**
-     * This helper method generates a backgroundColorScheme for chart diagrams.
-     * 
-     * @return
-     */
-    public static String generateBackgroundColorScheme() {
-        String result = " \"backgroundColor\" : [\n"
-                + "   \"#3B6B82\",\"#70B088\",\"#EBA05F\",\"#9B3425\",\"#CFE9F5\",\"#F1D437\",\"#E73B65\",\"#462645\",\"#2D6CA8\",\"#2B5C33\",\"#F28E1C\",\"#F3E500\" ]";
         return result;
     }
 

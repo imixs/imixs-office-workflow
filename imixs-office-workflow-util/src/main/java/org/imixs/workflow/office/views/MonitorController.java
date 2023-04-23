@@ -231,7 +231,7 @@ public class MonitorController implements Serializable {
         }
         result = result + " data: [ " + overAllCount.stream().collect(Collectors.joining(",")) + "],";
         // colors...
-        result = result + MonitorRestService.generateBackgroundColorScheme();
+        result = result + MonitorController.generateBackgroundColorScheme();
         result = result + " } ] }";
         return result;
     }
@@ -402,10 +402,23 @@ public class MonitorController implements Serializable {
         result = result + " data: [ " + statusCount.stream().collect(Collectors.joining(",")) + "],";
 
         // colors...
-        result = result + MonitorRestService.generateBackgroundColorScheme();
+        result = result + MonitorController.generateBackgroundColorScheme();
 
         result = result + " } ] }";
         return result;
     }
+
+
+    /**
+     * This helper method generates a backgroundColorScheme for chart diagrams.
+     * 
+     * @return
+     */
+    public static String generateBackgroundColorScheme() {
+        String result = " \"backgroundColor\" : [\n"
+                + "   \"#3B6B82\",\"#70B088\",\"#EBA05F\",\"#9B3425\",\"#CFE9F5\",\"#F1D437\",\"#E73B65\",\"#462645\",\"#2D6CA8\",\"#2B5C33\",\"#F28E1C\",\"#F3E500\" ]";
+        return result;
+    }
+
     
 }
