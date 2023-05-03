@@ -10,12 +10,8 @@
 
 	<!-- The view accepts the params 'id' and 'parent' -->
 	<f:metadata>
-		<ui:param name="parentSpace" value="#{teamController.getSpaceById(param.parent)}"></ui:param>
 		<f:viewAction action="#{workflowController.onLoad()}" if="#{not empty param.id}" />
-		<f:viewAction action="#{workflowController.create(propertyController.getProperty('setup.system.model'),100,param.parent)}" 
-			if="#{empty param.id}"  />
-		<f:viewAction action="#{workflowController.workitem.setItemValue('space.parent.name',parentSpace.getItemValueString('name'))}" 
-			if="#{not empty parentSpace}"  />
+		<f:viewAction action="#{spaceController.create(param.parent)}" if="#{empty param.id}"  />
 	</f:metadata>
 
 	<ui:define name="content">
