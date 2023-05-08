@@ -9,14 +9,13 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 
-	
+		<ui:param name="isURL" value="#{! empty attachment.item['url']}" />
 		<!-- image -->
 		<div class="image-block">
-			<h:panelGroup rendered="#{! empty attachment.item['url']}"
+			<h:panelGroup rendered="#{isURL}"
 				styleClass="typcn typcn-world" />
-			<ui:fragment rendered="#{empty attachment.item['url']}">
-				<ui:param name="doctyp"  pt:title="#{message.attachment}"
-					value="#{dmsController.documentType(attachment.item['txtname'])}"></ui:param>
+			<ui:fragment rendered="#{!isURL}">
+				<ui:param name="doctyp" value="#{dmsController.documentType(attachment.item['txtname'])}"></ui:param>
 				<h:panelGroup rendered="#{'pdf' eq doctyp}" pt:title="#{message.documents}"
 					styleClass="typcn typcn-document-text" />
 				<h:panelGroup rendered="#{'win' eq doctyp}" pt:title="#{message.documents}"
@@ -34,7 +33,7 @@
 		<div id="hyperlink" class="content-block">
 			<!-- Attachment link -->
 			<h:panelGroup
-				rendered="#{!attachment.item['txtName'].contains('://')}">
+				rendered="#{!isURL}">
 				<h:outputText escape="false"
 					value="&lt;a target='_blank' class='attachmentlink'" />
 				<h:outputText escape="false"
@@ -58,7 +57,7 @@
 		
 			<!-- URL link -->
 			<h:panelGroup
-				rendered="#{attachment.item['txtName'].contains('://')}">
+				rendered="#{isURL}">
 				<h:outputText escape="false" value="&lt;a target='_blank'" />
 				<h:outputText escape="false"
 					value=" href='#{attachment.item['txtName']}" />
@@ -68,19 +67,26 @@
 
 			<br />
 			
-			<!-- modified by -->
-			<ui:fragment
-				rendered="#{(!empty attachment.item['$modified']) and (empty attachment.item['url'])}">
-				<h:outputLabel value="#{message.modified}: " />
-				<h:outputText value="#{attachment.item['$modified']}">
-					<f:convertDateTime timeZone="#{message.timeZone}"
-						pattern="#{message.dateTimePattern}" />
-				</h:outputText>
-				
-			</ui:fragment>
-			
-			
-			
+			<!-- Show Created/modified by.... -->
+			<ui:fragment rendered="#{!isURL}">
+				<ui:fragment
+					rendered="#{(empty attachment.item['$modified'])}">
+					<h:outputLabel value="#{message.created}: " />
+					<h:outputText value="#{attachment.item['$created']}">
+						<f:convertDateTime timeZone="#{message.timeZone}"
+							pattern="#{message.dateTimePattern}" />
+					</h:outputText>				
+				</ui:fragment>				
+				<!-- modified by -->
+				<ui:fragment
+					rendered="#{(!empty attachment.item['$modified'])}">
+					<h:outputLabel value="#{message.modified}: " />
+					<h:outputText value="#{attachment.item['$modified']}">
+						<f:convertDateTime timeZone="#{message.timeZone}"
+							pattern="#{message.dateTimePattern}" />
+					</h:outputText>					
+				</ui:fragment>
+			</ui:fragment>			
 		</div>
 		
 

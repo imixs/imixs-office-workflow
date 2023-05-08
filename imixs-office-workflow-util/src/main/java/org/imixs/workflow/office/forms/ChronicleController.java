@@ -27,7 +27,9 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -41,6 +43,11 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.WorkflowKernel;
+import org.imixs.workflow.faces.data.WorkflowController;
+import org.imixs.workflow.faces.data.WorkflowEvent;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.ConversationScoped;
@@ -48,11 +55,6 @@ import jakarta.enterprise.event.Observes;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-
-import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.WorkflowKernel;
-import org.imixs.workflow.faces.data.WorkflowController;
-import org.imixs.workflow.faces.data.WorkflowEvent;
 
 /**
  * The ChronicleController collects all chronicle data
@@ -99,8 +101,8 @@ public class ChronicleController implements Serializable {
 
 	@EJB
 	protected WorkitemService workitemService;
-	
-	private DateFormat dateFormat=null;
+
+	private DateFormat dateFormat = null;
 
 	@SuppressWarnings("unchecked")
 	@PostConstruct
@@ -109,16 +111,15 @@ public class ChronicleController implements Serializable {
 		originChronicleList = new ArrayList<ChronicleEntity>();
 
 		yearsMonths = new HashMap<Integer, Set<Integer>>();
-		
-		try {
-            Locale browserLocale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
-            ResourceBundle rb = ResourceBundle.getBundle("bundle.messages", browserLocale);
-            String sDatePattern = rb.getString("dateTimePattern");
-             dateFormat = new SimpleDateFormat(sDatePattern);
-        } catch (MissingResourceException mre) {
-            dateFormat=null;
-        }
 
+		try {
+			Locale browserLocale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+			ResourceBundle rb = ResourceBundle.getBundle("bundle.messages", browserLocale);
+			String sDatePattern = rb.getString("dateTimePattern");
+			dateFormat = new SimpleDateFormat(sDatePattern);
+		} catch (MissingResourceException mre) {
+			dateFormat = null;
+		}
 
 		/* collect history */
 		List<List<Object>> history = workflowController.getWorkitem().getItemValue("txtworkflowhistory");
@@ -148,6 +149,7 @@ public class ChronicleController implements Serializable {
 
 			ItemCollection itemCol = new ItemCollection(comment);
 			Date date = itemCol.getItemValueDate("datcomment");
+
 			String message = itemCol.getItemValueString("txtcomment");
 			String user = itemCol.getItemValueString("nameditor");
 
@@ -169,10 +171,10 @@ public class ChronicleController implements Serializable {
 			Date date = null;
 			if (dmsEntry.getItemValueDate("$modified") != null) {
 				date = dmsEntry.getItemValueDate("$modified");
+				user = entry.getItemValueString("$editor");
 			} else {
 				date = dmsEntry.getItemValueDate("$created");
 			}
-
 			if (date == null) {
 				date = new Date(); // ????
 			}
@@ -193,15 +195,16 @@ public class ChronicleController implements Serializable {
 			String message = reference.getItemValueString("$WorkflowSummary");
 			// test if no summary....
 			if (message.isEmpty()) {
-			    // print the date....
-			    if (dateFormat==null) {
-			        message=message+date.toString();
-			    } else {
-			        message=message+dateFormat.format(date);
-			    }
-	
+				// print the date....
+				if (dateFormat == null) {
+					message = message + date.toString();
+				} else {
+					message = message + dateFormat.format(date);
+				}
+
 			}
-			String user = reference.getItemValueString(WorkflowKernel.EDITOR);
+			// String user = reference.getItemValueString(WorkflowKernel.EDITOR);
+			String user = reference.getItemValueString(WorkflowKernel.CREATOR);
 
 			ItemCollection entry = new ItemCollection();
 			entry.replaceItemValue("$WorkflowGroup", reference.getItemValue("$WorkflowGroup"));
@@ -209,6 +212,7 @@ public class ChronicleController implements Serializable {
 			entry.replaceItemValue(WorkflowKernel.LASTEVENTDATE, reference.getItemValue(WorkflowKernel.LASTEVENTDATE));
 			entry.replaceItemValue("date", date);
 			entry.replaceItemValue("user", user);
+			entry.replaceItemValue("$lasteditor", reference.getItemValueString(WorkflowKernel.EDITOR));
 			entry.replaceItemValue("message", message);
 			entry.replaceItemValue("type", "reference");
 			entry.replaceItemValue(WorkflowKernel.UNIQUEID, reference.getUniqueID());
@@ -224,8 +228,8 @@ public class ChronicleController implements Serializable {
 				// skipp current workitem
 				continue;
 			}
-			
-			//Date date = version.getItemValueDate(WorkflowKernel.LASTEVENTDATE);
+
+			// Date date = version.getItemValueDate(WorkflowKernel.LASTEVENTDATE);
 			Date date = version.getItemValueDate(WorkflowKernel.CREATED);
 			String message = version.getItemValueString("$WorkflowSummary");
 			String user = version.getItemValueString(WorkflowKernel.EDITOR);
@@ -255,36 +259,35 @@ public class ChronicleController implements Serializable {
 		logger.fine("...init in " + (System.currentTimeMillis() - l) + "ms");
 	}
 
-	
-	 /**
-     * WorkflowEvent listener
-     * <p>
-     * If a new WorkItem was created the file upload will be reset.
-     * 
-     * 
-     * @param workflowEvent
-     */
-    public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) {
-        if (workflowEvent == null)
-            return;
-
-        if (WorkflowEvent.WORKITEM_CREATED == workflowEvent.getEventType() 
-                || WorkflowEvent.WORKITEM_CHANGED == workflowEvent.getEventType()) {
-            // reset chronicle data...
-            init();
-        }
-
-    }
-    
 	/**
-	 * Returns the current active filter or null if no filter is active. 
+	 * WorkflowEvent listener
+	 * <p>
+	 * If a new WorkItem was created the file upload will be reset.
+	 * 
+	 * 
+	 * @param workflowEvent
+	 */
+	public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) {
+		if (workflowEvent == null)
+			return;
+
+		if (WorkflowEvent.WORKITEM_CREATED == workflowEvent.getEventType()
+				|| WorkflowEvent.WORKITEM_CHANGED == workflowEvent.getEventType()) {
+			// reset chronicle data...
+			init();
+		}
+
+	}
+
+	/**
+	 * Returns the current active filter or null if no filter is active.
+	 * 
 	 * @return
 	 */
 	public String getFilter() {
 		return filter;
 	}
-	
-	
+
 	public List<Integer> getYears() {
 		Set<Integer> result = yearsMonths.keySet();
 
@@ -304,11 +307,11 @@ public class ChronicleController implements Serializable {
 	public List<Integer> getMonths(int year) {
 		Set<Integer> result = yearsMonths.get(year);
 
-		if (result==null) {
+		if (result == null) {
 			// no entries
 			return new ArrayList<>();
 		}
-		
+
 		List<Integer> sortedList = new ArrayList<>(result);
 		Collections.sort(sortedList);
 		Collections.reverse(sortedList);
@@ -333,8 +336,8 @@ public class ChronicleController implements Serializable {
 				result.add(entry);
 			}
 		}
-		
-		logger.finest("......getChroniclePerMonth - found " + result.size() +  " chronicle entities");		
+
+		logger.finest("......getChroniclePerMonth - found " + result.size() + " chronicle entities");
 		return result;
 	}
 
@@ -375,7 +378,6 @@ public class ChronicleController implements Serializable {
 			Collections.sort(filteredChronicleList, new ChronicleEntityComparator(true));
 		}
 
-		
 		computeTimeData(filteredChronicleList);
 
 		logger.finest("......filter=" + filter + " size= " + filteredChronicleList.size());
@@ -393,7 +395,10 @@ public class ChronicleController implements Serializable {
 	private void addChronicleEntry(List<ChronicleEntity> chronicleList, ItemCollection entry) {
 		String user = entry.getItemValueString("user");
 		Date date = entry.getItemValueDate("date");
-
+		LocalDateTime localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+		// set second to 00
+		localDate = localDate.truncatedTo(ChronoUnit.MINUTES);
+		date = java.util.Date.from(localDate.atZone(ZoneId.systemDefault()).toInstant());
 		ChronicleEntity chronicleEntity = new ChronicleEntity(user, date);
 		int chronicleIndex = chronicleList.indexOf(chronicleEntity);
 		if (chronicleIndex > -1) {
@@ -414,12 +419,11 @@ public class ChronicleController implements Serializable {
 	 */
 	private void computeTimeData(List<ChronicleEntity> chronicleList) {
 		yearsMonths = new HashMap<Integer, Set<Integer>>();
-	
 		for (ChronicleEntity chronicleEntity : chronicleList) {
 			// update years table
 			addTimeData(chronicleEntity.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		}
-	
+
 	}
 
 	/**

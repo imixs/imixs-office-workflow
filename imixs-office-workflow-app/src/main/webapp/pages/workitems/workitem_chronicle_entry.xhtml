@@ -105,12 +105,18 @@
 							<!-- Status -->
 							<h:outputText value="#{entry.item['$workflowgroup']} » " />
 							<h:outputText value="#{entry.item['$workflowstatus']}" />
-							<div class="pull-right">
+							<br />
+							<div class="">
+								<h:outputLabel value="#{message.modified}: " />
 								<h:outputText value="#{entry.item['$lasteventdate']}"
 									style="font-weight: normal;">
 									<f:convertDateTime timeZone="#{message.timeZone}"
 										pattern="dd. MMM (HH:mm)" />
 								</h:outputText>
+								<h:outputLabel value=" #{message.by}: " />
+								<h:outputText value="#{userController.getUserName(entry.item['$lasteditor'])}" />
+
+
 							</div>
 						</h:panelGroup>
 
