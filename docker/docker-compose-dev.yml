@@ -1,12 +1,11 @@
 version: "3.6"
 services:
-
   db:
     image: postgres:9.6.1
     environment:
       POSTGRES_PASSWORD: adminadmin
       POSTGRES_DB: office
-    volumes: 
+    volumes:
       - dbdata:/var/lib/postgresql/data
 
   app:
@@ -14,8 +13,8 @@ services:
     depends_on:
       - db
     environment:
-      TZ: "CET" 
-      LANG: "en_US.UTF-8"  
+      TZ: "CET"
+      LANG: "en_US.UTF-8"
       JAVA_OPTS: "-Dnashorn.args=--no-deprecation-warning"
       MAILGATEWAY: "localhost"
       POSTGRES_USER: "postgres"
@@ -23,7 +22,7 @@ services:
       POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
 
     deploy:
-      # To run with memory limits 
+      # To run with memory limits
       # start with
       # $ docker-compose --compatibility up
       resources:
@@ -34,12 +33,12 @@ services:
       - "9990:9990"
       - "8787:8787"
     volumes:
-        - ./deployments:/opt/jboss/wildfly/standalone/deployments/
+      - ./deployments:/opt/jboss/wildfly/standalone/deployments/
 
-#  imixsadmin:
-#    image: imixs/imixs-admin
-#    ports:
-#      - "8888:8080"
+  imixsadmin:
+    image: imixs/imixs-admin
+    ports:
+      - "8888:8080"
 
 volumes:
-  dbdata: 
+  dbdata:
