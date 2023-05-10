@@ -5,19 +5,19 @@
       <imixs:value><![CDATA[debug-de-1.0]]></imixs:value>
     </imixs:item>
     <imixs:item name="txtfieldmapping" type="xs:string">
-      <imixs:value><![CDATA[Ersteller | namCreator]]></imixs:value>
-      <imixs:value><![CDATA[Aktueller Bearbeiter | namCurrentEditor]]></imixs:value>
-      <imixs:value><![CDATA[Eigentümer | namowner]]></imixs:value>
-      <imixs:value><![CDATA[Prozess-Verantwortliche| namprocessmanager]]></imixs:value>
-      <imixs:value><![CDATA[Prozess-Team | namprocessteam]]></imixs:value>
-      <imixs:value><![CDATA[Prozess-Assistenz | namprocessassist]]></imixs:value>
-      <imixs:value><![CDATA[Bereichs-Verantwortliche | namspacemanager]]></imixs:value>
-      <imixs:value><![CDATA[Bereichs-Team | namspaceteam]]></imixs:value>
-      <imixs:value><![CDATA[Bereichs-Assistenz | namspaceassist]]></imixs:value>
-      <imixs:value><![CDATA[Verantwortlich | namteam]]></imixs:value>
+      <imixs:value><![CDATA[Ersteller|namCreator]]></imixs:value>
+      <imixs:value><![CDATA[Aktueller Bearbeiter|namCurrentEditor]]></imixs:value>
+      <imixs:value><![CDATA[Eigentümer|namowner]]></imixs:value>
+      <imixs:value><![CDATA[Prozess-Verantwortliche|namprocessmanager]]></imixs:value>
+      <imixs:value><![CDATA[Prozess-Team|namprocessteam]]></imixs:value>
+      <imixs:value><![CDATA[Prozess-Assistenz|namprocessassist]]></imixs:value>
+      <imixs:value><![CDATA[Bereichs-Verantwortliche|namspacemanager]]></imixs:value>
+      <imixs:value><![CDATA[Bereichs-Team|namspaceteam]]></imixs:value>
+      <imixs:value><![CDATA[Bereichs-Assistenz|namspaceassist]]></imixs:value>
+      <imixs:value><![CDATA[Verantwortlich|namteam]]></imixs:value>
     </imixs:item>
     <imixs:item name="txttimefieldmapping" type="xs:string">
-      <imixs:value><![CDATA[Liefertermin | order.delivery]]></imixs:value>
+      <imixs:value><![CDATA[Liefertermin|order.delivery]]></imixs:value>
     </imixs:item>
     <imixs:item name="txtplugins" type="xs:string">
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.ResultPlugin]]></imixs:value>
@@ -33,6 +33,7 @@
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.ApplicationPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.profile.MailPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.IntervalPlugin]]></imixs:value>
+      <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.EventLogPlugin]]></imixs:value>
     </imixs:item>
   </bpmn2:extensionElements>
   <bpmn2:signal id="Signal_1" name="org.imixs.ml.workflow.MLAdapter"/>
@@ -41,7 +42,7 @@
     <bpmn2:participant id="Participant_1" name="Debug" processRef="Process_1">
       <bpmn2:documentation id="documentation_30UcjQ"/>
     </bpmn2:participant>
-    <bpmn2:participant id="Participant_2" name="Rechnungseingang Pool" processRef=""/>
+    <bpmn2:participant id="Participant_2" name="Rechnungseingang Pool"/>
   </bpmn2:collaboration>
   <bpmn2:process definitionalCollaborationRef="Collaboration_1" id="Process_1" isExecutable="false" name="Debug">
     <bpmn2:laneSet id="LaneSet_1" name="Lane Set 1">
@@ -679,7 +680,15 @@ result.isValid=true;
           <imixs:value/>
         </imixs:item>
         <imixs:item name="txtactivityresult" type="xs:string">
-          <imixs:value><![CDATA[<item name="comment" ignore="true"/>]]></imixs:value>
+          <imixs:value><![CDATA[<item name="comment" ignore="true"/>
+   <eventlog name="snapshot.export">
+	<ref><itemvalue>$uniqueid</itemvalue></ref>
+	<timeout>60000</timeout>
+        <document>
+             <amount>500.00</amount>
+             <department>Finance</department>
+        </document>
+ </eventlog>]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Speichern]]></imixs:value>
