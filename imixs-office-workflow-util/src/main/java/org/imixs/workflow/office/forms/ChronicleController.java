@@ -186,11 +186,21 @@ public class ChronicleController implements Serializable {
 			addChronicleEntry(originChronicleList, entry);
 		}
 
-		/* collect references */
-		List<ItemCollection> references = workitemLinkController.getExternalReferences();
-		references.addAll(workitemLinkController.getReferences());
-		for (ItemCollection reference : references) {
+		/*
+		 * Collect all references.
+		 * We look for direct references and external references. The method uniques the
+		 * list so that a reference can only occur once.
+		 */
+		List<ItemCollection> references = workitemLinkController.getReferences();
+		List<ItemCollection> externalReferences = workitemLinkController.getReferences();
+		// unique list... (references can be occur twice)
+		for (ItemCollection _workitem : externalReferences) {
+			if (!containsUniqueID(references, _workitem.getUniqueID())) {
+				references.add(_workitem);
+			}
+		}
 
+		for (ItemCollection reference : references) {
 			Date date = reference.getItemValueDate(WorkflowKernel.CREATED);
 			String message = reference.getItemValueString("$WorkflowSummary");
 			// test if no summary....
@@ -201,7 +211,6 @@ public class ChronicleController implements Serializable {
 				} else {
 					message = message + dateFormat.format(date);
 				}
-
 			}
 			// String user = reference.getItemValueString(WorkflowKernel.EDITOR);
 			String user = reference.getItemValueString(WorkflowKernel.CREATOR);
@@ -257,6 +266,26 @@ public class ChronicleController implements Serializable {
 		filteredChronicleList.addAll(originChronicleList);
 
 		logger.fine("...init in " + (System.currentTimeMillis() - l) + "ms");
+	}
+
+	/*
+	 * 
+	 * Helper Method checks if a given UniqueID is part of a list of Workitems
+	 * 
+	 * @param list
+	 * 
+	 * @param uniqueID
+	 * 
+	 * @return
+	 */
+	private boolean containsUniqueID(List<ItemCollection> list, String uniqueID) {
+		for (ItemCollection workitem : list) {
+			if (workitem.getUniqueID().equals(uniqueID)) {
+				return true;
+			}
+		}
+		// no match
+		return false;
 	}
 
 	/**
