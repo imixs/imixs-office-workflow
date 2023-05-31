@@ -107,13 +107,14 @@
 							<h:outputText value="#{entry.item['$workflowstatus']}" />
 							<br />
 							<div class="">
-								<h:outputLabel value="#{message.modified}: " />
 								<h:outputText value="#{entry.item['$lasteventdate']}"
 									style="font-weight: normal;">
 									<f:convertDateTime timeZone="#{message.timeZone}"
-										pattern="dd. MMM (HH:mm)" />
+										pattern="#{message.dateTimePattern}" />
 								</h:outputText>
-								<h:outputLabel value=" #{message.by}: " />
+								<h:outputLabel value=" - " />
+								
+								
 								<h:outputText value="#{userController.getUserName(entry.item['$lasteditor'])}" />
 
 

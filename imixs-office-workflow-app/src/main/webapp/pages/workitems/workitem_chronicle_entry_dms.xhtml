@@ -49,12 +49,19 @@
 						<a href="#" class="wopi-editor-link" data-wopi-openonload="#{autoload}" onclick="openWopiViewer('#{uri}','#{attachment.item['name']}','#{message.discard_changes}');return false;">
 						<span class="typcn typcn-pencil"></span></a>
 					</ui:fragment>
-				</ui:fragment>
+				</ui:fragment>	
 				
+				<!-- created/modified -->
+				<ui:fragment
+					rendered="#{(empty attachment.item['$modified'])}">
+					<h:outputLabel value=" (#{message.created})" />						
+				</ui:fragment>				
+				<ui:fragment
+					rendered="#{(!empty attachment.item['$modified'])}">
+					<h:outputLabel value=" (#{message.modified})" />									
+				</ui:fragment>
 			</h:panelGroup>
 			
-			
-		
 			<!-- URL link -->
 			<h:panelGroup
 				rendered="#{isURL}">
@@ -65,28 +72,6 @@
 					value="'&gt;#{attachment.item['txtName']}&lt;/a&gt;" />
 			</h:panelGroup>
 
-			<br />
-			
-			<!-- Show Created/modified by.... -->
-			<ui:fragment rendered="#{!isURL}">
-				<ui:fragment
-					rendered="#{(empty attachment.item['$modified'])}">
-					<h:outputLabel value="#{message.created}: " />
-					<h:outputText value="#{attachment.item['$created']}">
-						<f:convertDateTime timeZone="#{message.timeZone}"
-							pattern="#{message.dateTimePattern}" />
-					</h:outputText>				
-				</ui:fragment>				
-				<!-- modified by -->
-				<ui:fragment
-					rendered="#{(!empty attachment.item['$modified'])}">
-					<h:outputLabel value="#{message.modified}: " />
-					<h:outputText value="#{attachment.item['$modified']}">
-						<f:convertDateTime timeZone="#{message.timeZone}"
-							pattern="#{message.dateTimePattern}" />
-					</h:outputText>					
-				</ui:fragment>
-			</ui:fragment>			
 		</div>
 		
 
