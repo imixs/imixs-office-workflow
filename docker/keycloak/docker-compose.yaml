@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+
+  ##################################
+  # Keycloak Server
+  ##################################
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    #container_name: "keycloak"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      #- ./keycloak.conf:/opt/keycloak/conf/keycloak.conf
+    command:
+      - start-dev
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=changeme
+    # DATABASE Config
+      - DB_ADDR=db
+      #- DB_PORT: This is the port of the database (optional, default is DB vendor default port)
+      - DB_DATABASE=keycloak
+      # DB_SCHEMA: Specify name of the schema to use for DB that support schemas.
+      - DB_USER=postgres
+      # DB_USER_FILE: This is the user to authenticate to the database via file input (alternative to DB_USER).
+      - DB_PASSWORD=adminadmin
+      #DB_PASSWORD_FILE: Specify user’s password to use to authenticate to the database via file input (alternative to DB_PASSWORD).    
+    #  - PROXY_ADDRESS_FORWARDING=true
+    #  - VIRTUAL_HOST=dev-keycloak.mydomain.com
+    #  - VIRTUAL_PORT=8080
+    #  - LETSENCRYPT_HOST=dev-keycloak.mydomain.com
+    #networks:
+    #  - internal
+    ports:
+      - "8080:8080"
+
+
+  ##################################
+  # Postgres Server
+  ##################################
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: adminadmin
+      POSTGRES_DB: keycloak
+    volumes: 
+      - dbdata:/var/lib/postgresql/data
+
+volumes:
+  dbdata:
