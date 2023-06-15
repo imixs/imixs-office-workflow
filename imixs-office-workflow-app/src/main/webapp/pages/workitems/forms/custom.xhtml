@@ -96,6 +96,21 @@
 								rendered="#{item.readonly}" />
 						</c:if>
 
+						<!-- text list -->				
+						<c:if test="#{item.type eq 'textlist'}">
+							<h:inputTextarea value="#{workitem.itemList[item.name]}"
+								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
+								rendered="#{!item.readonly}" 
+								converter="org.imixs.VectorConverter" />
+							<ui:fragment rendered="#{item.readonly}">
+								<ui:repeat var="itemvalue"
+									value="#{workitem.itemList[item.name]}">
+									<h:outputText value="#{itemvalue}"></h:outputText>
+									<br />
+								</ui:repeat>
+							</ui:fragment>
+						</c:if>						
+
 						<!-- html -->
 						<c:if test="#{item.type eq 'html'}">
 							<h:inputTextarea required="#{item.required?validationController.required:false}"

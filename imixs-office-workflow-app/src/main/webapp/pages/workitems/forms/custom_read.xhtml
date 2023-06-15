@@ -68,6 +68,15 @@
 								value="#{workitem.item[item.name]}" />
 						</c:if>
 
+
+						<!-- text list -->				
+						<c:if test="#{item.type eq 'textlist'}">							
+							<ui:repeat var="itemvalue"
+								value="#{workitem.itemList[item.name]}">
+								<h:outputText value="#{itemvalue}"></h:outputText>
+								<br />
+							</ui:repeat>
+						</c:if>
 						<!-- HTML -->
 						<c:if test="#{item.type eq 'html'}">
 							<h:outputText escape="false"
