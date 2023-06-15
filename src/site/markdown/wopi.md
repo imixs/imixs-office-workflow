@@ -6,11 +6,11 @@
 
 LibreOffice Online is available as a Docker image and is developed by [Collabora](https://www.collaboraoffice.com/code/). Collabora is the community mainly developing the LibreOffice Online code. You can get the collabora docker image from [here](https://hub.docker.com/r/collabora/code).
 
-General information about the Docker Image from Collabora and an integration guide can be found [here(https://sdk.collaboraonline.com/docs/installation/CODE_Docker_image.html).
+General information about the Docker Image from Collabora can be found in the [Official Integration Guide](https://sdk.collaboraonline.com/docs/installation/CODE_Docker_image.html).
 
-Setup with Docker-Compose
+## Setup with Docker-Compose
 
-For test environments Imixs-Documents and Collabora can be setup with Docker-Compose. The following example shows a .yaml file inclduing both services:
+For test environments Imixs-Office-Workflow and Collabora can be setup with Docker-Compose. The following example shows a .yaml file including both services:
 
 	version: "3.6"
 	services:
@@ -38,8 +38,9 @@ For test environments Imixs-Documents and Collabora can be setup with Docker-Com
 	      LANG: "en_US.UTF-8"
 	      MAILGATEWAY: "localhost"
 	      # Collabora integration
-	      WOPI_PUBLIC_ENDPOINT: "http://localhost:9980/loleaflet/6a844e4/loleaflet.html?"
-	      WOPI_HOST_ENDPOINT: "http://imixs-documents:8080/api/wopi/"
+	      WOPI_PUBLIC_ENDPOINT: "http://localhost:9980"
+		  WOPI_DISCOVERY_ENDPOINT: "http://libreoffice-app:9980/hosting/discovery"
+	      WOPI_HOST_ENDPOINT: "http://imixs-documents:8080/api/wopi/"                
 	    ports:
 	      - "8080:8080"
 	      - "9990:9990"
@@ -48,30 +49,32 @@ For test environments Imixs-Documents and Collabora can be setup with Docker-Com
 	
 	# Collabora 
 	  libreoffice-app:
-	    image: collabora/code:6.4.8.4
-	    container_name: libreoffice-app
-	    expose:
-	      - 9980
-	    ports:
-	      - "9980:9980"
-	    environment:
-	      - username=admin
-	      - password=adminadmin
-	    volumes:
-	      - ./configuration/collabora/loolwsd.xml:/etc/loolwsd/loolwsd.xml
+		image: collabora/code:23.05.0.5.1
+		container_name: libreoffice-app
+		expose:
+		- 9980
+		ports:
+		- "9980:9980"
+		environment:
+		- username=admin
+		- password=adminadmin
+		- extra_params=--o:ssl.enable=false
+		- aliasgroup1=http://app:8080:443
 
-To integrate LibreOffice Online into Imixs-Documents the following Environment Variables need to be set:
+
+**Note:** In this example the SSL configuration is disabled. You can also setup a [Reverse Proxy configuration](https://sdk.collaboraonline.com/docs/installation/Proxy_settings.html) if you run in container environments like Kubernetes. You can find  more details about the configuration in the [official Integration Guide](https://sdk.collaboraonline.com/docs/installation/CODE_Docker_image.html).
+
+## WOPI Parameters 
+
+To integrate LibreOffice Online into Imixs-Documents the following Environment Variables need to be set to configure the WOPI integration:
 
 
 | Variable              | Description  							| Example |
 | --------------------- |---------------------------------------|---------|
-| WOPI_PUBLIC_ENDPOINT  | Public access endpoint for the LibreOffice Online Suite. |http://libreoffice-app/loleaflet/6a844e4/loleaflet.html?
+| WOPI_PUBLIC_ENDPOINT  | Public access endpoint for the LibreOffice Online Suite. |http://libreoffice-app:9980
+| WOPI_DISCOVERY_ENDPOINT  | Public WOPI discovery endpoint  |http://libreoffice-app:9980/hosting/discovery
 | WOPI_HOST_ENDPOINT    | Internal Wopi Host endpoint. This einpoint must point to the internal hostname of Imixs-Documetns | http://imixs-documents:8080/api/wopi/ |
 | WOPI_FILE_EXTENSIONS | Optional comma separated list of file extensions to be supported. |.odt,.doc,.docx,.ods,.xls,.xlsx,.ppt,.pptx|     
      
-You can find the technical details about the Imixs WOPI Protocoll Adapter [here](https://github.com/imixs/imixs-adapters/tree/master/imixs-adapters-wopi).
+You can find the technical details about the Imixs WOPI Protocol Adapter [here](https://github.com/imixs/imixs-adapters/tree/master/imixs-adapters-wopi).
 	
-In this example the configuration file 'loolwsd.xml' is mapped locally. The loolwsd.xml gives you varios ways to configure Collabora. You can find a copy of this file [here](../docker/configuration/collabora/loolwsd.xml)
-  
-**Note:** The collabora office suite provides a lot more ways for a custom configuration and installation. Please find the the details in the [official online help](https://sdk.collaboraonline.com/). 
-
