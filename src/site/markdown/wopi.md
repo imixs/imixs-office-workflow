@@ -39,7 +39,7 @@ For test environments Imixs-Office-Workflow and Collabora can be setup with Dock
 	      MAILGATEWAY: "localhost"
 	      # Collabora integration
 	      WOPI_PUBLIC_ENDPOINT: "http://localhost:9980"
-		  WOPI_DISCOVERY_ENDPOINT: "http://libreoffice-app:9980/hosting/discovery"
+		  WOPI_DISCOVERY_ENDPOINT: "http://collabora:9980/hosting/discovery"
 	      WOPI_HOST_ENDPOINT: "http://imixs-documents:8080/api/wopi/"                
 	    ports:
 	      - "8080:8080"
@@ -48,9 +48,9 @@ For test environments Imixs-Office-Workflow and Collabora can be setup with Dock
 	      - ./deployments:/opt/jboss/wildfly/standalone/deployments/
 	
 	# Collabora 
-	  libreoffice-app:
+	  collabora:
 		image: collabora/code:23.05.0.5.1
-		container_name: libreoffice-app
+		container_name: collabora
 		expose:
 		- 9980
 		ports:
@@ -77,4 +77,25 @@ To integrate LibreOffice Online into Imixs-Documents the following Environment V
 | WOPI_FILE_EXTENSIONS | Optional comma separated list of file extensions to be supported. |.odt,.doc,.docx,.ods,.xls,.xlsx,.ppt,.pptx|     
      
 You can find the technical details about the Imixs WOPI Protocol Adapter [here](https://github.com/imixs/imixs-adapters/tree/master/imixs-adapters-wopi).
-	
+
+
+## Multiple WOPI Hosts
+
+In case you have multiple instnaces of Imixs-Office-Workflow you can define also multiple WOPI Host Aliases in Collabora.For this you can either separate your hots addresses with ',' or with additional aliasgroups. See the following example defining 3 different WOPI Hosts:
+
+	  collabora:
+		image: collabora/code:23.05.0.5.1
+		container_name: collabora
+		expose:
+		- 9980
+		ports:
+		- "9980:9980"
+		environment:
+		- username=admin
+		- password=adminadmin
+		- extra_params=--o:ssl.enable=false
+		- aliasgroup1=http://app1.foo.com:8080:443,http://app2.foo.com:8080:443, 
+		- aliasgroup2=http://app1.foo.net:8080:443
+ 
+
+
