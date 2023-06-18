@@ -1,12 +1,10 @@
-# LibreOffice Online – How to Integrate
+# The WOPI Protocoll
 
-[LibreOffice Online](https://www.libreoffice.org/download/libreoffice-online/) is powerful online office suite that supports all major document, spreadsheet and presentation file formats, which can be integrated into Imixs-Documents. Key features are collaborative editing and excellent office file format support.
+[Collabora Online](https://www.collaboraoffice.com/)  is powerful online office suite that supports all major document, spreadsheet and presentation file formats. Collabor Online is based on the *Web Application Open Platform Interface Protocol* (WOPI). The WOPI Protocol was initial developed by Microsoft and defines a set of operations that enable clients to access and change files stored by a server. The WOPI protocol is supported by the [Imixs-Workflow Adapter project](https://github.com/imixs/imixs-adapters/tree/master/imixs-adapters-wopi) and enables you to access and change files that are stored in your Imixs-Workflow instance.
 
 <img class="screenshot" src="wopi-01.png" width="900" />
 
-LibreOffice Online is available as a Docker image and is developed by [Collabora](https://www.collaboraoffice.com/code/). Collabora is the community mainly developing the LibreOffice Online code. You can get the collabora docker image from [here](https://hub.docker.com/r/collabora/code).
-
-General information about the Docker Image from Collabora can be found in the [Official Integration Guide](https://sdk.collaboraonline.com/docs/installation/CODE_Docker_image.html).
+The integration can be configured by a set of environment variables. General information about the Docker Image from Collabora can be found in the [Official Integration Guide](https://sdk.collaboraonline.com/docs/installation/CODE_Docker_image.html).
 
 ## Setup with Docker-Compose
 
