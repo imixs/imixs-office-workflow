@@ -24,6 +24,13 @@ The various input item definitions are called 'input parts':
 	<item name="description" type="textarea"
 	        label="Description" />
 
+### Textlist
+
+A textlist is displayed as a input textarea. The entries of separate lines are stored as multiple values in an Item List. This input type can be useful e.g. for lists of E-Mail addresses or a list of order-numbers.  
+
+	<item name="description" type="textlist"
+	        label="Description" />
+
 ### HTML/RichText Input
 
 	<item name="description" type="html"
