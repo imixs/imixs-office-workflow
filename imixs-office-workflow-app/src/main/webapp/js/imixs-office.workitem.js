@@ -178,6 +178,10 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	 */
 	initSignaturePad = function() {
 		const signatureCanvas = document.querySelector('.imixs-signature-pad canvas');
+		if (!signatureCanvas) {
+			// no signature pad available
+			return;
+		}
 		const workitemForm = document.querySelector('#workitem_form');
 		const signatureClearButton = document.querySelector('.imixs-signature-clear-action');
 		const ctx = signatureCanvas.getContext('2d');
@@ -255,7 +259,6 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		
 		// chronicle-main  attachmentlink
 		$("[id$='chronicle-main'] .attachmentlink").each(
-		//$(".files a.attachmentlink").each(
 			function(index, element) {						
 				$(this).click(function(){
 					var file_link=$(this).attr('href');
