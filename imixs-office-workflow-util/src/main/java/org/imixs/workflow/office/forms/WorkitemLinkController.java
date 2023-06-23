@@ -27,15 +27,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Logger;
 
-import jakarta.ejb.EJB;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.context.FacesContext;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
-
+import javax.naming.NamingException;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ItemCollectionComparator;
@@ -45,6 +43,12 @@ import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.office.util.WorkitemHelper;
+
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * The WorkitemLinkController provides suggest-box behavior based on the JSF 2.0
@@ -69,6 +73,12 @@ public class WorkitemLinkController implements Serializable {
     public static final int MAX_SEARCH_RESULT = 20;
     public static Logger logger = Logger.getLogger(WorkitemLinkController.class.getName());
 
+    // search and lookups
+    private Map<Integer, List<ItemCollection>> searchCache = null;
+    private Map<Integer, List<ItemCollection>> referencesCache = null;
+    private Map<Integer, List<ItemCollection>> externalReferencesCache = null;
+    private List<ItemCollection> searchResult = null;
+
     @EJB
     protected WorkflowService workflowService;
 
@@ -79,11 +89,13 @@ public class WorkitemLinkController implements Serializable {
     protected WorkflowController workflowController;
 
     private static final long serialVersionUID = 1L;
-    private List<ItemCollection> searchResult = null;
 
     public WorkitemLinkController() {
         super();
         searchResult = new ArrayList<ItemCollection>();
+        searchCache = new HashMap<Integer, List<ItemCollection>>();
+        referencesCache = new HashMap<Integer, List<ItemCollection>>();
+        externalReferencesCache = new HashMap<Integer, List<ItemCollection>>();
     }
 
     /**
@@ -109,22 +121,16 @@ public class WorkitemLinkController implements Serializable {
      * 
      */
     public void searchWorkitems() {
-
-        searchResult = new ArrayList<ItemCollection>();
         // get the param from faces context....
         FacesContext fc = FacesContext.getCurrentInstance();
-        String phrase = fc.getExternalContext().getRequestParameterMap().get("phrase");
+        String _phrase = fc.getExternalContext().getRequestParameterMap().get("phrase");
         String options = fc.getExternalContext().getRequestParameterMap().get("options");
-        if (phrase == null) {
+        if (_phrase == null) {
             return;
         }
 
-        logger.finest("......workitemLink search prase '" + phrase + "'  options="+options);
-        searchResult = searchWorkitems(phrase,options);
-
-        if (searchResult != null) {
-            logger.finest("found " + searchResult.size() + " user profiles...");
-        }
+        logger.finest("......workitemLink search prase '" + _phrase + "'  options=" + options);
+        searchWorkitems(_phrase, options);
 
     }
 
@@ -137,11 +143,20 @@ public class WorkitemLinkController implements Serializable {
      * @return - list of matching profiles
      */
     public List<ItemCollection> searchWorkitems(String phrase, String filter) {
-        List<ItemCollection> searchResult = new ArrayList<ItemCollection>();
+        // List<ItemCollection> searchResult = new ArrayList<ItemCollection>();
+
+        int searchHash = computeSearchHash(phrase, filter);
+        searchResult = searchCache.get(searchHash);
+        if (searchResult != null) {
+            return searchResult;
+        }
 
         logger.finest(".......search workitem links : " + phrase);
-        if (phrase == null || phrase.isEmpty())
+        if (phrase == null || phrase.isEmpty()) {
+            searchResult = new ArrayList<ItemCollection>();
+            searchCache.put(searchHash, searchResult);
             return searchResult;
+        }
 
         // start lucene search
         Collection<ItemCollection> col = null;
@@ -176,12 +191,26 @@ public class WorkitemLinkController implements Serializable {
             logger.warning("Lucene error error: " + e.getMessage());
         }
 
+        searchCache.put(searchHash, searchResult);
         return searchResult;
 
     }
 
     public List<ItemCollection> getSearchResult() {
         return searchResult;
+    }
+
+    public static int computeSearchHash(String _phrase, String _filter) {
+        int hash = 0;
+
+        if (_phrase != null && !_phrase.isEmpty()) {
+            hash = Objects.hash(hash, _phrase);
+        }
+        if (_filter != null && !_filter.isEmpty()) {
+            hash = Objects.hash(hash, _filter);
+        }
+
+        return hash;
     }
 
     /**
@@ -207,6 +236,7 @@ public class WorkitemLinkController implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public List<ItemCollection> getReferences(String filter) {
+
         long l = System.currentTimeMillis();
         List<ItemCollection> result = new ArrayList<ItemCollection>();
 
@@ -215,10 +245,15 @@ public class WorkitemLinkController implements Serializable {
         }
 
         logger.finest("......lookup references for: " + filter);
+        int searchHash = computeSearchHash(workflowController.getWorkitem().getUniqueID(), filter);
+        result = referencesCache.get(searchHash);
+        if (result != null) {
+            return result;
+        }
 
         // lookup the references...
         List<String> refList = null;
-
+        result = new ArrayList<ItemCollection>();
         // support deprecated ref field
         if (!workflowController.getWorkitem().hasItem(LINK_PROPERTY)
                 && workflowController.getWorkitem().hasItem(LINK_PROPERTY_DEPRECATED)) {
@@ -228,14 +263,13 @@ public class WorkitemLinkController implements Serializable {
         }
 
         if (refList != null && !refList.isEmpty()) {
-            
+
             logger.finest("... we have " + refList.size() + " references stored");
-            
-            
+
             // select all references.....
             String sQuery = "(";
             for (String ref : refList) {
-                if (ref!=null && !ref.trim().isEmpty()) {
+                if (ref != null && !ref.trim().isEmpty()) {
                     sQuery = sQuery + "$uniqueid:\"" + ref + "\" OR ";
                 }
             }
@@ -252,14 +286,12 @@ public class WorkitemLinkController implements Serializable {
             }
 
             sQuery = sQuery + ")";
-            
-            
+
             if (filter != null && !"".equals(filter.trim())) {
                 String sNewFilter = filter.trim().replace(".", "?");
                 sQuery += " AND (" + sNewFilter + ") ";
             }
             logger.finest("......query=" + sQuery);
-
 
             List<ItemCollection> workitems = null;
 
@@ -272,12 +304,13 @@ public class WorkitemLinkController implements Serializable {
             }
             // do we have a result?
             if (workitems != null) {
-                    result.addAll(workitems);
+                result.addAll(workitems);
             }
         }
 
         logger.fine("...lookup references for: " + filter + " in " + (System.currentTimeMillis() - l) + "ms");
 
+        referencesCache.put(searchHash, result);
         return result;
     }
 
@@ -314,6 +347,12 @@ public class WorkitemLinkController implements Serializable {
             return result;
         }
 
+        int searchHash = computeSearchHash(workflowController.getWorkitem().getUniqueID(), uniqueid);
+        result = externalReferencesCache.get(searchHash);
+        if (result != null) {
+            return result;
+        }
+
         // select all references.....
         String sQuery = "(";
         sQuery = " (type:\"workitem\" OR type:\"workitemarchive\") AND (" + LINK_PROPERTY + ":\"" + uniqueid + "\"  OR "
@@ -330,7 +369,7 @@ public class WorkitemLinkController implements Serializable {
         }
         // sort by modified
         Collections.sort(workitems, new ItemCollectionComparator("$created", true));
-
+        result = new ArrayList<ItemCollection>();
         // now test if filter matches, and clone the workItem
         if (filter != null && !filter.isEmpty()) {
             for (ItemCollection itemcol : workitems) {
@@ -342,10 +381,12 @@ public class WorkitemLinkController implements Serializable {
         } else {
             result.addAll(workitems);
         }
+
+        externalReferencesCache.put(searchHash, result);
         return result;
 
     }
-    
+
     /**
      * Helper method to load a full workitem from the frontend
      * 
