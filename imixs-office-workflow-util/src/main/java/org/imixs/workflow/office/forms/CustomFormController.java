@@ -39,12 +39,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import jakarta.ejb.EJB;
-import jakarta.enterprise.context.ConversationScoped;
-import jakarta.enterprise.event.Observes;
-import jakarta.faces.application.Application;
-import jakarta.faces.context.FacesContext;
-import jakarta.inject.Named;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -60,6 +54,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.ConversationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.faces.application.Application;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
 
 /**
  * The CustomFormController computes a set of fields based on a data object
@@ -160,7 +161,7 @@ public class CustomFormController implements Serializable {
                         }
                         CustomFormSection customSection = new CustomFormSection(eElement.getAttribute("label"),
                                 eElement.getAttribute("columns"), eElement.getAttribute("path"),bReadOnly);
-                        customSection.setItems(findItems(eElement));
+                        customSection.setItems(findItems(eElement, customSection.getColumns()));
                         sections.add(customSection);
                     }
                 }
@@ -215,14 +216,32 @@ public class CustomFormController implements Serializable {
     }
 
     /**
-     * This method parses the item nods with a section element
+     * This method parses the item nods with a section element. The param columns
+     * defines the span for each item
      * 
      * @param sectionElement
+     * @param columns        - default flex layout
      * @return
-     * @throws ModelException 
+     * @throws ModelException
      */
-    private List<CustomFormItem> findItems(Element sectionElement) throws ModelException {
+    private List<CustomFormItem> findItems(Element sectionElement, String _columns) throws ModelException {
         List<CustomFormItem> result = new ArrayList<CustomFormItem>();
+
+        // convert columns in flex layout span
+        int span = 12; // default;
+        if ("2".equals(_columns)) {
+            span = 6;
+        }
+        if ("3".equals(_columns)) {
+            span = 4;
+        }
+        if ("4".equals(_columns)) {
+            span = 3;
+        }
+        if ("6".equals(_columns)) {
+            span = 2;
+        }
+
         NodeList itemList = sectionElement.getElementsByTagName("item");
         for (int temp = 0; temp < itemList.getLength(); temp++) {
             Node itemNode = itemList.item(temp);
@@ -230,11 +249,20 @@ public class CustomFormController implements Serializable {
             if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
 
                 Element itemElement = (Element) itemNode;
+
+                if (itemElement.hasAttribute("span")) {
+                    try {
+                        span = Integer.parseInt(itemElement.getAttribute("span"));
+                    } catch (NumberFormatException e) {
+                        // fallback default
+                    }
+                }
+
                 CustomFormItem customItem = new CustomFormItem(itemElement.getAttribute("name"),
                         itemElement.getAttribute("type"), itemElement.getAttribute("label"),
                         evaluateBoolean(itemElement.getAttribute("required")),
                         evaluateBoolean(itemElement.getAttribute("readonly")), itemElement.getAttribute("options"),
-                        itemElement.getAttribute("path"), evaluateBoolean(itemElement.getAttribute("hide")));
+                        itemElement.getAttribute("path"), evaluateBoolean(itemElement.getAttribute("hide")), span);
 
                 result.add(customItem);
             }

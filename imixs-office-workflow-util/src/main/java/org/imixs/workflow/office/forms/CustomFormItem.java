@@ -54,12 +54,13 @@ public class CustomFormItem {
     boolean hide;
     String options;
     String path; // used for custom types
-    
+    int span; // flex grid layout span
 
     private static Logger logger = Logger.getLogger(CustomFormItem.class.getName());
 
 
-    public CustomFormItem(String name, String type, String label, boolean required, boolean readonly, String options, String path, boolean hide) {
+    public CustomFormItem(String name, String type, String label, boolean required, boolean readonly, String options,
+            String path, boolean hide, int span) {
         super();
         this.label = label;
         this.name = name;
@@ -72,6 +73,11 @@ public class CustomFormItem {
         if ("custom".equalsIgnoreCase(type) && (path ==null || path.isEmpty()) ) {
         	logger.warning("Custom Form Item requires 'path' attribute - please check your BPMN model");
         }
+        // default span = 12
+        if (span <= 0 || span > 12) {
+            span = 12;
+        }
+        this.span = span;
     }
 
     public String getName() {
@@ -120,6 +126,14 @@ public class CustomFormItem {
 
     public void setHide(boolean hide) {
         this.hide = hide;
+    }
+
+    public int getSpan() {
+        return span;
+    }
+
+    public void setSpan(int span) {
+        this.span = span;
     }
 
     /**

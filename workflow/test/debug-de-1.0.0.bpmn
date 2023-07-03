@@ -556,7 +556,7 @@ result.isValid=true;
     <bpmn2:sequenceFlow id="SequenceFlow_14" sourceRef="IntermediateCatchEvent_5005-30" targetRef="IntermediateThrowEvent_2">
       <bpmn2:documentation id="documentation_Srs7lA"/>
     </bpmn2:sequenceFlow>
-    <bpmn2:task id="Task_2" imixs:processid="5000" name="Erfassung">
+    <bpmn2:task id="Task_2" imixs:processid="5000" name="New">
       <bpmn2:extensionElements>
         <imixs:item name="txtworkflowabstract" type="xs:string">
           <imixs:value><![CDATA[<itemvalue>txtlastcomment</itemvalue>]]></imixs:value>
@@ -604,10 +604,15 @@ result.isValid=true;
   </imixs-form-section>
 
   <imixs-form-section columns="2">
-    <item name="debug.user" type="custom" path="userinput"  label="Verantwortlich:" />
+    <item name="debug.user" type="custom" path="userinput"  label="Responsible:" />
     <item name="debug.team" type="custom" path="userlistinput"  label="Team:" />
-    <item type="custom" path="workitemlink"  label="Rechnungen:" options="($workflowgroup:Rechnungseingang)" />
-    <item type="custom" path="workitemlink"  label="Bestellungen:" options="($workflowgroup:Bedarfsmeldung)" />
+    <item type="custom" path="workitemlink"  label="Invoice No.:" options="($workflowgroup:Rechnungseingang)" />
+    <item type="custom" path="workitemlink"  label="Order No.:" options="($workflowgroup:Bedarfsmeldung)" />
+
+
+    <item name="debug.zip" type="text"  label="ZIP:" span="2" />
+    <item name="debug.city" type="text"  label="City:" span="6" />
+    <item name="debug.country" type="text"  label="Country:" span="4" />
   </imixs-form-section>
 
   <imixs-form-section columns="1" >
@@ -1505,9 +1510,9 @@ result.isValid=true;
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="DataObject_2" id="BPMNShape_DataObject_1">
-        <dc:Bounds height="50.0" width="35.0" x="309.0" y="207.0"/>
+        <dc:Bounds height="50.0" width="35.0" x="310.0" y="207.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_85">
-          <dc:Bounds height="14.0" width="68.0" x="293.0" y="257.0"/>
+          <dc:Bounds height="14.0" width="68.0" x="294.0" y="257.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="IntermediateCatchEvent_13" id="BPMNShape_IntermediateCatchEvent_13">
@@ -1686,7 +1691,7 @@ result.isValid=true;
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="Association_2" id="BPMNEdge_Association_2" sourceElement="BPMNShape_DataObject_1" targetElement="BPMNShape_Task_5">
         <bpmndi:BPMNLabel id="BPMNLabel_86"/>
-        <di:waypoint x="344.0" y="232.0"/>
+        <di:waypoint x="345.0" y="232.0"/>
         <di:waypoint x="363.0" y="232.0"/>
         <di:waypoint x="363.0" y="290.0"/>
       </bpmndi:BPMNEdge>

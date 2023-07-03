@@ -26,11 +26,11 @@
 		<!-- standard form section -->
 		<c:if test="#{empty section.path}">
 		<div
-			class="imixs-form-section#{(empty section.columns)?'':'-'.concat(section.columns)}">
+			class="imixs-form-section-flex">
 
 			<c:forEach items="#{section.items}" var="item">
 				<c:if test="#{!item.hide}">
-				<dl>
+				<dl style="grid-column-start: span #{item.span};">
 					<dt>
 						#{item.label}
 						<c:if test="#{item.required}">
