@@ -143,8 +143,6 @@ public class WorkitemLinkController implements Serializable {
      * @return - list of matching profiles
      */
     public List<ItemCollection> searchWorkitems(String phrase, String filter) {
-        // List<ItemCollection> searchResult = new ArrayList<ItemCollection>();
-
         int searchHash = computeSearchHash(phrase, filter);
         searchResult = searchCache.get(searchHash);
         if (searchResult != null) {
@@ -159,15 +157,15 @@ public class WorkitemLinkController implements Serializable {
         }
 
         // start lucene search
+        searchResult = new ArrayList<ItemCollection>();
         Collection<ItemCollection> col = null;
-
+        String sQuery = "";
         try {
             phrase = phrase.trim().toLowerCase();
             phrase = schemaService.escapeSearchTerm(phrase);
             // issue #170
             phrase = schemaService.normalizeSearchTerm(phrase);
 
-            String sQuery = "";
             // search only type workitem and workitemsarchive
             sQuery += "((type:workitem) OR (type:workitemarchive)) AND  (*" + phrase + "*)";
 
@@ -188,7 +186,7 @@ public class WorkitemLinkController implements Serializable {
             }
 
         } catch (Exception e) {
-            logger.warning("Lucene error error: " + e.getMessage());
+            logger.warning("Search error query = '" + sQuery + "'  - " + e.getMessage());
         }
 
         searchCache.put(searchHash, searchResult);
