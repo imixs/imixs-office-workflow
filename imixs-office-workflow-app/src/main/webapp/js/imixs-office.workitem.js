@@ -178,6 +178,10 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	 */
 	initSignaturePad = function() {
 		const signatureCanvas = document.querySelector('.imixs-signature-pad canvas');
+		if (!signatureCanvas) {
+			// no signature pad available
+			return;
+		}		
 		const workitemForm = document.querySelector('#workitem_form');
 		const signatureClearButton = document.querySelector('.imixs-signature-clear-action');
 		const ctx = signatureCanvas.getContext('2d');

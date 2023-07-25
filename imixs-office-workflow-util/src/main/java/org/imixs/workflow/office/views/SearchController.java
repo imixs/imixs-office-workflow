@@ -90,6 +90,8 @@ public class SearchController extends ViewController implements Serializable {
     private static Logger logger = Logger.getLogger(SearchController.class.getName());
 
     ItemCollection searchFilter = null;
+    String defaultQuery=null;
+    String title=null;
 
     @Inject
     SetupController setupController;
@@ -140,6 +142,11 @@ public class SearchController extends ViewController implements Serializable {
         // extract the id from the query string
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String, String> paramMap = fc.getExternalContext().getRequestParameterMap();
+
+
+        // default query?
+        defaultQuery=paramMap.get("query");
+        title=paramMap.get("title");
 
         // process Ref?
         String processRef = paramMap.get("processref");
@@ -228,6 +235,14 @@ public class SearchController extends ViewController implements Serializable {
 
     }
 
+    public String getDefaultQuery() {
+        return defaultQuery;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     @Override
     public boolean isSortReverse() {
 
@@ -256,6 +271,8 @@ public class SearchController extends ViewController implements Serializable {
      */
     @Override
     public void reset() {
+        defaultQuery=null;
+        title=null;
         searchFilter = new ItemCollection();
         searchFilter.replaceItemValue("type", "workitem");
         // set default user mode
@@ -348,6 +365,11 @@ public class SearchController extends ViewController implements Serializable {
     @SuppressWarnings({ "unchecked", "unlikely-arg-type" })
     @Override
     public String getQuery() {
+
+        if (defaultQuery!=null && !defaultQuery.isEmpty())  {
+            return defaultQuery;
+        }
+
 
         String query = "";
         String emptySearchTerm = ""; // indicates that no query as the default type-query was defined.
