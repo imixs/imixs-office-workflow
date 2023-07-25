@@ -86,39 +86,6 @@
 
 
 
-
-
-		<div class="imixs-view-submit-panel">
-			<!-- Search Button and Search Order -->
-
-
-			<h:commandButton value="#{message.search}"
-			    action="#{searchController.refreshSearch()}">
-				<f:ajax render="@form" execute="@form" onevent="updateSearchForm" />
-			</h:commandButton>
-			<h:commandButton value="#{message.reset}"
-			    action="#{searchController.resetSearch()}">
-				<f:ajax render="@form" execute="@form" onevent="updateSearchForm" />
-			</h:commandButton>
-			
-			<!-- Sort Order -->
-			<div style="float: right; padding: 0 10px;"
-				class="pull-right ui-button ui-widget ui-state-default ui-corner-all">
-				<h:outputText title="#{message['worklist.sortorder_help']}"
-					value="#{message['worklist.sortorder']}: " />
-				<h:selectOneMenu style="background:#fff;"
-					value="#{searchController.searchFilter.item['sortorder']}">
-					<f:selectItem itemValue="" itemLabel="#{message['worklist.sortorder_relevance']}" />
-					<f:selectItem itemValue="1" itemLabel="#{message['worklist.sortorder_newest']}" />
-					<f:selectItem itemValue="2" itemLabel="#{message['worklist.sortorder_oldest']}" />
-					<f:ajax event="change" render="@form" listener="#{searchController.refreshSearch}"
-							onevent="imixsOfficeMain.layoutAjaxEvent" />
-				</h:selectOneMenu>
-			</div>
-
-		</div>
-
-
 		<div style="clear:both;" />
 
 	</h:panelGroup>

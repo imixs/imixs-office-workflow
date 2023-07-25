@@ -39,14 +39,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import jakarta.ejb.EJB;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.enterprise.event.Event;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.event.AjaxBehaviorEvent;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
-
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.marty.team.TeamController;
 import org.imixs.workflow.ItemCollection;
@@ -59,6 +51,14 @@ import org.imixs.workflow.faces.data.ViewController;
 import org.imixs.workflow.faces.util.LoginController;
 import org.imixs.workflow.office.config.SetupController;
 import org.imixs.workflow.office.model.ModelController;
+
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.AjaxBehaviorEvent;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * The SearchController provides methods for a convenient search experience.
@@ -90,6 +90,8 @@ public class SearchController extends ViewController implements Serializable {
     private static Logger logger = Logger.getLogger(SearchController.class.getName());
 
     ItemCollection searchFilter = null;
+    String defaultQuery = null;
+    String title = null;
 
     @Inject
     SetupController setupController;
@@ -140,6 +142,10 @@ public class SearchController extends ViewController implements Serializable {
         // extract the id from the query string
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String, String> paramMap = fc.getExternalContext().getRequestParameterMap();
+
+        // default query?
+        defaultQuery = paramMap.get("query");
+        title = paramMap.get("title");
 
         // process Ref?
         String processRef = paramMap.get("processref");
@@ -228,6 +234,14 @@ public class SearchController extends ViewController implements Serializable {
 
     }
 
+    public String getDefaultQuery() {
+        return defaultQuery;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     @Override
     public boolean isSortReverse() {
 
@@ -256,6 +270,8 @@ public class SearchController extends ViewController implements Serializable {
      */
     @Override
     public void reset() {
+        defaultQuery = null;
+        title = null;
         searchFilter = new ItemCollection();
         searchFilter.replaceItemValue("type", "workitem");
         // set default user mode
@@ -348,6 +364,10 @@ public class SearchController extends ViewController implements Serializable {
     @SuppressWarnings({ "unchecked", "unlikely-arg-type" })
     @Override
     public String getQuery() {
+
+        if (defaultQuery != null && !defaultQuery.isEmpty()) {
+            return defaultQuery;
+        }
 
         String query = "";
         String emptySearchTerm = ""; // indicates that no query as the default type-query was defined.
