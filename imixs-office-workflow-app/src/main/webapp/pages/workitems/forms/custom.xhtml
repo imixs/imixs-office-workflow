@@ -51,7 +51,7 @@
 						<c:if test="#{item.type eq 'number'}">
 							<h:inputText value="#{workitem.item[item.name]}"
 								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
-								rendered="#{!item.readonly}">
+								rendered="#{!item.readonly}" disabled="#{item.disabled}" >
 								<f:convertNumber />
 							</h:inputText>
 							<h:outputText value="#{workitem.item[item.name]}"
@@ -64,7 +64,7 @@
 						<c:if test="#{item.type eq 'currency'}">
 							<h:inputText value="#{workitem.item[item.name]}"
 								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
-								rendered="#{!item.readonly}">
+								rendered="#{!item.readonly}" disabled="#{item.disabled}" >
 								<f:convertNumber minFractionDigits="2" locale="de" />
 							</h:inputText>
 							<h:outputText value="#{workitem.item[item.name]}"
@@ -77,7 +77,7 @@
 						<c:if test="#{item.type eq 'date'}">
 							<h:inputText value="#{workitem.item[item.name]}"
 								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
-								styleClass="imixs-date" rendered="#{!item.readonly}">
+								styleClass="imixs-date" rendered="#{!item.readonly}" disabled="#{item.disabled}" >
 								<f:convertDateTime pattern="#{message.datePatternShort}"
 									timeZone="#{message.timeZone}" />
 							</h:inputText>
@@ -91,7 +91,7 @@
 						<c:if test="#{item.type eq 'textarea'}">
 							<h:inputTextarea value="#{workitem.item[item.name]}"
 								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
-								rendered="#{!item.readonly}" />
+								rendered="#{!item.readonly}" disabled="#{item.disabled}" />
 							<h:outputText escape="true" value="#{workitem.item[item.name]}"
 								rendered="#{item.readonly}" />
 						</c:if>
@@ -100,7 +100,7 @@
 						<c:if test="#{item.type eq 'textlist'}">
 							<h:inputTextarea value="#{workitem.itemList[item.name]}"
 								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
-								rendered="#{!item.readonly}" 
+								rendered="#{!item.readonly}" disabled="#{item.disabled}" 
 								converter="org.imixs.VectorConverter" />
 							<ui:fragment rendered="#{item.readonly}">
 								<ui:repeat var="itemvalue"
@@ -136,41 +136,41 @@
 								<c:otherwise>
 									<c:if test="#{item.type eq 'selectBooleanCheckbox'}">
 										<h:selectBooleanCheckbox required="#{item.required?validationController.required:false}"
-											pt:data-item="#{item.name}"
+											pt:data-item="#{item.name}" disabled="#{item.disabled}"
 											value="#{workitem.item[item.name]}">
 										</h:selectBooleanCheckbox>
 									</c:if>
 									<c:if test="#{item.type eq 'selectOneMenu'}">
 										<h:selectOneMenu required="#{item.required?validationController.required:false}"
-											pt:data-item="#{item.name}"
+											pt:data-item="#{item.name}" disabled="#{item.disabled}"
 											value="#{workitem.item[item.name]}">
 											<f:selectItems value="#{item.selectItems}" />
 										</h:selectOneMenu>
 									</c:if>
 									<c:if test="#{item.type eq 'selectOneRadio'}">
 										<h:selectOneRadio required="#{item.required?validationController.required:false}"
-											pt:data-item="#{item.name}"
+											pt:data-item="#{item.name}" disabled="#{item.disabled}"
 											value="#{workitem.item[item.name]}">
 											<f:selectItems value="#{item.selectItems}" />
 										</h:selectOneRadio>
 									</c:if>
 									<c:if test="#{item.type eq 'selectOneRadioPageDirection'}">
 										<h:selectOneRadio required="#{item.required?validationController.required:false}"
-											pt:data-item="#{item.name}" layout="pageDirection"
+											pt:data-item="#{item.name}" layout="pageDirection" disabled="#{item.disabled}"
 											value="#{workitem.item[item.name]}">
 											<f:selectItems value="#{item.selectItems}" />
 										</h:selectOneRadio>
 									</c:if>
 									<c:if test="#{item.type eq 'selectManyCheckbox'}">
 										<h:selectManyCheckbox required="#{item.required?validationController.required:false}"
-											pt:data-item="#{item.name}" 
+											pt:data-item="#{item.name}"  disabled="#{item.disabled}"
 											value="#{workitem.itemListArray[item.name]}">
 											<f:selectItems value="#{item.selectItems}" />
 										</h:selectManyCheckbox>
 									</c:if>
 									<c:if test="#{item.type eq 'selectManyCheckboxPageDirection'}">
 										<h:selectManyCheckbox required="#{item.required?validationController.required:false}"
-											pt:data-item="#{item.name}" layout="pageDirection"
+											pt:data-item="#{item.name}" layout="pageDirection" disabled="#{item.disabled}"
 											value="#{workitem.itemListArray[item.name]}">
 											<f:selectItems value="#{item.selectItems}" />
 										</h:selectManyCheckbox>
