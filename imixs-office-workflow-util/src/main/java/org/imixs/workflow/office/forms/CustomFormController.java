@@ -233,7 +233,8 @@ public class CustomFormController implements Serializable {
                 CustomFormItem customItem = new CustomFormItem(itemElement.getAttribute("name"),
                         itemElement.getAttribute("type"), itemElement.getAttribute("label"),
                         evaluateBoolean(itemElement.getAttribute("required")),
-                        evaluateBoolean(itemElement.getAttribute("readonly")), itemElement.getAttribute("options"),
+                        evaluateBoolean(itemElement.getAttribute("readonly")),
+                        evaluateBoolean(itemElement.getAttribute("disabled")), itemElement.getAttribute("options"),
                         itemElement.getAttribute("path"), evaluateBoolean(itemElement.getAttribute("hide")));
 
                 result.add(customItem);
