@@ -42,7 +42,7 @@
 						<c:if test="#{item.type eq 'text'}">
 							<h:inputText value="#{workitem.item[item.name]}"
 								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
-								rendered="#{!item.readonly}" />
+								rendered="#{!item.readonly}" disabled="#{item.disabled}" />
 							<h:outputText value="#{workitem.item[item.name]}"
 								rendered="#{item.readonly}" />
 						</c:if>

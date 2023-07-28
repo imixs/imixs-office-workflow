@@ -51,6 +51,7 @@ public class CustomFormItem {
     String label;
     boolean required;
     boolean readonly;
+    boolean disabled;
     boolean hide;
     String options;
     String path; // used for custom types
@@ -59,7 +60,8 @@ public class CustomFormItem {
     private static Logger logger = Logger.getLogger(CustomFormItem.class.getName());
 
 
-    public CustomFormItem(String name, String type, String label, boolean required, boolean readonly, String options,
+    public CustomFormItem(String name, String type, String label, boolean required, boolean readonly, boolean disabled,
+            String options,
             String path, boolean hide, int span) {
         super();
         this.label = label;
@@ -67,6 +69,7 @@ public class CustomFormItem {
         this.type = type;
         this.required = required;
         this.readonly = readonly;
+        this.disabled = disabled;
         this.hide = hide;
         this.options = options;
         this.path=path;
@@ -118,6 +121,14 @@ public class CustomFormItem {
 
     public void setReadonly(boolean readonly) {
         this.readonly = readonly;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
 
     public boolean isHide() {
