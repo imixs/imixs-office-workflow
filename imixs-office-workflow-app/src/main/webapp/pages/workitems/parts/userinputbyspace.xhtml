@@ -15,8 +15,7 @@
 		<ui:param name="spacename" value="#{options.substring(0,options.indexOf(';'))}"></ui:param>
 		<ui:param name="spaceitem" value="#{options.substring(options.indexOf(';')+1)}"></ui:param>
 		<ui:param name="space" value="#{teamController.getSpaceByName(spacename)}"></ui:param>
-		<h:selectOneMenu required="#{empty required?false:required}" pt:data-options="#{options}"
-			value="#{empty itemname?workflowController.workitem.item['namresponsible']:workflowController.workitem.item[itemname]}">
+		<h:selectOneMenu required="#{empty required?false:required}" value="#{workitem.item[item.name]}">
 
 			<f:selectItem itemLabel=""></f:selectItem>
 			<c:forEach items="#{space.itemList[spaceitem]}" var="member">
