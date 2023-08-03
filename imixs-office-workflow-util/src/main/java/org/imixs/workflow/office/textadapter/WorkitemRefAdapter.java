@@ -1,4 +1,4 @@
-package org.imixs.workflow.office.forms;
+package org.imixs.workflow.office.textadapter;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.TextEvent;
 import org.imixs.workflow.faces.data.WorkflowController;
+import org.imixs.workflow.office.forms.WorkitemLinkController;
 import org.imixs.workflow.util.XMLParser;
 
 import jakarta.ejb.Stateless;
@@ -33,9 +34,9 @@ import jakarta.inject.Inject;
  *
  */
 @Stateless
-public class TextAdapterWorkitemRef {
+public class WorkitemRefAdapter {
 
-    private static Logger logger = Logger.getLogger(TextAdapterWorkitemRef.class.getName());
+    private static Logger logger = Logger.getLogger(WorkitemRefAdapter.class.getName());
 
     @Inject
     protected WorkflowController workflowController;

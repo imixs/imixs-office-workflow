@@ -1,30 +1,31 @@
-package org.imixs.workflow.office.forms;
+package org.imixs.workflow.office.textadapter;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import jakarta.ejb.Stateless;
-import jakarta.enterprise.event.Observes;
-
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.TextEvent;
 import org.imixs.workflow.engine.plugins.AbstractPlugin;
 import org.imixs.workflow.util.XMLParser;
 
+import jakarta.ejb.Stateless;
+import jakarta.enterprise.event.Observes;
+
 /**
- * The CountryAdapter replaces country codes with a user specific country name
+ * The CountryCodeAdapter replaces country codes with a user specific country
+ * name
  * 
  * @author rsoika
  *
  */
 @Stateless
-public class CountryAdapter {
+public class CountryCodeAdapter {
 
-	private static Logger logger = Logger.getLogger(AbstractPlugin.class.getName());
+    private static Logger logger = Logger.getLogger(AbstractPlugin.class.getName());
 
-	   /**
+    /**
      * Observer method for CDI TextEvetns to convert a country code into
      * getDisplayCountry
      * <p>
@@ -48,9 +49,9 @@ public class CountryAdapter {
             // next we check if the start tag contains a 'locale' attribute
             Locale locale = null;
             String sLocale = XMLParser.findAttribute(tag, "locale");
-            if (sLocale==null || sLocale.isEmpty()) {
+            if (sLocale == null || sLocale.isEmpty()) {
                 logger.info("...no locale defined - default to en_EN");
-                sLocale="en_EN";
+                sLocale = "en_EN";
             }
             String separator = XMLParser.findAttribute(tag, "separator");
             if (sLocale != null && !sLocale.isEmpty()) {
@@ -69,9 +70,9 @@ public class CountryAdapter {
                 }
             } else {
                 // get user default locale
-                // we can not compute the user locale in 
+                // we can not compute the user locale in
                 // case of scheduled events!
-               
+
             }
 
             // extract Item name containing the country code
@@ -109,6 +110,5 @@ public class CountryAdapter {
 
         event.setText(text);
     }
-
 
 }

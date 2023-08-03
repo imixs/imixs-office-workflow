@@ -1,12 +1,14 @@
 # Form Input Parts
 
 Within a Imixs-Office-Workflow [Form Definition](index.html) you can define different type of input parts within a `imixs-form-section`:
+
+```xml
 <imixs-form-section label="Controlling">
-<item name="name" type="text"
-		      label="Name" />
-<item name="description" type="textarea"
-		      label="Short Description" />
+    <item name="name" type="text" label="Name" />
+    <item name="description" type="textarea" label="Short Description" />
 </imixs-form-section>
+```
+
 
 ## Input Parts
 
@@ -14,43 +16,57 @@ The various input item definitions are called 'input parts':
 
 ### Text Input
 
+```xml
     <item name="description" type="text"
             label="Topic" />
+```
 
 ### Textlist
 
 A textlist is displayed as a input textarea. The entries of separate lines are stored as multiple values in an Item List. This input type can be useful e.g. for lists of E-Mail addresses or a list of order-numbers.
 
+```xml
     <item name="references" type="textlist"
             label="Order References" />
+```
 
 ### Textarea Input
 
+```xml
     <item name="description" type="textarea"
             label="Description" />
+```
 
 ### HTML/RichText Input
 
+```xml
     <item name="description" type="html"
             label="Description" />
+```
 
 ### Date Input
 
+```xml
     <item name="invoice.date" type="date"
             label="Date" />
+```
 
 ### Currency Input
 
+```xml
     <item name="invoice.amount" type="currency"
             label="Amount" />
+```
 
 ### Select Boxes
 
 You can also create different type of select boxes with predefined values:
 
+```xml
      <item name="invoice.currency" type="selectOneMenu"
     	label="Currency:"
     	options="EUR;CHF;SEK;NOK;GBP;USD" />
+```
 
 You can choose one of the following types for select boxes:
 
@@ -66,53 +82,9 @@ _selectManyCheckbox_ and _selectOneRadio_ are displayed in line direction per de
 
 You can also add a mapping of the name displayed in the select box and an optional value by using the '|' char:
 
+```xml
     <item name"myfield" type="selectOneMenu" required="true" label="Your Choice"
       options="management.it|Option A;management.backoffice|Option B" />
-
-
-### User Input
-
-The user input can be used to edit a single user name. The part provides a lookup feature for profile names
-
-    <item name="user"
-          type="custom"
-          path="userinput"
-          label="User:" />
-
-
-### User-List Input
-
-The User-List-Input alowes to enter a list of user names. The part provides a lookup feature for profile names
-
-    <item name="userlist"
-          type="custom"
-          path="userinput"
-          label="User:" />
-
-### Workitem Linking
-
-Imixs-Office-Workflow provides a way to link workitems together:
-
-    <item name="project.ref"
-          type="custom"
-          path="workitemlink"
-          options="$workflowgroup:Projekt"
-          label="Project:" />
-
-With the `options` tag you can specify the search filter to lookup for workitems.
-
-
-### UserInputBySpace
-
- The custom part `userinputbyspace` can be used to display a Combobox with usernames from a space. The space and the member list can be defined by the 'options'
-
- Example:
-
-```xml
-   <item name="audit.auditor" required="true"
-      type="custom"  
-      path="userinputbyspace"
-      options="Auditoren;space.manager"
-      label="Auditor:" />
 ```
+
 
