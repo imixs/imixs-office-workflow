@@ -3,19 +3,19 @@ package org.imixs.workflow.office.views;
 import java.util.List;
 import java.util.logging.Logger;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
-import jakarta.json.Json;
-import jakarta.json.JsonArrayBuilder;
-import jakarta.json.JsonObjectBuilder;
-
 import org.imixs.marty.profile.UserController;
 import org.imixs.marty.team.TeamController;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.faces.data.ViewController;
 import org.imixs.workflow.faces.util.ResourceBundleHandler;
+
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObjectBuilder;
 
 /**
  * The OrganigramController generates the JSON data structure used by the

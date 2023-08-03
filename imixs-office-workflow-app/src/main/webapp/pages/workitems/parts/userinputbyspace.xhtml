@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+	<ui:remove>
+		<!-- Userinput by space 
+	
+			USAGE: options=spacename;spaceitem
+
+			e.g. options=Sales;space.team
+	-->
+	</ui:remove>
+
+	<f:subview id="workitemlink-view">
+		<ui:param name="spacename" value="#{options.substring(0,options.indexOf(';'))}"></ui:param>
+		<ui:param name="spaceitem" value="#{options.substring(options.indexOf(';')+1)}"></ui:param>
+		<ui:param name="space" value="#{teamController.getSpaceByName(spacename)}"></ui:param>
+		<h:selectOneMenu required="#{empty required?false:required}" pt:data-options="#{options}"
+			value="#{empty itemname?workflowController.workitem.item['namresponsible']:workflowController.workitem.item[itemname]}">
+
+			<f:selectItem itemLabel=""></f:selectItem>
+			<c:forEach items="#{space.itemList[spaceitem]}" var="member">
+				<f:selectItem itemLabel="#{userController.getUserName(member)}" itemValue="#{member}">
+				</f:selectItem>
+			</c:forEach>
+		</h:selectOneMenu>
+	</f:subview>
+
+</ui:composition>

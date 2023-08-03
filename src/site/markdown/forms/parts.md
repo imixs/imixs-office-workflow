@@ -100,3 +100,19 @@ Imixs-Office-Workflow provides a way to link workitems together:
           label="Project:" />
 
 With the `options` tag you can specify the search filter to lookup for workitems.
+
+
+### UserInputBySpace
+
+ The custom part `userinputbyspace` can be used to display a Combobox with usernames from a space. The space and the member list can be defined by the 'options'
+
+ Example:
+
+```xml
+   <item name="audit.auditor" required="true"
+      type="custom"  
+      path="userinputbyspace"
+      options="Auditoren;space.manager"
+      label="Auditor:" />
+```
+
