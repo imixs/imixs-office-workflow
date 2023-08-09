@@ -58,6 +58,18 @@ A textlist is displayed as a input textarea. The entries of separate lines are s
             label="Amount" />
 ```
 
+
+
+
+### IBAN Input
+
+```xml
+    <item name="dbtr.iban" type="custom" path="iban"
+            label="IBAN" />
+```
+
+Only the items `dbtr.iban` and `cdtr.iban` are supported. 
+
 ### Select Boxes
 
 You can also create different type of select boxes with predefined values:

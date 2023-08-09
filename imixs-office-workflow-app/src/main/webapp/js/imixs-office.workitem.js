@@ -605,7 +605,7 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 			$.each(newList, function( key, value ) {
 				if (key==0) {
 					newValue=newValue+value;
-				} else {
+				} else { 
 					newValue=newValue + "\n"+value;
 				}
 			});
@@ -627,6 +627,20 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 						"message.print",
 						"width=300,height=280,status=no,scrollbars=no,resizable=yes");
 		qrCodeWindow.focus();
+	},
+
+		
+	/**
+	 * Format IBAN in 4-digit blocks
+	 */
+	formatIBAN=function (inputElement) {
+		let value = inputElement.value.replace(/ /g, ''); // Entferne vorhandene Leerzeichen
+		let formattedIBAN = '';
+		for (let i = 0; i < value.length; i += 4) {
+			let block = value.slice(i, i + 4);
+			formattedIBAN += block + ' ';
+		}
+		inputElement.value = formattedIBAN.trim().toUpperCase(); // Entferne Leerzeichen am Ende
 	};
 	
 
@@ -654,6 +668,7 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		workitemRefInitInput: workitemRefInitInput,
 		addWorkitemRef: addWorkitemRef,
 		deleteWorkitemRef: deleteWorkitemRef,
+		formatIBAN: formatIBAN,
 		
 		onFileUploadChange : onFileUploadChange
 	};

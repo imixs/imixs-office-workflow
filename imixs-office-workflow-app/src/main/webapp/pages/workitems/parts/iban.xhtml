@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
+
+	<ui:fragment rendered="#{!item.readonly}">
+
+
+		<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
+			required="#{item.required?validationController.required:false}" rendered="#{!item.readonly}"
+			disabled="#{item.disabled}">
+
+
+		</h:inputText>
+
+
+
+
+	</ui:fragment>
+	<ui:fragment rendered="#{item.readonly}">
+		<h:outputText value="#{workitem.item[item.name]}"></h:outputText>
+	</ui:fragment>
+</ui:composition>
