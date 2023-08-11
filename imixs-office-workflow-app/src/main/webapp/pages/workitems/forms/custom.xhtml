@@ -179,15 +179,14 @@
 							</c:choose>
 						</c:if>
 						<!-- custom subview -->
-						<c:if test="#{item.type eq 'custom'}">
-							<ui:param name="formel" value="1 ne 1"></ui:param>
+						<c:if test="#{item.type eq 'custom'}">			
 						    <ui:include src="/pages/workitems/parts/#{item.path}.xhtml">
 								<ui:param name="workitem" value="#{workflowController.workitem}" />
 								<ui:param name="required" value="#{item.required}" />
 								<ui:param name="readonly" value="#{item.readonly}" />
 								<ui:param name="name" value="#{item.name}" />
 								<ui:param name="options" value="#{item.options}" />
-								<ui:param name="rendered" value="#{formel}" />
+								<ui:param name="rendered" value="#{true}" />
 							</ui:include>
 							
 							

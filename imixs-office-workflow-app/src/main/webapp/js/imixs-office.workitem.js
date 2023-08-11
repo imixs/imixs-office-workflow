@@ -544,11 +544,10 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 	 * Callback method for workiemLink Autocomplete feature
 	 */
 	addWorkitemRef = function(selection,inputSearchField) {
-		
 		// find textarea....
 		var inputField = $('textarea.workitemlink-textarea-input');
-		var list= inputField.val();
-		
+		var itemInput = $('textarea',inputSearchField.parent());	
+		var list= inputField.val();		
 		var list=inputField.val().split(/\r?\n/);
 		var newList= new Array();
 		$.each(list, function( key, value ) {
@@ -572,10 +571,25 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		});
 
 		inputField.val(newValue);
-		// trigger on change event
-		inputSearchField.trigger('change');
+
 		// clear input
-		inputSearchField.val('');			
+		inputSearchField.val('');	
+		
+		// update the item name (find next textarea)
+		if (itemInput && itemInput.length==1) {
+			var oldItemValue=itemInput.val();
+			if (oldItemValue==='') {
+				itemInput.val(selection);
+			} else {
+				if (itemInput.val().indexOf(selection)==-1) {
+					itemInput.val(itemInput.val()+'\n' + selection);
+				}
+			}
+		}
+		
+		// finally trigger on change event
+		inputSearchField.trigger('change');
+
 	},
 	
 		
@@ -585,11 +599,12 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 		// find the input field based on the given link.
 		var parent=$(link).closest( "span[id$='datalist']" );
 		var inputSearchField=$(parent).prevAll('input');
+		var itemInput = $('textarea',inputSearchField.parent());
 		// find textarea....
 		var inputField = $('textarea.workitemlink-textarea-input');
 		var workitemref=$(link).data('workitemref');
 		
-		// only user list is supported 
+		// only multi list is supported 
 		if (inputField.is("textarea")) {
 			var list=inputField.val().split(/\r?\n/);
 			var newList= new Array();
@@ -611,8 +626,22 @@ IMIXS.org.imixs.workflow.workitem = (function() {
 			});
 
 			inputField.val(newValue);
-			// trigger on change event
+		
+			// update the item name (find next textarea)
+			if (itemInput && itemInput.length==1) {
+				var itemUpdateValue=itemInput.val();
+				if (itemUpdateValue.indexOf(workitemref)>-1) {
+					itemUpdateValue=itemUpdateValue.replace(workitemref+ "\n", "");
+					itemUpdateValue=itemUpdateValue.replace(workitemref, "");
+					itemInput.val(itemUpdateValue);
+				}
+				itemInput.trigger('change');
+			}
+
+			// finally trigger on change event
 			inputSearchField.trigger('change');
+
+		
 		}
 	},
 

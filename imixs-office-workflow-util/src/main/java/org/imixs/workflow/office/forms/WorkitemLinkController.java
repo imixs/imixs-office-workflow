@@ -313,6 +313,22 @@ public class WorkitemLinkController implements Serializable {
     }
 
     /**
+     * This method returns a list of ItemCollections referred by list of IDs.
+     * 
+     * @return - list of ItemCollection with matches the given ids
+     */
+    public List<ItemCollection> getReferencesByIdList(List<String> ids) {
+        List<ItemCollection> result = new ArrayList<ItemCollection>();
+        for (String id : ids) {
+            ItemCollection refItemCol = workflowService.getWorkItem(id);
+            if (refItemCol != null) {
+                result.add(refItemCol);
+            }
+        }
+        return result;
+    }
+
+    /**
      * Returns a list of all workItems holding a reference to the current workItem.
      * 
      * @return

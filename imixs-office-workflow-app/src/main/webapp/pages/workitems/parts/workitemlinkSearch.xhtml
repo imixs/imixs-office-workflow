@@ -1,9 +1,6 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
 
 
 	<ui:remove>
@@ -15,43 +12,39 @@
 
 
 
-	<h:commandScript name="workitemLinkSearch"
-		action="#{workitemLinkController.searchWorkitems()}"
+	<h:commandScript name="workitemLinkSearch" action="#{workitemLinkController.searchWorkitems()}"
 		render="autocomplete-resultlist" onevent="autocompleteShowResult" />
 	<script type="text/javascript">
 		/*<![CDATA[*/
 		$(document).ready(
-				function() {
-					// add autocomplete feature to cdtr.number...
-					var workitemLinkField = $("input.workitemlink-input");
-					$(workitemLinkField).each(
-							function() {
-								imixsOfficeWorkitem.workitemRefInitInput(this, workitemLinkSearch,
-										'autocomplete-resultlist', imixsOfficeWorkitem.addWorkitemRef);
-								// the main behavior is implemented in the method imixsOfficeWorkitem.addWorkitemRef
-							});
-				});
-		
+			function () {
+				// add autocomplete feature to cdtr.number...
+				var workitemLinkField = $("input.workitemlink-input");
+				$(workitemLinkField).each(
+					function () {
+						imixsOfficeWorkitem.workitemRefInitInput(this, workitemLinkSearch,
+							'autocomplete-resultlist', imixsOfficeWorkitem.addWorkitemRef);
+						// the main behavior is implemented in the method imixsOfficeWorkitem.addWorkitemRef
+					});
+			});
+
 		/*]]>*/
 	</script>
-	<h:inputTextarea binding="#{workitemlinkcollector}" style="display:none;" styleClass="workitemlink-textarea-input" value="#{workflowController.workitem.itemList['$workitemref']}" converter="org.imixs.VectorConverter" >
-		
+	<h:inputTextarea binding="#{workitemlinkcollector}" style="display:none;" styleClass="workitemlink-textarea-input"
+		value="#{workflowController.workitem.itemList['$workitemref']}" converter="org.imixs.VectorConverter">
 	</h:inputTextarea>
-	<h:panelGroup id="autocomplete-resultlist" layout="block"
-		class="autocomplete-resultlist">
+	<h:panelGroup id="autocomplete-resultlist" layout="block" class="autocomplete-resultlist">
 		<ui:repeat var="suggest" value="#{workitemLinkController.searchResult}">
 			<div class="autocomplete-resultlist-element"
 				onclick="autocompleteSelectElement('#{suggest.item['$uniqueid']}')">
 				<a href="#">
-				
-					<h:outputText escape="false"
-								value="#{suggest.item['$WorkflowSummary']}"
-								rendered="#{!empty suggest.item['$WorkflowSummary']}" />
-							<h:outputText value="#{workitem_ref.item['$lasteventdate']}"
-								rendered="#{empty suggest.item['$WorkflowSummary']}">
-								<f:convertDateTime timeZone="#{message.timeZone}"
-									pattern="#{message.dateTimePatternShort}" />
-						</h:outputText>
+
+					<h:outputText escape="false" value="#{suggest.item['$WorkflowSummary']}"
+						rendered="#{!empty suggest.item['$WorkflowSummary']}" />
+					<h:outputText value="#{workitem_ref.item['$lasteventdate']}"
+						rendered="#{empty suggest.item['$WorkflowSummary']}">
+						<f:convertDateTime timeZone="#{message.timeZone}" pattern="#{message.dateTimePatternShort}" />
+					</h:outputText>
 				</a>
 			</div>
 		</ui:repeat>
@@ -59,4 +52,3 @@
 
 
 </ui:composition>
-
