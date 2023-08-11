@@ -15,9 +15,9 @@ services:
       - start-dev
     environment:
       - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=changeme
+      - KEYCLOAK_ADMIN_PASSWORD=adminadmin
     # DATABASE Config
-      - DB_ADDR=db
+      - DB_ADDR=dbkeycloak
       #- DB_PORT: This is the port of the database (optional, default is DB vendor default port)
       - DB_DATABASE=keycloak
       # DB_SCHEMA: Specify name of the schema to use for DB that support schemas.
@@ -32,19 +32,55 @@ services:
     #networks:
     #  - internal
     ports:
-      - "8080:8080"
+      - "8084:8080"
 
 
   ##################################
   # Postgres Server
   ##################################
-  db:
+  dbkeycloak:
     image: postgres:13
     environment:
       POSTGRES_PASSWORD: adminadmin
       POSTGRES_DB: keycloak
     volumes: 
-      - dbdata:/var/lib/postgresql/data
+      - dbkeycloak:/var/lib/postgresql/data
+
+
+
+  dboffice:
+    image: postgres:9.6.1
+    environment:
+      POSTGRES_PASSWORD: adminadmin
+      POSTGRES_DB: office
+    volumes:
+      - dboffice:/var/lib/postgresql/data
+
+
+  app:
+    image: imixs/imixs-office-workflow
+    depends_on:
+      - dboffice
+    environment:
+      TZ: "CET"
+      LANG: "en_US.UTF-8"
+      JAVA_OPTS: "-Dnashorn.args=--no-deprecation-warning"
+      MAILGATEWAY: "localhost"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "adminadmin"
+      POSTGRES_CONNECTION: "jdbc:postgresql://dboffice/office"
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+      - "8787:8787"
+    volumes:
+      - ./deployments:/opt/jboss/wildfly/standalone/deployments/
+    # Mapping the host ip to the container 
+    # This setting is used for local testing only
+    # Wildfly can access the keycloak server via the external host address
+    extra_hosts:
+      - "keycloak.imixs.local:host-gateway"
 
 volumes:
-  dbdata:
+  dbkeycloak:
+  dboffice:  
