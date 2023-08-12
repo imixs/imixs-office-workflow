@@ -29,7 +29,6 @@
         <extension module="org.wildfly.extension.discovery"/>
         <extension module="org.wildfly.extension.ee-security"/>
         <extension module="org.wildfly.extension.elytron"/>
-        <extension module="org.wildfly.extension.elytron-oidc-client"/>
         <extension module="org.wildfly.extension.health"/>
         <extension module="org.wildfly.extension.io"/>
         <extension module="org.wildfly.extension.metrics"/>
@@ -301,19 +300,6 @@
                         </attribute-mapping>
 		            </principal-query>
 		        </jdbc-realm>
-
-                <!-- 
-                <jdbc-realm name="imixsrealm">
-                    <principal-query sql="select PASSWORD from USERID where ID=?" data-source="office">
-                        <simple-digest-mapper algorithm="simple-digest-sha-256" password-index="1" hash-encoding="hex"/>
-                    </principal-query>
-                        <principal-query sql="select GROUP_ID from USERID_USERGROUP where ID=?" data-source="office">
-                            <attribute-mapping>
-                                <attribute to="Roles" index="1"/>
-                            </attribute-mapping>
-                    </principal-query>
-                </jdbc-realm>     
-                -->
                 
             </security-realms>
             <mappers>
@@ -408,7 +394,7 @@
                 </server-ssl-contexts>
             </tls>
         </subsystem>
-        <subsystem xmlns="urn:wildfly:elytron-oidc-client:1.0"/>
+   
         <subsystem xmlns="urn:wildfly:health:1.0" security-enabled="false"/>
         <subsystem xmlns="urn:jboss:domain:infinispan:14.0">
             <cache-container name="ejb" default-cache="passivation" marshaller="PROTOSTREAM" aliases="sfsb" modules="org.wildfly.clustering.ejb.infinispan">
@@ -558,8 +544,11 @@
                 <file name="welcome-content" path="${jboss.home.dir}/welcome-content"/>
             </handlers>
             <application-security-domains>
-                <application-security-domain name="imixsrealm" security-domain="imixsrealm"/>
-                <application-security-domain name="other" security-domain="ApplicationDomain"/>
+                <application-security-domain name="imixsrealm" security-domain="imixsrealm"/>                
+                <!-- 
+                  Disable integrated jaspi for Jakarate EE 10 OIDC support    
+                -->
+                <application-security-domain name="other" security-domain="ApplicationDomain" integrated-jaspi="false"/>        
             </application-security-domains>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:webservices:2.0" statistics-enabled="${wildfly.webservices.statistics-enabled:${wildfly.statistics-enabled:false}}">

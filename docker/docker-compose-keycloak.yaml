@@ -69,6 +69,10 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "adminadmin"
       POSTGRES_CONNECTION: "jdbc:postgresql://dboffice/office"
+
+      OIDCCONFIG_ISSUERURI: "http://keycloak.imixs.local:8084/realms/imixs-oidc"
+      OIDCCONFIG_CLIENTID: "imixs-oidc"
+      OIDCCONFIG_CLIENTSECRET: "dH7cl2J4L3wakyELvTI3FWb0ZFjSCKUt"      
     ports:
       - "8080:8080"
       - "9990:9990"

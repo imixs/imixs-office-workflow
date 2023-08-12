@@ -7,12 +7,14 @@
 
 	<assembly-descriptor>
 		<s:security>
-			<ejb-name>*</ejb-name>
-			<s:security-domain>${imixs-office.realm}</s:security-domain>
+			<ejb-name>*</ejb-name>			
 			<!-- This configuration is necessary to enable @runAs for the AdminPService  -->
 			<s:missing-method-permissions-deny-access>false</s:missing-method-permissions-deny-access>
 			<!-- The following username can be set as a user profile to map an e-mail address -->
 			<s:run-as-principal>imixs-workflow-service</s:run-as-principal>			
+
+			<!-- Disable the security-domain in case of authentication via OIDC -->
+			<s:security-domain>${imixs-office.realm}</s:security-domain>			
 		</s:security>
 	</assembly-descriptor>
 

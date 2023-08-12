@@ -83,7 +83,37 @@ Also don't forget to set the password for the new user via the tab 'Credentials'
 
 WildFly 25, which is used by the latest version of Imixs-Office-Workflow, added the ability to secure applications using OpenID Connect, without needing to make use of the Keycloak client adapter. To integrate Keycloak, WildFly 25 introduced a new elytron-oidc-client subsystem that scans deployments to check if the OpenID Connect (OIDC) authentication mechanism is needed. If the subsystem detects that the OIDC mechanism is required for a deployment, the subsystem will activate this authentication mechanism automatically. This feature makes it easy to connect Imixs-Office-Workflow with Keycloak. 
 
-## The Configuration
+
+## Wildfly - Disable JASPIC
+
+One tricky point is that by default the elytron subsystem enforces the logged user to be in the default other domain (by default application users are placed in the application-users.properties file in wildfly). The integrated-jaspi option can be set to `false` to avoid that. 
+
+This can be done by either editing the standalone.xml file:
+
+```xml 
+ ....
+ .........
+        <subsystem xmlns="urn:jboss:domain:undertow:13.0" default-server="default-server" default-virtual-host="default-host" default-servlet-container="default" default-security-domain="other" statistics-enabled="${wildfly.undertow.statistics-enabled:${wildfly.statistics-enabled:false}}">
+           .......
+           .............
+            <application-security-domains>
+                <!-- Disable integrated jaspic -->
+                <application-security-domain name="other" security-domain="ApplicationDomain" integrated-jaspi="false"/>        
+            </application-security-domains>
+        </subsystem>
+    .....
+```
+
+or with the cli-commandline tool:
+
+    $ ./jboss-cli.sh --connect --controller=remote+http://localhost:9990
+    $ /subsystem=undertow/application-security-domain=other:write-attribute(name=integrated-jaspi, value=false)
+    $ relaod
+
+
+See also https://blogs.nologin.es/rickyepoderi/
+
+## The Configuration (deprecated!)
 
 The configuration that indicates that the OIDC authentication mechanism is needed by an application can either be provided within the application itself or within the elytron-client-oidc subsystem.
 
