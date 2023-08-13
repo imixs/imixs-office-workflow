@@ -1,4 +1,4 @@
-package org.imixs.oidc;
+package org.imixs.workflow.office.auth.oidc;
 
 import java.io.Serializable;
 

@@ -141,7 +141,7 @@ As Imixs-Office-Workflow is based on Jakarta EE 10 we use the new [Jakarta Secur
 
 To activate OIDC in Imixs-Office-Workflwo you can build it with the maven provile 'oidc'
 
-    $ mvn clean install -Poidc
+    $ mvn clean install -Pauth-oidc
 
 This will build a version including the  Security bean with the corresponding '@OpenIdAuthenticationMechanismDefinition'. 
 

@@ -8,36 +8,66 @@
 	<artifactId>imixs-office-workflow-auth</artifactId>
 	<name>Imixs Office Workflow Authentication Modules</name>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/main/java-auth-oidc</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 
+	</build>
 
 	<!-- OpenID Connect -->		
 	<profiles>
-		<profile>
-			<id>oidc</id>
-			<properties>
-				
-			</properties>
-
+	    <profile>
+        <id>auth-db</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<version>1.7</version>
-						<executions>
-							<execution>
-								<id>add-source</id>
-								<phase>generate-sources</phase>
-								<goals>
-									<goal>add-source</goal>
-								</goals>
-								<configuration>
-									<sources>
-										<source>src/main/java-auth/oidc</source>
-									</sources>
-								</configuration>
-							</execution>
-						</executions>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration >
+							<excludes>
+								<exclude>src/main/java-auth-oidc/</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+    	</profile>
+
+		<profile>
+			<id>auth-oidc</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration >
+							<excludes>
+								<exclude>src/main/java-auth-db/</exclude>
+								<exclude>src/main/java-auth-ldap/</exclude>
+							</excludes>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
