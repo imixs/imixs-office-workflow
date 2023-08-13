@@ -45,9 +45,9 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
-						<configuration >
+						 <configuration combine.self="override">
 							<excludes>
-								<exclude>src/main/java-auth-oidc/</exclude>
+								<exclude>**/org/imixs/workflow/office/auth/oidc/*</exclude>
 							</excludes>
 						</configuration>
 					</plugin>
@@ -64,8 +64,8 @@
 						<artifactId>maven-compiler-plugin</artifactId>
 						<configuration >
 							<excludes>
-								<exclude>src/main/java-auth-db/</exclude>
-								<exclude>src/main/java-auth-ldap/</exclude>
+								<exclude>**/org/imixs/workflow/office/auth/db/*</exclude>
+								<exclude>**/org/imixs/workflow/office/auth/ldap/*</exclude>
 							</excludes>
 						</configuration>
 					</plugin>
