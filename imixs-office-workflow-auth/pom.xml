@@ -23,7 +23,9 @@
 						</goals>
 						<configuration>
 							<sources>
+								<source>src/main/java-auth-db</source>
 								<source>src/main/java-auth-oidc</source>
+								<source>src/main/java-auth-ldap</source>																
 							</sources>
 						</configuration>
 					</execution>
@@ -33,13 +35,30 @@
 
 	</build>
 
-	<!-- OpenID Connect -->		
+	<!-- Jakrata EE 10 Auth Profiles -->		
 	<profiles>
+
+	    <profile>
+        <id>none</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						 <configuration combine.self="override">
+							<excludes>
+								<exclude>**/org/imixs/workflow/office/auth/db/*</exclude>			
+								<exclude>**/org/imixs/workflow/office/auth/oidc/*</exclude>
+								<exclude>**/org/imixs/workflow/office/auth/ldap/*</exclude>								
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+    	</profile>
+
 	    <profile>
         <id>auth-db</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<build>
 				<plugins>
 					<plugin>
@@ -48,6 +67,7 @@
 						 <configuration combine.self="override">
 							<excludes>
 								<exclude>**/org/imixs/workflow/office/auth/oidc/*</exclude>
+								<exclude>**/org/imixs/workflow/office/auth/ldap/*</exclude>								
 							</excludes>
 						</configuration>
 					</plugin>
@@ -71,8 +91,25 @@
 					</plugin>
 				</plugins>
 			</build>
-
 		</profile>
+
+		<profile>
+			<id>auth-ldap</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration >
+							<excludes>
+								<exclude>**/org/imixs/workflow/office/auth/db/*</exclude>
+								<exclude>**/org/imixs/workflow/office/auth/oidc/*</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>		
 	</profiles>
 
 
