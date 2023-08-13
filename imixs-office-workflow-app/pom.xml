@@ -285,23 +285,6 @@
 			</build>
 		</profile>	
 
-		<!-- OpenID Connect -->		
-		<profile>
-			<id>oidc</id>
-			<properties>
-				
-			</properties>
-			<dependencies>
-				<dependency>
-					<groupId>org.imixs.security</groupId>
-					<artifactId>imixs-oidc</artifactId>
-					<version>2.0.0-SNAPSHOT</version>
-					<type>jar</type>
-					<scope>compile</scope>
-				</dependency>
-			</dependencies>	
-		</profile>	
-
 	</profiles>
 	
 	<build>
@@ -324,8 +307,8 @@
 						</resource>
 					</webResources>
 				</configuration>
-			</plugin>		
-			
+			</plugin>
+
 			<!-- Manik Hot Deployment -->	
 			<plugin>
 				<groupId>org.imixs.maven</groupId>
@@ -368,6 +351,12 @@
 		<dependency>
 			<groupId>org.imixs.workflow</groupId>
 			<artifactId>imixs-office-workflow-util</artifactId>
+			<scope>compile</scope>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-office-workflow-auth</artifactId>
 			<scope>compile</scope>
 			<version>${project.parent.version}</version>
 		</dependency>

@@ -2,6 +2,20 @@ version: "3"
 
 services:
 
+
+  ##################################
+  # Postgres Server
+  ##################################
+  dbkeycloak:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: adminadmin
+      POSTGRES_USER: keycloak
+      POSTGRES_DB: keycloak
+    volumes: 
+      - dbkeycloak:/var/lib/postgresql/data
+
+
   ##################################
   # Keycloak Server
   ##################################
@@ -17,13 +31,10 @@ services:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=adminadmin
     # DATABASE Config
-      - DB_ADDR=dbkeycloak
-      #- DB_PORT: This is the port of the database (optional, default is DB vendor default port)
-      - DB_DATABASE=keycloak
-      # DB_SCHEMA: Specify name of the schema to use for DB that support schemas.
-      - DB_USER=postgres
-      # DB_USER_FILE: This is the user to authenticate to the database via file input (alternative to DB_USER).
-      - DB_PASSWORD=adminadmin
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://dbkeycloak:5432/keycloak
+      - KC_DB_USER=keycloak
+      - KC_DB_PASSWORD=adminadmin
       #DB_PASSWORD_FILE: Specify user’s password to use to authenticate to the database via file input (alternative to DB_PASSWORD).    
     #  - PROXY_ADDRESS_FORWARDING=true
     #  - VIRTUAL_HOST=dev-keycloak.mydomain.com
@@ -34,17 +45,6 @@ services:
     ports:
       - "8084:8080"
 
-
-  ##################################
-  # Postgres Server
-  ##################################
-  dbkeycloak:
-    image: postgres:13
-    environment:
-      POSTGRES_PASSWORD: adminadmin
-      POSTGRES_DB: keycloak
-    volumes: 
-      - dbkeycloak:/var/lib/postgresql/data
 
 
 
@@ -70,9 +70,9 @@ services:
       POSTGRES_PASSWORD: "adminadmin"
       POSTGRES_CONNECTION: "jdbc:postgresql://dboffice/office"
 
-      OIDCCONFIG_ISSUERURI: "http://keycloak.imixs.local:8084/realms/imixs-oidc"
-      OIDCCONFIG_CLIENTID: "imixs-oidc"
-      OIDCCONFIG_CLIENTSECRET: "dH7cl2J4L3wakyELvTI3FWb0ZFjSCKUt"      
+      OIDCCONFIG_ISSUERURI: "http://keycloak.imixs.local:8084/realms/imixs-office-workflow"
+      OIDCCONFIG_CLIENTID: "imixs"
+      OIDCCONFIG_CLIENTSECRET: "Sqci2yNEiThI7Dee58UVilYZ4lvouCFT"      
     ports:
       - "8080:8080"
       - "9990:9990"
