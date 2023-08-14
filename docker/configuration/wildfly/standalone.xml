@@ -243,7 +243,7 @@
                     <keepalive-time time="60" unit="seconds"/>
                 </thread-pool>
             </thread-pools>
-            <default-security-domain value="other"/>
+            <default-security-domain value="imixsrealm"/>
             <application-security-domains>
                 <!-- imixs realm ref -->
                 <application-security-domain name="imixsrealm" security-domain="imixsrealm"/>
@@ -525,7 +525,7 @@
             <coordinator-environment default-timeout="900" statistics-enabled="${wildfly.transactions.statistics-enabled:${wildfly.statistics-enabled:false}}"/>
             <object-store path="tx-object-store" relative-to="jboss.server.data.dir"/>
         </subsystem>
-        <subsystem xmlns="urn:jboss:domain:undertow:13.0" default-server="default-server" default-virtual-host="default-host" default-servlet-container="default" default-security-domain="other" statistics-enabled="${wildfly.undertow.statistics-enabled:${wildfly.statistics-enabled:false}}">
+        <subsystem xmlns="urn:jboss:domain:undertow:13.0" default-server="default-server" default-virtual-host="default-host" default-servlet-container="default" default-security-domain="imixsrealm" statistics-enabled="${wildfly.undertow.statistics-enabled:${wildfly.statistics-enabled:false}}">
             <byte-buffer-pool name="default"/>
             <buffer-cache name="default"/>
             <server name="default-server">
