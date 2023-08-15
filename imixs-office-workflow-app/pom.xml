@@ -285,6 +285,18 @@
 			</build>
 		</profile>	
 
+		<!-- Open ID Connect integration -->
+		<profile>
+			<id>auth-oidc</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.imixs.workflow</groupId>
+					<artifactId>imixs-office-workflow-oidc</artifactId>
+					<scope>compile</scope>
+					<version>${project.parent.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
 	</profiles>
 	
 	<build>
@@ -354,13 +366,7 @@
 			<scope>compile</scope>
 			<version>${project.parent.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.imixs.workflow</groupId>
-			<artifactId>imixs-office-workflow-auth</artifactId>
-			<scope>compile</scope>
-			<version>${project.parent.version}</version>
-		</dependency>
-
+	
 		<!-- Imixs Workflow -->
 		<dependency>
 			<groupId>org.imixs.workflow</groupId>

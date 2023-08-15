@@ -2,7 +2,7 @@
 
 The following section describes how to run Imixs-Office-Workflow with [Keycloak](https://www.keycloak.org/) in a local dev environment.
 
-To start the environment run with:
+To start the environment including a Keycloak server and Imixs-Office-Workflow run :
 
     $ docker-compose -f docker/docker-compose-keycloak up
 
@@ -25,21 +25,18 @@ Create a new realm with the name `imixs-office-workflow`
 
 <img src="keycloak-001.png" />
 
-This generates a new keycloak 'provider-url' of the OpenID provider. WildFly will use provider-url/.well-known/configuration to discover more information about the OpenID provider. 
-
-In our example, the provider-url will look like http://keycloak.imixs.local:8084/auth/realms/imixs-office-workflow.
-
+This generates a new realm within keycloak to manage users and groups.
 
 ## Setup a Client
 
-Next you need to create a client to be used by Imixs-Office-Workflow with the name `imixs`
+Next you need to create a client with the name `imixs`:
 
 
 <img src="keycloak-002.png" />
 
-The   `client-id` is the client identifier for the application. This is the identifier that has been registered with the authorization server.
+The client will be be used by Imixs-Office-Workflow to login the user. The `client-id` is the client identifier for the application.
 
-Click 'Next' and activate teh option 'Client authentication'
+Click 'Next' and activate the option 'Client authentication'. This will generate a client secret.
 
 <img src="keycloak-003.png" />
 
@@ -104,6 +101,35 @@ Thats it, now the roles are provided in the scope 'groups'.
 WildFly 25, which is used by the latest version of Imixs-Office-Workflow, added the ability to secure applications using OpenID Connect, without needing to make use of the Keycloak client adapter. To integrate Keycloak, WildFly 25 introduced a new elytron-oidc-client subsystem that scans deployments to check if the OpenID Connect (OIDC) authentication mechanism is needed. If the subsystem detects that the OIDC mechanism is required for a deployment, the subsystem will activate this authentication mechanism automatically. This feature makes it easy to connect Imixs-Office-Workflow with Keycloak. 
 
 
+## Aktivating the OIDC Module
+
+To activate OIDC in Imixs-Office-Workflow you need to build the application with the maven profile 'oidc'
+
+    $ mvn clean install -Pauth-oidc
+
+This will build a version including the library `imixs-office-workflow-oidc-*.jar`. This optional module provides the OIDC Security bean with the corresponding '@OpenIdAuthenticationMechanismDefinition'. 
+
+
+**Note:** Make sure that the application deployment descriptor `jboss-web.xml` did not set the `<security-domain>`! This will overwrite the OIDC setting and will break the authentication flow.
+
+The configuration of the OpenID Provider Endpoint and the client secret can be done by setting the following environment variables in your Docker image:
+
+```
+      OIDCCONFIG_ISSUERURI: "http://keycloak.imixs.local:8084/realms/imixs-office-workflow"
+      OIDCCONFIG_CLIENTID: "imixs"
+      OIDCCONFIG_CLIENTSECRET: "<YOUR-CLIENT-SCRET>"   
+```
+
+The IssuerURI is the endpoint of your Keycloak sever. The client secret can be copied form the 'credentials' tab in your client configuration.
+
+<img src="keycloak-010.png" />
+
+Finally redeploy your application. 
+
+Thats it.
+
+
+
 ## Wildfly - Disable JASPIC
 
 One tricky point is that by default the elytron subsystem enforces the logged user to be in the default other domain (by default application users are placed in the application-users.properties file in wildfly). The integrated-jaspi option can be set to `false` to avoid that. 
@@ -133,43 +159,11 @@ or with the cli-commandline tool:
     $ relaod
 
 
-See also https://blogs.nologin.es/rickyepoderi/
+## Additional Information
 
-## The Configuration (deprecated!)
-
-As Imixs-Office-Workflow is based on Jakarta EE 10 we use the new [Jakarta Security API 3.0](https://jakarta.ee/specifications/security/3.0/).
-
-To activate OIDC in Imixs-Office-Workflwo you can build it with the maven provile 'oidc'
-
-    $ mvn clean install -Pauth-oidc
-
-This will build a version including the  Security bean with the corresponding '@OpenIdAuthenticationMechanismDefinition'. 
-
-The configuration can then be done with the following environment variables in your Docker image:
-
-```
-      OIDCCONFIG_ISSUERURI: "http://keycloak.imixs.local:8084/realms/imixs-office-workflow"
-      OIDCCONFIG_CLIENTID: "imixs"
-      OIDCCONFIG_CLIENTSECRET: "<YOUR-CLIENT-SCRET>"   
-```
-
-The IssuerURI is the endpoint of your Keycloak sever. 
-
-The client secret can be copied form the 'credentials' tab in your client configuration.
-
-<img src="keycloak-010.png" />
-
-
-**Note:** Make sure thet your `jboss-ejc3.xml` and `jboss-web.xml` files do not contain the `<security-domain>` tag! This will overwrite the setting and will break the authentication flow.
-
-Finally redeploy your application. 
-
-Thats it.
-
-
-
-See also: 
+Find more information about Keycloak and Wildfly here: 
 
  - https://wildfly-security.github.io/wildfly-elytron/blog/securing-wildfly-apps-openid-connect/
  - https://auth0.com/blog/jakarta-ee-oidc/
+ - https://blogs.nologin.es/rickyepoderi/
 
