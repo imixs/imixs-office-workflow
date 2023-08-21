@@ -198,6 +198,9 @@ public class WorkitemLinkController implements Serializable {
         return searchResult;
     }
 
+    /**
+     * Helper method compute a hash from a phrase and a filter rule
+     */
     public static int computeSearchHash(String _phrase, String _filter) {
         int hash = 0;
 
@@ -361,7 +364,7 @@ public class WorkitemLinkController implements Serializable {
             return result;
         }
 
-        int searchHash = computeSearchHash(workflowController.getWorkitem().getUniqueID(), uniqueid);
+        int searchHash = computeSearchHash(uniqueid, filter);
         result = externalReferencesCache.get(searchHash);
         if (result != null) {
             return result;
