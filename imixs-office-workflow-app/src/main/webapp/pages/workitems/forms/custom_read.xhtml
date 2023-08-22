@@ -84,7 +84,7 @@
 						</c:if>
 						
 						<!-- Options List -->
-						<c:if test="#{item.type eq 'selectBooleanCheckbox' or item.type eq 'selectOneMenu' or item.type eq 'selectOneRadio' or item.type eq 'selectManyCheckbox'}">
+						<c:if test="#{item.type eq 'selectBooleanCheckbox' or item.type eq 'selectOneMenu' or item.type eq 'selectOneRadio' or item.type eq 'selectManyCheckbox' or item.type eq 'selectManyCheckboxPageDirection' or item.type eq 'selectOneRadioPageDirection'}">
 							<ui:repeat var="itemvalue" value="#{workitem.itemList[item.name]}">
 								<h:outputText value="#{itemvalue}"></h:outputText><br />
 							</ui:repeat>
