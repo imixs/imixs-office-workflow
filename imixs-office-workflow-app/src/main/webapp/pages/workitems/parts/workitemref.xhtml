@@ -21,7 +21,7 @@
 		<h:panelGroup id="reference_box" layout="block"
 			class="marty-workitemlink-referencebox">
 			<c:forEach var="workitem"
-				items="#{workitemLinkController.getExternalReferences(options)}">
+				items="#{workitemLinkController.getReferences(options)}">
 				<div class="marty-workitemlink-referencebox-entry">				
 					<h:link outcome="/pages/workitems/workitem">
 						<h:outputText escape="false" value="#{workitem.item['$WorkflowSummary']}"
