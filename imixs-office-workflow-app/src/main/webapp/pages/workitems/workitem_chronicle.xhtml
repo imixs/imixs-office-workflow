@@ -13,7 +13,7 @@
 		<div class="imixs-form-section imixs-form-comment">
 		  <dl class="imixsWidgetAddNewLabel imixs-no-print">
 			<!-- ### Kommentar ### -->
-			<dt class="imixs-no-print">
+			<dt>
 				<h:outputLabel value="#{message['form.comment.comment']}:" />
 			</dt>
 			<dd>
@@ -25,7 +25,7 @@
 	</div>
 
 	<ui:param name="newWorkitem" value="#{workflowController.isNewWorkitem()}"/>
-	<div class="imixs-workitem-chronicle-tabs">
+	<div class="imixs-workitem-chronicle-tabs imixs-no-print">
 		<ul>
 			<ui:fragment rendered="#{!newWorkitem}">
 				<li class="active"><a href="#" onclick="imixsOfficeWorkitem.toggleChronicleHistory();return false;" class="chronicle-tab-history"><span class="typcn typcn-rss"></span> #{message.history}</a></li>
@@ -38,7 +38,7 @@
 		<div id="imixs-workitem-chronicle-tab-history" class="entries">
 			<ui:include src="/pages/workitems/workitem_chronicle_entries.xhtml" />
 		</div>
-		<div id="imixs-workitem-chronicle-tab-documents" class="documents" style="margin-top:10px;display:#{newWorkitem?'normal':'none'};">
+		<div id="imixs-workitem-chronicle-tab-documents" class="documents imixs-no-print" style="margin-top:10px;display:#{newWorkitem?'normal':'none'};">
 			<ui:include src="/pages/workitems/workitem_documents.xhtml" />
 		</div>
 	</div>

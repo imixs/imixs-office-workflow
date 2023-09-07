@@ -28,30 +28,10 @@
 		</div>
 	</c:forEach>
 
+	<!-- Workflow and Chronicle -->
+	<div class="imixs-workitem-chronicle">
+		<ui:include src="/pages/workitems/workitem_chronicle.xhtml" />
 
-	<!-- comments -->
-	<ui:fragment  rendered="#{! empty workflowController.workitem.getItemValue('txtCommentLog')}">
-		<div class="imixs-form-panel">
-			<h3>#{message.comments}</h3>
-			<ui:include src="/pages/workitems/forms/sub_comment.xhtml">
-				<ui:param name="workitem" value="#{workflowController.workitem}" />
-			</ui:include>
-		</div>
-	</ui:fragment>
-
-	<!-- documents -->
-	<ui:fragment rendered="#{! empty dmsController.dmsList}">
-		<div class="imixs-form-panel">
-			<h1>#{message.documents}</h1>
-			<ui:include src="/pages/workitems/forms/sub_attachments.xhtml" />
-		</div>
-	</ui:fragment>
-
-	<!-- *** History **** -->
-	<div class="imixs-form-panel">
-		<h1>#{message.history}</h1>
-		<ui:include src="/pages/workitems/workitem_history.xhtml" />
 	</div>
-
 
 </ui:composition>
