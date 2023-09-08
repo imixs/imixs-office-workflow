@@ -37,9 +37,15 @@ The custom tag 'workitemlink' provides the following attributes:
 Note: the references displayed by the widget are bound directly to the workitem managed by 
  the workflowController bean. This is independet from the property 'workitem'
  
-## Display external references
+## Display references
 
-It is also possible to display workitems with a referrence to the current workitem:
+It is also possible to display linked workitems in a form.
+
+<img src="workitemref_01.png" />
+
+Because a linked work item can be linked directly from the current workitem or indirectly, two differnt types of lookups are supported. 
+
+To show direct referred workitems use the part `workitemref` :
 
 	<item name="payment.ref" 
       type="custom"  
@@ -47,13 +53,33 @@ It is also possible to display workitems with a referrence to the current workit
       options="($workflowgroup:Payment) "
       label="Payments" />
 
-External references can not be edited by the current workitem.
+To display external workitems holding a link to the current workitem part `workitemref_external` can be used:
 
-The references can also be displayed in a table layout.
+	<item name="payment.ref" 
+      type="custom"  
+      path="workitemref_external"
+      options="($workflowgroup:Payment) "
+      label="Payments" />
+
+### Table Layout
+
+The linked workitems can also be displayed in a table layout:
+
+ <img src="workitemref_02.png" />
+
+Use the part `workitemreftable` :
  
 	<item name="payment.ref" 
       type="custom"  
       path="workitemreftable"
+      options="($workflowgroup:Payment) "
+      label="Payments" />
+
+Or to display external workitems use `workitemreftable_external`:
+
+	<item name="payment.ref" 
+      type="custom"  
+      path="workitemreftable_external"
       options="($workflowgroup:Payment) "
       label="Payments" />
  
