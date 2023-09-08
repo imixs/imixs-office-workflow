@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+	<ui:remove>
+		<!-- WorkitemLink Component to display all $workItem refs in a Table
+	
+			
+			NOTE: The Data list is read from a query against the '$workitemRef' item.
+			In additon the options filter is applied.
+	-->
+	</ui:remove>
+
+	<f:subview id="workitemlink-view">
+		<!-- show external references -->
+
+		<table style="width: 100%; margin: 5px;">
+			<tr>
+				<th style="text-align: left;">#{message['edited']}</th>
+
+				<th style="text-align: left;">#{message['form.subject']}</th>
+				<th style="text-align: left;">Status</th>
+			</tr>
+			<ui:param name="refworkitems"
+				value="#{workitemLinkController.getExternalReferences(options)}"></ui:param>
+			<ui:repeat value="#{refworkitems}" var="refworkitem">
+				<tr>
+					<td>
+					<h:outputText value="#{refworkitem.item['$modified']}">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="#{message.dateTimePattern}" />
+								</h:outputText>
+								<h:outputText value=" #{message.by} #{userController.getUserName(refworkitem.item['$Editor'])}" title="#{refworkitem.item['$Editor']}" />
+				</td>
+					<td><h:link outcome="/pages/workitems/workitem">
+					         #{refworkitem.item['$workflowsummary']}
+					         <f:param name="id"
+								value="#{refworkitem.item['$uniqueid']}" />
+						</h:link></td>
+
+					<td><h:outputText
+							value="#{refworkitem.item['$workflowstatus']}" /></td>
+				</tr>
+			</ui:repeat>
+		</table>
+	</f:subview>
+
+
+</ui:composition>
+

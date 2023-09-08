@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+
+
+
+	<ui:remove>
+		<!-- WorkitemLink Component to display all external $workItem refs in a List
+	
+			
+			NOTE: The Data list is read from a query against the '$workitemRef' item.
+			In additon the options filter is applied.
+	-->
+	</ui:remove>
+ 
+	<f:subview id="workitemlink-view">
+		<!-- show external references -->
+		<h:panelGroup id="reference_box" layout="block"
+			class="marty-workitemlink-referencebox">
+			<c:forEach var="workitem"
+				items="#{workitemLinkController.getExternalReferences(options)}">
+				<div class="marty-workitemlink-referencebox-entry">				
+					<h:link outcome="/pages/workitems/workitem">
+						<h:outputText escape="false" value="#{workitem.item['$WorkflowSummary']}"
+							rendered="#{!empty workitem.item['$WorkflowSummary']}" />
+						<h:outputText value="#{suggest.item['$created']}"
+							rendered="#{empty workitem.item['$WorkflowSummary']}">
+							<f:convertDateTime timeZone="#{message.timeZone}"
+								pattern="#{message.dateTimePatternShort}" />
+						</h:outputText>
+						<f:param name="id" value="#{workitem.item['$uniqueid']}" />
+					</h:link>
+					<br />
+					<span class="marty-workitemlink-entry-abstract">
+						<h:outputText value="#{workitem.item['$workflowgroup']}: " />
+						<h:outputText value="#{workitem.item['$workflowstatus']}" />
+					</span>				
+				</div>
+			</c:forEach>
+		</h:panelGroup>
+		
+	</f:subview>
+
+
+</ui:composition>
+
