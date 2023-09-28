@@ -1,21 +1,18 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html">
 
 
+	<!-- the following code computes the txtworkflow abstract from the current modelversion and processid  -->
+	<ui:param name="instruction"
+		value="#{modelController.getProcessDescription(workflowController.workitem.item['$taskid'],workflowController.workitem.item['$ModelVersion'],workflowController.workitem)}">
+	</ui:param>
+	<h:panelGroup layout="block" styleClass="imixs-instruction" rendered="#{! empty instruction}">
+		<h:outputText escape="false" value="#{instruction}" />
+	</h:panelGroup>
 
-
-	<!-- show Custom Form if defined -->
-	<ui:fragment  rendered="#{! empty workflowController.workitem.getItemValue('txtWorkflowEditorCustomForm')}">
-		<ui:include src="/pages/workitems/forms/custom_read.xhtml">
-			<ui:param name="workitem" value="#{workflowController.workitem}" />
-		</ui:include>
-	</ui:fragment>
-
-	<c:forEach items="#{formController.formDefinition.sections}"
-		var="section">
+	<!-- sub forms (optional) -->
+	<c:forEach items="#{formController.formDefinition.sections}" var="section">
 		<div class="imixs-form-panel">
 			<h3>
 				<h:outputText value="#{section.name}" />
