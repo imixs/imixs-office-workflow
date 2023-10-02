@@ -20,7 +20,7 @@
 				<c:choose>
 					<!-- Handle ModelException .... -->
 					<c:when
-						test="#{errorHandlerData.exceptionType eq 'ModelException'}">
+						test="#{flash.keep.type eq 'ModelException'}">
 
 						<h3>
 							<span class="typcn typcn-flow-merge"></span>
@@ -31,7 +31,7 @@
 					
 					<!-- Handle PluginException .... -->
 					<c:when
-						test="#{errorHandlerData.exceptionType eq 'PluginException'}">
+						test="#{flash.keep.type eq 'PluginException'}">
 						<h3>
 							<span class="typcn typcn-plug"></span>
 							#{message['plugin_exception_title']}
@@ -40,7 +40,7 @@
 									
 					<!-- Handle WELD-000321: No conversation found to restore for .... -->
 					<c:when
-						test="#{errorHandlerData.exceptionType eq 'ConversationException'}">					
+						test="#{flash.keep.type eq 'ConversationException'}">					
 						<h3>
 							<span class="typcn typcn-stopwatch"></span>
 							#{message['login.conversation_expired_title']}
@@ -49,7 +49,7 @@
 
 					<!-- Handle jakarta.persistence.OptimisticLockException .... -->
 					<c:when
-						test="#{errorHandlerData.exceptionType eq 'OptimisticLockException'}">					
+						test="#{flash.keep.type eq 'OptimisticLockException'}">					
 						<h3>
 							<span class="typcn typcn-messages"> </span>
 							#{message['login.optimisticlock_exception_title']}
@@ -58,7 +58,7 @@
 
 					<!--  handle rollback exceptions -->
 					<c:when
-						test="#{errorHandlerData.exceptionType eq 'RolledbackException'}">
+						test="#{flash.keep.type eq 'RolledbackException'}">
 						<h3>
 							<span class="typcn typcn-weather-stormy"></span>
 							#{message.error_message_rollback_title}
@@ -76,13 +76,11 @@
 
 	
 				
-				<p><h4>#{errorHandlerData.exceptionType}: #{errorHandlerData.message}</h4>
+				<p><h4>#{flash.keep.type}: #{flash.keep.message}</h4>
+					<hr />
+					<strong>Exception:</strong>#{flash.keep.exception}
 					<br />
-					<strong>Exception:</strong> #{errorHandlerData.exception}
-					<br />
-					<strong>Error Code:</strong>#{errorHandlerData.statusCode}
-					<br />
-					<strong>URI:</strong>#{errorHandlerData.uri}
+					<strong>URI:</strong>#{flash.keep.uri}
 					
 				</p>
 				<h:outputText value="#{session.lastAccessedTime}">
@@ -98,7 +96,7 @@
 					
 				<input type="button" value="#{message.prev}" 
 					class="imixs-action"
-					onclick="document.location='#{errorHandlerData.uri}'" />
+					onclick="document.location='#{flash.keep.uri}'" />
 				<h:commandButton action="home" value="#{message.close}"
 					immediate="true" />			
 			</h:form>
