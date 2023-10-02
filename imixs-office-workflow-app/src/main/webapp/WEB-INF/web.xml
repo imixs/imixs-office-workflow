@@ -64,20 +64,25 @@
 	<!-- Error handling -->
 	 <error-page>   
      	<exception-type>jakarta.enterprise.context.NonexistentConversationException</exception-type>
-     	<location>/errorhandler.jsf?nocid=true</location>   
+     	<location>/errorhandler1.jsf?nocid=true</location>   
     </error-page>  
     <error-page>   
      	<exception-type>jakarta.faces.view.facelets.TagAttributeException</exception-type>   
-     	<location>/errorhandler.jsf</location>   
+     	<location>/errorhandler2.jsf</location>   
     </error-page>  
-  	<error-page>   
-     	<exception-type>jakarta.servlet.ServletException</exception-type>   
-     	<location>/errorhandler.jsf</location>   
-    </error-page>  
-    
+
+	<error-page> 
+        <exception-type>java.lang.Exception</exception-type> 
+        <location>/errorHandler</location> 
+    </error-page>
+
+	
+	
+	
+
 	<error-page>
 		<exception-type>java.lang.RuntimeException</exception-type>
-		<location>/errorhandler.jsf</location>
+		<location>/errorhandler4.jsf</location>
 	</error-page>
 	<error-page>
 		<error-code>401</error-code>

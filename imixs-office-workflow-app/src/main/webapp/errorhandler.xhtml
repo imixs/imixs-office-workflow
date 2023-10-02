@@ -15,112 +15,92 @@
 
 				<!-- Show different Error Message types -->
 
+
+
 				<c:choose>
 					<!-- Handle ModelException .... -->
 					<c:when
-						test="#{errorController.isCausedBy(requestScope['jakarta.servlet.error.exception'],'ModelException')}">
+						test="#{errorHandlerData.exceptionType eq 'ModelException'}">
 
 						<h3>
 							<span class="typcn typcn-flow-merge"></span>
 							#{message['model_exception_title']}
 						</h3>
-						<p>#{message['model_exception_help']}:</p>
-						<p>#{errorController.message}</p>
-					
-						<h:outputText value="#{session.lastAccessedTime}">
-							<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
-								type="date" />
-						</h:outputText>
+						
 					</c:when>
 					
 					<!-- Handle PluginException .... -->
 					<c:when
-						test="#{errorController.isCausedBy(requestScope['jakarta.servlet.error.exception'],'PluginException')}">
-
+						test="#{errorHandlerData.exceptionType eq 'PluginException'}">
 						<h3>
 							<span class="typcn typcn-plug"></span>
 							#{message['plugin_exception_title']}
 						</h3>
-						<p>#{message['plugin_exception_help']}:</p>
-						<p>#{errorController.message}</p>
-					
-						<h:outputText value="#{session.lastAccessedTime}">
-							<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
-								type="date" />
-						</h:outputText>
 					</c:when>					
 									
 					<!-- Handle WELD-000321: No conversation found to restore for .... -->
 					<c:when
-						test="#{errorController.isCausedBy(requestScope['jakarta.servlet.error.exception'],'ConversationException')}">
-
+						test="#{errorHandlerData.exceptionType eq 'ConversationException'}">					
 						<h3>
 							<span class="typcn typcn-stopwatch"></span>
 							#{message['login.conversation_expired_title']}
 						</h3>
-						<p>#{message['login.conversation_expired_help']}</p>
-						<h:outputText value="#{session.lastAccessedTime}">
-							<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
-								type="date" />
-						</h:outputText>
 					</c:when>
 
 					<!-- Handle jakarta.persistence.OptimisticLockException .... -->
 					<c:when
-						test="#{errorController.isCausedBy(requestScope['jakarta.servlet.error.exception'],'OptimisticLockException')}">
-
+						test="#{errorHandlerData.exceptionType eq 'OptimisticLockException'}">					
 						<h3>
 							<span class="typcn typcn-messages"> </span>
 							#{message['login.optimisticlock_exception_title']}
 						</h3>
-						<p>#{message['login.optimisticlock_exception_help']}</p>
-						<h:outputText value="#{session.lastAccessedTime}">
-							<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
-								type="date" />
-						</h:outputText>
 					</c:when>
 
 					<!--  handle rollback exceptions -->
 					<c:when
-						test="#{errorController.isCausedBy(requestScope['jakarta.servlet.error.exception'],'RolledbackException')}">
-
+						test="#{errorHandlerData.exceptionType eq 'RolledbackException'}">
 						<h3>
 							<span class="typcn typcn-weather-stormy"></span>
 							#{message.error_message_rollback_title}
 						</h3>
-						<p>#{message['error_message_rollback']}</p>
-						<h:outputText value="#{session.lastAccessedTime}">
-							<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
-								type="date" />
-						</h:outputText>
 
 					</c:when>
-
-					<!-- Display Stacktrace Inforamtion as we encountered a undefiend error -->
 					<c:otherwise>
 						<h3>
 							<span class="typcn typcn-weather-stormy"></span>
-							#{message.error_message_rollback_title}
+							#{message.error_message_general_title} 
 						</h3>
-						<p>#{message.error_message_rollback}</p>
-						<strong><h:outputText value="#{session.lastAccessedTime}">
-								<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
-									type="date" />
-							</h:outputText> :</strong>
-						<br />
-						<!-- display exception details -->
-						<h:panelGroup layout="block"
-							style="background: #EEE;   padding: 10px; margin: 5px 0 20px 0;border: 1px solid #999;"
-							rendered="#{! empty requestScope['jakarta.servlet.error.exception']}">
-							<h:outputText
-								value="#{requestScope['jakarta.servlet.error.exception']}" />
-						</h:panelGroup>
 					</c:otherwise>
 				</c:choose>
+
+
+	
+				
+				<p><h4>#{errorHandlerData.exceptionType}: #{errorHandlerData.message}</h4>
+					<br />
+					<strong>Exception:</strong> #{errorHandlerData.exception}
+					<br />
+					<strong>Error Code:</strong>#{errorHandlerData.statusCode}
+					<br />
+					<strong>URI:</strong>#{errorHandlerData.uri}
+					
+				</p>
+				<h:outputText value="#{session.lastAccessedTime}">
+						<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
+							type="date" />
+					</h:outputText>
+				<br />
+				
+
+
 			</div>
 			<h:form>
+					
+				<input type="button" value="#{message.prev}" 
+					class="imixs-action"
+					onclick="document.location='#{errorHandlerData.uri}'" />
 				<h:commandButton action="home" value="#{message.close}"
-					immediate="true" />
+					immediate="true" />			
 			</h:form>
 		</h:panelGroup>
 	</ui:define>
