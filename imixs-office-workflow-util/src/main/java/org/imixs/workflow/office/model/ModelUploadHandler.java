@@ -29,10 +29,10 @@ package org.imixs.workflow.office.model;
 
 import java.io.Serializable;
 
+import org.imixs.workflow.ItemCollection;
+
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
-
-import org.imixs.workflow.ItemCollection;
 
 /**
  * The ModelUploadHandler is used by the ModelController and provides a
@@ -42,6 +42,7 @@ import org.imixs.workflow.ItemCollection;
  */
 @Named()
 @SessionScoped
+// @RequestScoped
 public class ModelUploadHandler implements Serializable {
 
 	private static final long serialVersionUID = 1L;

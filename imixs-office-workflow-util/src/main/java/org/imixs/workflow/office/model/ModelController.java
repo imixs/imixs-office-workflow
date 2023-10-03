@@ -39,11 +39,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import jakarta.ejb.EJB;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.event.ActionEvent;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.imixs.workflow.FileData;
@@ -58,6 +53,12 @@ import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
 import org.xml.sax.SAXException;
+
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.event.ActionEvent;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * The ModelController provides informations about workflow models.
@@ -260,32 +261,33 @@ public class ModelController implements Serializable {
 	 * 
 	 */
 	public void doUploadModel(ActionEvent event)
-			throws ModelException, ParseException, ParserConfigurationException, SAXException, IOException {
+			throws ModelException {
 		List<FileData> fileList = modelUploadHandler.getModelUploads().getFileData();
 
 		if (fileList == null) {
 			return;
 		}
-		for (FileData file : fileList) {
-			logger.info("Import bpmn-model: " + file.getName());
+		try {
+			for (FileData file : fileList) {
+				logger.info("Import bpmn-model: " + file.getName());
 
-			// test if bpmn model?
-			if (file.getName().endsWith(".bpmn")) {
-				BPMNModel model = BPMNParser.parseModel(file.getContent(), "UTF-8");
-				modelService.saveModel(model);
-				continue;
+				// test if bpmn model?
+				if (file.getName().endsWith(".bpmn")) {
+					BPMNModel model = BPMNParser.parseModel(file.getContent(), "UTF-8");
+					modelService.saveModel(model);
+					continue;
+				}
+				// model type not supported!
+				throw new ModelException(ModelException.INVALID_MODEL, "Invalid Model Type. Model can't be imported!");
 			}
 
-			if (file.getName().endsWith(".ixm")) {
-				setupService.importXmlEntityData(file.getContent());
-				continue;
-			}
-
-			// model type not supported!
-			logger.warning("Invalid Model Type. Model can't be imported!");
-
+		} catch (ParseException | ParserConfigurationException | SAXException | IOException e) {
+			// internal parsing error - convert to model exception
+			throw new ModelException(ModelException.INVALID_MODEL, e.getMessage(), e);
+		} finally {
+			// Reset the ModelUpload Cache!
+			modelUploadHandler.reset();
 		}
-		modelUploadHandler.reset();
 	}
 
 	/**
