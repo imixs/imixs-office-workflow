@@ -7,12 +7,10 @@
 
 	<!-- 
 		This Page is called by the class 
-		org.imixs.marty.util.ViewExpiredExceptionExceptionHandler
-		when a session expired 
+		org.imixs.workflow.office.util.ImixsExceptionHandler
+		in case of a optimistic lock exception
 	 -->
 	<ui:define name="content">
-	
-	
 		<h:panelGroup styleClass="ui-widget">
 			<div class="ui-state-error ui-corner-all"
 				style="padding: .7em; margin-bottom: .7em;">
@@ -24,21 +22,14 @@
 				<strong><h:outputText value="#{session.lastAccessedTime}">
 						<f:convertDateTime pattern="#{message.dateTimePatternLong}"
 							type="date" />
-					</h:outputText> </strong> <br />
-				
+					</h:outputText> </strong>				
 			</div>
 			<h:form>
-				<h:commandButton action="home" value="#{message.close}"
+				<input type="button" value="#{message.prev}" 
+					class="imixs-action"
+					onclick="history.go(-1);return false;" /><h:commandButton action="home" value="#{message.close}"
 					immediate="true" />
 			</h:form>
-
 		</h:panelGroup>	
-	
-	
-	
-	
-	
-
-
 	</ui:define>
 </ui:composition>

@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+	<!-- Display only if error messages available -->
+	<h:panelGroup rendered="#{! empty facesContext.maximumSeverity}"
+		styleClass="ui-widget">
+		<div class="ui-state-error ui-corner-all"
+			style="padding: .7em; margin-bottom: .7em;">
+
+			<c:set var="exceptionType" scope="application"
+				value="#{facesContext.attributes['exceptionType']}">
+			</c:set>
+			
+			<c:choose>
+				<!-- Handle ModelException .... -->
+				<c:when
+					test="#{exceptionType eq 'ModelException'}">
+					<h3>
+						<span class="typcn typcn-flow-merge"></span>
+						#{message['model_exception_title']}
+					</h3>					
+				</c:when>
+				
+				<!-- Handle PluginException .... -->
+				<c:when
+					test="#{exceptionType eq 'PluginException'}">
+					<h3>
+						<span class="typcn typcn-plug"></span>
+						#{message['plugin_exception_title']}
+					</h3>
+				</c:when>					
+								
+				<!-- Handle WELD-000321: No conversation found to restore for .... -->
+				<c:when
+					test="#{exceptionType eq 'ConversationException'}">					
+					<h3>
+						<span class="typcn typcn-stopwatch"></span>
+						#{message['login.conversation_expired_title']}
+					</h3>
+				</c:when>
+
+				<!-- Handle jakarta.persistence.OptimisticLockException .... -->
+				<c:when
+					test="#{exceptionType eq 'OptimisticLockException'}">					
+					<h3>
+						<span class="typcn typcn-messages"> </span>
+						#{message['login.optimisticlock_exception_title']}
+					</h3>
+				</c:when>
+
+				<!--  handle rollback exceptions -->
+				<c:when
+					test="#{exceptionType eq 'RolledbackException'}">
+					<h3>
+						<span class="typcn typcn-weather-stormy"></span>
+						#{message.error_message_rollback_title}
+					</h3>
+
+				</c:when>
+				<c:otherwise>
+					<h3>						
+						<span class="typcn typcn-warning-outline"></span> #{message.error_title} 
+					</h3>
+				</c:otherwise>
+			</c:choose>
+
+			<c:choose>
+				<!-- Handle Default Messages -->
+				<c:when test="#{empty exceptionType}">
+					<p>
+						<h:outputText value="#{message.error_message}" />
+						<h:messages globalOnly="true" showDetail="true" showSummary="true" />
+					</p>					
+				</c:when>
+				<c:otherwise>
+					<!-- Handle Exceptions -->
+					<p><h4>#{exceptionType}: #{facesContext.attributes['exceptionMessage']}</h4>
+						<hr />
+						<strong>Exception:</strong>#{facesContext.attributes['exceptionName']}
+						<br />
+						<strong>Message:</strong> <h:outputText value="#{session.lastAccessedTime}">
+							<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
+								type="date" />
+						</h:outputText><h:messages id="globalMessages" globalOnly="true" />
+						<br />				
+					</p>
+				</c:otherwise>
+			</c:choose>			
+	
+			
+		</div>
+	</h:panelGroup>
+</ui:composition>

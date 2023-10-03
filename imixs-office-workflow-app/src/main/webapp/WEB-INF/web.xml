@@ -29,9 +29,9 @@
 		<param-value>${jakarta.faces.project_stage}</param-value>
 	</context-param>
 	
-	 <!-- Session Timeout 3h -->
+	 <!-- Session Timeout 180 =  3h -->
 	<session-config> 
-		<session-timeout>180</session-timeout> 
+		<session-timeout>60</session-timeout> 
 	</session-config> 	
 
 	
@@ -59,31 +59,7 @@
 	</servlet-mapping>
 	
 	
-
-    
 	<!-- Error handling -->
-	 <error-page>   
-     	<exception-type>jakarta.enterprise.context.NonexistentConversationException</exception-type>
-     	<location>/errorhandler1.jsf?nocid=true</location>   
-    </error-page>  
-    <error-page>   
-     	<exception-type>jakarta.faces.view.facelets.TagAttributeException</exception-type>   
-     	<location>/errorhandler2.jsf</location>   
-    </error-page>  
-
-	<error-page> 
-        <exception-type>java.lang.Exception</exception-type> 
-        <location>/errorHandler</location> 
-    </error-page>
-
-	
-	
-	
-
-	<error-page>
-		<exception-type>java.lang.RuntimeException</exception-type>
-		<location>/errorhandler4.jsf</location>
-	</error-page>
 	<error-page>
 		<error-code>401</error-code>
 		<location>/loginerror.jsf</location>
