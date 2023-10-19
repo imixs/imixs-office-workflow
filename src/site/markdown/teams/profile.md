@@ -12,13 +12,16 @@ The System Model files *system-de.bpmn* and *system-en.bpmn* provide a valid BPM
 
 
 ### Autoprocess a User Profile During the Login
-When a user profile is created the first time, additional the user profile can be processed by the Imixs-Workflow engine. 
-To enable this 'auto process mode'  the system property *'profile.login.event'* can be set with a BPMN Event ID:
+In addition the user profile can be processed and updated by the Imixs-Workflow engine each time the user login to the system. 
+To enable this mode,  the system property *'profile.login.event'* can be set with a valid BPMN Event ID:
 
 	profile.login.event=10
-	
 
+Optional this variable can also be set as an environment variabel: 
 
+    PROFILE_LOGIN_EVENT: "10"
+
+**Note:** Autoprocessing a user profile during login can also be combined with other login adapters. E.g. if a LDAP Profile setup exists, the attributes of an LDAP entry will be automatically synchronized during the login process. 
 
 
 ## The ProfilePlugin
@@ -67,10 +70,3 @@ See the following example where a BPMN Event text (e.g. History text or Email Bo
 See the section [TextUsernameAdapter](../textadapter/index.html) for more details. 
 
 
-
-
-
-# The ProfilePlugin
-
-The marty ProfilePlugin supports additional business logic for profile entities. The Plugin is used by the System Workflow 
-when a userProfile is processed (typically when a User logged in).
