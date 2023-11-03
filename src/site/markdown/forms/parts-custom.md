@@ -78,7 +78,7 @@ Note: Also in a custom section you can use the attribute ‘readonly’ to deter
 
 ## Ajax Support
 
-Within a custom form part or a custom section you can also trigger Ajax events refreshing other form parts or sections within the same form definition. For this behaviour you can refer to the clientId of the component ‘formComponents’. See the following example:
+Within a custom form part or a custom section you can also trigger Ajax events refreshing other form parts or sections within the same page. For this behavior you can refer to the clientId of the component ‘formComponents’. See the following example:
 
 	<h:selectOneMenu 
 		required="#{empty required?false:required}"
@@ -92,10 +92,12 @@ Within a custom form part or a custom section you can also trigger Ajax events r
 		
 	</h:selectOneMenu>
 
-In this example choosing a new option from the select menu will refresh all other form components.
-The customFormComponents
+In this example choosing a new option from the select menu will refresh all other form components on the current page.
 
-If you just want to update the elements of the custom form you can refere to the custom forms section by the binding customFormComponents
+
+### The customFormComponents
+
+If you just want to update the elements within the custom form you can refer to the custom form only by the `customFormComponents`  binding:
 
 	<h:selectOneMenu value="#{workitem.item['myselection']}">
 			<f:selectItem itemLabel=""></f:selectItem>
@@ -103,8 +105,9 @@ If you just want to update the elements of the custom form you can refere to the
 			<f:ajax render="#{customFormComponents.clientId}"/>
 	</h:selectOneMenu>
 
-This will trigger a render event only on the parts within the customForm Container
-Input Fields & Item Names
+This will trigger a render event only on the custom form parts of the current page
+
+### Input Fields & Item Names
 
 Even if you can define the item names of your input fields in your custom form free, it is recommended to use a naming concept. This allows you to reuse code in a more easy way. Imixs-Office-Workflow defines already a set of standard item names used for different business objects. This naming convention makes it more easy to group related items and to exchange data with your business process architecture.
 

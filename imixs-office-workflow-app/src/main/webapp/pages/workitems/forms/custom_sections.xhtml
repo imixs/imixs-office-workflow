@@ -1,0 +1,208 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
+
+
+
+	<c:forEach items="#{customFormSections}" var="section">
+
+
+		<c:if test="#{! empty section.label}">
+			<h3>#{section.label}</h3>
+		</c:if>
+		
+		<!-- test if custom form section -->
+		<c:if test="#{! empty section.path}">
+		    <ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
+				<ui:param name="workitem" value="#{workflowController.workitem}" />
+				<ui:param name="readonly" value="#{section.readonly}" />
+			</ui:include>
+		</c:if>
+		
+		<!-- standard form section -->
+		<c:if test="#{empty section.path}">
+		<div
+			class="imixs-form-section-flex">
+
+			<c:forEach items="#{section.items}" var="item">
+				<c:if test="#{!item.hide}">
+				<dl style="grid-column-start: span #{item.span};">
+					<dt>
+						#{item.label}
+						<c:if test="#{item.required}">
+							<span class="imixs-required"> *</span>
+						</c:if>
+					</dt>
+					<dd>
+						<!-- text -->
+						<c:if test="#{item.type eq 'text'}">
+							<h:inputText value="#{workitem.item[item.name]}"
+								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
+								rendered="#{!item.readonly}" disabled="#{item.disabled}" />
+							<h:outputText value="#{workitem.item[item.name]}"
+								rendered="#{item.readonly}" />
+						</c:if>
+
+						<!-- number -->
+						<c:if test="#{item.type eq 'number'}">
+							<h:inputText value="#{workitem.item[item.name]}"
+								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
+								rendered="#{!item.readonly}" disabled="#{item.disabled}" >
+								<f:convertNumber />
+							</h:inputText>
+							<h:outputText value="#{workitem.item[item.name]}"
+								rendered="#{item.readonly}">
+								<f:convertNumber />
+							</h:outputText>
+						</c:if>
+
+						<!-- currency -->
+						<c:if test="#{item.type eq 'currency'}">
+							<h:inputText value="#{workitem.item[item.name]}"
+								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
+								rendered="#{!item.readonly}" disabled="#{item.disabled}" >
+								<f:convertNumber minFractionDigits="2" locale="de" />
+							</h:inputText>
+							<h:outputText value="#{workitem.item[item.name]}"
+								rendered="#{item.readonly}">
+								<f:convertNumber minFractionDigits="2" locale="de" />
+							</h:outputText>
+						</c:if>
+
+						<!-- date -->
+						<c:if test="#{item.type eq 'date'}">
+							<h:inputText value="#{workitem.item[item.name]}"
+								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
+								styleClass="imixs-date" rendered="#{!item.readonly}" disabled="#{item.disabled}" >
+								<f:convertDateTime pattern="#{message.datePatternShort}"
+									timeZone="#{message.timeZone}" />
+							</h:inputText>
+							<h:outputText value="#{workitem.item[item.name]}" rendered="#{item.readonly}">
+								<f:convertDateTime timeZone="#{message.timeZone}"
+									pattern="#{message.datePatternShort}" />
+							</h:outputText>
+						</c:if>
+
+						<!-- text area -->
+						<c:if test="#{item.type eq 'textarea'}">
+							<h:inputTextarea value="#{workitem.item[item.name]}"
+								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
+								rendered="#{!item.readonly}" disabled="#{item.disabled}" />
+							<h:outputText escape="true" value="#{workitem.item[item.name]}"
+								rendered="#{item.readonly}" />
+						</c:if>
+
+						<!-- text list -->				
+						<c:if test="#{item.type eq 'textlist'}">
+							<h:inputTextarea value="#{workitem.itemList[item.name]}"
+								pt:data-item="#{item.name}" required="#{item.required?validationController.required:false}"
+								rendered="#{!item.readonly}" disabled="#{item.disabled}" 
+								converter="org.imixs.VectorConverter" />
+							<ui:fragment rendered="#{item.readonly}">
+								<ui:repeat var="itemvalue"
+									value="#{workitem.itemList[item.name]}">
+									<h:outputText value="#{itemvalue}"></h:outputText>
+									<br />
+								</ui:repeat>
+							</ui:fragment>
+						</c:if>						
+
+						<!-- html -->
+						<c:if test="#{item.type eq 'html'}">
+							<h:inputTextarea required="#{item.required?validationController.required:false}"
+								pt:data-item="#{item.name}" class="imixs-editor-basic"
+								value="#{workitem.item[item.name]}" rendered="#{!item.readonly}" />
+							<h:outputText escape="false" value="#{workitem.item[item.name]}"
+								rendered="#{item.readonly}" />
+						</c:if>
+
+						<!-- Options List -->
+						<c:if
+							test="#{item.type eq 'selectBooleanCheckbox' or item.type eq 'selectOneMenu' or item.type eq 'selectOneRadio' or item.type eq 'selectManyCheckbox' or item.type eq 'selectManyCheckboxPageDirection' or item.type eq 'selectOneRadioPageDirection'}">
+							<c:choose>
+								<!-- read only mode -->
+								<c:when test="#{item.readonly}">
+									<ui:repeat var="itemvalue"
+										value="#{workitem.itemList[item.name]}">
+										<h:outputText value="#{itemvalue}"></h:outputText>
+										<br />
+									</ui:repeat>
+								</c:when>
+								<!-- Edit mode -->
+								<c:otherwise>
+									<c:if test="#{item.type eq 'selectBooleanCheckbox'}">
+										<h:selectBooleanCheckbox required="#{item.required?validationController.required:false}"
+											pt:data-item="#{item.name}" disabled="#{item.disabled}"
+											value="#{workitem.item[item.name]}">
+										</h:selectBooleanCheckbox>
+									</c:if>
+									<c:if test="#{item.type eq 'selectOneMenu'}">
+										<h:selectOneMenu required="#{item.required?validationController.required:false}"
+											pt:data-item="#{item.name}" disabled="#{item.disabled}"
+											value="#{workitem.item[item.name]}">
+											<f:selectItems value="#{item.selectItems}" />
+										</h:selectOneMenu>
+									</c:if>
+									<c:if test="#{item.type eq 'selectOneRadio'}">
+										<h:selectOneRadio required="#{item.required?validationController.required:false}"
+											pt:data-item="#{item.name}" disabled="#{item.disabled}"
+											value="#{workitem.item[item.name]}">
+											<f:selectItems value="#{item.selectItems}" />
+										</h:selectOneRadio>
+									</c:if>
+									<c:if test="#{item.type eq 'selectOneRadioPageDirection'}">
+										<h:selectOneRadio required="#{item.required?validationController.required:false}"
+											pt:data-item="#{item.name}" layout="pageDirection" disabled="#{item.disabled}"
+											value="#{workitem.item[item.name]}">
+											<f:selectItems value="#{item.selectItems}" />
+										</h:selectOneRadio>
+									</c:if>
+									<c:if test="#{item.type eq 'selectManyCheckbox'}">
+										<h:selectManyCheckbox required="#{item.required?validationController.required:false}"
+											pt:data-item="#{item.name}"  disabled="#{item.disabled}"
+											value="#{workitem.itemListArray[item.name]}">
+											<f:selectItems value="#{item.selectItems}" />
+										</h:selectManyCheckbox>
+									</c:if>
+									<c:if test="#{item.type eq 'selectManyCheckboxPageDirection'}">
+										<h:selectManyCheckbox required="#{item.required?validationController.required:false}"
+											pt:data-item="#{item.name}" layout="pageDirection" disabled="#{item.disabled}"
+											value="#{workitem.itemListArray[item.name]}">
+											<f:selectItems value="#{item.selectItems}" />
+										</h:selectManyCheckbox>
+									</c:if>
+								</c:otherwise>
+							</c:choose>
+						</c:if>
+						<!-- custom subview -->
+						<c:if test="#{item.type eq 'custom'}">			
+						    <ui:include src="/pages/workitems/parts/#{item.path}.xhtml">
+								<ui:param name="workitem" value="#{workflowController.workitem}" />
+								<ui:param name="required" value="#{item.required}" />
+								<ui:param name="readonly" value="#{item.readonly}" />
+								<ui:param name="name" value="#{item.name}" />
+								<ui:param name="options" value="#{item.options}" />
+								<ui:param name="rendered" value="#{true}" />
+							</ui:include>
+							
+							
+						</c:if>
+						
+					</dd>
+				</dl>
+				
+				</c:if>
+				
+			</c:forEach>
+		</div>
+		</c:if>
+
+	</c:forEach>
+	
+</ui:composition>
+

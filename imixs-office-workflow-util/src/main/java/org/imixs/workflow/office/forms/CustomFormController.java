@@ -81,6 +81,7 @@ public class CustomFormController implements Serializable {
 
     private static Logger logger = Logger.getLogger(CustomFormController.class.getName());
 
+    private List<CustomSubForm> subforms = null;
     private List<CustomFormSection> sections;
 
     private String supportedExpressions = "";
@@ -88,6 +89,10 @@ public class CustomFormController implements Serializable {
     public CustomFormController() {
         super();
         loadCustomFormExpressions();
+    }
+
+    public List<CustomSubForm> getSubforms() {
+        return subforms;
     }
 
     public List<CustomFormSection> getSections() {
@@ -147,23 +152,31 @@ public class CustomFormController implements Serializable {
                 Document doc = builder.parse(stream);
                 doc.getDocumentElement().normalize();
 
-                NodeList nList = doc.getElementsByTagName("imixs-form-section");
-                for (int temp = 0; temp < nList.getLength(); temp++) {
-                    Node nNode = nList.item(temp);
-                    logger.finest("parsing section...");
-                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                        Element eElement = (Element) nNode;
+                // find the root tag
+                org.w3c.dom.Element rootElement = doc.getDocumentElement();
 
-                        String sReadOnly=eElement.getAttribute("readonly");
-                        boolean bReadOnly=false;
-                        if (sReadOnly!=null && !sReadOnly.isEmpty()) {
-                            bReadOnly=Boolean.parseBoolean(sReadOnly);
+                // find imixs-subforms - this tag is optional.
+                // if we have subforms we parse each subform tag for form-section tags
+                NodeList nSubformList = rootElement.getElementsByTagName("imixs-subform");
+                if (nSubformList != null && nSubformList.getLength() > 0) {
+                    subforms = new ArrayList<CustomSubForm>();
+
+                    for (int subId = 0; subId < nSubformList.getLength(); subId++) {
+                        Element nSubFormElement = (Element) nSubformList.item(subId);
+                        String label = nSubFormElement.getAttribute("label");
+                        String sReadOnly = nSubFormElement.getAttribute("readonly");
+                        boolean bReadOnly = false;
+                        if (sReadOnly != null && !sReadOnly.isEmpty()) {
+                            bReadOnly = Boolean.parseBoolean(sReadOnly);
                         }
-                        CustomFormSection customSection = new CustomFormSection(eElement.getAttribute("label"),
-                                eElement.getAttribute("columns"), eElement.getAttribute("path"),bReadOnly);
-                        customSection.setItems(findItems(eElement, customSection.getColumns()));
-                        sections.add(customSection);
+                        CustomSubForm customSubForm = new CustomSubForm("subform-" + (subId + 1), label, bReadOnly);
+                        sections = parseSectionList(nSubFormElement, bReadOnly);
+                        customSubForm.setSections(sections);
+                        subforms.add(customSubForm);
                     }
+                } else {
+                    // no subform defined - so simply parse all imixs-form-section tags
+                    sections = parseSectionList(rootElement, false);
                 }
             } catch (ParserConfigurationException | SAXException | IOException e) {
                 logger.warning("Unable to parse custom form definition: " + e.getMessage());
@@ -174,6 +187,49 @@ public class CustomFormController implements Serializable {
             workitem.replaceItemValue("txtWorkflowEditorCustomForm", content);
         }
 
+    }
+
+    /**
+     * This helper method pareses a parent-node for 'imixs-form-section'
+     * tags and returns a list of CustomFormSections
+     * 
+     * @param parentNode - the parent node to be parsed
+     * @param readOnly   - if true, all items will become readonly independent from
+     *                   their custom settings.
+     * @return list of customFormSection elements
+     * @throws ModelException
+     */
+    private List<CustomFormSection> parseSectionList(Element parentNode, boolean readOnly) throws ModelException {
+        ArrayList<CustomFormSection> result = new ArrayList<CustomFormSection>();
+        boolean defaultReadOnly = false;
+        NodeList nSectionList = parentNode.getElementsByTagName("imixs-form-section");
+        for (int temp = 0; temp < nSectionList.getLength(); temp++) {
+            Node nSectionNode = nSectionList.item(temp);
+            logger.finest("parsing section...");
+            if (nSectionNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element eSectionElement = (Element) nSectionNode;
+                if (readOnly == true) {
+                    // ignore the readonly attribute
+                    defaultReadOnly = true;
+                } else {
+                    // parse the readonly flag for each item
+                    String sReadOnly = eSectionElement.getAttribute("readonly");
+                    defaultReadOnly = false;
+                    if (sReadOnly != null && !sReadOnly.isEmpty()) {
+                        defaultReadOnly = Boolean.parseBoolean(sReadOnly);
+                    }
+                }
+                CustomFormSection customSection = new CustomFormSection(
+                        eSectionElement.getAttribute("label"),
+                        eSectionElement.getAttribute("columns"),
+                        eSectionElement.getAttribute("path"),
+                        defaultReadOnly);
+                customSection.setItems(findItems(eSectionElement,
+                        customSection.getColumns(), defaultReadOnly));
+                result.add(customSection);
+            }
+        }
+        return result;
     }
 
     /**
@@ -224,7 +280,8 @@ public class CustomFormController implements Serializable {
      * @return
      * @throws ModelException
      */
-    private List<CustomFormItem> findItems(Element sectionElement, String _columns) throws ModelException {
+    private List<CustomFormItem> findItems(Element sectionElement, String _columns, boolean readOnly)
+            throws ModelException {
         List<CustomFormItem> result = new ArrayList<CustomFormItem>();
 
         // convert columns in flex layout span
@@ -258,10 +315,18 @@ public class CustomFormController implements Serializable {
                     }
                 }
 
+                boolean defaultReadOnly = false;
+                if (readOnly == true) {
+                    // ignore the readonly attribute
+                    defaultReadOnly = true;
+                } else {
+                    // evaluate the readonly flag depending on the item attribute
+                    defaultReadOnly = evaluateBoolean(itemElement.getAttribute("readonly"));
+                }
                 CustomFormItem customItem = new CustomFormItem(itemElement.getAttribute("name"),
                         itemElement.getAttribute("type"), itemElement.getAttribute("label"),
                         evaluateBoolean(itemElement.getAttribute("required")),
-                        evaluateBoolean(itemElement.getAttribute("readonly")),
+                        defaultReadOnly,
                         evaluateBoolean(itemElement.getAttribute("disabled")), itemElement.getAttribute("options"),
                         itemElement.getAttribute("path"), evaluateBoolean(itemElement.getAttribute("hide")), span);
 

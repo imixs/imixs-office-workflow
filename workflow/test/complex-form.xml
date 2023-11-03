@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<imixs-form>
+
+    <imixs-subform label="Basic"  >
+        <imixs-form-section columns="1" label="Formular">
+            <item name="debug.name" type="text"  label="Name:" />
+        </imixs-form-section>
+
+        <imixs-form-section columns="2">
+            <item name="debug.user" type="custom" path="userinput"  label="Responsible2:" />
+            <item name="debug.team" type="custom" path="userlistinput"  label="Team:" />
+            <item name="invoice.ref" type="custom" path="workitemlink"  label="Invoice No.:" options="($workflowgroup:Rechnungseingang)" />
+            <item  type="custom" path="workitemlink"  label="Order No.:" options="($workflowgroup:Bedarfsmeldung)" />
+
+
+            <item name="debug.zip" type="text"  label="ZIP:" span="2" />
+            <item name="debug.city" type="text"  label="City:" span="6" />
+            <item name="debug.country" type="text"  label="Country:" span="4" />
+        </imixs-form-section>
+    </imixs-subform>
+    <imixs-subform label="Signature" readonly="true">
+        <imixs-form-section columns="1" label="">
+            <item name="debug.description" type="html"  label="Beschreibung:" />
+            <item name="debug.signature" type="custom" path="signature_pad" required="true" label="Unterschrift:" />
+        </imixs-form-section>
+        <imixs-form-section columns="2">
+            <item name="debug.number" type="date"  label="Termin:" />
+        </imixs-form-section>
+    </imixs-subform>
+
+    <imixs-subform label="Dispatch" readonly="false">
+        <imixs-form-section label="" path="sub_dispatch" />
+    </imixs-subform>
+
+</imixs-form>
