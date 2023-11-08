@@ -6,14 +6,14 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
 
-	<ui:fragment rendered="#{!item.readonly}" >
+	<ui:fragment rendered="#{!readonly}" >
 		<div class="imixs-signature-pad">
 			<canvas  height="150" width="360"><!-- Signature field --></canvas>
 			<p><a href="#" class="imixs-signature-clear-action">Clear</a></p>
 			<h:inputHidden class="imixs-signature-input" value="#{workitem.item[item.name]}"/>		
 		</div>
 	</ui:fragment>
-	<ui:fragment rendered="#{item.readonly}" >
+	<ui:fragment rendered="#{readonly}" >
 		<h:graphicImage  
 		value="#{workitem.item[item.name]}"/> 
 	</ui:fragment>

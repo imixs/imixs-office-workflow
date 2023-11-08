@@ -4,114 +4,48 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
 
-	<c:forEach items="#{customFormController.sections}" var="section">
+	<h:panelGroup id="custom_subview_id"  binding="#{customFormComponents}">
+	
+		<!-- #{customFormController.setReadOnly(true)} -->
 
-		<c:if test="#{! empty section.label}">
-			<h3>#{section.label}</h3>
-		</c:if>
 		
-		<!-- test if custom form section -->
-		<c:if test="#{! empty section.path}">
-		    <ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
+
+		<!-- test if sub-forms are defined -->
+		<c:if test="#{! empty customFormController.subforms}">
+			<div class="imixs-tabs">
+				<ul>
+					<c:forEach items="#{customFormController.subforms}" var="subform">
+						<li><a href="#tab-#{subform.id}">#{subform.label}</a></li>
+					</c:forEach>
+				</ul>
+				<c:forEach items="#{customFormController.subforms}" var="subform">
+					<div id="tab-#{subform.id}">
+						<f:subview>
+							<ui:include src="/pages/workitems/forms/custom_sections.xhtml">
+								<ui:param name="customFormSections" value="#{subform.sections}" />
+								<ui:param name="workitem" value="#{workflowController.workitem}" />
+								<ui:param name="readonly" value="#{section.readonly}" />
+							</ui:include>
+						</f:subview>
+					</div>
+				</c:forEach>
+			</div>
+		</c:if>
+
+
+		<c:if test="#{empty customFormController.subforms}">
+			<!-- No Tabs -->
+			<ui:include src="/pages/workitems/forms/custom_sections.xhtml">
+				<ui:param name="customFormSections" value="#{customFormController.sections}" />
 				<ui:param name="workitem" value="#{workflowController.workitem}" />
-				<ui:param name="readonly" value="#{true}" />
+				<ui:param name="readonly" value="#{section.readonly}" />
 			</ui:include>
 		</c:if>
-		
-		<!-- standard form section -->
-		<c:if test="#{empty section.path}">	
-		<div
-			class="imixs-form-section#{(empty section.columns)?'':'-'.concat(section.columns)}">
+	
+	</h:panelGroup>
 
-			<c:forEach items="#{section.items}" var="item">
-			<c:if test="#{!item.hide}">
-				<dl>
-					<dt>
-						#{item.label}
-						<c:if test="#{item.required}">
-							<span class="imixs-required"> *</span>
-						</c:if>
-					</dt>
-					<dd>
-						<!-- text -->
-						<c:if test="#{item.type eq 'text'}">
-							<h:outputText value="#{workitem.item[item.name]}" />
-						</c:if>
-						
-						<!-- long -->
-						<c:if test="#{item.type eq 'number'}">
-							<h:outputText value="#{workitem.item[item.name]}">
-								<f:convertNumber/>
-							</h:outputText>
-						</c:if>
-						
-						<!-- currency -->
-						<c:if test="#{item.type eq 'currency'}">
-							<h:outputText value="#{workitem.item[item.name]}">
-								<f:convertNumber minFractionDigits="2" locale="de" />
-							</h:outputText>
-						</c:if>
-						
-						<!-- date -->
-						<c:if test="#{item.type eq 'date'}">
-							<h:outputText value="#{workitem.item[item.name]}">
-							   <f:convertDateTime timeZone="#{message.timeZone}"
-									pattern="#{message.datePatternShort}" />
-							</h:outputText>
-						</c:if>
-						
-						<!-- text area -->
-						<c:if test="#{item.type eq 'textarea'}">
-							<h:outputText escape="true"
-								value="#{workitem.item[item.name]}" />
-						</c:if>
-
-
-						<!-- text list -->				
-						<c:if test="#{item.type eq 'textlist'}">							
-							<ui:repeat var="itemvalue"
-								value="#{workitem.itemList[item.name]}">
-								<h:outputText value="#{itemvalue}"></h:outputText>
-								<br />
-							</ui:repeat>
-						</c:if>
-						<!-- HTML -->
-						<c:if test="#{item.type eq 'html'}">
-							<h:outputText escape="false"
-								value="#{workitem.item[item.name]}" />
-						</c:if>
-						
-						<!-- Options List -->
-						<c:if test="#{item.type eq 'selectBooleanCheckbox' or item.type eq 'selectOneMenu' or item.type eq 'selectOneRadio' or item.type eq 'selectManyCheckbox' or item.type eq 'selectManyCheckboxPageDirection' or item.type eq 'selectOneRadioPageDirection'}">
-							<ui:repeat var="itemvalue" value="#{workitem.itemList[item.name]}">
-								<h:outputText value="#{itemvalue}"></h:outputText><br />
-							</ui:repeat>
-						</c:if>
-
-
-
-						<!-- custom subview -->
-						<c:if test="#{item.type eq 'custom'}">
-						
-						    <ui:include src="/pages/workitems/parts/#{item.path}.xhtml">
-								<ui:param name="workitem" value="#{workflowController.workitem}" />
-								<ui:param name="required" value="#{item.required}" />
-								<ui:param name="readonly" value="#{true}" />
-								<ui:param name="name" value="#{item.name}" />
-								<ui:param name="options" value="#{item.options}" />
-							</ui:include>
-							
-							
-						</c:if>
-					</dd>
-				</dl>
-				</c:if>
-			</c:forEach>
-		</div>
-		</c:if>
-
-	</c:forEach>
 </ui:composition>
 

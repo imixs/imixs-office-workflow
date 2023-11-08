@@ -5,20 +5,16 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
 
-	<ui:fragment rendered="#{!item.readonly}">
-
-
+	<ui:fragment rendered="#{!readonly}">
 		<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
-			required="#{item.required?validationController.required:false}" rendered="#{!item.readonly}"
+			required="#{required?validationController.required:false}" rendered="#{!readonly}"
 			onkeyup="imixsOfficeWorkitem.formatIBAN(this);"
-			disabled="#{item.disabled}">
-
-
+			disabled="#{disabled}">
 		</h:inputText>
 
 
 	</ui:fragment>
-	<ui:fragment rendered="#{item.readonly}">
+	<ui:fragment rendered="#{readonly}">
 		<h:outputText value="#{workitem.item[item.name]}"></h:outputText>
 	</ui:fragment>
 

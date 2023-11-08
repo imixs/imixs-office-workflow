@@ -124,60 +124,59 @@
 						<!-- Options List -->
 						<c:if
 							test="#{item.type eq 'selectBooleanCheckbox' or item.type eq 'selectOneMenu' or item.type eq 'selectOneRadio' or item.type eq 'selectManyCheckbox' or item.type eq 'selectManyCheckboxPageDirection' or item.type eq 'selectOneRadioPageDirection'}">
-							<c:choose>
-								<!-- read only mode -->
-								<c:when test="#{item.readonly}">
-									<ui:repeat var="itemvalue"
+						
+							<ui:fragment rendered="#{item.readonly}">
+								<ui:repeat var="itemvalue"
 										value="#{workitem.itemList[item.name]}">
 										<h:outputText value="#{itemvalue}"></h:outputText>
 										<br />
-									</ui:repeat>
-								</c:when>
-								<!-- Edit mode -->
-								<c:otherwise>
-									<c:if test="#{item.type eq 'selectBooleanCheckbox'}">
-										<h:selectBooleanCheckbox required="#{item.required?validationController.required:false}"
-											pt:data-item="#{item.name}" disabled="#{item.disabled}"
-											value="#{workitem.item[item.name]}">
-										</h:selectBooleanCheckbox>
-									</c:if>
-									<c:if test="#{item.type eq 'selectOneMenu'}">
-										<h:selectOneMenu required="#{item.required?validationController.required:false}"
-											pt:data-item="#{item.name}" disabled="#{item.disabled}"
-											value="#{workitem.item[item.name]}">
-											<f:selectItems value="#{item.selectItems}" />
-										</h:selectOneMenu>
-									</c:if>
-									<c:if test="#{item.type eq 'selectOneRadio'}">
-										<h:selectOneRadio required="#{item.required?validationController.required:false}"
-											pt:data-item="#{item.name}" disabled="#{item.disabled}"
-											value="#{workitem.item[item.name]}">
-											<f:selectItems value="#{item.selectItems}" />
-										</h:selectOneRadio>
-									</c:if>
-									<c:if test="#{item.type eq 'selectOneRadioPageDirection'}">
-										<h:selectOneRadio required="#{item.required?validationController.required:false}"
-											pt:data-item="#{item.name}" layout="pageDirection" disabled="#{item.disabled}"
-											value="#{workitem.item[item.name]}">
-											<f:selectItems value="#{item.selectItems}" />
-										</h:selectOneRadio>
-									</c:if>
-									<c:if test="#{item.type eq 'selectManyCheckbox'}">
-										<h:selectManyCheckbox required="#{item.required?validationController.required:false}"
-											pt:data-item="#{item.name}"  disabled="#{item.disabled}"
-											value="#{workitem.itemListArray[item.name]}">
-											<f:selectItems value="#{item.selectItems}" />
-										</h:selectManyCheckbox>
-									</c:if>
-									<c:if test="#{item.type eq 'selectManyCheckboxPageDirection'}">
-										<h:selectManyCheckbox required="#{item.required?validationController.required:false}"
-											pt:data-item="#{item.name}" layout="pageDirection" disabled="#{item.disabled}"
-											value="#{workitem.itemListArray[item.name]}">
-											<f:selectItems value="#{item.selectItems}" />
-										</h:selectManyCheckbox>
-									</c:if>
-								</c:otherwise>
-							</c:choose>
+								</ui:repeat>
+							</ui:fragment>
+							<ui:fragment rendered="#{!item.readonly}">
+												
+								<c:if test="#{item.type eq 'selectBooleanCheckbox'}">
+									<h:selectBooleanCheckbox required="#{item.required?validationController.required:false}"
+										pt:data-item="#{item.name}" disabled="#{item.disabled}"
+										value="#{workitem.item[item.name]}">
+									</h:selectBooleanCheckbox>
+								</c:if>
+								<c:if test="#{item.type eq 'selectOneMenu'}">
+									<h:selectOneMenu required="#{item.required?validationController.required:false}"
+										pt:data-item="#{item.name}" disabled="#{item.disabled}"
+										value="#{workitem.item[item.name]}">
+										<f:selectItems value="#{item.selectItems}" />
+									</h:selectOneMenu>
+								</c:if>
+								<c:if test="#{item.type eq 'selectOneRadio'}">
+									<h:selectOneRadio required="#{item.required?validationController.required:false}"
+										pt:data-item="#{item.name}" disabled="#{item.disabled}"
+										value="#{workitem.item[item.name]}">
+										<f:selectItems value="#{item.selectItems}" />
+									</h:selectOneRadio>
+								</c:if>
+								<c:if test="#{item.type eq 'selectOneRadioPageDirection'}">
+									<h:selectOneRadio required="#{item.required?validationController.required:false}"
+										pt:data-item="#{item.name}" layout="pageDirection" disabled="#{item.disabled}"
+										value="#{workitem.item[item.name]}">
+										<f:selectItems value="#{item.selectItems}" />
+									</h:selectOneRadio>
+								</c:if>
+								<c:if test="#{item.type eq 'selectManyCheckbox'}">
+									<h:selectManyCheckbox required="#{item.required?validationController.required:false}"
+										pt:data-item="#{item.name}"  disabled="#{item.disabled}"
+										value="#{workitem.itemListArray[item.name]}">
+										<f:selectItems value="#{item.selectItems}" />
+									</h:selectManyCheckbox>
+								</c:if>
+								<c:if test="#{item.type eq 'selectManyCheckboxPageDirection'}">
+									<h:selectManyCheckbox required="#{item.required?validationController.required:false}"
+										pt:data-item="#{item.name}" layout="pageDirection" disabled="#{item.disabled}"
+										value="#{workitem.itemListArray[item.name]}">
+										<f:selectItems value="#{item.selectItems}" />
+									</h:selectManyCheckbox>
+								</c:if>
+							</ui:fragment>
+					
 						</c:if>
 						<!-- custom subview -->
 						<c:if test="#{item.type eq 'custom'}">			

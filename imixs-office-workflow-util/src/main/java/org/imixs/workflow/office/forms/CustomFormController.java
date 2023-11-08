@@ -190,6 +190,21 @@ public class CustomFormController implements Serializable {
     }
 
     /**
+     * This method overwrite the 'readOnly' status flag for all sections.
+     * 
+     * @param readOnly
+     */
+    public void setReadOnly(boolean readOnly) {
+        for (CustomFormSection _section : getSections()) {
+            _section.setReadonly(readOnly);
+            for (CustomFormItem _item : _section.getItems()) {
+                _item.setReadonly(readOnly);
+            }
+
+        }
+    }
+
+    /**
      * This helper method pareses a parent-node for 'imixs-form-section'
      * tags and returns a list of CustomFormSections
      * 
