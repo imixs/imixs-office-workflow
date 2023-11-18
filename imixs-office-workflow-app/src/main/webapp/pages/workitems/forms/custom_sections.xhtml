@@ -128,7 +128,21 @@
 							<ui:fragment rendered="#{item.readonly}">
 								<ui:repeat var="itemvalue"
 										value="#{workitem.itemList[item.name]}">
-										<h:outputText value="#{itemvalue}"></h:outputText>
+
+										<c:if test="#{item.type eq 'selectBooleanCheckbox'}">
+
+											<h:panelGroup rendered="#{itemvalue}" styleClass="typcn typcn-input-checked" 
+												style="font-size:1.2rem;margin-right: 5px;"></h:panelGroup>
+											<h:panelGroup rendered="#{!itemvalue}" styleClass="typcn typcn-media-stop-outline" 
+												style="font-size:1.2rem;margin-right: 5px;"></h:panelGroup>
+
+
+										
+										</c:if>
+										<c:if test="#{item.type ne 'selectBooleanCheckbox'}">
+											<h:outputText value="#{itemvalue}"></h:outputText>
+										</c:if>
+
 										<br />
 								</ui:repeat>
 							</ui:fragment>
