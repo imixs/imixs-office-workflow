@@ -65,6 +65,7 @@
         <bpmn2:flowNodeRef>EndEvent_2</bpmn2:flowNodeRef>
         <bpmn2:documentation id="documentation_xpz0VA"/>
         <bpmn2:flowNodeRef>event_UAojSg</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>DataObject_2</bpmn2:flowNodeRef>
       </bpmn2:lane>
       <bpmn2:lane id="Lane_2" name="Bereich Team">
         <bpmn2:flowNodeRef>Task_5005</bpmn2:flowNodeRef>
@@ -310,6 +311,9 @@ Bei Fragen wenden Sie sich bitte an info@imixs.com
           <imixs:value><![CDATA[namspaceteam]]></imixs:value>
           <imixs:value><![CDATA[namspacemanager]]></imixs:value>
         </imixs:item>
+        <imixs:item name="txteditorid" type="xs:string">
+          <imixs:value><![CDATA[custom_read]]></imixs:value>
+        </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_6"><![CDATA[<textblock><itemvalue>$workflowgroup</itemvalue> - <itemvalue>$workflowstatus</itemvalue></textblock>]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_38</bpmn2:incoming>
@@ -526,15 +530,13 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>false</imixs:value>
         </imixs:item>
-        <imixs:item name="txtbusinessrule" type="CDATA">
+        <imixs:item name="txtbusinessrule" type="xs:string">
           <imixs:value><![CDATA[var result={};
- var refField="txtcomment"; 
 result.isValid=true;
-
- if (  ( workitem.get(refField) == null || ''==workitem.get(refField)[0])   ) {
+if (workitem.getItemValueString('txtcomment')=='') {
      result.isValid=false;
      result.errorMessage='Bitte geben Sie einen Kommentar ein.';
-  }]]></imixs:value>
+}]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_24"><![CDATA[Bedarfsmeldung nicht in Ordnung, zurück an Erfasser.]]></bpmn2:documentation>
@@ -596,7 +598,7 @@ result.isValid=true;
       <bpmn2:incoming>sequenceFlow_MKDlnQ</bpmn2:incoming>
     </bpmn2:task>
     <bpmn2:dataObject id="DataObject_2" name="Debug Form">
-      <bpmn2:documentation id="Documentation_8" open-bpmn:file-link="file://complex-form.xml"><![CDATA[<?xml version="1.0"?>
+      <bpmn2:documentation id="Documentation_8"><![CDATA[<?xml version="1.0"?>
 <imixs-form>
 
     <imixs-subform label="Basic"  >
@@ -616,7 +618,7 @@ result.isValid=true;
             <item name="debug.country" type="text"  label="Country:" span="4" />
         </imixs-form-section>
     </imixs-subform>
-    <imixs-subform label="Signature" readonly="true">
+    <imixs-subform label="Signature" readonly="false">
         <imixs-form-section columns="1" label="">
             <item name="debug.description" type="html"  label="Beschreibung:" />
             <item name="debug.signature" type="custom" path="signature_pad" required="true" label="Unterschrift:" />
@@ -767,15 +769,13 @@ result.isValid=true;
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>false</imixs:value>
         </imixs:item>
-        <imixs:item name="txtbusinessrule" type="CDATA">
+        <imixs:item name="txtbusinessrule" type="xs:string">
           <imixs:value><![CDATA[var result={};
- var refField="txtcomment"; 
 result.isValid=true;
-
- if (  ( workitem.get(refField) == null || ''==workitem.get(refField)[0])   ) {
+if (workitem.getItemValueString('txtcomment')=='') {
      result.isValid=false;
      result.errorMessage='Bitte geben Sie einen Kommentar ein.';
-  }]]></imixs:value>
+}]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_28"><![CDATA[Bedarfsmeldung nicht in Ordnung, zurück an Erfasser.]]></bpmn2:documentation>
@@ -924,28 +924,27 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
     <bpmn2:sequenceFlow id="SequenceFlow_7" sourceRef="IntermediateCatchEvent_16" targetRef="ExclusiveGateway_5">
       <bpmn2:documentation id="documentation_4Geahw"/>
     </bpmn2:sequenceFlow>
-    <bpmn2:exclusiveGateway gatewayDirection="Diverging" id="ExclusiveGateway_4" name="Fachbereich?">
+    <bpmn2:exclusiveGateway default="SequenceFlow_16" gatewayDirection="Diverging" id="ExclusiveGateway_4" name="Fachbereich?">
       <bpmn2:incoming>SequenceFlow_24</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_13</bpmn2:outgoing>
       <bpmn2:outgoing>SequenceFlow_16</bpmn2:outgoing>
       <bpmn2:documentation id="documentation_jWtoRg"/>
     </bpmn2:exclusiveGateway>
     <bpmn2:sequenceFlow id="SequenceFlow_13" name="Ja" sourceRef="ExclusiveGateway_4" targetRef="Task_5005">
-      <bpmn2:conditionExpression id="FormalExpression_2" xsi:type="bpmn2:tFormalExpression">workitem['space.team'] &amp;&amp; workitem['space.team'][0]!=""</bpmn2:conditionExpression>
+      <bpmn2:conditionExpression id="formalExpression_hnHOPQ" xsi:type="bpmn2:tFormalExpression"><![CDATA[workitem.getItemValueString('space.team')!=""]]></bpmn2:conditionExpression>
       <bpmn2:documentation id="documentation_SL6QMw"/>
     </bpmn2:sequenceFlow>
     <bpmn2:sequenceFlow id="SequenceFlow_16" name="Nein" sourceRef="ExclusiveGateway_4" targetRef="ExclusiveGateway_6">
-      <bpmn2:conditionExpression id="FormalExpression_4" xsi:type="bpmn2:tFormalExpression">!workitem['space.team'] || workitem['space.team'][0]==""</bpmn2:conditionExpression>
       <bpmn2:documentation id="documentation_aOHphQ"/>
     </bpmn2:sequenceFlow>
-    <bpmn2:exclusiveGateway gatewayDirection="Diverging" id="ExclusiveGateway_3" name="Process Team?">
+    <bpmn2:exclusiveGateway default="SequenceFlow_5" gatewayDirection="Diverging" id="ExclusiveGateway_3" name="Process Team?">
       <bpmn2:incoming>SequenceFlow_18</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
       <bpmn2:outgoing>SequenceFlow_5</bpmn2:outgoing>
       <bpmn2:documentation id="documentation_LfwUeg"/>
     </bpmn2:exclusiveGateway>
     <bpmn2:sequenceFlow id="SequenceFlow_1" name="Ja" sourceRef="ExclusiveGateway_3" targetRef="Task_5000">
-      <bpmn2:conditionExpression id="FormalExpression_6" xsi:type="bpmn2:tFormalExpression">workitem['process.team'] &amp;&amp; workitem['process.team'][0]!=""</bpmn2:conditionExpression>
+      <bpmn2:conditionExpression id="formalExpression_dr0Zkw" xsi:type="bpmn2:tFormalExpression"><![CDATA[workitem.getItemValueString('process.team')!=""]]></bpmn2:conditionExpression>
       <bpmn2:documentation id="documentation_K0V8wA"/>
     </bpmn2:sequenceFlow>
     <bpmn2:exclusiveGateway gatewayDirection="Converging" id="ExclusiveGateway_5">
@@ -958,7 +957,6 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
       <bpmn2:documentation id="documentation_GHwjrg"/>
     </bpmn2:sequenceFlow>
     <bpmn2:sequenceFlow id="SequenceFlow_5" name="Nein" sourceRef="ExclusiveGateway_3" targetRef="ExclusiveGateway_5">
-      <bpmn2:conditionExpression id="FormalExpression_5" xsi:type="bpmn2:tFormalExpression">!workitem['process.team'] || workitem['process.team'][0]==""</bpmn2:conditionExpression>
       <bpmn2:documentation id="documentation_3ijAhg"/>
     </bpmn2:sequenceFlow>
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_2" imixs:activityid="100" name="[forward]">
@@ -1431,16 +1429,13 @@ result.isValid=true;
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="Lane_2" id="BPMNShape_Lane_2" isHorizontal="true">
-        <dc:Bounds height="241.0" width="1311.0" x="80.0" y="510.0"/>
+        <dc:Bounds height="284.0" width="1311.0" x="80.0" y="510.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_25" labelStyle="BPMNLabelStyle_1">
           <dc:Bounds height="75.0" width="14.0" x="86.0" y="593.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="Lane_3" id="BPMNShape_Lane_3" isHorizontal="true">
-        <dc:Bounds height="241.0" width="1311.0" x="80.0" y="750.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_37" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="77.0" width="14.0" x="86.0" y="832.0"/>
-        </bpmndi:BPMNLabel>
+        <dc:Bounds height="198.0" width="1311.0" x="80.0" y="793.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="StartEvent_1" id="BPMNShape_StartEvent_1">
         <dc:Bounds height="36.0" width="36.0" x="119.0" y="297.0"/>

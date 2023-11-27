@@ -10,9 +10,6 @@
 	<h:panelGroup id="custom_subview_id"  binding="#{customFormComponents}">
 	
 		<!-- #{customFormController.setReadOnly(true)} -->
-
-		
-
 		<!-- test if sub-forms are defined -->
 		<c:if test="#{! empty customFormController.subforms}">
 			<div class="imixs-tabs">
@@ -27,15 +24,13 @@
 							<ui:include src="/pages/workitems/forms/custom_sections.xhtml">
 								<ui:param name="customFormSections" value="#{subform.sections}" />
 								<ui:param name="workitem" value="#{workflowController.workitem}" />
-								<ui:param name="readonly" value="#{section.readonly}" />
+								<ui:param name="readonly" value="#{true}" />
 							</ui:include>
 						</f:subview>
 					</div>
 				</c:forEach>
 			</div>
 		</c:if>
-
-
 		<c:if test="#{empty customFormController.subforms}">
 			<!-- No Tabs -->
 			<ui:include src="/pages/workitems/forms/custom_sections.xhtml">

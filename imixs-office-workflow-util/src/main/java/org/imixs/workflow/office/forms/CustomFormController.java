@@ -181,7 +181,6 @@ public class CustomFormController implements Serializable {
             } catch (ParserConfigurationException | SAXException | IOException e) {
                 logger.warning("Unable to parse custom form definition: " + e.getMessage());
                 return;
-
             }
             // store the new content
             workitem.replaceItemValue("txtWorkflowEditorCustomForm", content);
@@ -191,16 +190,30 @@ public class CustomFormController implements Serializable {
 
     /**
      * This method overwrite the 'readOnly' status flag for all sections.
+     * Note: sections can be embedded in optional subForms.
      * 
      * @param readOnly
      */
     public void setReadOnly(boolean readOnly) {
-        for (CustomFormSection _section : getSections()) {
-            _section.setReadonly(readOnly);
-            for (CustomFormItem _item : _section.getItems()) {
-                _item.setReadonly(readOnly);
+        if (getSubforms() == null || getSubforms().size() == 0) {
+            // only update sections....
+            for (CustomFormSection _section : getSections()) {
+                _section.setReadonly(readOnly);
+                for (CustomFormItem _item : _section.getItems()) {
+                    _item.setReadonly(readOnly);
+                }
             }
+        } else {
+            // update all subforms and sections
+            for (CustomSubForm _subform : getSubforms()) {
+                for (CustomFormSection _section : _subform.getSections()) {
+                    _section.setReadonly(readOnly);
+                    for (CustomFormItem _item : _section.getItems()) {
+                        _item.setReadonly(readOnly);
+                    }
 
+                }
+            }
         }
     }
 
@@ -366,7 +379,7 @@ public class CustomFormController implements Serializable {
      * 
      * @param expression
      * @return
-     * @throws ModelException 
+     * @throws ModelException
      */
     private boolean evaluateBoolean(String expression) throws ModelException {
         if (expression == null || expression.isEmpty()) {
@@ -375,7 +388,7 @@ public class CustomFormController implements Serializable {
 
         // is it a el expression?
         if (expression.startsWith("#{") && expression.endsWith("}")) {
-            
+
             // test if expression is supported
             if (supportedExpressions.contains(expression)) {
                 FacesContext ctx = FacesContext.getCurrentInstance();
@@ -383,10 +396,11 @@ public class CustomFormController implements Serializable {
                 boolean result = app.evaluateExpressionGet(ctx, expression, Boolean.class);
                 return result;
             } else {
-                throw new ModelException(ModelException.INVALID_MODEL_ENTRY, "The custom-form expression is not allowed: "
-            + expression  );
+                throw new ModelException(ModelException.INVALID_MODEL_ENTRY,
+                        "The custom-form expression is not allowed: "
+                                + expression);
             }
-            
+
         } else {
             // default simple Bollean parsing....
             return Boolean.parseBoolean(expression);
