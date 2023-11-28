@@ -87,6 +87,7 @@
                     <named-formatter name="COLOR-PATTERN"/>
                 </formatter>
             </console-handler>
+            <!-- disable defautl handler See issue #558 
             <periodic-rotating-file-handler name="FILE" autoflush="true">
                 <formatter>
                     <named-formatter name="PATTERN"/>
@@ -95,6 +96,16 @@
                 <suffix value=".yyyy-MM-dd"/>
                 <append value="true"/>
             </periodic-rotating-file-handler>
+            -->
+            <size-rotating-file-handler name="FILE" autoflush="true">
+                <formatter>
+                    <named-formatter name="PATTERN"/>
+                </formatter>
+                <file relative-to="jboss.server.log.dir" path="server.log"/>
+                <append value="true"/>
+                <rotate-size value="10M"/>
+                <max-backup-index value="10"/>
+            </size-rotating-file-handler>
             <logger category="com.arjuna">
                 <level name="WARN"/>
             </logger>
