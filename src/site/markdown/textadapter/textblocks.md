@@ -5,11 +5,12 @@ Textblocks are documents providing a text, html or file content. These textblock
 ## Adminstration
 Textbocks can be managed in the administration section 'Textblocks'. Each textblock is identified uniquely by its name. 
 
-## TextBlockController
+<img class="screenshot" src="../textadapters/textblocks-01.png" />
 
-The CDI bean `TextBlockController` provides methods to search and create textblocks. 
+A Textblock definition can contian HTML, Text or a file. 
 
- 
+<img class="screenshot" src="../textadapters/textblocks-02.png" />
+  
 ## Modelling
 
 A textbock can be part of a workitem description. 
@@ -43,6 +44,12 @@ There is also a RestAPI Endpoint to access the content of a Textblock by its nam
  - `/api/textblock/{name|$uniqueid}/html`  -> returns a HMTL page with the textblock content
  - `/api/textblock/{name|$uniqueid}/$file/name`  -> returns a file attached to a textbock.
  
+
+
+## TextBlockController
+
+The CDI bean `TextBlockController` provides methods to search and create textblocks. 
+
  
  
 
