@@ -9,25 +9,56 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 
-
+	<ui:remove>
+		<!-- Shows all references with attachments as also all attachments from the current workitem. 
+		-->
+	</ui:remove>
 
 	<!-- **** General info ***** -->
 	<div class="row imixs-form-attachments">
 
-
-		<ui:remove>
-			<!-- WorkitemLink Component
-	
-			Requires that the subform workitemlinkSearch is places at once in the ui:form
-			
-			NOTE: The Input Item is fixed to the item name '$workitemref'
-			-->
-		</ui:remove>
-
 		<f:subview id="workitemlink-view">
-			<!-- show external references -->
-			<h:panelGroup id="reference_box" layout="block"
-				class="marty-workitemlink-referencebox">
+			<h:panelGroup id="reference_box" layout="block" class="ref-document-search-list">
+
+				<!-- show files of current document -->
+				<ui:param name="dmsList" value="#{dmsController.getDmsListByWorkitem(workitem)}" />
+				<ui:fragment rendered="#{dmsList.size()>0}" >
+					<div class="ref-document-search-entry">
+						<div class="ref-document-search-entry-link" >
+							<h:outputText escape="false"
+								value="#{workitem.item['$WorkflowSummary']}"
+								rendered="#{!empty workitem.item['$WorkflowSummary']}" />
+							<h:outputText value="#{suggest.item['$created']}"
+								rendered="#{empty workitem.item['$WorkflowSummary']}">
+								<f:convertDateTime timeZone="#{message.timeZone}"
+									pattern="#{message.dateTimePatternShort}" />
+							</h:outputText>
+						</div>
+						<div class="ref-document-search-entry-status" >
+							<h:outputText
+							value="#{workitem.item['$workflowgroup']}: " /> <h:outputText
+							value="#{workitem.item['$workflowstatus']}" />
+						</div> 						
+						<table class="">
+							<ui:repeat var="dmsentry" value="#{dmsList}">
+								<tr>
+									<td class="dms-link" colspan="2">
+										<!-- Attachment link --> 
+										<h:panelGroup
+											rendered="#{empty dmsentry.item['url']}">
+											<a href="#"
+												onclick="openRefWorkitemDoc('#{facesContext.externalContext.requestContextPath}/api/snapshot/#{workitem.item['$uniqueid']}/file/#{dmsentry.item['name.encoded']}','#{dmsentry.item['txtName']}')"><span
+												class="typcn typcn-document-text"></span>#{dmsentry.item['txtName']}</a>
+										</h:panelGroup>
+									</td>
+								</tr>
+							</ui:repeat>
+						</table>
+						
+					</div>
+				</ui:fragment>
+
+				<!-- show external references -->
 				<c:forEach var="workitem"
 					items="#{workitemLinkController.getExternalReferences(options)}">
 
@@ -37,26 +68,31 @@
 					<ui:param name="dmsList"
 						value="#{dmsController.getDmsListByWorkitem(refWorkitem)}" />
 
-					<div class="marty-workitemlink-referencebox-entry">
-						<h:link outcome="/pages/workitems/workitem" style="font-weight:bold;">
-							<h:outputText escape="false"
-								value="#{workitem.item['$WorkflowSummary']}"
-								rendered="#{!empty workitem.item['$WorkflowSummary']}" />
-							<h:outputText value="#{suggest.item['$created']}"
-								rendered="#{empty workitem.item['$WorkflowSummary']}">
-								<f:convertDateTime timeZone="#{message.timeZone}"
-									pattern="#{message.dateTimePatternShort}" />
-							</h:outputText>
-							<f:param name="id" value="#{workitem.item['$uniqueid']}" />
-						</h:link>
-						<br /> <span class="marty-workitemlink-entry-abstract"> <h:outputText
-								value="#{workitem.item['$workflowgroup']}: " /> <h:outputText
-								value="#{workitem.item['$workflowstatus']}" />
-						</span>
-					</div>
-
-					<div id="ref_document_search">
-						<table class="ximixs-workitem-chronicle-small">
+					<ui:fragment rendered="#{dmsList.size()>0}" >
+					<div class="ref-document-search-entry">
+						<div class="ref-document-search-entry-link" >
+							<h:link outcome="/pages/workitems/workitem" >
+								<span class="typcn typcn-export-outline" style="margin-right:10px;"/><h:outputText escape="false"
+									value="#{workitem.item['$WorkflowSummary']}"
+									rendered="#{!empty workitem.item['$WorkflowSummary']}" />
+								<h:outputText value="#{suggest.item['$created']}"
+									rendered="#{empty workitem.item['$WorkflowSummary']}">
+									<f:convertDateTime timeZone="#{message.timeZone}"
+										pattern="#{message.dateTimePatternShort}" />
+								</h:outputText>
+								<f:param name="id" value="#{workitem.item['$uniqueid']}" />
+							</h:link>
+						</div>
+						
+						<div class="ref-document-search-entry-status" >
+							<h:outputText
+							value="#{workitem.item['$workflowgroup']}: " /> <h:outputText
+							value="#{workitem.item['$workflowstatus']}" />
+						</div>
+					
+						
+					
+						<table class="">
 							<tr>
 								<td style=""><strong>#{message.created}: </strong></td>
 								<td style="width: 100%;"><h:outputText
@@ -96,7 +132,8 @@
 							</ui:repeat>
 						</table>
 					</div>
-					<hr />
+					
+				</ui:fragment> 
 				</c:forEach>
 			</h:panelGroup>
 

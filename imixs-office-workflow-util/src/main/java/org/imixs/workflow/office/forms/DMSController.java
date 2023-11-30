@@ -39,14 +39,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import jakarta.enterprise.context.ConversationScoped;
-import jakarta.enterprise.event.Observes;
-import jakarta.faces.context.ExternalContext;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.event.ActionEvent;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
-
 import org.imixs.workflow.FileData;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ItemCollectionComparator;
@@ -55,6 +47,14 @@ import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.data.WorkflowEvent;
 import org.imixs.workflow.faces.util.LoginController;
+
+import jakarta.enterprise.context.ConversationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.ActionEvent;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * This Bean acts a a front controller for the DMS feature. The Bean provides
@@ -84,14 +84,11 @@ public class DMSController implements Serializable {
 
 	private List<ItemCollection> dmsList = null;
 	private String link = null;
-	
-	private Map<String,List<ItemCollection>> dmsListCache=null;
+
+	private Map<String, List<ItemCollection>> dmsListCache = null;
 
 	private static Logger logger = Logger.getLogger(DMSController.class.getName());
 
-	
-	
-	
 	public String getLink() {
 		return link;
 	}
@@ -146,9 +143,9 @@ public class DMSController implements Serializable {
 	 * current workitem.
 	 * 
 	 * @param workitem
-	 *            - the workitem to be updated
+	 *                 - the workitem to be updated
 	 * @param dmsList
-	 *            - the dms metha data to be put into the workitem
+	 *                 - the dms metha data to be put into the workitem
 	 * @version 1.0
 	 */
 	private void putDmsList(ItemCollection workitem, List<ItemCollection> dmsList) {
@@ -202,27 +199,27 @@ public class DMSController implements Serializable {
 	 * (https://stackoverflow.com/questions/2090033/why-jsf-calls-getters-multiple-times/2090062)
 	 * 
 	 * @param workitem
-	 *            - source of meta data, sorted by $creation
+	 *                 - source of meta data, sorted by $creation
 	 * @version 1.0
 	 */
 	@SuppressWarnings("unchecked")
 	public List<ItemCollection> getDmsListByWorkitem(final ItemCollection workitem) {
-		
-		if ( dmsListCache==null) {
-			dmsListCache=new HashMap<String,List<ItemCollection>>();
+
+		if (dmsListCache == null) {
+			dmsListCache = new HashMap<String, List<ItemCollection>>();
 		}
-		
+
 		// if workitem is not defined or has no UniqueID then return an empty list
 		if (workitem == null || workitem.getUniqueID().isEmpty()) {
 			return new ArrayList<ItemCollection>();
 		}
-		
+
 		// check cache....
-		List<ItemCollection> _dmsList= dmsListCache.get(workitem.getUniqueID());
-		if (_dmsList!=null) {
+		List<ItemCollection> _dmsList = dmsListCache.get(workitem.getUniqueID());
+		if (_dmsList != null) {
 			return _dmsList;
 		}
-		
+
 		// build a new dms List
 		_dmsList = new ArrayList<ItemCollection>();
 
@@ -247,17 +244,17 @@ public class DMSController implements Serializable {
 				// create dummy date
 				fileData.setAttribute("$created", workitem.getItemValue("$created"));
 			}
-			
-			ItemCollection _dmsItemCol=new ItemCollection(fileData.getAttributes());
+
+			ItemCollection _dmsItemCol = new ItemCollection(fileData.getAttributes());
 			// add new item names (txtname will be deprecated)
 			_dmsItemCol.setItemValue("name", _dmsItemCol.getItemValueString("txtname"));
-			
+
 			// add encoded filename
 			try {
-				String encodedName=URLEncoder.encode(_dmsItemCol.getItemValueString("name"), "UTF-8");
+				String encodedName = URLEncoder.encode(_dmsItemCol.getItemValueString("name"), "UTF-8");
 				_dmsItemCol.setItemValue("name.encoded", encodedName);
 			} catch (UnsupportedEncodingException e) {
-				logger.warning("unable to URL encode the filename '" +fileData.getAttribute("name") + "'!" );
+				logger.warning("unable to URL encode the filename '" + fileData.getAttribute("name") + "'!");
 			}
 			_dmsList.add(_dmsItemCol);
 		}
@@ -265,7 +262,7 @@ public class DMSController implements Serializable {
 		// sort list by $created
 		Collections.sort(_dmsList, new ItemCollectionComparator("$created", true));
 
-		dmsListCache.put(workitem.getUniqueID(),_dmsList);
+		dmsListCache.put(workitem.getUniqueID(), _dmsList);
 		return _dmsList;
 	}
 
@@ -286,7 +283,7 @@ public class DMSController implements Serializable {
 	 */
 	public void reset() {
 		dmsList = null;
-		dmsListCache=null;
+		dmsListCache = null;
 	}
 
 	/**
@@ -331,9 +328,9 @@ public class DMSController implements Serializable {
 	 * The method is used by the DMSController to add links.
 	 * 
 	 * @param aworkitem
-	 *            - the workitem to be updated
+	 *                  - the workitem to be updated
 	 * @param dmsEntity
-	 *            - the metha data to be added into the dms item
+	 *                  - the metha data to be added into the dms item
 	 * @version 1.0
 	 */
 	private List<ItemCollection> addDMSEntry(ItemCollection aworkitem, ItemCollection dmsEntity) {
