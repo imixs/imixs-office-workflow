@@ -1,5 +1,8 @@
 # Imixs-Office-Workflow
+[![Java CI with Maven](https://github.com/imixs/imixs-office-workflow/actions/workflows/maven.yml/badge.svg)](https://github.com/imixs/imixs-office-workflow/actions/workflows/maven.yml)
+[![Join a discussion](https://img.shields.io/badge/discuss-on%20github-4CB697)](https://github.com/imixs/imixs-workflow/discussions)
 [![License](https://img.shields.io/badge/license-GPL-blue.svg)](https://github.com/imixs/imixs-office-workflow/blob/master/LICENSE)
+
 
 '[Imixs-Office-Workflow](https://doc.office-workflow.com/index.html)' provides a **Open Source Workflow Suite** for small, medium and large enterprises.
 The Project is build on top of the '[Imixs-Workflow](https://www.imixs.org)' project and is licensed under the GPL.  
