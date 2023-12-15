@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>imixs-office-workflow</artifactId>
@@ -9,14 +11,14 @@
 	<name>Imixs Office Workflow Util</name>
 
 	<dependencies>
-	<!-- Imixs-Archive -->
+		<!-- Imixs-Archive -->
 		<dependency>
 			<groupId>org.imixs.workflow</groupId>
 			<artifactId>imixs-archive-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
-		
+
+
 		<!-- Imixs Workflow -->
 		<dependency>
 			<groupId>org.imixs.workflow</groupId>
@@ -42,13 +44,18 @@
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
-		
-		
+
 		<dependency>
 			<groupId>org.imixs.workflow</groupId>
 			<artifactId>imixs-marty</artifactId>
 			<type>jar</type>
 			<scope>provided</scope>
+		</dependency>
+		<!-- tiny java lib for iban/bic validation -->
+		<dependency>
+			<groupId>org.iban4j</groupId>
+			<artifactId>iban4j</artifactId>
+			<version>3.2.7-RELEASE</version>
 		</dependency>
 
 
@@ -58,8 +65,6 @@
 			<version>${org.imixs.mock.version}</version>
 			<scope>test</scope>
 		</dependency>
-
-		
 
 
 	</dependencies>

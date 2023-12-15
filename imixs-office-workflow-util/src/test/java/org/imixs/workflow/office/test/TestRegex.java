@@ -4,9 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.imixs.workflow.exceptions.PluginException;
+import org.junit.Assert;
 import org.junit.Test;
-
-import junit.framework.Assert;
 
 /**
  * Test regex from the ProfilePugin
@@ -16,10 +15,7 @@ import junit.framework.Assert;
 public class TestRegex {
 	Pattern pattern;
 	Matcher matcher;
-	
-	
 
-	
 	@Test
 	public void testLucenel() throws PluginException {
 
@@ -58,4 +54,5 @@ public class TestRegex {
 		Assert.assertFalse(pattern.matcher("Workflow").find());
 
 	}
+
 }

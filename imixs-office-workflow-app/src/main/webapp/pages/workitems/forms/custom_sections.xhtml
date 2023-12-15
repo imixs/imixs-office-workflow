@@ -189,8 +189,36 @@
 											</h:selectManyCheckbox>
 										</c:if>
 									</ui:fragment>
-
 								</c:if>
+
+
+								<!-- IBAN/BIC -->
+								<c:if test="#{item.type eq 'iban'}">
+									<h:inputText id="iban" value="#{workitem.item[item.name]}"
+										pt:data-item="#{item.name}" onkeyup="imixsOfficeWorkitem.formatIBAN(this);"
+										required="#{item.required?validationController.required:false}"
+										rendered="#{!item.readonly}" disabled="#{item.disabled}">
+										<f:validator validatorId="imixsIBANValidator" />
+									</h:inputText>
+									<span class="imixs-required">
+										<h:message for="iban" />
+									</span>
+									<h:outputText value="#{workitem.item[item.name]}" rendered="#{item.readonly}" />
+								</c:if>
+								<c:if test="#{item.type eq 'bic'}">
+									<h:inputText id="bic" value="#{workitem.item[item.name]}"
+										pt:data-item="#{item.name}"
+										required="#{item.required?validationController.required:false}"
+										rendered="#{!item.readonly}" disabled="#{item.disabled}">
+										<f:validator validatorId="imixsBICValidator" />
+									</h:inputText>
+									<span class="imixs-required">
+										<h:message for="bic" />
+									</span>
+									<h:outputText value="#{workitem.item[item.name]}" rendered="#{item.readonly}" />
+								</c:if>
+
+
 								<!-- custom subview -->
 								<c:if test="#{item.type eq 'custom'}">
 									<ui:include src="/pages/workitems/parts/#{item.path}.xhtml">
