@@ -68,11 +68,10 @@
 										required="#{item.required?validationController.required:false}"
 										styleClass="imixs-date" rendered="#{!item.readonly}"
 										disabled="#{item.disabled}">
-										<f:converter converterId="ImixsDateConverter" />
-										<!-- note the pattern can not be read by resoruce bundle for som reason. 
-											Seems to be a bug in Jakarta https://github.com/eclipse-ee4j/mojarra/issues/5378 -->
-										<f:attribute name="org.imixs.date.pattern" value="dd.MM.yyyy" />
-										<f:attribute name="org.imixs.date.timeZone" value="CET" />
+										<f:converter converterId="imixsDateConverter" />
+										<f:attribute name="org.imixs.date.pattern"
+											value="#{message.datePatternShort}" />
+										<f:attribute name="org.imixs.date.timeZone" value="#{message.timeZone}" />
 									</h:inputText>
 									<h:outputText value="#{workitem.item[item.name]}" rendered="#{item.readonly}">
 										<f:convertDateTime pattern="#{message.datePatternShort}"
