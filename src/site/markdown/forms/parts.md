@@ -61,14 +61,16 @@ A textlist is displayed as a input textarea. The entries of separate lines are s
 
 
 
-### IBAN Input
+### IBAN / BIC  Input
 
 ```xml
-    <item name="dbtr.iban" type="custom" path="iban"
+    <item name="dbtr.iban" type="iban" 
             label="IBAN" />
+    <item name="dbtr.bic" type="bic" 
+            label="BIC" />
 ```
 
-Only the items `dbtr.iban` and `cdtr.iban` are supported. 
+Supports a IBAN/BIC Input validation. 
 
 ### Select Boxes
 
