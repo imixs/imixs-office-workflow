@@ -1,4 +1,4 @@
-#The DMSSplitPlugin
+# The DMSSplitPlugin
 
 The DMSSplitPlugin provides functionality to create sub-process instances for
  each attachment added in an origin process. The configuration is similar to

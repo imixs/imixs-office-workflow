@@ -12,39 +12,47 @@ To trigger the process the following event-item definition is used:
 
 ```xml 
 <gdpr>
-    <delete-items>...</delete-items>
-    <anonymise-items>...</anonymise-items>
+    <delete>...</delete>
+    <anonymise>...</anonymise>
     <placeholder>no data</placeholder>
-    <anonymise-workitemref>true|false</anonymise-workitemref>
+    <references>OUT|IN|ALL|NONE</references>
 </gdpr>
 ```
 
 
- - delete-items = list of items to be deleted
- - anonymize-items = list of items to be anonymized
+ - delete = list of items to be deleted
+ - anonymise = list of items to be anonymized
  - placeholder = test for anonymization
- - anonymise-workitemref = recursive search of references
+ - references = recursive search of references
 
-The item definition can contain a comma separated list of items as also a regular expression. See the following example:
+The item definitions `delete` and `anonymise` can contain a comma separated list of items names as also a regular expression. See the following example:
 
 
 ```xml 
 <gdpr>
-    <delete-items>$file, cdtr.iban,dbtr.iban,cdtr.bic,dbtr.bic, $workflowsummary, $workflowabstract,txtworkflowhistory</delete-items>
-    <anonymise-items>(^contract\.|^loan\.)</anonymise-items>
+    <delete>$file, cdtr.iban,dbtr.iban,cdtr.bic,dbtr.bic, $workflowsummary, $workflowabstract,txtworkflowhistory</delete-items>
+    <anonymise>(^contract\.|^loan\.)</anonymise>
     <placeholder>no data</placeholder>
-    <anonymise-workitemref>true</anonymise-workitemref>
+    <references>ALL</references>
 </gdpr>
 ```
 
-In the example above the items '$file, cdtr.iban,dbtr.iban,cdtr.bic,dbtr.bic, $workflowsummary, $workflowabstract,txtworkflowhistorye' will be deleted. 
+In the example above the items `$file, cdtr.iban,dbtr.iban,cdtr.bic,dbtr.bic, $workflowsummary, $workflowabstract,txtworkflowhistorye`  will be deleted. 
+All items starting with `contract.` or `loan.`  will be replaced with the place holder 'no data'.
 
-All items starting with 'contract.' or 'loan.'  will be replaced with the place holder 'no data'.
 
-The item list can be customized for each event separately
+
+### References
+
+The tag `references` specifies if the adapter class should also anonymise ingoing or outgoing references. A reference is a workitem linked by the Item `$workitemref`.
+
+ - OUT = all direct refered workitems will be anonymised. These are typical workitems created by the [SplitAndJoinPliugin](https://www.imixs.org/doc/engine/plugins/splitandjoinplugin.html).
+ - IN = all workitems holding a reference to the current workitem. These are workitems with a simple unidirectional link to the current workitem in the item `$workitemref`.
+ - ALL = all ingoing and all outgoing refrences will be anonymised
+ - NONE = no rereferences will be anonymised (default)
 
 
 ### Placeholder Value
 
-The item 'placeholder' can be used to define a placeholder value for the anoynmization process. If no placeholder is set, the value will be cleared. 
+The tag 'placeholder' can be used to define a placeholder value for the anoynmization process. If no placeholder is set, the value will be cleared. 
 

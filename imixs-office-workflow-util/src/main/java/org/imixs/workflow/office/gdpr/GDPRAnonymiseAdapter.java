@@ -1,11 +1,13 @@
 package org.imixs.workflow.office.gdpr;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.SignalAdapter;
 import org.imixs.workflow.engine.DocumentService;
+import org.imixs.workflow.engine.plugins.SplitAndJoinPlugin;
 import org.imixs.workflow.exceptions.AdapterException;
 import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.exceptions.ProcessingErrorException;
@@ -27,10 +29,10 @@ import jakarta.mail.internet.AddressException;
  * {@code
  * 
  *   <gdpr>
-		<delete-items>$file, txtname</delete-items>
-		<anonymise-items>firstname,lastname</anonymise-items>
+		<delete>$file, txtname</delete>
+		<anonymise>firstname,lastname</anonymise>
 		<placeholder>no data</placeholder>
-		<anonymise-references>true@false</anonymise-references>
+		<references>IN|OUT|ALL|NONE</references>
 	</gdpr>
  * 
  * }
@@ -77,25 +79,44 @@ public class GDPRAnonymiseAdapter implements SignalAdapter {
 					"missing gdpr configuraiton in BPMN event!");
 		}
 
-		// iterate over all gdpr configurations
+		// iterate over all gdpr configurations references
 		for (ItemCollection gdprConfig : gdprConfigList) {
-			String deleteItems = gdprConfig.getItemValueString("delete-items");
-			String anonymiseItems = gdprConfig.getItemValueString("anonymise-items");
+			List<String> outgoinReferences = new ArrayList<String>();
+
+			String deleteItems = gdprConfig.getItemValueString("delete");
+			String anonymiseItems = gdprConfig.getItemValueString("anonymise");
 			String placeholder = gdprConfig.getItemValueString("placeholder");
-			boolean anonymiseReferences = gdprConfig.getItemValueBoolean("anonymise-workitemref");
+			boolean anonymiseReferences = gdprConfig.getItemValueBoolean("references");
 
 			gdprAnonymiseService.deleteItems(workitem, deleteItems);
 			gdprAnonymiseService.anonimiseItems(workitem, anonymiseItems, placeholder);
 
 			// anonymise references?
-			if (anonymiseReferences) {
+			if ("OUT".equals(anonymiseReferences) || "ALL".equals(anonymiseReferences)) {
+				// anonymize all sub processes....
+				logger.info("...anonymise outgoing references...");
+				outgoinReferences = workitem.getItemValue(SplitAndJoinPlugin.LINK_PROPERTY);
+				for (String refid : outgoinReferences) {
+					ItemCollection refWorkitem = documentService.load(refid);
+					if (refWorkitem != null) {
+						gdprAnonymiseService.deleteItems(refWorkitem, deleteItems);
+						gdprAnonymiseService.anonimiseItems(refWorkitem, anonymiseItems, placeholder);
+						gdprAnonymiseService.save(refWorkitem);
+					}
+				}
+			}
+			if ("IN".equals(anonymiseReferences) || "ALL".equals(anonymiseReferences)) {
+				logger.info("...anonymise ingoing references...");
 				String searchTerm = "($workitemref:\"" + workitem.getUniqueID() + "\" )";
 				try {
 					List<ItemCollection> refList = documentService.find(searchTerm, 99999, 0);
 					for (ItemCollection refWorkitem : refList) {
-						gdprAnonymiseService.deleteItems(refWorkitem, deleteItems);
-						gdprAnonymiseService.anonimiseItems(refWorkitem, anonymiseItems, placeholder);
-						gdprAnonymiseService.save(refWorkitem);
+						// verify if not yet anonymized....
+						if (!outgoinReferences.contains(refWorkitem.getUniqueID())) {
+							gdprAnonymiseService.deleteItems(refWorkitem, deleteItems);
+							gdprAnonymiseService.anonimiseItems(refWorkitem, anonymiseItems, placeholder);
+							gdprAnonymiseService.save(refWorkitem);
+						}
 					}
 				} catch (QueryException e) {
 					throw new PluginException(e.getErrorContext(), e.getErrorCode(), e.getMessage(), e);
