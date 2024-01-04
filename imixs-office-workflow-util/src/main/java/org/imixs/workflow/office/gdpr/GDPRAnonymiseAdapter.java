@@ -86,7 +86,7 @@ public class GDPRAnonymiseAdapter implements SignalAdapter {
 			String deleteItems = gdprConfig.getItemValueString("delete");
 			String anonymiseItems = gdprConfig.getItemValueString("anonymise");
 			String placeholder = gdprConfig.getItemValueString("placeholder");
-			boolean anonymiseReferences = gdprConfig.getItemValueBoolean("references");
+			String anonymiseReferences = gdprConfig.getItemValueString("references");
 
 			gdprAnonymiseService.deleteItems(workitem, deleteItems);
 			gdprAnonymiseService.anonimiseItems(workitem, anonymiseItems, placeholder);
