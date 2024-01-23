@@ -81,7 +81,7 @@ public class ValidationController implements Serializable {
     WorkflowService workflowService;
 
     public boolean isRequired() throws PluginException {
-
+        required = false;
         if (workflowController != null && workflowController.getWorkitem() != null) {
 
             FacesContext context = FacesContext.getCurrentInstance();
@@ -93,6 +93,8 @@ public class ValidationController implements Serializable {
             for (String id : paramValues.keySet()) {
                 int eventPos = id.indexOf(":imixs_workflow_eventid_");
                 if (eventPos > -1) {
+                    // we have an event - so the required default is now true
+                    required = true;
                     // extract the event id from the h:commandButton id
                     String eventid = id.substring(eventPos + 24);
                     if (eventid != null && !eventid.isEmpty()) {
