@@ -27,16 +27,16 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.engine.WorkflowService;
+import org.imixs.workflow.exceptions.PluginException;
+import org.imixs.workflow.faces.data.WorkflowController;
+
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-
-import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.engine.WorkflowService;
-import org.imixs.workflow.exceptions.PluginException;
-import org.imixs.workflow.faces.data.WorkflowController;
 
 /**
  * The ValidationController evaluates the BPMN event validation rules.
@@ -81,7 +81,7 @@ public class ValidationController implements Serializable {
     WorkflowService workflowService;
 
     public boolean isRequired() throws PluginException {
-
+        required = false;
         if (workflowController != null && workflowController.getWorkitem() != null) {
 
             FacesContext context = FacesContext.getCurrentInstance();
@@ -93,6 +93,8 @@ public class ValidationController implements Serializable {
             for (String id : paramValues.keySet()) {
                 int eventPos = id.indexOf(":imixs_workflow_eventid_");
                 if (eventPos > -1) {
+                    // we have an event triggered - so required defaults to 'true'
+                    required = true;
                     // extract the event id from the h:commandButton id
                     String eventid = id.substring(eventPos + 24);
                     if (eventid != null && !eventid.isEmpty()) {
