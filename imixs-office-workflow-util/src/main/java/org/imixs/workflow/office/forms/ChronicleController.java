@@ -45,6 +45,7 @@ import java.util.logging.Logger;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
+import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.data.WorkflowEvent;
 
@@ -101,6 +102,9 @@ public class ChronicleController implements Serializable {
 
 	@EJB
 	protected WorkitemService workitemService;
+
+	@EJB
+	protected DocumentService documentService;
 
 	private DateFormat dateFormat = null;
 
@@ -238,6 +242,7 @@ public class ChronicleController implements Serializable {
 				continue;
 			}
 
+			ItemCollection versionFull = documentService.load(version.getUniqueID());
 			// Date date = version.getItemValueDate(WorkflowKernel.LASTEVENTDATE);
 			Date date = version.getItemValueDate(WorkflowKernel.CREATED);
 			String message = version.getItemValueString("$WorkflowSummary");
@@ -247,9 +252,19 @@ public class ChronicleController implements Serializable {
 			entry.replaceItemValue("$WorkflowGroup", version.getItemValue("$WorkflowGroup"));
 			entry.replaceItemValue("$WorkflowStatus", version.getItemValue("$WorkflowStatus"));
 			entry.replaceItemValue(WorkflowKernel.LASTEVENTDATE, version.getItemValue(WorkflowKernel.LASTEVENTDATE));
-			entry.replaceItemValue("date", date);
+
 			entry.replaceItemValue("user", user);
-			entry.replaceItemValue("message", message);
+			if (!versionFull.getItemValueString("$uniqueIdSource").isEmpty()) {
+				entry.replaceItemValue("message", message);
+				entry.replaceItemValue("icon", "typcn-starburst-outline");
+				if (versionFull.hasItem(WorkflowKernel.CREATED + ".version")) {
+					date = versionFull.getItemValueDate(WorkflowKernel.CREATED + ".version");
+				}
+			} else {
+				entry.replaceItemValue("message", message);
+				entry.replaceItemValue("icon", "typcn-starburst");
+			}
+			entry.replaceItemValue("date", date);
 			entry.replaceItemValue("type", "version");
 			entry.replaceItemValue(WorkflowKernel.UNIQUEID, version.getUniqueID());
 

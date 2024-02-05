@@ -1,55 +1,58 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 	<!-- Navigation panel - toggle buttons for each category -->
 	<h:panelGroup id="chronicle-nav" layout="block" styleClass="filter imixs-no-print">
 		<ul>
-			<li><h:commandLink
+			<li>
+				<h:commandLink
 					styleClass="#{'history' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
 					actionListener="#{chronicleController.toggleFilter('history')}">
-					<span class="typcn typcn-th-menu-outline"
-						title="#{message.history}"></span>
+					<span class="typcn typcn-th-menu-outline" title="#{message.history}"></span>
 					<f:ajax render="chronicle-main chronicle-nav" />
-				</h:commandLink></li>
+				</h:commandLink>
+			</li>
 
-			<li><h:commandLink
+			<li>
+				<h:commandLink
 					styleClass="#{'comment' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
 					actionListener="#{chronicleController.toggleFilter('comment')}">
 					<span class="typcn typcn-messages" title="#{message.comments}"></span>
 					<f:ajax render="chronicle-main chronicle-nav" />
-				</h:commandLink></li>
+				</h:commandLink>
+			</li>
 
 
-			<li><h:commandLink
+			<li>
+				<h:commandLink
 					styleClass="#{'dms' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
 					actionListener="#{chronicleController.toggleFilter('dms')}">
-					<span class="typcn typcn-folder-open dms"
-						title="#{message['form.attachments.files']}"></span>
+					<span class="typcn typcn-folder-open dms" title="#{message['form.attachments.files']}"></span>
 					<f:ajax render="chronicle-main chronicle-nav" />
-				</h:commandLink></li>
+				</h:commandLink>
+			</li>
 
 
-			<li><h:commandLink
+			<li>
+				<h:commandLink
 					styleClass="#{'reference' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
 					actionListener="#{chronicleController.toggleFilter('reference')}">
-					<span class="typcn typcn-export-outline"
-						title="#{message.references}"></span>
+					<span class="typcn typcn-export-outline" title="#{message.references}"></span>
 					<f:ajax render="chronicle-main chronicle-nav" />
-				</h:commandLink></li>
+				</h:commandLink>
+			</li>
 
 
-			<li><h:commandLink
+			<li>
+				<h:commandLink
 					styleClass="#{'version' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
 					actionListener="#{chronicleController.toggleFilter('version')}">
-					<span class="typcn typcn-archive" title="#{message.versions}"></span>
+					<span class="typcn typcn-starburst-outline" title="#{message.versions}"></span>
 					<f:ajax render="chronicle-main chronicle-nav" />
-				</h:commandLink></li>
+				</h:commandLink>
+			</li>
 
 		</ul>
 
@@ -64,28 +67,30 @@
 	<h:panelGroup id="chronicle-main" layout="block" style="">
 
 		<ui:fragment rendered="#{! empty workflowController.workitem.item['$lasteventdate']}">
-		<table class="imixs-workitem-chronicle-small">	
-			<tr>
-			  <td style=""><strong>#{message.created}: </strong></td>
-			  <td style="width:100%;"><h:outputText value="#{workflowController.workitem.item['$created']}"
-										style="font-weight: normal;">
-										<f:convertDateTime timeZone="#{message.timeZone}"
-											pattern="#{message.dateTimePattern}" />
-									</h:outputText> #{message.by} #{userController.getUserName(workflowController.workitem.item['$creator'])}
-			  </td>
-			</tr>
-			
-			<tr>
-			  <td style="min-width:95px;"><strong>#{message.modified}: </strong></td>
-			  <td style="width:100%;"><h:outputText value="#{workflowController.workitem.item['$lasteventdate']}"
-										style="font-weight: normal;">
-										<f:convertDateTime timeZone="#{message.timeZone}"
-											pattern="#{message.dateTimePattern}" />
-				 	</h:outputText> #{message.by} #{userController.getUserName(workflowController.workitem.item['$editor'])}
-			  </td>
-			 </tr>
-			 
-		</table>
+			<table class="imixs-workitem-chronicle-small">
+				<tr>
+					<td style=""><strong>#{message.created}: </strong></td>
+					<td style="width:100%;">
+						<h:outputText value="#{workflowController.workitem.item['$created']}"
+							style="font-weight: normal;">
+							<f:convertDateTime timeZone="#{message.timeZone}" pattern="#{message.dateTimePattern}" />
+						</h:outputText> #{message.by}
+						#{userController.getUserName(workflowController.workitem.item['$creator'])}
+					</td>
+				</tr>
+
+				<tr>
+					<td style="min-width:95px;"><strong>#{message.modified}: </strong></td>
+					<td style="width:100%;">
+						<h:outputText value="#{workflowController.workitem.item['$lasteventdate']}"
+							style="font-weight: normal;">
+							<f:convertDateTime timeZone="#{message.timeZone}" pattern="#{message.dateTimePattern}" />
+						</h:outputText> #{message.by}
+						#{userController.getUserName(workflowController.workitem.item['$editor'])}
+					</td>
+				</tr>
+
+			</table>
 		</ui:fragment>
 
 		<table>
@@ -94,23 +99,24 @@
 
 				<!-- print YEAR -->
 				<tr class="year">
-					<td colspan="3" ><h2
-							style="text-align: center; border-bottom: 1px solid #ddd; margin-top:20px;">#{year}</h2></td>
+					<td colspan="3">
+						<h2 style="text-align: center; border-bottom: 1px solid #ddd; margin-top:20px;">#{year}</h2>
+					</td>
 				</tr>
 
 				<!-- print all MONTHs -->
-				<ui:repeat var="month"
-					value="#{chronicleController.getMonths(year)}">
+				<ui:repeat var="month" value="#{chronicleController.getMonths(year)}">
 					<ui:param name="message_month" value="month_#{month}"></ui:param>
 					<tr class="month">
-						<td colspan="3"><h3 style="text-align: center;">#{message[message_month]}</h3></td>
+						<td colspan="3">
+							<h3 style="text-align: center;">#{message[message_month]}</h3>
+						</td>
 
 					</tr>
 
 					<!-- show chronic by month -->
-					<ui:repeat var="chronicle"
-						value="#{chronicleController.getChroniclePerMonth(year,month)}">
-						
+					<ui:repeat var="chronicle" value="#{chronicleController.getChroniclePerMonth(year,month)}">
+
 						<ui:include src="workitem_chronicle_entry.xhtml">
 							<ui:param name="chronicle" value="#{chronicle}" />
 						</ui:include>
@@ -118,8 +124,7 @@
 				</ui:repeat>
 			</ui:repeat>
 		</table>
-		
+
 	</h:panelGroup>
 
 </ui:composition>
-

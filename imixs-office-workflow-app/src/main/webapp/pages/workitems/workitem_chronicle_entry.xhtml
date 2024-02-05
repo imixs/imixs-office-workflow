@@ -1,34 +1,27 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 
-	<ui:param name="profile"
-		value="#{userController.getProfile(chronicle.user)}"></ui:param>
+	<ui:param name="profile" value="#{userController.getProfile(chronicle.user)}"></ui:param>
 
 
 	<!-- 1) User Icon and Time -->
 	<tr class="header">
-		<td style="vertical-align: top;"><h:graphicImage
-				styleClass="imixs-workitem-chronicle-usericon imixs-no-print"
-				title="#{profile.item['txtusername']}"
-				rendered="#{! empty profile.item['txtusericon']}"
+		<td style="vertical-align: top;">
+			<h:graphicImage styleClass="imixs-workitem-chronicle-usericon imixs-no-print"
+				title="#{profile.item['txtusername']}" rendered="#{! empty profile.item['txtusericon']}"
 				value="/api/snapshot/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
-			</h:graphicImage> <!-- optional - user initials --> <h:panelGroup layout="block"
-				rendered="#{empty profile.item['txtusericon']}">
-				<h:outputText styleClass="imixs-workitem-chronicle-usericon"
-					title="#{profile.item['txtusername']}"
+			</h:graphicImage> <!-- optional - user initials -->
+			<h:panelGroup layout="block" rendered="#{empty profile.item['txtusericon']}">
+				<h:outputText styleClass="imixs-workitem-chronicle-usericon" title="#{profile.item['txtusername']}"
 					value="#{profile.item['txtinitials']}" />
-			</h:panelGroup> <h:outputText value="#{chronicle.date}" title="#{chronicle.date}"
-				class="date">
-				<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-					pattern="#{message.dateTimePattern}" />
-			</h:outputText> - #{profile.item['txtusername']}</td>
+			</h:panelGroup>
+			<h:outputText value="#{chronicle.date}" title="#{chronicle.date}" class="date">
+				<f:convertDateTime timeZone="#{message.timeZone}" type="both" pattern="#{message.dateTimePattern}" />
+			</h:outputText> - #{profile.item['txtusername']}
+		</td>
 	</tr>
 
 
@@ -80,9 +73,11 @@
 		<!--  dms -->
 		<ui:fragment rendered="#{'dms' eq entry.item['type']}">
 			<tr class="entry files">
-				<td><ui:include src="workitem_chronicle_entry_dms.xhtml">
+				<td>
+					<ui:include src="workitem_chronicle_entry_dms.xhtml">
 						<ui:param name="attachment" value="#{entry}" />
-					</ui:include></td>
+					</ui:include>
+				</td>
 			</tr>
 		</ui:fragment>
 
@@ -95,26 +90,25 @@
 						<h:panelGroup pt:title="#{message.reference} #{entry.item['date']}"
 							styleClass="typcn typcn-export-outline"></h:panelGroup>
 					</div>
-					<div class="content-block"> 
+					<div class="content-block">
 						<h:panelGroup styleClass="">
 							<h:link outcome="/pages/workitems/workitem">
-									<h:outputText escape="false" value="#{entry.item['message']}" />
-									<f:param name="id" value="#{entry.item['$uniqueid']}" />
-								</h:link> 
+								<h:outputText escape="false" value="#{entry.item['message']}" />
+								<f:param name="id" value="#{entry.item['$uniqueid']}" />
+							</h:link>
 							<br />
 							<!-- Status -->
 							<h:outputText value="#{entry.item['$workflowgroup']} » " />
 							<h:outputText value="#{entry.item['$workflowstatus']}" />
 							<br />
 							<div class="">
-								<h:outputText value="#{entry.item['$lasteventdate']}"
-									style="font-weight: normal;">
+								<h:outputText value="#{entry.item['$lasteventdate']}" style="font-weight: normal;">
 									<f:convertDateTime timeZone="#{message.timeZone}"
 										pattern="#{message.dateTimePattern}" />
 								</h:outputText>
 								<h:outputLabel value=" - " />
-								
-								
+
+
 								<h:outputText value="#{userController.getUserName(entry.item['$lasteditor'])}" />
 
 
@@ -133,7 +127,7 @@
 				<td>
 					<div class="image-block">
 						<h:panelGroup pt:title="#{message.version} #{entry.item['date']}"
-							styleClass="typcn typcn-archive"></h:panelGroup>
+							styleClass="typcn #{entry.item['icon']}"></h:panelGroup>
 					</div>
 					<div class="content-block">
 						<h:panelGroup styleClass="imixs-comments-entry">
@@ -142,18 +136,16 @@
 								<f:param name="id" value="#{entry.item['$uniqueid']}" />
 							</h:link>
 						</h:panelGroup>
-						
+
 						<br />
-							<!-- Status -->
-							<h:outputText value="#{entry.item['$workflowgroup']} » " />
-							<h:outputText value="#{entry.item['$workflowstatus']}" />
-							<div class="pull-right">
-								<h:outputText value="#{entry.item['$lasteventdate']}"
-									style="font-weight: normal;">
-									<f:convertDateTime timeZone="#{message.timeZone}"
-										pattern="dd. MMM (HH:mm)" />
-								</h:outputText>
-							</div>
+						<!-- Status -->
+						<h:outputText value="#{entry.item['$workflowgroup']} » " />
+						<h:outputText value="#{entry.item['$workflowstatus']}" />
+						<div class="pull-right">
+							<h:outputText value="#{entry.item['$lasteventdate']}" style="font-weight: normal;">
+								<f:convertDateTime timeZone="#{message.timeZone}" pattern="dd. MMM (HH:mm)" />
+							</h:outputText>
+						</div>
 					</div>
 				</td>
 			</tr>
@@ -172,4 +164,3 @@
 
 
 </ui:composition>
-
