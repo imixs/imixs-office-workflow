@@ -13,29 +13,27 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-
-
-
 /**
  * This test class will test the comment feature of the CommentPlugin
  * 
  * @author rsoika
  */
+
 public class TestCommentPlugin {
 
 	private CommentPlugin commentPlugin;
 
 	ItemCollection documentActivity;
 	ItemCollection documentContext;
-	
+
 	WorkflowMockEnvironment workflowMockEnvironment;
 
 	@Before
 	public void setup() throws PluginException, ModelException, AdapterException {
-		
-		workflowMockEnvironment=new WorkflowMockEnvironment();
+
+		workflowMockEnvironment = new WorkflowMockEnvironment();
 		workflowMockEnvironment.setModelPath("/bpmn/TestCommentPlugin.bpmn");
-		
+
 		workflowMockEnvironment.setup();
 
 		commentPlugin = new CommentPlugin();
@@ -46,15 +44,14 @@ public class TestCommentPlugin {
 			e.printStackTrace();
 		}
 
-		documentContext=new ItemCollection();
+		documentContext = new ItemCollection();
 	}
-	
 
 	/**
 	 * This simple test verifies the default comment feature
 	 * 
 	 * @throws PluginException
-	 * @throws ModelException 
+	 * @throws ModelException
 	 * 
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -85,7 +82,7 @@ public class TestCommentPlugin {
 	 * This simple test verifies the comment ignore=true flag
 	 * 
 	 * @throws PluginException
-	 * @throws ModelException 
+	 * @throws ModelException
 	 * 
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -94,7 +91,7 @@ public class TestCommentPlugin {
 
 		documentContext.replaceItemValue("txtComment", "Some Comment");
 		documentActivity = workflowMockEnvironment.getModel().getEvent(100, 10);
-	
+
 		try {
 			commentPlugin.run(documentContext, documentActivity);
 		} catch (PluginException e) {
@@ -115,7 +112,7 @@ public class TestCommentPlugin {
 	 * This test verifies a fixed comment text
 	 * 
 	 * @throws PluginException
-	 * @throws ModelException 
+	 * @throws ModelException
 	 * 
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -125,7 +122,6 @@ public class TestCommentPlugin {
 		documentContext.replaceItemValue("txtComment", "Some Comment");
 		documentActivity = workflowMockEnvironment.getModel().getEvent(100, 20);
 
-	
 		try {
 			commentPlugin.run(documentContext, documentActivity);
 		} catch (PluginException e) {

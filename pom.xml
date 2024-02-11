@@ -85,8 +85,8 @@
 
 		<!-- Dependency Versions -->
 		<jakarta.version>10.0.0</jakarta.version>
-		<org.imixs.workflow.version>6.0.4-SNAPSHOT</org.imixs.workflow.version>
-		<org.imixs.archive.version>3.0.1-SNAPSHOT</org.imixs.archive.version>
+		<org.imixs.workflow.version>6.0.4</org.imixs.workflow.version>
+		<org.imixs.archive.version>3.0.1</org.imixs.archive.version>
 		<org.imixs.office.version />
 		<org.imixs.marty.version>5.0.0</org.imixs.marty.version>
 		<org.imixs.mock.version>6.0.0</org.imixs.mock.version>
@@ -403,7 +403,6 @@
 			<version>3.0.0</version>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -422,11 +421,38 @@
 			<version>3.4.10</version>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.imixs.workflow</groupId>
 			<artifactId>imixs-melman</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-mock</artifactId>
+			<version>${org.imixs.mock.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>5.8.0</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- See issue #572 -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.parsson</groupId>
+			<artifactId>jakarta.json</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<version>3.0.0</version>
 		</dependency>
 
 	</dependencies>
