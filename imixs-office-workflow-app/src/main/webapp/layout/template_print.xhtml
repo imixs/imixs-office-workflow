@@ -21,6 +21,7 @@
 		<ui:param name="title" value="#{propertyController.getProperty('application.title')}"></ui:param>
 		<h:outputText rendered="#{empty title}" value="#{resourceBundleHandler.findMessage('application_title')}" />
 		<h:outputText rendered="#{!empty title}" value="#{title}" />
+		- #{workflowController.workitem.item['$uniqueid']}
 	</title>
 
 	<!-- imixs-css -->
@@ -133,7 +134,13 @@
 
 				<!-- Branding -->
 				<div class="branding">
-					<h1>#{app.application_title}</h1>
+					<h1>
+						<ui:param name="title" value="#{propertyController.getProperty('application.title')}">
+						</ui:param>
+						<h:outputText rendered="#{empty title}"
+							value="#{resourceBundleHandler.findMessage('application_title')}" />
+						<h:outputText rendered="#{!empty title}" value="#{title}" />
+					</h1>
 					<p style="float:right"><span id="printtime"></span></p>
 				</div>
 				<hr />
