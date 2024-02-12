@@ -11,24 +11,16 @@
 		<h:outputText escape="false" value="#{instruction}" />
 	</h:panelGroup>
 
-	<!-- sub forms (optional) -->
-	<c:forEach items="#{formController.formDefinition.sections}" var="section">
-		<div class="imixs-form-panel">
-			<h3>
-				<h:outputText value="#{section.name}" />
-			</h3>
-			<f:subview>
-				<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
-					<ui:param name="workitem" value="#{workflowController.workitem}" />
-				</ui:include>
-			</f:subview>
-		</div>
-	</c:forEach>
+	<!--  Custom Form  -->
+	<f:subview>
+		<ui:include src="/pages/workitems/forms/custom.xhtml">
+			<ui:param name="workitem" value="#{workflowController.workitem}" />
+		</ui:include>
+	</f:subview>
 
 	<!-- Workflow and Chronicle -->
 	<div class="imixs-workitem-chronicle">
 		<ui:include src="/pages/workitems/workitem_chronicle.xhtml" />
-
 	</div>
 
 </ui:composition>

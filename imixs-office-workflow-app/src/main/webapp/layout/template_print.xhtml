@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 <h:head>
@@ -22,52 +18,43 @@
 
 
 	<title>
-		<ui:param name="title"
-				value="#{propertyController.getProperty('application.title')}"></ui:param>
+		<ui:param name="title" value="#{propertyController.getProperty('application.title')}"></ui:param>
 		<h:outputText rendered="#{empty title}" value="#{resourceBundleHandler.findMessage('application_title')}" />
 		<h:outputText rendered="#{!empty title}" value="#{title}" />
 	</title>
 
 	<!-- imixs-css -->
-	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/imixs-basic.css"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
-	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/imixs-layout.css"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
+	<link href="#{facesContext.externalContext.requestContextPath}/layout/css/imixs-basic.css" charset="UTF-8"
+		type="text/css" rel="stylesheet" />
+	<link href="#{facesContext.externalContext.requestContextPath}/layout/css/imixs-layout.css" charset="UTF-8"
+		type="text/css" rel="stylesheet" />
 
 
 	<!-- #### Customize TinyMCE  Start -->
 	<!--  tinymce disable can be set back to true if new defaulttinymce is supported -->
-	<i:imixsHeader disablecss="false" disabletinymce="true"
-		dateformat="#{message.datePatternShort}"
+	<i:imixsHeader disablecss="false" disabletinymce="true" dateformat="#{message.datePatternShort}"
 		theme="#{facesContext.externalContext.requestContextPath}/layout/themes/#{app.application_theme}" />
 	<!-- #### Customize TinyMCE  END -->
 
 
 
 
-	<link
-		href="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.css"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
+	<link href="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.css" charset="UTF-8"
+		type="text/css" rel="stylesheet" />
 
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/layout/css/fonts/typicons.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
-	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme.css"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
+	<link href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme.css" charset="UTF-8"
+		type="text/css" rel="stylesheet" />
 
-	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-print.css"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
+	<link href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-print.css" charset="UTF-8"
+		type="text/css" rel="stylesheet" />
 
-	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom.css"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
-	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/custom-print.css"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
+	<link href="#{facesContext.externalContext.requestContextPath}/layout/css/custom.css" charset="UTF-8"
+		type="text/css" rel="stylesheet" />
+	<link href="#{facesContext.externalContext.requestContextPath}/layout/css/custom-print.css" charset="UTF-8"
+		type="text/css" rel="stylesheet" />
 
 	<!-- IE 7 support -->
 	<h:outputText
@@ -85,7 +72,7 @@
 	<h:outputText
 		value="&lt;!--[if IE 10]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
 		escape="false" />
-		
+
 
 	<!-- *** SCRIPTS *** -->
 
@@ -117,7 +104,7 @@
 	<script type="text/javascript"
 		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.main.custom.js?build=#{app.application_build_timestamp}"></script>
 
-    <script type="text/javascript">
+	<script type="text/javascript">
 		/*<![CDATA[*/
 
 		// define script name spaces
@@ -125,11 +112,9 @@
 		var imixsOfficeWorkflow = IMIXS.org.imixs.workflow.office;
 
 		// define variables for office scripts loaded from resource bundles....
-		imixsOfficeMain.contextPath="#{facesContext.externalContext.requestContextPath}";
-		imixsOfficeMain.error_message_mce_image_size="#{message.error_message_mce_image_size}";
-		imixsOfficeMain.imixs_date_showWeek=("true"==="#{app['jquey.datepicker.showWeek']}");
-		
-		
+		imixsOfficeMain.contextPath = "#{facesContext.externalContext.requestContextPath}";
+		imixsOfficeMain.error_message_mce_image_size = "#{message.error_message_mce_image_size}";
+		imixsOfficeMain.imixs_date_showWeek = ("true" === "#{app['jquey.datepicker.showWeek']}");
 		/*]]>*/
 	</script>
 	<ui:insert name="header">
@@ -143,15 +128,17 @@
 	<f:view locale="#{userController.locale}">
 
 		<div id="imixs-container">
-			
+
 			<div id="imixs-wrapper">
 
+				<!-- Branding -->
+				<div class="branding">
+					<h1>#{app.application_title}</h1>
+					<p style="float:right"><span id="printtime"></span></p>
+				</div>
+				<hr />
+
 				<div id="imixs-content">
-					<!-- 
-					<ui:insert name="historynav">
-						<ui:include src="historynav.xhtml" />
-					</ui:insert>
-					 -->
 					<ui:insert name="content">
 						<h1>Default Content</h1>
 					</ui:insert>
@@ -178,7 +165,7 @@
 
 		</div>
 	</f:view>
-	
+
 	<!-- Load the marty component script -->
 	<script type="text/javascript"
 		src="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.js"></script>
@@ -187,56 +174,73 @@
 		src="#{facesContext.externalContext.requestContextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
 	<script type="text/javascript"
 		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office-workflow.js?build=#{app.application_build_timestamp}"></script>
-	
+
 	<script type="text/javascript">
-	/*<![CDATA[*/
+		/*<![CDATA[*/
 
 		/* Init Script */
-		var imixs = IMIXS.org.imixs.core, 
+		var imixs = IMIXS.org.imixs.core,
 			imixsOfficeWorkflow = IMIXS.org.imixs.workflow.office;
 
-		imixsOfficeMain.contextPath="#{facesContext.externalContext.requestContextPath}";
-		
-		$(document).ready(function() {
+		imixsOfficeMain.contextPath = "#{facesContext.externalContext.requestContextPath}";
+
+		$(document).ready(function () {
 			imixsOfficeMain.initLayout();
-			
+
+			/* Print current time into header */
+			var jetzt = new Date();
+			var stunden = jetzt.getHours();
+			var minuten = jetzt.getMinutes();
+			var sekunden = jetzt.getSeconds();
+			var tag = jetzt.getDate();
+			var monat = jetzt.getMonth() + 1; // Month starts with 0
+			var jahr = jetzt.getFullYear();
+			// add leading 0
+			minuten = minuten < 10 ? '0' + minuten : minuten;
+			sekunden = sekunden < 10 ? '0' + sekunden : sekunden;
+			monat = monat < 10 ? '0' + monat : monat;
+			tag = tag < 10 ? '0' + tag : tag;
+			var datetimeString = tag + '.' + monat + '.' + jahr + ' ' + stunden + ':' + minuten + ':' + sekunden;
+			document.getElementById('printtime').innerText = datetimeString;
+
+
 			/* This script replaces input fields with their values
 			 * we skip radio inputs and checkboxes.
 			 * if a input field is inside a parent element with the class named '.imixs-custom-print' 
 			 * then the input will be printed as it is  
 			 * 
 			 */
-			$(".imixs-body input[type=text], .imixs-body textarea").each(function(index) {
-				var hauptding=$(this).closest( ".imixs-custom-print" );
-				if (hauptding.length==0) {
+			$(".imixs-body input[type=text], .imixs-body textarea").each(function (index) {
+				var hauptding = $(this).closest(".imixs-custom-print");
+				if (hauptding.length == 0) {
 					var content = $(this).val();
-					$(this).after("<span style=\"white-space: pre-line;\">"+content+"</span>").hide();		
+					$(this).after("<span style=\"white-space: pre-line;\">" + content + "</span>").hide();
 				}
 			});
 
-			$(".imixs-body input[type=radio]").each(function(index) {
+			$(".imixs-body input[type=radio]").each(function (index) {
 				var content = $(this).val();
-				var label= $(this).next().next().text();
+				var label = $(this).next().next().text();
 			});
-			
-			
-			$(".imixs-body select").each(function(index) {
-				$( "option:selected",this ).each(function() {
-				    var content=$( this ).text();				    
-			    	$(this).parent().after("<span style=\"white-space: pre-line;\">"+content+"</span>");
-				  });
+
+
+			$(".imixs-body select").each(function (index) {
+				$("option:selected", this).each(function () {
+					var content = $(this).text();
+					$(this).parent().after("<span style=\"white-space: pre-line;\">" + content + "</span>");
+				});
 				$(this).hide();
 			});
-				
+
 			// hide buttons
 			$(".imixs-body input[type=submit], .imixs-body input[type=rest], .imixs-body input[type=button], .imixs-body :button").hide();
-			
+
 			// autoprint 
 			window.print();
 		});
-		
-		
-	/*]]>*/
+
+
+		/*]]>*/
 	</script>
 </h:body>
 
