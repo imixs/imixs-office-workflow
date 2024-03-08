@@ -49,7 +49,6 @@ import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.data.WorkflowEvent;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.enterprise.event.Observes;
@@ -63,7 +62,7 @@ import jakarta.inject.Named;
  * history, versions, comments, references, documents
  * 
  * <p>
- * Each chronic entry for a workitme consists of the following data items:
+ * Each chronic entry for a workitem consists of the following data items:
  * <ul>
  * 
  * - type : date|history|file|version|
@@ -80,19 +79,16 @@ import jakarta.inject.Named;
 @ConversationScoped
 public class ChronicleController implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	@Inject
-	protected WorkflowController workflowController;
 	private static Logger logger = Logger.getLogger(ChronicleController.class.getName());
 
 	List<ChronicleEntity> originChronicleList;
 	List<ChronicleEntity> filteredChronicleList;
 	String filter = null;
-
 	Map<Integer, Set<Integer>> yearsMonths;
+
+	@Inject
+	protected WorkflowController workflowController;
 
 	@Inject
 	protected DMSController dmsController;
@@ -108,8 +104,11 @@ public class ChronicleController implements Serializable {
 
 	private DateFormat dateFormat = null;
 
+	/**
+	 * This helper method is called during the WorkflowEvent.WORKITEM_CHANGED to
+	 * update the chronicle view for the current workitem.
+	 */
 	@SuppressWarnings("unchecked")
-	@PostConstruct
 	public void init() {
 		long l = System.currentTimeMillis();
 		originChronicleList = new ArrayList<ChronicleEntity>();
@@ -132,17 +131,14 @@ public class ChronicleController implements Serializable {
 		// do we have real history entries?
 		if (history.size() > 0 && history.get(0) instanceof List) {
 			for (List<Object> entries : history) {
-
 				Date date = (Date) entries.get(0);
 				String message = (String) entries.get(1);
 				String user = (String) entries.get(2);
-
 				ItemCollection entry = new ItemCollection();
 				entry.replaceItemValue("date", date);
 				entry.replaceItemValue("user", user);
 				entry.replaceItemValue("message", message);
 				entry.replaceItemValue("type", "history");
-
 				addChronicleEntry(originChronicleList, entry);
 			}
 		}
@@ -284,7 +280,6 @@ public class ChronicleController implements Serializable {
 	}
 
 	/*
-	 * 
 	 * Helper Method checks if a given UniqueID is part of a list of Workitems
 	 * 
 	 * @param list
@@ -305,22 +300,21 @@ public class ChronicleController implements Serializable {
 
 	/**
 	 * WorkflowEvent listener
-	 * <p>
-	 * If a new WorkItem was created the file upload will be reset.
 	 * 
+	 * If a new WorkItem was created or changed, the chronicle view will be
+	 * initialized.
 	 * 
 	 * @param workflowEvent
 	 */
 	public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) {
-		if (workflowEvent == null)
+		if (workflowEvent == null) {
 			return;
-
+		}
 		if (WorkflowEvent.WORKITEM_CREATED == workflowEvent.getEventType()
 				|| WorkflowEvent.WORKITEM_CHANGED == workflowEvent.getEventType()) {
 			// reset chronicle data...
 			init();
 		}
-
 	}
 
 	/**
@@ -334,11 +328,9 @@ public class ChronicleController implements Serializable {
 
 	public List<Integer> getYears() {
 		Set<Integer> result = yearsMonths.keySet();
-
 		List<Integer> sortedList = new ArrayList<>(result);
 		Collections.sort(sortedList);
 		Collections.reverse(sortedList);
-
 		return sortedList;
 	}
 
