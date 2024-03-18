@@ -34,9 +34,9 @@
 				</p>
 
 				<!-- *** WorkflowGroup List if user is member*** -->
+				<ui:param name="isWorkflowCreator" value="#{!(loginController.isUserInRole('org.imixs.ACCESSLEVEL.READERACCESS') or (loginController.isUserInRole('org.imixs.ACCESSLEVEL.NOACCESS') eq true)) }" />
 				<h:panelGroup
-					rendered="#{!empty process.itemList['txtWorkflowList']}">
-
+					rendered="#{isWorkflowCreator and !empty process.itemList['txtWorkflowList']}">
 					<ul style="margin: 5px 0;">
 						<ui:repeat value="#{process.itemList['txtWorkflowList']}"
 							var="group">
