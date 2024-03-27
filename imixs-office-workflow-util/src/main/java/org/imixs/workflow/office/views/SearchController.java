@@ -393,9 +393,8 @@ public class SearchController extends ViewController implements Serializable {
 
         List<String> typeList = searchFilter.getItemValue("Type");
         if (typeList.isEmpty() || "".equals(typeList.get(0))) {
-            // typeList = Arrays.asList(new String[] { "workitem", "workitemarchive" });
             // default restrict to workitem
-            typeList = Arrays.asList(new String[] { "workitem" });
+            typeList = Arrays.asList(new String[] { "workitem", "workitemarchive" });
         }
 
         // convert type list into comma separated list
@@ -505,7 +504,7 @@ public class SearchController extends ViewController implements Serializable {
             SearchEvent event = new SearchEvent(searchFilter, SearchEvent.ON_QUERY);
             searchEvents.fire(event); // extend query
             String customQuery = event.getQuery();
-            if (customQuery!=null && !customQuery.isEmpty()) {
+            if (customQuery != null && !customQuery.isEmpty()) {
                 if (!customQuery.trim().endsWith("AND")) {
                     customQuery = customQuery + " AND";
                 }

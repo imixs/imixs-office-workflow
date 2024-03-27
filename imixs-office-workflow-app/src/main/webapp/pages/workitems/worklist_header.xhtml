@@ -1,27 +1,23 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 
-		
+
 	<!-- Marty User Search Integration -->
 	<marty:userSearch />
-	
-	
+
+
 	<!-- show filter section only in core process selection -->
-		<c:if test="#{!empty searchController.process}">
-			<ui:include src="/pages/workitems/worklist_filter.xhtml" />
-		</c:if>
-	
+	<c:if test="#{!empty searchController.process}">
+		<ui:include src="/pages/workitems/worklist_filter.xhtml" />
+	</c:if>
+
 	<h:panelGroup id="worklist_filter_panel">
 		<div style="clear: both;" />
 
-	
+
 		<div class="imixs-form-section-3">
 			<!-- date range -->
 			<dl>
@@ -30,50 +26,47 @@
 						value="#{message['worklist.date_range']}: " />
 				</dt>
 				<dd>
-					<h:inputText
-						value="#{searchController.searchFilter.item['date.from']}"
+					<h:inputText value="#{searchController.searchFilter.item['date.from']}"
 						title="#{message['worklist.date_range_help']}" class="imixs-date">
-						<f:convertDateTime pattern="#{message.datePatternShort}"
-							timeZone="#{message.timeZone}" />
+						<f:convertDateTime pattern="#{message.datePatternShort}" timeZone="#{message.timeZone}" />
 					</h:inputText>
 					-
-					<h:inputText
-						value="#{searchController.searchFilter.item['date.to']}"
+					<h:inputText value="#{searchController.searchFilter.item['date.to']}"
 						title="#{message['worklist.date_range_help']}" class="imixs-date">
-						<f:convertDateTime pattern="#{message.datePatternShort}"
-							timeZone="#{message.timeZone}" />
+						<f:convertDateTime pattern="#{message.datePatternShort}" timeZone="#{message.timeZone}" />
 					</h:inputText>
 				</dd>
 			</dl>
 
 			<!-- by owner/creator -->
 			<dl>
-				<dt><h:selectOneRadio value="#{searchController.searchFilter.itemListArray['usermode']}">
-						<f:selectItem itemLabel="#{message['currenteditor']}" itemValue="owner" />
-						<f:selectItem itemLabel="#{message['participants']}" itemValue="participant" />
-						<f:selectItem itemLabel="#{message['creator']}" itemValue="creator" />
-						<f:ajax event="change" execute="@form" render="@form" listener="#{searchController.refreshSearch}"
-							onevent="updateSearchForm"  /> 
+				<dt>
+					<h:selectOneRadio value="#{searchController.searchFilter.itemListArray['usermode']}">
+						<f:selectItem itemLabel="#{message['worklist.tasklist_by']}" itemValue="owner" />
+						<f:selectItem itemLabel="#{message['worklist.edited_by']}" itemValue="participant" />
+						<f:selectItem itemLabel="#{message['worklist.created_by']}" itemValue="creator" />
+						<f:ajax event="change" execute="@form" render="@form"
+							listener="#{searchController.refreshSearch}" onevent="updateSearchForm" />
 					</h:selectOneRadio>
 				</dt>
 				<dd>
 					<marty:userInput value="#{searchController.searchFilter.item['user']}" editmode="true" />
 				</dd>
 			</dl>
-			
+
 
 
 			<!-- archive -->
 			<dl>
-				<dt>#{message['worklist.archive']}:</dt>
+				<dt>#{message['worklist.type']}:</dt>
 				<dd>
-
-					<h:selectManyCheckbox id="view_filter" 
+					<h:selectManyCheckbox id="view_filter"
 						value="#{searchController.searchFilter.itemListArray['type']}">
-						<f:selectItem itemLabel="#{message['worklist.archive_selection']}"
+						<f:selectItem itemLabel="#{message['worklist.type_workitem']}" itemValue="workitem" />
+						<f:selectItem itemLabel="#{message['worklist.type_workitemarchive']}"
 							itemValue="workitemarchive" />
-						<f:ajax event="change" execute="@form" render="@form" listener="#{searchController.refreshSearch}"
-							onevent="updateSearchForm"  /> 
+						<f:ajax event="change" execute="@form" render="@form"
+							listener="#{searchController.refreshSearch}" onevent="updateSearchForm" />
 					</h:selectManyCheckbox>
 				</dd>
 			</dl>

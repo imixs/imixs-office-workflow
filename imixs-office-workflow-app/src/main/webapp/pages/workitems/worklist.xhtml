@@ -1,7 +1,5 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	template="/layout/template.xhtml">
 
 
@@ -12,43 +10,46 @@
 		</f:metadata>
 	</h:head>
 
-	
+
 	<ui:define name="scripts">
 		<script type="text/javascript"
 			src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.worklist.js?build=#{app.application_build_timestamp}"></script>
 		<script type="text/javascript"
 			src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.worklist.custom.js?build=#{app.application_build_timestamp}"></script>
 	</ui:define>
-		
-	
+
+
 
 	<ui:define name="content">
 		<f:view>
 			<h:form>
 				<ui:param name="searchresult" value="#{viewHandler.getData(searchController)}"></ui:param>
 				<ui:param name="searchresultCount" value="#{searchController.getCount()}"></ui:param>
-				
-				
-				<h:panelGroup styleClass="imixs-view imixs-search" layout="block" id="serach_view">				
-				
-				
+
+
+				<h:panelGroup styleClass="imixs-view imixs-search" layout="block" id="serach_view">
+
+
 					<div class="imixs-header">
 						<h1 id="worklist-title">
 							<!-- Back Link to board -->
 							<ui:fragment rendered="#{!empty searchController.process}">
-								<h:link outcome="/pages/notes_board?processref=#{searchController.process.uniqueID}"><span class="typcn typcn-th-large-outline" style="margin-right:5px;"></span></h:link>
+								<h:link outcome="/pages/notes_board?processref=#{searchController.process.uniqueID}">
+									<span class="typcn typcn-th-large-outline" style="margin-right:5px;"></span>
+								</h:link>
 								<h:outputText value="#{searchController.process.item['Name']}" />
 							</ui:fragment>
 							<!-- Search -->
 							<ui:fragment rendered="#{empty searchController.process}">
 								<h:outputText value="#{message.search}" />
-								<h:outputText rendered="#{!empty searchController.title}" value=" » #{searchController.title}" />
-								</ui:fragment>
+								<h:outputText rendered="#{!empty searchController.title}"
+									value=" » #{searchController.title}" />
+							</ui:fragment>
 						</h1>
 					</div>
-				
-				
-				
+
+
+
 					<div class="imixs-body">
 						<!-- *** Header **** -->
 						<ui:fragment rendered="#{empty searchController.defaultQuery}">
@@ -56,43 +57,68 @@
 								<!-- *** Header **** -->
 								<ui:include src="/pages/workitems/worklist_header.xhtml" />
 							</div>
-							</ui:fragment>
-							
-							
-							<div class="imixs-view-submit-panel">
-								<!-- Search Button and Search Order -->
-							
-							
-								<h:commandButton value="#{message.search}" action="#{searchController.refreshSearch()}">
-									<f:ajax render="@form" execute="@form" onevent="updateSearchForm" />
-								</h:commandButton>
-								<h:commandButton value="#{message.reset}" action="#{searchController.resetSearch()}">
-									<f:ajax render="@form" execute="@form" onevent="updateSearchForm" />
-								</h:commandButton>
-							
-								<!-- Sort Order -->
-								<div style="float: right; padding: 0 10px;" class="pull-right ui-button ui-widget ui-state-default ui-corner-all">
-									<h:outputText title="#{message['worklist.sortorder_help']}" value="#{message['worklist.sortorder']}: " />
-									<h:selectOneMenu style="background:#fff;" value="#{searchController.searchFilter.item['sortorder']}">
-										<f:selectItem itemValue="" itemLabel="#{message['worklist.sortorder_relevance']}" />
-										<f:selectItem itemValue="1" itemLabel="#{message['worklist.sortorder_newest']}" />
-										<f:selectItem itemValue="2" itemLabel="#{message['worklist.sortorder_oldest']}" />
-										<f:ajax event="change" render="@form" listener="#{searchController.refreshSearch}"
+						</ui:fragment>
+
+
+						<div class="imixs-view-submit-panel">
+							<!-- Search Button and Search Order -->
+
+
+							<h:commandButton value="#{message.search}" action="#{searchController.refreshSearch()}">
+								<f:ajax render="@form" execute="@form" onevent="updateSearchForm" />
+							</h:commandButton>
+							<h:commandButton value="#{message.reset}" action="#{searchController.resetSearch()}">
+								<f:ajax render="@form" execute="@form" onevent="updateSearchForm" />
+							</h:commandButton>
+
+							<!-- Sort Order -->
+							<div class="pull-right ">
+								<div class=" ui-button ui-widget ui-state-default ui-corner-all"
+									style="padding: 0 10px;">
+									<h:outputText title="#{message['worklist.sortorder_help']}"
+										value="#{message['worklist.sortorder']}: " />
+									<h:selectOneMenu style="background:#fff;"
+										value="#{searchController.searchFilter.item['sortorder']}">
+										<f:selectItem itemValue=""
+											itemLabel="#{message['worklist.sortorder_relevance']}" />
+										<f:selectItem itemValue="1"
+											itemLabel="#{message['worklist.sortorder_newest']}" />
+										<f:selectItem itemValue="2"
+											itemLabel="#{message['worklist.sortorder_oldest']}" />
+										<f:ajax event="change" render="@form"
+											listener="#{searchController.refreshSearch}"
 											onevent="imixsOfficeMain.layoutAjaxEvent" />
 									</h:selectOneMenu>
 								</div>
+								<h:commandButton actionListener="#{viewHandler.back(searchController)}"
+									style="height: 31px;" disabled="#{searchController.pageIndex==0}"
+									value="◀◀  #{message.prev}">
+									<f:ajax render="serach_view"
+										onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+								</h:commandButton>
+								<h:commandButton actionListener="#{viewHandler.forward(searchController)}"
+									style="height: 31px;" disabled="#{searchController.endOfList}"
+									value="#{message.next}  ▶▶">
+									<f:ajax render="serach_view"
+										onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+								</h:commandButton>
+
+
+							</div>
 
 						</div>
 
 
 						<ui:param name="noresult"
-							value="#{(empty searchresult) and (empty searchController.searchFilter.item['phrase'])}"></ui:param>
-	
+							value="#{(empty searchresult) and (empty searchController.searchFilter.item['phrase'])}">
+						</ui:param>
+
 						<ui:fragment rendered="#{!noresult}">
 							<h:panelGroup layout="block" id="worklist-body">
-							
-							
-								<div class="search-result-summary">#{message.total_result} #{searchresultCount} #{message.serach_hits}</div>
+
+
+								<div class="search-result-summary">#{message.total_result} #{searchresultCount}
+									#{message.serach_hits}</div>
 
 								<!-- display search result  -->
 								<ui:repeat var="workitem" value="#{searchresult}">
@@ -100,18 +126,17 @@
 										<ui:param name="workitem" value="#{workitem}" />
 									</ui:include>
 								</ui:repeat>
-	
-	
+
+
 								<!-- display empty search result  -->
 								<h:panelGroup
 									rendered="#{(empty searchresult) and (empty facesContext.maximumSeverity)}">
 									<h2>#{message.empty_worklist}</h2>
 								</h:panelGroup>
-	
-	
+
+
 								<!-- display parsing error -->
-								<h:panelGroup rendered="#{! empty facesContext.maximumSeverity}"
-									styleClass="ui-widget">
+								<h:panelGroup rendered="#{! empty facesContext.maximumSeverity}" styleClass="ui-widget">
 									<div class="ui-state-error"
 										style="padding: .7em; margin-bottom: .7em; border: none;">
 										<h3>
@@ -124,35 +149,33 @@
 									</div>
 								</h:panelGroup>
 							</h:panelGroup>
-	
-	
+
+
 							<div class="imixs-footer">
-								<h:commandButton actionListener="#{viewHandler.back(searchController)}"
-									disabled="#{searchController.pageIndex==0}" value="#{message.prev}">
-									<f:ajax render="serach_view"
-									onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }"
-										 />
-								</h:commandButton>
-								<h:commandButton actionListener="#{viewHandler.forward(searchController)}"
-									disabled="#{searchController.endOfList}" value="#{message.next}">
-									
-									<f:ajax render="serach_view"
-									onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }"
-										 />
-						
-								</h:commandButton>
+								<div class="pull-right ">
+									<h:commandButton actionListener="#{viewHandler.back(searchController)}"
+										disabled="#{searchController.pageIndex==0}" value="◀◀  #{message.prev}">
+										<f:ajax render="serach_view"
+											onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+									</h:commandButton>
+									<h:commandButton actionListener="#{viewHandler.forward(searchController)}"
+										disabled="#{searchController.endOfList}" value="#{message.next}  ▶▶">
+										<f:ajax render="serach_view"
+											onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+									</h:commandButton>
+								</div>
 							</div>
-	
+
 						</ui:fragment>
-	
+
 					</div>
 				</h:panelGroup>
-				
+
 			</h:form>
 		</f:view>
-		
-		
-		
-	
+
+
+
+
 	</ui:define>
 </ui:composition>
