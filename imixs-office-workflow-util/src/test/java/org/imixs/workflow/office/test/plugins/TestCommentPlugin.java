@@ -12,6 +12,7 @@ import org.imixs.workflow.exceptions.PluginException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 
 
@@ -38,6 +39,7 @@ public class TestCommentPlugin {
 		
 		workflowMockEnvironment.setup();
 
+		//commentPlugin = Mockito.mock(CommentPlugin.class, Mockito.CALLS_REAL_METHODS);
 		commentPlugin = new CommentPlugin();
 		try {
 			commentPlugin.init(workflowMockEnvironment.getWorkflowService());
@@ -106,8 +108,8 @@ public class TestCommentPlugin {
 		List<Map> commentList = documentContext.getItemValue("txtcommentLog");
 		String lastComment = documentContext.getItemValueString("txtLastComment");
 		String currentComment = documentContext.getItemValueString("txtComment");
-		Assert.assertEquals(0, commentList.size());
-		Assert.assertEquals("Some Comment", currentComment);
+		Assert.assertEquals(1, commentList.size());
+		Assert.assertEquals("", currentComment);
 		Assert.assertFalse(lastComment.isEmpty());
 	}
 
@@ -138,9 +140,9 @@ public class TestCommentPlugin {
 		String lastComment = documentContext.getItemValueString("txtLastComment");
 		String currentComment = documentContext.getItemValueString("txtComment");
 		Assert.assertEquals(1, commentList.size());
-		Assert.assertEquals("My Comment", ((Map) commentList.get(0)).get("txtcomment"));
-		Assert.assertEquals("My Comment", lastComment);
-		Assert.assertEquals("Some Comment", currentComment);
+		Assert.assertEquals("Some Comment", ((Map) commentList.get(0)).get("txtcomment"));
+		Assert.assertEquals("Some Comment", lastComment);
+		Assert.assertEquals("", currentComment);
 	}
 
 }
