@@ -20,8 +20,7 @@
 		https://www.w3schools.com/howto/howto_js_autocomplete.asp
 	 -->
 	<h:commandScript name="llmSearch" action="#{llmSuggestController.search()}" rendered="#{llmSuggestController!=null}"
-		render="autocomplete-resultlist-ml" onevent="autocompleteShowResult" />
-
+		render="autocomplete-resultlist-llm" onevent="autocompleteShowResult" />
 
 	<script type="text/javascript">
 		/*<![CDATA[*/
@@ -30,10 +29,10 @@
 
 		// init ml input fields...
 		$(document).ready(function () {
-			if (mlResult) {
+			if (llmSuggestResult) {
 				fullItemList = $("input[data-item]");
 				// if suggest mode than update the style for input items associated with ai.suggest.items.
-				if (mlResult.mode == 'ON') {
+				if (llmSuggestResult.mode == 'ON') {
 					// find all ml data items
 					$(fullItemList).each(function () {
 						// select data-item value
@@ -48,7 +47,7 @@
 						}
 
 						// test if this data-item is a ml-item...
-						if (mlResult.items.indexOf(dataItem) > -1) {
+						if (llmSuggestResult.items.indexOf(dataItem) > -1) {
 							// ok we have a llm suggest-item
 							$(this).addClass("imixs-llm");
 							if (!bIgnoreInput) {
