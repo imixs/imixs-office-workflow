@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 <h:head>
@@ -19,11 +15,11 @@
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<meta name="robots" content="noindex" />
 
-	<title><ui:param name="title"
-			value="#{propertyController.getProperty('application.title')}"></ui:param>
-		<h:outputText rendered="#{empty title}"
-			value="#{resourceBundleHandler.findMessage('application_title')}" />
-		<h:outputText rendered="#{!empty title}" value="#{title}" /></title>
+	<title>
+		<ui:param name="title" value="#{propertyController.getProperty('application.title')}"></ui:param>
+		<h:outputText rendered="#{empty title}" value="#{resourceBundleHandler.findMessage('application_title')}" />
+		<h:outputText rendered="#{!empty title}" value="#{title}" />
+	</title>
 
 	<!-- *** CSS *** -->
 
@@ -41,9 +37,7 @@
 
 
 	<!-- imixsHeader (must be loaded before office-css! -->
-	<i:imixsHeader disablecss="false"
-		dateformat="#{message.datePatternShort}"
-		build="#{app.application_workflow_build}"
+	<i:imixsHeader disablecss="false" dateformat="#{message.datePatternShort}" build="#{app.application_workflow_build}"
 		xtheme="#{facesContext.externalContext.requestContextPath}/layout/themes/#{app.application_theme}" />
 
 	<!--  font icons -->
@@ -79,7 +73,7 @@
 
 	<!-- ML Feature css -->
 	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-ml.css?build=#{app.application_build_timestamp}"
+		href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-ai.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
 	<!-- custom css -->
@@ -109,13 +103,12 @@
 
 	<!-- The Top-Margin form the content container depends on the HistoryNav panel. If not history entries are displayed the 
 		top margin is reduced -->
-	<ui:fragment
-		rendered="#{(loginController.authenticated) and (!empty historyController.workitems)}">
+	<ui:fragment rendered="#{(loginController.authenticated) and (!empty historyController.workitems)}">
 		<style>
-#container {
-	margin-top: 100px;
-}
-</style>
+			#container {
+				margin-top: 100px;
+			}
+		</style>
 	</ui:fragment>
 
 	<!-- *** SCRIPTS *** -->
@@ -191,13 +184,12 @@
 					</div>
 				</ui:fragment>
 
-				<ui:fragment
-					rendered="#{(loginController.authenticated) and (!empty historyController.workitems)}">
+				<ui:fragment rendered="#{(loginController.authenticated) and (!empty historyController.workitems)}">
 					<div id="imixs-history" class="imixs-header-history">
 						<ui:include src="historynav.xhtml" />
 					</div>
 				</ui:fragment>
- 
+
 				<div id="imixs-main">
 					<ui:include src="/error_message.xhtml" />
 					<ui:insert name="content">

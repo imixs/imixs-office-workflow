@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
+	<!-- Imixs-AI LLM integration
+	
+		This subform is loaded by the workitem.xhtml page if the LLMController form Imixs-AI is available.
+		
+		The list of all LLM Suggest Items is stored in the item suggest-items.
+		
+		The subform  provides a jsf commandScript which calls the llmController.search method in the backend.
+			
+		The script below inits a autocompletion feature for each llm sugget input field. 
+		See imixs-office.autocompletion.js 
+
+		See also:
+		https://stackoverflow.com/questions/16588327/how-to-invoke-a-jsf-managed-bean-on-a-html-dom-event-using-native-javascript
+		https://dzone.com/articles/execute-a-jsf-ajax-request-by-just-a-function-call
+		https://www.w3schools.com/howto/howto_js_autocomplete.asp
+	 -->
+	<h:commandScript name="llmSearch" action="#{llmSuggestController.search()}" rendered="#{llmSuggestController!=null}"
+		render="autocomplete-resultlist-ml" onevent="autocompleteShowResult" />
+
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+		// get the current imixs-ml status
+		var llmSuggestResult = #{ llmSuggestController.getSuggestResult()};
+
+		// init ml input fields...
+		$(document).ready(function () {
+			if (mlResult) {
+				fullItemList = $("input[data-item]");
+				// if suggest mode than update the style for input items associated with ai.suggest.items.
+				if (mlResult.mode == 'ON') {
+					// find all ml data items
+					$(fullItemList).each(function () {
+						// select data-item value
+						var dataItem = $(this).data('item');
+						var bIgnoreInput = false;
+						var classNamesDef = $(this).attr("class");
+						if (classNamesDef) {
+							classNames = classNamesDef.split(/\s+/);
+							if (classNames.indexOf("imixs-date") > -1) {
+								bIgnoreInput = true; // we skip imixs-date inputs!
+							}
+						}
+
+						// test if this data-item is a ml-item...
+						if (mlResult.items.indexOf(dataItem) > -1) {
+							// ok we have a llm suggest-item
+							$(this).addClass("imixs-llm");
+							if (!bIgnoreInput) {
+								autocompleteInitInput(this, llmSearch, 'autocomplete-resultlist-llm');
+							}
+						}
+					});
+				}
+			}
+		});
+
+		/*]]>*/
+	</script>
+
+	<h:panelGroup id="autocomplete-resultlist-llm" layout="block" class="autocomplete-resultlist">
+		<ui:repeat var="suggest" value="#{llmSuggestController.searchResult}">
+			<div class="autocomplete-resultlist-element" onclick="autocompleteSelectElement('#{suggest}')">
+				<a href="#">
+					<h:outputText value="#{suggest}" escape="false" />
+				</a>
+			</div>
+		</ui:repeat>
+	</h:panelGroup>
+</ui:composition>
