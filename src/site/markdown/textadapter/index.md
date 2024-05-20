@@ -37,7 +37,7 @@ WorkitemRefAdapter replaces item values embedded into the tag `<workitemref>..</
 
 	Plant ID : <workitemref>plant.id</workitemref>
 
-This example will replace the tag with the plant ID of a referred workitem. See also the section  [Workitem Linking](../fomrs/workitemlinking.html) for more information how to link workitems. 
+This example will replace the tag with the plant ID of a referred workitem. See also the section  [Workitem Linking](../forms/workitemlinking.html) for more information how to link workitems. 
 
 A Workitem can hold multiple referenced to different sub processes. You can use an optional filter attriubte to define search filter for a specific linked process instance. The following example will refere to the subprocess with the workflowgroup `Plant`. 
 
