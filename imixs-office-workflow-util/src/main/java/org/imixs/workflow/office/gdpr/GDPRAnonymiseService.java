@@ -27,8 +27,14 @@ import jakarta.mail.internet.AddressException;
  * @version 2.0
  * 
  */
-@DeclareRoles({ "org.imixs.ACCESSLEVEL.MANAGERACCESS" })
-@RolesAllowed({ "org.imixs.ACCESSLEVEL.MANAGERACCESS" })
+@DeclareRoles({ "org.imixs.ACCESSLEVEL.READERACCESS",
+		"org.imixs.ACCESSLEVEL.AUTHORACCESS",
+		"org.imixs.ACCESSLEVEL.EDITORACCESS",
+		"org.imixs.ACCESSLEVEL.MANAGERACCESS" })
+@RolesAllowed({ "org.imixs.ACCESSLEVEL.READERACCESS",
+		"org.imixs.ACCESSLEVEL.AUTHORACCESS",
+		"org.imixs.ACCESSLEVEL.EDITORACCESS",
+		"org.imixs.ACCESSLEVEL.MANAGERACCESS" })
 @Singleton
 @RunAs("org.imixs.ACCESSLEVEL.MANAGERACCESS")
 public class GDPRAnonymiseService {
