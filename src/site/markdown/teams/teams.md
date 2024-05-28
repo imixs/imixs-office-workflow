@@ -47,7 +47,7 @@ The relationship of teams assigned to a workitem is automatically managed by the
 
      org.imixs.marty.team.TeamPlugin
 
-You should ensure that this plugin is added to every business worklfow model. 
+You should ensure that this plugin is added to every business workflow model. 
 
 ## Evaluate a Orgunit
 
@@ -57,7 +57,6 @@ Example:
 
 	<item name="space">...</item>
 	<item name="process">...</item>
-
 
 
 # The SpacePlugin
