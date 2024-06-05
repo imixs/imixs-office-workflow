@@ -1,13 +1,9 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 	<ui:param name="process"
-		value="#{teamController.getEntityById(searchController.searchFilter.item['_processref'])}" />
+		value="#{teamController.getEntityById(searchController.searchFilter.item['processref'])}" />
 
 	<!-- *** Filter *** -->
 	<div class="imixs-form-section-3">
@@ -15,15 +11,13 @@
 		<dl>
 			<dt>#{message['worklist.workflowgroup']}:</dt>
 			<dd>
-				<h:selectOneMenu
-					value="#{searchController.searchFilter.item['$WorkflowGroup']}">
+				<h:selectOneMenu value="#{searchController.searchFilter.item['$WorkflowGroup']}">
 					<f:selectItem itemValue="" itemLabel=" " />
 					<!-- Optional process.itemList['txtWorkflowList']  -->
 					<c:forEach items="#{modelController.workflowGroups}" var="workflow">
 						<f:selectItem itemValue="#{workflow}" itemLabel="#{workflow}" />
 					</c:forEach>
-					<f:ajax event="change" render="@form"
-						onevent="updateSearchForm" />
+					<f:ajax event="change" render="@form" onevent="updateSearchForm" />
 				</h:selectOneMenu>
 			</dd>
 		</dl>
@@ -38,53 +32,43 @@
 				<dt>#{message['worklist.workflowstatus']}:</dt>
 				<dd>
 
-					<h:selectOneMenu id="processid_selection"
-						value="#{searchController.searchFilter.item['$taskid']}">
+					<h:selectOneMenu id="processid_selection" value="#{searchController.searchFilter.item['$taskid']}">
 						<f:selectItem itemValue="" itemLabel=" " />
 						<c:forEach items="#{tasks}" var="processentity">
 							<f:selectItem itemValue="#{processentity.item['numProcessID']}"
 								itemLabel="#{processentity.item['txtname']}" />
 						</c:forEach>
-						<f:ajax event="change" render="@form"
-							onevent="updateSearchForm" />
+						<f:ajax event="change" render="@form" onevent="updateSearchForm" />
 					</h:selectOneMenu>
 				</dd>
 			</dl>
 		</h:panelGroup>
 
 		<!-- Spaces are shown if the process defines space selection or if property search.filter.spaces=true -->
-		<ui:param name="spaceSelection"
-			value="#{teamController.getSpacesByProcessId(process.uniqueID)}"></ui:param>
+		<ui:param name="spaceSelection" value="#{teamController.getSpacesByProcessId(process.uniqueID)}"></ui:param>
 		<c:if test="#{empty spaceSelection}">
 			<!-- show root spaces only? -->
-			<c:if
-				test="#{propertyController.getProperty('search.filter.spaces') eq 'root'}">
-				<ui:param name="spaceSelection"
-					value="#{teamController.getRootSpaces()}"></ui:param>
+			<c:if test="#{propertyController.getProperty('search.filter.spaces') eq 'root'}">
+				<ui:param name="spaceSelection" value="#{teamController.getRootSpaces()}"></ui:param>
 			</c:if>
 			<!-- show all spaces ? -->
-			<c:if
-				test="#{propertyController.getProperty('search.filter.spaces') eq 'all'}">
-				<ui:param name="spaceSelection"
-					value="#{teamController.getSpaces()}"></ui:param>
+			<c:if test="#{propertyController.getProperty('search.filter.spaces') eq 'all'}">
+				<ui:param name="spaceSelection" value="#{teamController.getSpaces()}"></ui:param>
 			</c:if>
 		</c:if>
 
 		<h:panelGroup rendered="#{! empty spaceSelection}">
 			<dl>
 				<dt>#{message['worklist.space']}:</dt>
-				<dd> 
-					<h:selectOneMenu id="spaceid_selection"
-						value="#{searchController.searchFilter.item['spaceref']}">
+				<dd>
+					<h:selectOneMenu id="spaceid_selection" value="#{searchController.searchFilter.item['spaceref']}">
 						<f:selectItem itemValue="" itemLabel=" " />
 
 						<!--  optional teamController.getSpaces() -->
 						<c:forEach items="#{spaceSelection}" var="space">
-							<f:selectItem itemValue="#{space.item['$UniqueID']}"
-								itemLabel="#{space.item['name']}" />
+							<f:selectItem itemValue="#{space.item['$UniqueID']}" itemLabel="#{space.item['name']}" />
 						</c:forEach>
-						<f:ajax event="change" render="@form"
-							onevent="updateSearchForm" />
+						<f:ajax event="change" render="@form" onevent="updateSearchForm" />
 					</h:selectOneMenu>
 				</dd>
 			</dl>

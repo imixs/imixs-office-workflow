@@ -73,9 +73,9 @@ import jakarta.inject.Named;
  * The SearchController defines also a set of predefined filter properties:
  * 
  * <ul>
- * <li>_processRef = holds a reference to a core process entity</li>
- * <li>_spaceRef = holds a reference to a core space entity</li>
- * <li>_phrase = holds the serach phrase</li>
+ * <li>processRef = holds a reference to a core process entity</li>
+ * <li>spaceRef = holds a reference to a core space entity</li>
+ * <li>phrase = holds the serach phrase</li>
  * </ul>
  * 
  * 
