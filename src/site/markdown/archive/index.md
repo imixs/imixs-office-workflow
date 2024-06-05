@@ -6,7 +6,7 @@ Imixs-Office-Workflow provides you with the functionality of an audit-proof arch
 
 You ensure audit-proofing yourself through the workflow model. Every workflow model should have at least one final workflow status where no changes (events) can occur. This prevents users from making retrospective changes to data.
 
-<img src="archive/archive-01.png" />
+<img class="screenshot" src="archive-01.png" />
 
 The audit log is generated through the workflow history, which you also define via modeling. Additionally, the workflow system has a technical audit log that cannot be influenced. These data are fixed in the item '$eventlog'.
 
