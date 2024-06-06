@@ -3,7 +3,7 @@
 Imixs-Office-Workflow provides a set of custom input parts to assign a workitem to a section (space). 
 
 
-## The spacreref Input
+## The spaceref Input
 
 The item part `spaceref` can be used to select a section from the organization matrix. 
 
@@ -13,10 +13,9 @@ The item part `spaceref` can be used to select a section from the organization m
           label="Department:" />
 ```
 
-<img class="screenshot" src="teams/spaceref-01.png" />
+<img class="screenshot" src="spaceref-01.png" />
 
-No `name` is required here as a section is always assigned to the item `space.ref`. This is an internal data item to be resolved by the 
-[Team Controller](../teams/teams.html)
+**Note:** No `name` is required here as a section is always assigned to the item `space.ref`. This is an internal data item to be resolved by the [Team Controller](../teams/teams.html)
 
 ## Read Mode
 
@@ -29,11 +28,11 @@ The component can also be displayed in read mode:
             readonly="true" />
 ```
 
-<img class="screenshot" src="teams/spaceref-02.png" />
+<img class="screenshot" src="spaceref-02.png" />
 
 ### Selection by Process
 
-To allow only the selection of a subset of section assigned to the current process the option "byprocess' can be set:
+To allow only the selection of a subset of sections, assigned to the current process, the option `byprocess` can be set:
 
 ```xml
     <item type="custom"
@@ -41,6 +40,8 @@ To allow only the selection of a subset of section assigned to the current proce
           options="byprocess;"
           label="Department:" />
 ```
+
+
 
 ### Default Selection
 
