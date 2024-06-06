@@ -59,14 +59,23 @@ This example will filter all sections starting with the String 'Production'.
 
 ### Default Selection
 
-It is also possible to pre-select a default value for this component. In this case the first section where the current user is member of will be assigned. Possible member options are `member|manager|team|assist`. 
+It is also possible to pre-select a default value for this component. In this case the first section where the current user is member of will be assigned.
+The feature can be activated by the option  `default-selection=[member|manager|team|assist];`. 
+
+Possible member options are:
+
+ - member - Current user must be a member of one of the section roles
+ - manager - Current user must be manager of the section 
+ - team - Current user must be team member of the section 
+ - assist - Current user must be assist of the section 
+ 
 
  Example:
 
 ```xml
     <item type="custom"
           path="spaceref"
-          options="default-selection=[team];"
+          options="default-selection=team;"
           label="Department:" />
 ```
 
