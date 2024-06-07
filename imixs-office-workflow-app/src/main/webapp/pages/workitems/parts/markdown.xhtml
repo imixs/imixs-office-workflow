@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+
+
+	<ui:fragment rendered="#{!readonly}">
+		<h:inputTextarea value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
+			required="#{item.required?validationController.required:false}" rendered="#{!item.readonly}"
+			disabled="#{item.disabled}" />
+
+	</ui:fragment>
+	<ui:fragment rendered="#{readonly}">
+		<h:inputHidden pt:data-id="markdown_hidden_input" value="#{workitem.item[item.name]}" />
+		<script type="text/javascript">
+			/*<![CDATA[*/
+			$(document).ready(function () {
+				var elements = document.querySelectorAll('[data-id="markdown_hidden_input"]');
+				var mdHtml = marked.parse(elements[0].value);
+				const divElement = document.querySelector('.imixs-markdown-output');
+				divElement.innerHTML = mdHtml;
+			});
+			/*]]>*/
+		</script>
+		<div class="imixs-markdown-output"></div>
+	</ui:fragment>
+
+</ui:composition>
