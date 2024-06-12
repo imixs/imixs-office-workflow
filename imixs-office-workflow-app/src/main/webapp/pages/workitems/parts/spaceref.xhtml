@@ -15,15 +15,11 @@
 	</ui:remove>
 
 	<f:subview id="spacerefinput-view">
-		<ui:param name="byprocess" value="#{options.indexOf('byprocess') ge 0}"></ui:param>
-
-		<ui:param name="byregex" value="#{options.substring(options.indexOf('byregex='))}"></ui:param>
-
 		<ui:param name="default_selection" value="#{options.indexOf('default-selection') ge 0}"></ui:param>
+		<ui:param name="space_ref"
+			value="#{default_selection ? spaceRefFormController.setDefaultSpace(workflowController.workitem,options):''}" />
+		<!-- (DO NOT REMOVE) default selection = #{space_ref} -->
 		<ui:fragment rendered="#{!readonly}">
-			<ui:param name="space_ref"
-				value="#{default_selection ? spaceRefFormController.setDefaultSpace(workflowController.workitem,options):''}" />
-			<!-- (DO NOT REMOVE) default selection = #{space_ref} -->
 			<h:selectOneMenu style="width:20em;" required="#{empty required?false:required}"
 				value="#{workflowController.workitem.item['space.ref']}">
 				<f:selectItem itemLabel=""></f:selectItem>

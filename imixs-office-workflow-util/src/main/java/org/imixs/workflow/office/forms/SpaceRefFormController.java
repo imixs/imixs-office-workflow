@@ -164,7 +164,8 @@ public class SpaceRefFormController implements Serializable {
         // do we have a match?
         if (defaultSpace != null) {
             workitem.setItemValue("space.ref", defaultSpace.getUniqueID());
-            workitem.setItemValue("space.name", defaultSpace.getItemValueString("name"));
+            workitem.setItemValue("space.parent.name", defaultSpace.getItemValueString("space.parent.name"));
+            workitem.setItemValue("space.name", defaultSpace.getItemValueString("space.name"));
             return defaultSpace.getUniqueID();
         }
 

@@ -9,23 +9,23 @@ TeamPlugin automatically computes the references and stores the information into
 
 The items `process.ref` and `space.ref` can also be modified by the workflow model or a custom business logic.
  
-The Marty TeamPlugin computes additional workflow properties:
+The Plugin `org.imixs.marty.team.TeamPlugin` automatically computes the following workflow items:
 
   
 | Item       		| Type      | Description                               						|
 |-------------------|-----------|-------------------------------------------------------------------|
 |space.team   		| names		| current team members of an associated space orgunit. 				|
-|space.manager		| names   	|current managers of an associated space orgunit.					|
-|space.assist		| names   	|current assists of an associated space orgunit. 					|
-|space.name			| text		|name of  an associated space orgunit. 								| 
-|space.rref			| text		|$uniqueID  of an associated space orgunit. 						| 
-|process.team		| names		|current team members of an associated process orgunit. 			| 
-|process.manager	| names		|current managers of an associated process orgunit. 				| 
-|process.assist		| names		|current assists of an associated process orgunit. 					| 
-|process.name		| text		|name of  an associated process orgunit. 							| 
-|process.ref		| text		|$uniqueID  of an associated process orgunit.						| 
+|space.manager		| names   	| current managers of an associated space orgunit.					|
+|space.assist		| names   	| current assists of an associated space orgunit. 					|
+|space.name			| text		| name of  an associated space orgunit. 							| 
+|space.rref			| text		| $uniqueID  of an associated space orgunit. 						| 
+|process.team		| names		| current team members of an associated process orgunit. 			| 
+|process.manager	| names		| current managers of an associated process orgunit. 				| 
+|process.assist		| names		| current assists of an associated process orgunit. 				| 
+|process.name		| text		| name of  an associated process orgunit. 							| 
+|process.ref		| text		| $uniqueID  of an associated process orgunit.						| 
  
-The name items can be used in ACL settings or mail settings.
+The name items can be used in ACL settings, history or mail settings.
  
 The item `process.ref`  and `space.ref` are optional and can update the current $uniqueIDs for referenced orgunits. 
 The Plug-in updates the item `$UniqueIDRef` automatically if these properties are filled.
@@ -33,7 +33,6 @@ The Plug-in updates the item `$UniqueIDRef` automatically if these properties ar
 ## Archived Spaces
 
 Spaces can optional be archived. Archived spaces can be still managed by the orgunit owner. 
-
 
 <img class="screenshot" src="teamplugin-model.png" />
 
@@ -47,43 +46,21 @@ The relationship of teams assigned to a workitem is automatically managed by the
 
      org.imixs.marty.team.TeamPlugin
 
-You should ensure that this plugin is added to every business workflow model. 
+This plugin should be added to every business workflow model. 
 
 ## Evaluate a Orgunit
 
 If the workflow result message of an Imixs-Event contains a space or process reference the plug-in will update the references
 
-Example:
 
 	<item name="space">...</item>
 	<item name="process">...</item>
 
+The following Example will assign the current workitem to the space with name "Marketing":
 
-# The SpacePlugin
-
-The SpacePlugin is a system plugin running only in the system workflow groups 'space' and 'process'.
-
-The plugin computes and updates the attributes of a space with in a hierarchical order.
-
-    org.imixs.marty.team.SpacePlugin
-
-The hierarchical order of a space is defined by the property `$uniqueidref` which is optional and pointing to a parent space entity. 
-The plugin updates the following properties of a space entity:
+    <item name="space">Marketing</item>
 
 
- * name = combined name of the parent space name and the own name separated by a '.'
- * space.parent.name = name of the parent space in case the space entity is a subspace
- 
-
-## Unique Name
-
-A process or a space has a unique name attribute `name`. If the name provided by the user is already taken the plugin throws a PluginException. 
-
-## Archived Spaces
-
-Spaces can optional be archived. Archived spaces can be still managed by the orgunit owner. 
- 
- 
  
 # The Team Interceptor
 
@@ -164,7 +141,7 @@ The interceptor can be enabled by the deployment descriptor of the *DocumentServ
  
  
  
-# The TeamRoleWildcardAdapter
+## The TeamRoleWildcardAdapter
 
 The `TeamRoleWildcardAdapter` can be used to compute team roles using the '?' wildcard.
  
@@ -179,3 +156,31 @@ The _TeamRoleWildcardAdapter_ will lookup the associated process orgunit and com
     {process:8838786e-6fda-4e0d-a76c-5ac3e0b04071:team}
 
 **Note:** The `TeamRoleWildcar
+
+
+
+# The SpacePlugin
+
+The SpacePlugin is a system plugin running only in the system workflow groups 'space' and 'process'.
+
+The plugin computes and updates the attributes of a space with in a hierarchical order.
+
+    org.imixs.marty.team.SpacePlugin
+
+The hierarchical order of a space is defined by the property `$uniqueidref` which is optional and pointing to a parent space entity. 
+The plugin updates the following properties of a space entity:
+
+
+ * name = combined name of the parent space name and the own name separated by a '.'
+ * space.parent.name = name of the parent space in case the space entity is a subspace
+ 
+
+## Unique Name
+
+A process or a space has a unique name attribute `name`. If the name provided by the user is already taken the plugin throws a PluginException. 
+
+## Archived Spaces
+
+Spaces can optional be archived. Archived spaces can be still managed by the orgunit owner. 
+ 
+ 
