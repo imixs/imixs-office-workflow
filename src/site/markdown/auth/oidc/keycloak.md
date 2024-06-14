@@ -159,6 +159,25 @@ or with the cli-commandline tool:
     $ relaod
 
 
+
+## Trouble Shooting
+
+### Disable HTTPS/SSL
+
+Since version 24.x Keycloak increased the security to demand configured HTTPS / SSL, even when starting locally for testing.
+If you test keycloak locally in a docker container, you may possible run into problem when trying to login. You will see a message during login like this in your browser window:
+
+<img src="keycloak-https-issue.png" />
+
+This is caused by the increased security. 
+To disable this new security feature open a bash inside the local container and run the following commands:
+
+
+    /opt/keycloak/bin/kcadm.sh update realms/master -s sslRequired=NONE --server http://localhost:8080 --realm master --user admin --password adminadmin
+    /opt/keycloak/bin/kcadm.sh update realms/imixs-office-workflow -s sslRequired=NONE --server http://localhost:8080 --realm master --user admin --password adminadmin
+
+This will disable HTTPS for the master realm and the realm 'imixs-office-workflow'. The update is done inside the sql database. Restart your docker container after this change.
+
 ## Additional Information
 
 Find more information about Keycloak and Wildfly here: 
