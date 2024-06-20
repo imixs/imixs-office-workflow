@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.SignalAdapter;
 import org.imixs.workflow.engine.DocumentService;
+import org.imixs.workflow.engine.index.SearchService;
 import org.imixs.workflow.engine.plugins.SplitAndJoinPlugin;
 import org.imixs.workflow.exceptions.AdapterException;
 import org.imixs.workflow.exceptions.PluginException;
@@ -109,7 +110,8 @@ public class GDPRAnonymiseAdapter implements SignalAdapter {
 				logger.info("...anonymise ingoing references...");
 				String searchTerm = "($workitemref:\"" + workitem.getUniqueID() + "\" )";
 				try {
-					List<ItemCollection> refList = documentService.find(searchTerm, 99999, 0);
+					List<ItemCollection> refList = documentService.find(searchTerm,
+							SearchService.DEFAULT_MAX_SEARCH_RESULT, 0);
 					for (ItemCollection refWorkitem : refList) {
 						// verify if not yet anonymized....
 						if (!outgoinReferences.contains(refWorkitem.getUniqueID())) {
