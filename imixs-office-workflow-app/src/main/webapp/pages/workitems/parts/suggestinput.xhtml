@@ -1,9 +1,6 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 
 	<ui:remove>
@@ -12,46 +9,45 @@
 	</ui:remove>
 
 	<f:subview id="suggestinput-view">
-		
+
 		<div class="office-suggestinput">
 			<!-- Input Field -->
-			<h:panelGroup id="input_box" layout="block"
-				class="office-suggestinput-inputbox">
-				<h:inputText id="suggest_input" value="#{workitem.item[itemname]}" required="#{required}" binding="#{suggestInput}"
-				             autocomplete="off" class="office-suggestinput-inputtext">
-					<f:ajax event="keyup" render="suggest_box" delay="900"
-					    execute="suggest_input" onevent="highlightResultList"
+			<h:panelGroup id="input_box" layout="block" class="office-suggestinput-inputbox">
+				<h:inputText id="suggest_input" value="#{workitem.item[itemname]}"
+					required="#{required?validationController.required:false}" binding="#{suggestInput}"
+					autocomplete="off" class="office-suggestinput-inputtext">
+					<f:ajax event="keyup" render="suggest_box" delay="900" execute="suggest_input"
+						onevent="highlightResultList"
 						listener="#{suggestInputController.search(itemname,itemname,searchitemlist,query)}" />
 				</h:inputText>
-				
-				<h:panelGroup id="suggest_box" layout="block"  
-					class="suggestinput-resultlist" style="#{empty suggestInputController.searchResult?'display:none':''}">
-						<c:forEach var="suggest"
-							items="#{suggestInputController.searchResult}">
-							<div class="autocomplete-resultlist-element suggestinput-resultlist-element" >
-								<h:commandLink immediate="true"
-								 id="link" actionListener="#{suggestInputController.update(workitem,suggest,updateitemlist)}">
-									<h:outputText value="#{suggestInputController.getDisplayLine(displayitemlist,suggest)}" />
-									<f:ajax render="input_box #{render}" execute="#{execute}"  onevent="#{onevent}" />
-								</h:commandLink>
-							</div>
-						</c:forEach>
-					
+
+				<h:panelGroup id="suggest_box" layout="block" class="suggestinput-resultlist"
+					style="#{empty suggestInputController.searchResult?'display:none':''}">
+					<c:forEach var="suggest" items="#{suggestInputController.searchResult}">
+						<div class="autocomplete-resultlist-element suggestinput-resultlist-element">
+							<h:commandLink immediate="true" id="link"
+								actionListener="#{suggestInputController.update(workitem,suggest,updateitemlist)}">
+								<h:outputText
+									value="#{suggestInputController.getDisplayLine(displayitemlist,suggest)}" />
+								<f:ajax render="input_box #{render}" execute="#{execute}" onevent="#{onevent}" />
+							</h:commandLink>
+						</div>
+					</c:forEach>
+
 				</h:panelGroup>
-				
-			<script type="text/javascript">
-				// init suggest input - need to be called after each render
-				suggestInputInit("#{suggestInput.clientId}");
-			</script>
-	
-				
-				
+
+				<script type="text/javascript">
+					// init suggest input - need to be called after each render
+					suggestInputInit("#{suggestInput.clientId}");
+				</script>
+
+
+
 			</h:panelGroup>
 		</div>
-		
+
 
 	</f:subview>
 
 
 </ui:composition>
-

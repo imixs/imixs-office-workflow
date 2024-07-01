@@ -1,20 +1,17 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
 
-	<ui:fragment rendered="#{!readonly}" >	
-		<h:selectManyListbox style="height:5em;" required="#{required}" value="#{workitem.itemListArray[item.name]}">
+	<ui:fragment rendered="#{!readonly}">
+		<h:selectManyListbox style="height:5em;" required="#{required?validationController.required:false}"
+			value="#{workitem.itemListArray[item.name]}">
 			<f:selectItem itemLabel=""></f:selectItem>
-			<f:selectItems itemDisabled="#{readonly}"
-				value="#{countryController.getCountriesSelectItems()}"></f:selectItems>
+			<f:selectItems itemDisabled="#{readonly}" value="#{countryController.getCountriesSelectItems()}">
+			</f:selectItems>
 		</h:selectManyListbox>
-	</ui:fragment>		
-	<ui:fragment rendered="#{readonly}" >
+	</ui:fragment>
+	<ui:fragment rendered="#{readonly}">
 		<h:outputText value="#{countryController.getCountryNames(workitem.itemList[item.name])}"></h:outputText>
 	</ui:fragment>
 </ui:composition>
-
