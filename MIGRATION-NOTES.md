@@ -2,6 +2,27 @@
 
 The following section contains migration notes for Imixs-Office-Workflow. 
 
+## Imixs-Office-Workflow 5.0.x	
+
+Wildfily Image has changed! For that reason the volume mapping need to be changed. This is an example for Kubernetes:
+
+```yaml
+        volumeMounts:
+        - mountPath: /opt/jboss/wildfly/lucene
+          name: index
+      restartPolicy: Always
+      volumes:
+      - name: index
+        persistentVolumeClaim:
+          claimName: index
+```
+
+**Note:** This path mapping assumes that the property `imixs-office.IndexDir` points to `lucene/office-workflow-index`
+
+
+
+
+
 ## Imixs-Office-Workflow 4.6.0
 
  - New Main Layout  - New CSS Class names for header and content container!
