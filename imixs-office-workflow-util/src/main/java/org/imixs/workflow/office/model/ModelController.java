@@ -95,7 +95,6 @@ public class ModelController implements Serializable {
 
 	private static Logger logger = Logger.getLogger(ModelController.class.getName());
 
-
 	/**
 	 * returns all groups for a version
 	 * 
@@ -165,7 +164,7 @@ public class ModelController implements Serializable {
 	 * @see getWorkflowGroups()
 	 * 
 	 * @param parentWorkflowGroup
-	 *            - the parent workflow group name
+	 *                            - the parent workflow group name
 	 * @return list of all sub workflow groups for the given parent group name
 	 */
 	public List<String> getSubWorkflowGroups(String parentWorkflowGroup) {
@@ -231,8 +230,8 @@ public class ModelController implements Serializable {
 	 * @return
 	 */
 	public List<String> getVersions() {
-	    List<String> list=modelService.getVersions();
-	    Collections.sort(list);
+		List<String> list = modelService.getVersions();
+		Collections.sort(list);
 		return list;
 	}
 
@@ -240,7 +239,7 @@ public class ModelController implements Serializable {
 
 		ItemCollection result = modelEntityCache.get(version);
 		if (result == null) {
-			result = modelService.loadModelEntity(version);
+			result = modelService.findModelEntity(version);
 			modelEntityCache.put(version, result);
 		}
 
@@ -307,9 +306,9 @@ public class ModelController implements Serializable {
 	 * 
 	 * 
 	 * @param modelVersion
-	 *            - version for the model to search the process entity
+	 *                     - version for the model to search the process entity
 	 * @param processid
-	 *            - id of the process entity
+	 *                     - id of the process entity
 	 * @return an instance of the matching process entity
 	 * @throws ModelException
 	 */
@@ -344,9 +343,8 @@ public class ModelController implements Serializable {
 		if (pe == null) {
 			return "";
 		}
-		//String desc = pe.getItemValueString("rtfdescription");
+		// String desc = pe.getItemValueString("rtfdescription");
 		String desc = pe.getItemValueString(BPMNModel.TASK_ITEM_DOCUMENTATION);
-      
 
 		try {
 			desc = workflowService.adaptText(desc, documentContext);
