@@ -32,6 +32,7 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -46,6 +47,7 @@ import java.util.logging.Logger;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.engine.DocumentService;
+import org.imixs.workflow.engine.plugins.HistoryPlugin;
 import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.data.WorkflowEvent;
 
@@ -125,12 +127,33 @@ public class ChronicleController implements Serializable {
 		}
 
 		/* collect history */
-		List<List<Object>> history = workflowController.getWorkitem().getItemValue("txtworkflowhistory");
+		List<List<?>> history = null;
+		// test deprecated field 'txtworkflowhistory'
+		if (!workflowController.getWorkitem().hasItem(HistoryPlugin.ITEM_HISTORY_LOG)
+				&& workflowController.getWorkitem().hasItem("txtworkflowhistory")) {
+			// migrate deprecated field name
+			history = workflowController.getWorkitem().getItemValue("txtworkflowhistory");
+			// in old workitems, the workflow history may not be ordered chronological.
+			// We re-sort the order here
+			// Sort the list by date in descending order
+			Collections.sort(history, new Comparator<List<?>>() {
+				@Override
+				public int compare(List<?> entry1, List<?> entry2) {
+					Date date1 = (Date) entry1.get(0);
+					Date date2 = (Date) entry2.get(0);
+					// Compare in descending order
+					return date1.compareTo(date2);
+				}
+			});
+		} else {
+			history = workflowController.getWorkitem().getItemValue(HistoryPlugin.ITEM_HISTORY_LOG);
+		}
+
 		// change order
 		Collections.reverse(history);
 		// do we have real history entries?
 		if (history.size() > 0 && history.get(0) instanceof List) {
-			for (List<Object> entries : history) {
+			for (List<?> entries : history) {
 				Date date = (Date) entries.get(0);
 				String message = (String) entries.get(1);
 				String user = (String) entries.get(2);
