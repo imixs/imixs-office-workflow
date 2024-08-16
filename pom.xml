@@ -141,6 +141,31 @@
 					<target>${java.target}</target>
 				</configuration>
 			</plugin>
+
+			<!-- issue #572  
+			 	hack for:
+			https://stackoverflow.com/questions/75116023/unable-to-make-protected-final-java-lang-class-java-lang-classloader-defineclass
+			 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.3.1</version>
+				<executions>
+					<execution>
+						<id>default-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<argLine>
+								--add-opens java.base/java.lang=ALL-UNNAMED
+							</argLine>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<!-- release management -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -437,12 +462,6 @@
 			<artifactId>mockito-core</artifactId>
 			<version>5.8.0</version>
 			<scope>test</scope>
-		</dependency>
-		<!-- See issue #572 -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.9.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.parsson</groupId>
