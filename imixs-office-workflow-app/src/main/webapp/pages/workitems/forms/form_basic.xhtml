@@ -18,4 +18,17 @@
 		</ui:include>
 	</f:subview>
 
+	<!-- sub forms (support deprecated form layout) -->
+	<c:forEach items="#{formController.formDefinition.sections}" var="section">
+		<div class="imixs-form-panel">
+			<h3>
+				<h:outputText value="#{section.name}" />
+			</h3>
+			<f:subview>
+				<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
+					<ui:param name="workitem" value="#{workflowController.workitem}" />
+				</ui:include>
+			</f:subview>
+		</div>
+	</c:forEach>
 </ui:composition>
