@@ -1,4 +1,4 @@
-FROM quay.io/wildfly/wildfly:27.0.1.Final-jdk11
+FROM quay.io/wildfly/wildfly:27.0.1.Final-jdk17
 
 LABEL description="Imixs-Office-Workflow"
 LABEL maintainer="ralph.soika@imixs.com"
