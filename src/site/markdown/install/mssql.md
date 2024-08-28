@@ -1,7 +1,6 @@
 # How to Run Imixs-Office-Workflow with Microsoft SQL Server
 
-Imixs-Office-Workflow can be used with databases from different vendors. In the default configuration, a PostgreSQL database is used. 
-The following section shows how to connect the Imixs Office workflow running under Wildfly with a Microsodft SQL Server.
+Imixs-Office-Workflow can be used with databases from different vendors. In the default configuration, a PostgreSQL database is used. The following section shows how to connect the Imixs Office workflow running under Wildfly with a Microsoft SQL Server.
 
 ## Install the Driver Module
 
