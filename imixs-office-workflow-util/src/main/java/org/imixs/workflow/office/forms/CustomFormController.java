@@ -44,8 +44,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.Model;
-import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.faces.data.WorkflowEvent;
@@ -55,40 +53,39 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import jakarta.ejb.EJB;
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.faces.application.Application;
 import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 /**
- * The CustomFormController computes a set of fields based on a data object
- * provided by the model.
+ * The CustomFormController is used by the workitem form to compute a set of
+ * fields based on a data object provided by the model.
  * 
+ * The form definition is automatically updated in a workitem field
+ * 'txtWorkflowEditorCustomForm' by the {@link CustomFormService} EJB.
  * 
  * @author rsoika
- * 
+ *
  */
 @Named
 @ConversationScoped
 public class CustomFormController implements Serializable {
 
-    @EJB
-    ModelService modelService;
-
     private static final long serialVersionUID = 1L;
-
-    private static Logger logger = Logger.getLogger(CustomFormController.class.getName());
+    private static Logger logger = Logger.getLogger(CustomFormService.class.getName());
 
     private List<CustomSubForm> subforms = null;
     private List<CustomFormSection> sections;
-
     private String supportedExpressions = "";
+
+    @Inject
+    CustomFormService customFormService;
 
     public CustomFormController() {
         super();
-        loadCustomFormExpressions();
     }
 
     public List<CustomSubForm> getSubforms() {
@@ -117,31 +114,33 @@ public class CustomFormController implements Serializable {
         }
 
         int eventType = workflowEvent.getEventType();
-        if (WorkflowEvent.WORKITEM_CHANGED == eventType || WorkflowEvent.WORKITEM_CREATED == eventType
-                || WorkflowEvent.WORKITEM_AFTER_PROCESS == eventType) {
+        if (WorkflowEvent.WORKITEM_CHANGED == eventType || WorkflowEvent.WORKITEM_CREATED == eventType) {
             // parse form definition
+            loadCustomFormExpressions();
             computeFieldDefinition(workflowEvent.getWorkitem());
         }
 
     }
 
     /**
-     * Computes an new custom Field Definition based on a given workitem. The method
-     * first looks if the model contains a custom definition. If not the method
-     * checks the workitem field txtWorkflowEditorCustomForm which holds the last
-     * parsed custom form definition
+     * The method reads the custom form definition from the item
+     * 'txtWorkflowEditorCustomForm' and computes an new custom Field Definition
+     * based on a given workitem. The method first looks if the model contains a
+     * custom definition. If not the method checks the workitem field
+     * txtWorkflowEditorCustomForm which holds the last parsed custom form
+     * definition
      * 
      * @return
      * @throws ModelException
      */
     public void computeFieldDefinition(ItemCollection workitem) throws ModelException {
-        sections = new ArrayList<CustomFormSection>();
-        String content = fetchFormDefinitionFromModel(workitem);
+        logger.fine("---> computeFieldDefinition");
+        String content = workitem.getItemValueString("txtWorkflowEditorCustomForm");
         if (content.isEmpty()) {
-            // lets see if we already have a custom form definition
-            content = workitem.getItemValueString("txtWorkflowEditorCustomForm");
+            // no custom form definition found, try to load a new one....
+            content = customFormService.updateCustomFieldDefinition(workitem);
         }
-
+        sections = new ArrayList<CustomFormSection>();
         if (!content.isEmpty()) {
             // start parsing....
             logger.finest("......start parsing custom form definition");
@@ -160,7 +159,6 @@ public class CustomFormController implements Serializable {
                 NodeList nSubformList = rootElement.getElementsByTagName("imixs-subform");
                 if (nSubformList != null && nSubformList.getLength() > 0) {
                     subforms = new ArrayList<CustomSubForm>();
-
                     for (int subId = 0; subId < nSubformList.getLength(); subId++) {
                         Element nSubFormElement = (Element) nSubformList.item(subId);
                         String label = nSubFormElement.getAttribute("label");
@@ -182,8 +180,7 @@ public class CustomFormController implements Serializable {
                 logger.warning("Unable to parse custom form definition: " + e.getMessage());
                 return;
             }
-            // store the new content
-            workitem.replaceItemValue("txtWorkflowEditorCustomForm", content);
+
         }
 
     }
@@ -258,45 +255,6 @@ public class CustomFormController implements Serializable {
             }
         }
         return result;
-    }
-
-    /**
-     * read the form definition from a dataObject and search for a dataobject with a
-     * imixs-form tag. If not matching dataobject is defined then return an empty
-     * string.
-     * 
-     * @param workitem
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    private String fetchFormDefinitionFromModel(ItemCollection workitem) {
-        Model model;
-        ItemCollection task;
-        try {
-            model = modelService.getModelByWorkitem(workitem);
-            task = model.getTask(workitem.getTaskID());
-        } catch (ModelException e) {
-            logger.warning("unable to parse data object in model: " + e.getMessage());
-            return "";
-        }
-
-        List<List<String>> dataObjects = task.getItemValue("dataObjects");
-        for (List<String> dataObject : dataObjects) {
-            // there can be more than one dataOjects be attached.
-            // We need the one with the tag <imixs-form>
-            String templateName = dataObject.get(0);
-            String content = dataObject.get(1);
-            // we expect that the content contains at least one occurrence of <imixs-form>
-            if (content.contains("<imixs-form>")) {
-                logger.finest("......DataObject name=" + templateName);
-                logger.finest("......DataObject content=" + content);
-                return content;
-            } else {
-                // seems not to be a imixs-form definition!
-            }
-        }
-        // nothing found!
-        return "";
     }
 
     /**
