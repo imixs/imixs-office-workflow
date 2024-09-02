@@ -32,12 +32,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-import jakarta.annotation.security.DeclareRoles;
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.ejb.EJB;
-import jakarta.ejb.LocalBean;
-import jakarta.ejb.Stateless;
-
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ItemCollectionComparator;
 import org.imixs.workflow.WorkflowKernel;
@@ -48,6 +42,13 @@ import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.exceptions.ProcessingErrorException;
 import org.imixs.workflow.exceptions.QueryException;
+import org.openbpmn.bpmn.BPMNModel;
+
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.EJB;
+import jakarta.ejb.LocalBean;
+import jakarta.ejb.Stateless;
 
 /**
  * The WorkitemService provides methods to create, process, update and remove a
@@ -75,7 +76,7 @@ public class WorkitemService {
 
 	@EJB
 	ModelService modelService;
-	
+
 	private static Logger logger = Logger.getLogger(WorkitemService.class
 			.getName());
 
@@ -93,19 +94,23 @@ public class WorkitemService {
 	 * txtWrofklwoGroup will be set to the corresponding values of processEntity
 	 * 
 	 * @param parent
-	 *            ItemCollection representing the parent where the workItem is
-	 *            assigned to. This is typical a project entity but can also be
-	 *            an other workItem
+	 *                      ItemCollection representing the parent where the
+	 *                      workItem is
+	 *                      assigned to. This is typical a project entity but can
+	 *                      also be
+	 *                      an other workItem
 	 * @param processEntity
-	 *            ItemCollection representing the ProcessEntity where the
-	 *            workItem is assigned to
+	 *                      ItemCollection representing the ProcessEntity where the
+	 *                      workItem is assigned to
 	 */
 	public ItemCollection createWorkItem(ItemCollection parent,
 			String sProcessModelVersion, int aProcessID) throws Exception {
 		logger.fine("create workitem...");
 		// lookup ProcessEntiy from the model
-		ItemCollection processEntity = modelService.getModel(sProcessModelVersion).getTask(
-				aProcessID);
+		BPMNModel model = modelService.getModelManager().getModel(sProcessModelVersion);
+		ItemCollection processEntity = modelService.getModelManager().findTaskByID(model, aProcessID);
+		// .getModel(sProcessModelVersion).getTask(
+		// aProcessID);
 		if (processEntity == null)
 			throw new Exception(
 					"error createWorkItem: Process Entity can not be found ("
@@ -147,7 +152,7 @@ public class WorkitemService {
 	 * @throws ProcessingErrorException
 	 * @throws AccessDeniedException
 	 * @throws PluginException
-	 * @throws ModelException 
+	 * @throws ModelException
 	 * 
 	 */
 	public ItemCollection processWorkItem(ItemCollection aworkitem)
@@ -157,9 +162,6 @@ public class WorkitemService {
 		return workflowService.processWorkItem(aworkitem);
 	}
 
-	
-	
-	
 	/**
 	 * This method finds all versions of a given workitem.
 	 * 
@@ -173,7 +175,7 @@ public class WorkitemService {
 		String refQuery = "( (type:\"workitem\" OR type:\"workitemarchive\" OR type:\"workitemversion\") AND $workitemid:\""
 				+ sRefID + "\")";
 		try {
-			col = workflowService.getDocumentService().findStubs(refQuery, 999, 0,WorkflowKernel.LASTEVENTDATE,true);
+			col = workflowService.getDocumentService().findStubs(refQuery, 999, 0, WorkflowKernel.LASTEVENTDATE, true);
 			// sort by $modified
 			Collections.sort(col, new ItemCollectionComparator("$modified", true));
 			// Only return version list if more than one version was found!
@@ -182,7 +184,7 @@ public class WorkitemService {
 					versions.add(aworkitem);
 				}
 			}
-	
+
 		} catch (QueryException e) {
 			logger.warning("findAllVersions - invalid query: " + e.getMessage());
 		}
@@ -207,6 +209,5 @@ public class WorkitemService {
 		}
 		return versions;
 	}
-	
-	
+
 }

@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.Model;
 import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.engine.ProcessingEvent;
 import org.imixs.workflow.exceptions.AccessDeniedException;
@@ -125,11 +124,12 @@ public class CustomFormService implements Serializable {
      */
     @SuppressWarnings("unchecked")
     private String fetchFormDefinitionFromModel(ItemCollection workitem) {
-        Model model;
+        // BPMNModel model;
         ItemCollection task;
         try {
-            model = modelService.getModelByWorkitem(workitem);
-            task = model.getTask(workitem.getTaskID());
+            task = modelService.getModelManager().loadTask(workitem);
+            // model = modelService.getModelByWorkitem(workitem);
+            // task = model.getTask(workitem.getTaskID());
         } catch (ModelException e) {
             logger.warning("unable to parse data object in model: " + e.getMessage());
             return "";

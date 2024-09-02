@@ -1,61 +1,70 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
-	
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
 	<div class="imixs-portlet startprocess">
 		<div class="imixs-header">
 			<ul>
-				<li class="active"><span class="typcn typcn-lightbulb"
-							style="margin-right: 8px;margin-left:0;"></span><h:outputText
-						value="#{app['portlet_process']}" /></li>
+				<li class="active"><span class="typcn typcn-lightbulb" style="margin-right: 8px;margin-left:0;"></span>
+					<h:outputText value="#{app['portlet_process']}" />
+				</li>
 			</ul>
 		</div>
 		<!-- *** all process nodes where the current user is member of, or the process is public (task=300) *** -->
-		<ui:repeat value="#{teamController.processList}" var="process">	
+		<ui:repeat value="#{teamController.processList}" var="process">
 			<h:panelGroup layout="block" styleClass="imixs-viewentry"
 				rendered="#{(process.item['$taskid'] eq 301 || loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') or process.item['isMember'])}">
 				<h1>
-				    <!-- board -->
-					<h:link outcome="/pages/notes_board?processref=#{process.item['$uniqueId']}" style="margin-right:10px;"><span class="typcn typcn-th-large-outline" style="margin-right:8px;"></span><h:outputText value="#{process.item['name']}" /></h:link>
-				    <!-- extended search -->
-					<h:link outcome="/pages/workitems/worklist?processref=#{process.item['$uniqueId']}" title="#{message['nav.search_extended']}"><span class="typcn typcn-zoom-outline" style="margin-left:8px;"></span></h:link>
-				    <!-- archive search -->
-					<h:link outcome="/pages/workitems/worklist?processref=#{process.item['$uniqueId']}&amp;archive=true" title="#{message['nav.search_archive']}"><span class="typcn typcn-archive" style=""></span></h:link>
+					<!-- board -->
+					<h:link outcome="/pages/notes_board?processref=#{process.item['$uniqueId']}"
+						style="margin-right:10px;"><span class="typcn typcn-th-large-outline"
+							style="margin-right:8px;"></span>
+						<h:outputText value="#{process.item['name']}" />
+					</h:link>
+					<!-- extended search -->
+					<h:link outcome="/pages/workitems/worklist?processref=#{process.item['$uniqueId']}"
+						title="#{message['nav.search_extended']}"><span class="typcn typcn-zoom-outline"
+							style="margin-left:8px;"></span></h:link>
+					<!-- archive search -->
+					<h:link outcome="/pages/workitems/worklist?processref=#{process.item['$uniqueId']}&amp;archive=true"
+						title="#{message['nav.search_archive']}"><span class="typcn typcn-archive" style=""></span>
+					</h:link>
 					<!-- reports -->
-					<h:link rendered="#{process.item['isManager'] or loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}" outcome="/pages/monitoring_board?processref=#{process.item['$uniqueId']}" title="Monitoring"><span class="typcn typcn-chart-pie-outline"></span></h:link>
+					<h:link
+						rendered="#{process.item['isManager'] or loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}"
+						outcome="/pages/monitoring_board?processref=#{process.item['$uniqueId']}" title="Monitoring">
+						<span class="typcn typcn-chart-pie-outline"></span>
+					</h:link>
 				</h1>
 				<p>
-					<h:outputText value="#{process.item['txtdescription']}"  escape="false"/>
+					<h:outputText value="#{process.item['txtdescription']}" escape="false" />
 				</p>
 
 				<!-- *** WorkflowGroup List if user is member*** -->
-				<ui:param name="isWorkflowCreator" value="#{!(loginController.isUserInRole('org.imixs.ACCESSLEVEL.READERACCESS') or (loginController.isUserInRole('org.imixs.ACCESSLEVEL.NOACCESS') eq true)) }" />
-				<h:panelGroup
-					rendered="#{isWorkflowCreator and !empty process.itemList['txtWorkflowList']}">
+				<ui:param name="isWorkflowCreator"
+					value="#{!(loginController.isUserInRole('org.imixs.ACCESSLEVEL.READERACCESS') or (loginController.isUserInRole('org.imixs.ACCESSLEVEL.NOACCESS') eq true)) }" />
+				<h:panelGroup rendered="#{isWorkflowCreator and !empty process.itemList['txtWorkflowList']}">
 					<ul style="margin: 5px 0;">
-						<ui:repeat value="#{process.itemList['txtWorkflowList']}"
-							var="group">
-							<!-- get first task by group -->
-							<ui:param name="model"
-								value="#{modelController.getModelByGroup(group)}" />
-							<ui:param name="initialTask"
-									value="#{(!empty model) and (!empty model.findTasksByGroup(group))?model.findTasksByGroup(group).get(0):null}" />
-
-							<li><h:panelGroup rendered="#{! empty initialTask}">
-									<h:commandLink title=" " styleClass="action-create" 
-										actionListener="#{workflowController.create(model.version,initialTask.item['numprocessid'],process.item['$uniqueid'])}"
+						<ui:repeat value="#{process.itemList['txtWorkflowList']}" var="group">
+							<li>
+								<!-- get first task by group -->
+								<ui:param name="version" value="#{modelController.getVersionByGroup(group)}" />
+								<ui:param name="startTasks"
+									value="#{modelController.findAllStartTasksByGroup(version,group)}" />
+								<h:panelGroup rendered="#{! empty startTasks}">
+									<ui:param name="initialTask" value="#{startTasks.get(0)}" />
+									<h:commandLink title=" " styleClass="action-create"
+										actionListener="#{workflowController.create(version,initialTask.item['numprocessid'],process.item['$uniqueid'])}"
 										action="/pages/workitems/workitem">
-										<span class="typcn typcn-folder-add"></span> <h:outputText value="#{group}" />
+										<span class="typcn typcn-folder-add"></span>
+										<h:outputText value="#{group}" />
 									</h:commandLink>
-									<span class="imixs-tooltip"> <h:outputText
-											value="#{initialTask.item['rtfdescription']}" escape="false" />
+									<span class="imixs-tooltip">
+										<h:outputText value="#{initialTask.item['rtfdescription']}" escape="false" />
 									</span>
-								</h:panelGroup> <h:outputText style="color:red" rendered="#{empty initialTask}"
+								</h:panelGroup>
+								<h:outputText style="color:red" rendered="#{empty startTasks}"
 									value="	Missing Model Definition: #{group}"></h:outputText>
 							</li>
 						</ui:repeat>
@@ -63,20 +72,19 @@
 				</h:panelGroup>
 			</h:panelGroup>
 		</ui:repeat>
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
+
+
 		<!--  Administration -->
 		<c:choose>
 			<!-- Admin Menu -->
-			<c:when
-				test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
+			<c:when test="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}">
 				<ui:include src="/pages/portlet_admin.xhtml" />
 			</c:when>
 			<c:otherwise>
@@ -87,11 +95,10 @@
 			</c:otherwise>
 		</c:choose>
 
-		
-		
-		
-		
+
+
+
+
 	</div>
 
 </ui:composition>
-

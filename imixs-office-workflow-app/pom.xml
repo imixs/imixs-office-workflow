@@ -1,9 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>imixs-office-workflow</artifactId>
 		<groupId>org.imixs.workflow</groupId>
-		<version>5.0.3-SNAPSHOT</version>
+		<version>5.1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>imixs-office-workflow-app</artifactId>
 	<packaging>war</packaging>
@@ -60,7 +62,8 @@
 										<exec executable="docker">
 											<arg value="build" />
 											<arg value="-t" />
-											<arg value="imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg
+												value="imixs/${imixs-office.applicationname}:${project.version}" />
 											<arg value="../." />
 										</exec>
 									</target>
@@ -75,9 +78,8 @@
 				</plugins>
 			</build>
 		</profile>
-		
-		
-		
+
+
 		<profile>
 			<id>docker-build-openliberty</id>
 			<build>
@@ -111,8 +113,8 @@
 				</plugins>
 			</build>
 		</profile>
-		
-		
+
+
 		<profile>
 			<id>docker-payara</id>
 			<build>
@@ -144,9 +146,9 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>		
-		
-		
+		</profile>
+
+
 		<profile>
 			<id>docker-wildfly25</id>
 			<build>
@@ -178,8 +180,8 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>			
-		
+		</profile>
+
 		<profile>
 			<id>debug</id>
 			<build>
@@ -229,12 +231,14 @@
 										<exec executable="docker">
 											<arg value="build" />
 											<arg value="-t" />
-											<arg value="imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg
+												value="imixs/${imixs-office.applicationname}:${project.version}" />
 											<arg value="../." />
 										</exec>
 										<exec executable="docker">
 											<arg value="push" />
-											<arg value="imixs/${imixs-office.applicationname}:${project.version}" />
+											<arg
+												value="imixs/${imixs-office.applicationname}:${project.version}" />
 										</exec>
 									</target>
 								</configuration>
@@ -247,8 +251,8 @@
 				</plugins>
 			</build>
 		</profile>
-		
-		
+
+
 		<profile>
 			<id>docker-hub-latest</id>
 			<build>
@@ -283,7 +287,7 @@
 
 				</plugins>
 			</build>
-		</profile>	
+		</profile>
 
 		<!-- Open ID Connect integration -->
 		<profile>
@@ -298,7 +302,7 @@
 			</dependencies>
 		</profile>
 	</profiles>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -321,7 +325,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- Manik Hot Deployment -->	
+			<!-- Manik Hot Deployment -->
 			<plugin>
 				<groupId>org.imixs.maven</groupId>
 				<artifactId>manik-hotdeploy-maven-plugin</artifactId>
@@ -352,8 +356,8 @@
 					</hotdeployments>
 
 				</configuration>
-			</plugin>	
-						
+			</plugin>
+
 		</plugins>
 		<finalName>imixs-office-workflow</finalName>
 	</build>
@@ -366,7 +370,7 @@
 			<scope>compile</scope>
 			<version>${project.parent.version}</version>
 		</dependency>
-	
+
 		<!-- Imixs Workflow -->
 		<dependency>
 			<groupId>org.imixs.workflow</groupId>
@@ -392,15 +396,15 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		<!-- Apache Lucene --> 
+		<!-- Apache Lucene -->
 		<dependency>
 			<groupId>org.imixs.workflow</groupId>
 			<artifactId>imixs-workflow-index-lucene</artifactId>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		
-		
+
+
 		<!-- Apache Solr 
 		<dependency>
 			<groupId>org.imixs.workflow</groupId>
@@ -423,20 +427,20 @@
 			<artifactId>imixs-marty</artifactId>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<!-- Melman -->
 		<dependency>
 			<groupId>org.imixs.workflow</groupId>
 			<artifactId>imixs-melman</artifactId>
 			<scope>compile</scope>
 		</dependency>
-				
+
 		<!-- xsl 2.0 support -->
 		<dependency>
-		  <groupId>net.sf.saxon</groupId>
-		  <artifactId>Saxon-HE</artifactId>
-		  <version>${net.sf.saxon.version}</version>
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>Saxon-HE</artifactId>
+			<version>${net.sf.saxon.version}</version>
 		</dependency>
-		
+
 	</dependencies>
 </project>

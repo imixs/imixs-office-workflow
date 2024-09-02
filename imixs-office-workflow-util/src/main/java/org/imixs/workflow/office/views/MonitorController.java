@@ -39,20 +39,21 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.bpmn.BPMNUtil;
+import org.imixs.workflow.engine.DocumentService;
+import org.imixs.workflow.engine.ModelService;
+import org.imixs.workflow.exceptions.ModelException;
+import org.imixs.workflow.exceptions.QueryException;
+import org.imixs.workflow.office.model.ModelController;
+import org.openbpmn.bpmn.BPMNModel;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-
-import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.Model;
-import org.imixs.workflow.engine.DocumentService;
-import org.imixs.workflow.engine.ModelService;
-import org.imixs.workflow.exceptions.ModelException;
-import org.imixs.workflow.exceptions.QueryException;
-import org.imixs.workflow.office.rest.MonitorRestService;
 
 /**
  ** The MonitorController provides analytic information about the current process
@@ -73,6 +74,9 @@ public class MonitorController implements Serializable {
 
     @Inject
     protected BoardController boardController;
+
+    @Inject
+    protected ModelController modelController;
 
     private static Logger logger = Logger.getLogger(MonitorController.class.getName());
 
@@ -98,10 +102,48 @@ public class MonitorController implements Serializable {
         boardController.setProcessRef(paramMap.get("processref"));
 
         // get all workflow groups
-        workflowGroups = modelService.getGroups();
+        lookupWorkflowGroups();
+        // workflowGroups =
+        // modelService.getModelManager().findAllGroups(null).getGroups();
         // reset borad stats...
         reset();
 
+    }
+
+    /**
+     * Returns a sorted list of all WorkflowGroups from all models.
+     * 
+     * Workflow groups of the system model will be skipped.
+     * 
+     * A workflowGroup with a '~' in its name will be skipped. This indicates a
+     * child process.
+     * 
+     * The worflowGroup list is used to assign a workflow Group to a core process.
+     * 
+     * @return list of workflow groups
+     */
+    public void lookupWorkflowGroups() {
+
+        // Set<String> set = new HashSet<>();
+        // List<String> versions = modelService.getModelManager().getVersions();
+        workflowGroups = new ArrayList<>();
+
+        for (BPMNModel model : modelService.getModelManager().getAllModels()) {
+            String version = BPMNUtil.getVersion(model);
+            // Skip system model..
+            if (version.startsWith("system-")) {
+                continue;
+            }
+            Set<String> groups = modelService.getModelManager().findAllGroupsByModel(model);
+            for (String groupName : groups) {
+                if (workflowGroups.contains(groupName))
+                    continue;
+                if (groupName.contains("~"))
+                    continue;
+                workflowGroups.add(groupName);
+            }
+        }
+        Collections.sort(workflowGroups);
     }
 
     public String getProcessRef() {
@@ -298,17 +340,14 @@ public class MonitorController implements Serializable {
 
             for (String group : workflowGroups) {
                 // find latest version....
-                List<String> versions = modelService.findVersionsByGroup(group);
+                Set<String> versions = modelService.getModelManager().findAllVersionsByGroup(group);
                 if (versions != null && versions.size() > 0) {
                     // get the latest version
-                    String version = versions.get(0);
-
+                    String version = versions.iterator().next();
                     // load the model
-                    Model model;
-                    model = modelService.getModel(version);
-
+                    BPMNModel model = modelService.getModelManager().getModel(version);
                     // iterate over all tasks....
-                    List<ItemCollection> tasks = model.findTasksByGroup(group);
+                    List<ItemCollection> tasks = modelController.findAllTasksByGroup(group);// model.findTasksByGroup(group);
                     for (ItemCollection task : tasks) {
                         // count the workitems for this task....
                         int taskID = task.getItemValueInteger("numprocessid");
@@ -408,7 +447,6 @@ public class MonitorController implements Serializable {
         return result;
     }
 
-
     /**
      * This helper method generates a backgroundColorScheme for chart diagrams.
      * 
@@ -420,5 +458,4 @@ public class MonitorController implements Serializable {
         return result;
     }
 
-    
 }

@@ -22,27 +22,23 @@
 			</dd>
 		</dl>
 
+		<ui:param name="tasks"
+			value="#{modelController.findAllTasksByGroup(searchController.searchFilter.item['$WorkflowGroup'])}" />
+		<dl>
+			<dt>#{message['worklist.workflowstatus']}:</dt>
+			<dd>
 
-		<ui:param name="model"
-			value="#{modelController.getModelByGroup(searchController.searchFilter.item['$WorkflowGroup'])}" />
-		<h:panelGroup rendered="#{! empty model}">
-			<ui:param name="tasks"
-				value="#{model.findTasksByGroup(searchController.searchFilter.item['$WorkflowGroup'])}" />
-			<dl>
-				<dt>#{message['worklist.workflowstatus']}:</dt>
-				<dd>
+				<h:selectOneMenu id="processid_selection" value="#{searchController.searchFilter.item['$taskid']}">
+					<f:selectItem itemValue="" itemLabel=" " />
+					<c:forEach items="#{tasks}" var="processentity">
+						<f:selectItem itemValue="#{processentity.item['numProcessID']}"
+							itemLabel="#{processentity.item['txtname']}" />
+					</c:forEach>
+					<f:ajax event="change" render="@form" onevent="updateSearchForm" />
+				</h:selectOneMenu>
+			</dd>
+		</dl>
 
-					<h:selectOneMenu id="processid_selection" value="#{searchController.searchFilter.item['$taskid']}">
-						<f:selectItem itemValue="" itemLabel=" " />
-						<c:forEach items="#{tasks}" var="processentity">
-							<f:selectItem itemValue="#{processentity.item['numProcessID']}"
-								itemLabel="#{processentity.item['txtname']}" />
-						</c:forEach>
-						<f:ajax event="change" render="@form" onevent="updateSearchForm" />
-					</h:selectOneMenu>
-				</dd>
-			</dl>
-		</h:panelGroup>
 
 		<!-- Spaces are shown if the process defines space selection or if property search.filter.spaces=true -->
 		<ui:param name="spaceSelection" value="#{teamController.getSpacesByProcessId(process.uniqueID)}"></ui:param>

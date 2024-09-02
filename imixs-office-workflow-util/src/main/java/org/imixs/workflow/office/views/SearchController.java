@@ -42,8 +42,8 @@ import java.util.logging.Logger;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.marty.team.TeamController;
 import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.Model;
 import org.imixs.workflow.engine.DocumentService;
+import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.exceptions.InvalidAccessException;
 import org.imixs.workflow.exceptions.QueryException;
@@ -104,6 +104,9 @@ public class SearchController extends ViewController implements Serializable {
 
     @Inject
     ModelController modelController;
+
+    @Inject
+    ModelService modelService;
 
     @EJB
     SchemaService schemaService;
@@ -193,8 +196,13 @@ public class SearchController extends ViewController implements Serializable {
                     taskID = Integer.parseInt(task);
                 } catch (NumberFormatException nfe) {
                     // try to find the task based on the name of the given task....
-                    Model model = modelController.getModelByGroup(workflowgroup);
-                    List<ItemCollection> tasks = model.findTasksByGroup(workflowgroup);
+
+                    String version = modelService.getModelManager().findVersionByGroup(workflowgroup);
+                    // BPMNModel model=modelService.getModelManager().
+                    // modelService.getModelManager().task
+
+                    // Model model = modelController.getModelByGroup(workflowgroup);
+                    List<ItemCollection> tasks = modelController.findAllTasksByGroup(workflowgroup); // model.findTasksByGroup(workflowgroup);
                     for (ItemCollection taskElement : tasks) {
                         if (task.equals(taskElement.getItemValueString("txtname"))) {
                             taskID = taskElement.getItemValueInteger("numProcessID");
