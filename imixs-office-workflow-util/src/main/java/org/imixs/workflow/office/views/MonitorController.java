@@ -134,14 +134,20 @@ public class MonitorController implements Serializable {
             if (version.startsWith("system-")) {
                 continue;
             }
-            Set<String> groups = modelService.getModelManager().findAllGroupsByModel(model);
-            for (String groupName : groups) {
-                if (workflowGroups.contains(groupName))
-                    continue;
-                if (groupName.contains("~"))
-                    continue;
-                workflowGroups.add(groupName);
+            Set<String> groups;
+            try {
+                groups = modelService.getModelManager().findAllGroupsByModel(model);
+                for (String groupName : groups) {
+                    if (workflowGroups.contains(groupName))
+                        continue;
+                    if (groupName.contains("~"))
+                        continue;
+                    workflowGroups.add(groupName);
+                }
+            } catch (ModelException e) {
+                logger.warning("Invalid Model Object found - version=" + version);
             }
+
         }
         Collections.sort(workflowGroups);
     }

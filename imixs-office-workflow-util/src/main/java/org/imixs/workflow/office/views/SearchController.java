@@ -46,6 +46,7 @@ import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.exceptions.InvalidAccessException;
+import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.data.ViewController;
 import org.imixs.workflow.faces.util.LoginController;
@@ -197,9 +198,12 @@ public class SearchController extends ViewController implements Serializable {
                 } catch (NumberFormatException nfe) {
                     // try to find the task based on the name of the given task....
 
-                    String version = modelService.getModelManager().findVersionByGroup(workflowgroup);
-                    // BPMNModel model=modelService.getModelManager().
-                    // modelService.getModelManager().task
+                    try {
+                        String version = modelService.getModelManager().findVersionByGroup(workflowgroup);
+                    } catch (ModelException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
 
                     // Model model = modelController.getModelByGroup(workflowgroup);
                     List<ItemCollection> tasks = modelController.findAllTasksByGroup(workflowgroup); // model.findTasksByGroup(workflowgroup);

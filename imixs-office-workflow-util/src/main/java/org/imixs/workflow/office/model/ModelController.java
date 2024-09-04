@@ -34,9 +34,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +45,6 @@ import org.imixs.workflow.FileData;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.bpmn.BPMNUtil;
 import org.imixs.workflow.engine.ModelService;
-import org.imixs.workflow.engine.SetupService;
 import org.imixs.workflow.engine.WorkflowService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.ModelException;
@@ -91,11 +88,6 @@ public class ModelController implements Serializable {
 	@EJB
 	protected WorkflowService workflowService;
 
-	@EJB
-	protected SetupService setupService;
-
-	private Map<String, ItemCollection> modelEntityCache = new HashMap<String, ItemCollection>();
-
 	private static Logger logger = Logger.getLogger(ModelController.class.getName());
 
 	/**
@@ -128,8 +120,9 @@ public class ModelController implements Serializable {
 	 * The worflowGroup list is used to assign a workflow Group to a core process.
 	 * 
 	 * @return list of workflow groups
+	 * @throws ModelException
 	 */
-	public List<String> getWorkflowGroups() {
+	public List<String> getWorkflowGroups() throws ModelException {
 		List<String> result = new ArrayList<>();
 		for (BPMNModel model : modelService.getModelManager().getAllModels()) {
 			String version = BPMNUtil.getVersion(model);
@@ -155,8 +148,9 @@ public class ModelController implements Serializable {
 	 * 
 	 * @param group
 	 * @return
+	 * @throws ModelException
 	 */
-	public String getVersionByGroup(String group) {
+	public String getVersionByGroup(String group) throws ModelException {
 		return modelService.getModelManager().findVersionByGroup(group);
 	}
 
@@ -188,20 +182,22 @@ public class ModelController implements Serializable {
 		try {
 			BPMNModel model = modelService.getModelManager().getModel(version);
 			return modelService.getModelManager().findStartTasks(model, group);
-		} catch (ModelException | BPMNModelException e) {
-			logger.severe("Failed to find Start Tasks for '" + group + "' : " + e.getMessage());
+		} catch (ModelException e) {
+			logger.severe(
+					"Failed to find start tasks for workflow group '" + group + "' : " + e.getMessage());
 		}
-
 		return result;
 	}
 
 	/**
-	 * returns all model versions. Used by the Model View
+	 * Returns a sorted set of all model versions.
+	 * <p>
+	 * Used by the Model View.
 	 * 
 	 * @return
 	 */
-	public List<String> getVersions() {
-		return modelService.getModelManager().getVersions();
+	public Set<String> getVersions() {
+		return modelService.getModelEntityStore().keySet();
 	}
 
 	/**
@@ -242,7 +238,6 @@ public class ModelController implements Serializable {
 				BPMNModel model;
 				try {
 					model = BPMNModelFactory.read(inputStream);
-
 					modelService.saveModel(model);
 					continue;
 				} catch (BPMNModelException e) {
