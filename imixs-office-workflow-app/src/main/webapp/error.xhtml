@@ -1,36 +1,36 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	template="/layout/template.xhtml">
 
 	<ui:define name="content">
 		<!-- Display only if error messages available -->
 		<h:panelGroup styleClass="ui-widget">
-			<div class="ui-state-error ui-corner-all"
-				style="padding: .7em; margin-bottom: .7em;">
+			<div class="ui-state-error ui-corner-all" style="padding: .7em; margin-bottom: .7em;">
 				<h3>
 					<span class="typcn typcn-weather-partly-sunny"></span>
 					#{message.error_message_general_title}
 				</h3>
 				<p>#{message.error_message_general}</p>
-				<strong><h:outputText value="#{session.lastAccessedTime}">
-						<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
-							type="date" />
-					</h:outputText> :</strong> <br />
+				<strong>Local Client Time: <span id="datetime"></span></strong>
+				<br />
 				<!-- display exception details -->
 				<h:panelGroup layout="block"
 					style="background: #EEE;   padding: 10px; margin: 5px 0 20px 0;border: 1px solid #999;"
 					rendered="#{! empty requestScope['jakarta.servlet.error.exception']}">
-					<h:outputText
-						value="#{requestScope['jakarta.servlet.error.exception']}" />
-				</h:panelGroup>	
+					<h:outputText value="#{requestScope['jakarta.servlet.error.exception']}" />
+				</h:panelGroup>
 			</div>
 			<h:form>
-				<h:commandButton action="home" value="#{message.close}"
-					immediate="true" />
+				<h:commandButton action="home" value="#{message.close}" immediate="true" />
 			</h:form>
-
 		</h:panelGroup>
+
+		<script type="text/javascript">
+			/*<![CDATA[*/
+			const now = new Date();
+			const currentDateTime = now.toUTCString();
+			document.querySelector('#datetime').textContent = currentDateTime;
+			/*]]>*/
+		</script>
 	</ui:define>
 </ui:composition>
