@@ -28,10 +28,13 @@
 package org.imixs.workflow.office.views;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -39,20 +42,19 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.ejb.EJB;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
-
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.Model;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.QueryException;
-import org.imixs.workflow.office.rest.MonitorRestService;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  ** The MonitorController provides analytic information about the current process
@@ -71,6 +73,7 @@ public class MonitorController implements Serializable {
     private List<String> activeWorkflowGroups = null;
     private Set<BoardCategory> boardCategories;
 
+    private ItemCollection filter = null;
     @Inject
     protected BoardController boardController;
 
@@ -84,6 +87,7 @@ public class MonitorController implements Serializable {
 
     public MonitorController() {
         super();
+        filter = new ItemCollection();
     }
 
     /**
@@ -102,6 +106,10 @@ public class MonitorController implements Serializable {
         // reset borad stats...
         reset();
 
+    }
+
+    public ItemCollection getFilter() {
+        return filter;
     }
 
     public String getProcessRef() {
@@ -178,13 +186,26 @@ public class MonitorController implements Serializable {
 
         // sort active workflowGroups
         Collections.sort(activeWorkflowGroups);
+        filter = new ItemCollection();
     }
 
     /**
      * This method discards the cache.
      */
     public void refresh() {
+        // initalize the task list...
+        buildBoardCategories();
 
+        // find active groups..
+        activeWorkflowGroups = new ArrayList<String>();
+        for (BoardCategory cat : boardCategories) {
+            if (!activeWorkflowGroups.contains(cat.getWorkflowGroup())) {
+                activeWorkflowGroups.add(cat.getWorkflowGroup());
+            }
+        }
+
+        // sort active workflowGroups
+        Collections.sort(activeWorkflowGroups);
     }
 
     /**
@@ -295,7 +316,32 @@ public class MonitorController implements Serializable {
 
         try {
             String query = "(type:\"workitem\" AND $uniqueidref:\"" + getProcessRef() + "\")";
+            Date datFrom = filter.getItemValueDate("date.from");
+            Date datTo = filter.getItemValueDate("date.to");
 
+            // search date range?
+            String sDateFrom = "191401070000"; // because * did not work here
+            String sDateTo = "211401070000";
+            SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMddHHmm");
+
+            if (datFrom != null) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(datFrom);
+                sDateFrom = dateformat.format(cal.getTime());
+            }
+            if (datTo != null) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(datTo);
+                cal.add(Calendar.DATE, 1);
+                sDateTo = dateformat.format(cal.getTime());
+            }
+
+            if (datFrom != null || datTo != null) {
+                // expected format $created:[20020101 TO 20030101]
+                query += " AND ($created:[" + sDateFrom + " TO " + sDateTo + "]) ";
+            }
+
+            logger.info(query);
             for (String group : workflowGroups) {
                 // find latest version....
                 List<String> versions = modelService.findVersionsByGroup(group);
@@ -408,7 +454,6 @@ public class MonitorController implements Serializable {
         return result;
     }
 
-
     /**
      * This helper method generates a backgroundColorScheme for chart diagrams.
      * 
@@ -420,5 +465,4 @@ public class MonitorController implements Serializable {
         return result;
     }
 
-    
 }
