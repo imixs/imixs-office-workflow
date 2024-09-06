@@ -87,7 +87,6 @@ public class MonitorController implements Serializable {
 
     public MonitorController() {
         super();
-        filter = new ItemCollection();
     }
 
     /**
@@ -105,7 +104,6 @@ public class MonitorController implements Serializable {
         workflowGroups = modelService.getGroups();
         // reset borad stats...
         reset();
-
     }
 
     public ItemCollection getFilter() {
@@ -173,20 +171,8 @@ public class MonitorController implements Serializable {
      * 
      */
     public void reset() {
-        // initalize the task list...
-        buildBoardCategories();
-
-        // find active groups..
-        activeWorkflowGroups = new ArrayList<String>();
-        for (BoardCategory cat : boardCategories) {
-            if (!activeWorkflowGroups.contains(cat.getWorkflowGroup())) {
-                activeWorkflowGroups.add(cat.getWorkflowGroup());
-            }
-        }
-
-        // sort active workflowGroups
-        Collections.sort(activeWorkflowGroups);
         filter = new ItemCollection();
+        refresh();
     }
 
     /**

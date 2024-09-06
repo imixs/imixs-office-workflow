@@ -98,10 +98,7 @@
 
 
 					<div class="imixs-body" style="margin-left: 10px;">
-
-
 						<!-- *** Chart Overview -->
-
 						<div class="monitoring-section">
 							<h2>Monitoring
 								<a href="javascript:imixsOfficeMonitor.initMainWorkflowCharts();"
@@ -111,34 +108,27 @@
 									style="margin-left:16px;" title="Table View"><span
 										class="typcn typcn-th-list-outline"></span></a>
 
-
-
-								<!-- date range
+								<!-- date range -->
 								<span class="imixs-form-section-3" style="font-size: 14px;margin-left: 50px;">
-									
-									<f:ajax render="@form">
-										<strong>#{message['worklist.date_range']}: </strong>
-										<h:inputText value="#{monitorController.filter.item['date.from']}"
-											title="#{message['worklist.date_range_help']}" class="imixs-date">
-											<f:convertDateTime pattern="#{message.datePatternShort}"
-												timeZone="#{message.timeZone}" />
-										</h:inputText>
-										-
-										<h:inputText value="#{monitorController.filter.item['date.to']}"
-											title="#{message['worklist.date_range_help']}" class="imixs-date">
-											<f:convertDateTime pattern="#{message.datePatternShort}"
-												timeZone="#{message.timeZone}" />
-										</h:inputText>
-
-										<h:commandLink actionListener="#{monitorController.reset()}"
-											styleClass="imixs-portlet-refresh" title="#{message.refresh}"
-											style="font-size: 24px;margin-left: 10px;"><span
-												class="typcn typcn-arrow-sync"></span>
-
-										</h:commandLink>
-									</f:ajax>
+									<strong>#{message['worklist.date_range']}: </strong>
+									<h:inputText value="#{monitorController.filter.item['date.from']}"
+										title="#{message['worklist.date_range_help']}" class="imixs-date">
+										<f:convertDateTime pattern="#{message.datePatternShort}"
+											timeZone="#{message.timeZone}" />
+									</h:inputText>
+									-
+									<h:inputText value="#{monitorController.filter.item['date.to']}"
+										title="#{message['worklist.date_range_help']}" class="imixs-date">
+										<f:convertDateTime pattern="#{message.datePatternShort}"
+											timeZone="#{message.timeZone}" />
+									</h:inputText>
+									<h:commandLink actionListener="#{monitorController.refresh()}"
+										styleClass="imixs-portlet-refresh" title="#{message.refresh}"
+										style="font-size: 24px;margin-left: 5px;"><span
+											class="typcn typcn-arrow-sync"></span>
+									</h:commandLink>
 								</span>
-								 -->
+
 							</h2>
 							<div class="monitoring-container">
 
@@ -150,7 +140,6 @@
 											id="#{monitorController.getBase64(group)}"></canvas>
 									</div>
 								</ui:repeat>
-
 
 							</div>
 						</div>
