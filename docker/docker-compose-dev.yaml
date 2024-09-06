@@ -9,13 +9,14 @@ services:
       - dbdata:/var/lib/postgresql/data
 
   app:
-    image: imixs/imixs-office-workflow
+    image: imixs/imixs-office-workflow:latest
     depends_on:
       - db
     environment:
       TZ: "CET"
       LANG: "en_US.UTF-8"
       JAVA_OPTS: "-Dnashorn.args=--no-deprecation-warning"
+      DEBUG: "true"
       MAILGATEWAY: "localhost"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "adminadmin"

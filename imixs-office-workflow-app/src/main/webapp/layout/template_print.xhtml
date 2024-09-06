@@ -25,53 +25,46 @@
 	</title>
 
 	<!-- imixs-css -->
-	<link href="#{facesContext.externalContext.requestContextPath}/layout/css/imixs-basic.css" charset="UTF-8"
-		type="text/css" rel="stylesheet" />
-	<link href="#{facesContext.externalContext.requestContextPath}/layout/css/imixs-layout.css" charset="UTF-8"
-		type="text/css" rel="stylesheet" />
+	<link href="#{request.contextPath}/layout/css/imixs-basic.css" charset="UTF-8" type="text/css" rel="stylesheet" />
+	<link href="#{request.contextPath}/layout/css/imixs-layout.css" charset="UTF-8" type="text/css" rel="stylesheet" />
 
 
 	<!-- #### Customize TinyMCE  Start -->
 	<!--  tinymce disable can be set back to true if new defaulttinymce is supported -->
 	<i:imixsHeader disablecss="false" disabletinymce="true" dateformat="#{message.datePatternShort}"
-		theme="#{facesContext.externalContext.requestContextPath}/layout/themes/#{app.application_theme}" />
+		theme="#{request.contextPath}/layout/themes/#{app.application_theme}" />
 	<!-- #### Customize TinyMCE  END -->
 
 
 
 
-	<link href="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.css" charset="UTF-8"
-		type="text/css" rel="stylesheet" />
+	<link href="#{request.contextPath}/marty/imixs-marty.css" charset="UTF-8" type="text/css" rel="stylesheet" />
 
-	<link
-		href="#{facesContext.externalContext.requestContextPath}/layout/css/fonts/typicons.css?build=#{app.application_build_timestamp}"
+	<link href="#{request.contextPath}/layout/css/fonts/typicons.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
-	<link href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme.css" charset="UTF-8"
-		type="text/css" rel="stylesheet" />
+	<link href="#{request.contextPath}/layout/css/office-theme.css" charset="UTF-8" type="text/css" rel="stylesheet" />
 
-	<link href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-print.css" charset="UTF-8"
-		type="text/css" rel="stylesheet" />
+	<link href="#{request.contextPath}/layout/css/office-theme-print.css" charset="UTF-8" type="text/css"
+		rel="stylesheet" />
 
-	<link href="#{facesContext.externalContext.requestContextPath}/layout/css/custom.css" charset="UTF-8"
-		type="text/css" rel="stylesheet" />
-	<link href="#{facesContext.externalContext.requestContextPath}/layout/css/custom-print.css" charset="UTF-8"
-		type="text/css" rel="stylesheet" />
+	<link href="#{request.contextPath}/layout/css/custom.css" charset="UTF-8" type="text/css" rel="stylesheet" />
+	<link href="#{request.contextPath}/layout/css/custom-print.css" charset="UTF-8" type="text/css" rel="stylesheet" />
 
 	<!-- IE 7 support -->
 	<h:outputText
-		value="&lt;!--[if IE 7]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
+		value="&lt;!--[if IE 7]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{request.contextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
 		escape="false" />
 	<!-- IE 8 support -->
 	<h:outputText
-		value="&lt;!--[if IE 8]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
+		value="&lt;!--[if IE 8]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{request.contextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
 		escape="false" />
 	<!-- IE 9 support -->
 	<h:outputText
-		value="&lt;!--[if IE 9]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
+		value="&lt;!--[if IE 9]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{request.contextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
 		escape="false" />
 	<!-- IE 10 support -->
 	<h:outputText
-		value="&lt;!--[if IE 10]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{facesContext.externalContext.requestContextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
+		value="&lt;!--[if IE 10]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{request.contextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
 		escape="false" />
 
 
@@ -79,31 +72,31 @@
 
 	<!-- tinyMCE -->
 	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/tinymce/tinymce.min.js?build=#{app.application_build_timestamp}"></script>
+		src="#{request.contextPath}/js/tinymce/tinymce.min.js?build=#{app.application_build_timestamp}"></script>
 
 	<!-- datepicker regional -->
 	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/#{message['jquey.datepicker.regional']}?build=#{app.application_build_timestamp}"></script>
+		src="#{request.contextPath}/js/#{message['jquey.datepicker.regional']}?build=#{app.application_build_timestamp}"></script>
 
 	<!-- Load the marty component script -->
 	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.js?build=#{app.application_build_timestamp}"></script>
+		src="#{request.contextPath}/marty/imixs-marty.js?build=#{app.application_build_timestamp}"></script>
 
 	<!-- Load DataTablePlugin  -->
 	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/jquery.dataTables.min.js?build=#{app.application_build_timestamp}"></script>
+		src="#{request.contextPath}/js/jquery.dataTables.min.js?build=#{app.application_build_timestamp}"></script>
 
 	<!-- Chart.js -->
 	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/chartjs/Chart.bundle.min.js?build=#{app.application_build_timestamp}"></script>
+		src="#{request.contextPath}/js/chartjs/Chart.bundle.min.js?build=#{app.application_build_timestamp}"></script>
 
 	<!-- Imixs-Office-Workflow  -->
 	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
+		src="#{request.contextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
 	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.main.js?build=#{app.application_build_timestamp}"></script>
+		src="#{request.contextPath}/js/imixs-office.main.js?build=#{app.application_build_timestamp}"></script>
 	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.main.custom.js?build=#{app.application_build_timestamp}"></script>
+		src="#{request.contextPath}/js/imixs-office.main.custom.js?build=#{app.application_build_timestamp}"></script>
 
 	<script type="text/javascript">
 		/*<![CDATA[*/
@@ -174,13 +167,12 @@
 	</f:view>
 
 	<!-- Load the marty component script -->
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/marty/imixs-marty.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/marty/imixs-marty.js"></script>
 	<!-- Imixs-Office-Workflow  -->
 	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
+		src="#{request.contextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
 	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/imixs-office-workflow.js?build=#{app.application_build_timestamp}"></script>
+		src="#{request.contextPath}/js/imixs-office-workflow.js?build=#{app.application_build_timestamp}"></script>
 
 	<script type="text/javascript">
 		/*<![CDATA[*/

@@ -23,7 +23,7 @@
 
 	<!-- *** CSS *** -->
 
-	<link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/layout/favicon.ico" />
+	<link rel="shortcut icon" type="image/x-icon" href="/layout/favicon.ico" />
 
 	<!-- imixs-responsive css -->
 	<link href="#{request.contextPath}/layout/css/imixs-basic.css?build=#{app.application_build_timestamp}"
@@ -31,11 +31,10 @@
 	<link href="#{request.contextPath}/layout/css/imixs-layout.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
-
-
+	<!-- no imixs head ! -->
 	<!-- imixsHeader (must be loaded before office-css! -->
-	<i:imixsHeader disablecss="false" dateformat="#{message.datePatternShort}" build="#{app.application_workflow_build}"
-		xtheme="#{request.contextPath}/layout/themes/#{app.application_theme}" />
+	<i:imixsHeader disablecss="false" dateformat="#{message.datePatternShort}"
+		build="#{app.application_workflow_build}" />
 
 	<!--  font icons -->
 	<link href="#{request.contextPath}/layout/css/fonts/open_sans.css?build=#{app.application_build_timestamp}"
@@ -49,57 +48,12 @@
 	<link href="#{request.contextPath}/layout/css/office-theme.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
-
-
-	<!-- Chronicle Feature css -->
-	<link href="#{request.contextPath}/layout/css/office-theme-chronicle.css?build=#{app.application_build_timestamp}"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
-
-
-	<link
-		href="#{request.contextPath}/layout/css/office-theme-autocomplete.css?build=#{app.application_build_timestamp}"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
-	<link
-		href="#{request.contextPath}/layout/css/office-theme-suggestinput.css?build=#{app.application_build_timestamp}"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
-
-	<!-- ML Feature css -->
-	<link href="#{request.contextPath}/layout/css/office-theme-ai.css?build=#{app.application_build_timestamp}"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
-
 	<!-- custom css -->
 	<link href="#{request.contextPath}/layout/css/custom.css?build=#{app.application_build_timestamp}" charset="UTF-8"
 		type="text/css" rel="stylesheet" />
 
 
-	<!-- *** MS IE Support *** -->
 
-	<!-- IE 7 support -->
-	<h:outputText
-		value="&lt;!--[if IE 7]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{request.contextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
-		escape="false" />
-	<!-- IE 8 support -->
-	<h:outputText
-		value="&lt;!--[if IE 8]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{request.contextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
-		escape="false" />
-	<!-- IE 9 support -->
-	<h:outputText
-		value="&lt;!--[if IE 9]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{request.contextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
-		escape="false" />
-	<!-- IE 10 support -->
-	<h:outputText
-		value="&lt;!--[if IE 10]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;#{request.contextPath}/layout/css/ie-support.css&quot; /&gt;&lt;![endif]--&gt;"
-		escape="false" />
-
-	<!-- The Top-Margin form the content container depends on the HistoryNav panel. If not history entries are displayed the 
-		top margin is reduced -->
-	<ui:fragment rendered="#{(loginController.authenticated) and (!empty historyController.workitems)}">
-		<style>
-			#container {
-				margin-top: 100px;
-			}
-		</style>
-	</ui:fragment>
 
 	<!-- *** SCRIPTS *** -->
 
@@ -136,17 +90,13 @@
 		src="#{request.contextPath}/js/imixs-office.main.js?build=#{app.application_build_timestamp}"></script>
 
 
-	<script type="text/javascript"
-		src="#{request.contextPath}/js/imixs-office.autocomplete.js?build=#{app.application_build_timestamp}"></script>
-
-
 	<script type="text/javascript">
 		/*<![CDATA[*/
 		// define script name spaces
 		var imixs = IMIXS.org.imixs.core;
 
 		// define variables for office scripts loaded from resource bundles....
-		imixsOfficeMain.contextPath = "#{facesContext.externalContext.requestContextPath}";
+		imixsOfficeMain.contextPath = "#{request.contextPath}/";
 		imixsOfficeMain.error_message_mce_image_size = "#{message.error_message_mce_image_size}";
 		imixsOfficeMain.imixs_date_showWeek = ("true" === "#{app['jquey.datepicker.showWeek']}");
 		/*]]>*/
@@ -157,9 +107,12 @@
 		<!-- default  -->
 	</ui:insert>
 
+
 </h:head>
+
+
 <h:body>
-	<f:view locale="#{userController.locale}">
+	<f:view>
 
 		<!-- SystemSetupStatus=#{initController.initStatus} -->
 		<div id="imixs-app">
@@ -172,20 +125,10 @@
 			<!-- content -->
 			<div id="imixs-content">
 
-				<ui:fragment rendered="#{(!loginController.authenticated)}">
-					<div id="imixs-branding" class="imixs-header-branding">
-						<ui:include src="branding.xhtml" />
-					</div>
-				</ui:fragment>
 
-				<ui:fragment rendered="#{(loginController.authenticated) and (!empty historyController.workitems)}">
-					<div id="imixs-history" class="imixs-header-history">
-						<ui:include src="historynav.xhtml" />
-					</div>
-				</ui:fragment>
 
 				<div id="imixs-main">
-					<ui:include src="/error_message.xhtml" />
+
 					<ui:insert name="content">
 						<!-- Default Content -->
 					</ui:insert>
@@ -219,5 +162,6 @@
 		</div>
 	</f:view>
 </h:body>
+
 
 </html>
