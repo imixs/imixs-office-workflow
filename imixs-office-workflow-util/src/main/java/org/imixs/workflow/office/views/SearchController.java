@@ -457,7 +457,7 @@ public class SearchController extends ViewController implements Serializable {
             query += " (";
             iterator = workflowGroups.iterator();
             while (iterator.hasNext()) {
-                query += "txtworkflowgroup:\"" + iterator.next() + "\"";
+                query += "$workflowgroup:\"" + iterator.next() + "\"";
                 if (iterator.hasNext())
                     query += " OR ";
             }

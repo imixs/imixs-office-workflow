@@ -1,13 +1,8 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	template="/layout/template.xhtml">
 
 
@@ -32,26 +27,26 @@
 
 		<script type="text/javascript">
 			/*<![CDATA[*/
-				
+
 			// set json objects with monitoring datasets 
-			imixsOfficeMonitor.groupData = #{monitorController.groupData};
+			imixsOfficeMonitor.groupData = #{ monitorController.groupData };
 			imixsOfficeMonitor.processRef = "#{monitorController.processRef}";
 			$(document).ready(
-							function() {
-								// set navigation cookie
-								document.cookie = "imixs.office.navigation=/pages/monitoring.jsf?processref=#{monitorController.processRef};path=#{facesContext.externalContext.requestContextPath}/";
-								
-								$("input.search_input").on('keypress',function(e) {
-								    if(e.which == 13) {
-								       e.preventDefault(); //stop event
-								       // simulate click on search_action
-		  						   	   $("[data-id='search_action']").click();
-								    }
-								});
+				function () {
+					// set navigation cookie
+					document.cookie = "imixs.office.navigation=/pages/monitoring.jsf?processref=#{monitorController.processRef};path=#{facesContext.externalContext.requestContextPath}/";
 
-							});
+					$("input.search_input").on('keypress', function (e) {
+						if (e.which == 13) {
+							e.preventDefault(); //stop event
+							// simulate click on search_action
+							$("[data-id='search_action']").click();
+						}
+					});
 
-			
+				});
+
+
 			/*]]>*/
 		</script>
 	</ui:define>
@@ -62,8 +57,7 @@
 
 			<h:form>
 
-				<h:panelGroup styleClass="imixs-board" layout="block"
-					id="monitor_board">
+				<h:panelGroup styleClass="imixs-board" layout="block" id="monitor_board">
 
 					<div class="imixs-header">
 						<h1>
@@ -74,21 +68,28 @@
 							#{boardController.title}
 							<!-- Search box -->
 							<h:panelGroup styleClass="search" id="search_box">
-								<h:inputText a:data-id="input_phrase" pt:placeholder="#{message.search}..." styleClass="search_input"
-										value="#{searchController.searchFilter.item['phrase']}" /><h:commandLink a:data-id="search_action"
-								    action="#{boardController.refreshSearch()}"><f:ajax render="@form" execute="@form" /><span class="typcn typcn-zoom" style="margin-left:4px;"></span>
+								<h:inputText a:data-id="input_phrase" pt:placeholder="#{message.search}..."
+									styleClass="search_input" value="#{searchController.searchFilter.item['phrase']}" />
+								<h:commandLink a:data-id="search_action" action="#{boardController.refreshSearch()}">
+									<f:ajax render="@form" execute="@form" /><span class="typcn typcn-zoom"
+										style="margin-left:4px;"></span>
 								</h:commandLink>
 								<span class="extended-search">
-									<h:link outcome="/pages/workitems/worklist?processref=#{boardController.processRef}">#{message['nav.search_extended']}<span class="typcn typcn-zoom-in" style="margin-left:4px;"></span></h:link>
+									<h:link
+										outcome="/pages/workitems/worklist?processref=#{boardController.processRef}">
+										#{message['nav.search_extended']}<span class="typcn typcn-zoom-in"
+											style="margin-left:4px;"></span></h:link>
 								</span>
 								<span class="extended-search">
-								 	<h:link outcome="/pages/workitems/worklist?processref=#{monitorController.processRef}&amp;archive=true">#{message['nav.search_archive']}<span class="typcn typcn-archive" style="margin-left: 4px;"></span>
+									<h:link
+										outcome="/pages/workitems/worklist?processref=#{monitorController.processRef}&amp;archive=true">
+										#{message['nav.search_archive']}<span class="typcn typcn-archive"
+											style="margin-left: 4px;"></span>
 									</h:link>
 								</span>
 							</h:panelGroup>
 							<!-- navigation -->
-							<h:panelGroup layout="" styleClass="pull-right"
-								id="portlet_worklist_nav">
+							<h:panelGroup layout="" styleClass="pull-right" id="portlet_worklist_nav">
 							</h:panelGroup>
 						</h1>
 
@@ -98,52 +99,84 @@
 
 					<div class="imixs-body" style="margin-left: 10px;">
 
-					
+
 						<!-- *** Chart Overview -->
-						
+
 						<div class="monitoring-section">
 							<h2>Monitoring
-								<a href="javascript:imixsOfficeMonitor.initMainWorkflowCharts();" style="margin-left:16px;" title="Charts Diagrams"><span class="typcn typcn-chart-pie-outline"></span></a>
-								<a href="javascript:imixsOfficeMonitor.initMainWorkflowTableView();" style="margin-left:16px;" title="Table View"><span class="typcn typcn-th-list-outline"></span></a>
+								<a href="javascript:imixsOfficeMonitor.initMainWorkflowCharts();"
+									style="margin-left:16px;" title="Charts Diagrams"><span
+										class="typcn typcn-chart-pie-outline"></span></a>
+								<a href="javascript:imixsOfficeMonitor.initMainWorkflowTableView();"
+									style="margin-left:16px;" title="Table View"><span
+										class="typcn typcn-th-list-outline"></span></a>
+
+
+								<!-- date range -->
+								<span class="imixs-form-section-3" style="font-size: 14px;margin-left: 50px;">
+
+
+									<strong>#{message['worklist.date_range']}: </strong>
+									<h:inputText value="#{monitorController.filter.item['date.from']}"
+										title="#{message['worklist.date_range_help']}" class="imixs-date">
+										<f:convertDateTime pattern="#{message.datePatternShort}"
+											timeZone="#{message.timeZone}" />
+									</h:inputText>
+									-
+									<h:inputText value="#{monitorController.filter.item['date.to']}"
+										title="#{message['worklist.date_range_help']}" class="imixs-date">
+										<f:convertDateTime pattern="#{message.datePatternShort}"
+											timeZone="#{message.timeZone}" />
+									</h:inputText>
+
+									<h:commandLink actionListener="#{monitorController.refresh()}"
+										styleClass="imixs-portlet-refresh" title="#{message.refresh}"
+										style="font-size: 24px;margin-left: 5px;"><span
+											class="typcn typcn-arrow-sync"></span>
+									</h:commandLink>
+
+								</span>
+
+
 							</h2>
 							<div class="monitoring-container">
 
 								<!-- provide a char pane for each active group -->
-								<ui:repeat var="group"
-									value="#{monitorController.activeWorkflowGroups}">
+								<ui:repeat var="group" value="#{monitorController.activeWorkflowGroups}">
 									<div class="monitoring-pane">
 										<h3>#{group} (#{monitorController.countTotalWorkitems(group)})</h3>
 										<canvas class="monitoring-group-chart"
 											id="#{monitorController.getBase64(group)}"></canvas>
 									</div>
 								</ui:repeat>
-								
+
 
 							</div>
 						</div>
-						
-						
-						
-						
+
+
+
+
 						<!-- *** Chart Details -->
-						<div style="display:none;" class="monitoring-section monitoring-section-details" id="monitoring-details-section-id">
+						<div style="display:none;" class="monitoring-section monitoring-section-details"
+							id="monitoring-details-section-id">
 							<h3 id="monitoring-details-title-id"></h3>
 							<div class="monitoring-container monitoring-details">
 								<div class="monitoring-pane">
 									<h4 id="monitoring-details-owner-title-id">#{message.owner}</h4>
 									<!-- place holder for the detail chart -->
-									<canvas class="monitoring-group-chart" id="monitoring-details-owner-pane-id" >
+									<canvas class="monitoring-group-chart" id="monitoring-details-owner-pane-id">
 									</canvas>
 								</div>
-								
+
 								<div class="monitoring-pane">
 									<h4 id="monitoring-details-space-title-id">#{message.space}</h4>
 									<!-- place holder for the detail chart -->
-									<canvas class="monitoring-group-chart" id="monitoring-details-space-pane-id" >
+									<canvas class="monitoring-group-chart" id="monitoring-details-space-pane-id">
 									</canvas>
 								</div>
-								
-								
+
+
 							</div>
 						</div>
 
@@ -154,18 +187,19 @@
 
 
 						<!-- *** Custom Reports -->
-						<h:panelGroup layout="block" rendered="#{! empty monitorController.process.itemList['txtReportList']}" styleClass="monitoring-section">
-						
+						<h:panelGroup layout="block"
+							rendered="#{! empty monitorController.process.itemList['txtReportList']}"
+							styleClass="monitoring-section">
+
 							<h2>Custom Reports</h2>
 							<div class="monitoring-container">
 
 								<!-- bulild a portlet for each report -->
-								<ui:repeat
-									value="#{monitorController.process.itemList['txtReportList']}"
-									var="report">
+								<ui:repeat value="#{monitorController.process.itemList['txtReportList']}" var="report">
 									<!--  We replace the sufix .imixs-report with -imixs-report so that we an use the report name as an ID -->
 									<ui:param name="reportid"
-										value="#{fn:replace(report,'.imixs-report','-imixs-report')}"></ui:param>
+										value="#{fn:replace(report,'.imixs-report','-imixs-report')}">
+									</ui:param>
 									<div class="imixs-reports col-3">
 										<!-- chart header -->
 										<div class="imixs-header" id="#{reportid}">
@@ -185,8 +219,8 @@
 					<div class="imixs-footer"></div>
 
 				</h:panelGroup>
-				
-			
+
+
 
 			</h:form>
 		</f:view>

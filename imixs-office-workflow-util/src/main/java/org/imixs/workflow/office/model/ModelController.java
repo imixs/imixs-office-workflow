@@ -161,12 +161,15 @@ public class ModelController implements Serializable {
 	 */
 	public List<ItemCollection> findAllTasksByGroup(String group) {
 		List<ItemCollection> result = new ArrayList<>();
+		if (group == null || group.isEmpty()) {
+			return result;
+		}
 		try {
-
-			BPMNModel model = modelService.getModelManager().getModel(group);
+			String version = modelService.getModelManager().findVersionByGroup(group);
+			BPMNModel model = modelService.getModelManager().getModel(version);
+			result = modelService.getModelManager().findTasks(model, group);
 		} catch (ModelException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.warning("Failed to call findAllTasksByGroup for '" + group + "'");
 		}
 
 		return result;

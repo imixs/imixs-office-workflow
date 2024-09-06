@@ -28,10 +28,13 @@
 package org.imixs.workflow.office.views;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -86,8 +89,11 @@ public class MonitorController implements Serializable {
     @EJB
     DocumentService documentService;
 
+    private ItemCollection filter;
+
     public MonitorController() {
         super();
+
     }
 
     /**
@@ -213,6 +219,14 @@ public class MonitorController implements Serializable {
      * 
      */
     public void reset() {
+        filter = new ItemCollection();
+        refresh();
+    }
+
+    /**
+     * This method discards the cache.
+     */
+    public void refresh() {
         // initalize the task list...
         buildBoardCategories();
 
@@ -228,11 +242,8 @@ public class MonitorController implements Serializable {
         Collections.sort(activeWorkflowGroups);
     }
 
-    /**
-     * This method discards the cache.
-     */
-    public void refresh() {
-
+    public ItemCollection getFilter() {
+        return filter;
     }
 
     /**
@@ -343,15 +354,42 @@ public class MonitorController implements Serializable {
 
         try {
             String query = "(type:\"workitem\" AND $uniqueidref:\"" + getProcessRef() + "\")";
+            Date datFrom = filter.getItemValueDate("date.from");
+            Date datTo = filter.getItemValueDate("date.to");
+
+            // search date range?
+            String sDateFrom = "191401070000"; // because * did not work here
+            String sDateTo = "211401070000";
+            SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMddHHmm");
+
+            if (datFrom != null) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(datFrom);
+                sDateFrom = dateformat.format(cal.getTime());
+            }
+            if (datTo != null) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(datTo);
+                cal.add(Calendar.DATE, 1);
+                sDateTo = dateformat.format(cal.getTime());
+            }
+
+            if (datFrom != null || datTo != null) {
+                // expected format $created:[20020101 TO 20030101]
+                query += " AND ($created:[" + sDateFrom + " TO " + sDateTo + "]) ";
+            }
+
+            // String query = "(type:\"workitem\" AND $uniqueidref:\"" + getProcessRef() +
+            // "\")";
 
             for (String group : workflowGroups) {
                 // find latest version....
                 Set<String> versions = modelService.getModelManager().findAllVersionsByGroup(group);
                 if (versions != null && versions.size() > 0) {
                     // get the latest version
-                    String version = versions.iterator().next();
+                    // String version = versions.iterator().next();
                     // load the model
-                    BPMNModel model = modelService.getModelManager().getModel(version);
+                    // BPMNModel model = modelService.getModelManager().getModel(version);
                     // iterate over all tasks....
                     List<ItemCollection> tasks = modelController.findAllTasksByGroup(group);// model.findTasksByGroup(group);
                     for (ItemCollection task : tasks) {
