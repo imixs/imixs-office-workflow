@@ -24,11 +24,13 @@
 package org.imixs.workflow.office.forms;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.WorkflowService;
+import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.faces.data.WorkflowController;
 
@@ -80,7 +82,7 @@ public class ValidationController implements Serializable {
     @Inject
     WorkflowService workflowService;
 
-    public boolean isRequired() throws PluginException {
+    public boolean isRequired() throws PluginException, ModelException {
         required = false;
         if (workflowController != null && workflowController.getWorkitem() != null) {
 
@@ -99,8 +101,9 @@ public class ValidationController implements Serializable {
                     String eventid = id.substring(eventPos + 24);
                     if (eventid != null && !eventid.isEmpty()) {
                         // fetch model event.....
-                        for (ItemCollection event : workflowController.getEvents()) {
-
+                        List<ItemCollection> eventList = null;
+                        eventList = workflowController.getEvents();
+                        for (ItemCollection event : eventList) {
                             if (eventid.equals(event.getItemValueString("numactivityid"))) {
                                 logger.finest("......evaluate validation rule for event " + eventid);
                                 // we found the corresponding event.
