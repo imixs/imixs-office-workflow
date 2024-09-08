@@ -57,7 +57,7 @@
 									<ui:param name="taskDescription"
 										value="#{modelController.getProcessDescriptionByInitialTask(initialTask,version,group)}" />
 									<h:commandLink title=" " styleClass="action-create"
-										actionListener="#{workflowController.create(version,initialTask.item['numprocessid'],process.item['$uniqueid'])}"
+										actionListener="#{workflowController.create(version,initialTask.item['taskid'],process.item['$uniqueid'])}"
 										action="/pages/workitems/workitem">
 										<span class="typcn typcn-folder-add"></span>
 										<h:outputText value="#{group}" />

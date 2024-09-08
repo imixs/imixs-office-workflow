@@ -1,23 +1,16 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 	<div style="display: flex;">
-	  <div>
+		<div>
 			<h1>
-				<h:outputText
-					value="#{workflowController.workitem.item['$workflowgroup']}" />
+				<h:outputText value="#{workflowController.workitem.item['$workflowgroup']}" />
 				»
-				<h:outputText
-					value=" #{workflowController.workitem.item['$workflowstatus']}" />
+				<h:outputText value=" #{workflowController.workitem.item['$workflowstatus']}" />
 				<!-- Display Deleted status -->
-				<h:outputText
-					rendered="#{workflowController.workitem.item['type'] eq 'workitemdeleted'}"
+				<h:outputText rendered="#{workflowController.workitem.item['type'] eq 'workitemdeleted'}"
 					value="- #{message.deleted}!" style="color:red;" />
 			</h1>
 
@@ -42,51 +35,46 @@
 						value="#{workflowController.workitem.item['$WorkflowSummary']}" />
 				</h2>
 				<h:outputLabel value="#{message['process.title']}: " />
-				<h:link
-					outcome="/pages/notes_board?processref=#{workflowController.workitem.item['process.Ref']}">
-					<h:outputText
-						value="#{workflowController.workitem.item['Process.Name']}" />
+				<h:link outcome="/pages/notes_board?processref=#{workflowController.workitem.item['process.Ref']}">
+					<h:outputText value="#{workflowController.workitem.item['Process.Name']}" />
 				</h:link>
 			</div>
 			<h:panelGroup styleClass="imixs-no-print">
-				<ui:repeat
-					value="#{workflowController.workitem.itemList['$owner']}"
-					var="name">
-	
+				<ui:repeat value="#{workflowController.workitem.itemList['$owner']}" var="name">
+
 					<ui:param name="profile" value="#{userController.getProfile(name)}"></ui:param>
 					<ui:fragment rendered="#{! empty profile}">
 						<h:graphicImage styleClass="imixs-workitem-chronicle-usericon"
-							title="#{profile.item['txtusername']}"
-							rendered="#{! empty profile.item['txtusericon']}"
+							title="#{profile.item['txtusername']}" rendered="#{! empty profile.item['txtusericon']}"
 							value="/api/snapshot/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
 						</h:graphicImage>
-	
+
 						<!-- optional - user initials -->
-						<h:panelGroup layout="block"
-							rendered="#{empty profile.item['txtusericon']}">
+						<h:panelGroup layout="block" rendered="#{empty profile.item['txtusericon']}">
 							<h:outputText styleClass="imixs-workitem-chronicle-usericon"
-								title="#{profile.item['txtusername']}"
-								value="#{profile.item['txtinitials']}" />
+								title="#{profile.item['txtusername']}" value="#{profile.item['txtinitials']}" />
 						</h:panelGroup>
 					</ui:fragment>
 				</ui:repeat>
 			</h:panelGroup>
 		</div>
-		
-		 
+
+
 		<!-- QR-Code displayed only if property 'qr-code.url.prafix' is filled -->
 		<ui:param name="qrprafix" value="#{propertyController.getProperty('qr-code.url.prafix')}"></ui:param>
-		<ui:fragment rendered="#{(! empty workflowController.workitem.uniqueID) and (!userController.mobileUser) and (!empty qrprafix)}">
+		<ui:fragment
+			rendered="#{(! empty workflowController.workitem.uniqueID) and (!userController.mobileUser) and (!empty qrprafix)}">
 			<div style="flex-grow: 1;"></div>
 			<div>
 				<a href="#" onclick="imixsOfficeWorkitem.printQRCode();">
-			   		<h:graphicImage styleClass="imixsQrCode"
-					   url="/api/qr-code?size=130&amp;key=#{qrprafix}#{workflowController.workitem.uniqueID}"></h:graphicImage>
+					<h:graphicImage styleClass="imixsQrCode"
+						url="/api/qr-code?size=130&amp;key=#{qrprafix}#{workflowController.workitem.uniqueID}">
+					</h:graphicImage>
 				</a>
 			</div>
 		</ui:fragment>
-		 
-		
+
+
 	</div>
 
 
