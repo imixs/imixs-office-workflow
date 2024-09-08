@@ -1,26 +1,23 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	template="/layout/template.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" template="/layout/template.xhtml">
 
 
 	<ui:define name="content">
 		<script type="text/javascript">
 			/*<![CDATA[*/
 			// auto focus login 
-			$(document).ready(function() {
+			$(document).ready(function () {
 				$("#j_username").focus();
 
 				// lowercase userid....
-				$("#j_username").blur(function() {
-					
-					var mode="#{propertyController.getProperty('security.userid.input.mode')}";
-					if (!mode || mode==="" || mode==="LOWERCASE") {
+				$("#j_username").blur(function () {
+
+					var mode = "#{propertyController.getProperty('security.userid.input.mode')}";
+					if (!mode || mode === "" || mode === "LOWERCASE") {
 						$(this).val($(this).val().toLowerCase());
 					} else {
-						if (mode.indexOf("UPPERCASE")==0) {
+						if (mode.indexOf("UPPERCASE") == 0) {
 							$(this).val($(this).val().toUpperCase());
 						}
 					}
@@ -29,9 +26,7 @@
 			/*]]>*/
 		</script>
 
-		<form method="post"
-			action="#{facesContext.externalContext.requestContextPath}/j_security_check">
-
+		<form method="post" action="#{facesContext.externalContext.requestContextPath}/j_security_check">
 			<div class="imixs-form">
 				<div class="imixs-header">
 					<h1>#{message['login.login_title']}</h1>
@@ -42,28 +37,27 @@
 							<dl>
 								<dt>#{message['login.username']}</dt>
 								<dd>
-									<h:inputText id="j_username" style="width:200px;" />
+									<input type="text" name="j_username" style="width:200px;" />
 								</dd>
 								<dt>#{message['login.password']}</dt>
 								<dd>
-									<h:inputSecret id="j_password" style="width:200px;" />
+									<input type="password" name="j_password" style="width:200px;" />
 								</dd>
 							</dl>
 							<dl>
 								<dd>
-									<input type="submit" value="#{message['login.login']}" /> 
+									<input type="submit" value="#{message['login.login']}" />
 								</dd>
 							</dl>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</form>
-		
+
 		<!-- hide jsf messages here -->
 		<div style="display: none;">
-		<h:messages/>
+			<h:messages />
 		</div>
 
 	</ui:define>
