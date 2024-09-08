@@ -54,15 +54,18 @@
 									value="#{modelController.findAllStartTasksByGroup(version,group)}" />
 								<h:panelGroup rendered="#{! empty startTasks}">
 									<ui:param name="initialTask" value="#{startTasks.get(0)}" />
+									<ui:param name="taskDescription"
+										value="#{modelController.getProcessDescriptionByInitialTask(initialTask,version,group)}" />
 									<h:commandLink title=" " styleClass="action-create"
 										actionListener="#{workflowController.create(version,initialTask.item['numprocessid'],process.item['$uniqueid'])}"
 										action="/pages/workitems/workitem">
 										<span class="typcn typcn-folder-add"></span>
 										<h:outputText value="#{group}" />
 									</h:commandLink>
-									<span class="imixs-tooltip">
-										<h:outputText value="#{initialTask.item['rtfdescription']}" escape="false" />
-									</span>
+									<h:panelGroup rendered="#{!empty taskDescription}" styleClass="imixs-tooltip"
+										style="position: relative;top: 140px;">
+										<h:outputText value="#{taskDescription}" escape="false" />
+									</h:panelGroup>
 								</h:panelGroup>
 								<h:outputText style="color:red" rendered="#{empty startTasks}"
 									value="	Missing Model Definition: #{group}"></h:outputText>

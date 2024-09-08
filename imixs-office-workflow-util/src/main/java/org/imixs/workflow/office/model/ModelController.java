@@ -43,6 +43,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.imixs.workflow.FileData;
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.bpmn.BPMNUtil;
 import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.engine.WorkflowService;
@@ -319,4 +320,29 @@ public class ModelController implements Serializable {
 		}
 		return desc;
 	}
+
+	/**
+	 * This method return the 'rtfdescription' of the initial task and resolves
+	 * textblock entries.
+	 * <p>
+	 * The method creates a dummy workitem to resolve the correct textblock
+	 * 
+	 * @param processid
+	 * @param modelversion
+	 * @return
+	 * @throws ModelException
+	 */
+	public String getProcessDescriptionByInitialTask(ItemCollection initialTask, String modelVersion,
+			String workflowGroup) {
+		String result = "";
+		if (initialTask != null) {
+			// Dummy Workitem
+			ItemCollection dummy = new ItemCollection();
+			dummy.setItemValue(WorkflowKernel.WORKFLOWSTATUS, initialTask.getItemValueString("name"));
+			dummy.setItemValue(WorkflowKernel.WORKFLOWGROUP, workflowGroup);
+			result = getProcessDescription(initialTask.getItemValueInteger("taskid"), modelVersion, dummy);
+		}
+		return result;
+	}
+
 }
