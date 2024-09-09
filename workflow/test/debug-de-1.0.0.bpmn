@@ -36,6 +36,7 @@
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.IntervalPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.EventLogPlugin]]></imixs:value>
     </imixs:item>
+    <open-bpmn:auto-align/>
   </bpmn2:extensionElements>
   <bpmn2:signal id="Signal_1" name="org.imixs.ml.workflow.MLAdapter"/>
   <bpmn2:signal id="Signal_2" name="org.imixs.archive.documents.OCRDocumentAdapter"/>
@@ -608,7 +609,7 @@ if (workitem.getItemValueString('txtcomment')=='') {
         </imixs-form-section>
 
         <imixs-form-section columns="2">
-            <item name="debug.user" type="custom" path="userinput"  label="Responsible2:" />
+            <item name="debug.user" type="custom" path="userinput"  label="Responsible:" />
             <item name="debug.team" type="custom" path="userlistinput"  label="Team:" />
             <item name="invoice.ref" type="custom" path="workitemlink"  label="Invoice No.:" options="($workflowgroup:Rechnungseingang)" />
             <item  type="custom" path="workitemlink"  label="Order No.:" options="($workflowgroup:Bedarfsmeldung)" />
