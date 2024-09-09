@@ -8,7 +8,6 @@
 			/*<![CDATA[*/
 			// auto focus login 
 			$(document).ready(function () {
-				$("#j_username").focus();
 
 				// lowercase userid....
 				$("#j_username").blur(function () {
@@ -22,7 +21,14 @@
 						}
 					}
 				});
+
+				$("#j_username").focus();
+
 			});
+
+			window.onload = function () {
+				document.getElementsByName('j_username')[0].focus();
+			};
 			/*]]>*/
 		</script>
 
