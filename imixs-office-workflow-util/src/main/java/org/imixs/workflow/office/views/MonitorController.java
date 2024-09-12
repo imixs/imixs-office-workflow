@@ -302,29 +302,10 @@ public class MonitorController implements Serializable {
 
         try {
             String query = "(type:\"workitem\" AND $uniqueidref:\"" + getProcessRef() + "\")";
-            Date datFrom = filter.getItemValueDate("date.from");
-            Date datTo = filter.getItemValueDate("date.to");
 
-            // search date range?
-            String sDateFrom = "191401070000"; // because * did not work here
-            String sDateTo = "211401070000";
-            SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMddHHmm");
-
-            if (datFrom != null) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(datFrom);
-                sDateFrom = dateformat.format(cal.getTime());
-            }
-            if (datTo != null) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(datTo);
-                cal.add(Calendar.DATE, 1);
-                sDateTo = dateformat.format(cal.getTime());
-            }
-
-            if (datFrom != null || datTo != null) {
-                // expected format $created:[20020101 TO 20030101]
-                query += " AND ($created:[" + sDateFrom + " TO " + sDateTo + "]) ";
+            String creationFilter = getCreationFilter();
+            if (creationFilter != null) {
+                query += " AND " + creationFilter + " ";
             }
 
             logger.info(query);
@@ -362,6 +343,41 @@ public class MonitorController implements Serializable {
             logger.severe("...failed to BoardCategories: " + e.getMessage());
         }
 
+    }
+
+    /**
+     * Creates and additional filter criteria to filter the result to a timerange.
+     * 
+     * @return
+     */
+    public String getCreationFilter() {
+        Date datFrom = filter.getItemValueDate("date.from");
+        Date datTo = filter.getItemValueDate("date.to");
+
+        // search date range?
+        String sDateFrom = "191401070000"; // because * did not work here
+        String sDateTo = "211401070000";
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMddHHmm");
+
+        if (datFrom != null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(datFrom);
+            sDateFrom = dateformat.format(cal.getTime());
+        }
+        if (datTo != null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(datTo);
+            cal.add(Calendar.DATE, 1);
+            sDateTo = dateformat.format(cal.getTime());
+        }
+
+        if (datFrom != null || datTo != null) {
+            // expected format $created:[20020101 TO 20030101]
+            return "($created:[" + sDateFrom + " TO " + sDateTo + "])";
+        }
+
+        // no value
+        return null;
     }
 
     /**

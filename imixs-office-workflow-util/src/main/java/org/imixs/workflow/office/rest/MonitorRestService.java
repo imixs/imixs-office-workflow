@@ -34,6 +34,13 @@ import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.imixs.marty.profile.ProfileService;
+import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.engine.DocumentService;
+import org.imixs.workflow.engine.index.Category;
+import org.imixs.workflow.engine.index.SearchService;
+import org.imixs.workflow.office.views.MonitorController;
+
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
@@ -41,14 +48,8 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
-
-import org.imixs.marty.profile.ProfileService;
-import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.engine.DocumentService;
-import org.imixs.workflow.engine.index.Category;
-import org.imixs.workflow.engine.index.SearchService;
-import org.imixs.workflow.office.views.MonitorController;
 
 /**
  ** The MonitorController provides analytic information about the current process
@@ -92,7 +93,7 @@ public class MonitorRestService implements Serializable {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XHTML_XML })
     public String taxonomyChartData(@PathParam("processid") String processid,
             @PathParam("workflowgroup") String workflowgroup, @PathParam("task") String task,
-            @PathParam("category") String category) {
+            @PathParam("category") String category, @QueryParam("filter") String filter) {
 
         String result;
         logger.finest("taxonomy computing: " + workflowgroup + " " + task);
@@ -100,6 +101,10 @@ public class MonitorRestService implements Serializable {
 
         String query = "(type:workitem AND $uniqueidref:" + processid + " AND $workflowgroup:\"" + workflowgroup
                 + "\" AND $workflowstatus:\"" + task + "\")";
+
+        if (filter != null && !filter.isEmpty()) {
+            query += " AND " + filter + " ";
+        }
 
         logger.finest(query);
         List<Category> taxResult = searchService.getTaxonomyByQuery(query, category);
