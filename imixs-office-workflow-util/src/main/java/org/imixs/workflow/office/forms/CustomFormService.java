@@ -100,7 +100,11 @@ public class CustomFormService implements Serializable {
     /**
      * This method updates the custom Field Definition based on a given workitem.
      * The method first looks if the model contains a custom definition and stores
-     * the data into the field txtWorkflowEditorCustomForm
+     * the data into the field txtWorkflowEditorCustomForm.
+     * <p>
+     * In case the model does not provide a custom Field Definition but the workitem
+     * has stored one the method returns the existing one and did not update the
+     * item 'txtWorkflowEditorCustomForm'
      * 
      * @return
      * @throws ModelException
@@ -108,8 +112,10 @@ public class CustomFormService implements Serializable {
     public String updateCustomFieldDefinition(ItemCollection workitem) throws ModelException {
         logger.fine("---> updateCustomFieldDefinition");
         String content = fetchFormDefinitionFromModel(workitem);
-        if (!content.isEmpty()) {
-            // store the new content
+        if (content.isEmpty()) {
+            // take the existing one to be returned...
+            content = workitem.getItemValueString("txtWorkflowEditorCustomForm");
+        } else {
             workitem.replaceItemValue("txtWorkflowEditorCustomForm", content);
         }
         return content;

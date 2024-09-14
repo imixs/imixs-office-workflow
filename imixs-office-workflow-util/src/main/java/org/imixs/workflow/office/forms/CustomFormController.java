@@ -135,11 +135,7 @@ public class CustomFormController implements Serializable {
      */
     public void computeFieldDefinition(ItemCollection workitem) throws ModelException {
         logger.fine("---> computeFieldDefinition");
-        String content = workitem.getItemValueString("txtWorkflowEditorCustomForm");
-        if (content.isEmpty()) {
-            // no custom form definition found, try to load a new one....
-            content = customFormService.updateCustomFieldDefinition(workitem);
-        }
+        String content = customFormService.updateCustomFieldDefinition(workitem);
         sections = new ArrayList<CustomFormSection>();
         if (!content.isEmpty()) {
             // start parsing....
