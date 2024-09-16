@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
+<h:head>
+	<meta name="viewport" content="width=device-width" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta content="text/javascript" http-equiv="Content-Script-Type" />
+	<meta content="text/css" http-equiv="Content-Style-Type" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	<meta name="robots" content="noindex" />
+
+	<title>
+		<ui:param name="title" value="#{propertyController.getProperty('application.title')}"></ui:param>
+		<h:outputText rendered="#{empty title}" value="#{resourceBundleHandler.findMessage('application_title')}" />
+		<h:outputText rendered="#{!empty title}" value="#{title}" />
+	</title>
+
+	<!-- *** CSS *** -->
+
+	<link rel="shortcut icon" type="image/x-icon" href="/layout/favicon.ico" />
+
+	<!-- imixs-responsive css -->
+	<link href="#{request.contextPath}/layout/css/imixs-basic.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+	<link href="#{request.contextPath}/layout/css/imixs-layout.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+	<!-- no imixs head ! -->
+	<!-- imixsHeader (must be loaded before office-css! -->
+
+	<!--  font icons -->
+	<link href="#{request.contextPath}/layout/css/fonts/open_sans.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+	<link href="#{request.contextPath}/layout/css/fonts/typicons.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+	<!-- imixs-office-workflow css -->
+	<link href="#{request.contextPath}/marty/imixs-marty.css?build=#{app.application_build_timestamp}" charset="UTF-8"
+		type="text/css" rel="stylesheet" />
+	<link href="#{request.contextPath}/layout/css/office-theme.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+	<!-- custom css -->
+	<link href="#{request.contextPath}/layout/css/custom.css?build=#{app.application_build_timestamp}" charset="UTF-8"
+		type="text/css" rel="stylesheet" />
+
+
+
+
+	<!-- *** SCRIPTS *** -->
+
+	<!-- tinyMCE -->
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/tinymce/tinymce.min.js?build=#{app.application_build_timestamp}"></script>
+
+	<!-- datepicker regional -->
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/#{message['jquey.datepicker.regional']}?build=#{app.application_build_timestamp}"></script>
+
+	<!-- Load DataTablePlugin  -->
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/jquery.dataTables.min.js?build=#{app.application_build_timestamp}"></script>
+
+	<!-- Load showdown (markup to html)  -->
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/marked.min.js?build=#{app.application_build_timestamp}"></script>
+
+
+	<!-- Imixs-Office-Workflow  -->
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/imixs-core.js?build=#{app.application_build_timestamp}"></script>
+
+	<!-- Load the marty component script -->
+	<script type="text/javascript"
+		src="#{request.contextPath}/marty/imixs-marty.js?build=#{app.application_build_timestamp}"></script>
+
+
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/imixs-office.main.js?build=#{app.application_build_timestamp}"></script>
+
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/imixs-office.main.js?build=#{app.application_build_timestamp}"></script>
+
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+		// define script name spaces
+		var imixs = IMIXS.org.imixs.core;
+
+		// define variables for office scripts loaded from resource bundles....
+		imixsOfficeMain.contextPath = "#{request.contextPath}/";
+		imixsOfficeMain.error_message_mce_image_size = "#{message.error_message_mce_image_size}";
+		imixsOfficeMain.imixs_date_showWeek = ("true" === "#{app['jquey.datepicker.showWeek']}");
+		/*]]>*/
+	</script>
+
+
+	<ui:insert name="scripts">
+		<!-- default  -->
+	</ui:insert>
+
+
+</h:head>
+
+
+<h:body>
+	<f:view>
+
+		<!-- SystemSetupStatus=#{initController.initStatus} -->
+		<div id="imixs-app">
+			<div id="imixs-header" class="imixs-servicenav">
+				<ui:insert name="servicenav">
+					<ui:include src="servicenav.xhtml" />
+				</ui:insert>
+			</div>
+
+			<!-- content -->
+			<div id="imixs-content">
+
+
+
+				<div id="imixs-main">
+
+					<ui:insert name="content">
+						<!-- Default Content -->
+					</ui:insert>
+				</div>
+
+
+				<!-- footer -->
+				<ui:insert name="footer">
+					<div id="imixs-footer">
+						<div id="footer1">
+							<ui:insert name="extra">
+								<ui:include src="/layout/extra.xhtml" />
+							</ui:insert>
+						</div>
+						<div id="footer2">
+							<ui:insert name="footer">
+								<ui:include src="/layout/footer.xhtml" />
+							</ui:insert>
+						</div>
+					</div>
+				</ui:insert>
+				<!-- END footer -->
+
+			</div>
+			<!-- END content -->
+
+			<div class="imixs-wait">
+				<!-- empty -->
+			</div>
+
+		</div>
+	</f:view>
+</h:body>
+
+
+</html>
