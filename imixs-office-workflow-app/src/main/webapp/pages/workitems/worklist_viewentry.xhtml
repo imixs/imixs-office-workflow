@@ -1,85 +1,75 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
-	
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
 	<div class="imixs-viewentry">
 		<!-- image block  -->
-		<ui:include src="/layout/workitem_marker.xhtml">
-			<ui:param name="workitem" value="#{workitem}" />
-		</ui:include>
-		
+		<div class="image-block">
+			<ui:include src="/layout/workitem_marker.xhtml">
+				<ui:param name="workitem" value="#{workitem}" />
+			</ui:include>
+		</div>
+
 		<!-- Standard Info  -->
 		<div class="content-block">
 			<span>
-				<h:link outcome="/pages/workitems/workitem" >
+				<h:link outcome="/pages/workitems/workitem">
 					<!-- summary empty ? -->
-					<h:panelGroup
-						rendered="#{empty workitem.item['$WorkflowSummary']}">
-						<h:outputText value="#{workitem.item['$lasteventdate']}"
-							styleClass="imixs-viewentry-title">
-							<f:convertDateTime timeZone="#{message.timeZone}"
-								pattern="#{message.dateTimePattern}" />
+					<h:panelGroup rendered="#{empty workitem.item['$WorkflowSummary']}">
+						<h:outputText value="#{workitem.item['$lasteventdate']}" styleClass="imixs-viewentry-title">
+							<f:convertDateTime timeZone="#{message.timeZone}" pattern="#{message.dateTimePattern}" />
 						</h:outputText>
 					</h:panelGroup>
-					<h:outputText styleClass="imixs-viewentry-title"  escape="false"
+					<h:outputText styleClass="imixs-viewentry-title" escape="false"
 						value="#{workitem.item['$WorkflowSummary']}" />
-				<f:param name="id" value="#{workitem.item['$uniqueid']}"/>
-			</h:link>
+					<f:param name="id" value="#{workitem.item['$uniqueid']}" />
+				</h:link>
 			</span>
 			<br />
 			<!-- Status -->
-			<strong><h:outputText
-				value="#{workitem.item['$workflowgroup']}" /></strong>
+			<strong>
+				<h:outputText value="#{workitem.item['$workflowgroup']}" />
+			</strong>
 			<h:outputText value=" » #{workitem.item['$workflowstatus']}" />
 			<h:outputText value=" (#{workitem.item['process.name']})" />
-
-			
-
-			<!-- display owner -->
-			<h:panelGroup rendered="#{! empty workitem.item['$owner']}">
-				<div style="clear:left;" />
-				<ui:repeat value="#{workitem.itemList['$owner']}" var="name">
-
-					<ui:param name="profile" value="#{userController.getProfile(name)}"></ui:param>
-
-					<h:panelGroup layout="block" rendered="#{!empty profile}"
-						styleClass="imixs-user-icon" style="float: left;">
-
-						<div title=" ">
-							<h:graphicImage rendered="#{! empty profile.item['txtusericon']}"
-								value="/api/snapshot/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
-							</h:graphicImage>
-							<h:outputText rendered="#{empty profile.item['txtusericon']}"
-								value="#{profile.item['txtinitials']}" />
-						</div>
-						<!-- Tooltip -->
-						<span class="imixs-tooltip">
-							#{profile.item['txtusername']}
-						</span>
-					</h:panelGroup>
-				</ui:repeat>
+			<br />
+			<h:panelGroup layout="block" style=""
+				rendered="#{workitem.item['$workflowabstract'].contains('imixs-view-details')}">
+				<h:outputText escape="false" value="#{workitem.item['$workflowabstract']}" />
 			</h:panelGroup>
-			<div class="pull-right">
-				<h:outputText
-					value="#{userController.getUserName(workitem.item['$Editor'])} - " />
-				<h:outputText value="#{workitem.item['$lasteventdate']}"
-					style="font-weight: normal;">
-					<f:convertDateTime timeZone="#{message.timeZone}"
-						pattern="#{message.dateTimePatternLong}" />
-				</h:outputText>
-			</div>
 		</div>
 
-		<!-- clear floating problem from sidebar in ff and chrome.  -->
-		<div style="clear: left;" />
-
+		<div class="owner-block">
+			<div class="owner-details">
+				<!-- modified -->
+				<div class="owner-details-row">
+					<h:outputText value="#{userController.getUserName(workitem.item['$Editor'])} - " />
+					<h:outputText value="#{workitem.item['$lasteventdate']}" style="font-weight: normal;">
+						<f:convertDateTime timeZone="#{message.timeZone}" pattern="#{message.dateTimePatternLong}" />
+					</h:outputText>
+				</div>
+				<!-- display owner -->
+				<h:panelGroup layout="block" rendered="#{! empty workitem.item['$owner']}" class="owner-details-row">
+					<ui:repeat value="#{workitem.itemList['$owner']}" var="name">
+						<ui:param name="profile" value="#{userController.getProfile(name)}"></ui:param>
+						<h:panelGroup layout="block" rendered="#{!empty profile}" styleClass="imixs-user-icon"
+							style="float: right;">
+							<div title=" ">
+								<h:graphicImage rendered="#{! empty profile.item['txtusericon']}"
+									value="/api/snapshot/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
+								</h:graphicImage>
+								<h:outputText rendered="#{empty profile.item['txtusericon']}"
+									value="#{profile.item['txtinitials']}" />
+							</div>
+							<!-- Tooltip -->
+							<span class="imixs-tooltip">
+								#{profile.item['txtusername']}
+							</span>
+						</h:panelGroup>
+					</ui:repeat>
+				</h:panelGroup>
+			</div>
+		</div>
 	</div>
-	
-	
 </ui:composition>
-
