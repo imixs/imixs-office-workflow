@@ -20,9 +20,10 @@ To use one of the part templates you need first to implement a CDI bean that rea
 | Property  | Type 	  | Mandatory | Description												|
 |-----------|---------|-----------|---------------------------------------------------------|
 | key		| text    | x         | Name of the analytic data set                           |
-| value		| text    | x         | A text value representing the data     				|
+| value		| text    | x         | A text value representing the data	S     				|
 | label		| text    |           | Optional label for the data								|
 | description| text   |           | Optional description     								|
+| link		| text    |           | Optional link for detail views							|
 		
 
 The value part can be any kind of data string. This could be a number a date or a complex JSON structure like it is used to display complex data in a chart diagram.
