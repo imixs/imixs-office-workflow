@@ -439,7 +439,9 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 		toggleChronicleHistory = function () {
 			$('.chronicle-tab-history').parent().addClass('active');
 			$('.chronicle-tab-documents').parent().removeClass('active');
+			$('.chronicle-tab-ai').parent().removeClass('active');
 			$('#imixs-workitem-chronicle-tab-documents').hide();
+			$('#imixs-workitem-chronicle-tab-ai').hide();
 			$('#imixs-workitem-chronicle-tab-history').show();
 			// set a right margin for history view only
 			$('.imixs-workitem-chronicle-content').css('width', 'calc(100% - 30px)');
@@ -448,8 +450,20 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 		toggleChronicleDocuments = function () {
 			$('.chronicle-tab-documents').parent().addClass('active');
 			$('.chronicle-tab-history').parent().removeClass('active');
+			$('.chronicle-tab-ai').parent().removeClass('active');
 			$('#imixs-workitem-chronicle-tab-history').hide();
+			$('#imixs-workitem-chronicle-tab-ai').hide();
 			$('#imixs-workitem-chronicle-tab-documents').show();
+			// set a right margin for history view only
+			$('.imixs-workitem-chronicle-content').css('width', 'calc(100% - 0px)');
+		},
+		toggleChronicleAI = function () {
+			$('.chronicle-tab-ai').parent().addClass('active');
+			$('.chronicle-tab-history').parent().removeClass('active');
+			$('.chronicle-tab-documents').parent().removeClass('active');
+			$('#imixs-workitem-chronicle-tab-history').hide();
+			$('#imixs-workitem-chronicle-tab-documents').hide();
+			$('#imixs-workitem-chronicle-tab-ai').show();
 			// set a right margin for history view only
 			$('.imixs-workitem-chronicle-content').css('width', 'calc(100% - 0px)');
 		},
@@ -692,6 +706,7 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 		showDocument: showDocument,
 		toggleChronicleHistory: toggleChronicleHistory,
 		toggleChronicleDocuments: toggleChronicleDocuments,
+		toggleChronicleAI: toggleChronicleAI,
 		minimizeDocumentPreview: minimizeDocumentPreview,
 		maximizeDocumentPreview: maximizeDocumentPreview,
 		closeDocumentPreview: closeDocumentPreview,

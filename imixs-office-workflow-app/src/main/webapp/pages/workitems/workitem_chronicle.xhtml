@@ -1,36 +1,43 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 	<div class="imixs-workitem-chronicle-actions imixs-form">
 		<ui:include src="/pages/workitems/workitem_footer.xhtml" />
 		<!-- Comment Input -->
 		<div class="imixs-form-section imixs-form-comment">
-		  <dl class="imixsWidgetAddNewLabel imixs-no-print">
-			<!-- ### Kommentar ### -->
-			<dt>
-				<h:outputLabel value="#{message['form.comment.comment']}:" />
-			</dt>
-			<dd>
-				<h:inputTextarea
-					value="#{workflowController.workitem.item['txtComment']}" />
-			</dd>
-		  </dl>
+			<dl class="imixsWidgetAddNewLabel imixs-no-print">
+				<!-- ### Kommentar ### -->
+				<dt>
+					<h:outputLabel value="#{message['form.comment.comment']}:" />
+				</dt>
+				<dd>
+					<h:inputTextarea value="#{workflowController.workitem.item['txtComment']}" />
+				</dd>
+			</dl>
 		</div>
 	</div>
 
-	<ui:param name="newWorkitem" value="#{workflowController.isNewWorkitem()}"/>
+	<ui:param name="newWorkitem" value="#{workflowController.isNewWorkitem()}" />
 	<div class="imixs-workitem-chronicle-tabs imixs-no-print">
 		<ul>
 			<ui:fragment rendered="#{!newWorkitem}">
-				<li class="active"><a href="#" onclick="imixsOfficeWorkitem.toggleChronicleHistory();return false;" class="chronicle-tab-history"><span class="typcn typcn-rss"></span> #{message.history}</a></li>
+				<li class="active"><a href="#" onclick="imixsOfficeWorkitem.toggleChronicleHistory();return false;"
+						class="chronicle-tab-history"><span class="typcn typcn-rss"></span> #{message.history}</a></li>
 			</ui:fragment>
-			<li class="#{newWorkitem?'active':''}"><a href="#" onclick="imixsOfficeWorkitem.toggleChronicleDocuments();return false;" class="chronicle-tab-documents"><span class="typcn typcn-cloud-storage-outline"></span> #{message.documents} <h:panelGroup rendered="#{workflowController.workitem.item['$file.count'] gt 0}">*</h:panelGroup></a></li>
+			<li class="#{newWorkitem?'active':''}"><a href="#"
+					onclick="imixsOfficeWorkitem.toggleChronicleDocuments();return false;"
+					class="chronicle-tab-documents"><span class="typcn typcn-cloud-storage-outline"></span>
+					#{message.documents} <h:panelGroup
+						rendered="#{workflowController.workitem.item['$file.count'] gt 0}">*</h:panelGroup></a></li>
+
+			<ui:fragment rendered="#{propertyController.getProperty('feature.imixs_ai')}">
+				<li class=""><a href="#" onclick="imixsOfficeWorkitem.toggleChronicleAI();return false;"
+						class="chronicle-tab-ai"><span class="typcn typcn-lightbulb"></span> #{message.ai}
+						<h:panelGroup rendered="#{true}">*</h:panelGroup>
+					</a></li>
+			</ui:fragment>
 		</ul>
 	</div>
 
@@ -38,10 +45,15 @@
 		<div id="imixs-workitem-chronicle-tab-history" class="entries">
 			<ui:include src="/pages/workitems/workitem_chronicle_entries.xhtml" />
 		</div>
-		<div id="imixs-workitem-chronicle-tab-documents" class="documents imixs-no-print" style="margin-top:10px;display:#{newWorkitem?'normal':'none'};">
+		<div id="imixs-workitem-chronicle-tab-documents" class="documents imixs-no-print"
+			style="margin-top:10px;display:#{newWorkitem?'normal':'none'};">
 			<ui:include src="/pages/workitems/workitem_documents.xhtml" />
 		</div>
-	</div>
-	
-</ui:composition>
 
+		<div id="imixs-workitem-chronicle-tab-ai" style="display:none;" class="documents imixs-no-print">
+			<ui:include src="/pages/workitems/workitem_ai.xhtml" />
+		</div>
+
+	</div>
+
+</ui:composition>
