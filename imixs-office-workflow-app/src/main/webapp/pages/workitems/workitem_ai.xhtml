@@ -6,12 +6,11 @@
 	<!-- Integration of Imixs-AI		
 	 -->
 	<dl>
-
 		<dd>
 			<h:inputTextarea required="false" value="#{workflowController.workitem.item['ai.chat.prompt']}"
 				a:placeholder="#{message['ai.prompt']}" id="promptInput" style="height: 5em; width: 95%">
 			</h:inputTextarea>
-			<h:commandButton value="#{message.send}" actionListener="#{aiController.sendAsync}">
+			<h:commandButton value="#{message['ai.ask_question']}" actionListener="#{aiController.sendAsync}">
 				<f:ajax execute="promptInput" render="@none" onevent="handleSendEvent" />
 			</h:commandButton>
 		</dd>
@@ -25,34 +24,53 @@
 	</h:panelGroup>
 
 	<!-- Imixs AI Chat history-->
-	<h:panelGroup layout="block" id="imixs_ai_chatlist" style="margin-bottom:10px;">
-		<ui:repeat var="aiResultEntry" value="#{aiController.aiChatHistory}">
-			#{aiResultEntry}
-			<hr />
+
+	<hr />
+	<h:panelGroup layout="block" id="imixs_ai_chatlist" styleClass="imixs-ai-chat-history">
+		<ui:repeat var="aiChatHistoryEntry" value="#{aiController.chatHistory}">
+			<div class="imixs-ai-chat-entry">
+				<div class="imixs-ai-chat-header">
+					<h:outputText value="#{aiChatHistoryEntry.item['date']}">
+						<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
+							type="date" />
+					</h:outputText>
+					<span>#{userController.getUserName(aiChatHistoryEntry.item['user'])}</span>
+				</div>
+				<div class="imixs-ai-chat-content">
+					<div class="imixs-ai-question">
+						<span class="imixs-ai-label">#{message['ai.question']}:</span>
+						<div class="imixs-ai-message">#{aiChatHistoryEntry.item['question']}</div>
+					</div>
+					<div class="imixs-ai-answer">
+						<span class="imixs-ai-label">#{message['ai.answer']}:</span>
+						<div class="imixs-ai-message">#{aiChatHistoryEntry.item['answer']}</div>
+					</div>
+				</div>
+			</div>
 		</ui:repeat>
 	</h:panelGroup>
 
 	<h:commandScript name="refreshAILifeResult" render="aiResultStream" onevent="handleRefreshEvent" />
-	<h:commandScript name="refreshAIChatHistory" render="imixs_ai_chatlist" />
+	<h:commandScript name="refreshAIChatHistory" render="imixs_ai_chatlist promptInput" />
 	<script type="text/javascript">
 		/*<![CDATA[*/
 		var refreshInterval;
 		function handleSendEvent(data) {
 			if (data.status === "begin") {
-				console.log('streaming started....');
+				//console.log('streaming started....');
 				startRefreshing();
 			}
 		}
 		function handleRefreshEvent(data) {
 			if (data.status === 'success') {
-				console.log('handle refreshEvent: ' + data.responseText);
+				//console.log('handle refreshEvent: ' + data.responseText);
 				if (data.responseText && data.responseText.indexOf('imixs.ai.stream.completed') > -1) {
 					stopRefreshing();
 				}
 			}
 		}
 		function startRefreshing() {
-			console.log('Start Refreshing...');
+			//console.log('Start Refreshing...');
 			refreshInterval = setInterval(refreshAILifeResult, 100);
 			// show imixs_ai_life_stream
 			lifeStreamBlock = document.querySelector('[id$=":imixs_ai_life_stream"]');
@@ -62,7 +80,7 @@
 
 		}
 		function stopRefreshing() {
-			console.log('Stop Refreshing!');
+			//console.log('Stop Refreshing!');
 			clearInterval(refreshInterval);
 			refreshAIChatHistory();
 			// hide imixs_ai_life_stream

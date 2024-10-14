@@ -47,6 +47,7 @@ import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.data.WorkflowEvent;
+import org.imixs.workflow.faces.util.LoginController;
 
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.enterprise.event.Observes;
@@ -74,12 +75,17 @@ import jakarta.json.JsonObject;
 public class AIController implements Serializable {
 	public static final String ERROR_PROMPT_TEMPLATE = "ERROR_PROMPT_TEMPLATE";
 	public static final String ERROR_PROMPT_INFERENCE = "ERROR_PROMPT_INFERENCE";
+	public static final String AI_CHAT_HISTORY = "ai.chat.history";
+
+	public static final String AI_STREAM_EOS = "<!-- imixs.ai.stream.completed -->";
 
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(AIController.class.getName());
 
-	List<String> aiChatHistory;
+	List<ItemCollection> chatHistory;
 	String currentStreamResult = "";
+	String question = null;
+	String answer = null;
 
 	@Inject
 	protected WorkflowController workflowController;
@@ -91,27 +97,29 @@ public class AIController implements Serializable {
 	protected UserController userController;
 
 	@Inject
+	protected LoginController loginController;
+
+	@Inject
 	OpenAIAPIService openAIAPIService;
 
 	private CompletableFuture<Void> streamingFuture;
 
 	/**
-	 * This helper method is called during the WorkflowEvent.WORKITEM_CHANGED to
-	 * update the chronicle view for the current workitem.
+	 * Returns the chat history in reverse order. Used by the frontend component
+	 * 
+	 * @return
 	 */
-	public void init() {
-		aiChatHistory = new ArrayList<String>();
-	}
-
-	public List<String> getAiChatHistory() {
-		return aiChatHistory;
+	public List<ItemCollection> getChatHistory() {
+		List<ItemCollection> reversedList = new ArrayList<>(chatHistory);
+		Collections.reverse(reversedList);
+		return reversedList;
 	}
 
 	/**
 	 * WorkflowEvent listener
 	 * 
-	 * If a new WorkItem was created or changed, the chronicle view will be
-	 * initialized.
+	 * If a new WorkItem was created or changed, the imixs.ai.chat.history view will
+	 * be initialized or updated.
 	 * 
 	 * @param workflowEvent
 	 */
@@ -121,9 +129,10 @@ public class AIController implements Serializable {
 		}
 		if (WorkflowEvent.WORKITEM_CREATED == workflowEvent.getEventType()
 				|| WorkflowEvent.WORKITEM_CHANGED == workflowEvent.getEventType()) {
-			// reset data...
-			init();
+			// read current imixs.ai.chat.history...
+			chatHistory = ChildItemController.explodeChildList(workflowController.getWorkitem(), AI_CHAT_HISTORY);
 		}
+
 	}
 
 	/**
@@ -134,12 +143,11 @@ public class AIController implements Serializable {
 	 */
 	public void sendAsync() throws PluginException {
 		ItemCollection workitem = workflowController.getWorkitem();
-		String input = workitem.getItemValueString("ai.chat.prompt");
-		logger.info("prompt...:" + input);
-		String prompt = buildContextPrompt(input);
+		question = workitem.getItemValueString("ai.chat.prompt");
+		logger.fine("question: " + question);
+		String prompt = buildContextPrompt(question);
 		JsonObject jsonPrompt = openAIAPIService.buildJsonPromptObject(prompt, true, null);
 
-		aiChatHistory.add("Question: " + input);
 		// starting async http request...
 		streamingFuture = CompletableFuture.runAsync(() -> {
 			try {
@@ -162,7 +170,7 @@ public class AIController implements Serializable {
 
 			// Write the JSON object to the output stream
 			String jsonString = jsonPromptObject.toString();
-			logger.info("JSON Object=" + jsonString);
+			logger.fine("JSON Object=" + jsonString);
 
 			try (OutputStream os = conn.getOutputStream()) {
 				byte[] input = jsonString.getBytes(StandardCharsets.UTF_8);
@@ -184,12 +192,13 @@ public class AIController implements Serializable {
 							String content = responseObject.getString("content");
 							boolean stop = responseObject.getBoolean("stop", false);
 							currentStreamResult = currentStreamResult + content;
-							logger.info("FullResponse: " + currentStreamResult);
+							logger.fine("FullResponse: " + currentStreamResult);
 							if (stop) {
-								logger.info("request completed - adding answer....");
-								aiChatHistory.add("Answer: " + currentStreamResult);
+								logger.fine("request completed - adding answer....");
+								answer = currentStreamResult.trim();
+
 								// reset stream result!
-								currentStreamResult = "<!-- imixs.ai.stream.completed -->";
+								currentStreamResult = AI_STREAM_EOS;
 								break;
 							}
 						}
@@ -212,7 +221,26 @@ public class AIController implements Serializable {
 	}
 
 	public String getStreamResult() {
+		if (AI_STREAM_EOS.equals(currentStreamResult)) {
+			updateChatHistory();
+		}
 		return currentStreamResult;
+
+	}
+
+	/**
+	 * Helper method to update the ai.chat.history
+	 */
+	private void updateChatHistory() {
+		ItemCollection chatEntry = new ItemCollection();
+		chatEntry.setItemValue("question", question);
+		chatEntry.setItemValue("answer", answer);
+		chatEntry.setItemValue("date", new Date());
+		chatEntry.setItemValue("user", loginController.getUserPrincipal());
+		chatHistory.add(chatEntry);
+		// persist new imixs.ai.chat.history
+		ChildItemController.implodeChildList(workflowController.getWorkitem(), chatHistory, AI_CHAT_HISTORY);
+		workflowController.getWorkitem().removeItem("ai.chat.prompt");
 	}
 
 	/**

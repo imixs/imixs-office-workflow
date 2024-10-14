@@ -29,13 +29,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import jakarta.enterprise.context.ConversationScoped;
-import jakarta.enterprise.event.Observes;
-import jakarta.inject.Named;
-
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.faces.data.WorkflowEvent;
+
+import jakarta.enterprise.context.ConversationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Named;
 
 /**
  * The CDI ChildItemController provides methods to display and edit sub items in
@@ -104,8 +104,8 @@ public class ChildItemController implements Serializable {
 		}
 
 		// before the workitem is saved we update the field txtOrderItems
-		if (WorkflowEvent.WORKITEM_BEFORE_PROCESS == eventType ) {
-			implodeChildList(workitem);
+		if (WorkflowEvent.WORKITEM_BEFORE_PROCESS == eventType) {
+			implodeChildList(workitem, childItems);
 		}
 
 		if (WorkflowEvent.WORKITEM_AFTER_PROCESS == eventType) {
@@ -148,42 +148,55 @@ public class ChildItemController implements Serializable {
 	}
 
 	/**
-	 * Convert the List of ItemCollections back into a List of Map elements
-	 * 
-	 * @param workitem
+	 * converts the Map List of a workitem into a List of ItemCollectons
 	 */
-	@SuppressWarnings({ "rawtypes" })
-	protected void implodeChildList(ItemCollection workitem) {
-		List<Map> mapOrderItems = new ArrayList<Map>();
-		// convert the child ItemCollection elements into a List of Map
-		if (childItems != null) {
-			logger.fine("Convert child items into Map...");
-			// iterate over all order items..
-			for (ItemCollection orderItem : childItems) {
-				mapOrderItems.add(orderItem.getAllItems());
-			}
-			workitem.replaceItemValue(CHILD_ITEM_PROPERTY, mapOrderItems);
-		}
+	public static List<ItemCollection> explodeChildList(ItemCollection workitem) {
+		return explodeChildList(workitem, CHILD_ITEM_PROPERTY);
 	}
 
 	/**
 	 * converts the Map List of a workitem into a List of ItemCollectons
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	protected void explodeChildList(ItemCollection workitem) {
+	public static List<ItemCollection> explodeChildList(ItemCollection workitem, String childItemName) {
 		// convert current list of childItems into ItemCollection elements
-		childItems = new ArrayList<ItemCollection>();
+		ArrayList<ItemCollection> childItems = new ArrayList<ItemCollection>();
 
-		List<Object> mapOrderItems = workitem.getItemValue(CHILD_ITEM_PROPERTY);
-		int pos = 1;
+		List<Object> mapOrderItems = workitem.getItemValue(childItemName);
 		for (Object mapOderItem : mapOrderItems) {
-
 			if (mapOderItem instanceof Map) {
 				ItemCollection itemCol = new ItemCollection((Map) mapOderItem);
-				itemCol.replaceItemValue("numPos", pos);
 				childItems.add(itemCol);
-				pos++;
 			}
+		}
+		return childItems;
+	}
+
+	/**
+	 * Convert the List of ItemCollections back into a List of Map elements
+	 * 
+	 * @param workitem
+	 */
+	public static void implodeChildList(ItemCollection workitem, List<ItemCollection> childItems) {
+		implodeChildList(workitem, childItems, CHILD_ITEM_PROPERTY);
+	}
+
+	/**
+	 * Convert the List of ItemCollections back into a List of Map elements
+	 * 
+	 * @param workitem
+	 */
+	@SuppressWarnings({ "rawtypes" })
+	public static void implodeChildList(ItemCollection workitem, List<ItemCollection> childItems,
+			String childItemName) {
+		List<Map> mapOrderItems = new ArrayList<Map>();
+		// convert the child ItemCollection elements into a List of Map
+		if (childItems != null) {
+			// iterate over all order items..
+			for (ItemCollection orderItem : childItems) {
+				mapOrderItems.add(orderItem.getAllItems());
+			}
+			workitem.replaceItemValue(childItemName, mapOrderItems);
 		}
 	}
 
