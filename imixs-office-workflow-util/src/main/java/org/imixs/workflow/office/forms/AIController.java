@@ -143,11 +143,15 @@ public class AIController implements Serializable {
 	 */
 	public void sendAsync() throws PluginException {
 		ItemCollection workitem = workflowController.getWorkitem();
-		question = workitem.getItemValueString("ai.chat.prompt");
+		question = workitem.getItemValueString("ai.chat.prompt").trim();
+
+		if (question.isEmpty()) {
+			// no op
+			return;
+		}
 		logger.fine("question: " + question);
 		String prompt = buildContextPrompt(question);
 		JsonObject jsonPrompt = openAIAPIService.buildJsonPromptObject(prompt, true, null);
-
 		// starting async http request...
 		streamingFuture = CompletableFuture.runAsync(() -> {
 			try {
@@ -256,12 +260,15 @@ public class AIController implements Serializable {
 		ItemCollection workitem = workflowController.getWorkitem();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
-		String prompt = "[INST]";
+		// String prompt = "[INST]";
+		String prompt = "<s>";
 
-		prompt = "Geschäftsprozess: " + workitem.getWorkflowGroup() + "\n";
+		prompt += "Geschäftsprozess: " + workitem.getWorkflowGroup() + "\n";
 		prompt += "Erstellt: " + dateFormat.format(workitem.getItemValueDate(WorkflowKernel.CREATED)) + " von "
 				+ userController.getUserName(workitem.getItemValueString("$creator")) + " \n";
 		prompt += "Aktueller Status: " + workitem.getItemValueString(WorkflowKernel.WORKFLOWSTATUS) + "\n";
+
+		prompt += "\nVerlauf an Aktivitäten in diesem Geschäftsprozess: \n\n";
 
 		// chronical
 		List<Integer> years = chronicleController.getYears();
@@ -272,6 +279,8 @@ public class AIController implements Serializable {
 			for (int month : months) {
 				List<ChronicleEntity> chronicleEntries = chronicleController.getChroniclePerMonth(year, month);
 
+				Collections.reverse(chronicleEntries);
+
 				// prompt += "\n" + year + "/" + month + "\n\n";
 				for (ChronicleEntity entry : chronicleEntries) {
 					String user = userController.getUserName(entry.getUser());
@@ -281,7 +290,7 @@ public class AIController implements Serializable {
 						// Date / User
 						prompt += dateFormat.format(entry.getDate()) + " - " + user + ": ";
 						String type = event.getItemValueString("type");
-						Date date = event.getItemValueDate("date");
+
 						String message = event.getItemValueString("message");
 						if ("comment".equals(type)) {
 							prompt += "Kommentar: " + message + "\n";
@@ -300,12 +309,18 @@ public class AIController implements Serializable {
 								}
 							}
 						}
+						if ("imixs-ai".equals(type)) {
+							prompt += "Chat: " + message + "\n";
+						}
 					}
 				}
 			}
 		}
 
-		prompt += "[/INST]</s>\n[INST] " + question + "[/INST]";
+		// prompt += "[/INST]</s>\n[INST] " + question + "[/INST]";
+		prompt += "</s>\n[INST] " + question + "[/INST]";
+
+		System.out.println(prompt);
 		return prompt;
 	}
 

@@ -17,10 +17,20 @@
 	</dl>
 
 	<!-- Imixs AI Life-Answering Block -->
-	<h:panelGroup layout="block" id="imixs_ai_life_stream" style="display:none;">
-		<pre style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">
-			<div class="imixs-ai-loader"></div><span>...</span><h:outputText id="aiResultStream" value="#{aiController.streamResult}" escape="false" />
-		</pre>
+	<h:panelGroup layout="block" id="imixs_ai_life_stream" styleClass="imixs-ai-chat-history"
+		style="display:none;margin-top:5px;">
+
+		<div class="imixs-ai-chat-entry">
+			<div class="imixs-ai-chat-header">
+				<div class="imixs-ai-loader"></div>
+				<span>#{message.ai}</span>
+			</div>
+			<div class="imixs-ai-chat-content">
+				<div class="imixs-ai-answer"></div>
+				<pre
+					style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">...<h:outputText id="aiResultStream" value="#{aiController.streamResult}" escape="false" /></pre>
+			</div>
+		</div>
 	</h:panelGroup>
 
 	<!-- Imixs AI Chat history-->
