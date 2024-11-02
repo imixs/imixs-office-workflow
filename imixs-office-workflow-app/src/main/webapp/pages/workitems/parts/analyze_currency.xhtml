@@ -43,14 +43,13 @@
 	</style>
 	<div class="analytic-card">
 		<div class="analytic-card-header">
-			<h:outputText value="#{analyticController.getAsString(item.name)}">
+			<h:outputText value="#{analyticController.getAsDouble(item.name)}">
+				<f:convertNumber minFractionDigits="2" locale="de" />
 			</h:outputText>
 		</div>
 
 
-		<div class="analytic-card-content">
-			<h:outputText escape="false" value="#{analyticController.getLabel(item.name)}" />
-		</div>
+		<div class="analytic-card-content">#{analyticController.getLabel(item.name)}</div>
 
 
 		<div class="analytic-card-footer">

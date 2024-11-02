@@ -34,27 +34,14 @@
 	</div>
 
 
-
-
-
-
-
 	<script type="text/javascript"
 		src="#{facesContext.externalContext.requestContextPath}/js/chartjs/chart.min.js?build=#{app.application_build_timestamp}"></script>
 
 	<script type="text/javascript">
 		/*<![CDATA[*/
-		$(document).ready(
-			function () {
-				// update the diagram
-				var ctx = document.getElementById("analytics_canvas_#{item.name}").getContext("2d");
-				var chartData = #{ analyticController.getAsString(item.name)
-			};
-		console.log(chartData);
-		//jsObject = JSON.parse(chartData);
-		window.myBar = new Chart(ctx, chartData);
-			});
-
+		var ctx = document.getElementById("analytics_canvas_#{item.name}").getContext("2d");
+		var chartData = #{ analyticController.getAsJson(item.name)};
+		new Chart(ctx, chartData);
 		/*]]>*/
 	</script>
 
