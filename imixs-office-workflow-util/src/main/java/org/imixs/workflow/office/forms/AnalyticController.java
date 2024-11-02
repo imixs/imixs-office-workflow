@@ -54,6 +54,23 @@ public class AnalyticController implements Serializable {
 	}
 
 	/**
+	 * Returns a analytic value as a Json String for a given key.
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public String getAsJson(String key) {
+		ItemCollection analyticData = computeValue(key);
+		String jsonval = analyticData.getItemValueString("value");
+		if (jsonval == null || jsonval.isEmpty()) {
+			return "null";
+		} else {
+			System.out.println(jsonval);
+			return jsonval;
+		}
+	}
+
+	/**
 	 * Returns a analytic value as a Double for a given key.
 	 * 
 	 * @param key
@@ -106,35 +123,36 @@ public class AnalyticController implements Serializable {
 	 */
 	protected ItemCollection computeValue(String key) {
 		if (workflowController.getWorkitem() != null) {
-			// try to fetch value from cache
-			if (!workflowController.getWorkitem().hasItem("analytic." + key)) {
-				logger.fine("fire analytic event for key '" + key + "'");
-				// Fire the Analytics Event for this key
-				AnalyticEvent event = new AnalyticEvent(key, workflowController.getWorkitem());
-				if (analyticEvents != null) {
-					analyticEvents.fire(event);
+
+			logger.fine("fire analytic event for key '" + key + "'");
+			// Fire the Analytics Event for this key
+			AnalyticEvent event = new AnalyticEvent(key, workflowController.getWorkitem());
+			if (analyticEvents != null) {
+				analyticEvents.fire(event);
+				if (event.getValue() != null) {
 					ItemCollection details = new ItemCollection();
 					details.setItemValue("value", event.getValue());
 					details.setItemValue("label", event.getLabel());
 					details.setItemValue("description", event.getDescription());
 					details.setItemValue("link", event.getLink());
 					implodeDetails(key, details);
-					return details;
-				}
-
-				if (event.getValue() == null) {
-					// set dummy value
-					ItemCollection details = new ItemCollection();
-					details.setItemValue("value", "");
-					details.setItemValue("label", "");
-					details.setItemValue("description", "No data available");
-					implodeDetails(key, details);
-					return details;
 				}
 			}
+
+			// try loading from cache
+			ItemCollection details = explodeDetails(key);
+			if (details == null) {
+				// set dummy value
+				details = new ItemCollection();
+				details.setItemValue("value", "");
+				details.setItemValue("label", "");
+				details.setItemValue("description", "No data available");
+				implodeDetails(key, details);
+			}
+
 		}
 
-		// analytic value is already cached!
+		// analytic value is now already cached!
 		return explodeDetails(key);
 	}
 
@@ -144,7 +162,7 @@ public class AnalyticController implements Serializable {
 	 * @param workitem
 	 */
 	@SuppressWarnings({ "rawtypes" })
-	public void implodeDetails(String key, ItemCollection details) {
+	private void implodeDetails(String key, ItemCollection details) {
 		// convert the child ItemCollection elements into a List of Map
 		List<Map> detailsList = new ArrayList<Map>();
 		detailsList.add(details.getAllItems());
@@ -155,7 +173,7 @@ public class AnalyticController implements Serializable {
 	 * converts the Map List of a workitem into a List of ItemCollectons
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ItemCollection explodeDetails(String key) {
+	private ItemCollection explodeDetails(String key) {
 		// convert current list of childItems into ItemCollection elements
 		List<Object> mapOrderItems = workflowController.getWorkitem().getItemValue(key);
 		if (mapOrderItems != null && mapOrderItems.size() > 0) {
