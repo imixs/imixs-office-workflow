@@ -65,7 +65,6 @@ public class AnalyticController implements Serializable {
 		if (jsonval == null || jsonval.isEmpty()) {
 			return "null";
 		} else {
-			System.out.println(jsonval);
 			return jsonval;
 		}
 	}
