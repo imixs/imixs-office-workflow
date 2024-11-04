@@ -329,13 +329,11 @@
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-workflow-core</artifactId>
 				<version>${org.imixs.workflow.version}</version>
-				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-workflow-engine</artifactId>
 				<version>${org.imixs.workflow.version}</version>
-				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
@@ -351,11 +349,13 @@
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-workflow-index-lucene</artifactId>
 				<version>${org.imixs.workflow.version}</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-workflow-index-solr</artifactId>
 				<version>${org.imixs.workflow.version}</version>
+				<scope>provided</scope>
 			</dependency>
 
 			<!-- Marty -->
@@ -365,21 +365,11 @@
 				<version>${org.imixs.marty.version}</version>
 			</dependency>
 
-			<!-- Imixs Melman
-			<dependency>
-				<groupId>org.imixs.workflow</groupId>
-				<artifactId>imixs-melman</artifactId>
-				<version>1.0.20</version>
-				<scope>provided</scope>
-			</dependency>
-			 -->
-
 			<!-- Imixs-Archive -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-archive-api</artifactId>
 				<version>${org.imixs.archive.version}</version>
-				<scope>provided</scope>
 			</dependency>
 
 			<!-- Imxixs-Archive Documents -->
@@ -387,7 +377,6 @@
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-archive-documents</artifactId>
 				<version>${org.imixs.archive.version}</version>
-				<scope>provided</scope>
 			</dependency>
 
 			<!-- Imixs-AI -->
@@ -395,7 +384,6 @@
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-ai-workflow</artifactId>
 				<version>${org.imixs.ai.version}</version>
-				<scope>provided</scope>
 			</dependency>
 
 
@@ -410,7 +398,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-
 		<!-- Microprofile -->
 		<dependency>
 			<groupId>org.eclipse.microprofile</groupId>
@@ -420,25 +407,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Testing -->
-		<dependency>
-			<groupId>org.eclipse.parsson</groupId>
-			<artifactId>jakarta.json</artifactId>
-			<version>1.1.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jaxb</groupId>
-			<artifactId>jaxb-runtime</artifactId>
-			<version>3.0.0</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.xml.bind</groupId>
-			<artifactId>jakarta.xml.bind-api</artifactId>
-			<version>3.0.0</version>
-			<scope>test</scope>
-		</dependency>
 		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -458,14 +426,6 @@
 			<version>${mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>org.imixs.workflow</groupId>
-			<artifactId>imixs-mock</artifactId>
-			<version>${org.imixs.mock.version}</version>
-			<scope>test</scope>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-client</artifactId>
@@ -478,25 +438,24 @@
 			<version>3.4.10</version>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- 
-		<dependency>
-			<groupId>org.imixs.workflow</groupId>
-			<artifactId>imixs-melman</artifactId>
-			<scope>test</scope>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>org.eclipse.parsson</groupId>
 			<artifactId>jakarta.json</artifactId>
 			<version>1.1.1</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
 			<version>3.0.0</version>
+			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>3.0.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 
