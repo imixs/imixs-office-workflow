@@ -231,15 +231,20 @@ public class SearchController extends ViewController implements Serializable {
 
     }
 
-    // private String query = null;
-
+    /**
+     * 3 = by last update
+     * 1 = by created
+     * 2 = by created
+     */
     @Override
     public String getSortBy() {
 
         if ("1".equals(this.getSearchFilter().getItemValueString("sortorder"))
-                || "2".equals(this.getSearchFilter().getItemValueString("sortorder"))
-
-        ) {
+                || "2".equals(this.getSearchFilter().getItemValueString("sortorder"))) {
+            return "$created";
+        }
+        if ("3".equals(this.getSearchFilter().getItemValueString("sortorder"))
+                || "4".equals(this.getSearchFilter().getItemValueString("sortorder"))) {
             return "$lasteventdate";
         }
         return super.getSortBy();
@@ -257,10 +262,12 @@ public class SearchController extends ViewController implements Serializable {
     @Override
     public boolean isSortReverse() {
 
-        if ("2".equals(this.getSearchFilter().getItemValueString("sortorder"))) {
+        if ("2".equals(this.getSearchFilter().getItemValueString("sortorder"))
+                || "4".equals(this.getSearchFilter().getItemValueString("sortorder"))) {
             return false;
         }
-        if ("1".equals(this.getSearchFilter().getItemValueString("sortorder"))) {
+        if ("1".equals(this.getSearchFilter().getItemValueString("sortorder"))
+                || "3".equals(this.getSearchFilter().getItemValueString("sortorder"))) {
             return true;
         }
 

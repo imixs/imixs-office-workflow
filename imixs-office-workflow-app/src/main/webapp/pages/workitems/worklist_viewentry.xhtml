@@ -42,13 +42,20 @@
 
 		<div class="owner-block">
 			<div class="owner-details">
-				<!-- modified -->
+				<!-- created / modified -->
 				<div class="owner-details-row">
-					<h:outputText value="#{userController.getUserName(workitem.item['$Editor'])} - " />
+					<strong>#{message.modified} </strong>
 					<h:outputText value="#{workitem.item['$lasteventdate']}" style="font-weight: normal;">
-						<f:convertDateTime timeZone="#{message.timeZone}" pattern="#{message.dateTimePatternLong}" />
+						<f:convertDateTime timeZone="#{message.timeZone}" pattern="#{message.dateTimePattern}" />
 					</h:outputText>
 				</div>
+				<div class="owner-details-row">
+					<strong>#{message.created} </strong>
+					<h:outputText value="#{workitem.item['$created']}" style="font-weight: normal;">
+						<f:convertDateTime timeZone="#{message.timeZone}" pattern="#{message.dateTimePattern}" />
+					</h:outputText>
+				</div>
+
 				<!-- display owner -->
 				<h:panelGroup layout="block" rendered="#{! empty workitem.item['$owner']}" class="owner-details-row">
 					<ui:repeat value="#{workitem.itemList['$owner']}" var="name">
