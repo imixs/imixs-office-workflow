@@ -1,11 +1,7 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	template="/layout/template.xhtml">
 
 
@@ -14,7 +10,7 @@
 			/*<![CDATA[*/
 
 			// The following code is used to layout the tables with the jquery datatable plugin.
-			$(document).ready(function() {
+			$(document).ready(function () {
 				updateTableLayout();
 			});
 
@@ -26,20 +22,20 @@
 
 			function updateTableLayout() {
 
-				$('[id$=spacetable]').each(function() {
+				$('[id$=spacetable]').each(function () {
 					// with the following line we test if the jsf datatable realy contains data 
 					// in cases with empty rows on default column is displayed.
 					if ($('tbody tr:nth-child(1) td', $(this)).length > 1)
 						$(this).dataTable({
-							"bRetrieve" : true,
-							"iDisplayLength" : #{propertyController.getProperty('admin.view.table.displaylength','30')},
+							"bRetrieve": true,
+							"iDisplayLength": #{ propertyController.getProperty('admin.view.table.displaylength', '30') },
 							"bLengthChange" : false,
 							"bSortable" : false,
 							"bJQueryUI" : true,
 							'aaSorting' : []
 						// no inital sorting 						
 						});
-				});
+			});
 
 			}
 			/*]]>*/
@@ -55,8 +51,7 @@
 					</div>
 
 					<div class="imixs-body">
-						<h:dataTable id="spacetable"
-							value="#{viewHandler.getData(spaceViewController)}" var="record"
+						<h:dataTable id="spacetable" value="#{viewHandler.getData(spaceViewController)}" var="record"
 							styleClass="imixsdatatable">
 
 
@@ -67,17 +62,18 @@
 									</h:panelGroup>
 								</f:facet>
 
-								<h:link outcome="/pages/admin/space"
-									styleClass="imixs-viewentry-main-link">
-									<h:panelGroup rendered="#{(record.item['$processid'] eq 100)}"
+								<h:link outcome="/pages/admin/space" styleClass="imixs-viewentry-main-link">
+									<h:panelGroup rendered="#{(record.item['$taskid'] eq 100)}"
 										styleClass="typcn typcn-tick imixs-state-success"
 										pt:title="#{record.item['$workflowstatus']}" />
-									<h:panelGroup rendered="#{(record.item['$processid'] eq 180)}"
+									<h:panelGroup rendered="#{(record.item['$taskid'] eq 180)}"
 										pt:title="#{record.item['$workflowstatus']}"
 										styleClass="typcn typcn-delete-outline imixs-state-warning" />
+									<h:panelGroup rendered="#{(record.item['$taskid'] eq 190)}"
+										pt:title="#{record.item['$workflowstatus']}"
+										styleClass="typcn typcn-delete-outline imixs-state-error" />
 									<h:outputText value="#{record.item['name']}" />
-									<h:outputText rendered="#{empty record.item['name']}"
-										value=" - no name - " />
+									<h:outputText rendered="#{empty record.item['name']}" value=" - no name - " />
 									<f:param name="id" value="#{record.item['$uniqueid']}" />
 								</h:link>
 							</h:column>
@@ -89,10 +85,8 @@
 									</h:panelGroup>
 								</f:facet>
 								<!-- hidden sort field  -->
-								<h:outputText value="#{record.item['$lasteventdate']}"
-									style="display:none">
-									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-										pattern="yyyyMMdd" />
+								<h:outputText value="#{record.item['$lasteventdate']}" style="display:none">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both" pattern="yyyyMMdd" />
 								</h:outputText>
 								<h:outputText value="#{record.item['$lasteventdate']}">
 									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
@@ -107,17 +101,13 @@
 
 							<h:column>
 								<f:facet name="header">Manager</f:facet>
-								<ui:repeat var="grp"
-									value="#{record.itemListArray['space.Manager']}">
-									<ui:param name="displayname"
-										value="#{userController.getUserName(grp)}"></ui:param>
+								<ui:repeat var="grp" value="#{record.itemListArray['space.Manager']}">
+									<ui:param name="displayname" value="#{userController.getUserName(grp)}"></ui:param>
 									<h:outputText value="#{userController.getUserName(grp)}"
 										title="#{grp} - #{userController.getEmail(grp)}" />
 									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
-										<ui:param name="isrole"
-											value="#{userInputController.isRole(grp)}" />
-										<h:outputText value="#{grp}"
-											title="#{isrole?'Access Role':'Unknown User!'}"
+										<ui:param name="isrole" value="#{userInputController.isRole(grp)}" />
+										<h:outputText value="#{grp}" title="#{isrole?'Access Role':'Unknown User!'}"
 											class="#{isrole?'imixs-warning':'imixs-important'}" />
 									</ui:fragment>
 									<br />
@@ -127,15 +117,12 @@
 							<h:column>
 								<f:facet name="header">Team</f:facet>
 								<ui:repeat var="grp" value="#{record.itemListArray['space.Team']}">
-									<ui:param name="displayname"
-										value="#{userController.getUserName(grp)}"></ui:param>
+									<ui:param name="displayname" value="#{userController.getUserName(grp)}"></ui:param>
 									<h:outputText value="#{userController.getUserName(grp)}"
 										title="#{grp} - #{userController.getEmail(grp)}" />
 									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
-										<ui:param name="isrole"
-											value="#{userInputController.isRole(grp)}" />
-										<h:outputText value="#{grp}"
-											title="#{isrole?'Access Role':'Unknown User!'}"
+										<ui:param name="isrole" value="#{userInputController.isRole(grp)}" />
+										<h:outputText value="#{grp}" title="#{isrole?'Access Role':'Unknown User!'}"
 											class="#{isrole?'imixs-warning':'imixs-important'}" />
 									</ui:fragment>
 									<br />
@@ -144,17 +131,13 @@
 
 							<h:column>
 								<f:facet name="header">Assist</f:facet>
-								<ui:repeat var="grp"
-									value="#{record.itemListArray['space.Assist']}">
-									<ui:param name="displayname"
-										value="#{userController.getUserName(grp)}" />
+								<ui:repeat var="grp" value="#{record.itemListArray['space.Assist']}">
+									<ui:param name="displayname" value="#{userController.getUserName(grp)}" />
 									<h:outputText value="#{userController.getUserName(grp)}"
 										title="#{grp} - #{userController.getEmail(grp)}" />
 									<ui:fragment rendered="#{(empty displayname) and (!empty grp)}">
-										<ui:param name="isrole"
-											value="#{userInputController.isRole(grp)}" />
-										<h:outputText value="#{grp}"
-											title="#{isrole?'Access Role':'Unknown User!'}"
+										<ui:param name="isrole" value="#{userInputController.isRole(grp)}" />
+										<h:outputText value="#{grp}" title="#{isrole?'Access Role':'Unknown User!'}"
 											class="#{isrole?'imixs-warning':'imixs-important'}" />
 									</ui:fragment>
 									<br />
@@ -163,20 +146,18 @@
 							<h:column>
 								<f:facet name="header">Status</f:facet>
 								<h:outputText value="#{record.item['$workflowstatus']}" />
-							</h:column>							
+							</h:column>
 							<h:column>
 								<f:facet name="header">#{message.action}</f:facet>
 								<!-- Edit -->
-								<h:link outcome="/pages/admin/space"
-									styleClass="imixs-viewentry-main-link">
+								<h:link outcome="/pages/admin/space" styleClass="imixs-viewentry-main-link">
 									<span class="typcn typcn-pencil imixs-state-info"></span>
 									#{message.edit}
 									<f:param name="id" value="#{record.item['$uniqueid']}" />
 								</h:link>
 
 								<!-- Subspace -->
-								<h:link outcome="/pages/admin/space"
-									styleClass="imixs-viewentry-action-link"
+								<h:link outcome="/pages/admin/space" styleClass="imixs-viewentry-action-link"
 									title="#{message.add}">
 									<span class="typcn typcn-flow-children imixs-state-info"></span>#{message.add}
 									<f:param name="parent" value="#{record.item['$uniqueid']}" />
@@ -188,7 +169,7 @@
 					<div class="imixs-footer">
 						<h:button outcome="/pages/admin/organisation" value="#{message['organigram.title']}" />
 						<h:button outcome="/pages/admin/space?id=" value="#{message.add}" />
-						<h:commandButton action="home" value="#{message.close}"  styleClass="imixs-close-action" />
+						<h:commandButton action="home" value="#{message.close}" styleClass="imixs-close-action" />
 					</div>
 				</div>
 			</h:form>

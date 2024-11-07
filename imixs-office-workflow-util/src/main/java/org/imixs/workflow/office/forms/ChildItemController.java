@@ -100,7 +100,7 @@ public class ChildItemController implements Serializable {
 		// reset orderItems if workItem has changed
 		if (WorkflowEvent.WORKITEM_CHANGED == eventType || WorkflowEvent.WORKITEM_CREATED == eventType) {
 			// reset state
-			explodeChildList(workitem);
+			childItems = explodeChildList(workitem);
 		}
 
 		// before the workitem is saved we update the field txtOrderItems
@@ -110,7 +110,7 @@ public class ChildItemController implements Serializable {
 
 		if (WorkflowEvent.WORKITEM_AFTER_PROCESS == eventType) {
 			// reset state
-			explodeChildList(workitem);
+			childItems = explodeChildList(workitem);
 		}
 
 	}
@@ -160,16 +160,16 @@ public class ChildItemController implements Serializable {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List<ItemCollection> explodeChildList(ItemCollection workitem, String childItemName) {
 		// convert current list of childItems into ItemCollection elements
-		ArrayList<ItemCollection> childItems = new ArrayList<ItemCollection>();
+		ArrayList<ItemCollection> result = new ArrayList<ItemCollection>();
 
 		List<Object> mapOrderItems = workitem.getItemValue(childItemName);
 		for (Object mapOderItem : mapOrderItems) {
 			if (mapOderItem instanceof Map) {
 				ItemCollection itemCol = new ItemCollection((Map) mapOderItem);
-				childItems.add(itemCol);
+				result.add(itemCol);
 			}
 		}
-		return childItems;
+		return result;
 	}
 
 	/**
@@ -177,8 +177,8 @@ public class ChildItemController implements Serializable {
 	 * 
 	 * @param workitem
 	 */
-	public static void implodeChildList(ItemCollection workitem, List<ItemCollection> childItems) {
-		implodeChildList(workitem, childItems, CHILD_ITEM_PROPERTY);
+	public static void implodeChildList(ItemCollection workitem, List<ItemCollection> _childItems) {
+		implodeChildList(workitem, _childItems, CHILD_ITEM_PROPERTY);
 	}
 
 	/**
@@ -187,13 +187,13 @@ public class ChildItemController implements Serializable {
 	 * @param workitem
 	 */
 	@SuppressWarnings({ "rawtypes" })
-	public static void implodeChildList(ItemCollection workitem, List<ItemCollection> childItems,
+	public static void implodeChildList(ItemCollection workitem, List<ItemCollection> _childItems,
 			String childItemName) {
 		List<Map> mapOrderItems = new ArrayList<Map>();
 		// convert the child ItemCollection elements into a List of Map
-		if (childItems != null) {
+		if (_childItems != null) {
 			// iterate over all order items..
-			for (ItemCollection orderItem : childItems) {
+			for (ItemCollection orderItem : _childItems) {
 				mapOrderItems.add(orderItem.getAllItems());
 			}
 			workitem.replaceItemValue(childItemName, mapOrderItems);

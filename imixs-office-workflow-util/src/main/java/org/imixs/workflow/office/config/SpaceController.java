@@ -30,8 +30,10 @@ import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.WorkflowService;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.faces.data.WorkflowController;
+import org.imixs.workflow.faces.data.WorkflowEvent;
 
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -87,4 +89,28 @@ public class SpaceController implements Serializable {
 		}
 	}
 
+	/**
+	 * On space save we verify if a parent space is still provided
+	 * 
+	 * @param documentEvent
+	 */
+	public void onWorkflowEvent(@Observes WorkflowEvent documentEvent) {
+		if (documentEvent == null)
+			return;
+
+		if (WorkflowEvent.WORKITEM_BEFORE_PROCESS == documentEvent.getEventType()) {
+			if (documentEvent.getWorkitem().getType().startsWith("space")) {
+				String idRef = workflowController.getWorkitem().getItemValueString(WorkflowService.UNIQUEIDREF);
+				logger.info("space parent ref=" + idRef);
+				if (idRef.isEmpty() || "[ROOT]".equals(idRef)) {
+					logger.fine("remove parent");
+					documentEvent.getWorkitem().setItemValue(WorkflowService.UNIQUEIDREF, "");
+					documentEvent.getWorkitem().setItemValue("space.parent.name", "");
+					documentEvent.getWorkitem().setItemValue("txtparentname", "");
+
+				}
+			}
+		}
+
+	}
 }
