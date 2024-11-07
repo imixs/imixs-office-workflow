@@ -1,11 +1,7 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:i="http://java.sun.com/jsf/composite/imixs"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:marty="http://java.sun.com/jsf/composite/marty"
-	template="/layout/template.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty" template="/layout/template.xhtml">
 
 
 	<!-- 
@@ -30,11 +26,11 @@
 		<script type="text/javascript">
 			/*<![CDATA[*/
 
-				// compute data structure by OrganigramController			
-				datasource_processes=#{organigramController.processDatasource};
-				datasource_spaces = #{organigramController.spaceDatasource};
-				direction = "#{propertyController.getProperty('organigram.direction','t2b')}";
-				verticalLevel = #{propertyController.getProperty('organigram.verticalLevel','4')};
+			// compute data structure by OrganigramController			
+			datasource_processes =#{ organigramController.processDatasource };
+			datasource_spaces = #{ organigramController.spaceDatasource };
+			direction = "#{propertyController.getProperty('organigram.direction','t2b')}";
+			verticalLevel = #{ propertyController.getProperty('organigram.verticalLevel', '4') };
 
 			/*]]>*/
 		</script>
@@ -47,22 +43,18 @@
 					<h1 style="text-align: center;">#{message['organigram.title']}</h1>
 				</div>
 				<div class="imixs-body organigram-container">
-					<div id="organigram-processes"
-						style="border-right: 1px solid #eee; height: 100%;"></div>
+					<div id="organigram-processes" style="border-right: 1px solid #eee; height: 100%;"></div>
 					<div id="organigram-spaces"></div>
 				</div>
 
 				<div class="imixs-footer" style="padding-top: 20px;">
 					<h:commandButton value="#{message['nav.admin_processlist']}"
-						actionListener="#{workflowController.reset}" immediate="true"
-						styleClass="imixs-action"
+						actionListener="#{workflowController.reset}" immediate="true" styleClass="imixs-action"
 						action="/pages/admin/processlist?faces-redirect=true" />
-					<h:commandButton value="#{message['nav.admin_spaces']}"
-						actionListener="#{workflowController.reset}" immediate="true"
-						styleClass="imixs-action"
-						action="/pages/admin/spaces?faces-redirect=true" />
-					<h:commandButton value="#{message.close}" immediate="true"
-						styleClass="imixs-close-action" action="notes" />
+					<h:commandButton value="#{message['nav.admin_spaces']}" actionListener="#{workflowController.reset}"
+						immediate="true" styleClass="imixs-action" action="/pages/admin/spaces?faces-redirect=true" />
+					<h:commandButton value="#{message.close}" immediate="true" styleClass="imixs-close-action"
+						action="notes" />
 				</div>
 
 
@@ -77,23 +69,19 @@
 					https://dzone.com/articles/execute-a-jsf-ajax-request-by-just-a-function-call
 					https://www.w3schools.com/howto/howto_js_autocomplete.asp
 			 	-->
-				<h:inputHidden id="selected_node_id"
-					value="#{organigramController.selectedNodeID}" />
+				<h:inputHidden id="selected_node_id" value="#{organigramController.selectedNodeID}" />
 				<h:commandScript name="loadTeamDetails" execute="selected_node_id"
-					action="#{organigramController.loadNode()}"
-					render="node-details-template" onevent="showNodeDetails">
+					action="#{organigramController.loadNode()}" render="node-details-template"
+					onevent="showNodeDetails">
 				</h:commandScript>
 
 
 				<h:panelGroup id="node-details-template" style="display:none;">
-					<ui:param name="selectedNode"
-						value="#{organigramController.selectedNode}"></ui:param>
-					<ui:param name="selectedNodeID"
-						value="#{organigramController.selectedNodeID}"></ui:param>
+					<ui:param name="selectedNode" value="#{organigramController.selectedNode}"></ui:param>
+					<ui:param name="selectedNodeID" value="#{organigramController.selectedNodeID}"></ui:param>
 
 					<!-- the node detail block -->
-					<h:panelGroup layout="block" styleClass="node-details"
-						rendered="#{! empty selectedNode}">
+					<h:panelGroup layout="block" styleClass="node-details" rendered="#{! empty selectedNode}">
 
 
 						<!-- process -->
@@ -101,35 +89,33 @@
 							<div class="teams">
 								<div class="members">
 									<p class="lead">
-										<strong>Manager</strong>
+										<strong>#{selectedNode.item['process.manager.label']}</strong>
 									</p>
-									<ui:repeat var="member"
-										value="#{selectedNode.itemList['process.manager']}">
+									<ui:repeat var="member" value="#{selectedNode.itemList['process.manager']}">
 										<p>#{userController.getUserName(member)}</p>
 									</ui:repeat>
 
 								</div>
 								<div class="members">
 									<p class="lead">
-										<strong>Team</strong>
+										<strong>#{selectedNode.item['process.team.label']}</strong>
 									</p>
-									<ui:repeat var="member"
-										value="#{selectedNode.itemList['process.team']}">
+									<ui:repeat var="member" value="#{selectedNode.itemList['process.team']}">
 										<p>#{userController.getUserName(member)}</p>
 									</ui:repeat>
 								</div>
 								<div class="members">
 									<p class="lead">
-										<strong>Assist</strong>
+										<strong>#{selectedNode.item['process.assist.label']}</strong>
 									</p>
-									<ui:repeat var="member"
-										value="#{selectedNode.itemList['process.assist']}">
+									<ui:repeat var="member" value="#{selectedNode.itemList['process.assist']}">
 										<p>#{userController.getUserName(member)}</p>
 									</ui:repeat>
 								</div>
 							</div>
 							<div class="controls">
-								<a href="/pages/admin/process.xhtml?id=#{selectedNodeID}" onclick="event.stopPropagation();"><span class="typcn typcn-pencil"></span></a>
+								<a href="/pages/admin/process.xhtml?id=#{selectedNodeID}"
+									onclick="event.stopPropagation();"><span class="typcn typcn-pencil"></span></a>
 							</div>
 						</ui:fragment>
 
@@ -141,8 +127,7 @@
 									<p class="lead">
 										<strong>#{selectedNode.item['space.manager.label']}</strong>
 									</p>
-									<ui:repeat var="member"
-										value="#{selectedNode.itemList['space.manager']}">
+									<ui:repeat var="member" value="#{selectedNode.itemList['space.manager']}">
 										<p>#{userController.getUserName(member)}</p>
 									</ui:repeat>
 
@@ -151,8 +136,7 @@
 									<p class="lead">
 										<strong>#{selectedNode.item['space.team.label']}</strong>
 									</p>
-									<ui:repeat var="member"
-										value="#{selectedNode.itemList['space.team']}">
+									<ui:repeat var="member" value="#{selectedNode.itemList['space.team']}">
 										<p>#{userController.getUserName(member)}</p>
 									</ui:repeat>
 								</div>
@@ -160,20 +144,20 @@
 									<p class="lead">
 										<strong>#{selectedNode.item['space.assist.label']}</strong>
 									</p>
-									<ui:repeat var="member"
-										value="#{selectedNode.itemList['space.assist']}">
+									<ui:repeat var="member" value="#{selectedNode.itemList['space.assist']}">
 										<p>#{userController.getUserName(member)}</p>
 									</ui:repeat>
 								</div>
 							</div>
 							<!-- custom form -->
 							<ui:include src="/pages/admin/sub_organisation_custom.xhtml">
-								<ui:param name="selectedNode"
-											value="#{selectedNode}" />
+								<ui:param name="selectedNode" value="#{selectedNode}" />
 							</ui:include>
 							<div class="controls">
-								<a href="/pages/admin/space.xhtml?id=#{selectedNodeID}" onclick="event.stopPropagation();"><span class="typcn typcn-pencil"></span></a>
-								<a href="/pages/admin/space.xhtml?parent=#{selectedNodeID}" onclick="event.stopPropagation();"><span class="typcn typcn-folder-add"></span></a>
+								<a href="/pages/admin/space.xhtml?id=#{selectedNodeID}"
+									onclick="event.stopPropagation();"><span class="typcn typcn-pencil"></span></a>
+								<a href="/pages/admin/space.xhtml?parent=#{selectedNodeID}"
+									onclick="event.stopPropagation();"><span class="typcn typcn-folder-add"></span></a>
 							</div>
 						</ui:fragment>
 					</h:panelGroup>
