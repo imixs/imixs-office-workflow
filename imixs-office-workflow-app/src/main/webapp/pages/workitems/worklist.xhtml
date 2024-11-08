@@ -18,16 +18,22 @@
 			src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.worklist.custom.js?build=#{app.application_build_timestamp}"></script>
 	</ui:define>
 
-
-
 	<ui:define name="content">
 		<f:view>
 			<h:form>
-				<ui:param name="searchresult" value="#{viewHandler.getData(searchController)}"></ui:param>
-				<ui:param name="searchresultCount" value="#{searchController.getCount()}"></ui:param>
 
-
-				<h:panelGroup styleClass="imixs-view imixs-search" layout="block" id="serach_view">
+				<h:panelGroup styleClass="imixs-view imixs-search" layout="block" id="search_view">
+					<ui:param name="searchresult" value="#{viewHandler.getData(searchController)}"></ui:param>
+					<ui:param name="noresult"
+						value="#{(empty searchresult) and (empty searchController.searchFilter.item['phrase'])}">
+					</ui:param>
+					<ui:param name="searchresultCount" value="#{searchController.getTotalCount()}"></ui:param>
+					<ui:param name="searchPage"
+						value="#{(searchController.getPageIndex()+1)}/#{(searchController.getTotalPages()+1)}">
+					</ui:param>
+					<h:panelGroup rendered="#{(!empty searchresult) }">
+						<!-- placeholder to ensure data is loaded immediately - do not remove -->
+					</h:panelGroup>
 
 
 					<div class="imixs-header">
@@ -47,8 +53,6 @@
 							</ui:fragment>
 						</h1>
 					</div>
-
-
 
 					<div class="imixs-body">
 						<!-- *** Header **** -->
@@ -83,25 +87,32 @@
 											itemLabel="#{message['worklist.sortorder_relevance']}" />
 										<f:selectItem itemValue="3"
 											itemLabel="#{message['worklist.sortorder_lastupdate']}" />
+
 										<f:selectItem itemValue="1"
 											itemLabel="#{message['worklist.sortorder_newest']}" />
 										<f:selectItem itemValue="2"
 											itemLabel="#{message['worklist.sortorder_oldest']}" />
+
+
 										<f:ajax event="change" render="@form"
 											listener="#{searchController.refreshSearch}"
 											onevent="imixsOfficeMain.layoutAjaxEvent" />
 									</h:selectOneMenu>
+									<span>
+										<h:outputText style="margin-left:7px;" value="#{searchPage}" />
+									</span>
 								</div>
+
 								<h:commandButton actionListener="#{viewHandler.back(searchController)}"
 									style="height: 31px;" disabled="#{searchController.pageIndex==0}"
 									value="◀◀  #{message.prev}">
-									<f:ajax render="serach_view"
+									<f:ajax render="search_view"
 										onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
 								</h:commandButton>
 								<h:commandButton actionListener="#{viewHandler.forward(searchController)}"
 									style="height: 31px;" disabled="#{searchController.endOfList}"
 									value="#{message.next}  ▶▶">
-									<f:ajax render="serach_view"
+									<f:ajax render="search_view"
 										onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
 								</h:commandButton>
 
@@ -111,9 +122,7 @@
 						</div>
 
 
-						<ui:param name="noresult"
-							value="#{(empty searchresult) and (empty searchController.searchFilter.item['phrase'])}">
-						</ui:param>
+
 
 						<ui:fragment rendered="#{!noresult}">
 							<h:panelGroup layout="block" id="worklist-body">
@@ -157,12 +166,12 @@
 								<div class="pull-right ">
 									<h:commandButton actionListener="#{viewHandler.back(searchController)}"
 										disabled="#{searchController.pageIndex==0}" value="◀◀  #{message.prev}">
-										<f:ajax render="serach_view"
+										<f:ajax render="search_view"
 											onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
 									</h:commandButton>
 									<h:commandButton actionListener="#{viewHandler.forward(searchController)}"
 										disabled="#{searchController.endOfList}" value="#{message.next}  ▶▶">
-										<f:ajax render="serach_view"
+										<f:ajax render="search_view"
 											onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
 									</h:commandButton>
 								</div>

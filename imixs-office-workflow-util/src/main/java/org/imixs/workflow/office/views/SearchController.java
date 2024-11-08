@@ -47,7 +47,6 @@ import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.engine.index.SchemaService;
 import org.imixs.workflow.exceptions.InvalidAccessException;
 import org.imixs.workflow.exceptions.ModelException;
-import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.data.ViewController;
 import org.imixs.workflow.faces.util.LoginController;
 import org.imixs.workflow.office.config.SetupController;
@@ -590,13 +589,4 @@ public class SearchController extends ViewController implements Serializable {
         return query;
     }
 
-    public long getCount() {
-        long result = 0;
-        try {
-            result = documentService.count(getQuery());
-        } catch (QueryException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
 }
