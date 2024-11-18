@@ -55,4 +55,21 @@ public class TestRegex {
 
 	}
 
+	/**
+	 * Teste regex patterns
+	 * 
+	 * @throws PluginException
+	 */
+	@Test
+	public void testSpaceRefFormControllerRegex() throws PluginException {
+
+		String _regex = "Imixs GmbH\\..*";
+		Pattern pattern = Pattern.compile(_regex);
+
+		// pattern.matcher(space.getItemValueString("name"))
+		Assert.assertFalse(pattern.matcher("Imixs GmbH").matches());
+		Assert.assertTrue(pattern.matcher("Imixs GmbH.London").matches());
+
+	}
+
 }
