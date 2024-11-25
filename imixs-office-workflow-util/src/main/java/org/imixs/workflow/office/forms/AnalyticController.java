@@ -114,15 +114,17 @@ public class AnalyticController implements Serializable {
 	}
 
 	/**
-	 * Computes am analytic value. The method cache the value in the item
-	 * 'analytic.KEY' to avoid feierring repeated AnalyticEvents.
+	 * Computes an analytic value. The method cache the value in the
+	 * item key.
+	 * 
+	 * An observer controller is responsible to cache or reset the cached values if
+	 * needed.
 	 * 
 	 * @param key
 	 * @return
 	 */
 	protected ItemCollection computeValue(String key) {
 		if (workflowController.getWorkitem() != null) {
-
 			logger.fine("fire analytic event for key '" + key + "'");
 			// Fire the Analytics Event for this key
 			AnalyticEvent event = new AnalyticEvent(key, workflowController.getWorkitem());
@@ -134,21 +136,10 @@ public class AnalyticController implements Serializable {
 					details.setItemValue("label", event.getLabel());
 					details.setItemValue("description", event.getDescription());
 					details.setItemValue("link", event.getLink());
+					// cache result
 					implodeDetails(key, details);
 				}
 			}
-
-			// try loading from cache
-			ItemCollection details = explodeDetails(key);
-			if (details == null) {
-				// set dummy value
-				details = new ItemCollection();
-				details.setItemValue("value", "");
-				details.setItemValue("label", "");
-				details.setItemValue("description", "No data available");
-				implodeDetails(key, details);
-			}
-
 		}
 
 		// analytic value is now already cached!
@@ -180,7 +171,12 @@ public class AnalyticController implements Serializable {
 			return itemCol;
 		}
 		// return empty collection
-		return new ItemCollection();
+		ItemCollection dummy = new ItemCollection();
+		dummy.setItemValue("value", "");
+		dummy.setItemValue("label", "");
+		dummy.setItemValue("description", "No data available");
+
+		return dummy;
 	}
 
 }
