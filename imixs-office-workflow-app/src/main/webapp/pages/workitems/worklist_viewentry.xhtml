@@ -35,7 +35,7 @@
 			<h:outputText value=" (#{workitem.item['process.name']})" />
 			<br />
 			<h:panelGroup layout="block" style=""
-				rendered="#{workitem.item['$workflowabstract'].contains('imixs-view-details')}">
+				rendered="#{workitem.item['$workflowabstract'].toString().contains('imixs-view-details')}">
 				<h:outputText escape="false" value="#{workitem.item['$workflowabstract']}" />
 			</h:panelGroup>
 		</div>
