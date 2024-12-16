@@ -70,7 +70,7 @@ public class WorkitemLinkController implements Serializable {
 
     public static final String LINK_PROPERTY = "$workitemref";
     public static final String LINK_PROPERTY_DEPRECATED = "txtworkitemref";
-    public static final int MAX_SEARCH_RESULT = 20;
+    public static final int MAX_SEARCH_RESULT = 1000;
     public static Logger logger = Logger.getLogger(WorkitemLinkController.class.getName());
 
     // search and lookups
