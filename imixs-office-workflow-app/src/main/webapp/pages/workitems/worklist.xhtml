@@ -83,19 +83,17 @@
 										value="#{message['worklist.sortorder']}: " />
 									<h:selectOneMenu style="background:#fff;"
 										value="#{searchController.searchFilter.item['sortorder']}">
-										<f:selectItem itemValue=""
+										<f:selectItem itemValue="0"
 											itemLabel="#{message['worklist.sortorder_relevance']}" />
 										<f:selectItem itemValue="3"
 											itemLabel="#{message['worklist.sortorder_lastupdate']}" />
-
 										<f:selectItem itemValue="1"
 											itemLabel="#{message['worklist.sortorder_newest']}" />
 										<f:selectItem itemValue="2"
 											itemLabel="#{message['worklist.sortorder_oldest']}" />
 
-
 										<f:ajax event="change" render="@form"
-											listener="#{searchController.refreshSearch}"
+											listener="#{viewHandler.init()}"
 											onevent="imixsOfficeMain.layoutAjaxEvent" />
 									</h:selectOneMenu>
 									<span>

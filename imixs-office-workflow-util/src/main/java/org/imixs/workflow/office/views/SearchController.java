@@ -290,10 +290,18 @@ public class SearchController extends ViewController implements Serializable {
     public void reset() {
         defaultQuery = null;
         title = null;
+
+        String processref = "";
+        if (searchFilter != null) {
+            // restore the old processref
+            processref = searchFilter.getItemValueString("processref");
+        }
+
         searchFilter = new ItemCollection();
         searchFilter.replaceItemValue("type", "workitem");
         // set default user mode
         searchFilter.replaceItemValue("usermode", "owner");
+        searchFilter.replaceItemValue("processref", processref);
         this.setPageIndex(0);
         super.reset();
     }
@@ -329,6 +337,7 @@ public class SearchController extends ViewController implements Serializable {
      */
     public String refreshSearch() {
         String phrase = searchFilter.getItemValueString("phrase");
+        String processref = searchFilter.getItemValueString("processref");
 
         try {
             phrase = URLEncoder.encode(phrase, "UTF-8");
@@ -337,6 +346,9 @@ public class SearchController extends ViewController implements Serializable {
             e.printStackTrace();
         }
         String action = "/pages/workitems/worklist.xhtml?faces-redirect=true&phrase=" + phrase;
+        if (!processref.isEmpty()) {
+            action = action + "&processref=" + processref;
+        }
         this.setPageIndex(0);
         return action;
     }
