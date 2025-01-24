@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
-         version="6.0">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+	version="6.0">
 	<display-name>${imixs-office.applicationname}</display-name>
 	<welcome-file-list>
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
-	
+
 	<!--  -->
 	<context-param>
 		<param-name>jakarta.faces.STATE_SAVING_METHOD</param-name>
@@ -20,33 +20,32 @@
 			/WEB-INF/faces-config-custom.xml
 		</param-value>
 	</context-param>
-	
-	
-	
+
+
 	<!-- project stage is computed by the maven profile settings -->
 	<context-param>
 		<param-name>jakarta.faces.PROJECT_STAGE</param-name>
 		<param-value>${jakarta.faces.project_stage}</param-value>
 	</context-param>
-	
-	 <!-- Session Timeout 180 =  3h -->
-	<session-config> 
-		<session-timeout>60</session-timeout> 
-	</session-config> 	
 
-	
+	<!-- Session Timeout 180 =  3h -->
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+
+
 	<!-- Facelets -->
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
-		<load-on-startup>0</load-on-startup>		
+		<load-on-startup>0</load-on-startup>
 		<multipart-config>
-	      <location>/tmp</location>
-	      <!-- 20MB (20848820)  *2MB (2097152)-->
-	      <max-file-size>2097152</max-file-size>
-	      <!-- 400MB (418018841)  *20MB (20848820)-->
-	      <max-request-size>20848820</max-request-size>
-	      <file-size-threshold>1048576</file-size-threshold>
+			<location>/tmp</location>
+			<!-- 20MB (20848820)  *2MB (2097152)-->
+			<max-file-size>2097152</max-file-size>
+			<!-- 400MB (418018841)  *20MB (20848820)-->
+			<max-request-size>20848820</max-request-size>
+			<file-size-threshold>1048576</file-size-threshold>
 		</multipart-config>
 	</servlet>
 	<servlet-mapping>
@@ -57,8 +56,8 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
-	
-	
+
+
 	<!-- Error handling -->
 	<error-page>
 		<error-code>401</error-code>
@@ -66,8 +65,8 @@
 	</error-page>
 	<error-page>
 		<error-code>403</error-code>
-		<location>/authorizationerror.jsf</location>
-	</error-page>	
+		<location>/authorizationerror.html</location>
+	</error-page>
 	<error-page>
 		<error-code>404</error-code>
 		<location>/error.jsf</location>
@@ -79,15 +78,15 @@
 
 
 	<!-- Login Modul - Form-Login  -->
-	 <login-config> 
-	 	<auth-method>FORM</auth-method> 
-		<realm-name>${imixs-office.realm}</realm-name> 
-		<form-login-config> 
-			<form-login-page>/login.jsf</form-login-page> 
-			<form-error-page>/loginerror.jsf</form-error-page> 
-		</form-login-config> 
-	</login-config> 
-	
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<realm-name>${imixs-office.realm}</realm-name>
+		<form-login-config>
+			<form-login-page>/login.jsf</form-login-page>
+			<form-error-page>/loginerror.jsf</form-error-page>
+		</form-login-config>
+	</login-config>
+
 
 	<!-- Security Roles -->
 	<security-constraint>
@@ -113,14 +112,14 @@
 		</auth-constraint>
 	</security-constraint>
 	<security-constraint>
-        <web-resource-collection>
-            <web-resource-name>AUTHENTICATED_ADMIN_RESOURCE</web-resource-name>
-            <url-pattern>/pages/admin/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>org.imixs.ACCESSLEVEL.MANAGERACCESS</role-name>
-        </auth-constraint>
-    </security-constraint>
+		<web-resource-collection>
+			<web-resource-name>AUTHENTICATED_ADMIN_RESOURCE</web-resource-name>
+			<url-pattern>/pages/admin/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>org.imixs.ACCESSLEVEL.MANAGERACCESS</role-name>
+		</auth-constraint>
+	</security-constraint>
 	<security-role>
 		<role-name>org.imixs.ACCESSLEVEL.NOACCESS</role-name>
 	</security-role>

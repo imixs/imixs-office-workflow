@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authorization Error</title>
+
+	<link rel="shortcut icon" type="image/x-icon" href="/layout/favicon.ico" />
+
+	<!-- imixs-responsive css -->
+	<link href="/layout/css/imixs-basic.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+	<link href="/layout/css/imixs-layout.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+	<!--  font icons -->
+	<link href="/layout/css/fonts/open_sans.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+	<link href="/layout/css/fonts/typicons.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+	<!-- imixs-office-workflow css -->
+	<link href="/marty/imixs-marty.css?build=#{app.application_build_timestamp}" charset="UTF-8"
+		type="text/css" rel="stylesheet" />
+	<link href="/layout/css/office-theme.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+	<!-- custom css -->
+	<link href="/layout/css/custom.css?build=#{app.application_build_timestamp}" charset="UTF-8"
+		type="text/css" rel="stylesheet" />
+
+</head>
+<body>
+    <!-- SystemSetupStatus=#{initController.initStatus} -->
+    <div id="imixs-app">
+        <div id="imixs-header" class="imixs-servicenav">
+        	<!-- Branding -->
+			<div class="toolbar branding">
+					<span>Imixs-Office-Workflow</span>
+			</div>
+        </div>
+
+        <!-- content -->
+        <div id="imixs-content">
+            <div id="imixs-branding" class="imixs-header-branding">
+                <div id="imixs-branding-text">Imixs-Office-Workflow</div>
+            </div>
+
+            <div id="imixs-main" >
+                <div class="imixs-form">
+                    <div class="imixs-header">
+                        <h1>Authorization Error</h1>
+                    </div>
+                    <div class="imixs-body">
+                        <p>You are not authorized to access this application. Please contact your system administrator.</p> 
+                        <form action="/logout.jsf" method="POST">
+                            <input type="submit" name="logoutform" value="Logout" class="ui-button ui-corner-all ui-widget" style="color:#fff;border-radius:0;" />
+                        </form>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body> 
+</html>
