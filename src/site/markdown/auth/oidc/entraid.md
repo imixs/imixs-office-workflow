@@ -23,13 +23,49 @@ This will build a version including the library `imixs-office-workflow-oidc-*.ja
 
 The configuration of the OpenID Provider Endpoint and the client secret can be done by setting the following environment variables in your Docker image:
 
-```
-      OIDCCONFIG_ISSUERURI: "https://login.microsoftonline.com/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/v2.0"
-      OIDCCONFIG_CLIENTID: "<YOUR-MICROSOFT-CLIENTID>"
-      OIDCCONFIG_CLIENTSECRET: "<YOUR-CLIENT-SCRET>"
+| Environment Param       | Description                                           |
+| ----------------------- | ----------------------------------------------------- |
+| OIDCCONFIG_ISSUERURI    | endpoint for identity provider                        |
+| OIDCCONFIG_CLIENTID     | OIDC Client ID                                        |
+| OIDCCONFIG_CLIENTSECRET | Client secret                                         |
+| OIDCCONFIG_REDIRECTURI  | Redirect URI - application address with /callback uri |
+
+Note that the Imixs OIDC module provides a redirect servlet with the endpoint `/callback` this is the endpoint typically used by the identity provider as the callback uri.
+The client id and secret information needed here is from the Microsoft System.
+
+## Wildfly - Disable JASPIC
+
+One tricky point is that by default the elytron subsystem enforces the logged user to be in the default other domain (by default application users are placed in the application-users.properties file in wildfly). The integrated-jaspi option can be set to `false` to avoid that.
+
+**Note:** The default Docker Image form Imixs-Office-Workflow already have deactivated this option, so no changes are necessary in most cases.
+
+If you want to set this option manually, this can be done by either editing the standalone.xml file:
+
+```xml
+ ....
+ .........
+        <subsystem xmlns="urn:jboss:domain:undertow:13.0" default-server="default-server" default-virtual-host="default-host" default-servlet-container="default" default-security-domain="other" statistics-enabled="${wildfly.undertow.statistics-enabled:${wildfly.statistics-enabled:false}}">
+           .......
+           .............
+            <application-security-domains>
+                <!-- Disable integrated jaspic -->
+                <application-security-domain name="other" security-domain="ApplicationDomain" integrated-jaspi="false"/>
+            </application-security-domains>
+        </subsystem>
+    .....
 ```
 
-The data needed here is from the Microsoft System.
+or with the cli-commandline tool:
+
+    $ ./jboss-cli.sh --connect --controller=remote+http://localhost:9990
+    $ /subsystem=undertow/application-security-domain=other:write-attribute(name=integrated-jaspi, value=false)
+    $ relaod
+
+### HTTPS
+
+Make sure you are using HTTPS Listener in Wildfly (Port 8443) instead of the HTTP listener (Port 8080). The OpenID Provider typically did not accept a different protocol during the verification procedure. The HTTPS listener is enabled in Wildfly by default.
+
+You can set the correct redirect URL with the environment parameter `OIDCCONFIG_REDIRECTURI`
 
 ## Connect Imixs-Office-Workflow to Microsoft Entra ID
 
