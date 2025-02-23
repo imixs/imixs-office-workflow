@@ -150,7 +150,7 @@ public class CustomFormController implements Serializable {
                 // find the root tag
                 org.w3c.dom.Element rootElement = doc.getDocumentElement();
 
-                // find imixs-subforms - this tag is optional.
+                // find imixs-subform - this tag is optional.
                 // if we have subforms we parse each subform tag for form-section tags
                 NodeList nSubformList = rootElement.getElementsByTagName("imixs-subform");
                 if (nSubformList != null && nSubformList.getLength() > 0) {
