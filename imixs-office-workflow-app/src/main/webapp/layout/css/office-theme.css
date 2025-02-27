@@ -457,10 +457,50 @@ dl dt input[type="text"]:hover {
 }
 
 /* --- Imixs-Form --------------------------- */
+
+.imixs-workitem {
+	display: flex;
+	flex-direction: row;
+	min-height: 100vh;
+}
+
+.imixs-workitem-form {
+	flex-basis: 0;
+	flex-grow: 1;
+	min-width: 500px;
+}
+
+.imixs-workitem-form .imixs-form {
+	padding-right: 20px;
+}
+
+.imixs-workitem-form .imixs-form,
+.imixs-workitem-form .imixs-document {
+	width: 100%;
+	border-right: 1px solid #e0e4e7;
+}
+
 .imixs-workitem .imixs-form-plane {
 	display: flex;
 	height: 100%;
 }
+
+.imixs-workitem-form .imixs-document {
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+.imixs-workitem-form .imixs-document h1 {
+	font-size: 1.8em;
+	margin-bottom: 0.3em;
+}
+
+
+
+
+
+
+
 
 .imixs-form .imixs-header {
 	padding: 0px 10px 10px 10px;
@@ -1819,6 +1859,21 @@ input:disabled.imixs-date {
 	.imixs-view {
 		font-size: 1.1em;
 	}
+	.imixs-header h1,
+	.imixs-form h1,
+	.imixs-footer h1 {
+		font-size: 1.5em;
+	}
+	.imixs-header h2,
+	.imixs-form h2,
+	.imixs-footer h2 {
+		font-size: 1.3em;
+	 }
+	.imixs-header h3,
+	.imixs-form h3,
+	.imixs-footer h3 {
+		font-size: 1.2em;
+	}	
 
 	.imixs-footer .imixs-delete-action,
 	.imixs-footer .imixs-workflow-action,
@@ -1871,6 +1926,22 @@ input:disabled.imixs-date {
 		font-size: 1.2em;
 	}
 
+	.imixs-header h1,
+	.imixs-form h1,
+	.imixs-footer h1 {
+		font-size: 1.5em;
+	}
+	.imixs-header h2,
+	.imixs-form h2,
+	.imixs-footer h2 {
+		font-size: 1.3em;
+	 }
+	.imixs-header h3,
+	.imixs-form h3,
+	.imixs-footer h3 {
+		font-size: 1.2em;
+	}
+
 	.imixs-footer .imixs-delete-action,
 	.imixs-footer .imixs-workflow-action,
 	.imixs-footer .imixs-close-action,
@@ -1887,7 +1958,24 @@ input:disabled.imixs-date {
 		padding-left: 0px;
 	}
 
+ 
+    .imixs-workitem-form {        
+        min-width: inherit; 
+      }
+
+    .imixs-workitem-form .imixs-form, .imixs-workitem-form .imixs-document {
+        border: none;
+        padding-right: 0px;
+    }
+
+    .imixs-form-section-flex dl {
+        grid-column: span 12 !important; 
+    }
+
 }
+
+
+
 
 @media screen and (max-width: 548px) {
 	#imixs-servicenav .toolbar {
@@ -1907,9 +1995,21 @@ input:disabled.imixs-date {
 	}
 
 	.imixs-header h1,
+	.imixs-form h1,
 	.imixs-footer h1 {
-		font-size: 1.7em;
+		font-size: 1.5em;
 	}
+	.imixs-header h2,
+	.imixs-form h2,
+	.imixs-footer h2 {
+		font-size: 1.3em;
+	 }
+	.imixs-header h3,
+	.imixs-form h3,
+	.imixs-footer h3 {
+		font-size: 1.2em;
+	}
+
 
 	#imixs-header .toolbar.search {
 		margin-left: 0px;
