@@ -2,12 +2,12 @@
 <!-- origin at X=0.0 Y=0.0 --><bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:imixs="http://www.imixs.org/bpmn2" xmlns:open-bpmn="http://open-bpmn.org/XMLSchema" xmlns:tl="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.5.4.RC1-v20220528-0836-B1" id="Definitions_1" targetNamespace="http://www.imixs.org/bpmn2">
   <bpmn2:extensionElements>
     <imixs:item name="txtworkflowmodelversion" type="xs:string">
-      <imixs:value><![CDATA[system-de-1.3]]></imixs:value>
+      <imixs:value><![CDATA[system-en-1.3]]></imixs:value>
     </imixs:item>
     <imixs:item name="txtfieldmapping" type="xs:string">
-      <imixs:value><![CDATA[Creator|namCreator]]></imixs:value>
-      <imixs:value><![CDATA[CurrentEditor|namCurrentEditor]]></imixs:value>
-      <imixs:value><![CDATA[ProjectOwner|namOwner]]></imixs:value>
+      <imixs:value><![CDATA[Creator|$Creator]]></imixs:value>
+      <imixs:value><![CDATA[CurrentEditor|$Editor]]></imixs:value>
+      <imixs:value><![CDATA[ProjectOwner|$Owner]]></imixs:value>
       <imixs:value><![CDATA[ProjectTeam|namTeam]]></imixs:value>
       <imixs:value><![CDATA[Manager|nammanager]]></imixs:value>
       <imixs:value><![CDATA[Assistenz|namassist]]></imixs:value>
@@ -27,18 +27,18 @@
     <open-bpmn:auto-align>true</open-bpmn:auto-align>
   </bpmn2:extensionElements>
   <bpmn2:collaboration id="Collaboration_1" name="System Modell">
-    <bpmn2:participant id="Participant_1" name="Profil" processRef="Process_1">
+    <bpmn2:participant id="Participant_1" name="Profile" processRef="Process_1">
       <bpmn2:documentation id="documentation_0AUnCQ"/>
     </bpmn2:participant>
-    <bpmn2:participant id="Participant_2" name="Prozess" processRef="Process_2">
+    <bpmn2:participant id="Participant_2" name="Process" processRef="Process_2">
       <bpmn2:documentation id="documentation_bEmPBg"/>
     </bpmn2:participant>
-    <bpmn2:participant id="Participant_3" name="Organisationseinheit" processRef="Process_3">
+    <bpmn2:participant id="Participant_3" name="Area" processRef="Process_3">
       <bpmn2:documentation id="documentation_kJKMpw"/>
     </bpmn2:participant>
     <bpmn2:participant id="participant_4rqsOQ" name="Default Process" processRef="process_ZHawig"/>
   </bpmn2:collaboration>
-  <bpmn2:process definitionalCollaborationRef="Collaboration_1" id="Process_1" isExecutable="false" name="Profil" processType="Private">
+  <bpmn2:process definitionalCollaborationRef="Collaboration_1" id="Process_1" isExecutable="false" name="Profile" processType="Private">
     <bpmn2:startEvent id="StartEvent_6" name="Start">
       <bpmn2:outgoing>SequenceFlow_16</bpmn2:outgoing>
       <bpmn2:documentation id="documentation_Ngc9hA"/>
@@ -54,7 +54,7 @@
       <bpmn2:outgoing>SequenceFlow_25</bpmn2:outgoing>
       <bpmn2:documentation id="documentation_2mwtqg"/>
     </bpmn2:task>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_3" imixs:activityid="10" name="Speichern">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_3" imixs:activityid="10" name="Save">
       <bpmn2:extensionElements>
         <imixs:item name="keylogtimeformat" type="xs:string">
           <imixs:value><![CDATA[-1]]></imixs:value>
@@ -79,7 +79,6 @@
         </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
           <imixs:value><![CDATA[txtName]]></imixs:value>
-          <imixs:value><![CDATA[namCreator]]></imixs:value>
         </imixs:item>
         <imixs:item name="numnextactivityid" type="xs:int">
           <imixs:value><![CDATA[0]]></imixs:value>
@@ -125,7 +124,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
       <bpmn2:documentation id="documentation_voD05g"/>
     </bpmn2:intermediateCatchEvent>
-    <bpmn2:task id="Task_4" imixs:processid="210" name="Aktiv">
+    <bpmn2:task id="Task_4" imixs:processid="210" name="Aktive">
       <bpmn2:extensionElements>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
@@ -191,7 +190,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
           <imixs:value><![CDATA[1]]></imixs:value>
         </imixs:item>
         <imixs:item name="rtfresultlog" type="xs:string">
-          <imixs:value><![CDATA[Benutzerprofile gesperrt durch <username>namcurrentEditor</username>]]></imixs:value>
+          <imixs:value><![CDATA[Profile locked]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>false</imixs:value>
@@ -202,7 +201,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:outgoing>SequenceFlow_23</bpmn2:outgoing>
       <bpmn2:documentation id="documentation_HdXDBg"/>
     </bpmn2:intermediateCatchEvent>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_5" imixs:activityid="20" name="Profile aktivieren">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_5" imixs:activityid="20" name="Activate Profile">
       <bpmn2:extensionElements>
         <imixs:item name="keylogtimeformat" type="xs:string">
           <imixs:value><![CDATA[2]]></imixs:value>
@@ -226,7 +225,6 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
           <imixs:value><![CDATA[0]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namCreator]]></imixs:value>
           <imixs:value><![CDATA[txtName]]></imixs:value>
         </imixs:item>
         <imixs:item name="numnextactivityid" type="xs:int">
@@ -254,7 +252,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
           <imixs:value><![CDATA[0]]></imixs:value>
         </imixs:item>
         <imixs:item name="rtfresultlog" type="xs:string">
-          <imixs:value><![CDATA[Benutzerprofile aktiviert durch <username>namcurrentEditor</username>]]></imixs:value>
+          <imixs:value><![CDATA[Profile activated]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>false</imixs:value>
@@ -264,7 +262,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:outgoing>SequenceFlow_36</bpmn2:outgoing>
       <bpmn2:documentation id="documentation_oPKrOg"/>
     </bpmn2:intermediateCatchEvent>
-    <bpmn2:task id="Task_5" imixs:processid="200" name="Neu">
+    <bpmn2:task id="Task_5" imixs:processid="200" name="New">
       <bpmn2:extensionElements>
         <imixs:item name="txttype" type="xs:string">
           <imixs:value><![CDATA[profile]]></imixs:value>
@@ -302,7 +300,6 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
           <imixs:value><![CDATA[0]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyaddwritefields" type="xs:string">
-          <imixs:value><![CDATA[namCreator]]></imixs:value>
           <imixs:value><![CDATA[txtName]]></imixs:value>
         </imixs:item>
         <imixs:item name="numnextactivityid" type="xs:int">
@@ -330,7 +327,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
           <imixs:value><![CDATA[0]]></imixs:value>
         </imixs:item>
         <imixs:item name="rtfresultlog" type="xs:string">
-          <imixs:value><![CDATA[Profil wurde erzeugt]]></imixs:value>
+          <imixs:value><![CDATA[Profile created]]></imixs:value>
         </imixs:item>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>false</imixs:value>
@@ -374,8 +371,8 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
     <bpmn2:sequenceFlow id="SequenceFlow_11" sourceRef="EventBasedGateway_1" targetRef="IntermediateCatchEvent_3">
       <bpmn2:documentation id="documentation_m0Mb4A"/>
     </bpmn2:sequenceFlow>
-    <bpmn2:task id="Task_8" imixs:processid="220" name="Passwort Erinnerung">
-      <bpmn2:documentation id="Documentation_6"><![CDATA[Bitte ändern Sie Ihr Passwort]]></bpmn2:documentation>
+    <bpmn2:task id="Task_8" imixs:processid="220" name="Password reminder">
+      <bpmn2:documentation id="Documentation_6"><![CDATA[Please change your password]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_27</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_30</bpmn2:outgoing>
       <bpmn2:outgoing>SequenceFlow_33</bpmn2:outgoing>
@@ -471,8 +468,8 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:documentation id="documentation_xa6DuQ"/>
     </bpmn2:association>
   </bpmn2:process>
-  <bpmn2:process definitionalCollaborationRef="Collaboration_1" id="Process_2" isExecutable="false" name="Prozess" processType="Private">
-    <bpmn2:task id="Task_1" imixs:processid="300" name="Aktiv (Eingeschränkt)">
+  <bpmn2:process definitionalCollaborationRef="Collaboration_1" id="Process_2" isExecutable="false" name="Process" processType="Private">
+    <bpmn2:task id="Task_1" imixs:processid="300" name="Aktive (Restricted)">
       <bpmn2:extensionElements>
         <imixs:item name="txttype" type="xs:string">
           <imixs:value><![CDATA[process]]></imixs:value>
@@ -491,7 +488,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:incoming>sequenceFlow_8XBE8w</bpmn2:incoming>
       <bpmn2:incoming>sequenceFlow_bi6JLA</bpmn2:incoming>
     </bpmn2:task>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_1" imixs:activityid="10" name="Speichern">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_1" imixs:activityid="10" name="Save">
       <bpmn2:extensionElements>
         <imixs:item name="txtnextprocesstree" type="xs:string">
           <imixs:value/>
@@ -561,7 +558,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:documentation id="documentation_i1xmSg"/>
       <bpmn2:incoming>sequenceFlow_1foKEw</bpmn2:incoming>
     </bpmn2:task>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_9" imixs:activityid="30" name="Wiederherstellen">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_9" imixs:activityid="30" name="Restore">
       <bpmn2:extensionElements>
         <imixs:item name="txtnextprocesstree" type="xs:string">
           <imixs:value/>
@@ -608,7 +605,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
     <bpmn2:sequenceFlow id="SequenceFlow_18" sourceRef="Task_6" targetRef="IntermediateCatchEvent_9">
       <bpmn2:documentation id="documentation_QJFaGw"/>
     </bpmn2:sequenceFlow>
-    <bpmn2:task id="Task_10" imixs:processid="301" name="Aktiv (Öffentlich)">
+    <bpmn2:task id="Task_10" imixs:processid="301" name="Aktive (Public)">
       <bpmn2:extensionElements>
         <imixs:item name="txttype" type="xs:string">
           <imixs:value><![CDATA[process]]></imixs:value>
@@ -627,7 +624,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:outgoing>sequenceFlow_vS37bQ</bpmn2:outgoing>
       <bpmn2:incoming>SequenceFlow_45</bpmn2:incoming>
     </bpmn2:task>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_14" imixs:activityid="12" name="Öffentlich">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_14" imixs:activityid="12" name="Public">
       <bpmn2:extensionElements>
         <imixs:item name="txtnextprocesstree" type="xs:string">
           <imixs:value/>
@@ -663,11 +660,11 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
           <imixs:value><![CDATA[<item name="action">/pages/admin/organisation</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_10"><![CDATA[Sichtbar für alle Bentuzer]]></bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_10"><![CDATA[Visible for all users]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_44</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_45</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_15" imixs:activityid="11" name="Beschränken">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_15" imixs:activityid="11" name="Restrict">
       <bpmn2:extensionElements>
         <imixs:item name="txtnextprocesstree" type="xs:string">
           <imixs:value/>
@@ -703,7 +700,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
           <imixs:value><![CDATA[<item name="action">/pages/admin/organisation</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_17"><![CDATA[Nur für Teammitglieder sichtbar]]></bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_17"><![CDATA[Only visilble for team members]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_46</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_47</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
@@ -719,7 +716,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
     <bpmn2:sequenceFlow id="SequenceFlow_47" sourceRef="IntermediateCatchEvent_15" targetRef="Task_1">
       <bpmn2:documentation id="documentation_tqyQHQ"/>
     </bpmn2:sequenceFlow>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_16" imixs:activityid="10" name="Speichern">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_16" imixs:activityid="10" name="Save">
       <bpmn2:extensionElements>
         <imixs:item name="txtnextprocesstree" type="xs:string">
           <imixs:value/>
@@ -778,7 +775,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:documentation id="documentation_Szm3UQ"/>
       <bpmn2:outgoing>sequenceFlow_o5DkGg</bpmn2:outgoing>
     </bpmn2:task>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_17" imixs:activityid="80" name="Archivieren">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_17" imixs:activityid="80" name="Archive">
       <bpmn2:extensionElements>
         <imixs:item name="txtnextprocesstree" type="xs:string">
           <imixs:value/>
@@ -815,7 +812,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
           <imixs:value><![CDATA[<item name="action">/pages/admin/organisation</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_13"><![CDATA[Daten löschen]]></bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_13"><![CDATA[Archive]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_29</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_37</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_32</bpmn2:outgoing>
@@ -937,7 +934,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:documentation id="documentation_Fw8t0A"/>
     </bpmn2:sequenceFlow>
   </bpmn2:process>
-  <bpmn2:process definitionalCollaborationRef="Collaboration_1" id="Process_3" isExecutable="false" name="Organisationseinheit" processType="Private">
+  <bpmn2:process definitionalCollaborationRef="Collaboration_1" id="Process_3" isExecutable="false" name="Area" processType="Private">
     <bpmn2:task id="Task_2" imixs:processid="100" name="Aktiv">
       <bpmn2:extensionElements>
         <imixs:item name="keyupdateacl" type="xs:boolean">
@@ -956,7 +953,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:documentation id="documentation_It0E3g"/>
       <bpmn2:incoming>sequenceFlow_EAoxKQ</bpmn2:incoming>
     </bpmn2:task>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_2" imixs:activityid="10" name="Speichern">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_2" imixs:activityid="10" name="Save">
       <bpmn2:extensionElements>
         <imixs:item name="keyarchive" type="xs:string">
           <imixs:value><![CDATA[0]]></imixs:value>
@@ -998,7 +995,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
           <imixs:value><![CDATA[<item name="action">/pages/admin/organisation</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_14">Daten speichern und aktualisieren</bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_14"/>
       <bpmn2:outgoing>SequenceFlow_5</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
     <bpmn2:startEvent id="StartEvent_5" name="Start">
@@ -1035,7 +1032,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:outgoing>SequenceFlow_21</bpmn2:outgoing>
       <bpmn2:documentation id="documentation_40RB5w"/>
     </bpmn2:task>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_8" imixs:activityid="90" name="Löschen">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_8" imixs:activityid="90" name="Delete">
       <bpmn2:extensionElements>
         <imixs:item name="txtnextprocesstree" type="xs:string">
           <imixs:value/>
@@ -1074,7 +1071,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
           <imixs:value><![CDATA[<item name="action">/pages/admin/organisation</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_9"><![CDATA[Daten löschen]]></bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_9"><![CDATA[Delete data]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_10</bpmn2:incoming>
       <bpmn2:incoming>SequenceFlow_26</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_15</bpmn2:outgoing>
@@ -1085,7 +1082,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
     <bpmn2:sequenceFlow id="SequenceFlow_15" sourceRef="IntermediateCatchEvent_8" targetRef="Task_7">
       <bpmn2:documentation id="documentation_WyGZPg"/>
     </bpmn2:sequenceFlow>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_10" imixs:activityid="30" name="Wiederherstellen">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_10" imixs:activityid="30" name="Restore">
       <bpmn2:extensionElements>
         <imixs:item name="txtnextprocesstree" type="xs:string">
           <imixs:value/>
@@ -1150,7 +1147,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:outgoing>SequenceFlow_28</bpmn2:outgoing>
       <bpmn2:documentation id="documentation_mSxLGw"/>
     </bpmn2:task>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_13" imixs:activityid="20" name="Archivieren">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_13" imixs:activityid="20" name="Archive">
       <bpmn2:extensionElements>
         <imixs:item name="txtnextprocesstree" type="xs:string">
           <imixs:value/>
@@ -1187,7 +1184,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
           <imixs:value><![CDATA[<item name="action">/pages/admin/organisation</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
-      <bpmn2:documentation id="Documentation_11"><![CDATA[Daten löschen]]></bpmn2:documentation>
+      <bpmn2:documentation id="Documentation_11"/>
       <bpmn2:incoming>SequenceFlow_9</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_12</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
@@ -1478,8 +1475,8 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="SequenceFlow_10" id="BPMNEdge_SequenceFlow_10" sourceElement="BPMNShape_rnbh4g" targetElement="BPMNShape_IntermediateCatchEvent_8">
         <bpmndi:BPMNLabel id="BPMNLabel_33"/>
-        <di:waypoint x="227.0" y="1432.0"/>
-        <di:waypoint x="227.0" y="1560.0"/>
+        <di:waypoint x="233.0" y="1438.0"/>
+        <di:waypoint x="233.0" y="1560.0"/>
         <di:waypoint x="815.0" y="1560.0"/>
         <di:waypoint x="815.0" y="1433.0"/>
       </bpmndi:BPMNEdge>
@@ -1679,9 +1676,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="sequenceFlow_o5DkGg" id="BPMNEdge_0XJiVg" sourceElement="BPMNShape_Task_11" targetElement="BPMNShape_zTz6GA">
-        <di:waypoint x="810.0" y="882.0"/>
-        <di:waypoint x="835.0" y="882.0"/>
-        <di:waypoint x="835.0" y="885.0"/>
+        <di:waypoint x="810.0" y="885.0"/>
         <di:waypoint x="867.0" y="885.0"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape bpmnElement="event_gs5Tew" id="BPMNShape_Lt4tag">
