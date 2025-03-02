@@ -3,6 +3,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
+
 	<div class="imixs-workitem-chronicle-actions imixs-form">
 		<ui:include src="/pages/workitems/workitem_footer.xhtml" />
 		<!-- Comment Input -->
@@ -15,6 +16,17 @@
 				<dd>
 					<h:inputTextarea value="#{workflowController.workitem.item['txtComment']}" />
 				</dd>
+
+				<dt>#{message.documents}</dt>
+				<dd>
+				<h:inputFile id="chroniclefileInput" value="#{officeFileUpload.files}" 
+					pt:multiple="true"
+					class="imixs-workitem-chronicle-fileinput"
+					onchange="imixsOfficeWorkitem.updateFileUploadTable()"/>
+				<label for="workitem_form:chroniclefileInput">Durchsuchen</label><span class="drop-area">oder Datei hierher ziehen</span>
+				<div class="imixs-workitem-chronicle-fileupload-table"></div>
+				</dd>
+
 			</dl>
 		</div>
 	</div>
@@ -26,11 +38,7 @@
 				<li class="active"><a href="#" onclick="imixsOfficeWorkitem.toggleChronicleHistory();return false;"
 						class="chronicle-tab-history"><span class="typcn typcn-rss"></span> #{message.history}</a></li>
 			</ui:fragment>
-			<li class="#{newWorkitem?'active':''}"><a href="#"
-					onclick="imixsOfficeWorkitem.toggleChronicleDocuments();return false;"
-					class="chronicle-tab-documents"><span class="typcn typcn-cloud-storage-outline"></span>
-					#{message.documents} <h:panelGroup
-						rendered="#{workflowController.workitem.item['$file.count'] gt 0}">*</h:panelGroup></a></li>
+			
 
 			<ui:fragment rendered="#{propertyController.getProperty('feature.imixs_ai')}">
 				<li class=""><a href="#" onclick="imixsOfficeWorkitem.toggleChronicleAI();return false;"
@@ -45,10 +53,7 @@
 		<div id="imixs-workitem-chronicle-tab-history" class="entries">
 			<ui:include src="/pages/workitems/workitem_chronicle_entries.xhtml" />
 		</div>
-		<div id="imixs-workitem-chronicle-tab-documents" class="documents imixs-no-print"
-			style="margin-top:10px;display:#{newWorkitem?'normal':'none'};">
-			<ui:include src="/pages/workitems/workitem_documents.xhtml" />
-		</div>
+		
 
 		<div id="imixs-workitem-chronicle-tab-ai" style="display:none;" class="documents imixs-no-print">
 			<ui:include src="/pages/workitems/workitem_ai.xhtml" />

@@ -83,6 +83,7 @@ public class DMSController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private List<ItemCollection> dmsList = null;
+
 	private String link = null;
 
 	private Map<String, List<ItemCollection>> dmsListCache = null;
@@ -276,6 +277,15 @@ public class DMSController implements Serializable {
 		// remove file from dms list
 		workflowController.getWorkitem().removeFile(aFile);
 		reset();
+
+	}
+
+	/**
+	 * Returns true if the given file name is no longer part of the worktiem
+	 * Used by the chronicle component
+	 **/
+	public boolean isRemoved(String file) {
+		return !workflowController.getWorkitem().getFileNames().contains(file);
 	}
 
 	/**

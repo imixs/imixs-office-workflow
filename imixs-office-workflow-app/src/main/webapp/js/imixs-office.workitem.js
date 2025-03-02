@@ -21,7 +21,7 @@ var workitemElement;
 var workitemFormElement;			// the chronical bar
 var workitemSliderElement;
 var workitemChronicleElement;
-
+let currentFileUploads = [];				// // Array to store selected files
 /**
  * Init Method for the workitem page
  * 
@@ -81,6 +81,8 @@ $(document).ready(function () {
 
 	// autoload first pdf into preview if available.... 
 	imixsOfficeWorkitem.autoPreviewPDF();
+
+	imixsOfficeWorkitem.initFileUploadDropArea();
 
 	imixsOfficeWorkitem.initSignaturePad();
 
@@ -174,6 +176,9 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 					}
 				});
 		},
+
+
+		
 
 		/*
 		 * This method initializes a signature pad if part of the form.
@@ -688,6 +693,138 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 				formattedIBAN += block + ' ';
 			}
 			inputElement.value = formattedIBAN.trim().toUpperCase(); // Entferne Leerzeichen am Ende
+		},
+
+		initFileUploadDropArea = function () {
+			const dropArea = document.querySelector('.drop-area');
+			const fileInput = document.querySelector('.imixs-workitem-chronicle-fileinput');
+			
+			// Prevent default drag behaviors
+			['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+			  dropArea.addEventListener(eventName, preventDefaults, false);
+			  document.body.addEventListener(eventName, preventDefaults, false);
+			});
+			
+			// Highlight drop area when item is dragged over it
+			['dragenter', 'dragover'].forEach(eventName => {
+			  dropArea.addEventListener(eventName, highlight, false);
+			});
+			
+			// Remove highlight when item leaves drop area
+			['dragleave', 'drop'].forEach(eventName => {
+			  dropArea.addEventListener(eventName, unhighlight, false);
+			});
+			
+			// Handle dropped files
+			dropArea.addEventListener('drop', handleDrop, false);
+			
+			function preventDefaults(e) {
+			  e.preventDefault();
+			  e.stopPropagation();
+			}
+			
+			function highlight() {
+			  dropArea.classList.add('highlight');
+			}
+			
+			function unhighlight() {
+			  dropArea.classList.remove('highlight');
+			}
+			
+			function handleDrop(e) {
+			  const dt = e.dataTransfer;
+			  const files = dt.files;
+			  fileInput.files = files;
+			  
+			  // Hier kannst du einen Event auslösen, falls nötig
+			  const event = new Event('change');
+			  fileInput.dispatchEvent(event);
+			  
+			}
+		},		
+		
+		updateFileUploadTable = function () {
+			var fileInput = document.getElementById('workitem_form:chroniclefileInput');
+			var fileTableContainer = document.getElementsByClassName('imixs-workitem-chronicle-fileupload-table')[0];
+			
+			// Clear previous table content
+			fileTableContainer.innerHTML = '';
+			
+			if (fileInput.files.length > 0) {
+				currentFileUploads=Array.from(fileInput.files);
+				// Create a table element
+				var table = document.createElement('table');
+				
+				// Create table header
+				var thead = document.createElement('thead');
+				var headerRow = document.createElement('tr');
+				var headers = ['Name', 'Größe', 'Typ', ' '];
+				
+				headers.forEach(function(headerText) {
+					var th = document.createElement('th');
+					th.textContent = headerText;
+					headerRow.appendChild(th);
+				});
+				
+				thead.appendChild(headerRow);
+				table.appendChild(thead);
+				
+				// Create table body
+				var tbody = document.createElement('tbody');
+				
+				currentFileUploads.forEach(function(file, index) {
+					
+					var row = document.createElement('tr');
+					
+					// Add file name
+					var nameCell = document.createElement('td');
+					nameCell.textContent = file.name;
+					row.appendChild(nameCell);
+					
+					// Add file size
+					var sizeCell = document.createElement('td');
+					sizeCell.textContent = file.size + ' bytes';
+					row.appendChild(sizeCell);
+					
+					// Add file type
+					var typeCell = document.createElement('td');
+					typeCell.textContent = file.type;
+					row.appendChild(typeCell);
+					
+					// Add remove button
+					// Add remove link
+					var actionCell = document.createElement('td');
+					var removeLink = document.createElement('a');
+					removeLink.textContent = '🗙';
+					removeLink.className = 'remove-link';
+					removeLink.onclick = function() {
+						imixsOfficeWorkitem.removeFile(index);
+					};
+					actionCell.appendChild(removeLink);
+					row.appendChild(actionCell);
+
+					tbody.appendChild(row);
+				});
+				
+				table.appendChild(tbody);
+				fileTableContainer.appendChild(table);
+			}
+		
+		},
+		removeFile = function (index) {
+			// var fileInput = document.getElementById('workitem_form:chroniclefileInput');
+			// var selectedFiles = Array.from(fileInput.files);
+			// Remove the file from the selectedFiles array
+			currentFileUploads.splice(index, 1);
+			
+			// Update the file input (optional, if you want to reflect changes in the input)
+			var fileInput = document.getElementById('workitem_form:chroniclefileInput');
+			var dataTransfer = new DataTransfer();
+			currentFileUploads.forEach(file => dataTransfer.items.add(file));
+			fileInput.files = dataTransfer.files;
+			
+			// Update the table
+			imixsOfficeWorkitem.updateFileUploadTable();
 		};
 
 
@@ -717,7 +854,9 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 		addWorkitemRef: addWorkitemRef,
 		deleteWorkitemRef: deleteWorkitemRef,
 		formatIBAN: formatIBAN,
-
+		initFileUploadDropArea: initFileUploadDropArea,
+		updateFileUploadTable: updateFileUploadTable,
+		removeFile: removeFile,
 		onFileUploadChange: onFileUploadChange
 	};
 

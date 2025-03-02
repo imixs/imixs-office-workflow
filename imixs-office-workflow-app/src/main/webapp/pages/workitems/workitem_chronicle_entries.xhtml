@@ -64,7 +64,8 @@
 
 
 	<!-- Main panel - shows entries filtered by optional category -->
-	<h:panelGroup id="chronicle-main" layout="block" style="">
+	<h:panelGroup id="chronicle-main" binding="#{chronicleListComponent}" layout="block" style="">
+		
 
 		<ui:fragment rendered="#{! empty workflowController.workitem.item['$lasteventdate']}">
 			<table class="imixs-workitem-chronicle-small">

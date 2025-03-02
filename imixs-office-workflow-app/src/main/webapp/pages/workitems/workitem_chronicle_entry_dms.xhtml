@@ -35,7 +35,7 @@
 			<h:panelGroup
 				rendered="#{!isURL}">
 				<h:outputText escape="false"
-					value="&lt;a target='_blank' class='attachmentlink'" />
+					value="&lt;a target='_blank' class='attachmentlink #{dmsController.isRemoved(attachment.item['txtName'])?'attachmentlink-removed':''}'" />
 				<h:outputText escape="false"
 					value=" href='#{facesContext.externalContext.requestContextPath}/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{attachment.item['name.encoded']}" />
 				<h:outputText escape="false"
@@ -52,14 +52,38 @@
 				</ui:fragment>	
 				
 				<!-- created/modified -->
-				<ui:fragment
-					rendered="#{(empty attachment.item['$modified'])}">
-					<h:outputLabel value=" (#{message.created})" />						
-				</ui:fragment>				
-				<ui:fragment
-					rendered="#{(!empty attachment.item['$modified'])}">
-					<h:outputLabel value=" (#{message.modified})" />									
-				</ui:fragment>
+				<h:panelGroup style="position: relative; display: inline-block;">
+					<!--   | fas fa-info-circle -->
+					<span class="typcn typcn-info-large  info-icon" />
+					<!-- Tooltip-DIV -->
+					<h:panelGroup styleClass="tooltip">
+							<ui:fragment rendered="#{(empty attachment.item['$modified'])}">
+								<strong>#{message.created}: </strong>
+								<h:outputText value="#{attachment.item['$created']}">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both" pattern="#{message.dateTimePatternShort}" />
+								</h:outputText>
+							</ui:fragment>				
+							<ui:fragment rendered="#{(!empty attachment.item['$modified'])}">
+								<strong>#{message.modified}: </strong>
+								<h:outputText value="#{attachment.item['$modified']}">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both" pattern="#{message.dateTimePatternShort}" />
+								</h:outputText>
+							</ui:fragment>
+							<br />
+							<strong>Size: </strong>#{dmsController.userFriendlyBytes(attachment.item['size'])}
+
+						</h:panelGroup>
+					</h:panelGroup>
+					<!-- remove feature -->
+					<f:ajax render=":#{chronicleListComponent.clientId}">
+						<h:commandLink
+							onclick="return confirm('#{message.help_delete}');"
+							styleClass="imixs-action-dms-remove" title="#{message.remove}"
+							actionListener="#{dmsController.removeFile(attachment.item['txtName'])}"
+							immediate="true">
+							<span class="typcn typcn-trash"></span>
+						</h:commandLink>
+					</f:ajax>
 			</h:panelGroup>
 			
 			<!-- URL link -->
