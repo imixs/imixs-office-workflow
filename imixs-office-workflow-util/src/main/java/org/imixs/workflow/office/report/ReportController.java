@@ -9,48 +9,57 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import jakarta.ejb.EJB;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
-import jakarta.xml.bind.JAXBException; 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.imixs.workflow.FileData;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.ReportService;
 import org.imixs.workflow.exceptions.ModelException;
+import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.faces.data.DocumentController;
+import org.imixs.workflow.faces.fileupload.FileUploadController;
 import org.imixs.workflow.xml.XMLDocumentAdapter;
 import org.xml.sax.SAXException;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ConversationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.xml.bind.JAXBException;
+
 @Named
-@SessionScoped
+@ConversationScoped
 public class ReportController implements Serializable {
 
 	private ItemCollection reportUploads;
 
-	@EJB
+	@Inject
 	protected ReportService reportService;
 
 	@Inject
 	DocumentController documentController;
+
+	@Inject
+	FileUploadController fileUploadController;
 
 	Map<String, String> params;
 
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(ReportController.class.getName());
 
-	public ReportController() {
-		super();
+	/**
+	 * PostConstruct event - init model uploads
+	 */
+	@PostConstruct
+	void init() {
 		reportUploads = new ItemCollection();
 	}
 
 	public void reset() {
-		params=null;
+		params = null;
 		reportUploads = new ItemCollection();
 	}
-	
+
 	public ItemCollection getReportUploads() {
 		return reportUploads;
 	}
@@ -67,7 +76,6 @@ public class ReportController implements Serializable {
 	public List<ItemCollection> getReports() {
 		return reportService.findAllReports();
 	}
-
 
 	public Map<String, String> getParams() {
 		logger.fine("parsing params...");
@@ -87,34 +95,34 @@ public class ReportController implements Serializable {
 					params.put(sKey, "");
 					i = j;
 				}
-				
+
 			}
 
 			// provide old param setting with ?
 			// parse query
 			i = 0;
-			boolean found=false;
+			boolean found = false;
 			while ((i = query.indexOf('?', i)) > -1) {
 				String sTest = query.substring(i + 1);
 				// cut next space or ' or " or ] or :
 				for (int j = 0; j < sTest.length(); j++) {
 					char c = sTest.charAt(j);
-					if (c == '\'' || c == '"' || c == ']' || c == ':' || c == ' '  || c == ')') {
+					if (c == '\'' || c == '"' || c == ']' || c == ':' || c == ' ' || c == ')') {
 						// cut here!
 						String sKey = query.substring(i + 1, i + j + 1);
 						logger.warning("...detected old report param format. Replace ?xxx with {xxx}");
 						params.put(sKey, "");
 						i++;
-						found=true;
+						found = true;
 						break;
 					}
-				} 
+				}
 				// we did not found a parameter end char!
 				if (!found) {
-				    logger.warning("...unable to parse report param format. Replace ?xxx with {xxx}");
-				    break;
+					logger.warning("...unable to parse report param format. Replace ?xxx with {xxx}");
+					break;
 				}
-				
+
 			}
 
 		}
@@ -135,6 +143,13 @@ public class ReportController implements Serializable {
 	 */
 	public void uploadReport() throws ModelException, ParseException, ParserConfigurationException, SAXException,
 			IOException, JAXBException {
+
+		try {
+			fileUploadController.attacheFiles(reportUploads);
+		} catch (PluginException e) {
+			e.printStackTrace();
+		}
+
 		List<FileData> fileList = getReportUploads().getFileData();
 
 		if (fileList == null) {

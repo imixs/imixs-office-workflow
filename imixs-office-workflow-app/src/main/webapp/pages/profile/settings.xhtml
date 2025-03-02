@@ -34,7 +34,7 @@
 			</script>
 
 
-			<h:form>
+			<h:form pt:autocomplete="on"  enctype="multipart/form-data">
 			
 				<!-- Marty User Search Integration -->
 				<marty:userSearch />
@@ -92,11 +92,7 @@
 										</h:selectOneMenu>
 									</dd>
 								</dl>
-
-
 							</div>
-
-
 
 
 							<!-- set new password -->
@@ -120,9 +116,7 @@
 											value="#{workflowController.workitem.item['txtpassword2']}" />
 									</dd>
 								</dl>
-
 							</h:panelGroup>
-
 						</div>
 
 						<!-- custom panel -->
@@ -132,10 +126,7 @@
 
 						<!-- User Icon -->
 						<div class="imixs-form-panel user-icon">
-
 							<h2>User Icon</h2>
-
-
 							<h:panelGroup layout="block" id="usericonpanel"
 								style="float: left; margin-right: 20px;">
 								<h:graphicImage styleClass="imixs-user-icon"
@@ -148,12 +139,7 @@
 
 								<i:imixsFileUpload id="file_upload_id"
 									labelButton="#{message['form.attachments.fileupload.button']}"
-									labelHelp="#{message['form.attachments.fileupload.help']}"
-									workitem="#{workflowController.workitem}"
-									context_url="#{facesContext.externalContext.requestContextPath}/api/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}"
-									hideattachments="true" />
-
-
+									labelHelp="#{message['form.attachments.fileupload.help']}"/>
 								<div style="clear: left;" />
 
 								<h:commandButton value="#{message.remove}"

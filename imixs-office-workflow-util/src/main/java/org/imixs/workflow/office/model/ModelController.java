@@ -50,13 +50,14 @@ import org.imixs.workflow.engine.WorkflowService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
+import org.imixs.workflow.faces.fileupload.FileUploadController;
 import org.openbpmn.bpmn.BPMNModel;
 import org.openbpmn.bpmn.exceptions.BPMNModelException;
 import org.openbpmn.bpmn.util.BPMNModelFactory;
 import org.xml.sax.SAXException;
 
-import jakarta.ejb.EJB;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ConversationScoped;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -75,21 +76,41 @@ import jakarta.inject.Named;
  * 
  */
 @Named
-@RequestScoped
+// @RequestScoped
+@ConversationScoped
 public class ModelController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(ModelController.class.getName());
+
+	protected ItemCollection modelUploads = null;
+	// @Inject
+	// protected ModelUploadHandler modelUploadHandler;
 
 	@Inject
-	protected ModelUploadHandler modelUploadHandler;
-
-	@EJB
 	protected ModelService modelService;
 
-	@EJB
+	@Inject
 	protected WorkflowService workflowService;
 
-	private static Logger logger = Logger.getLogger(ModelController.class.getName());
+	@Inject
+	FileUploadController fileUploadController;
+
+	/**
+	 * PostConstruct event - init model uploads
+	 */
+	@PostConstruct
+	void init() {
+		modelUploads = new ItemCollection();
+	}
+
+	public ItemCollection getModelUploads() {
+		return modelUploads;
+	}
+
+	public void setModelUploads(ItemCollection modelUploads) {
+		this.modelUploads = modelUploads;
+	}
 
 	/**
 	 * returns all groups for a version
@@ -229,7 +250,14 @@ public class ModelController implements Serializable {
 	 */
 	public void doUploadModel(ActionEvent event)
 			throws ModelException {
-		List<FileData> fileList = modelUploadHandler.getModelUploads().getFileData();
+
+		try {
+			fileUploadController.attacheFiles(modelUploads);
+		} catch (PluginException e) {
+			e.printStackTrace();
+		}
+
+		List<FileData> fileList = getModelUploads().getFileData();
 
 		if (fileList == null) {
 			return;
@@ -253,7 +281,7 @@ public class ModelController implements Serializable {
 				logger.log(Level.WARNING, "Invalid Model Type. Model {0} can't be imported!", file.getName());
 			}
 		}
-		modelUploadHandler.reset();
+		modelUploads = new ItemCollection();
 	}
 
 	/**

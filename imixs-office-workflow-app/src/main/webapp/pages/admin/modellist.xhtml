@@ -10,7 +10,7 @@
 
 	<ui:define name="content">
 		<f:view>
-			<h:form>
+			<h:form pt:autocomplete="on"  enctype="multipart/form-data">
 				<div class="imixs-form">
 					<div class="imixs-body">
 						<h1>#{message['config.workflowmodellist']}</h1>
@@ -68,8 +68,8 @@
 
 
 						<i:imixsFileUpload id="file_upload_id"
-							workitem="#{modelUploadHandler.modelUploads}"
-							hideattachments="true" />
+						showattachments="#{true}"
+							workitem="#{modelController.modelUploads}"/>
 						<div style="clear: left;" />
 						<h:commandButton value="#{message.refresh}"
 							actionListener="#{modelController.doUploadModel}"

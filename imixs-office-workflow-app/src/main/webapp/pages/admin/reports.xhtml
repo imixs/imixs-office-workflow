@@ -12,7 +12,7 @@
 	<ui:define name="content">
 		
 		<f:view>
-			<h:form>
+			<h:form pt:autocomplete="on"  enctype="multipart/form-data">
 				<div class="imixs-view">
 					<!-- *** Header **** -->
 					<div class="imixs-header">
@@ -84,8 +84,7 @@
 
 
 						<i:imixsFileUpload id="file_upload_id"
-							workitem="#{reportController.reportUploads}"
-							hideattachments="true" />
+							workitem="#{reportController.reportUploads}" />
 						<div style="clear: left;" />
 						<h:commandButton value="#{message.refresh}"
 							actionListener="#{reportController.uploadReport()}"

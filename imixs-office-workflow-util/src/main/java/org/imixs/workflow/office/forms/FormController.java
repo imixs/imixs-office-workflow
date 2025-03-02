@@ -31,19 +31,19 @@ import java.io.Serializable;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import jakarta.enterprise.context.ConversationScoped;
-import jakarta.enterprise.event.Observes;
-import jakarta.faces.context.ExternalContext;
-import jakarta.faces.context.FacesContext;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
-
 import org.imixs.marty.profile.UserController;
 import org.imixs.marty.team.TeamController;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.faces.data.WorkflowEvent;
 import org.imixs.workflow.faces.util.ResourceBundleHandler;
+
+import jakarta.enterprise.context.ConversationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * The FormController provides information about the Form, FormSections and
@@ -63,7 +63,6 @@ import org.imixs.workflow.faces.util.ResourceBundleHandler;
 @ConversationScoped
 public class FormController implements Serializable {
 
-    //public static final String DEFAULT_EDITOR_ID = "form_panel_simple#basic";
     public static final String DEFAULT_EDITOR_ID = "form_basic";
 
     @Inject
@@ -111,7 +110,7 @@ public class FormController implements Serializable {
      * @throws AccessDeniedException
      */
     public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) throws AccessDeniedException {
-        if (workflowEvent == null)
+        if (workflowEvent == null || workflowEvent.getWorkitem() == null)
             return;
 
         // skip if no item 'txtWorkflowEditorid' exists

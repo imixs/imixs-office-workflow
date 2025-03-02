@@ -17,7 +17,7 @@
 	<ui:define name="content">
 
 		<f:view>
-			<h:form id="textblock_form_id">
+			<h:form id="textblock_form_id" pt:autocomplete="on"  enctype="multipart/form-data">
 
 				<div class="imixs-form">
 					<div class="imixs-header">
@@ -82,10 +82,11 @@
 										</h:panelGroup>
 										
 										<div class="textblock-file-input">
-											<i:imixsFileUpload
+											<i:imixsFileUpload showattachments="true" 
 												workitem="#{documentController.document}"
-												hideattachments="false"
 												context_url="#{facesContext.externalContext.requestContextPath}/api/snapshot/#{documentController.document.item['$uniqueid']}" />
+									
+
 										</div>
 
 									</dd>
