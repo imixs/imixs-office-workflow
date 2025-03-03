@@ -53,37 +53,40 @@
 				
 				<!-- created/modified -->
 				<h:panelGroup style="position: relative; display: inline-block;">
-					<!--   | fas fa-info-circle -->
-					<span class="typcn typcn-info-large  info-icon" />
-					<!-- Tooltip-DIV -->
-					<h:panelGroup styleClass="tooltip">
-							<ui:fragment rendered="#{(empty attachment.item['$modified'])}">
-								<strong>#{message.created}: </strong>
-								<h:outputText value="#{attachment.item['$created']}">
-									<f:convertDateTime timeZone="#{message.timeZone}" type="both" pattern="#{message.dateTimePatternShort}" />
-								</h:outputText>
-							</ui:fragment>				
-							<ui:fragment rendered="#{(!empty attachment.item['$modified'])}">
-								<strong>#{message.modified}: </strong>
-								<h:outputText value="#{attachment.item['$modified']}">
-									<f:convertDateTime timeZone="#{message.timeZone}" type="both" pattern="#{message.dateTimePatternShort}" />
-								</h:outputText>
-							</ui:fragment>
-							<br />
-							<strong>Size: </strong>#{dmsController.userFriendlyBytes(attachment.item['size'])}
+				<!-- download -->
+				<a href="#" class="document-deeplink" target="_blank">
+					<span class="typcn typcn-cloud-storage-outline"></span>
+				</a>
+				<!-- Document info -->	
+				<span class="typcn typcn-info-large  info-icon" />
+				<h:panelGroup styleClass="tooltip">
+						<ui:fragment rendered="#{(empty attachment.item['$modified'])}">
+							<strong>#{message.created}: </strong>
+							<h:outputText value="#{attachment.item['$created']}">
+								<f:convertDateTime timeZone="#{message.timeZone}" type="both" pattern="#{message.dateTimePatternShort}" />
+							</h:outputText>
+						</ui:fragment>				
+						<ui:fragment rendered="#{(!empty attachment.item['$modified'])}">
+							<strong>#{message.modified}: </strong>
+							<h:outputText value="#{attachment.item['$modified']}">
+								<f:convertDateTime timeZone="#{message.timeZone}" type="both" pattern="#{message.dateTimePatternShort}" />
+							</h:outputText>
+						</ui:fragment>
+						<br />
+						<strong>Size: </strong>#{dmsController.userFriendlyBytes(attachment.item['size'])}
 
-						</h:panelGroup>
 					</h:panelGroup>
-					<!-- remove feature -->
-					<f:ajax render=":#{chronicleListComponent.clientId}">
-						<h:commandLink
-							onclick="return confirm('#{message.help_delete}');"
-							styleClass="imixs-action-dms-remove" title="#{message.remove}"
-							actionListener="#{dmsController.removeFile(attachment.item['txtName'])}"
-							immediate="true">
-							<span class="typcn typcn-trash"></span>
-						</h:commandLink>
-					</f:ajax>
+				</h:panelGroup>
+				<!-- remove document -->
+				<f:ajax render=":#{chronicleListComponent.clientId}">
+					<h:commandLink
+						onclick="return confirm('#{message.help_delete}');"
+						styleClass="imixs-action-dms-remove" title="#{message.remove}"
+						actionListener="#{dmsController.removeFile(attachment.item['txtName'])}"
+						immediate="true">
+						<span class="typcn typcn-trash"></span>
+					</h:commandLink>
+				</f:ajax>
 			</h:panelGroup>
 			
 			<!-- URL link -->

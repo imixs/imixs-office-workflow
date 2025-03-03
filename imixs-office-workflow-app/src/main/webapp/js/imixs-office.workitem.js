@@ -77,7 +77,7 @@ $(document).ready(function () {
 	imixsOfficeWorkitem.updateAttachmentLinks();
 
 	// set the default preview frame
-	documentPreviewIframe = document.getElementById('imixs_document_iframe_embedded');
+	documentPreviewIframe = document.getElementById('imixs_document_iframe');
 
 	// autoload first pdf into preview if available.... 
 	imixsOfficeWorkitem.autoPreviewPDF();
@@ -87,41 +87,6 @@ $(document).ready(function () {
 	isWorkitemLoading = false;
 });
 
-/*
- * This callback method is triggered by the imxs-faces.js file upload
- * component. The method updates the deep links for uploaded files
- * and loads pdf files into the preview window
- */
-function onFileUploadChange() {
-
-	$('.document-nav').hide();
-	// cancel current preview....
-	documentPreviewIframe.src = "";
-	//contentWindow.location.replace("");
-	documentPreviewURL = "";
-
-	// update deep links
-	imixsOfficeWorkitem.updateAttachmentLinks();
-
-	// auto preview
-	$(".imixsFileUpload_uploadlist_name a").each(
-		function (index, element) {
-			var attachmentName = $(this).text();
-			if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {
-				// if we have a pdf and screen is >2200 than maximize preview.
-				if (window.innerWidth >= 2200) {
-					imixsOfficeWorkitem.maximizeDocumentPreview();
-				}
-
-				var link = $(this).attr('href');
-				// encode link...
-				var encodedAttachmentName = encodeURIComponent(attachmentName);
-				link = link.replace(attachmentName, encodedAttachmentName);
-				imixsOfficeWorkitem.showDocument($(this).text(), link);
-				return false;
-			}
-		});
-}
 
 
 // define core module
@@ -156,27 +121,32 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 		 * if chroniclePreview == true
 		 */
 		autoPreviewPDF = function () {
-			//if (!chroniclePreview) return;
-			$("[id$='dmslist'] .file-open-link").each(
+
+			// alert("chroniclePreview="+chroniclePreview);
+			if (!chroniclePreview) {
+				// no preview mode
+				return;
+			}
+			
+			// open first PDF
+			$(".imixs-workitem-chronicle-content a.attachmentlink").each(
 				function (index, element) {
 					var attachmentName = $(this).text();
 					if (attachmentName.endsWith('.pdf') || attachmentName.endsWith('.PDF')) {
 						// if we have a pdf and screen is >2200 than maximize preview.
 						if (window.innerWidth >= 2200 || chroniclePreview == false) {
-							maximizeDocumentPreview();
+							showDocumentPreview();
 						}
 						if (window.innerWidth <= 1100) {
-							minimizeDocumentPreview();
+							closeDocumentPreview();
 						}
-						//$(this).click();
 						showDocument($(this).text(), $(this).attr('href'));
+						// exit after first match!
 						return false;
 					}
 				});
 		},
 
-
-		
 
 		/*
 		 * This method initializes a signature pad if part of the form.
@@ -243,16 +213,19 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 		},
 
 		/*
-		 * This helper method updates the attachment links
-		 * in the chronicle main view and in the dms list.
-		 * Attachments are opend in the preview window 
+		 * This helper method updates all attachment links
+		 * in the chronicle main view.
+		 * Attachments are opened in the preview window 
 		 */
 		updateAttachmentLinks = function () {
+			
 			// update the link action for each file
 			// we redirect the href into the iframe target
-			$("[id$='dmslist'] .file-open-link").each(
+			//$("[id$='dmslist'] .file-open-link").each(
+			$(".imixs-workitem-chronicle-content a.attachmentlink").each(
 				function (index, element) {
 					$(this).click(function () {
+						
 						var file_link = $(this).attr('href');
 						//updateIframe(file_link);
 						showDocument($(this).text(), file_link);
@@ -262,55 +235,11 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 				});
 
 
-			// we redirect also the href from chronicle into the iframe target
-
-			// chronicle-main  attachmentlink
-			$("[id$='chronicle-main'] .attachmentlink").each(
-				function (index, element) {
-					$(this).click(function () {
-						var file_link = $(this).attr('href');
-						//updateIframe(file_link);
-						showDocument($(this).text(), file_link);
-						// cancel link
-						return false;
-					});
-				});
-
-
-			// chronicle-main  imixsFileUpload link
-			$(".imixsFileUpload_uploadlist_name a").each(
-				function (index, element) {
-					$(this).click(function () {
-						// we need to encode the filename within the link
-						var attachmentName = $(this).text();
-						var link = $(this).attr('href');
-						// encode link...
-						var encodedAttachmentName = encodeURIComponent(attachmentName);
-						link = link.replace(attachmentName, encodedAttachmentName);
-						showDocument($(this).text(), link);
-						// cancel link
-						return false;
-					});
-				});
 		},
 
 
 
 
-		/*
-		 * This method clears the document preview
-		 * the method is called after a remove click
-		 */
-		clearDocumentPreview = function (event) {
-			if (event.status === 'success') {
-				documentPreviewIframe.contentWindow.location.replace("");
-				documentPreviewIframe.src = "";
-				documentPreviewURL = "";
-				updateAttachmentLinks();
-				// autoload first pdf into preview if available.... 
-				autoPreviewPDF();
-			}
-		},
 
 		/*
 		 * This helper method adjusts the minimum/maximum 
@@ -329,59 +258,44 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 			return _width;
 		},
 
-		/*
-		 * This method hides the document preiview window
-		 * and shows the history tab.
-		 */
-		closeDocumentPreview = function () {
-			minimizeDocumentPreview();
-			// switch to chronicle
-			$(".chronicle-tab-history").click();
-		},
 
 		/*
-		 * The method hides the document preview window and opens 
-		 * the document in the minimized preview on the documents tab
+		 * The method shows the document preview window and sets the preview cookie
 		 */
-		minimizeDocumentPreview = function () {
-			$('.imixs-workitem-form .imixs-form').removeClass('split');
-			$('.imixs-workitem-form .imixs-document').removeClass('split');
-			$('.imixs-workitem-form .imixs-document').hide();
-			$('.imixs-workitem-document-embedded').show();
+		showDocumentPreview = function () {
+			if (!documentPreview) {
+				$('.imixs-workitem-form .imixs-form').addClass('split');
+				$('.imixs-workitem-form .imixs-document').addClass('split');
+				$('.imixs-document').show();
+				//$('.imixs-workitem-document-embedded').hide();
 
-			// set preview cookie
-			imixsOfficeWorkitem.setCookie("imixs.office.document.chronicle.preview", "true", 14);
-			documentPreview = $('.imixs-workitem-document-embedded');
-			// update iframe
-			documentPreviewIframe = document.getElementById('imixs_document_iframe_embedded');
-			documentPreviewIframe.contentWindow.location.replace(documentPreviewURL);
-
-			if (!isWorkitemLoading) {
-				$(".chronicle-tab-documents").click();
+				// set preview cookie
+				imixsOfficeWorkitem.setCookie("imixs.office.document.chronicle.preview", "true", 14);
+				documentPreview = $('.imixs-document');
+				chroniclePreview=true;
+				// update iframe
+				documentPreviewIframe = document.getElementById('imixs_document_iframe');
+				documentPreviewIframe.contentWindow.location.replace(documentPreviewURL);
 			}
 		},
 
-
-
 		/*
-		 * The method shows the document preiview window
+		 * This method hides the document preview window and removes the preview cookie
 		 */
-		maximizeDocumentPreview = function () {
-			$('.imixs-workitem-form .imixs-form').addClass('split');
-			$('.imixs-workitem-form .imixs-document').addClass('split');
-			$('.imixs-document').show();
-			$('.imixs-workitem-document-embedded').hide();
+		closeDocumentPreview = function () {
+			if (documentPreview) {
 
-			// set preview cookie
-			//document.cookie = "imixs.office.document.chronicle.preview=false; path=/";
-			imixsOfficeWorkitem.setCookie("imixs.office.document.chronicle.preview", "false", 14);
-			documentPreview = $('.imixs-document');
-			// update iframe
-			documentPreviewIframe = document.getElementById('imixs_document_iframe');
-			documentPreviewIframe.contentWindow.location.replace(documentPreviewURL);
+				$('.imixs-workitem-form .imixs-form').removeClass('split');
+				$('.imixs-workitem-form .imixs-document').removeClass('split');
+				$('.imixs-workitem-form .imixs-document').hide();
+				//$('.imixs-workitem-document-embedded').show();
+
+				// set preview cookie
+				imixsOfficeWorkitem.setCookie("imixs.office.document.chronicle.preview", "false", 14);
+				chroniclePreview=false;
+			}
 
 		},
-
 
 		/*
 		 * updates the workitem form width and update the corresponding cookie
@@ -409,11 +323,12 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 		},
 
 		/*
-		 * A document loads the current document (link) into the documentPreviewIframe
-		 * and displays the document title.
-		 
+		 * This method opens the preview window and loads the current document 
+		 * into the documentPreviewIframe.
+		 * The method also updates  the document title in the preview window.
 		 */
 		showDocument = function (title, link) {
+			
 			if (!link || link == "") {
 				return; // no url defined!
 			}
@@ -424,14 +339,10 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 			$('.document-title', documentPreview).text(title);
 			documentPreviewURL = link;
 			documentPreviewIframe.contentWindow.location.replace(documentPreviewURL);
-
 			// update deeplink
 			$('.document-deeplink').attr('href', documentPreviewURL);
 
-			// activate preview if minimized!
-			if (!isWorkitemLoading && documentPreviewIframe.id === 'imixs_document_iframe_embedded') {
-				toggleChronicleDocuments();
-			}
+			showDocumentPreview();
 			$('.document-nav').show();
 		},
 
@@ -450,16 +361,16 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 			$('.imixs-workitem-chronicle-content').css('width', 'calc(100% - 30px)');
 
 		},
-		toggleChronicleDocuments = function () {
-			$('.chronicle-tab-documents').parent().addClass('active');
-			$('.chronicle-tab-history').parent().removeClass('active');
-			$('.chronicle-tab-ai').parent().removeClass('active');
-			$('#imixs-workitem-chronicle-tab-history').hide();
-			$('#imixs-workitem-chronicle-tab-ai').hide();
-			$('#imixs-workitem-chronicle-tab-documents').show();
-			// set a right margin for history view only
-			$('.imixs-workitem-chronicle-content').css('width', 'calc(100% - 0px)');
-		},
+		// toggleChronicleDocuments = function () {
+		// 	$('.chronicle-tab-documents').parent().addClass('active');
+		// 	$('.chronicle-tab-history').parent().removeClass('active');
+		// 	$('.chronicle-tab-ai').parent().removeClass('active');
+		// 	$('#imixs-workitem-chronicle-tab-history').hide();
+		// 	$('#imixs-workitem-chronicle-tab-ai').hide();
+		// 	$('#imixs-workitem-chronicle-tab-documents').show();
+		// 	// set a right margin for history view only
+		// 	$('.imixs-workitem-chronicle-content').css('width', 'calc(100% - 0px)');
+		// },
 		toggleChronicleAI = function () {
 			$('.chronicle-tab-ai').parent().addClass('active');
 			$('.chronicle-tab-history').parent().removeClass('active');
@@ -706,14 +617,14 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 		updateFormWidth: updateFormWidth,
 		expandChronicle: expandChronicle,
 		shrinkChronicle: shrinkChronicle,
-		clearDocumentPreview: clearDocumentPreview,
+		//clearDocumentPreview: clearDocumentPreview,
 		updateAttachmentLinks: updateAttachmentLinks,
 		showDocument: showDocument,
 		toggleChronicleHistory: toggleChronicleHistory,
-		toggleChronicleDocuments: toggleChronicleDocuments,
+		//toggleChronicleDocuments: toggleChronicleDocuments,
 		toggleChronicleAI: toggleChronicleAI,
-		minimizeDocumentPreview: minimizeDocumentPreview,
-		maximizeDocumentPreview: maximizeDocumentPreview,
+		//minimizeDocumentPreview: minimizeDocumentPreview,
+		showDocumentPreview: showDocumentPreview,
 		closeDocumentPreview: closeDocumentPreview,
 		saveWorkitemHandler: saveWorkitemHandler,
 		registerSaveWorkitemListener: registerSaveWorkitemListener,
@@ -721,8 +632,8 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 		workitemRefInitInput: workitemRefInitInput,
 		addWorkitemRef: addWorkitemRef,
 		deleteWorkitemRef: deleteWorkitemRef,
-		formatIBAN: formatIBAN,
-		onFileUploadChange: onFileUploadChange
+		formatIBAN: formatIBAN
+		//onFileUploadChange: onFileUploadChange
 	};
 
 }());

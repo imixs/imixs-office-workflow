@@ -106,7 +106,7 @@ function closeWopiViewer() {
 		$('#imixs_workitem_form_id').show();
 		
 		if (restoreDocumentPreview==true) {
-			imixsOfficeWorkitem.maximizeDocumentPreview();
+		//	imixsOfficeWorkitem.maximizeDocumentPreview();
 			restoreDocumentPreview=false;
 		}
 	
