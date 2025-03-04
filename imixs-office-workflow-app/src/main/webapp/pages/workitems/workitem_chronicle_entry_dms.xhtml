@@ -32,8 +32,7 @@
 		<!-- link -->
 		<div id="hyperlink" class="content-block">
 			<!-- Attachment link -->
-			<h:panelGroup
-				rendered="#{!isURL}">
+			<h:panelGroup rendered="#{!isURL}">
 				<h:outputText escape="false"
 					value="&lt;a target='_blank' class='attachmentlink #{dmsController.isRemoved(attachment.item['txtName'])?'attachmentlink-removed':''}'" />
 				<h:outputText escape="false"
@@ -51,30 +50,31 @@
 					</ui:fragment>
 				</ui:fragment>	
 				
+				<!-- download -->
+				<a href="#" class="document-deeplink" style="margin-left:5px;" target="_download"
+					onclick="imixsOfficeWorkitem.downloadDocument(this);return false;"><span class="typcn typcn-cloud-storage-outline"></span></a>
 				<!-- created/modified -->
 				<h:panelGroup style="position: relative; display: inline-block;">
-				<!-- download -->
-				<a href="#" class="document-deeplink" target="_blank">
-					<span class="typcn typcn-cloud-storage-outline"></span>
-				</a>
-				<!-- Document info -->	
-				<span class="typcn typcn-info-large  info-icon" />
-				<h:panelGroup styleClass="tooltip">
-						<ui:fragment rendered="#{(empty attachment.item['$modified'])}">
-							<strong>#{message.created}: </strong>
-							<h:outputText value="#{attachment.item['$created']}">
-								<f:convertDateTime timeZone="#{message.timeZone}" type="both" pattern="#{message.dateTimePatternShort}" />
-							</h:outputText>
-						</ui:fragment>				
-						<ui:fragment rendered="#{(!empty attachment.item['$modified'])}">
-							<strong>#{message.modified}: </strong>
-							<h:outputText value="#{attachment.item['$modified']}">
-								<f:convertDateTime timeZone="#{message.timeZone}" type="both" pattern="#{message.dateTimePatternShort}" />
-							</h:outputText>
-						</ui:fragment>
-						<br />
-						<strong>Size: </strong>#{dmsController.userFriendlyBytes(attachment.item['size'])}
-
+					
+					<!-- Document info -->	
+					<span class="typcn typcn-info-large  info-icon" />
+					<h:panelGroup styleClass="tooltip">
+							<ui:fragment rendered="#{(empty attachment.item['$modified'])}">
+								<strong>#{message.created}: </strong>
+								<h:outputText value="#{attachment.item['$created']}">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both" pattern="#{message.dateTimePatternShort}" />
+								</h:outputText>
+							</ui:fragment>				
+							<ui:fragment rendered="#{(!empty attachment.item['$modified'])}">
+								<strong>#{message.modified}: </strong>
+								<h:outputText value="#{attachment.item['$modified']}">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both" pattern="#{message.dateTimePatternShort}" />
+								</h:outputText>
+							</ui:fragment>
+							<br />
+							<strong>Size: </strong>#{dmsController.userFriendlyBytes(attachment.item['size'])}
+							<br />
+							<strong>Type: </strong>#{attachment.item['contentType']}
 					</h:panelGroup>
 				</h:panelGroup>
 				<!-- remove document -->

@@ -257,6 +257,7 @@ public class DMSController implements Serializable {
 			} catch (UnsupportedEncodingException e) {
 				logger.warning("unable to URL encode the filename '" + fileData.getAttribute("name") + "'!");
 			}
+			_dmsItemCol.setItemValue("contentType", fileData.getContentType());
 			_dmsList.add(_dmsItemCol);
 		}
 
