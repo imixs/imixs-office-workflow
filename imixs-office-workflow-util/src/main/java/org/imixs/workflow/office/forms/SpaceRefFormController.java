@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 import org.imixs.marty.team.TeamController;
 import org.imixs.workflow.ItemCollection;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.ConversationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -64,7 +64,7 @@ import jakarta.inject.Named;
  * 
  */
 @Named
-@SessionScoped
+@ConversationScoped
 public class SpaceRefFormController implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -134,27 +134,35 @@ public class SpaceRefFormController implements Serializable {
         if (options == null) {
             options = "";
         }
+
+        // return if space.ref is already set!
+        if (!workitem.getItemValueString("space.ref").isEmpty()) {
+            return ""; // no op!
+        }
+
         ItemCollection defaultSpace = null;
         List<ItemCollection> _spaceList = getSpaces(workitem, options);
 
         // find a matching space in the spaces list.
-
         if (_spaceList != null) {
             for (ItemCollection space : _spaceList) {
-                if (options.contains("default-selection=assist") && space.getItemValueBoolean("isAssist")) {
+                if (options.toLowerCase().contains("default-selection=assist")
+                        && space.getItemValueBoolean("isAssist")) {
                     defaultSpace = space;
                     break;
                 }
-                if (options.contains("default-selection=team") && space.getItemValueBoolean("isTeam")) {
+                if (options.toLowerCase().contains("default-selection=team") && space.getItemValueBoolean("isTeam")) {
                     defaultSpace = space;
                     break;
                 }
-                if (options.contains("default-selection=manager") && space.getItemValueBoolean("isManager")) {
+                if (options.toLowerCase().contains("default-selection=manager")
+                        && space.getItemValueBoolean("isManager")) {
                     defaultSpace = space;
                     break;
                 }
 
-                if (options.contains("default-selection=member") && space.getItemValueBoolean("isMember")) {
+                if (options.toLowerCase().contains("default-selection=member")
+                        && space.getItemValueBoolean("isMember")) {
                     defaultSpace = space;
                     break;
                 }

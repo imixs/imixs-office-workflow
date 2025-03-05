@@ -46,7 +46,7 @@
     </bpmn2:participant>
     <bpmn2:participant id="participant_odZkFA" name="Default Process" processRef="process_2"/>
   </bpmn2:collaboration>
-  <bpmn2:process definitionalCollaborationRef="Collaboration_1" id="Process_1" isExecutable="false" name="Debug">
+  <bpmn2:process definitionalCollaborationRef="Collaboration_1" id="Process_1" isExecutable="false" name="Debug" processType="Private">
     <bpmn2:laneSet id="LaneSet_1" name="Lane Set 1">
       <bpmn2:lane id="Lane_1" name="Ersteller">
         <bpmn2:flowNodeRef>ExclusiveGateway_4</bpmn2:flowNodeRef>
@@ -610,7 +610,9 @@ if (workitem.getItemValueString('txtcomment')=='') {
 
         <imixs-form-section columns="2">
             <item name="debug.user" type="custom" path="userinput"  label="Responsible:" />
-            <item name="debug.team" type="custom" path="userlistinput"  label="Team:" />
+            <item name="debug.team" type="custom" path="userlistinput"    label="Team:" />
+            <item name="" type="custom" path="spaceref"  label="Fachdienst"
+                     options="default-selection=team;" span="6" required="false"/>
             <item name="invoice.ref" type="custom" path="workitemlink"  label="Invoice No.:" options="($workflowgroup:Rechnungseingang)" />
             <item  type="custom" path="workitemlink"  label="Order No.:" options="($workflowgroup:Bedarfsmeldung)" />
 
@@ -630,9 +632,7 @@ if (workitem.getItemValueString('txtcomment')=='') {
         </imixs-form-section>
     </imixs-subform>
 
-    <imixs-subform label="Dispatch" readonly="false">
-        <imixs-form-section label="" path="sub_dispatch" />
-    </imixs-subform>
+   
 
 </imixs-form>
 ]]></bpmn2:documentation>
@@ -1498,13 +1498,13 @@ result.isValid=true;
       <bpmndi:BPMNShape bpmnElement="ExclusiveGateway_1" id="BPMNShape_ExclusiveGateway_1" isMarkerVisible="true">
         <dc:Bounds height="50.0" width="50.0" x="219.0" y="290.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_60" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="20.0" width="100.0" x="187.0" y="329.0"/>
+          <dc:Bounds height="20.0" width="100.0" x="194.0" y="343.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="EventBasedGateway_2" id="BPMNShape_EventBasedGateway_2" isMarkerVisible="true">
         <dc:Bounds height="50.0" width="50.0" x="451.0" y="593.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_65" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="20.0" width="100.0" x="419.0" y="632.0"/>
+          <dc:Bounds height="20.0" width="100.0" x="426.0" y="646.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_TextAnnotation_1">
@@ -1540,7 +1540,7 @@ result.isValid=true;
       <bpmndi:BPMNShape bpmnElement="EventBasedGateway_4" id="BPMNShape_EventBasedGateway_4" isMarkerVisible="true">
         <dc:Bounds height="50.0" width="50.0" x="958.0" y="837.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_80" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="20.0" width="100.0" x="926.0" y="876.0"/>
+          <dc:Bounds height="20.0" width="100.0" x="933.0" y="890.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="IntermediateCatchEvent_16" id="BPMNShape_IntermediateCatchEvent_26">
@@ -1576,7 +1576,7 @@ result.isValid=true;
       <bpmndi:BPMNShape bpmnElement="ExclusiveGateway_5" id="BPMNShape_ExclusiveGateway_5" isMarkerVisible="true">
         <dc:Bounds height="50.0" width="50.0" x="825.0" y="415.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_23" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="20.0" width="100.0" x="793.0" y="454.0"/>
+          <dc:Bounds height="20.0" width="100.0" x="800.0" y="468.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="IntermediateCatchEvent_2" id="BPMNShape_IntermediateCatchEvent_4">
@@ -1588,7 +1588,7 @@ result.isValid=true;
       <bpmndi:BPMNShape bpmnElement="ExclusiveGateway_6" id="BPMNShape_ExclusiveGateway_6" isMarkerVisible="true">
         <dc:Bounds height="50.0" width="50.0" x="628.0" y="593.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_32" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="20.0" width="100.0" x="596.0" y="632.0"/>
+          <dc:Bounds height="20.0" width="100.0" x="603.0" y="646.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="IntermediateCatchEvent_3" id="BPMNShape_IntermediateCatchEvent_5">
@@ -1648,7 +1648,7 @@ result.isValid=true;
       <bpmndi:BPMNShape bpmnElement="EventBasedGateway_3" id="BPMNShape_EventBasedGateway_3" isMarkerVisible="true">
         <dc:Bounds height="50.0" width="50.0" x="452.0" y="291.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_4">
-          <dc:Bounds height="20.0" width="100.0" x="420.0" y="330.0"/>
+          <dc:Bounds height="20.0" width="100.0" x="427.0" y="344.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="SequenceFlow_0" id="BPMNEdge_SequenceFlow_1" sourceElement="BPMNShape_StartEvent_1" targetElement="BPMNShape_ExclusiveGateway_1">
@@ -1702,14 +1702,14 @@ result.isValid=true;
       <bpmndi:BPMNEdge bpmnElement="Association_2" id="BPMNEdge_Association_2" sourceElement="BPMNShape_DataObject_1" targetElement="BPMNShape_Task_5">
         <bpmndi:BPMNLabel id="BPMNLabel_86"/>
         <di:waypoint x="298.0" y="257.0"/>
-        <di:waypoint x="298.0" y="273.5"/>
-        <di:waypoint x="363.0" y="273.5"/>
+        <di:waypoint x="298.0" y="274.0"/>
+        <di:waypoint x="363.0" y="274.0"/>
         <di:waypoint x="363.0" y="290.0"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="SequenceFlow_20" id="BPMNEdge_SequenceFlow_24" sourceElement="BPMNShape_IntermediateCatchEvent_13" targetElement="BPMNShape_Task_5">
         <bpmndi:BPMNLabel id="BPMNLabel_47"/>
-        <di:waypoint x="434.6905212402344" y="370.0"/>
-        <di:waypoint x="434.6905212402344" y="355.0"/>
+        <di:waypoint x="435.0" y="370.0"/>
+        <di:waypoint x="435.0" y="355.0"/>
         <di:waypoint x="390.0" y="355.0"/>
         <di:waypoint x="390.0" y="340.0"/>
       </bpmndi:BPMNEdge>
@@ -1865,7 +1865,7 @@ result.isValid=true;
         <bpmndi:BPMNLabel id="BPMNLabel_6"/>
         <di:waypoint x="502.0" y="316.0"/>
         <di:waypoint x="523.0" y="316.0"/>
-        <di:waypoint x="545.0277992443886" y="316.0"/>
+        <di:waypoint x="545.0" y="316.0"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape bpmnElement="dataObject_sBoFtQ" id="BPMNShape_uZZ83g">
         <dc:Bounds height="50.0" width="35.0" x="417.1905079144448" y="827.594861559186"/>
@@ -1874,10 +1874,10 @@ result.isValid=true;
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="Association_YAydqA" id="BPMNEdge_XbERKg" sourceElement="BPMNShape_uZZ83g" targetElement="BPMNShape_Task_1">
-        <di:waypoint x="434.6905212402344" y="877.5948486328125"/>
-        <di:waypoint x="434.6905212402344" y="917.2552490234375"/>
-        <di:waypoint x="824.3245239257812" y="917.2552490234375"/>
-        <di:waypoint x="824.3245239257812" y="887.0"/>
+        <di:waypoint x="435.0" y="878.0"/>
+        <di:waypoint x="435.0" y="917.0"/>
+        <di:waypoint x="824.0" y="917.0"/>
+        <di:waypoint x="824.0" y="887.0"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape bpmnElement="event_UAojSg" id="BPMNShape_VOPANw">
         <dc:Bounds height="36.0" width="36.0" x="280.0" y="370.0"/>
