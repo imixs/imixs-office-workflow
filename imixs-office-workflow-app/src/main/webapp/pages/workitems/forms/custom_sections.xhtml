@@ -114,12 +114,10 @@
 								<!-- Options List -->
 								<c:if
 									test="#{item.type eq 'selectBooleanCheckbox' or item.type eq 'selectOneMenu' or item.type eq 'selectOneRadio' or item.type eq 'selectManyCheckbox' or item.type eq 'selectManyCheckboxPageDirection' or item.type eq 'selectOneRadioPageDirection'}">
-
 									<ui:fragment rendered="#{item.readonly}">
 										<ui:repeat var="itemvalue" value="#{workitem.itemList[item.name]}">
 
 											<c:if test="#{item.type eq 'selectBooleanCheckbox'}">
-
 												<h:panelGroup rendered="#{itemvalue}"
 													styleClass="typcn typcn-input-checked"
 													style="font-size:1.2rem;margin-right: 5px;"></h:panelGroup>
@@ -131,14 +129,14 @@
 
 											</c:if>
 											<c:if test="#{item.type ne 'selectBooleanCheckbox'}">
+												<span class="typcn typcn-input-checked"
+												      style="font-size:1.2rem;margin-right: 5px;"></span>
 												<h:outputText value="#{itemvalue}"></h:outputText>
 											</c:if>
-
 											<br />
 										</ui:repeat>
 									</ui:fragment>
 									<ui:fragment rendered="#{!item.readonly}">
-
 										<c:if test="#{item.type eq 'selectBooleanCheckbox'}">
 											<h:selectBooleanCheckbox
 												required="#{item.required?validationController.required:false}"
