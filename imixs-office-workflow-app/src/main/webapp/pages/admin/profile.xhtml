@@ -4,6 +4,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
 	template="/layout/template.xhtml">
 
@@ -147,35 +148,36 @@
 
 
 								<!-- User Icon -->
-								<div class="imixs-form-panel">
+								<div class="imixs-form-panel" style="width: 50%;">
 
 									<h2>User Icon</h2>
 
+									
+										<h:panelGroup layout="block" id="usericonpanel"
+											style="float: left; margin-right: 20px;">
+											<h:graphicImage styleClass="imixs-user-icon"
+												rendered="#{! empty workflowController.workitem.item['txtusericon']}"
+												value="/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{workflowController.workitem.item['txtusericon']}">
+											</h:graphicImage>
+										</h:panelGroup>
+										<h:panelGroup layout="block" styleClass="imixs-form-section"
+											style="clear: none; width:80%;">
 
-									<h:panelGroup layout="block" id="usericonpanel"
-										style="float: left; margin-right: 20px;">
-										<h:graphicImage styleClass="imixs-user-icon"
-											rendered="#{! empty workflowController.workitem.item['txtusericon']}"
-											value="/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{workflowController.workitem.item['txtusericon']}">
-										</h:graphicImage>
-									</h:panelGroup>
-									<h:panelGroup layout="block" styleClass="imixs-form-section"
-										style="clear: none; width:80%;">
+											<i:imixsFileUpload id="file_upload_id"
+												workitem="#{workflowController.workitem}"
+												context_url="#{facesContext.externalContext.requestContextPath}/api/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}"
+												hideattachments="true" />
 
-										<i:imixsFileUpload id="file_upload_id"
-											workitem="#{workflowController.workitem}"
-											context_url="#{facesContext.externalContext.requestContextPath}/api/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}"
-											hideattachments="true" />
+											<div style="clear: left;" />
 
-										<div style="clear: left;" />
+											<h:commandButton value="#{message.remove}"
+												rendered="#{! empty workflowController.workitem.item['txtusericon']}"
+												actionListener="#{userController.removeUserIcon()}">
+												<f:ajax render="usericonpanel"></f:ajax>
+											</h:commandButton>
 
-										<h:commandButton value="#{message.remove}"
-											rendered="#{! empty workflowController.workitem.item['txtusericon']}"
-											actionListener="#{userController.removeUserIcon()}">
-											<f:ajax render="usericonpanel"></f:ajax>
-										</h:commandButton>
-
-									</h:panelGroup>
+										</h:panelGroup>
+									
 								</div>
 							</div>
 

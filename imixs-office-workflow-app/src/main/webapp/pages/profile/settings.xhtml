@@ -8,15 +8,13 @@
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	template="/layout/template.xhtml">
 
-
-
 	<ui:define name="content">
 		<f:view>
 			<f:event type="preRenderComponent"
 				listener="#{workflowController.load(userController.workitem.item['$uniqueid'])}" />
 
 			<script type="text/javascript">
-				/*<![CDATA[*/
+			/*<![CDATA[*/
 				function passwordCheck() {
 					var dbEnabled=#{setupController.workitem.item['keyEnableUserDB']};
 					if (!dbEnabled)
@@ -125,7 +123,7 @@
 						</ui:include>
 
 						<!-- User Icon -->
-						<div class="imixs-form-panel user-icon">
+						<div class="imixs-form-panel user-icon" style="width: 50%;">
 							<h2>User Icon</h2>
 							<h:panelGroup layout="block" id="usericonpanel"
 								style="float: left; margin-right: 20px;">
