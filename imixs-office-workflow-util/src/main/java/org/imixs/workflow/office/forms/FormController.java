@@ -91,7 +91,7 @@ public class FormController implements Serializable {
      */
     public FormDefinition getFormDefinition() {
         if (formDefinition == null) {
-            logger.warning("formDefinition is null - verify model definition and the workitem 'type' attribute'.");
+            logger.fine("formDefinition is null - verify model definition and the workitem 'type' attribute'.");
             formDefinition = new FormDefinition();
             computeFormDefinition(new ItemCollection());
 
