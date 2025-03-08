@@ -51,6 +51,7 @@ import org.imixs.workflow.engine.plugins.HistoryPlugin;
 import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.data.WorkflowEvent;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.enterprise.event.Observes;
@@ -110,6 +111,7 @@ public class ChronicleController implements Serializable {
 	 * This helper method is called during the WorkflowEvent.WORKITEM_CHANGED to
 	 * update the chronicle view for the current workitem.
 	 */
+	@PostConstruct
 	@SuppressWarnings("unchecked")
 	public void init() {
 		long l = System.currentTimeMillis();
@@ -117,6 +119,9 @@ public class ChronicleController implements Serializable {
 
 		yearsMonths = new HashMap<Integer, Set<Integer>>();
 
+		if (workflowController.getWorkitem() == null || FacesContext.getCurrentInstance() == null) {
+			return; // no op
+		}
 		try {
 			Locale browserLocale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 			ResourceBundle rb = ResourceBundle.getBundle("bundle.messages", browserLocale);
