@@ -29,11 +29,10 @@ services:
     volumes:
       - ./deployments:/opt/jboss/wildfly/standalone/deployments/
 
-  imixsadmin:
-    image: imixs/imixs-admin
-    ports:
-      - "8888:8080"
-
+  # imixsadmin:
+  #   image: imixs/imixs-admin
+  #   ports:
+  #     - "8888:8080"
 
   # imixsbackup:
   #   image: imixs/imixs-archive-backup:latest
@@ -42,22 +41,18 @@ services:
   #     DEBUG: "true"
 
   #     # EXAMPLE SETUP
-  #     WORKFLOW_SERVICE_ENDPOINT: "http://app:8080/api"      
+  #     WORKFLOW_SERVICE_ENDPOINT: "http://app:8080/api"
   #     WORKFLOW_SERVICE_USER: admin
   #     WORKFLOW_SERVICE_PASSWORD: "adminadmin"
   #     WORKFLOW_SERVICE_AUTHMETHOD: "form"
-      
+
   #     BACKUP_FTP_HOST: "ftp.storage.foo"
   #     BACKUP_FTP_PATH: "/test/"
   #     BACKUP_FTP_PORT: "21"
   #     BACKUP_FTP_USER: ""
-  #     BACKUP_FTP_PASSWORD: ""      
+  #     BACKUP_FTP_PASSWORD: ""
   #   ports:
   #     - "8081:8080"
-  
-
-    
- 
 
 volumes:
   dbdata:

@@ -1,19 +1,20 @@
-FROM quay.io/wildfly/wildfly:27.0.1.Final-jdk17
+FROM quay.io/wildfly/wildfly:29.0.1.Final-jdk17
 
 LABEL description="Imixs-Office-Workflow"
 LABEL maintainer="ralph.soika@imixs.com"
 
 # Copy EclipseLink
-COPY ./docker/configuration/wildfly/modules/ /opt/jboss/wildfly/modules/
+COPY ./docker/configuration/wildfly29/modules/ /opt/jboss/wildfly/modules/
 
 # Setup configuration
-COPY ./docker/configuration/wildfly/standalone.xml /opt/jboss/wildfly/standalone/configuration/
+COPY ./docker/configuration/wildfly29/standalone.xml /opt/jboss/wildfly/standalone/configuration/
 
 # Deploy artefact
 ADD ./imixs-office-workflow-app/target/imixs-office-workflow*.war /opt/jboss/wildfly/standalone/deployments/
 USER root
 RUN mkdir /opt/jboss/lucene
 RUN chown -R jboss:jboss /opt/jboss/lucene
+RUN chown -R jboss:jboss /opt/jboss/wildfly/modules/system/layers/base/org/eclipse/persistence/main
 USER jboss
 
 # Run in Debug Mode
