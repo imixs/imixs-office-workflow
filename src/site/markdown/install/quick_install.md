@@ -156,12 +156,12 @@ You can run Imixs-Office-Workflow directly form one of the official images or yo
 The Imxis-Office-Workflow Docker images are based on the official Wildfly images.
 The following section gives an overview about the versions. If you are developing a custom build take care that the Docker image maches your Wildfly Server version and Jakarta EE platform version:
 
-| Imixs-Office-Workflow Version |      Wildfly Version       |               Jakarta EE Platform                |
-| :---------------------------: | :------------------------: | :----------------------------------------------: |
-|            5.1.1 =            | wildfly:27.0.1.Final-jdk17 |                        10                        |
-|            5.1.0 =            | wildfly:27.0.1.Final-jdk17 |                        10                        |
-|            5.0.0 >            |    wildfly:25.0.0.Final    |                        9                         |
-|             4.6.2             |           names            | current managers of an associated space orgunit. |
+|     Imixs-Office-Workflow Docker Image     |      Wildfly Version       | Jakarta EE Platform |
+| :----------------------------------------: | :------------------------: | :-----------------: |
+| imixs/imixs-office-workflow:5.1.1-SNAPSHOT | wildfly:29.0.1.Final-jdk17 |         10          |
+|     imixs/imixs-office-workflow:5.1.0      | wildfly:27.0.1.Final-jdk17 |         10          |
+|     imixs/imixs-office-workflow:5.0.0      |    wildfly:25.0.0.Final    |          9          |
+|     imixs/imixs-office-workflow:4.6.2      |    wildfly:25.0.0.Final    |          9          |
 
 ### Docker Images on Docker-Hub
 
