@@ -110,6 +110,9 @@ public class AIController implements Serializable {
 	 * @return
 	 */
 	public List<ItemCollection> getChatHistory() {
+		if (chatHistory == null) {
+			chatHistory = new ArrayList<>();
+		}
 		List<ItemCollection> reversedList = new ArrayList<>(chatHistory);
 		Collections.reverse(reversedList);
 		return reversedList;
