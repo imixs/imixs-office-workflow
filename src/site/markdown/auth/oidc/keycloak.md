@@ -171,29 +171,106 @@ This will disable HTTPS for the master realm and the realm 'imixs-office-workflo
 
 You can run Imixs-Office-Workflow together with Keycloak on Kubernetes with real Internet Domains. Just take care about the following issues:
 
-## Additional Keycloak Environment settings
+## Setup Keycloak deployment
 
 Make sure to set the following additional environment settings if you have a Ingress setup and your Keycloak server is running on HTTP (port 8080):
 
 ```yaml
-....
-        - name: KC_HOSTNAME_STRICT
-          value: "false"
-        - name: KC_HTTP_ENABLED
-          value: "true"  # activ ate HTTP
-        - name: KC_HTTPS_ENABLED
-          value: "false" # deactivate HTTPS
-        - name: KC_PROXY
-          value: "edge"
-        - name: KC_HOSTNAME_URL
-          value: "https://sso.my-keycloak-host.foo.com"
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  namespace: my-keycloak
+spec:
+  selector:
+    matchLabels:
+      app: keycloak
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:23.0.5
+          command: ["/opt/keycloak/bin/kc.sh", "start"]
+          env:
+            - name: TZ
+              value: CET
+            - name: KEYCLOAK_ADMIN
+              value: admin
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: adminadmin
+            - name: KC_DB
+              value: postgres
+            - name: KC_DB_URL
+              value: "jdbc:postgresql://db/keycloak"
+            - name: KC_DB_USER
+              value: keycloak
+            - name: KC_DB_PASSWORD
+              value: adminadmin
+            - name: KC_HOSTNAME_STRICT
+              value: "false"
+            - name: KC_HTTP_ENABLED
+              value: "true" # activate HTTP
+            - name: KC_HTTPS_ENABLED
+              value: "false" # deactivate HTTPS
+            - name: KC_PROXY
+              value: "edge" # set Proxy-Modus to "edge"
+            - name: KC_HOSTNAME_URL
+              value: "https://my-keycloak.foo.com"
+          ports:
+            - containerPort: 8080
+              name: keycloak
+          volumeMounts:
+            - name: localtime
+              mountPath: /etc/localtime
+              readOnly: true
+      volumes:
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
 ```
 
-This setting allows you to run Keycloak in the backend via HTTP (port 8080) and do the ssl termination on the ingress controller only.
+This Kubernetes deployment allows you to run Keycloak in the backend via HTTP (port 8080) and do the ssl termination on the Kubernetes ingress controller only.
 
-### Ingress Application setup
+For the Ingress Configuration of Keycloak take care about the following nginx Ingress configuration especially for the annotations used in this example:
 
-Because Keycloak expects a HTTPS endpoint, you should configure your wildfly server running Imixs-Office-Workflow in a way where you use the HTTPS Listener. This listener is activated per default in Wildfly on port 8443. But Wildfly uses of course a so called 'self-signed' certificate. This makes it necessary to configure the Ingress Controller in the following way.
+```yaml
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: keycloak-tls
+  namespace: my-keycloak
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - my-keycloak.foo.com
+      secretName: tls-sso
+  rules:
+    - host: my-keycloak.foo.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak
+                port:
+                  number: 8080
+```
+
+The annotation `proxy-buffer-size` is important here. Find also details [here](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#proxy-buffer-size)
+
+### Setup Imixs-Office-Workflow deployment
+
+Because Keycloak expects a HTTPS endpoint, you should configure your wildfly server - running Imixs-Office-Workflow - in a way where you use the HTTPS Listener. This listener is activated per default in Wildfly on port 8443. But Wildfly uses of course a so called 'self-signed' certificate. This makes it necessary to configure the Ingress Controller in the following way to skip ssl-verification.
 
 ```yaml
 apiVersion: v1
@@ -239,7 +316,7 @@ spec:
                   number: 8443
 ```
 
-This configuration tells teh nginx Ingress Controller to not verify the SSL certificate and to use HTTPS as the backend protocol. So the important settings here are:
+This configuration tells the nginx Ingress Controller to not verify the SSL certificate and to use HTTPS as the backend protocol. So the important settings here are:
 
 ```
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
@@ -252,4 +329,4 @@ Find more information about Keycloak and Wildfly here:
 
 - https://wildfly-security.github.io/wildfly-elytron/blog/securing-wildfly-apps-openid-connect/
 - https://auth0.com/blog/jakarta-ee-oidc/
-- https://blogs.nologin.es/rickyepoderi/
+- https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#proxy-buffer-size
