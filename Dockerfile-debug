@@ -1,0 +1,6 @@
+ARG IMIXS_BASE_IMAGE=imixs/imixs-office-workflow:5.1.1-SNAPSHOT-wildfly-27.0.1.Final-jdk17
+FROM ${IMIXS_BASE_IMAGE}
+
+# Debug CMD-command
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0", "--debug", "*:8787"]
+

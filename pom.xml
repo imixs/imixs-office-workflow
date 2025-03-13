@@ -281,49 +281,11 @@
 				</plugins>
 			</build>
 		</profile>
-
-
-		<profile>
-			<id>docker</id>
-			<properties>
-				<jakarta.faces.project_stage>Development</jakarta.faces.project_stage>
-			</properties>
-			<!-- build latest - see ear module for details -->
-		</profile>
-		<profile>
-			<id>docker-build</id>
-			<!-- build current version local - see app module for details -->
-		</profile>
-		<profile>
-			<id>docker-push</id>
-			<!-- build and push to repo - see app module for details -->
-		</profile>
-		<profile>
-			<id>docker-hub</id>
-			<!-- build and push to docker hub - see web module for details -->
-		</profile>
-		<profile>
-			<id>docker-hub-latest</id>
-			<!-- build and push to docker hub - see app module for details -->
-		</profile>
-
-		<profile>
-			<id>docker-payara</id>
-			<!-- build and payara-micro image -->
-		</profile>
-
-		<profile>
-			<id>docker-build-openliberty</id>
-			<properties>
-				<javax.faces.project_stage>Development</javax.faces.project_stage>
-			</properties>
-		</profile>
 	</profiles>
 
 
 	<dependencyManagement>
 		<dependencies>
-
 			<!-- Imixs Workflow -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>

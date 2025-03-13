@@ -1,13 +1,20 @@
-FROM quay.io/wildfly/wildfly:29.0.1.Final-jdk17
+# Define default wildfly version
+ARG WILDFLY_VERSION=27.0.1.Final-jdk17
+
+# Base image
+FROM quay.io/wildfly/wildfly:${WILDFLY_VERSION}
+
+# Re-declare ARG after FROM (this is important - ARGs before FROM aren't available after FROM without redeclaring)
+ARG WILDFLY_VERSION
 
 LABEL description="Imixs-Office-Workflow"
 LABEL maintainer="ralph.soika@imixs.com"
 
 # Copy EclipseLink
-COPY ./docker/configuration/wildfly29/modules/ /opt/jboss/wildfly/modules/
+COPY ./docker/configuration/wildfly/${WILDFLY_VERSION}/modules/ /opt/jboss/wildfly/modules/
 
 # Setup configuration
-COPY ./docker/configuration/wildfly29/standalone.xml /opt/jboss/wildfly/standalone/configuration/
+COPY ./docker/configuration/wildfly/${WILDFLY_VERSION}/standalone.xml /opt/jboss/wildfly/standalone/configuration/
 
 # Deploy artefact
 ADD ./imixs-office-workflow-app/target/imixs-office-workflow*.war /opt/jboss/wildfly/standalone/deployments/

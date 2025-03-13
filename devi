@@ -32,7 +32,46 @@ fi
 
 if [[ "$(strip_dash $1)" == "docker" ]]; then
     echo " Buld Docker Image..."
-    mvn clean install -Pdocker
+    mvn clean install 
+
+    # get project version from pom.xml
+    PROJECT_VERSION=$(cat ./pom.xml | grep -m1 "<version>" | sed 's/.*<version>\(.*\)<\/version>.*/\1/')
+    WILDFLY_VERSION=$2
+    DEBUG_MODE=$3
+    if [[ "$(strip_dash $2)" == "latest" || "$(strip_dash $2)" == "" ]]; then
+        IMAGENAME=imixs/imixs-office-workflow
+        WILDFLY_VERSION=27.0.1.Final-jdk17
+    else
+        IMAGENAME=imixs/imixs-office-workflow:$PROJECT_VERSION-wildfly-$WILDFLY_VERSION
+    fi
+    
+
+    echo " "
+    echo " "
+    echo "Build Docker image"
+    echo "  Project Version=$PROJECT_VERSION"
+    echo "  Wildfly Version=$WILDFLY_VERSION"
+    echo "  Image name = $IMAGENAME"
+    echo " "
+    echo " "
+    docker build --build-arg WILDFLY_VERSION=$WILDFLY_VERSION -t $IMAGENAME .
+
+    # Falls Debug-Mode gewünscht ist, erstelle zusätzlich ein Debug-Image
+    if [[ "$DEBUG_MODE" == "debug" ]]; then
+        echo " "
+        echo " "    
+        echo "Building debug image from $IMAGENAME..."
+        echo " " 
+        docker build -f Dockerfile-debug --build-arg IMIXS_BASE_IMAGE="$IMAGENAME" -t imixs/imixs-office-workflow .
+    else
+        # Push image...
+        docker push $IMAGENAME
+    fi
+
+    echo " "
+    echo " "
+    echo "Build finished! "        
+
 fi
 
 if [[ "$(strip_dash $1)" == "start" ]]; then
@@ -64,13 +103,13 @@ if [[ $# -eq 0 ]]; then
 
     echo " Run with ./dev.sh -XXX"
     echo " "
-    echo "   -start  : start Docker Containers"
-    echo "   -build  : build application and redeploy"
-    echo "   -docker : build the Docker image"
-    echo "   -hot    : Manik Hotdeploy"
-    echo "   -test   : run tests"
-    echo "   -setup  : setup dev environment - rebuild docker containers "
-    echo "_________________________________________"
+    echo "   -start                     : start Docker Containers"
+    echo "   -build                     : build application and redeploy"
+    echo "   -docker {WILDFLY_VERISON}  : build the Docker image"
+    echo "   -hot                       : Manik Hotdeploy"
+    echo "   -test                      : run tests"
+    echo "   -setup                     : setup dev environment - rebuild docker containers "
+    echo "_________________________________________________________________________________________"
     echo " "
 
 fi
