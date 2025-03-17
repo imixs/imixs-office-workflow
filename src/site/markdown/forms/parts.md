@@ -9,7 +9,6 @@ Within a Imixs-Office-Workflow [Form Definition](index.html) you can define diff
 </imixs-form-section>
 ```
 
-
 ## Input Parts
 
 The various input item definitions are called 'input parts':
@@ -51,6 +50,13 @@ A textlist is displayed as a input textarea. The entries of separate lines are s
             label="Date" />
 ```
 
+### HTML5 Date Input
+
+```xml
+    <item name="invoice.date" type="html5date"
+            label="Date" />
+```
+
 ### Currency Input
 
 ```xml
@@ -58,19 +64,16 @@ A textlist is displayed as a input textarea. The entries of separate lines are s
             label="Amount" />
 ```
 
-
-
-
-### IBAN / BIC  Input
+### IBAN / BIC Input
 
 ```xml
-    <item name="dbtr.iban" type="iban" 
+    <item name="dbtr.iban" type="iban"
             label="IBAN" />
-    <item name="dbtr.bic" type="bic" 
+    <item name="dbtr.bic" type="bic"
             label="BIC" />
 ```
 
-Supports a IBAN/BIC Input validation. 
+Supports a IBAN/BIC Input validation.
 
 ### Select Boxes
 
@@ -100,5 +103,3 @@ You can also add a mapping of the name displayed in the select box and an option
     <item name"myfield" type="selectOneMenu" required="true" label="Your Choice"
       options="management.it|Option A;management.backoffice|Option B" />
 ```
-
-
