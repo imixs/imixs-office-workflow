@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" template="/layout/template.xhtml">
+
+	<h:head>
+		<!-- support deep link for workitems to be loaded by the WorkflowController (optional params 'id' and 'workitem' supported) -->
+		<f:metadata>
+			<f:viewAction action="#{workflowController.onLoad()}" />	
+			<!-- Optional create new workitem -->
+			<f:viewParam name="version" value="#{workitemMobileController.version}" />
+			<f:viewParam name="task" value="#{workitemMobileController.task}" />
+			<f:viewParam name="ref" value="#{workitemMobileController.ref}" />
+			<f:event type="preRenderView" listener="#{workitemMobileController.init}" />
+		</f:metadata>
+
+	</h:head>
+ 
+	<ui:define name="scripts">
+		<script type="text/javascript"
+			src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.workitem.js?build=#{app.application_build_timestamp}"></script>
+		<script type="text/javascript"
+			src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.workitem.custom.js?build=#{app.application_build_timestamp}"></script>
+
+		<!-- Imixs-Adapter-Wopi integration -->
+		<ui:fragment rendered="#{wopiController!=null and wopiController.enabled}">
+			<link
+				href="#{facesContext.externalContext.requestContextPath}/layout/css/office-theme-wopi.css?build=#{app.application_build_timestamp}"
+				type="text/css" rel="stylesheet" />
+			<script type="text/javascript"
+				src="#{facesContext.externalContext.requestContextPath}/js/imixs-wopi.js?build=#{app.application_build_timestamp}"></script>
+			<script type="text/javascript"
+				src="#{facesContext.externalContext.requestContextPath}/js/imixs-office.workitem.wopi.js?build=#{app.application_build_timestamp}"></script>
+		</ui:fragment>
+
+		<script type="text/javascript">
+			/*<![CDATA[*/
+
+			// set workitem uid
+			imixsOfficeMain.workitem_uid = "#{workflowController.workitem.uniqueID}";
+			imixsOfficeMain.workitem_model = "#{workflowController.workitem.modelVersion}";
+			imixsOfficeMain.document_preview = #{propertyController.getProperty('feature.document.preview', 'true')};
+
+			// Redirect if no workitem model version is defined
+			if (!imixsOfficeMain.workitem_model) {
+				document.location = imixsOfficeMain.contextPath
+					+ "/pages/notes.jsf";
+			}
+
+			/*]]>*/
+		</script>
+	</ui:define>
+
+
+	<ui:define name="content">
+		<!-- Documentinfo: $UniqueID= #{workflowController.workitem.item['$uniqueid']}-->
+		<f:view>
+			<h:form id="workitem_form" pt:autocomplete="on"  enctype="multipart/form-data">
+
+				<marty:userSearch />
+				<ui:include src="/pages/workitems/parts/workitemlinkSearch.xhtml" />
+
+				<!-- Dummy button to avoid hit enter to submit form other input fields.. -->
+				<button type="submit" onclick="return false;" style="display:none;"></button>
+
+				<div class="imixs-workitem">
+					<!-- Workitem Main Form -->
+					<div class="imixs-workitem-form">
+
+
+						<h:commandLink
+										action="/pages/workitems/workitem-m">
+										<h:outputText value="Klick mich" />
+									</h:commandLink>
+
+						<div class="imixs-form-plane">
+							<div class="imixs-form" id="imixs_workitem_form_id">
+								<div class="imixs-header">
+									<ui:include src="/pages/workitems/workitem_header.xhtml" />
+								</div>
+								<h:panelGroup layout="block" styleClass="imixs-body" id="formComponents"
+									binding="#{formComponents}">
+									<ui:include
+										src="/pages/workitems/forms/#{formController.formDefinition.path}.xhtml" />
+								</h:panelGroup>
+							</div>
+							
+						</div>
+					</div>
+
+
+					<!-- Workflow without Chronicle (mobile) -->
+					<div class="imixs-workitem-chronicle">
+						<ui:include src="/pages/workitems/mobile_chronicle.xhtml" />
+					</div>
+					
+					 
+				</div>
+			</h:form>
+
+
+
+
+
+		</f:view>
+
+
+	</ui:define>
+
+	<!-- no footer -->
+	<ui:define name="footer">
+	</ui:define>
+</ui:composition>
