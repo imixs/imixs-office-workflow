@@ -46,11 +46,12 @@ $(document).ready(function () {
 	}
 	lastFormWidth = imixsOfficeWorkitem.validateFormMinMaxWidth(lastFormWidth);
 	imixsOfficeWorkitem.updateFormWidth(lastFormWidth);
-	workitemSliderElement = document.querySelector('.imixs-workitem > .imixs-slider');
-	workitemSliderElement.addEventListener('mousedown', (e) => {
-		isChronicleResizing = true;
-		sliderPosX = e.clientX;
-	});
+	if (workitemSliderElement) {
+		workitemSliderElement.addEventListener('mousedown', (e) => {
+			isChronicleResizing = true;
+			sliderPosX = e.clientX;
+		});
+	}
 	window.addEventListener('mouseup', (e) => {
 		isChronicleResizing = false;
 	});
@@ -280,9 +281,11 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 		 * updates the workitem form width and update the corresponding cookie
 		 */
 		updateFormWidth = function (_newWidth) {
-			const chronicleWidth = workitemElement.offsetWidth - _newWidth - workitemSliderElement.offsetWidth;
-			workitemChronicleElement.style.flexBasis = `${chronicleWidth}px`;
-			imixsOfficeWorkitem.setCookie("imixs.office.document.workitem.formwidth", _newWidth, 14);
+			if (workitemSliderElement) {
+				const chronicleWidth = workitemElement.offsetWidth - _newWidth - workitemSliderElement.offsetWidth;
+				workitemChronicleElement.style.flexBasis = `${chronicleWidth}px`;
+				imixsOfficeWorkitem.setCookie("imixs.office.document.workitem.formwidth", _newWidth, 14);
+			}
 		},
 
 		/*
