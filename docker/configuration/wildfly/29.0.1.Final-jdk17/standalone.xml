@@ -237,6 +237,11 @@
                 managed-executor-service="java:jboss/ee/concurrency/executor/default"
                 managed-scheduled-executor-service="java:jboss/ee/concurrency/scheduler/default"
                 managed-thread-factory="java:jboss/ee/concurrency/factory/default" />
+
+            <!-- GrallVM Scrpting Engine -->
+            <global-modules>
+                <module name="jdk.unsupported" />
+            </global-modules>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:ee-security:1.0" />
         <subsystem xmlns="urn:jboss:domain:ejb3:10.0">
