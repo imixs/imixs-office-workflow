@@ -70,10 +70,11 @@ $(document).ready(function () {
 	
 	// Init Document Preview
 	chroniclePreview = imixsOfficeWorkitem.readCookie('imixs.office.document.chronicle.preview');
-	if (chroniclePreview == "true") {
-		chroniclePreview = true;
-	} else {
+	if (chroniclePreview == "false") {
 		chroniclePreview = false;
+	} else {
+		// default true
+		chroniclePreview = true;
 	}
 	documentPreviewIframe = document.getElementById('imixs_document_iframe');
 	imixsOfficeWorkitem.initAttachmentLinks();
@@ -318,8 +319,9 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 				title = title.substring(0, 64) + "...";
 			}
 			$('.document-title', documentPreview).text(title);
+			$('.document-deeplink', documentPreview).attr( 'href',link);
 			documentPreviewURL = link;
-			documentPreviewIframe.contentWindow.location.replace(documentPreviewURL);			
+			documentPreviewIframe.contentWindow.location.replace(documentPreviewURL);		
 			showDocumentPreview();
 			$('.document-nav').show();
 		},
