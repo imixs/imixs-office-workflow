@@ -24,7 +24,6 @@
 				</h:commandLink>
 			</li>
 
-
 			<li>
 				<h:commandLink
 					styleClass="#{'dms' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
@@ -34,7 +33,6 @@
 				</h:commandLink>
 			</li>
 
-
 			<li>
 				<h:commandLink
 					styleClass="#{'reference' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
@@ -43,7 +41,6 @@
 					<f:ajax render="chronicle-main chronicle-nav" />
 				</h:commandLink>
 			</li>
-
 
 			<li>
 				<h:commandLink
@@ -55,17 +52,10 @@
 			</li>
 
 		</ul>
-
-
 	</h:panelGroup>
-
-
-
-
 
 	<!-- Main panel - shows entries filtered by optional category -->
 	<h:panelGroup id="chronicle-main" binding="#{chronicleListComponent}" layout="block" style="">
-		
 
 		<ui:fragment rendered="#{! empty workflowController.workitem.item['$lasteventdate']}">
 			<table class="imixs-workitem-chronicle-small">
@@ -79,7 +69,6 @@
 						#{userController.getUserName(workflowController.workitem.item['$creator'])}
 					</td>
 				</tr>
-
 				<tr>
 					<td style="min-width:95px;"><strong>#{message.modified}: </strong></td>
 					<td style="width:100%;">
@@ -90,21 +79,18 @@
 						#{userController.getUserName(workflowController.workitem.item['$editor'])}
 					</td>
 				</tr>
-
 			</table>
 		</ui:fragment>
 
 		<table>
 			<!-- print a headline for each year -->
 			<ui:repeat var="year" value="#{chronicleController.getYears()}">
-
 				<!-- print YEAR -->
 				<tr class="year">
 					<td colspan="3">
 						<h2 style="text-align: center; border-bottom: 1px solid #ddd; margin-top:20px;">#{year}</h2>
 					</td>
 				</tr>
-
 				<!-- print all MONTHs -->
 				<ui:repeat var="month" value="#{chronicleController.getMonths(year)}">
 					<ui:param name="message_month" value="month_#{month}"></ui:param>
@@ -112,9 +98,7 @@
 						<td colspan="3">
 							<h3 style="text-align: center;">#{message[message_month]}</h3>
 						</td>
-
 					</tr>
-
 					<!-- show chronic by month -->
 					<ui:repeat var="chronicle" value="#{chronicleController.getChroniclePerMonth(year,month)}">
 
@@ -125,7 +109,7 @@
 				</ui:repeat>
 			</ui:repeat>
 		</table>
-
+		<!-- reinitialize attachment links for auto preview -->
+		<script>imixsOfficeWorkitem.initAttachmentLinks();</script>
 	</h:panelGroup>
-
 </ui:composition>

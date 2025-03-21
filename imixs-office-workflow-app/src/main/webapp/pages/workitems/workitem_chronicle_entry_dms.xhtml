@@ -33,13 +33,10 @@
 		<div id="hyperlink" class="content-block">
 			<!-- Attachment link -->
 			<h:panelGroup rendered="#{!isURL}">
-				<h:outputText escape="false"
-					value="&lt;a target='_blank' class='attachmentlink #{dmsController.isRemoved(attachment.item['txtName'])?'attachmentlink-removed':''}'" />
-				<h:outputText escape="false"
-					value=" href='#{facesContext.externalContext.requestContextPath}/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{attachment.item['name.encoded']}" />
-				<h:outputText escape="false"
-					value="'&gt;#{attachment.item['txtName']}&lt;/a&gt;" />
-
+				<ui:param name="filename" value="#{attachment.item['txtName']}" />
+				<ui:param name="filelink" value="#{facesContext.externalContext.requestContextPath}/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{attachment.item['name.encoded']}" />
+				<a href="#{filelink}" target="_download" 
+				   class="attachmentlink #{dmsController.isRemoved(attachment.item['txtName'])?'attachmentlink-removed':''}">#{filename}</a>
 				<!-- Imixs WOPI Integration -->
 				<ui:fragment rendered="#{wopiController!=null and wopiController.enabled}">				    			
 				    <ui:param name="uri" value="#{wopiController.getWopiAccessURL(workflowController.workitem.uniqueID,attachment.item['name'],loginController.userPrincipal,userController.workitem.item['txtUserName'])}"></ui:param>
@@ -56,8 +53,8 @@
 				<!-- created/modified -->
 				<h:panelGroup style="position: relative; display: inline-block;">
 					
-					<!-- Document info -->	
-					<span class="typcn typcn-info-large  info-icon" />
+				<!-- Document info -->	
+				<span class="typcn typcn-info-large  info-icon" />
 					<h:panelGroup styleClass="tooltip">
 							<ui:fragment rendered="#{(empty attachment.item['$modified'])}">
 								<strong>#{message.created}: </strong>
@@ -78,7 +75,7 @@
 					</h:panelGroup>
 				</h:panelGroup>
 				<!-- remove document -->
-				<f:ajax render=":#{chronicleListComponent.clientId}">
+				<f:ajax render=":#{chronicleListComponent.clientId}"  onevent="imixsOfficeWorkitem.initAttachmentLinks()">
 					<h:commandLink
 						onclick="return confirm('#{message.help_delete}');"
 						styleClass="imixs-action-dms-remove" title="#{message.remove}"
