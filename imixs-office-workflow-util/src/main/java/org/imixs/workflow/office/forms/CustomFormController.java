@@ -33,19 +33,30 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.engine.WorkflowService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.ModelException;
+import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.faces.data.WorkflowEvent;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -83,6 +94,9 @@ public class CustomFormController implements Serializable {
 
     @Inject
     CustomFormService customFormService;
+
+    @Inject
+    WorkflowService workflowService;
 
     public CustomFormController() {
         super();
@@ -164,13 +178,13 @@ public class CustomFormController implements Serializable {
                             bReadOnly = Boolean.parseBoolean(sReadOnly);
                         }
                         CustomSubForm customSubForm = new CustomSubForm("subform-" + (subId + 1), label, bReadOnly);
-                        sections = parseSectionList(nSubFormElement, bReadOnly);
+                        sections = parseSectionList(nSubFormElement, bReadOnly, workitem);
                         customSubForm.setSections(sections);
                         subforms.add(customSubForm);
                     }
                 } else {
                     // no subform defined - so simply parse all imixs-form-section tags
-                    sections = parseSectionList(rootElement, false);
+                    sections = parseSectionList(rootElement, false, workitem);
                 }
             } catch (ParserConfigurationException | SAXException | IOException e) {
                 logger.warning("Unable to parse custom form definition: " + e.getMessage());
@@ -220,7 +234,8 @@ public class CustomFormController implements Serializable {
      * @return list of customFormSection elements
      * @throws ModelException
      */
-    private List<CustomFormSection> parseSectionList(Element parentNode, boolean readOnly) throws ModelException {
+    private List<CustomFormSection> parseSectionList(Element parentNode, boolean readOnly, ItemCollection workitem)
+            throws ModelException {
         ArrayList<CustomFormSection> result = new ArrayList<CustomFormSection>();
         boolean defaultReadOnly = false;
         NodeList nSectionList = parentNode.getElementsByTagName("imixs-form-section");
@@ -246,7 +261,7 @@ public class CustomFormController implements Serializable {
                         eSectionElement.getAttribute("path"),
                         defaultReadOnly);
                 customSection.setItems(findItems(eSectionElement,
-                        customSection.getColumns(), defaultReadOnly));
+                        customSection.getColumns(), defaultReadOnly, workitem));
                 result.add(customSection);
             }
         }
@@ -254,7 +269,7 @@ public class CustomFormController implements Serializable {
     }
 
     /**
-     * This method parses the item nods with a section element. The param columns
+     * This method parses the item nodes within a section element. The param columns
      * defines the span for each item
      * 
      * @param sectionElement
@@ -262,7 +277,8 @@ public class CustomFormController implements Serializable {
      * @return
      * @throws ModelException
      */
-    private List<CustomFormItem> findItems(Element sectionElement, String _columns, boolean readOnly)
+    private List<CustomFormItem> findItems(Element sectionElement, String _columns, boolean readOnly,
+            ItemCollection workitem)
             throws ModelException {
         List<CustomFormItem> result = new ArrayList<CustomFormItem>();
 
@@ -305,6 +321,30 @@ public class CustomFormController implements Serializable {
                     // evaluate the readonly flag depending on the item attribute
                     defaultReadOnly = evaluateBoolean(itemElement.getAttribute("readonly"));
                 }
+
+                // test if we have a default value
+                String defaultValue = itemElement.getTextContent();
+                if (defaultValue != null && !defaultValue.isEmpty()) {
+                    // extract raw values
+                    String itemName = itemElement.getAttribute("name");
+                    try {
+                        defaultValue = getInnerXMLContent(itemElement);
+                        if (!workitem.hasItem(itemName)) {
+                            // adapt text....
+                            if (defaultValue.contains("$created")) {
+                                // special case - we resolve the manually here!
+                                workitem.setItemValue(itemElement.getAttribute("name"), new Date());
+                            } else {
+                                // use adaptText method in all other cases
+                                defaultValue = workflowService.adaptText(defaultValue, workitem);
+                                workitem.setItemValue(itemElement.getAttribute("name"), defaultValue);
+                            }
+                        }
+                    } catch (PluginException e) {
+                        logger.warning(
+                                "failed to adapt default value for item " + itemName + " : " + e.getMessage());
+                    }
+                }
                 CustomFormItem customItem = new CustomFormItem(itemElement.getAttribute("name"),
                         itemElement.getAttribute("type"), itemElement.getAttribute("label"),
                         evaluateBoolean(itemElement.getAttribute("required")),
@@ -315,9 +355,32 @@ public class CustomFormController implements Serializable {
                 result.add(customItem);
             }
         }
-
         return result;
 
+    }
+
+    /**
+     * Helper method to extract the content of a xml tag including child tags
+     **/
+    public static String getInnerXMLContent(Element element) {
+        Transformer transformer;
+        try {
+            transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty("omit-xml-declaration", "yes");
+            StringWriter writer = new StringWriter();
+            transformer.transform(new DOMSource(element), new StreamResult(writer));
+            String xmlString = writer.toString().trim();
+            Pattern pattern = Pattern.compile(
+                    "<" + element.getNodeName() + "[^>]*>(.*?)</" + element.getNodeName() + ">", Pattern.DOTALL);
+            Matcher matcher = pattern.matcher(xmlString);
+            if (matcher.find()) {
+                return matcher.group(1);
+            }
+        } catch (TransformerException e) {
+            // no op
+        }
+        // default behavior
+        return element.getTextContent();
     }
 
     /**

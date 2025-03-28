@@ -48,6 +48,20 @@ The default width of an item is defined by the number of columns of the containi
 | required | boolean |           | Optional indicates that the input field in mandatory |
 | readonly | boolean |           | Optional indicates that the input field is read only |
 
+#### Default values
+
+Optional you can add a default value to an form item that will be used during creation of a new workitem.
+
+```xml
+  <item name="travel.departure" label="departure:" >Paris</item>
+  <item name="employee.name" label="Employee:" ><itemvalue>$creator</itemvalue></item>
+  <item name="travel.date" type="date" label="Date:" ><itemvalue>$created</itemvalue></item>
+```
+
+This example will add the username and the current time to the items 'employee.name' and 'travel.date' and the city 'Paris' to the field 'travel.departure.
+
+In more complex situations you can alos use a custom CDI bean to add default values.
+
 ## Input Fields & Item Names
 
 Even if you can define the item names of your input fields in your custom form free, it is recommended to use a naming concept. This allows you to reuse code in a more easy way. _Imixs-Office-Workflow_ defines already a set of standard item names used for different business objects. This naming convention makes it more easy to group related items and to exchange data with your business process architecture.

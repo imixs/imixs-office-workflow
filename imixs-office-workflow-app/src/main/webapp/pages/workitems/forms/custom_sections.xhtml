@@ -94,6 +94,22 @@
 									</h:outputText>
 								</c:if>
 
+
+								<!-- html5-datetime -->
+								<c:if test="#{item.type eq 'html5datetime'}">
+									<h:inputText value="#{workitem.item[item.name]}" pt:type="datetime" pt:data-item="#{item.name}"
+										required="#{item.required?validationController.required:false}"
+										styleClass="imixs-html5date" rendered="#{!item.readonly}"
+										disabled="#{item.disabled}">
+										<f:converter converterId="imixsHTML5DateConverter" />
+										
+									</h:inputText>
+									<h:outputText value="#{workitem.item[item.name]}" rendered="#{item.readonly}">
+										<f:convertDateTime pattern="#{message.datePatternShort}"
+											timeZone="#{message.timeZone}" />
+									</h:outputText>
+								</c:if>
+
 								<!-- text area -->
 								<c:if test="#{item.type eq 'textarea'}">
 									<h:inputTextarea value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
