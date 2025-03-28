@@ -7,7 +7,7 @@
     <imixs:item name="txtfieldmapping" type="xs:string">
       <imixs:value><![CDATA[Ersteller|namCreator]]></imixs:value>
       <imixs:value><![CDATA[Aktueller Bearbeiter|namCurrentEditor]]></imixs:value>
-      <imixs:value><![CDATA[Eigentümer|namowner]]></imixs:value>
+      <imixs:value><![CDATA[Approver|approver]]></imixs:value>
       <imixs:value><![CDATA[Prozess-Verantwortliche|namprocessmanager]]></imixs:value>
       <imixs:value><![CDATA[Prozess-Team|namprocessteam]]></imixs:value>
       <imixs:value><![CDATA[Prozess-Assistenz|namprocessassist]]></imixs:value>
@@ -15,7 +15,6 @@
       <imixs:value><![CDATA[Bereichs-Team|namspaceteam]]></imixs:value>
       <imixs:value><![CDATA[Bereichs-Assistenz|namspaceassist]]></imixs:value>
       <imixs:value><![CDATA[Verantwortlich|namteam]]></imixs:value>
-      <imixs:value><![CDATA[Debug Team|debug.team]]></imixs:value>
     </imixs:item>
     <imixs:item name="txttimefieldmapping" type="xs:string">
       <imixs:value><![CDATA[Liefertermin|order.delivery]]></imixs:value>
@@ -129,8 +128,14 @@ Bei Fragen wenden Sie sich bitte an info@imixs.com
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>false</imixs:value>
         </imixs:item>
-        <imixs:item name="txtbusinessrule" type="CDATA">
-          <imixs:value/>
+        <imixs:item name="txtbusinessrule" type="xs:string">
+          <imixs:value><![CDATA[var result={};
+result.isValid=true;
+if ( workitem.getItemValueString('debug.city')=='Munich') {
+     result.approver='anna';
+} else {
+    result.approver='marty';
+}]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_105"><![CDATA[Submit for approval]]></bpmn2:documentation>
