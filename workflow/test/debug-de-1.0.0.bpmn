@@ -609,7 +609,7 @@ if (workitem.getItemValueString('txtcomment')=='') {
         </imixs-form-section>
 
         <imixs-form-section columns="2">
-            <item name="debug.user" type="custom" path="userinput"  label="Responsible:" />
+            <item name="debug.user" type="custom" path="userinput"  label="Responsible:" ><itemvalue>$creator</itemvalue></item>
             <item name="debug.team" type="custom" path="userlistinput"    label="Team:" />
             <item name="" type="custom" path="spaceref"  label="Fachdienst"
                      options="default-selection=team;" span="6" required="false"/>
@@ -617,7 +617,7 @@ if (workitem.getItemValueString('txtcomment')=='') {
             <item  type="custom" path="workitemlink"  label="Order No.:" options="($workflowgroup:Bedarfsmeldung)" />
 
 
-            <item name="debug.datehtml" type="html5date"  label="Date:" span="2" />
+            <item name="debug.datehtml" type="html5date"  label="Date:" span="2" ><itemvalue>$created</itemvalue></item>
             <item name="debug.zip" type="text"  label="ZIP:" span="2" />
             <item name="debug.city" type="text"  label="City:" span="6" />
             <item name="debug.country" type="custom" path="country"  label="Country:" span="4" />
