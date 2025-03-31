@@ -48,6 +48,9 @@
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
         </imixs:item>
+        <imixs:item name="txttype" type="xs:string">
+          <imixs:value><![CDATA[profilearchive]]></imixs:value>
+        </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_23</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_24</bpmn2:outgoing>
@@ -372,6 +375,11 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:documentation id="documentation_m0Mb4A"/>
     </bpmn2:sequenceFlow>
     <bpmn2:task id="Task_8" imixs:processid="220" name="Password reminder">
+      <bpmn2:extensionElements>
+        <imixs:item name="txttype" type="xs:string">
+          <imixs:value><![CDATA[profile]]></imixs:value>
+        </imixs:item>
+      </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_6"><![CDATA[Please change your password]]></bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_27</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_30</bpmn2:outgoing>
