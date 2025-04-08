@@ -8,7 +8,7 @@
 			<h3>#{section.label}</h3>
 		</c:if>
 
-		<!-- test if custom form section -->
+		<ui:remove><!-- test if custom form section --></ui:remove>
 		<c:if test="#{! empty section.path}">
 			<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
 				<ui:param name="workitem" value="#{workflowController.workitem}" />
@@ -16,13 +16,13 @@
 			</ui:include>
 		</c:if>
 
-		<!-- standard form section -->
+		<ui:remove><!-- standard form section --></ui:remove>
 		<c:if test="#{empty section.path}">
 			<div class="imixs-form-section-flex">
 
 				<c:forEach items="#{section.items}" var="item">
 					<c:if test="#{!item.hide}">
-						<dl style="grid-column-start: span #{item.span};">
+						<dl style="grid-column-start: span #{item.span};" class="#{item.readonly?'imixs-readonly':'imixs-edit'}">
 							<dt>
 								#{item.label}
 								<c:if test="#{item.required}">
@@ -30,7 +30,7 @@
 								</c:if>
 							</dt>
 							<dd>
-								<!-- text -->
+								<ui:remove><!-- text --></ui:remove>
 								<c:if test="#{item.type eq 'text'}">
 									<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
 										required="#{item.required?validationController.required:false}"
@@ -38,7 +38,7 @@
 									<h:outputText value="#{workitem.item[item.name]}" rendered="#{item.readonly}" />
 								</c:if>
 
-								<!-- number -->
+								<ui:remove><!-- number --></ui:remove>
 								<c:if test="#{item.type eq 'number'}">
 									<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
 										required="#{item.required?validationController.required:false}"
@@ -50,7 +50,7 @@
 									</h:outputText>
 								</c:if>
 
-								<!-- currency -->
+								<ui:remove><!-- currency --></ui:remove>
 								<c:if test="#{item.type eq 'currency'}">
 									<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
 										required="#{item.required?validationController.required:false}"
@@ -62,7 +62,7 @@
 									</h:outputText>
 								</c:if>
 
-								<!-- date -->
+								<ui:remove><!-- date --></ui:remove>
 								<c:if test="#{item.type eq 'date'}">
 									<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
 										required="#{item.required?validationController.required:false}"
@@ -79,14 +79,13 @@
 									</h:outputText>
 								</c:if>
 
-								<!-- html5-date -->
+								<ui:remove><!-- html5-date --></ui:remove>
 								<c:if test="#{item.type eq 'html5date'}">
 									<h:inputText value="#{workitem.item[item.name]}" pt:type="date" pt:data-item="#{item.name}"
 										required="#{item.required?validationController.required:false}"
 										styleClass="imixs-html5date" rendered="#{!item.readonly}"
 										disabled="#{item.disabled}">
 										<f:converter converterId="imixsHTML5DateConverter" />
-										
 									</h:inputText>
 									<h:outputText value="#{workitem.item[item.name]}" rendered="#{item.readonly}">
 										<f:convertDateTime pattern="#{message.datePatternShort}"
@@ -95,14 +94,13 @@
 								</c:if>
 
 
-								<!-- html5-datetime -->
+								<ui:remove><!-- html5-datetime --></ui:remove>
 								<c:if test="#{item.type eq 'html5datetime'}">
 									<h:inputText value="#{workitem.item[item.name]}" pt:type="datetime" pt:data-item="#{item.name}"
 										required="#{item.required?validationController.required:false}"
 										styleClass="imixs-html5date" rendered="#{!item.readonly}"
 										disabled="#{item.disabled}">
 										<f:converter converterId="imixsHTML5DateConverter" />
-										
 									</h:inputText>
 									<h:outputText value="#{workitem.item[item.name]}" rendered="#{item.readonly}">
 										<f:convertDateTime pattern="#{message.datePatternShort}"
@@ -110,7 +108,7 @@
 									</h:outputText>
 								</c:if>
 
-								<!-- text area -->
+								<ui:remove><!-- text area --></ui:remove>
 								<c:if test="#{item.type eq 'textarea'}">
 									<h:inputTextarea value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
 										required="#{item.required?validationController.required:false}"
@@ -119,7 +117,7 @@
 										rendered="#{item.readonly}" />
 								</c:if>
 
-								<!-- text list -->
+								<ui:remove><!-- text list --></ui:remove>
 								<c:if test="#{item.type eq 'textlist'}">
 									<h:inputTextarea value="#{workitem.itemList[item.name]}" pt:data-item="#{item.name}"
 										required="#{item.required?validationController.required:false}"
@@ -133,7 +131,7 @@
 									</ui:fragment>
 								</c:if>
 
-								<!-- html -->
+								<ui:remove><!-- html --></ui:remove>
 								<c:if test="#{item.type eq 'html'}">
 									<h:inputTextarea required="#{item.required?validationController.required:false}"
 										pt:data-item="#{item.name}" class="imixs-editor-basic"
@@ -142,12 +140,11 @@
 										rendered="#{item.readonly}" />
 								</c:if>
 
-								<!-- Options List -->
+								<ui:remove><!-- Options List --></ui:remove>
 								<c:if
 									test="#{item.type eq 'selectBooleanCheckbox' or item.type eq 'selectOneMenu' or item.type eq 'selectOneRadio' or item.type eq 'selectManyCheckbox' or item.type eq 'selectManyCheckboxPageDirection' or item.type eq 'selectOneRadioPageDirection'}">
 									<ui:fragment rendered="#{item.readonly}">
 										<ui:repeat var="itemvalue" value="#{workitem.itemList[item.name]}">
-
 											<c:if test="#{item.type eq 'selectBooleanCheckbox'}">
 												<h:panelGroup rendered="#{itemvalue}"
 													styleClass="typcn typcn-input-checked"
@@ -155,9 +152,6 @@
 												<h:panelGroup rendered="#{!itemvalue}"
 													styleClass="typcn typcn-media-stop-outline"
 													style="font-size:1.2rem;margin-right: 5px;"></h:panelGroup>
-
-
-
 											</c:if>
 											<c:if test="#{item.type ne 'selectBooleanCheckbox'}">
 												<span class="typcn typcn-input-checked"
@@ -220,7 +214,7 @@
 								</c:if>
 
 
-								<!-- IBAN/BIC -->
+								<ui:remove><!-- IBAN/BIC --></ui:remove>
 								<c:if test="#{item.type eq 'iban'}">
 									<h:inputText id="iban" value="#{workitem.item[item.name]}"
 										pt:data-item="#{item.name}" onkeyup="imixsOfficeWorkitem.formatIBAN(this);"
@@ -247,7 +241,7 @@
 								</c:if>
 
 
-								<!-- custom subview -->
+								<ui:remove><!-- custom subview --></ui:remove>
 								<c:if test="#{item.type eq 'custom'}">
 									<ui:include src="/pages/workitems/parts/#{item.path}.xhtml">
 										<ui:param name="workitem" value="#{workflowController.workitem}" />
@@ -257,15 +251,10 @@
 										<ui:param name="options" value="#{item.options}" />
 										<ui:param name="rendered" value="#{true}" />
 									</ui:include>
-
-
 								</c:if>
-
 							</dd>
 						</dl>
-
 					</c:if>
-
 				</c:forEach>
 			</div>
 		</c:if>
