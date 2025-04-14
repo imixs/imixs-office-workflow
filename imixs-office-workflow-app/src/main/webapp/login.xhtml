@@ -7,27 +7,21 @@
 		<script type="text/javascript">
 			/*<![CDATA[*/
 			// auto focus login 
-			$(document).ready(function () {
-
-				// lowercase userid....
-				$("#j_username").blur(function () {
-
-					var mode = "#{propertyController.getProperty('security.userid.input.mode')}";
-					if (!mode || mode === "" || mode === "LOWERCASE") {
-						$(this).val($(this).val().toLowerCase());
-					} else {
-						if (mode.indexOf("UPPERCASE") == 0) {
-							$(this).val($(this).val().toUpperCase());
-						}
-					}
-				});
-
-				$("#j_username").focus();
-
-			});
-
 			window.onload = function () {
-				document.getElementsByName('j_username')[0].focus();
+				var mode = "#{propertyController.getProperty('security.userid.input.mode')}";
+				var j_username = document.getElementsByName('j_username')[0];
+				j_username.focus();					
+				if (!mode || mode === "" || mode === "LOWERCASE") {
+					j_username.addEventListener('keyup', function() {
+						this.value = this.value.toLowerCase();
+					});
+				} else {
+					if (mode.indexOf("UPPERCASE") == 0) {
+						j_username.addEventListener('keyup', function() {
+							this.value = this.value.toUpperCase();
+						});
+					}
+				}
 			};
 			/*]]>*/
 		</script>
