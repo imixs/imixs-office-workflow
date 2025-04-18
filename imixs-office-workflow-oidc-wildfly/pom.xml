@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>imixs-office-workflow</artifactId>
+		<groupId>org.imixs.workflow</groupId>
+		<version>5.1.2-SNAPSHOT</version>
+	</parent>
+	<artifactId>imixs-office-workflow-oidc-wildfly</artifactId>
+	<name>Imixs Office Workflow OpenID Connect for Wildfly</name>
+
+	<dependencies>
+
+		<!-- Imixs Workflow -->
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-workflow-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-workflow-engine</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.imixs.workflow</groupId>
+			<artifactId>imixs-marty</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.wildfly.security/wildfly-elytron-http-oidc -->
+		<dependency>
+			<groupId>org.wildfly.security</groupId>
+			<artifactId>wildfly-elytron-http-oidc</artifactId>
+			<version>2.6.3.Final</version>
+		</dependency>
+	</dependencies>
+</project>
