@@ -74,7 +74,7 @@ fi
 
 if [[ "$(strip_dash $1)" == "payara" ]]; then
     echo " Buld Docker Image (Payara)..."
-    mvn clean install 
+    mvn clean install -Pauth-oidc
 
     # get project version from pom.xml
     PROJECT_VERSION=$(cat ./pom.xml | grep -m1 "<version>" | sed 's/.*<version>\(.*\)<\/version>.*/\1/')

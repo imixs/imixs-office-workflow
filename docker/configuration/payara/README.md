@@ -10,7 +10,7 @@ To build the Docker Image for Payara run:
 
 After you have build the payara image with the sample application you can start the corresponding Docker-Stack with:
 
-    $ docker-compose -f docker-compose-payara.yaml up
+    $ docker-compose -f docker-compose-dev.yaml up
 
 and run the sample applciation at:
 
