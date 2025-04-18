@@ -1,0 +1,46 @@
+# Define default wildfly version
+ARG PAYARA_VERSION=6.2025.4-jdk17
+
+# Base image
+FROM payara/server-full:${PAYARA_VERSION}
+
+# Re-declare ARG after FROM (this is important - ARGs before FROM aren't available after FROM without redeclaring)
+ARG PAYARA_VERSION
+
+LABEL description="Imixs-Office-Workflow"
+LABEL maintainer="ralph.soika@imixs.com"
+
+
+
+USER root
+# We overwrite the Log Configuration !
+#COPY ./docker/payara/configuration/logging.properties /opt/payara/paasDomain/config/logging.properties
+
+# Preconfigure Resources (Local dev)
+COPY ./docker/configuration/payara/post-boot-commands-dev.asadmin $POSTBOOT_COMMANDS
+RUN chown payara $POSTBOOT_COMMANDS
+
+# Setup Lucene Target Dir
+RUN mkdir -p /opt/lucene/
+RUN chown -R payara /opt/lucene/
+
+#USER payara
+
+# create a custom config folder
+#COPY ./docker/configuration/payara/domain-server-full.xml ${CONFIG_DIR}
+#COPY ./docker/configuration/payara/postgresql-42.2.5.jar ${CONFIG_DIR}
+## Copy the PostgreSQL JDBC driver
+COPY ./docker/configuration/payara/postgresql-42.2.5.jar /opt/payara/appserver/glassfish/domains/domain1/lib/
+
+
+#COPY ./docker/configuration/payara/keyfile ${CONFIG_DIR}
+COPY ./docker/configuration/payara/keyfile /opt/payara/appserver/glassfish/domains/domain1/config/
+
+
+
+#RUN chown -R payara:payara ${PAYARA_HOME}/config
+USER payara
+#WORKDIR ${CONFIG_DIR}
+# Deploy artefacts
+COPY /imixs-office-workflow-app/target/imixs-office-workflow*.war $DEPLOY_DIR
+#CMD ["--addLibs","/opt/payara/config/postgresql-42.2.5.jar", "--deploymentDir", "/opt/payara/deployments", "--rootDir", "/opt/payara/config","--domainConfig", "/opt/payara/config/domain-micro.xml"]]

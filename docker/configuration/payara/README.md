@@ -1,23 +1,23 @@
 # Payara Micro
 
-This folder contains configuration files used to build a docker container running Payara Micro 5.2021.9
+This folder contains configuration files used to build a docker container running Payara Server-Full 6.2025.4-jdk17
 
-To build the Docker Image for Payara-Micro run:
+Find configuration details here: https://docs.payara.fish/community/docs/Technical%20Documentation/Payara%20Server%20Documentation/Payara%20Server%20Docker%20Image.html
 
-	$ mvn clean install -Pdocker-payara
-	
+To build the Docker Image for Payara run:
+
+    $ devi payara
+
 After you have build the payara image with the sample application you can start the corresponding Docker-Stack with:
 
-	$ docker-compose -f docker-compose-payara-micro.yaml up
-	
+    $ docker-compose -f docker-compose-payara.yaml up
+
 and run the sample applciation at:
 
-	http://localhost:8080/
-	
+    http://localhost:8080/
+
 ## Configuration
 
 You can find the configuration details for the payara server in the config directory
 
-	/src/docker/configuration/payara/
-
-	
+    /docker/configuration/payara/

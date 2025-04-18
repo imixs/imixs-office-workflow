@@ -4,18 +4,18 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.ejb.EJB;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
-
 import org.imixs.marty.team.TeamService;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ItemCollectionComparator;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.util.LoginController;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -31,11 +31,10 @@ public class RolesAndRightsViewController implements Serializable {
     @EJB
     protected TeamService teamService;
 
-        private List<ItemCollection> profiles;
+    private List<ItemCollection> profiles;
 
-        private List<ItemCollection> spaces;
-        private List<ItemCollection> processList;
-
+    private List<ItemCollection> spaces;
+    private List<ItemCollection> processList;
 
     public RolesAndRightsViewController() {
         super();
@@ -44,32 +43,37 @@ public class RolesAndRightsViewController implements Serializable {
 
     /**
      * PostContruct event - loads the imixs.properties.
-     * @throws QueryException 
+     * 
+     * @throws QueryException
      */
     @PostConstruct
-    void init() throws QueryException {
+    void init() {
         String _query = "(type:\"profile\") AND ($taskid:[210 TO 299]) ";
-        profiles = documentService.find(_query, 9999, 0);
-        Collections.sort(profiles, new ItemCollectionComparator("txtusername", true));
-        
-        
-        _query = "type:\"space\"";
-        spaces = documentService.find(_query, 9999, 0);
-        Collections.sort(spaces, new ItemCollectionComparator("name", true));
-        
-        _query = "type:\"process\"";
-        processList = documentService.find(_query, 9999, 0);
-        Collections.sort(processList, new ItemCollectionComparator("name", true));
+        try {
+            profiles = documentService.find(_query, 9999, 0);
+
+            Collections.sort(profiles, new ItemCollectionComparator("txtusername", true));
+
+            _query = "type:\"space\"";
+            spaces = documentService.find(_query, 9999, 0);
+            Collections.sort(spaces, new ItemCollectionComparator("name", true));
+
+            _query = "type:\"process\"";
+            processList = documentService.find(_query, 9999, 0);
+            Collections.sort(processList, new ItemCollectionComparator("name", true));
+        } catch (QueryException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
-    
     /**
      * Returns a list of all active profiles
      * 
      * @return
-     * @throws QueryException 
+     * @throws QueryException
      */
-    public List<ItemCollection> getProfiles(){       
+    public List<ItemCollection> getProfiles() {
         return profiles;
     }
 

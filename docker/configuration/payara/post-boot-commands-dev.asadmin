@@ -1,0 +1,22 @@
+# ###################
+# Custom Post Boot Scripts to configure payara for Development
+# ###################
+
+# Mail Resource
+create-javamail-resource --mailhost smarthost --mailuser admin --fromaddress info@localhost mail/org.imixs.workflow.mail
+
+
+# Create the JDBC connection pool for Postgres:
+create-jdbc-connection-pool --datasourceclassname=org.postgresql.ds.PGSimpleDataSource --restype=javax.sql.DataSource --property user=${ENV=POSTGRES_USER}:password=${ENV=POSTGRES_PASSWORD}:Url="${ENV=POSTGRES_CONNECTION}" office
+create-jdbc-resource --connectionpoolid office jdbc/office
+# Setup JDBC Connection validation
+set resources.jdbc-connection-pool.office.connection-validation-method=custom-validation
+set resources.jdbc-connection-pool.office.validation-classname=org.glassfish.api.jdbc.validation.JDBC40ConnectionValidation
+set resources.jdbc-connection-pool.office.is-connection-validation-required=true
+#set resources.jdbc-connection-pool.office.fail-all-connections=true
+
+
+# Security Realm
+create-auth-realm --classname com.sun.enterprise.security.auth.realm.file.FileRealm --property file=${com.sun.aas.instanceRoot}/config/keyfile:jaas-context=fileRealm imixsrealm
+
+

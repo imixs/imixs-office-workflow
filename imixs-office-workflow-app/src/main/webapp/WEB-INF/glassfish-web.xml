@@ -2,8 +2,37 @@
 <glassfish-web-app>
 	<context-root>${imixs-office.contextroot}</context-root>
 
+
+	<!--	
+	The following mapping is necessary to map OpenID Connect roles to group names
+	Otherwise user groups are not resolved
+-->
 	<security-role-mapping>
-		<principal-name>IMIXS-WORKFLOW-Service</principal-name>
-		<role-name>org.imixs.ACCESSLEVEL.MANAGERACCESS</role-name>
+		<role-name>org.imixs.ACCESSLEVEL.NOACCESS</role-name>
+		<group-name>org.imixs.ACCESSLEVEL.NOACCESS</group-name>
 	</security-role-mapping>
+
+	<security-role-mapping>
+		<role-name>org.imixs.ACCESSLEVEL.READERACCESS</role-name>
+		<group-name>org.imixs.ACCESSLEVEL.READERACCESS</group-name>
+	</security-role-mapping>
+
+	<security-role-mapping>
+		<role-name>org.imixs.ACCESSLEVEL.EDITORACCESS</role-name>
+		<group-name>org.imixs.ACCESSLEVEL.EDITORACCESS</group-name>
+	</security-role-mapping>
+
+
+	<!--  Default Mapping -->
+	<security-role-mapping>
+		<role-name>org.imixs.ACCESSLEVEL.AUTHORACCESS</role-name>
+		<group-name>org.imixs.ACCESSLEVEL.AUTHORACCESS</group-name>
+	</security-role-mapping>
+	<security-role-mapping>
+		<role-name>org.imixs.ACCESSLEVEL.MANAGERACCESS</role-name>
+		<group-name>org.imixs.ACCESSLEVEL.MANAGERACCESS</group-name>
+		<principal-name>IMIXS-WORKFLOW-Service</principal-name>
+	</security-role-mapping>
+
+
 </glassfish-web-app>

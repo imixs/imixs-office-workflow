@@ -71,6 +71,52 @@ if [[ "$(strip_dash $1)" == "docker" ]]; then
 
 fi
 
+
+if [[ "$(strip_dash $1)" == "payara" ]]; then
+    echo " Buld Docker Image (Payara)..."
+    mvn clean install 
+
+    # get project version from pom.xml
+    PROJECT_VERSION=$(cat ./pom.xml | grep -m1 "<version>" | sed 's/.*<version>\(.*\)<\/version>.*/\1/')
+    PAYARA_VERSION=$2
+    DEBUG_MODE=$3
+    if [[ "$(strip_dash $2)" == "latest" || "$(strip_dash $2)" == "" ]]; then
+        IMAGENAME=imixs/imixs-office-workflow
+        PAYARA_VERSION=6.2025.4-jdk17
+    else
+        IMAGENAME=imixs/imixs-office-workflow:$PROJECT_VERSION-payara-$PAYARA_VERSION
+    fi
+    
+
+    echo " "
+    echo " "
+    echo "Build Docker image"
+    echo "  Project Version=$PROJECT_VERSION"
+    echo "  Payara Version=$PAYARA_VERSION"
+    echo "  Image name = $IMAGENAME"
+    echo " "
+    echo " "
+    docker build -f Dockerfile-payara --build-arg PAYARA_VERSION=$PAYARA_VERSION -t $IMAGENAME ./.
+
+
+    # Falls Debug-Mode gewünscht ist, erstelle zusätzlich ein Debug-Image
+    # if [[ "$DEBUG_MODE" == "debug" ]]; then
+    #     echo " "
+    #     echo " "    
+    #     echo "Building debug image from $IMAGENAME..."
+    #     echo " " 
+    #     docker build -f Dockerfile-debug --build-arg IMIXS_BASE_IMAGE="$IMAGENAME" -t imixs/imixs-office-workflow .
+    # else
+    #     # Push image...
+    #     docker push $IMAGENAME
+    # fi
+
+    echo " "
+    echo " "
+    echo "Build finished! "        
+
+fi
+
 if [[ "$(strip_dash $1)" == "start" ]]; then
     echo " Start Dev Environment..."
     docker-compose -f ./docker/docker-compose-dev.yaml up
