@@ -1,0 +1,355 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	template="/layout/template.xhtml">
+
+
+
+	<f:metadata>
+		<f:viewAction action="#{dataViewDefinitionController.onLoad()}" />
+	</f:metadata>
+
+
+
+	<ui:define name="content">
+
+		<f:view>
+			<h:form id="dataview_definition_form_id" pt:autocomplete="on" enctype="multipart/form-data">
+
+				<div class="imixs-form">
+					<div class="imixs-header">
+						<h1>
+							<h:outputText value="Data View Definition: " />
+							<h:outputText value="#{dataViewDefinitionController.data.item['name']} " />
+						</h1>
+					</div>
+
+					<div class="imixs-body">
+						<div class="imixs-tabs">
+							<ul>
+								<li><a href="#tab-1">Query</a></li>
+								<li><a href="#tab-2">Form</a></li>
+								<li><a href="#tab-3">Excel</a></li>
+
+							</ul>
+
+							<div id="tab-1">
+
+
+
+								<div class="imixs-form-panel">
+
+									<div class="imixs-form-section-2">
+										<h1><span class="typcn typcn-edit"></span> Query Definition
+											<span style="font-size: 1rem;margin-left:20px;">
+												<h:outputLink
+													value="#{facesContext.externalContext.requestContextPath}#{dataViewDefinitionController.getViewURI(dataViewDefinitionController.data)}"
+													target="dataview"><span class="typcn typcn-camera-outline"
+														style="font-size: 1.2rem;"></span> Test View
+												</h:outputLink>
+											</span>
+										</h1>
+										<p>
+											A Query Defintion defines a custom data list based on the
+											<a href="https://www.imixs.org/doc/engine/queries.html"
+												target="_blank">Lucene Search Query syntax</a>.
+										</p>
+										<dl>
+											<dt>
+												Name:<span class="imixs-required"> * </span>
+											</dt>
+											<dd>
+												<h:inputText required="true" id="txtname_id"
+													value="#{dataViewDefinitionController.data.item['Name']}" />
+											</dd>
+										</dl>
+										<dl>
+											<dt>
+												Process:
+											</dt>
+											<dd>
+												<h:selectOneMenu
+													value="#{dataViewDefinitionController.data.item['process.ref']}">
+													<f:selectItem itemLabel=""></f:selectItem>
+													<c:forEach items="#{teamController.processList}" var="process">
+														<f:selectItem itemLabel="#{process.item['name']}"
+															itemValue="#{process.item['$UniqueID']}">
+														</f:selectItem>
+													</c:forEach>
+												</h:selectOneMenu>
+											</dd>
+										</dl>
+									</div>
+									<div class="imixs-form-section">
+										<dl>
+											<dt>
+												Description:
+											</dt>
+											<dd>
+												<h:inputTextarea
+													value="#{dataViewDefinitionController.data.item['description']}" />
+											</dd>
+										</dl>
+										<dl>
+											<dt>
+												Query:<span class="imixs-required"> *</span>
+											</dt>
+
+											<dd>
+												<h:inputTextarea required="true"
+													value="#{dataViewDefinitionController.data.item['query']}"
+													style="height: 14em; font-family: 'Courier New', Courier, monospace; autocomplete: off;" />
+											</dd>
+										</dl>
+									</div>
+									<div class="imixs-form-section-2">
+										<dl>
+											<dt>
+												Sort By:
+											</dt>
+											<dd>
+												<h:inputText required="false"
+													value="#{dataViewDefinitionController.data.item['sort.by']}" />
+											</dd>
+										</dl>
+										<dl>
+											<dt>
+												Reverse Order:
+											</dt>
+											<dd>
+												<h:selectBooleanCheckbox required="false" label=""
+													value="#{dataViewDefinitionController.data.item['sort.reverse']}">
+												</h:selectBooleanCheckbox>
+
+											</dd>
+										</dl>
+									</div>
+
+
+
+
+
+									<h:panelGroup layout="block" styleClass="imixs-form-section" id="attributelist"
+										binding="#{attributelistContainer}">
+										<h1>View Items </h1>
+										<p>
+											<span class="typcn typcn-lightbulb"></span>
+											Attribute definitions for the vew result. An attribute can adapt single item
+											values. Each item of
+											the attribute list can define an optional label, xs datatype and format.
+											<br />
+											Convert - xml datatypes: xs:string (default), xs:int, xs:double, xs:float,
+											xs:date,
+											xs:dateTime,
+											xs:anyURI
+
+										</p>
+										<f:ajax render="attributelist" onevent="updateAttributeList">
+											<table class="imixsdatatable imixs-orderitems">
+												<tr>
+													<th style="width: 250px">Item</th>
+													<th style="width: 250px;">Label</th>
+													<th style="width: 200px;">Type</th>
+													<th style="">Format</th>
+													<th style="width: 100px">
+														<!-- actions -->
+													</th>
+												</tr>
+
+												<ui:repeat var="attribute"
+													value="#{dataViewDefinitionController.attributeList}">
+													<tr>
+														<td>
+															<h:inputText value="#{attribute.item['item.name']}"
+																style="width:100%;" />
+														</td>
+														<td>
+															<h:inputText value="#{attribute.item['item.label']}"
+																style="width:100%;" />
+														</td>
+														<td>
+															<h:inputText value="#{attribute.item['item.type']}"
+																style="width:100%;" />
+														</td>
+														<td>
+															<h:inputText value="#{attribute.item['item.format']}"
+																style="width:100%;" />
+														</td>
+														<td style="font-size: 1.25em;">
+															<h:commandLink
+																actionListener="#{dataViewDefinitionController.moveAttributeDown(attribute.item['item.name'])}">
+																<span class="typcn typcn-arrow-sorted-down"></span>
+																<f:ajax render="#{attributelistContainer.clientId}"
+																	onevent="updateAttributeList" />
+															</h:commandLink>
+															<h:commandLink
+																actionListener="#{dataViewDefinitionController.moveAttributeUp(attribute.item['item.name'])}">
+																<span class="typcn typcn-arrow-sorted-up"></span>
+																<f:ajax render="#{attributelistContainer.clientId}"
+																	onevent="updateAttributeList" />
+															</h:commandLink>
+															<h:commandLink
+																actionListener="#{dataViewDefinitionController.removeAttribute(attribute.item['item.name'])}">
+																<span class="typcn typcn-times imixs-state-info"></span>
+																<f:ajax render="#{attributelistContainer.clientId}"
+																	onevent="updateAttributeList" />
+															</h:commandLink>
+														</td>
+													</tr>
+												</ui:repeat>
+
+											</table>
+
+
+											<!-- add button -->
+											<h:commandButton value="#{message.add}" pt:data-id="addposbutton_id"
+												actionListener="#{dataViewDefinitionController.addAttribute}">
+											</h:commandButton>
+										</f:ajax>
+									</h:panelGroup>
+
+
+
+
+								</div>
+							</div>
+
+
+							<div id="tab-2">
+
+								<div class="imixs-form-panel">
+									<div class="imixs-form-section-1">
+										<h1><span class="typcn typcn-th-list-outline"></span> Form Definition<span
+												style="font-size: 1rem;margin-left:20px;">
+												<h:outputLink
+													value="#{facesContext.externalContext.requestContextPath}#{dataViewDefinitionController.getViewURI(dataViewDefinitionController.data)}"
+													target="dataview"><span class="typcn typcn-camera-outline"
+														style="font-size: 1.2rem;"></span> Test View
+												</h:outputLink>
+											</span></h1>
+										<p>
+											The Form Definition defines query and filter parameters.
+										</p>
+
+
+										<dl>
+											<dt>
+												Form:
+											</dt>
+											<dd>
+												<h:inputTextarea
+													value="#{dataViewDefinitionController.data.item['form']}"
+													style="height: 27em; font-family: 'Courier New', Courier, monospace; autocomplete: off;" />
+											</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+
+
+							<div id="tab-3">
+								<div class="imixs-form-panel">
+									<div class="imixs-form-section-2">
+										<h1><span class="typcn typcn-news"></span> Template<span
+												style="font-size: 1rem;margin-left:20px;">
+												<h:outputLink
+													value="#{facesContext.externalContext.requestContextPath}#{dataViewDefinitionController.getViewURI(dataViewDefinitionController.data)}"
+													target="dataview"><span class="typcn typcn-camera-outline"
+														style="font-size: 1.2rem;"></span> Test View
+												</h:outputLink>
+											</span></h1>
+										<p>
+											<span class="typcn typcn-lightbulb"></span>
+											The 'Target Name' defines the name of the file download. The 'Reference Cell
+											marks the row to insert the dataset. POI update Definitions are optional.
+
+										</p>
+										<dl>
+											<dt>
+												Target Name:
+											</dt>
+											<dd>
+												<h:inputText
+													value="#{dataViewDefinitionController.data.item['poi.targetfilename']}" />
+											</dd>
+										</dl>
+										<dl>
+											<dt>
+												Reference Cell:
+											</dt>
+											<dd>
+												<h:inputText style="width: 5em;"
+													value="#{dataViewDefinitionController.data.item['poi.referenceCell']}" />
+											</dd>
+										</dl>
+									</div>
+									<div class="imixs-form-section-1">
+										<dl>
+											<dt>
+												POI Definition:
+											</dt>
+											<dd>
+												<h:inputTextarea
+													value="#{dataViewDefinitionController.data.item['poi.update']}"
+													style="height: 27em; font-family: 'Courier New', Courier, monospace; autocomplete: off;" />
+											</dd>
+										</dl>
+
+										<dl>
+											<dt>
+												Source File :
+											</dt>
+											<dd>
+												<i:imixsFileUpload showattachments="true"
+													workitem="#{dataViewDefinitionController.data}"
+													context_url="#{facesContext.externalContext.requestContextPath}/api/snapshot/#{dataViewDefinitionController.data.item['$uniqueid']}" />
+											</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="imixs-footer">
+							<h:commandButton actionListener="#{dataViewDefinitionController.save()}"
+								value="#{message.save}" />
+
+							<h:commandButton value="Open View"
+								action="#{dataViewDefinitionController.openTestView()}" />
+
+							<h:commandButton value="#{message.close}" immediate="true"
+								action="/pages/admin/dataViewDefinitions?faces-redirect=true" />
+
+						</div>
+					</div>
+				</div>
+			</h:form>
+
+			<!--  Init script -->
+			<script type="text/javascript">
+				/*<![CDATA[*/
+
+				$(document).ready(function () {
+
+				});
+				// This method refreshs the layout 
+				function updateAttributeList(data) {
+					if (data.status === 'success') {
+						$('[id$=attributelist]').imixsLayout();
+
+					}
+				}
+
+
+
+				/*]]>*/
+			</script>
+
+		</f:view>
+	</ui:define>
+
+
+
+</ui:composition>

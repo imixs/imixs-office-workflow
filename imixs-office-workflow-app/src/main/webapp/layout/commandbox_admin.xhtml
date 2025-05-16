@@ -1,73 +1,85 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 	<!-- main section -->
 	<ul>
-		<li><h:commandLink action="/pages/admin/profilelist?faces-redirect=true"
-				actionListener="#{workflowController.reset}"
-				value="#{message['nav.admin_profiles']}">
-			</h:commandLink></li>
+		<li>
+			<h:commandLink action="/pages/admin/profilelist?faces-redirect=true"
+				actionListener="#{workflowController.reset}" value="#{message['nav.admin_profiles']}">
+			</h:commandLink>
+		</li>
 
-		<li><h:commandLink action="/pages/admin/organisation?faces-redirect=true"
-				actionListener="#{workflowController.reset}"
-				value="#{message['organigram.title']}">
-			</h:commandLink></li>
-		<li><h:commandLink action="/pages/admin/roles_and_rights?faces-redirect=true"
-				actionListener="#{workflowController.reset}"
-				value="#{message['roles_and_rights.title']}">
-			</h:commandLink></li>
+		<li>
+			<h:commandLink action="/pages/admin/organisation?faces-redirect=true"
+				actionListener="#{workflowController.reset}" value="#{message['organigram.title']}">
+			</h:commandLink>
+		</li>
+		<li>
+			<h:commandLink action="/pages/admin/roles_and_rights?faces-redirect=true"
+				actionListener="#{workflowController.reset}" value="#{message['roles_and_rights.title']}">
+			</h:commandLink>
+		</li>
 
-		<li><h:commandLink action="/pages/admin/processlist?faces-redirect=true"
-				actionListener="#{workflowController.reset}"
-				value="#{message['nav.admin_processlist']}">
-			</h:commandLink></li>
+		<li>
+			<h:commandLink action="/pages/admin/processlist?faces-redirect=true"
+				actionListener="#{workflowController.reset}" value="#{message['nav.admin_processlist']}">
+			</h:commandLink>
+		</li>
 
-		<li><h:commandLink action="/pages/admin/spaces?faces-redirect=true"
-				actionListener="#{workflowController.reset}"
+		<li>
+			<h:commandLink action="/pages/admin/spaces?faces-redirect=true" actionListener="#{workflowController.reset}"
 				value="#{message['nav.admin_spaces']}">
-			</h:commandLink></li>
+			</h:commandLink>
+		</li>
 
-		<li><h:commandLink action="/pages/admin/reports?faces-redirect=true"
-				value="#{message['nav.admin_reporting']}">
-			</h:commandLink></li>
+		<li>
+			<h:link outcome="/pages/admin/dataViewDefinitions">Data Views</h:link>
+		</li>
+		<li>
+			<h:commandLink action="/pages/admin/reports?faces-redirect=true" value="#{message['nav.admin_reporting']}">
+			</h:commandLink>
+		</li>
 
 	</ul>
 
 	<!-- config section -->
 	<ul>
-		<li><h:commandLink value="#{message['nav.admin_config']}"
+		<li>
+			<h:commandLink value="#{message['nav.admin_config']}"
 				actionListener="#{setupController.loadConfiguration()}"
 				action="/pages/admin/config?faces-redirect=true">
-			</h:commandLink></li>
+			</h:commandLink>
+		</li>
 
 
-		<li><h:commandLink value="#{message['nav.admin_textblocks']}"				
+		<li>
+			<h:commandLink value="#{message['nav.admin_textblocks']}"
 				action="/pages/admin/textblocklist?faces-redirect=true">
-			</h:commandLink></li>
+			</h:commandLink>
+		</li>
 
 
-		<li><h:commandLink action="/pages/admin/modellist?faces-redirect=true"
-				value="#{message['nav.admin_model']}">
-			</h:commandLink></li>
+		<li>
+			<h:commandLink action="/pages/admin/modellist?faces-redirect=true" value="#{message['nav.admin_model']}">
+			</h:commandLink>
+		</li>
 
 	</ul>
 
 	<!-- admin section -->
 	<ul>
-		<li><h:commandLink actionListener="#{setupController.reset()}"
-				action="/pages/admin/systemcheck"
+		<li>
+			<h:commandLink actionListener="#{setupController.reset()}" action="/pages/admin/systemcheck"
 				value="#{message['nav.admin_init']}">
-			</h:commandLink></li>
-		<li><h:commandLink action="/pages/admin/workflowscheduler?faces-redirect=true"
+			</h:commandLink>
+		</li>
+		<li>
+			<h:commandLink action="/pages/admin/workflowscheduler?faces-redirect=true"
 				value="#{message['nav.admin_workflow_scheduler']}">
-			</h:commandLink></li>
+			</h:commandLink>
+		</li>
 	</ul>
 
 </ui:composition>
-
