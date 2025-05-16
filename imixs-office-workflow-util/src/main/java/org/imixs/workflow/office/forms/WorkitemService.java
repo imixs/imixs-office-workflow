@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ItemCollectionComparator;
+import org.imixs.workflow.ModelManager;
 import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.engine.WorkflowService;
@@ -106,11 +107,10 @@ public class WorkitemService {
 	public ItemCollection createWorkItem(ItemCollection parent,
 			String sProcessModelVersion, int aProcessID) throws Exception {
 		logger.fine("create workitem...");
-		// lookup ProcessEntiy from the model
-		BPMNModel model = modelService.getModelManager().getModel(sProcessModelVersion);
-		ItemCollection processEntity = modelService.getModelManager().findTaskByID(model, aProcessID);
-		// .getModel(sProcessModelVersion).getTask(
-		// aProcessID);
+		ModelManager modelManager = new ModelManager(workflowService);
+		BPMNModel model = modelService.getBPMNModel(sProcessModelVersion);
+		ItemCollection processEntity = modelManager.findTaskByID(model, aProcessID);
+
 		if (processEntity == null)
 			throw new Exception(
 					"error createWorkItem: Process Entity can not be found ("

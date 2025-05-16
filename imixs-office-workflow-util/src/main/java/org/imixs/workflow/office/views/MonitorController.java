@@ -43,9 +43,10 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.bpmn.BPMNUtil;
+import org.imixs.workflow.ModelManager;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.ModelService;
+import org.imixs.workflow.engine.WorkflowService;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.office.model.ModelController;
@@ -74,12 +75,16 @@ public class MonitorController implements Serializable {
     private List<String> workflowGroups = null;
     private List<String> activeWorkflowGroups = null;
     private Set<BoardCategory> boardCategories;
+    protected ModelManager modelManager = null;
 
     @Inject
     protected BoardController boardController;
 
     @Inject
     protected ModelController modelController;
+
+    @Inject
+    protected WorkflowService workflowService;
 
     private static Logger logger = Logger.getLogger(MonitorController.class.getName());
 
@@ -102,6 +107,7 @@ public class MonitorController implements Serializable {
      */
     @PostConstruct
     public void init() {
+        modelManager = new ModelManager(workflowService);
         // extract the processref and page from the query string
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String, String> paramMap = fc.getExternalContext().getRequestParameterMap();
@@ -109,9 +115,7 @@ public class MonitorController implements Serializable {
 
         // get all workflow groups
         lookupWorkflowGroups();
-        // workflowGroups =
-        // modelService.getModelManager().findAllGroups(null).getGroups();
-        // reset borad stats...
+
         reset();
 
     }
@@ -130,28 +134,27 @@ public class MonitorController implements Serializable {
      */
     public void lookupWorkflowGroups() {
 
-        // Set<String> set = new HashSet<>();
-        // List<String> versions = modelService.getModelManager().getVersions();
         workflowGroups = new ArrayList<>();
 
-        for (BPMNModel model : modelService.getModelManager().getAllModels()) {
-            String version = BPMNUtil.getVersion(model);
-            // Skip system model..
-            if (version.startsWith("system-")) {
-                continue;
-            }
-            Set<String> groups;
+        List<String> groupList = modelService.findAllWorkflowGroups();
+        for (String groupName : groupList) {
             try {
-                groups = modelService.getModelManager().findAllGroupsByModel(model);
-                for (String groupName : groups) {
-                    if (workflowGroups.contains(groupName))
-                        continue;
-                    if (groupName.contains("~"))
-                        continue;
-                    workflowGroups.add(groupName);
+                String version = modelService.findVersionByGroup(groupName);
+                BPMNModel model = modelService.getBPMNModel(version);
+
+                // Skip system model..
+                if (version.startsWith("system-")) {
+                    continue;
                 }
+
+                if (workflowGroups.contains(groupName))
+                    continue;
+                if (groupName.contains("~"))
+                    continue;
+                workflowGroups.add(groupName);
+
             } catch (ModelException e) {
-                logger.warning("Invalid Model Object found - version=" + version);
+                logger.warning("Invalid Model Object found - group=" + groupName);
             }
 
         }
@@ -361,32 +364,33 @@ public class MonitorController implements Serializable {
 
             for (String group : workflowGroups) {
                 // find latest version....
-                Set<String> versions = modelService.getModelManager().findAllVersionsByGroup(group);
-                if (versions != null && versions.size() > 0) {
-                    // get the latest version
-                    // String version = versions.iterator().next();
-                    // load the model
-                    // BPMNModel model = modelService.getModelManager().getModel(version);
-                    // iterate over all tasks....
-                    List<ItemCollection> tasks = modelController.findAllTasksByGroup(group);// model.findTasksByGroup(group);
-                    for (ItemCollection task : tasks) {
-                        // count the workitems for this task....
-                        int taskID = task.getItemValueInteger("numprocessid");
-                        String taskName = task.getItemValueString("name");
-                        String taskQuery = query + " AND ($taskid:" + taskID + " AND $workflowgroup:\"" + group + "\")";
-                        int count = documentService.count(taskQuery);
-                        if (count > 0) {
-                            // we have active tasks - so cache the info.....
-                            BoardCategory tmpCat = new BoardCategory(group, taskName, taskID, count);
-                            boardCategories.add(tmpCat);
-                        }
+
+                // Set<String> versions = modelManager.findAllVersionsByGroup(group);
+                // if (versions != null && versions.size() > 0) {
+                // get the latest version
+                // String version = versions.iterator().next();
+                // load the model
+                // BPMNModel model = modelService.getModelManager().getModel(version);
+                // iterate over all tasks....
+                List<ItemCollection> tasks = modelController.findAllTasksByGroup(group);// model.findTasksByGroup(group);
+                for (ItemCollection task : tasks) {
+                    // count the workitems for this task....
+                    int taskID = task.getItemValueInteger("numprocessid");
+                    String taskName = task.getItemValueString("name");
+                    String taskQuery = query + " AND ($taskid:" + taskID + " AND $workflowgroup:\"" + group + "\")";
+                    int count = documentService.count(taskQuery);
+                    if (count > 0) {
+                        // we have active tasks - so cache the info.....
+                        BoardCategory tmpCat = new BoardCategory(group, taskName, taskID, count);
+                        boardCategories.add(tmpCat);
                     }
                 }
+                // }
             }
 
             logger.info("...build " + boardCategories.size() + " BoardCategories in " + (System.currentTimeMillis() - l)
                     + "ms");
-        } catch (ModelException | QueryException e) {
+        } catch (QueryException e) {
             logger.severe("...failed to BoardCategories: " + e.getMessage());
         }
 

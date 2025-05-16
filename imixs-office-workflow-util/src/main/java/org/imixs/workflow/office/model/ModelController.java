@@ -33,7 +33,6 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -43,6 +42,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.imixs.workflow.FileData;
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.ModelManager;
 import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.bpmn.BPMNUtil;
 import org.imixs.workflow.engine.ModelService;
@@ -57,13 +57,14 @@ import org.openbpmn.bpmn.util.BPMNModelFactory;
 import org.xml.sax.SAXException;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.ConversationScoped;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 /**
- * The ModelController provides informations about workflow models.
+ * The ModelController provides information about workflow models. It is the
+ * main controller used in the UI to display model related data.
  * 
  * A ModelVersion is always expected in the format
  * 
@@ -76,16 +77,14 @@ import jakarta.inject.Named;
  * 
  */
 @Named
-// @RequestScoped
-@ConversationScoped
+@SessionScoped
 public class ModelController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(ModelController.class.getName());
 
 	protected ItemCollection modelUploads = null;
-	// @Inject
-	// protected ModelUploadHandler modelUploadHandler;
+	protected ModelManager modelManager = null;
 
 	@Inject
 	protected ModelService modelService;
@@ -102,6 +101,7 @@ public class ModelController implements Serializable {
 	@PostConstruct
 	void init() {
 		modelUploads = new ItemCollection();
+		modelManager = new ModelManager(workflowService);
 	}
 
 	public ItemCollection getModelUploads() {
@@ -120,8 +120,8 @@ public class ModelController implements Serializable {
 	 */
 	public List<String> getGroups(String version) {
 		try {
-			BPMNModel model = modelService.getModelManager().getModel(version);
-			Set<String> groups = modelService.getModelManager().findAllGroupsByModel(model);
+			BPMNModel model = modelManager.getModel(version);
+			Set<String> groups = modelManager.findAllGroupsByModel(model);
 			// Convert the Set to a List
 			return new ArrayList<>(groups);
 		} catch (ModelException e) {
@@ -145,24 +145,7 @@ public class ModelController implements Serializable {
 	 * @throws ModelException
 	 */
 	public List<String> getWorkflowGroups() throws ModelException {
-		List<String> result = new ArrayList<>();
-		for (BPMNModel model : modelService.getModelManager().getAllModels()) {
-			String version = BPMNUtil.getVersion(model);
-			// Skip system model..
-			if (version.startsWith("system-")) {
-				continue;
-			}
-			Set<String> groups = modelService.getModelManager().findAllGroupsByModel(model);
-			for (String groupName : groups) {
-				if (result.contains(groupName))
-					continue;
-				if (groupName.contains("~"))
-					continue;
-				result.add(groupName);
-			}
-		}
-		Collections.sort(result);
-		return result;
+		return modelService.findAllWorkflowGroups();
 	}
 
 	/**
@@ -173,7 +156,7 @@ public class ModelController implements Serializable {
 	 * @throws ModelException
 	 */
 	public String getVersionByGroup(String group) throws ModelException {
-		return modelService.getModelManager().findVersionByGroup(group);
+		return modelService.findVersionByGroup(group);
 	}
 
 	/**
@@ -187,9 +170,10 @@ public class ModelController implements Serializable {
 			return result;
 		}
 		try {
-			String version = modelService.getModelManager().findVersionByGroup(group);
-			BPMNModel model = modelService.getModelManager().getModel(version);
-			result = modelService.getModelManager().findTasks(model, group);
+
+			String version = modelService.findVersionByGroup(group);
+			BPMNModel model = modelManager.getModel(version);
+			result = modelManager.findTasks(model, group);
 		} catch (ModelException e) {
 			logger.warning("Failed to call findAllTasksByGroup for '" + group + "'");
 		}
@@ -205,8 +189,8 @@ public class ModelController implements Serializable {
 	public List<ItemCollection> findAllStartTasksByGroup(String version, String group) {
 		List<ItemCollection> result = new ArrayList<>();
 		try {
-			BPMNModel model = modelService.getModelManager().getModel(version);
-			return modelService.getModelManager().findStartTasks(model, group);
+			BPMNModel model = modelManager.getModel(version);
+			return modelManager.findStartTasks(model, group);
 		} catch (ModelException e) {
 			logger.severe(
 					"Failed to find start tasks for workflow group '" + group + "' : " + e.getMessage());
@@ -221,8 +205,8 @@ public class ModelController implements Serializable {
 	 * 
 	 * @return
 	 */
-	public Set<String> getVersions() {
-		return modelService.getModelEntityStore().keySet();
+	public List<String> getVersions() {
+		return modelService.getVersions();
 	}
 
 	/**
@@ -232,7 +216,7 @@ public class ModelController implements Serializable {
 	 * @return
 	 */
 	public ItemCollection getModelEntity(String version) {
-		return modelService.loadModel(version);
+		return modelService.loadModelMetaData(version);
 	}
 
 	/**
@@ -292,7 +276,7 @@ public class ModelController implements Serializable {
 	 * @throws ModelException
 	 */
 	public void deleteModel(String modelversion) throws AccessDeniedException, ModelException {
-		modelService.deleteModel(modelversion);
+		modelService.deleteModelData(modelversion);
 	}
 
 	/**
@@ -309,8 +293,8 @@ public class ModelController implements Serializable {
 	 */
 	public ItemCollection getProcessEntity(int processid, String modelversion) {
 		try {
-			BPMNModel model = modelService.getModelManager().getModel(modelversion);
-			return modelService.getModelManager().findTaskByID(model, processid);
+			BPMNModel model = modelManager.getModel(modelversion);
+			return modelManager.findTaskByID(model, processid);
 		} catch (ModelException e) {
 			logger.warning("Unable to load task " + processid + " in model version '" + modelversion + "' - "
 					+ e.getMessage());
@@ -330,8 +314,8 @@ public class ModelController implements Serializable {
 	public String getProcessDescription(int processid, String modelversion, ItemCollection documentContext) {
 		ItemCollection pe = null;
 		try {
-			BPMNModel model = modelService.getModelManager().getModel(modelversion);
-			pe = modelService.getModelManager().findTaskByID(model, processid);
+			BPMNModel model = modelManager.getModel(modelversion);
+			pe = modelManager.findTaskByID(model, processid);
 		} catch (ModelException e1) {
 			logger.warning("Unable to load task " + processid + " in model version '" + modelversion + "' - "
 					+ e1.getMessage());

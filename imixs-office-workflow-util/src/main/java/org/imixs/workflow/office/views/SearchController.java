@@ -198,7 +198,7 @@ public class SearchController extends ViewController implements Serializable {
                     // try to find the task based on the name of the given task....
 
                     try {
-                        String version = modelService.getModelManager().findVersionByGroup(workflowgroup);
+                        String version = modelService.findVersionByGroup(workflowgroup);
                     } catch (ModelException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();

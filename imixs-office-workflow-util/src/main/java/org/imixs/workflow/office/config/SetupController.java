@@ -30,13 +30,6 @@ package org.imixs.workflow.office.config;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
-import jakarta.ejb.EJB;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
-
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.marty.profile.ProfileService;
 import org.imixs.marty.team.TeamController;
@@ -44,8 +37,14 @@ import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
-import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.office.model.ModelController;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * This SetupController extends the ConfigController and holds the data from the
@@ -56,6 +55,7 @@ import org.imixs.workflow.office.model.ModelController;
  * used by the MartyConfigSource to provide optional config parameters.
  * <p>
  * Since version 4.5.1 the SetupController provides a list of fixed UserGroups.
+ * 
  * @see AccessRoleController
  * 
  * @see PropertiesConfigSource
@@ -70,8 +70,6 @@ public class SetupController extends ConfigController {
 
     public final static String CONFIGURATION_NAME = "BASIC";
     public final static int DEFAULT_PORTLET_SIZE = 5;
-
- 
 
     @Inject
     @ConfigProperty(name = "setup.system.model", defaultValue = "")
@@ -126,20 +124,15 @@ public class SetupController extends ConfigController {
             logger.warning("Missing imixs.property named 'setup.system.model' - system model can not be validated!");
         } else {
             // try to load system model
-            try {
-                modelService.getModel(systemModelVersion.get());
-                logger.info("...System Model '" + systemModelVersion + "' OK");
-            } catch (ModelException e) {
-                // no model found!
-                logger.warning(
-                        "Missing system model - please upload the system model version '" + systemModelVersion + "'");
-            }
+
+            modelService.getBPMNModel(systemModelVersion.get());
+            logger.info("...System Model '" + systemModelVersion + "' OK");
 
         }
 
         // if the BASIC configuration was not yet saved before we need to
         // Initialize it with a default setup
-        if (!getWorkitem().hasItem(WorkflowKernel.UNIQUEID)) {         
+        if (!getWorkitem().hasItem(WorkflowKernel.UNIQUEID)) {
             getWorkitem().replaceItemValue("keyenableuserdb", true);
             this.save();
         }
@@ -207,7 +200,6 @@ public class SetupController extends ConfigController {
         return moduleName;
     }
 
-    
     /**
      * This method resets the propertyService and modelController
      * 
