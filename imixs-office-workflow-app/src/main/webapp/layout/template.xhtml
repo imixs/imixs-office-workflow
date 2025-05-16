@@ -49,10 +49,11 @@
 	<link href="#{request.contextPath}/layout/css/office-theme.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
-	<!-- New Layout -->
-	<link href="#{request.contextPath}/layout/css/office-theme-new.css?build=#{app.application_build_timestamp}"
-		charset="UTF-8" type="text/css" rel="stylesheet" />
-
+	<!-- New Layout (optional) -->
+	<c:if test="#{propertyController.getProperty('new-layout') ne 'disabled'}">
+		<link href="#{request.contextPath}/layout/css/office-theme-new.css?build=#{app.application_build_timestamp}"
+			charset="UTF-8" type="text/css" rel="stylesheet" />
+	</c:if>
 
 
 	<!-- Chronicle Feature css -->
@@ -164,7 +165,6 @@
 </h:head>
 <h:body>
 	<f:view locale="#{userController.locale}">
-
 		<!-- SystemSetupStatus=#{initController.initStatus} -->
 		<div id="imixs-app">
 			<div id="imixs-header" class="imixs-servicenav">

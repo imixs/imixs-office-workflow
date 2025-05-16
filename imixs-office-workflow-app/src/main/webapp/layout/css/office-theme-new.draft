@@ -1,0 +1,117 @@
+:root {
+	--input-border: #ddd;  
+	--input-border-hover: #aaa;  
+	--input-background-focus: #f6f6f6;  
+	--input-focus-color: #3484A1; 
+	--required-color: #de2828;
+	--transition-time: 0.2s;
+}
+
+/* reset input border*/
+.imixs-form-section-flex input,
+.imixs-form-section-flex textarea,
+.imixs-form-section-flex select {
+  padding: 0.25rem 0 0.25rem 0.25rem;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  transition: all var(--transition-time);
+}
+
+.imixs-form-section-flex {
+	row-gap: 20px;
+	column-gap: 30px;
+	margin-bottom: 20px;
+}
+
+.imixs-form-section-flex dd {
+	border: none;
+	min-height: 1.9rem;
+	border-bottom: 1px solid var(--input-border);
+}
+
+.imixs-form-section-flex dl dd:hover {
+	border-bottom: 1px solid var(--input-border-hover) !important;
+	background-color: var(--input-background-focus) !important; 
+}
+
+
+/* label */
+.imixs-form-section-flex dl:focus-within dt {
+	color: var(--input-focus-color) !important; 
+	transition: var(--input-focus-color) 0.2s;
+}
+
+.imixs-form-section-flex dl:focus-within dd {
+	color: var(--input-focus-color) !important; 
+	transition: var(--input-focus-color) 0.2s;
+	border-bottom: 1px solid var(--input-focus-color) !important;
+	background-color: var(--input-background-focus) !important;
+}
+
+.imixs-form-section-flex dl:focus-within dd:focus {
+	outline: none !important;
+	border: none !important;
+	box-shadow: none !important;
+	border-bottom: 1px solid var(--input-focus-color) !important;
+}
+
+/* disable input borders */
+.imixs-form-section-flex input:focus,
+.imixs-form-section-flex textarea:focus,
+.imixs-form-section-flex select:focus {
+	outline: none !important;
+	border: none !important;
+	box-shadow: none !important;
+}
+
+dl .imixs-required {
+	color: var(--required-color) !important;
+}
+
+dl:focus-within .imixs-required {
+	color: var(--required-color) !important;
+}
+
+dl .imixs-llm, dl .imixs-date.imixs-llm {
+	border: none !important;
+	border-bottom: 1px solid var(--input-border) !important;
+}
+
+dl .marty-userinput, dl .marty-userinput:focus {
+    background-position: 100% 50%;
+	padding-left: 0.25rem !important;
+}
+
+dd .imixs-date {
+	background-color: transparent !important;
+}
+
+dd .workitemlinktable td {
+	background-color: #fff !important;
+}
+
+
+
+/* Anpassung für readonly-Felder */
+.imixs-form-section-flex dl.imixs-readonly {
+    display: grid;
+    min-height: 1.9rem;
+	
+}
+
+.imixs-form-section-flex dl.imixs-readonly dd {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0.25rem 0 0.25rem 0.25rem;
+	font-size: 1.1em;
+    border-bottom: 1px solid var(--input-border);
+    background-color: #f9f9f9;
+	min-height: calc(1.9rem - 0.5rem); /* Höhe minus Padding */
+}
+
+.imixs-form-section-flex dl.imixs-readonly dd:hover {
+	border-bottom: 1px solid var(--input-border) !important;
+	background-color: #f9f9f9 !important;
+}
