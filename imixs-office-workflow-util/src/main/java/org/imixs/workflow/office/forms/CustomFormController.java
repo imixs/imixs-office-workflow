@@ -54,13 +54,11 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ModelManager;
-import org.imixs.workflow.engine.ProcessingEvent;
 import org.imixs.workflow.engine.WorkflowService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.faces.data.WorkflowEvent;
-import org.openbpmn.bpmn.BPMNModel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -100,6 +98,9 @@ public class CustomFormController implements Serializable {
     @Inject
     WorkflowService workflowService;
 
+    @Inject
+    CustomFormService customFormService;
+
     public CustomFormController() {
         super();
     }
@@ -118,29 +119,6 @@ public class CustomFormController implements Serializable {
 
     public List<CustomFormSection> getSections() {
         return sections;
-    }
-
-    /**
-     * WorkflowEvent listener to update the current FormDefinition.
-     * 
-     * @param processingEvent
-     * @throws AccessDeniedException
-     * @throws ModelException
-     */
-    public void onProcessingEvent(@Observes ProcessingEvent processingEvent) throws ModelException {
-        if (processingEvent == null)
-            return;
-        // skip if not a workItem...
-        if (processingEvent.getDocument() != null
-                && !processingEvent.getDocument().getItemValueString("type").startsWith("workitem")) {
-            return;
-        }
-
-        int eventType = processingEvent.getEventType();
-        if (ProcessingEvent.BEFORE_PROCESS == eventType || ProcessingEvent.AFTER_PROCESS == eventType) {
-            // update the custom form definition
-            updateCustomFieldDefinition(processingEvent.getDocument());
-        }
     }
 
     /**
@@ -182,7 +160,7 @@ public class CustomFormController implements Serializable {
      */
     public void computeFieldDefinition(ItemCollection workitem) throws ModelException {
         logger.fine("---> computeFieldDefinition");
-        String content = updateCustomFieldDefinition(workitem);
+        String content = customFormService.updateCustomFieldDefinition(workitem, modelManager);
         sections = new ArrayList<CustomFormSection>();
         if (!content.isEmpty()) {
             // start parsing....
@@ -226,71 +204,6 @@ public class CustomFormController implements Serializable {
 
         }
 
-    }
-
-    /**
-     * This method updates the custom Field Definition based on a given workitem.
-     * The method first looks if the model contains a custom definition and stores
-     * the data into the field txtWorkflowEditorCustomForm.
-     * <p>
-     * In case the model does not provide a custom Field Definition but the workitem
-     * has stored one the method returns the existing one and did not update the
-     * item 'txtWorkflowEditorCustomForm'
-     * 
-     * @return
-     * @throws ModelException
-     */
-    public String updateCustomFieldDefinition(ItemCollection workitem) throws ModelException {
-        logger.fine("---> updateCustomFieldDefinition");
-        String content = fetchFormDefinitionFromModel(workitem);
-        if (content.isEmpty()) {
-            // take the existing one to be returned...
-            content = workitem.getItemValueString("txtWorkflowEditorCustomForm");
-        } else {
-            workitem.replaceItemValue("txtWorkflowEditorCustomForm", content);
-        }
-        return content;
-    }
-
-    /**
-     * read the form definition from a dataObject and search for a dataobject with a
-     * imixs-form tag. If not matching dataobject is defined then return an empty
-     * string.
-     * 
-     * @param workitem
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    private String fetchFormDefinitionFromModel(ItemCollection workitem) {
-
-        ItemCollection task;
-        try {
-
-            BPMNModel model = modelManager.getModelByWorkitem(workitem);
-            task = modelManager.loadTask(workitem, model);
-
-        } catch (ModelException e) {
-            logger.warning("unable to parse data object in model: " + e.getMessage());
-            return "";
-        }
-
-        List<List<String>> dataObjects = task.getItemValue("dataObjects");
-        for (List<String> dataObject : dataObjects) {
-            // there can be more than one dataOjects be attached.
-            // We need the one with the tag <imixs-form>
-            String templateName = dataObject.get(0);
-            String content = dataObject.get(1);
-            // we expect that the content contains at least one occurrence of <imixs-form>
-            if (content.contains("<imixs-form>")) {
-                logger.finest("......DataObject name=" + templateName);
-                logger.finest("......DataObject content=" + content);
-                return content;
-            } else {
-                // seems not to be a imixs-form definition!
-            }
-        }
-        // nothing found!
-        return "";
     }
 
     /**
