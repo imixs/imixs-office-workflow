@@ -3,10 +3,11 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
-	<!-- the following code computes the txtworkflow abstract from the current modelversion and processid  -->
+	<!-- the following code computes the txtworkflow abstract from the current $modelVersion and $taskID  -->
 	<ui:param name="instruction"
 		value="#{modelController.getProcessDescription(workflowController.workitem.item['$taskid'],workflowController.workitem.item['$ModelVersion'],workflowController.workitem)}">
 	</ui:param>
+
 	<h:panelGroup layout="block" styleClass="imixs-instruction" rendered="#{! empty instruction}">
 		<h:outputText escape="false" value="#{instruction}" />
 	</h:panelGroup>
