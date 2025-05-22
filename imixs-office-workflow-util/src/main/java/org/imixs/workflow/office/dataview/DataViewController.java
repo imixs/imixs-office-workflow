@@ -26,6 +26,7 @@ package org.imixs.workflow.office.dataview;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -79,11 +80,11 @@ public class DataViewController extends ViewController {
     private static final long serialVersionUID = 1L;
 
     public static final String ERROR_CONFIG = "CONFIG_ERROR";
-    public static final int MAX_ROWS = 3000;
+    public static final int MAX_ROWS = 9999;
 
     private List<CustomFormSection> sections = null;
     private List<ItemCollection> viewItemDefinitions = null;
-    protected ItemCollection dataDefinition = null;
+    protected ItemCollection dataViewDefinition = null;
     private ItemCollection filter;
     private String query;
     private String errorMessage;
@@ -105,6 +106,9 @@ public class DataViewController extends ViewController {
 
     @Inject
     CustomFormController customFormController;
+
+    @Inject
+    DataViewDefaultExporter dataViewDefaultExporter;
 
     @Inject
     ViewHandler viewHandler;
@@ -146,7 +150,7 @@ public class DataViewController extends ViewController {
                 // alternative 'workitem=...'
                 uniqueid = paramMap.get("workitem");
             }
-            dataDefinition = documentService.load(uniqueid);
+            dataViewDefinition = documentService.load(uniqueid);
         }
 
         if (uniqueid != null && !uniqueid.isEmpty()) {
@@ -157,23 +161,23 @@ public class DataViewController extends ViewController {
 
         try {
             // Init new Filter....
-            if (dataDefinition != null) {
-                filter.setItemValue("txtWorkflowEditorCustomForm", dataDefinition.getItemValue("form"));
-                filter.setItemValue("name", dataDefinition.getItemValueString("name"));
-                filter.setItemValue("description", dataDefinition.getItemValueString("description"));
+            if (dataViewDefinition != null) {
+                filter.setItemValue("txtWorkflowEditorCustomForm", dataViewDefinition.getItemValue("form"));
+                filter.setItemValue("name", dataViewDefinition.getItemValueString("name"));
+                filter.setItemValue("description", dataViewDefinition.getItemValueString("description"));
                 viewItemDefinitions = DataViewDefinitionController
-                        .computeDataViewItemDefinitions(dataDefinition);
+                        .computeDataViewItemDefinitions(dataViewDefinition);
 
                 customFormController.computeFieldDefinition(filter);
                 sections = customFormController.getSections();
 
                 // Update View Handler settings
-                String sortBy = dataDefinition.getItemValueString("sort.by");
+                String sortBy = dataViewDefinition.getItemValueString("sort.by");
                 if (sortBy.isEmpty()) {
                     sortBy = "$modified";
                 }
                 this.setSortBy(sortBy);
-                this.setSortReverse(dataDefinition.getItemValueBoolean("sort.reverse"));
+                this.setSortReverse(dataViewDefinition.getItemValueBoolean("sort.reverse"));
                 this.setPageIndex(filter.getItemValueInteger("pageIndex"));
                 if (!filter.getItemValueString("query").isEmpty()) {
                     query = filter.getItemValueString("query");
@@ -187,8 +191,22 @@ public class DataViewController extends ViewController {
 
     }
 
-    public ItemCollection getDefinition() {
-        return dataDefinition;
+    @Override
+    public List<ItemCollection> loadData() throws QueryException {
+
+        try {
+
+            return super.loadData();
+
+        } catch (Exception e) {
+            logger.severe("Failed to load view: " + e.getMessage());
+            return new ArrayList<>();
+        }
+
+    }
+
+    public ItemCollection getDataViewDefinition() {
+        return dataViewDefinition;
     }
 
     public List<CustomFormSection> getSections() {
@@ -225,13 +243,27 @@ public class DataViewController extends ViewController {
      *
      * @throws QueryException
      */
-    public void run() throws QueryException {
+    public void run() throws PluginException, QueryException {
 
         reset();
 
         // build new query from template
-        query = dataDefinition.getItemValueString("query");
+        query = dataViewDefinition.getItemValueString("query");
 
+        query = parseQuery(query, filter);
+        // query = parseQuery(query, workflowController.getWorkitem());
+
+        logger.info("query=" + query);
+        filter.setItemValue("query", query);
+
+        // Prefetch data to update total count and page count
+        viewHandler.getData(this);
+        // cache filter
+        dataViewCache.put(dataViewDefinition.getUniqueID(), filter);
+
+    }
+
+    private String parseQuery(String query, ItemCollection filter) {
         List<String> filterItems = filter.getItemNames();
         for (String itemName : filterItems) {
             String itemValue = filter.getItemValueString(itemName);
@@ -252,14 +284,7 @@ public class DataViewController extends ViewController {
             // Replace all occurrences in the query case-insensitive.
             query = query.replaceAll("(?i)\\{" + Pattern.quote(itemName) + "\\}", itemValue);
         }
-        logger.finest("query=" + query);
-        filter.setItemValue("query", query);
-
-        // Prefetch data to update total count and page count
-        viewHandler.getData(this);
-        // cache filter
-        dataViewCache.put(dataDefinition.getUniqueID(), filter);
-
+        return query;
     }
 
     /**
@@ -305,7 +330,11 @@ public class DataViewController extends ViewController {
     }
 
     /**
-     * Exports data into a excel template processed by apache-poi
+     * Exports data into a excel template processed by apache-poi.
+     * The method sends a DataViewExport event to allow clients to adapt the export
+     * process.
+     * 
+     * @see DataViewExportEvent
      *
      * @throws PluginException
      * @throws QueryException
@@ -316,7 +345,7 @@ public class DataViewController extends ViewController {
         run();
 
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMddHHmm");
-        String targetFileName = dataDefinition.getItemValueString("poi.targetFilename");
+        String targetFileName = dataViewDefinition.getItemValueString("poi.targetFilename");
         if (targetFileName.isEmpty()) {
             throw new PluginException(DataViewController.class.getSimpleName(), ERROR_CONFIG,
                     "Missing Excel Export definition - check configuration!");
@@ -340,21 +369,20 @@ public class DataViewController extends ViewController {
                 throw new PluginException(DataViewController.class.getSimpleName(), ERROR_CONFIG,
                         "Data can not be exported into Excel because dataset exceeds " + MAX_ROWS + " rows!");
             }
-            String sortBy = dataDefinition.getItemValueString("sort.by");
+            String sortBy = dataViewDefinition.getItemValueString("sort.by");
             if (sortBy.isEmpty()) {
                 sortBy = "$modified"; // default
             }
             List<ItemCollection> invoices = documentService.find(query, MAX_ROWS, 0, sortBy,
-                    dataDefinition.getItemValueBoolean("sort.reverse"));
+                    dataViewDefinition.getItemValueBoolean("sort.reverse"));
             if (invoices.size() > 0) {
-                String referenceCell = dataDefinition.getItemValueString("poi.referenceCell");
-                XSSFUtil.insertDataRows(invoices, referenceCell, viewItemDefinitions, fileData);
+                dataViewDefaultExporter.insertDataRows(invoices, dataViewDefinition, viewItemDefinitions, fileData);
             }
 
             // create a temp event
             ItemCollection event = new ItemCollection().setItemValue("txtActivityResult",
-                    dataDefinition.getItemValue("poi.update"));
-            ItemCollection poiConfig = workflowService.evalWorkflowResult(event, "poi-update", dataDefinition,
+                    dataViewDefinition.getItemValue("poi.update"));
+            ItemCollection poiConfig = workflowService.evalWorkflowResult(event, "poi-update", dataViewDefinition,
                     false);
             XSSFUtil.poiUpdate(filter, fileData, poiConfig, workflowService);
 
@@ -382,10 +410,10 @@ public class DataViewController extends ViewController {
     private FileData loadTemplate() {
 
         // first filename
-        List<FileData> fileDataList = dataDefinition.getFileData();
+        List<FileData> fileDataList = dataViewDefinition.getFileData();
         if (fileDataList != null && fileDataList.size() > 0) {
             String fileName = fileDataList.get(0).getName();
-            return snapshotService.getWorkItemFile(dataDefinition.getUniqueID(), fileName);
+            return snapshotService.getWorkItemFile(dataViewDefinition.getUniqueID(), fileName);
         }
         // no file data available!
         return null;
