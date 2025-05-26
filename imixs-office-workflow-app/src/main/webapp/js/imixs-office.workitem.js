@@ -80,6 +80,9 @@ $(document).ready(function () {
 		imixsOfficeWorkitem.autoLoadPreview();
 	}
 
+	// Markdown Form Fields
+	imixsOfficeWorkitem.initMarkdownItems();
+
 	// Signature Pad
 	imixsOfficeWorkitem.initSignaturePad();
 
@@ -234,7 +237,27 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 			}
 		},	
 
-
+		/** 
+		 * This method inits the markdown content for all input fields (type=hidden) with the data-id 'markdown_hidden_input' 
+		 * and places a DIV tag with the markdown text. 
+		 * The method uses the lib https://marked.js.org/
+		 * e.g.:
+		 * <item name="invoice.summary" type="custom" path="markdown" />
+		 * see: markdown.xhtml
+		 */
+		initMarkdownItems = function (element) {
+			// find all matching input fields
+			var markdownInputs = document.querySelectorAll('[data-id="markdown_hidden_input"]');
+			markdownInputs.forEach(function(inputElement) {
+				// Get the markdown content from the input field
+				var mdHtml = marked.parse(inputElement.value);
+				// Find the corresponding div - assuming it's the next sibling element
+				var divElement = inputElement.nextElementSibling;
+				if (divElement && divElement.classList.contains('imixs-markdown-output')) {
+					divElement.innerHTML = mdHtml;
+				}
+			});
+		},	
 
 		/*
 		 * This method initializes a signature pad if part of the form.
@@ -618,6 +641,7 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 		workitemRefInitInput: workitemRefInitInput,
 		addWorkitemRef: addWorkitemRef,
 		deleteWorkitemRef: deleteWorkitemRef,
+		initMarkdownItems: initMarkdownItems,
 		formatIBAN: formatIBAN
 	};
 
