@@ -11,7 +11,7 @@
 		<ui:remove><!-- test if custom form section --></ui:remove>
 		<c:if test="#{! empty section.path}">
 			<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
-				<ui:param name="workitem" value="#{workflowController.workitem}" />
+				<ui:param name="workitem" value="#{workitem}" />
 				<ui:param name="readonly" value="#{section.readonly}" />
 			</ui:include>
 		</c:if>
@@ -22,7 +22,8 @@
 
 				<c:forEach items="#{section.items}" var="item">
 					<c:if test="#{!item.hide}">
-						<dl style="grid-column-start: span #{item.span};" class="#{item.readonly?'imixs-readonly':'imixs-edit'}">
+						<dl style="grid-column-start: span #{item.span};"
+							class="#{item.readonly?'imixs-readonly':'imixs-edit'}">
 							<dt>
 								#{item.label}
 								<c:if test="#{item.required}">
@@ -81,7 +82,8 @@
 
 								<ui:remove><!-- html5-date --></ui:remove>
 								<c:if test="#{item.type eq 'html5date'}">
-									<h:inputText value="#{workitem.item[item.name]}" pt:type="date" pt:data-item="#{item.name}"
+									<h:inputText value="#{workitem.item[item.name]}" pt:type="date"
+										pt:data-item="#{item.name}"
 										required="#{item.required?validationController.required:false}"
 										styleClass="imixs-html5date" rendered="#{!item.readonly}"
 										disabled="#{item.disabled}">
@@ -96,7 +98,8 @@
 
 								<ui:remove><!-- html5-datetime --></ui:remove>
 								<c:if test="#{item.type eq 'html5datetime'}">
-									<h:inputText value="#{workitem.item[item.name]}" pt:type="datetime" pt:data-item="#{item.name}"
+									<h:inputText value="#{workitem.item[item.name]}" pt:type="datetime"
+										pt:data-item="#{item.name}"
 										required="#{item.required?validationController.required:false}"
 										styleClass="imixs-html5date" rendered="#{!item.readonly}"
 										disabled="#{item.disabled}">
@@ -155,7 +158,7 @@
 											</c:if>
 											<c:if test="#{item.type ne 'selectBooleanCheckbox'}">
 												<span class="typcn typcn-input-checked"
-												      style="font-size:1.2rem;margin-right: 5px;"></span>
+													style="font-size:1.2rem;margin-right: 5px;"></span>
 												<h:outputText value="#{itemvalue}"></h:outputText>
 											</c:if>
 											<br />
@@ -244,7 +247,7 @@
 								<ui:remove><!-- custom subview --></ui:remove>
 								<c:if test="#{item.type eq 'custom'}">
 									<ui:include src="/pages/workitems/parts/#{item.path}.xhtml">
-										<ui:param name="workitem" value="#{workflowController.workitem}" />
+										<ui:param name="workitem" value="#{workitem}" />
 										<ui:param name="required" value="#{item.required}" />
 										<ui:param name="readonly" value="#{item.readonly}" />
 										<ui:param name="name" value="#{item.name}" />

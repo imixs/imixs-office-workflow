@@ -1,14 +1,10 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
 
-	<h:panelGroup id="custom_subview_id"  binding="#{customFormComponents}">
-	
+	<h:panelGroup id="custom_subview_id" binding="#{customFormComponents}">
+
 		<!-- #{customFormController.setReadOnly(true)} -->
 		<!-- test if sub-forms are defined -->
 		<c:if test="#{! empty customFormController.subforms}">
@@ -23,7 +19,7 @@
 						<f:subview>
 							<ui:include src="/pages/workitems/forms/custom_sections.xhtml">
 								<ui:param name="customFormSections" value="#{subform.sections}" />
-								<ui:param name="workitem" value="#{workflowController.workitem}" />
+								<ui:param name="workitem" value="#{workitem}" />
 								<ui:param name="readonly" value="#{true}" />
 							</ui:include>
 						</f:subview>
@@ -35,12 +31,11 @@
 			<!-- No Tabs -->
 			<ui:include src="/pages/workitems/forms/custom_sections.xhtml">
 				<ui:param name="customFormSections" value="#{customFormController.sections}" />
-				<ui:param name="workitem" value="#{workflowController.workitem}" />
+				<ui:param name="workitem" value="#{workitem}" />
 				<ui:param name="readonly" value="#{section.readonly}" />
 			</ui:include>
 		</c:if>
-	
+
 	</h:panelGroup>
 
 </ui:composition>
-

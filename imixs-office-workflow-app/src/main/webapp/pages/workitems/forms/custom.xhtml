@@ -18,7 +18,7 @@
 						<f:subview>
 							<ui:include src="/pages/workitems/forms/custom_sections.xhtml">
 								<ui:param name="customFormSections" value="#{subform.sections}" />
-								<ui:param name="workitem" value="#{workflowController.workitem}" />
+								<ui:param name="workitem" value="#{workitem}" />
 								<ui:param name="readonly" value="#{section.readonly}" />
 							</ui:include>
 						</f:subview>
@@ -31,7 +31,7 @@
 			<!-- No Tabs -->
 			<ui:include src="/pages/workitems/forms/custom_sections.xhtml">
 				<ui:param name="customFormSections" value="#{customFormController.sections}" />
-				<ui:param name="workitem" value="#{workflowController.workitem}" />
+				<ui:param name="workitem" value="#{workitem}" />
 				<ui:param name="readonly" value="#{section.readonly}" />
 			</ui:include>
 		</c:if>
