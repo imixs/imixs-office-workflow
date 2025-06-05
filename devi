@@ -37,7 +37,7 @@ if [[ "$(strip_dash $1)" == "docker" ]]; then
     DEBUG_MODE=$3
     if [[ "$(strip_dash $2)" == "latest" || "$(strip_dash $2)" == "" ]]; then
         IMAGENAME=imixs/imixs-office-workflow
-        WILDFLY_VERSION=27.0.1.Final-jdk17
+        WILDFLY_VERSION=29.0.1.Final-jdk17
     else
         IMAGENAME=imixs/imixs-office-workflow:$PROJECT_VERSION-wildfly-$WILDFLY_VERSION
     fi

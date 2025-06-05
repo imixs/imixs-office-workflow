@@ -1,5 +1,5 @@
 # Define default wildfly version
-ARG WILDFLY_VERSION=27.0.1.Final-jdk17
+ARG WILDFLY_VERSION=29.0.1.Final-jdk17
 
 # Base image
 FROM quay.io/wildfly/wildfly:${WILDFLY_VERSION}
