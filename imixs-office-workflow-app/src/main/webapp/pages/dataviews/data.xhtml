@@ -46,33 +46,24 @@
 					<div class="imixs-header">
 						<h1>
 							<h:outputText value="Data View: " />
-							<h:outputText value="#{dataViewController.definition.item['name']} " />
+							<h:outputText value="#{dataViewController.dataViewDefinition.item['name']} " />
 						</h1>
 					</div>
 
 					<h:panelGroup styleClass="imixs-form-panel imixs-view" layout="block" id="dataview_form_id">
-
 						<div class=" imixs-form-section">
-
 							<ui:include src="/pages/workitems/forms/custom_sections.xhtml">
 								<ui:param name="customFormSections" value="#{customFormController.sections}" />
 								<ui:param name="workitem" value="#{dataViewController.filter}" />
 								<ui:param name="readonly" value="#{section.readonly}" />
 							</ui:include>
-
 						</div>
-
 					</h:panelGroup>
-
-
-
 
 					<h:panelGroup styleClass="imixs-view imixs-search" layout="block" id="dataview_result_id">
 						<ui:param name="searchResult" value="#{viewHandler.getData(dataViewController)}" />
 						<ui:param name="searchPage"
 							value="#{(dataViewController.getPageIndex()+1)}/#{(dataViewController.getTotalPages())}" />
-
-
 
 						<!-- Buttons -->
 						<div id="dataview-controlls-id" class="imixs-form-section">

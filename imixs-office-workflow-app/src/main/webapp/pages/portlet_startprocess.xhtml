@@ -73,6 +73,31 @@
 						</ui:repeat>
 					</ul>
 				</h:panelGroup>
+
+
+				<!-- DataViews -->
+				<ui:param name="dataViews"
+					value="#{dataViewDefinitionController.findDefinitionByProcessRef(process.item['$uniqueId'])}" />
+				<h:panelGroup rendered="#{!empty dataViews}">
+
+					<ul style="margin: 5px 0;">
+						<ui:repeat value="#{dataViews}" var="dataview">
+							<ui:param name="dataViewDescription" value="#{dataview.item['description']}" />
+							<li>
+								<h:outputLink title=""
+									value="#{facesContext.externalContext.requestContextPath}#{dataViewDefinitionController.getViewURI(dataview)}"
+									target="dataview"><span class="typcn typcn-th-menu"
+										style="font-size: 1.2rem;margin-right:10px;"></span>
+									<h:outputText value="#{dataview.item['name']}" />
+								</h:outputLink>
+								<h:panelGroup rendered="#{!empty dataViewDescription}" styleClass="imixs-tooltip"
+									style="position: relative;top: 140px;">
+									<h:outputText value="#{dataViewDescription}" escape="false" />
+								</h:panelGroup>
+							</li>
+						</ui:repeat>
+					</ul>
+				</h:panelGroup>
 			</h:panelGroup>
 		</ui:repeat>
 
