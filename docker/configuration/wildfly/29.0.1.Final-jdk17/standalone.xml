@@ -619,9 +619,11 @@
                 <file name="welcome-content" path="${jboss.home.dir}/welcome-content" />
             </handlers>
             <application-security-domains>
-                <application-security-domain name="other" security-domain="ApplicationDomain" />
-                <application-security-domain name="imixsrealm" security-domain="imixsrealm" />
-
+                <!-- Disable integrated jaspic -->
+                <application-security-domain name="other" security-domain="ApplicationDomain"
+                    integrated-jaspi="false" />
+                <application-security-domain name="imixsrealm" security-domain="imixsrealm"
+                    integrated-jaspi="false" />
             </application-security-domains>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:webservices:2.0"
