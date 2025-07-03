@@ -139,8 +139,13 @@
 									<h:inputTextarea required="#{item.required?validationController.required:false}"
 										pt:data-item="#{item.name}" class="imixs-editor-basic"
 										value="#{workitem.item[item.name]}" rendered="#{!item.readonly}" />
-									<h:outputText escape="false" value="#{workitem.item[item.name]}"
-										rendered="#{item.readonly}" />
+									<ui:fragment rendered="#{item.readonly}">
+										<div style="display: block;">
+											<h:outputText escape="false" value="#{workitem.item[item.name]}"
+												rendered="#{item.readonly}" />
+										</div>
+									</ui:fragment>
+
 								</c:if>
 
 								<ui:remove><!-- Options List --></ui:remove>
