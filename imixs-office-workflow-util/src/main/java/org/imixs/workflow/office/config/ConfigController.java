@@ -32,14 +32,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.exceptions.AccessDeniedException;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.model.SelectItem;
 import jakarta.persistence.OptimisticLockException;
-
-import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.exceptions.AccessDeniedException;
 
 /**
  * This ConfigController acts as a frontend controller for a Config Entity. The
@@ -118,6 +118,10 @@ public class ConfigController implements Serializable {
 	 */
 	public void loadConfiguration() {
 		configItemCollection = configService.loadConfiguration(getName(), true);
+	}
+
+	public ItemCollection getConfiguration() {
+		return configItemCollection;
 	}
 
 	/**
@@ -201,7 +205,8 @@ public class ConfigController implements Serializable {
 			configItemCollection = configService.save(configItemCollection);
 			logger.info("...configuration " + this.getName() + " updated!");
 		} catch (OptimisticLockException e) {
-		    logger.warning("...Failed to save configuration " + this.getName() + " : " + e.getMessage() + " - reloading config!");
+			logger.warning("...Failed to save configuration " + this.getName() + " : " + e.getMessage()
+					+ " - reloading config!");
 			configItemCollection = configService.loadConfiguration(getName(), true);
 			// force Exception
 			throw e;
