@@ -629,13 +629,16 @@ th {
 
 /* --- New Flex Design ---------------------------- */
 .imixs-form-section-flex {
-	padding: 10px;
-	margin-left: auto;
-	margin-right: auto;
 	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr)); 
 	column-gap: 10px;
 	row-gap: 10px;
-	grid-template-columns: repeat(12, minmax(10px, 210px));
+	padding: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 100%;
 }
 
 .imixs-form-section-flex dl dd {
@@ -2015,10 +2018,14 @@ input:disabled.imixs-date {
         padding-right: 0px;
     }
 
-    .imixs-form-section-flex dl {
-        grid-column: span 12 !important; 
+	.imixs-form-section-flex {
+        grid-template-columns: 1fr; /* 1-column lyout */
     }
-
+  
+    .imixs-form-section-flex > dl.imixs-edit {
+      grid-column: 1 / -1 !important; /* force full width */
+    }
+  
 }
 
 
