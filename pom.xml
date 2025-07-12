@@ -115,8 +115,12 @@
 
 	<repositories>
 		<repository>
-			<id>oss-snapshots</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<id>central-portal-snapshots</id>
+			<name>Central Portal Snapshots</name>
+			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
@@ -143,28 +147,11 @@
 				</configuration>
 			</plugin>
 
-			<!-- issue #572  
-			 	hack for:
-			https://stackoverflow.com/questions/75116023/unable-to-make-protected-final-java-lang-class-java-lang-classloader-defineclass
-			 -->
+			<!-- Testing JUnit 5 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.3.1</version>
-				<executions>
-					<execution>
-						<id>default-test</id>
-						<phase>test</phase>
-						<goals>
-							<goal>test</goal>
-						</goals>
-						<configuration>
-							<argLine>
-								--add-opens java.base/java.lang=ALL-UNNAMED
-							</argLine>
-						</configuration>
-					</execution>
-				</executions>
+				<version>2.22.2</version>
 			</plugin>
 
 			<!-- release management -->
@@ -179,19 +166,7 @@
 					<goals>deploy</goals>
 				</configuration>
 			</plugin>
-			<!-- release to Maven central -->
-			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.13</version>
-				<extensions>true</extensions>
-				<configuration>
-					<serverId>ossrh</serverId>
-					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-					<autoReleaseAfterClose>true</autoReleaseAfterClose>
-					<stagingProgressTimeoutMinutes>15</stagingProgressTimeoutMinutes>
-				</configuration>
-			</plugin>
+
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -231,7 +206,20 @@
 			<id>release</id>
 			<build>
 				<plugins>
-					<!-- To generate javadoc -->
+					<!-- for RELEASES: Central Publishing Plugin -->
+					<plugin>
+						<groupId>org.sonatype.central</groupId>
+						<artifactId>central-publishing-maven-plugin</artifactId>
+						<version>0.8.0</version>
+						<extensions>true</extensions>
+						<configuration>
+							<publishingServerId>central</publishingServerId>
+							<autoPublish>true</autoPublish>
+							<waitUntil>published</waitUntil>
+						</configuration>
+					</plugin>
+
+					<!-- Source Plugin -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
@@ -245,6 +233,8 @@
 							</execution>
 						</executions>
 					</plugin>
+
+					<!-- Javadoc Plugin -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
@@ -262,11 +252,11 @@
 						</executions>
 					</plugin>
 
-					<!-- To sign the artifacts -->
+					<!-- GPG Signing Plugin -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.6</version>
+						<version>3.1.0</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
@@ -420,16 +410,17 @@
 	</dependencies>
 
 
-	<!-- Distributen Management oss.sonatype.org -->
+	<!-- Distribution Management central.sonatype.org -->
 	<distributionManagement>
 		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<id>central</id>
+			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
 		</snapshotRepository>
 		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<id>central</id>
+			<url>https://central.sonatype.com</url>
 		</repository>
 	</distributionManagement>
+
 
 </project>
