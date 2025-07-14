@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Width Solution</title>
+    <style>
+        .imixs-workitem-chronicle-actions {
+            flex-basis: 100px;
+        }
+
+        .imixs-workitem-chronicle-workflow-actions {
+            display: flex;
+            gap: 8px 4px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        /* Geänderte CSS-Regel für gleiche Breite */
+        .imixs-workflow-action,
+        .imixs-close-action,
+        .imixs-print-action {
+            flex: 1 1 0;
+            min-width: 180px;
+            /* Höhere Mindestbreite */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Styling für die Demo */
+        .imixs-workflow-action,
+        .imixs-close-action,
+        .imixs-print-action {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            background: #f5f5f5;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .imixs-workflow-action:hover,
+        .imixs-close-action:hover,
+        .imixs-print-action:hover {
+            background: #e0e0e0;
+        }
+
+        .imixs-tooltip {
+            display: none;
+        }
+
+        /* Container für die Demo */
+        .demo-container {
+            max-width: 800px;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+
+        .explanation {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .code-highlight {
+            background: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo-container">
+        <h2>Button Width Solution - Alle Buttons gleich breit</h2>
+
+        <div class="imixs-workitem-chronicle-workflow-actions">
+            <input id="workitem_form:imixs_workflow_eventid_10" type="submit"
+                name="workitem_form:imixs_workflow_eventid_10" value="Speichern" title=""
+                class="imixs-workflow-action ui-button ui-corner-all ui-widget"
+                onclick="return imixsOfficeWorkitem.saveWorkitemHandler('',this);" role="button">
+            <span class="imixs-tooltip" style="display: none;">Zwischenspeichern</span>
+
+            <input id="workitem_form:imixs_workflow_eventid_20" type="submit"
+                name="workitem_form:imixs_workflow_eventid_20" value="Weiterleiten zur Freigabe" title=""
+                class="imixs-workflow-action ui-button ui-corner-all ui-widget"
+                onclick="return imixsOfficeWorkitem.saveWorkitemHandler('',this);" role="button">
+            <span class="imixs-tooltip" style="display: none;">Bericht OK</span>
+
+            <input id="workitem_form:imixs_workflow_eventid_30" type="submit"
+                name="workitem_form:imixs_workflow_eventid_30" value="Ändern - super spezial lang und länger!" title=""
+                class="imixs-workflow-action ui-button ui-corner-all ui-widget"
+                onclick="return imixsOfficeWorkitem.saveWorkitemHandler('',this);" role="button">
+            <span class="imixs-tooltip" style="display: none;">Bericht nicht OK, zurück zur Berichterstellung</span>
+
+            <!-- place custom actions here - reserved class name is 'imixs-custom-action'-->
+            <!-- *** Close  *** -->
+            <input type="submit" name="workitem_form:j_idt401" value="Schließen"
+                class="imixs-close-action ui-button ui-corner-all ui-widget" role="button">
+
+            <!-- ** Print ** -->
+            <input type="button" value="Drucken" class="imixs-print-action ui-button ui-corner-all ui-widget"
+                onclick="openPrintWindow();" role="button">
+        </div>
+
+        <div class="explanation">
+            <h3>Lösung:</h3>
+            <p>Die wichtige Änderung ist in der CSS-Regel:</p>
+            <p><span class="code-highlight">flex: 1 1 0;</span> statt <span class="code-highlight">flex: 1;</span></p>
+
+            <h4>Erklärung:</h4>
+            <ul>
+                <li><strong>flex: 1;</strong> ist eine Kurzform für <code>flex: 1 1 0%</code></li>
+                <li><strong>flex: 1 1 0;</strong> bedeutet:
+                    <ul>
+                        <li>flex-grow: 1 (kann wachsen)</li>
+                        <li>flex-shrink: 1 (kann schrumpfen)</li>
+                        <li>flex-basis: 0 (Ausgangsgröße ist 0)</li>
+                    </ul>
+                </li>
+                <li>Durch <code>flex-basis: 0</code> orientieren sich alle Buttons am breitesten Button</li>
+                <li>Das <code>min-width: 120px</code> sorgt für eine Mindestbreite</li>
+                <li>Bei sehr langen Texten greift <code>text-overflow: ellipsis</code></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function openPrintWindow() {
+            window.print();
+        }
+
+        // Dummy function for demo
+        const imixsOfficeWorkitem = {
+            saveWorkitemHandler: function (param, element) {
+                console.log('Button clicked:', element.value);
+                return false; // Prevent actual form submission in demo
+            }
+        };
+    </script>
+</body>
+
+</html>

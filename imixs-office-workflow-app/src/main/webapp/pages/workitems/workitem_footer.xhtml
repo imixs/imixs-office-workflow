@@ -18,6 +18,7 @@
 							<f:setPropertyActionListener target="#{workflowController.workitem.item['$eventid']}"
 								value="#{event.item['numactivityid']}" />
 							<h:panelGroup class="imixs-tooltip">
+								<strong>#{event.item['txtname']}: </strong><br />
 								<h:outputText value="#{event.item['documentation']}" escape="false" />
 							</h:panelGroup>
 						</h:commandButton>
