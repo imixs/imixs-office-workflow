@@ -20,9 +20,9 @@
 			value="#{default_selection ? spaceRefFormController.setDefaultSpace(workflowController.workitem,options):''}" />
 		<!-- (DO NOT REMOVE) default selection = #{space_ref} -->
 		<ui:fragment rendered="#{!readonly}">
-			<h:selectOneMenu style="" required="#{empty required?false:required}" noSelectionOption="true"
-				value="#{workflowController.workitem.item['space.ref']}">
-				<f:selectItem itemLabel=" - " itemValue="-" ></f:selectItem>
+			<h:selectOneMenu style="" required="#{required?validationController.required:false}"
+				noSelectionOption="true" value="#{workflowController.workitem.item['space.ref']}">
+				<f:selectItem itemLabel=" - " itemValue="-"></f:selectItem>
 				<c:forEach items="#{spaceRefFormController.getSpaces(workflowController.workitem, options)}"
 					var="space">
 					<f:selectItem itemLabel="#{space.item['name']}" itemValue="#{space.item['$UniqueID']}">
