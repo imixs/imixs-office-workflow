@@ -37,6 +37,7 @@ import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
+import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.office.model.ModelController;
 
 import jakarta.annotation.PostConstruct;
@@ -125,8 +126,12 @@ public class SetupController extends ConfigController {
         } else {
             // try to load system model
 
-            modelService.getBPMNModel(systemModelVersion.get());
-            logger.info("...System Model '" + systemModelVersion + "' OK");
+            try {
+                modelService.getBPMNModel(systemModelVersion.get());
+                logger.info("...System Model '" + systemModelVersion + "' OK");
+            } catch (ModelException e) {
+                logger.info("...Failed to load System Model '" + systemModelVersion + "' :" + e.getMessage());
+            }
 
         }
 

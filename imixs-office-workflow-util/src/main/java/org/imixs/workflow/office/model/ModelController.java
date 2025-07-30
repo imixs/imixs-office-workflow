@@ -48,6 +48,7 @@ import org.imixs.workflow.bpmn.BPMNUtil;
 import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.engine.WorkflowService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
+import org.imixs.workflow.exceptions.InvalidAccessException;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.faces.fileupload.FileUploadController;
@@ -124,8 +125,8 @@ public class ModelController implements Serializable {
 			Set<String> groups = modelManager.findAllGroupsByModel(model);
 			// Convert the Set to a List
 			return new ArrayList<>(groups);
-		} catch (ModelException e) {
-			logger.warning("Unable to load groups:" + e.getMessage());
+		} catch (ModelException | InvalidAccessException e) {
+			logger.severe("Unable to load groups:" + e.getMessage());
 		}
 		// return empty result
 		return new ArrayList<String>();
@@ -144,7 +145,7 @@ public class ModelController implements Serializable {
 	 * @return list of workflow groups
 	 * @throws ModelException
 	 */
-	public List<String> getWorkflowGroups() throws ModelException {
+	public List<String> getWorkflowGroups() {
 		return modelService.findAllWorkflowGroups();
 	}
 
@@ -155,8 +156,13 @@ public class ModelController implements Serializable {
 	 * @return
 	 * @throws ModelException
 	 */
-	public String getVersionByGroup(String group) throws ModelException {
-		return modelService.findVersionByGroup(group);
+	public String getVersionByGroup(String group) {
+		try {
+			return modelService.findVersionByGroup(group);
+		} catch (ModelException e) {
+			logger.severe(e.getMessage());
+		}
+		return null;
 	}
 
 	/**
@@ -175,7 +181,7 @@ public class ModelController implements Serializable {
 			BPMNModel model = modelManager.getModel(version);
 			result = modelManager.findTasks(model, group);
 		} catch (ModelException e) {
-			logger.warning("Failed to call findAllTasksByGroup for '" + group + "'");
+			logger.severe("Failed to call findAllTasksByGroup for '" + group + "'");
 		}
 
 		return result;
@@ -216,7 +222,13 @@ public class ModelController implements Serializable {
 	 * @return
 	 */
 	public ItemCollection getModelEntity(String version) {
-		return modelService.loadModelMetaData(version);
+		try {
+			return modelService.loadModelMetaData(version);
+		} catch (ModelException e) {
+			logger.severe(
+					"Failed to find model version '" + version + "' : " + e.getMessage());
+		}
+		return null;
 	}
 
 	/**
@@ -256,7 +268,7 @@ public class ModelController implements Serializable {
 					model = BPMNModelFactory.read(inputStream);
 					modelService.saveModel(model);
 					continue;
-				} catch (BPMNModelException e) {
+				} catch (BPMNModelException | InvalidAccessException e) {
 					throw new ModelException(ModelException.INVALID_MODEL,
 							"Unable to read model file: " + file.getName(), e);
 				}
@@ -295,7 +307,7 @@ public class ModelController implements Serializable {
 		try {
 			BPMNModel model = modelManager.getModel(modelversion);
 			return modelManager.findTaskByID(model, processid);
-		} catch (ModelException e) {
+		} catch (ModelException | InvalidAccessException e) {
 			logger.warning("Unable to load task " + processid + " in model version '" + modelversion + "' - "
 					+ e.getMessage());
 		}
@@ -316,7 +328,7 @@ public class ModelController implements Serializable {
 		try {
 			BPMNModel model = modelManager.getModel(modelversion);
 			pe = modelManager.findTaskByID(model, processid);
-		} catch (ModelException e1) {
+		} catch (ModelException | InvalidAccessException e1) {
 			logger.warning("Unable to load task " + processid + " in model version '" + modelversion + "' - "
 					+ e1.getMessage());
 		}

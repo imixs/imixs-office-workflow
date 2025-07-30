@@ -1,12 +1,11 @@
 version: "3.1"
 services:
-
   db:
     image: postgres:9.6.1
     environment:
       POSTGRES_PASSWORD: adminadmin
       POSTGRES_DB: office
-    volumes: 
+    volumes:
       - dbdata:/var/lib/postgresql/data
 
   app:
@@ -14,8 +13,8 @@ services:
     depends_on:
       - db
     environment:
-      TZ: "CET" 
-      LANG: "en_US.UTF-8"  
+      TZ: "CET"
+      LANG: "en_US.UTF-8"
       JAVA_OPTS: "-Dnashorn.args=--no-deprecation-warning"
       MAILGATEWAY: "localhost"
       POSTGRES_USER: "postgres"
@@ -29,27 +28,26 @@ services:
       - "8787:8787"
 
     deploy:
-      # To run with memory limits 
+      # To run with memory limits
       # start with
       # $ docker-compose --compatibility up
       resources:
         limits:
           memory: 1024M
     volumes:
-        - ./deployments:/opt/jboss/wildfly/standalone/deployments/
+      - ./deployments:/opt/jboss/wildfly/standalone/deployments/
 
-
-# OCR Service
-  tika: 
-    image: imixs/tika
+  # OCR Service
+  tika:
+    image: apache/tika:3.2.0.0-full
     ports:
-      - "9998:9998"  
+      - "9998:9998"
 
-# Imixs Archive
+  # Imixs Archive
   imixsarchiveservice:
     image: imixs/imixs-archive-service
     environment:
-      TZ: "CET"    
+      TZ: "CET"
       ARCHIVE_CLUSTER_CONTACTPOINTS: "cassandra"
       ARCHIVE_CLUSTER_KEYSPACE: "imixsdev"
       WORKFLOW_SERVICE_ENDPOINT: "http://app:8080/api"
@@ -57,7 +55,7 @@ services:
       WORKFLOW_SERVICE_PASSWORD: "adminadmin"
       WORKFLOW_SERVICE_AUTHMETHOD: "form"
     deploy:
-      # To run with memory limits 
+      # To run with memory limits
       # start with
       # $ docker-compose --compatibility up
       resources:
@@ -69,22 +67,37 @@ services:
       - "8788:8787"
       #- "9009:9009"
 
-# Cassandra
+  # Cassandra
   cassandra:
     image: cassandra:3.11
     environment:
-      TZ: "Europe/Berlin"    
+      TZ: "Europe/Berlin"
 
-
-
-
-# Imixs Admin
+  # Imixs Admin
   imixsadmin:
     image: imixs/imixs-admin
     ports:
       - "8888:8080"
 
+  imixsbackup:
+    image: imixs/imixs-archive-backup:latest
+    environment:
+      WILDFLY_PASS: adminadmin
+      DEBUG: "true"
+
+      # EXAMPLE SETUP
+      WORKFLOW_SERVICE_ENDPOINT: "http://app:8080/api"
+      WORKFLOW_SERVICE_USER: admin
+      WORKFLOW_SERVICE_PASSWORD: "adminadmin"
+      WORKFLOW_SERVICE_AUTHMETHOD: "form"
+
+      BACKUP_FTP_HOST: "ftp.storage.foo"
+      BACKUP_FTP_PATH: "/test/"
+      BACKUP_FTP_PORT: "21"
+      BACKUP_FTP_USER: ""
+      BACKUP_FTP_PASSWORD: ""
+    ports:
+      - "8082:8080"
+
 volumes:
   dbdata:
-
-
