@@ -158,7 +158,7 @@ The following section gives an overview about the versions. If you are developin
 
 |     Imixs-Office-Workflow Docker Image     |      Wildfly Version       | Jakarta EE Platform |
 | :----------------------------------------: | :------------------------: | :-----------------: |
-| imixs/imixs-office-workflow:5.1.1-SNAPSHOT | wildfly:29.0.1.Final-jdk17 |         10          |
+| imixs/imixs-office-workflow:5.1.1 | wildfly:29.0.1.Final-jdk17 |         10          |
 |     imixs/imixs-office-workflow:5.1.0      | wildfly:27.0.1.Final-jdk17 |         10          |
 |     imixs/imixs-office-workflow:5.0.0      |    wildfly:25.0.0.Final    |          9          |
 |     imixs/imixs-office-workflow:4.6.2      |    wildfly:25.0.0.Final    |          9          |
