@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.logging.Logger;
 
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -24,6 +25,7 @@ import jakarta.faces.convert.FacesConverter;
  */
 @FacesConverter("imixsDateConverter")
 public class DateConverter implements Converter, Serializable {
+    private static Logger logger = Logger.getLogger(DateConverter.class.getName());
 
     private static final String DEFAULT_DATE_FORMAT_PATTERN = "yyyy-mm-dd";
     private static final String DEFAULT_TIME_ZONE = "UTC"; // Set the timezone to CET
@@ -74,7 +76,8 @@ public class DateConverter implements Converter, Serializable {
             dateFormat.setTimeZone(TimeZone.getTimeZone(timezone));
             return dateFormat.format((Date) value);
         } else {
-            throw new IllegalArgumentException("Invalid value type: " + value.getClass().getName());
+            logger.warning("Invalid value type: " + value.getClass().getName());
+            return "";
         }
     }
 }
