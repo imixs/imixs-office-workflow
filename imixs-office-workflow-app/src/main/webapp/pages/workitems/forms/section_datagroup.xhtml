@@ -1,0 +1,118 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+
+	<h:panelGroup styleClass="imixs-view imixs-search" layout="block" id="dataview_result_id">
+
+		<ui:param name="searchResult" value="#{viewHandler.getData(dataGroupController)}" />
+		<ui:param name="searchPage"
+			value="#{(dataGroupController.getPageIndex()+1)}/#{(dataGroupController.getTotalPages())}" />
+		<ui:param name="dataViewName" value="#{dataGroupController.getOptionValue(options,'dataview')}" />
+		<ui:param name="viewItemDefinitions" value="#{dataViewController.getViewItemDefinitions(dataViewName)}" />
+
+		<h:dataTable id="view_body" styleClass="imixsdatatable dataview" value="#{searchResult}" var="record">
+			<c:forEach items="#{viewItemDefinitions}" var="columnDef">
+				<h:column rendered="#{columnDef.item['item.type'] eq 'xs:anyURI'}">
+					<f:facet name="header">#{columnDef.item['item.label']}</f:facet>
+					<h:link outcome="/pages/workitems/workitem.xhtml?faces-redirect=true"
+						styleClass="imixs-viewentry-main-link">
+						<h:outputText value="#{record.item[columnDef.item['item.name']]}" />
+						<f:param name="id" value="#{record.item['$uniqueid']}" />
+					</h:link>
+				</h:column>
+
+				<h:column rendered="#{columnDef.item['item.type'] eq 'xs:string'}">
+					<f:facet name="header">#{columnDef.item['item.label']}</f:facet>
+					<h:outputText value="#{record.item[columnDef.item['item.name']]}" />
+				</h:column>
+
+				<h:column rendered="#{columnDef.item['item.type'] eq 'xs:date'}" styleClass="align-center">
+					<f:facet name="header">#{columnDef.item['item.label']}</f:facet>
+					<h:outputText value="#{record.item[columnDef.item['item.name']]}">
+						<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+							pattern="#{message.datePatternShort}" />
+					</h:outputText>
+				</h:column>
+
+
+				<h:column rendered="#{columnDef.item['item.type'] eq 'xs:double'}" styleClass="align-right">
+					<f:facet name="header">#{columnDef.item['item.label']}</f:facet>
+					<h:outputText value="#{record.item[columnDef.item['item.name']]}">
+						<f:convertNumber minFractionDigits="2" locale="de" />
+					</h:outputText>
+				</h:column>
+				<h:column rendered="#{columnDef.item['item.type'] eq 'xs:float'}" styleClass="align-right">
+					<f:facet name="header">#{columnDef.item['item.label']}</f:facet>
+					<h:outputText value="#{record.item[columnDef.item['item.name']]}">
+						<f:convertNumber minFractionDigits="2" locale="de" />
+					</h:outputText>
+				</h:column>
+
+
+				<h:column rendered="#{columnDef.item['item.type'] eq 'xs:dateTime'}">
+					<f:facet name="header">#{columnDef.item['item.label']}</f:facet>
+					<h:outputText value="#{record.item[columnDef.item['item.name']]}">
+						<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+							pattern="#{message.dateTimePatternShort}" />
+					</h:outputText>
+				</h:column>
+			</c:forEach>
+
+
+
+
+		</h:dataTable>
+
+		<!-- Sort Order -->
+		<div class="pull-right ">
+
+			<h:commandButton actionListener="#{dataGroupController.back()}" style="height: 31px;"
+				disabled="#{dataGroupController.pageIndex==0}" value="◀◀  #{message.prev}">
+				<f:ajax render="dataview_result_id" onevent="updateDataView" />
+			</h:commandButton>
+			<h:commandButton actionListener="#{dataGroupController.forward()}" style="height: 31px;"
+				disabled="#{dataGroupController.endOfList or dataGroupController.getTotalPages() le 1}"
+				value="#{message.next}  ▶▶">
+				<f:ajax render="dataview_result_id" onevent="updateDataView" />
+			</h:commandButton>
+
+
+		</div>
+	</h:panelGroup>
+
+
+
+
+
+
+
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+		$(document).ready(function () {
+
+		});
+
+		//ajax refresh...
+		function updateDataView(data, context) {
+			var viewBody = $("#dataview-controlls-id");
+			if (data.status === "begin") {
+				viewBody.addClass("loading");
+			} else if (data.status === "success") {
+				imixsOfficeMain.layoutAjaxEvent(data);
+			}
+		}
+
+		function handleSubmit(event) {
+			// remove ajax loader 5sec after trigger excel export 
+			setTimeout(function () {
+				document.body.classList.remove('loading');
+			}, 5000);
+		}
+
+		/*]]>*/
+	</script>
+
+</ui:composition>
