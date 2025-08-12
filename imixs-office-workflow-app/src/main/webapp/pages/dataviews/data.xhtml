@@ -7,7 +7,7 @@
 
 
 	<f:metadata>
-		<f:viewAction action="#{dataViewController.onLoad()}" />
+		<f:viewAction action="#{dataViewFormController.onLoad()}" />
 	</f:metadata>
 	<!-- Diese Form exportiert Ausgangsrechnungen nach Excel 
 	 -->
@@ -46,7 +46,7 @@
 					<div class="imixs-header">
 						<h1>
 							<h:outputText value="Data View: " />
-							<h:outputText value="#{dataViewController.dataViewDefinition.item['name']} " />
+							<h:outputText value="#{dataViewFormController.dataViewDefinition.item['name']} " />
 						</h1>
 					</div>
 
@@ -54,26 +54,27 @@
 						<div class=" imixs-form-section">
 							<ui:include src="/pages/workitems/forms/custom_sections.xhtml">
 								<ui:param name="customFormSections" value="#{customFormController.sections}" />
-								<ui:param name="workitem" value="#{dataViewController.filter}" />
+								<ui:param name="workitem" value="#{dataViewFormController.filter}" />
 								<ui:param name="readonly" value="#{section.readonly}" />
 							</ui:include>
 						</div>
 					</h:panelGroup>
 
 					<h:panelGroup styleClass="imixs-view imixs-search" layout="block" id="dataview_result_id">
-						<ui:param name="searchResult" value="#{viewHandler.getData(dataViewController)}" />
+						<ui:param name="searchResult" value="#{viewHandler.getData(dataViewFormController)}" />
 						<ui:param name="searchPage"
-							value="#{(dataViewController.getPageIndex()+1)}/#{(dataViewController.getTotalPages())}" />
+							value="#{(dataViewFormController.getPageIndex()+1)}/#{(dataViewFormController.getTotalPages())}" />
 
 						<!-- Buttons -->
 						<div id="dataview-controlls-id" class="imixs-form-section">
 							<div style="float:left;">
-								<h:commandButton value="Anzeigen" action="#{dataViewController.run()}">
+								<h:commandButton value="Anzeigen" action="#{dataViewFormController.run()}">
 									<f:ajax execute="@form dataview_result_id" render="dataview_result_id"
 										onevent="updateDataView" />
 								</h:commandButton>
 
-								<h:commandButton actionListener="#{dataViewController.export()}" value="Excel Export">
+								<h:commandButton actionListener="#{dataViewFormController.export()}"
+									value="Excel Export">
 								</h:commandButton>
 
 								<h:commandButton value="Close" action="/pages/notes?faces-redirect=true" />
@@ -82,14 +83,14 @@
 							<!-- Sort Order -->
 							<div class="pull-right ">
 								<span class="search-result-summary">#{message.total_result}
-									#{dataViewController.getTotalCount()}
+									#{dataViewFormController.getTotalCount()}
 									#{message.serach_hits}</span>
 								<div class=" ui-button ui-widget ui-state-default ui-corner-all"
 									style="padding: 0 10px;">
 									<h:outputText title="#{message['worklist.sortorder_help']}"
 										value="#{message['worklist.sortorder']}: " />
 									<h:selectOneMenu style="background:#fff;"
-										value="#{dataViewController.filter.item['sortorder']}">
+										value="#{dataViewFormController.filter.item['sortorder']}">
 										<f:selectItem itemValue="0"
 											itemLabel="#{message['worklist.sortorder_relevance']}" />
 										<f:selectItem itemValue="3"
@@ -107,12 +108,13 @@
 									</span>
 								</div>
 
-								<h:commandButton actionListener="#{dataViewController.back()}" style="height: 31px;"
-									disabled="#{dataViewController.pageIndex==0}" value="◀◀  #{message.prev}">
+								<h:commandButton actionListener="#{dataViewFormController.back()}" style="height: 31px;"
+									disabled="#{dataViewFormController.pageIndex==0}" value="◀◀  #{message.prev}">
 									<f:ajax render="dataview_result_id" onevent="updateDataView" />
 								</h:commandButton>
-								<h:commandButton actionListener="#{dataViewController.forward()}" style="height: 31px;"
-									disabled="#{dataViewController.endOfList or dataViewController.getTotalPages() le 1}"
+								<h:commandButton actionListener="#{dataViewFormController.forward()}"
+									style="height: 31px;"
+									disabled="#{dataViewFormController.endOfList or dataViewFormController.getTotalPages() le 1}"
 									value="#{message.next}  ▶▶">
 									<f:ajax render="dataview_result_id" onevent="updateDataView" />
 								</h:commandButton>
@@ -130,7 +132,7 @@
 
 
 
-								<c:forEach items="#{dataViewController.viewItemDefinitions}" var="columnDef">
+								<c:forEach items="#{dataViewFormController.viewItemDefinitions}" var="columnDef">
 
 
 									<h:column rendered="#{columnDef.item['item.type'] eq 'xs:anyURI'}">
