@@ -30,27 +30,30 @@ package org.imixs.workflow.office.forms;
 import java.util.List;
 
 /**
- * This CustomFormSection provides the informations from a custom form definition
+ * This CustomFormSection provides the information from a custom form
+ * definition
  * 
  * 
  * @author rsoika
  * @version 1.0
  */
 public class CustomFormSection {
-	
+
 	String label;
 	String columns;
 	String path;
+	String options;
 	boolean readonly;
 	List<CustomFormItem> items;
 
-	public CustomFormSection(String label, String columns, String path,boolean readonly) {
+	public CustomFormSection(String label, String columns, String path, boolean readonly, String options) {
 		super();
 		this.label = label;
-		this.readonly=readonly;
+		this.readonly = readonly;
 		this.columns = columns;
-		if (path!=null) {
-	        this.path = path.trim();
+		this.options = options;
+		if (path != null) {
+			this.path = path.trim();
 		}
 	}
 
@@ -78,21 +81,28 @@ public class CustomFormSection {
 		this.items = items;
 	}
 
-    public String getPath() {
-        return path;
-    }
+	public String getPath() {
+		return path;
+	}
 
-    public void setPath(String path) {
-        this.path = path;
-    }
+	public void setPath(String path) {
+		this.path = path;
+	}
 
-    public boolean isReadonly() {
-        return readonly;
-    }
+	public boolean isReadonly() {
+		return readonly;
+	}
 
-    public void setReadonly(boolean readonly) {
-        this.readonly = readonly;
-    }
-	
+	public void setReadonly(boolean readonly) {
+		this.readonly = readonly;
+	}
+
+	public String getOptions() {
+		return options;
+	}
+
+	public void setOptions(String options) {
+		this.options = options;
+	}
 
 }

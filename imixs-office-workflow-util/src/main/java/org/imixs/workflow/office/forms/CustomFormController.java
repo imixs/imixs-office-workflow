@@ -272,7 +272,8 @@ public class CustomFormController implements Serializable {
                         eSectionElement.getAttribute("label"),
                         eSectionElement.getAttribute("columns"),
                         eSectionElement.getAttribute("path"),
-                        defaultReadOnly);
+                        defaultReadOnly,
+                        eSectionElement.getAttribute("options"));
                 customSection.setItems(findItems(eSectionElement,
                         customSection.getColumns(), defaultReadOnly, workitem));
                 result.add(customSection);
