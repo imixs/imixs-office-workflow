@@ -1,0 +1,202 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+    template="/layout/template.xhtml">
+
+
+
+    <f:metadata>
+        <f:viewAction action="#{dataViewController.onLoad()}" />
+    </f:metadata>
+    <!-- Diese Form exportiert Ausgangsrechnungen nach Excel 
+	 -->
+    <ui:define name="scripts">
+        <script type="text/javascript">
+            /*<![CDATA[*/
+
+            $(document).ready(function () {
+
+            });
+
+            //ajax refresh...
+            function updateDataView(data, context) {
+                var viewBody = $("#dataview-controlls-id");
+                if (data.status === "begin") {
+                    viewBody.addClass("loading");
+                } else if (data.status === "success") {
+                    imixsOfficeMain.layoutAjaxEvent(data);
+                }
+            }
+
+            function handleSubmit(event) {
+                // remove ajax loader 5sec after trigger excel export 
+                setTimeout(function () {
+                    document.body.classList.remove('loading');
+                }, 5000);
+            }
+            /*]]>*/
+        </script>
+    </ui:define>
+    <ui:define name="content">
+
+        <f:view>
+            <h:form id="dataview_id" pt:autocomplete="on" onsubmit="handleSubmit(event)">
+                <div class="imixs-form">
+                    <div class="imixs-header">
+                        <h1>
+                            <h:outputText value="Data View: " />
+                            <h:outputText value="#{dataViewController.dataViewDefinition.item['name']} " />
+                        </h1>
+                    </div>
+                    hi1
+                    <h:panelGroup styleClass="imixs-form-panel imixs-view" layout="block" id="dataview_form_id">
+                        hi2
+                        <div class="imixs-form-section">
+                            <ui:include src="/pages/workitems/forms/custom_sections.xhtml">
+                                <ui:param name="customFormSections" value="#{customFormController.sections}" />
+                                <ui:param name="workitem" value="#{dataViewController.filter}" />
+                                <ui:param name="readonly" value="#{section.readonly}" />
+                            </ui:include>
+                        </div>
+                    </h:panelGroup>
+
+                    <h:panelGroup styleClass="imixs-view imixs-search" layout="block" id="dataview_result_id">
+                        <ui:param name="searchResult" value="#{viewHandler.getData(dataViewController)}" />
+                        <ui:param name="searchPage"
+                            value="#{(dataViewController.getPageIndex()+1)}/#{(dataViewController.getTotalPages())}" />
+
+                        <!-- Buttons -->
+                        <div id="dataview-controlls-id" class="imixs-form-section">
+                            <div style="float:left;">
+                                <h:commandButton value="Anzeigen" action="#{dataViewController.run()}">
+                                    <f:ajax execute="@form dataview_result_id" render="dataview_result_id"
+                                        onevent="updateDataView" />
+                                </h:commandButton>
+
+                                <h:commandButton actionListener="#{dataViewController.export()}" value="Excel Export">
+                                </h:commandButton>
+
+                                <h:commandButton value="Close" action="/pages/notes?faces-redirect=true" />
+                            </div>
+
+                            <!-- Sort Order -->
+                            <div class="pull-right ">
+                                <span class="search-result-summary">#{message.total_result}
+                                    #{dataViewController.getTotalCount()}
+                                    #{message.serach_hits}</span>
+                                <div class=" ui-button ui-widget ui-state-default ui-corner-all"
+                                    style="padding: 0 10px;">
+                                    <h:outputText title="#{message['worklist.sortorder_help']}"
+                                        value="#{message['worklist.sortorder']}: " />
+                                    <h:selectOneMenu style="background:#fff;"
+                                        value="#{dataViewController.filter.item['sortorder']}">
+                                        <f:selectItem itemValue="0"
+                                            itemLabel="#{message['worklist.sortorder_relevance']}" />
+                                        <f:selectItem itemValue="3"
+                                            itemLabel="#{message['worklist.sortorder_lastupdate']}" />
+                                        <f:selectItem itemValue="1"
+                                            itemLabel="#{message['worklist.sortorder_newest']}" />
+                                        <f:selectItem itemValue="2"
+                                            itemLabel="#{message['worklist.sortorder_oldest']}" />
+
+                                        <f:ajax event="change" render="@form" listener="#{viewHandler.init()}"
+                                            onevent="imixsOfficeMain.layoutAjaxEvent" />
+                                    </h:selectOneMenu>
+                                    <span>
+                                        <h:outputText style="margin-left:7px;" value="#{searchPage}" />
+                                    </span>
+                                </div>
+
+                                <h:commandButton actionListener="#{dataViewController.back()}" style="height: 31px;"
+                                    disabled="#{dataViewController.pageIndex==0}" value="◀◀  #{message.prev}">
+                                    <f:ajax render="dataview_result_id" onevent="updateDataView" />
+                                </h:commandButton>
+                                <h:commandButton actionListener="#{dataViewController.forward()}" style="height: 31px;"
+                                    disabled="#{dataViewController.endOfList or dataViewController.getTotalPages() le 1}"
+                                    value="#{message.next}  ▶▶">
+                                    <f:ajax render="dataview_result_id" onevent="updateDataView" />
+                                </h:commandButton>
+
+
+                            </div>
+                        </div>
+
+                        <div class="imixs-form-section">
+
+
+                            <h:dataTable id="view_body" styleClass="imixsdatatable dataview" value="#{searchResult}"
+                                var="record">
+
+
+
+
+                                <c:forEach items="#{dataViewController.viewItemDefinitions}" var="columnDef">
+
+
+                                    <h:column rendered="#{columnDef.item['item.type'] eq 'xs:anyURI'}">
+                                        <f:facet name="header">#{columnDef.item['item.label']}</f:facet>
+                                        <h:link outcome="/pages/workitems/workitem.xhtml?faces-redirect=true"
+                                            styleClass="imixs-viewentry-main-link">
+                                            <h:outputText value="#{record.item[columnDef.item['item.name']]}" />
+                                            <f:param name="id" value="#{record.item['$uniqueid']}" />
+                                        </h:link>
+                                    </h:column>
+
+                                    <h:column rendered="#{columnDef.item['item.type'] eq 'xs:string'}">
+                                        <f:facet name="header">#{columnDef.item['item.label']}</f:facet>
+                                        <h:outputText value="#{record.item[columnDef.item['item.name']]}" />
+                                    </h:column>
+
+                                    <h:column rendered="#{columnDef.item['item.type'] eq 'xs:date'}"
+                                        styleClass="align-center">
+                                        <f:facet name="header">#{columnDef.item['item.label']}</f:facet>
+                                        <h:outputText value="#{record.item[columnDef.item['item.name']]}">
+                                            <f:convertDateTime timeZone="#{message.timeZone}" type="both"
+                                                pattern="#{message.datePatternShort}" />
+                                        </h:outputText>
+                                    </h:column>
+
+
+                                    <h:column rendered="#{columnDef.item['item.type'] eq 'xs:double'}"
+                                        styleClass="align-right">
+                                        <f:facet name="header">#{columnDef.item['item.label']}</f:facet>
+                                        <h:outputText value="#{record.item[columnDef.item['item.name']]}">
+                                            <f:convertNumber minFractionDigits="2" locale="de" />
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column rendered="#{columnDef.item['item.type'] eq 'xs:float'}"
+                                        styleClass="align-right">
+                                        <f:facet name="header">#{columnDef.item['item.label']}</f:facet>
+                                        <h:outputText value="#{record.item[columnDef.item['item.name']]}">
+                                            <f:convertNumber minFractionDigits="2" locale="de" />
+                                        </h:outputText>
+                                    </h:column>
+
+
+                                    <h:column rendered="#{columnDef.item['item.type'] eq 'xs:dateTime'}">
+                                        <f:facet name="header">#{columnDef.item['item.label']}</f:facet>
+                                        <h:outputText value="#{record.item[columnDef.item['item.name']]}">
+                                            <f:convertDateTime timeZone="#{message.timeZone}" type="both"
+                                                pattern="#{message.dateTimePatternShort}" />
+                                        </h:outputText>
+                                    </h:column>
+                                </c:forEach>
+
+
+
+
+                            </h:dataTable>
+                        </div>
+                    </h:panelGroup>
+
+                </div>
+            </h:form>
+
+
+        </f:view>
+    </ui:define>
+
+
+
+</ui:composition>

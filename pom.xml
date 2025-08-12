@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.imixs.workflow</groupId>
 	<artifactId>imixs-office-workflow</artifactId>
@@ -85,6 +87,7 @@
 		<jakarta.version>10.0.0</jakarta.version>
 		<org.imixs.workflow.version>6.0.9</org.imixs.workflow.version>
 		<org.imixs.archive.version>3.0.2</org.imixs.archive.version>
+		<org.imixs.data.version>1.0.0-SNAPSHOT</org.imixs.data.version>
 		<org.imixs.office.version />
 		<org.imixs.marty.version>5.0.1</org.imixs.marty.version>
 		<org.imixs.mock.version>6.0.0</org.imixs.mock.version>
@@ -359,6 +362,20 @@
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-marty</artifactId>
 				<version>${org.imixs.marty.version}</version>
+			</dependency>
+
+			<!-- Imixs Data -->
+			<dependency>
+				<groupId>org.imixs.workflow</groupId>
+				<artifactId>imixs-data-groups</artifactId>
+				<version>${org.imixs.data.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.imixs.workflow</groupId>
+				<artifactId>imixs-data-views</artifactId>
+				<version>${org.imixs.data.version}</version>
+				<scope>compile</scope>
 			</dependency>
 
 			<!-- Imixs Melman -->

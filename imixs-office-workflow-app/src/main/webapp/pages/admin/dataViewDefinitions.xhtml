@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+    template="/layout/template.xhtml">
+
+
+    <ui:define name="content">
+
+        <f:view>
+            <h:form>
+                <div class="imixs-view">
+                    <!-- *** Header **** -->
+                    <div class="imixs-header">
+                        <h1>
+                            <h:outputText value="Data Views" />
+                        </h1>
+                    </div>
+
+                    <div class="imixs-body">
+                        <h:dataTable id="view_body" styleClass="imixsdatatable"
+                            value="#{dataViewDefinitionController.definitions}" var="record">
+
+                            <h:column>
+                                <f:facet name="header">#{message.name}</f:facet>
+                                <h:link outcome="/pages/admin/dataViewDefinition?faces-redirect=true"
+                                    styleClass="imixs-viewentry-main-link">
+                                    <h:outputText value="#{record.item['Name']}" />
+                                    <h:outputText rendered="#{empty record.item['Name']}" value=" - no name - " />
+                                    <f:param name="id" value="#{record.item['$uniqueid']}" />
+                                </h:link>
+                            </h:column>
+
+
+                            <h:column>
+                                <f:facet name="header">Process</f:facet>
+                                #{teamController.getProcessById(record.item['process.ref']).getItemValueString('name')}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Description</f:facet>
+                                <pre>#{record.item['description']}</pre>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{message.modified}</f:facet>
+                                <h:outputText value="#{record.item['$modified']}">
+                                    <f:convertDateTime timeZone="#{message.timeZone}" type="both"
+                                        pattern="#{message.dateTimePattern}" />
+                                </h:outputText>
+
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{message.action}</f:facet>
+                                <!-- Edit -->
+                                <h:link outcome="/pages/admin/dataViewDefinition?faces-redirect=true"
+                                    styleClass="imixs-viewentry-main-link">
+                                    <span class="typcn typcn-pencil imixs-state-info"></span>#{message.open}
+                                    <f:param name="id" value="#{record.item['$uniqueid']}" />
+                                </h:link>
+                                <!-- Delete -->
+                                <h:commandLink title="#{message.delete}"
+                                    rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}"
+                                    action="/pages/admin/dataViewDefinitions?faces-redirect=true"
+                                    actionListener="#{documentController.delete(record.item['$UniqueID'])}"
+                                    onclick="if (!confirm('#{message.help_delete}')) return false;">
+                                    <span class="typcn typcn-trash imixs-state-error"></span>#{message.delete}
+                                </h:commandLink>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+
+
+
+                    <div class="imixs-footer">
+
+                        <!--  Error Messages -->
+                        <c:if test="#{! empty facesContext.maximumSeverity}">
+                            <p>
+                                <h:messages styleClass="messages" id="errorMessages" layout="table" />
+                            </p>
+                        </c:if>
+                        <div style="clear: left;" />
+                        <h:commandButton value="#{message.add}" action="/pages/admin/dataViewDefinition"
+                            actionListener="#{dataViewDefinitionController.create}">
+                        </h:commandButton>
+                        <h:commandButton action="home" value="#{message.close}">
+                        </h:commandButton>
+                    </div>
+                </div>
+            </h:form>
+        </f:view>
+    </ui:define>
+
+</ui:composition>
