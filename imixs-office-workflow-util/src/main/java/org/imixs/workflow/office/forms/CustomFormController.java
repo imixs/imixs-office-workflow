@@ -155,7 +155,6 @@ public class CustomFormController implements Serializable {
                 NodeList nSubformList = rootElement.getElementsByTagName("imixs-subform");
                 if (nSubformList != null && nSubformList.getLength() > 0) {
                     subforms = new ArrayList<CustomSubForm>();
-                    logger.info("... wir lesen sections...");
                     for (int subId = 0; subId < nSubformList.getLength(); subId++) {
                         Element nSubFormElement = (Element) nSubformList.item(subId);
                         String label = nSubFormElement.getAttribute("label");
@@ -170,12 +169,8 @@ public class CustomFormController implements Serializable {
                         subforms.add(customSubForm);
                     }
                 } else {
-                    logger.info("... wir lesen sections...");
                     // no subform defined - so simply parse all imixs-form-section tags
                     sections = parseSectionList(rootElement, false);
-
-                    logger.info("... wir fanden " + sections.size() + " sections...");
-
                 }
             } catch (ParserConfigurationException | SAXException | IOException e) {
                 logger.warning("Unable to parse custom form definition: " + e.getMessage());
@@ -245,7 +240,6 @@ public class CustomFormController implements Serializable {
                         defaultReadOnly = Boolean.parseBoolean(sReadOnly);
                     }
                 }
-                logger.info("-...habe was");
                 CustomFormSection customSection = new CustomFormSection(
                         eSectionElement.getAttribute("label"),
                         eSectionElement.getAttribute("columns"),
