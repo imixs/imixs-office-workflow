@@ -137,7 +137,7 @@ public class CustomFormService implements Serializable {
             model = modelService.getModelByWorkitem(workitem);
             task = model.getTask(workitem.getTaskID());
         } catch (ModelException e) {
-            logger.warning("unable to parse data object in model: " + e.getMessage());
+            logger.fine("unable to parse data object in model: " + e.getMessage());
             return "";
         }
 
