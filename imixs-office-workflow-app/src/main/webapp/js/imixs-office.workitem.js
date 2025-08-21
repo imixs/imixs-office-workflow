@@ -674,6 +674,42 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 				formattedIBAN += block + ' ';
 			}
 			inputElement.value = formattedIBAN.trim().toUpperCase(); // Entferne Leerzeichen am Ende
+		},
+		
+		
+		/**
+		 * This helper method updates the llm suggest items
+		 * The method expects a llmSuggestResult structure provided by 
+		 * the `llmSuggestController` method `getSuggestResult()`
+		 */
+		updateLLMSuggestions = function(llmSuggestResult) {
+			if (llmSuggestResult) {
+				const fullItemList = $("input[data-item]");
+				// if suggest mode than update the style for input items associated with ai.suggest.items.
+				if (llmSuggestResult.mode == 'ON') {
+					// find all ml data items
+					$(fullItemList).each(function () {
+						// select data-item value
+						var dataItem = $(this).data('item');
+						var bIgnoreInput = false;
+						var classNamesDef = $(this).attr("class");
+						if (classNamesDef) {
+							const classNames = classNamesDef.split(/\s+/);
+							if (classNames.indexOf("imixs-date") > -1) {
+								bIgnoreInput = true; // we skip imixs-date inputs!
+							}
+						}
+						// test if this data-item is a ml-item...
+						if (llmSuggestResult.items.indexOf(dataItem) > -1) {
+							// ok we have a llm suggest-item
+							$(this).addClass("imixs-llm");
+							if (!bIgnoreInput) {
+								autocompleteInitInput(this, llmSearch, 'autocomplete-resultlist-llm');
+							}
+						}
+					});
+				}
+			}
 		};
 
 
@@ -702,6 +738,7 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 		addWorkitemRef: addWorkitemRef,
 		deleteWorkitemRef: deleteWorkitemRef,
 		formatIBAN: formatIBAN,
+		updateLLMSuggestions: updateLLMSuggestions,
 
 		onFileUploadChange: onFileUploadChange
 	};
