@@ -29,35 +29,10 @@
 
 		// init ml input fields...
 		$(document).ready(function () {
-			if (llmSuggestResult) {
-				fullItemList = $("input[data-item]");
-				// if suggest mode than update the style for input items associated with ai.suggest.items.
-				if (llmSuggestResult.mode == 'ON') {
-					// find all ml data items
-					$(fullItemList).each(function () {
-						// select data-item value
-						var dataItem = $(this).data('item');
-						var bIgnoreInput = false;
-						var classNamesDef = $(this).attr("class");
-						if (classNamesDef) {
-							classNames = classNamesDef.split(/\s+/);
-							if (classNames.indexOf("imixs-date") > -1) {
-								bIgnoreInput = true; // we skip imixs-date inputs!
-							}
-						}
-
-						// test if this data-item is a ml-item...
-						if (llmSuggestResult.items.indexOf(dataItem) > -1) {
-							// ok we have a llm suggest-item
-							$(this).addClass("imixs-llm");
-							if (!bIgnoreInput) {
-								autocompleteInitInput(this, llmSearch, 'autocomplete-resultlist-llm');
-							}
-						}
-					});
-				}
-			}
+			imixsOfficeWorkitem.updateLLMSuggestions(llmSuggestResult);
 		});
+
+
 
 		/*]]>*/
 	</script>
