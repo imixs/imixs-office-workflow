@@ -429,7 +429,7 @@ public class CustomFormController implements Serializable {
             } else {
                 throw new ModelException(ModelException.INVALID_MODEL_ENTRY,
                         "The custom-form expression is not allowed: "
-                                + expression);
+                                + expression + " - expression missing in 'customform.expressions' ");
             }
 
         } else {

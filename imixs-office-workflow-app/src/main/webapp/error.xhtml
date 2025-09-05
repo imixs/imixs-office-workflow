@@ -1,7 +1,6 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	template="/layout/template_error.xhtml">
-
 	<ui:define name="content">
 		<!-- Display only if error messages available -->
 		<h:panelGroup styleClass="ui-widget">
@@ -11,20 +10,58 @@
 					#{message.error_message_general_title}
 				</h3>
 				<p>#{message.error_message_general}</p>
-				<strong>Local Client Time: <span id="datetime"></span></strong>
-				<br />
-				<!-- display exception details -->
+
+				<!-- Display user-friendly error message using the CDI Bean -->
+				<h:panelGroup rendered="#{not empty errorHelperBean.rootCauseMessage}">
+					<div
+						style="background: #FFE6E6; padding: 10px; margin: 10px 0; border: 1px solid #FF9999; border-radius: 4px;">
+						<strong>Error: #{errorHelperBean.rootCauseType}</strong>
+						<p style="color: #666;margin: 0.2em 0 0.4em 0;">#{errorHelperBean.rootCauseMessage}</p>
+						Local Client Time: <span id="datetime"></span>
+					</div>
+				</h:panelGroup>
+
+				<!-- display exception details for debugging (collapsed by default) -->
 				<h:panelGroup layout="block"
-					style="background: #EEE;   padding: 10px; margin: 5px 0 20px 0;border: 1px solid #999;"
-					rendered="#{! empty requestScope['jakarta.servlet.error.exception']}">
-					<h:outputText value="#{requestScope['jakarta.servlet.error.exception']}" />
+					rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS') and !empty requestScope['jakarta.servlet.error.exception']}"
+					style="background: #EEE; padding: 10px; margin: 5px 0 20px 0;border: 1px solid #999;">
+					<details style="cursor: help;">
+						<summary><strong>Full Exception Details (for developers)</strong></summary>
+
+						<!-- Servlet Error Information -->
+						<div style="margin: 10px 0; padding: 10px; background: #F5F5F5; border: 1px solid #CCC;">
+							<h4>Request Information:</h4>
+							<pre style="font-size: 12px; margin: 0;">#{errorHelperBean.servletErrorInfo}</pre>
+						</div>
+
+						<!-- Exception Chain Overview -->
+						<div style="margin: 10px 0; padding: 10px; background: #FFF8DC; border: 1px solid #DDD;">
+							<h4>Exception Chain:</h4>
+							<pre
+								style="font-size: 12px; margin: 0; white-space: pre-wrap;">#{errorHelperBean.exceptionChain}</pre>
+						</div>
+
+						<!-- Complete Stack Trace -->
+						<div style="margin: 10px 0; padding: 10px; background: #F0F0F0; border: 1px solid #CCC;">
+							<h4>Complete Stack Trace:</h4>
+							<pre
+								style="font-size: 11px; margin: 0; white-space: pre-wrap; max-height: 400px; overflow-y: auto;">#{errorHelperBean.fullStackTrace}</pre>
+						</div>
+
+						<!-- Raw Exception Object (fallback) -->
+						<div style="margin: 10px 0; padding: 10px; background: #EEEEEE; border: 1px solid #999;">
+							<h4>Raw Exception Object:</h4>
+							<pre
+								style="font-size: 10px; margin: 0; white-space: pre-wrap; max-height: 200px; overflow-y: auto;">#{requestScope['jakarta.servlet.error.exception']}</pre>
+						</div>
+
+					</details>
 				</h:panelGroup>
 			</div>
 			<h:form>
 				<h:commandButton action="home" value="#{message.close}" immediate="true" />
 			</h:form>
 		</h:panelGroup>
-
 		<script type="text/javascript">
 			/*<![CDATA[*/
 			const now = new Date();
