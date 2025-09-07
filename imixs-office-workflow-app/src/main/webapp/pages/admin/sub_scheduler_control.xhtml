@@ -1,0 +1,100 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		function updateStatustPanel(data) {
+			//initUserInput($('#userselector_id'));
+			if (data.status === 'success') {
+				$('[id$=status_panel]').imixsLayout();
+			}
+		}
+
+		/*]]>*/
+	</script>
+
+
+	<!-- **** General info ***** -->
+	<div class="imixs-form-panel">
+		<h:inputTextarea required="false" converter="org.imixs.VectorConverter" style="height: 8em; width: 100%;"
+			value="#{schedulerController.configuration.itemList['_scheduler_definition']}">
+		</h:inputTextarea>
+	</div>
+
+	<!-- **** Timer Status ***** -->
+	<h:panelGroup layout="block" class="imixs-form-panel" id="status_panel">
+		<h:panelGroup layout="block" id="timer_details" class="imixs-form-section">
+
+			<h2>
+				<h:outputText id="timer_status"
+					value="Status ⇢ #{schedulerController.configuration.item['_scheduler_status']}" />
+
+				<h:panelGroup rendered="#{! empty schedulerController.configuration.item['_scheduler_errormessage']}"
+					class="small" style="color:red">
+					<br />Error: #{schedulerController.configuration.item['_scheduler_errormessage']}
+				</h:panelGroup>
+			</h2>
+
+			<h:panelGrid columns="2">
+
+				<h:panelGroup layout="block" style="width:100px;">
+					<h:outputLabel value="ID: " />
+				</h:panelGroup>
+				<h:panelGroup>
+					<h:outputText value="#{schedulerController.configuration.item['$UniqueID']}" />
+				</h:panelGroup>
+				<h:outputLabel value="Schedule: " />
+				<h:outputText value="#{schedulerController.configuration.item['Schedule']}" />
+
+				<h:outputLabel value="Next Timeout: " />
+				<h:panelGroup>
+					<h:outputText value="#{schedulerController.configuration.item['nextTimeout']}"
+						rendered="#{! empty schedulerController.configuration.item['nextTimeout']}">
+						<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+							pattern="#{message.dateTimePattern}" />
+					</h:outputText>
+					<h:outputText value=" " />
+				</h:panelGroup>
+
+				<h:outputLabel value="TimeRemaining: " />
+				<h:outputText
+					value="#{schedulerController.millisToShortDHMS(schedulerController.configuration.item['timeRemaining'])}" />
+			</h:panelGrid>
+			<h:outputLabel value="Last Run: " />
+			<h:panelGroup layout="block" class="ui-state-highlight ui-corner-all"
+				style="padding: .5em;background: #f5f5f5;padding: 10px;height: 260px;overflow-y: auto;">
+				<ui:fragment rendered="#{! empty schedulerController.configuration.item['_scheduler_logmessage']}">
+					<pre style="font-family: 'Courier New', Courier, monospace;color: #111;line-height: 1.0rem;"> <ui:repeat var="logentry" value="#{schedulerController.configuration.itemList['_scheduler_logmessage']}">
+<h:outputText escape="false" value="#{logentry}" /><br />
+</ui:repeat></pre>
+				</ui:fragment>
+				<ui:fragment rendered="#{empty schedulerController.configuration.item['_scheduler_logmessage']}">
+					No Data.
+				</ui:fragment>
+
+			</h:panelGroup>
+
+		</h:panelGroup>
+
+
+		<!-- Timer Actions -->
+		<h:commandButton value="#{message.refresh}" actionListener="#{schedulerController.refresh}">
+			<f:ajax render="status_panel" onevent="updateStatustPanel" />
+		</h:commandButton>
+
+
+		<h:commandButton actionListener="#{schedulerController.startScheduler}" value="start">
+		</h:commandButton>
+		<h:commandButton actionListener="#{schedulerController.stopScheduler}" value="stop">
+		</h:commandButton>
+		<h:commandButton actionListener="#{schedulerController.restartScheduler}" value="restart">
+		</h:commandButton>
+
+
+
+	</h:panelGroup>
+
+</f:subview>

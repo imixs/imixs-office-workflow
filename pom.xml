@@ -84,9 +84,9 @@
 
 		<!-- Dependency Versions -->
 		<jakarta.version>10.0.0</jakarta.version>
-		<org.imixs.workflow.version>6.2.3-SNAPSHOT</org.imixs.workflow.version>
-		<org.imixs.archive.version>3.1.2</org.imixs.archive.version>
-		<org.imixs.data.version>1.0.0-SNAPSHOT</org.imixs.data.version>
+		<org.imixs.workflow.version>6.2.3</org.imixs.workflow.version>
+		<org.imixs.archive.version>3.1.3</org.imixs.archive.version>
+		<org.imixs.data.version>1.0.0</org.imixs.data.version>
 		<org.imixs.adapters.version>3.2.0</org.imixs.adapters.version>
 		<org.imixs.ai.version>1.1.1</org.imixs.ai.version>
 		<org.imixs.office.version />
@@ -334,6 +334,17 @@
 				<version>${org.imixs.data.version}</version>
 				<scope>compile</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.imixs.workflow</groupId>
+				<artifactId>imixs-data-documents</artifactId>
+				<version>${org.imixs.data.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.imixs.workflow</groupId>
+				<artifactId>imixs-data-importer</artifactId>
+				<version>${org.imixs.data.version}</version>
+			</dependency>
+
 
 			<!-- Imixs-Archive -->
 			<dependency>
@@ -342,12 +353,6 @@
 				<version>${org.imixs.archive.version}</version>
 			</dependency>
 
-			<!-- Imxixs-Archive Documents -->
-			<dependency>
-				<groupId>org.imixs.workflow</groupId>
-				<artifactId>imixs-archive-documents</artifactId>
-				<version>${org.imixs.archive.version}</version>
-			</dependency>
 
 			<!-- Imixs-AI -->
 			<dependency>
@@ -361,6 +366,12 @@
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-adapters-poi</artifactId>
 				<version>${org.imixs.adapters.version}</version>
+			</dependency>
+			<!-- PDFBox -->
+			<dependency>
+				<groupId>org.apache.pdfbox</groupId>
+				<artifactId>pdfbox</artifactId>
+				<version>${apache.pdfbox.version}</version>
 			</dependency>
 
 		</dependencies>

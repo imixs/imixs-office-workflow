@@ -1,0 +1,317 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty" template="/layout/template.xhtml">
+
+	<ui:define name="content">
+		<f:view>
+
+
+
+			<script type="text/javascript">
+				/*<![CDATA[*/
+				$(document).ready(function () {
+					//$('.imixsdatatable').layoutImixsTable();
+				});
+
+
+				// This method refreshs the layout 
+				function updateOptions(data) {
+					if (data.status === 'success') {
+						$('[id$=Optionlist]').imixsLayout();
+
+						/* var id='#'+data.source.id;
+						if (id.indexOf("input")>-1) {
+							$(id).focus();
+						} */
+					}
+				}
+
+				/*]]>*/
+			</script>
+
+
+			<h:form id="import_form_id">
+				<!-- ########## Error ########## -->
+				<ui:include src="/error_message.xhtml" />
+
+				<div class="imixs-form">
+					<div class="imixs-header">
+						<h1>Document Importer</h1>
+					</div>
+					<div class="imixs-body">
+						<div class="imixs-tabs">
+							<ul>
+								<li><a href="#tab-1">Timer Setting</a></li>
+								<li><a href="#tab-2">Data Sources</a></li>
+							</ul>
+
+							<!-- ### Timer ### -->
+							<div id="tab-1">
+
+								<div class="ui-state-highlight ui-corner-all"
+									style="margin-bottom: 10px; padding: .5em;">
+									<p><span class="typcn typcn-lightbulb"></span> Define a crontab to schedule the
+										import processor.</p>
+								</div>
+								<ui:include src="sub_scheduler_control.xhtml">
+									<ui:param name="schedulerController" value="#{documentImportController}" />
+								</ui:include>
+							</div>
+
+							<!-- ### SMTP ### -->
+							<div id="tab-2">
+
+								<div class="ui-state-highlight ui-corner-all"
+									style="margin-bottom: 10px; padding: .5em;">
+									<p><span class="typcn typcn-lightbulb"></span> Define a destination IMAP server and
+										assign mail addresses to specific workflow groups.</p>
+								</div>
+								<div class="imixs-form-panel">
+
+									<!-- ### Sources ### -->
+									<h:panelGroup layout="block" id="imapOptionlist"
+										binding="#{imapOptionlistContainer}">
+										<f:ajax onevent="updateOptions">
+											<table class="imixsdatatable" style="width: 100%;">
+												<thead>
+													<tr>
+														<th style="width: 10px;text-align: center;">Pos</th>
+														<th style="width: 100px;text-align: center;">Type</th>
+														<th style="">Workflowgroup</th>
+														<th style="">Modelversion</th>
+														<th style="">Task</th>
+														<th style="">Event</th>
+														<th style="width: 110px;">
+															<!-- delete -->
+														</th>
+													</tr>
+												</thead>
+
+												<tbody>
+													<ui:repeat var="source" value="#{documentImportController.sources}">
+
+														<tr>
+															<!-- pos -->
+															<td style=" text-align: center;">
+																<h:commandLink
+																	actionListener="#{documentImportController.selectSource(source.item['index'])}">
+																	#
+																	<h:outputText value="#{source.item['index']}" />
+																	<f:ajax render="#{imapOptionlistContainer.clientId}"
+																		onevent="updateOptions" />
+																</h:commandLink>
+															</td>
+
+															<!-- type -->
+															<td style="text-align: center;">
+																<h:outputText value="#{source.item['type']}" />
+															</td>
+															<!-- Workflowgroup -->
+															<td>
+																<h:outputText value="#{source.item['workflowgroup']}" />
+															</td>
+
+															<td>
+																<h:outputText value="#{source.item['workflowmodel']}" />
+															</td>
+															<td>
+																<h:outputText value="#{source.item['task']}" />
+															</td>
+															<td>
+																<h:outputText value="#{source.item['event']}" />
+															</td>
+
+															<td>
+																<h:commandLink
+																	actionListener="#{documentImportController.moveSourceDown(source.item['index'])}">
+																	<span
+																		class="typcn typcn-arrow-down-thick imixs-state-info"></span>
+																	<f:ajax render="#{imapOptionlistContainer.clientId}"
+																		onevent="updateOptions" />
+																</h:commandLink>
+																<h:commandLink
+																	actionListener="#{documentImportController.moveSourceUp(source.item['index'])}">
+																	<span
+																		class="typcn typcn-arrow-up-thick imixs-state-info"></span>
+																	<f:ajax render="#{imapOptionlistContainer.clientId}"
+																		onevent="updateOptions" />
+																</h:commandLink>
+
+																<h:commandLink
+																	actionListener="#{documentImportController.removeSource(source.item['index'])}">
+																	<span
+																		class="typcn typcn-trash imixs-state-info"></span>
+																	<f:ajax render="#{imapOptionlistContainer.clientId}"
+																		onevent="updateOptions" />
+																</h:commandLink>
+															</td>
+														</tr>
+
+
+													</ui:repeat>
+												</tbody>
+
+											</table>
+											<!-- add button -->
+											<h:commandButton value="#{message.add}"
+												actionListener="#{documentImportController.addSource()}">
+												<f:ajax render="#{imapOptionlistContainer.clientId}"
+													onevent="updateOptions" />
+											</h:commandButton>
+
+
+
+											<!-- ### Subform for selected source ### -->
+
+											<h:panelGroup layout="block"
+												rendered="#{! empty documentImportController.source}"
+												styleClass="imixs-form-panel">
+												<h3>Order ID #
+													<h:outputText
+														value="#{documentImportController.source.item['index']}" />
+												</h3>
+												<div class="imixs-form-section-3">
+													<dl>
+														<dt>Type</dt>
+														<dd>
+															<h:selectOneRadio
+																value="#{documentImportController.source.item['type']}">
+																<f:selectItem itemLabel="IMAP" itemValue="IMAP" />
+																<f:selectItem itemLabel="FTP" itemValue="FTP" />
+																<f:selectItem itemLabel="CSV" itemValue="CSV" />
+															</h:selectOneRadio>
+
+
+														</dd>
+													</dl>
+
+													<dl>
+														<dt>Workflowgroup</dt>
+														<dd>
+															<h:selectOneMenu
+																value="#{documentImportController.source.item['workflowgroup']}">
+																<f:selectItem itemLabel=" - " itemValue="" />
+																<c:forEach items="#{modelController.workflowGroups}"
+																	var="group">
+																	<f:selectItem itemLabel="#{group}"
+																		itemValue="#{group}" />
+																</c:forEach>
+															</h:selectOneMenu>
+														</dd>
+													</dl>
+												</div>
+												<div class="imixs-form-section-3">
+
+													<dl>
+														<dt>Workflowmodel</dt>
+														<dd>
+															<h:inputText
+																value="#{documentImportController.source.item['workflowmodel']}" />
+
+														</dd>
+													</dl>
+													<dl>
+														<dt>Task ID</dt>
+														<dd>
+															<h:inputText
+																value="#{documentImportController.source.item['task']}" />
+
+														</dd>
+													</dl>
+													<dl>
+														<dt>Event ID</dt>
+														<dd>
+															<h:inputText
+																value="#{documentImportController.source.item['event']}" />
+
+														</dd>
+													</dl>
+												</div>
+
+												<hr />
+												<!-- IMAP -->
+												<div class="imixs-form-section-3">
+													<dl>
+														<dt>Server : Port</dt>
+														<dd>
+															<h:inputText style="width:80%;"
+																value="#{documentImportController.source.item['server']}">
+															</h:inputText> : <h:inputText style="width:15%;"
+																value="#{documentImportController.source.item['port']}">
+															</h:inputText>
+														</dd>
+													</dl>
+
+
+													<dl>
+														<dt>User</dt>
+														<dd>
+															<h:inputText required="false"
+																value="#{documentImportController.source.item['user']}">
+															</h:inputText>
+														</dd>
+													</dl>
+
+													<dl>
+														<dt>Password</dt>
+														<dd>
+															<h:inputSecret required="false" redisplay="true"
+																value="#{documentImportController.source.item['password']}">
+															</h:inputSecret>
+														</dd>
+													</dl>
+												</div>
+												<div class="imixs-form-section">
+													<dl>
+														<dt>Selector</dt>
+														<dd>
+															<h:inputText required="false"
+																value="#{documentImportController.source.item['selector']}">
+															</h:inputText>
+															<p class="small">A selector can be an optional regular
+																expression to be used to select a subset of data</p>
+														</dd>
+													</dl>
+													<dl>
+														<dt>Options</dt>
+														<dd>
+															<h:inputTextarea required="false"
+																style="height: 5em; width: 100%;"
+																value="#{documentImportController.source.item['options']}">
+															</h:inputTextarea>
+															<p class="small">You can apply custom properties here.
+															</p>
+														</dd>
+													</dl>
+												</div>
+											</h:panelGroup> <!-- end of source subform -->
+										</f:ajax>
+									</h:panelGroup>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="imixs-footer">
+						<h:outputLabel value="#{message.modified}: " />
+						<h:outputText value="#{documentImportController.configuration.item['$modified']}">
+							<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+								pattern="#{message.dateTimePattern}" />
+						</h:outputText>
+						<br />
+						<h:commandButton actionListener="#{documentImportController.saveConfiguration()}"
+							action="/pages/admin/document_import" value="#{message.save}">
+						</h:commandButton>
+						<h:commandButton value="#{message.close}" action="notes" />
+					</div>
+
+				</div>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+
+
+</ui:composition>
