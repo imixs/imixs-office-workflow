@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+	<div class="dashboard-card">
+		<div class="dashboard-card-header">
+			<h:outputText value="#{analyticController.getAsDouble(item.name)}">
+				<f:convertNumber minFractionDigits="2" locale="de" />
+			</h:outputText>
+		</div>
+
+
+		<div class="dashboard-card-content">#{analyticController.getLabel(item.name)}</div>
+
+
+		<div class="dashboard-card-footer">
+			<span>#{analyticController.getDescription(item.name)}</span>
+
+			<h:panelGroup styleClass="dashboard-card-link" rendered="#{!empty analyticController.getLink(item.name)}">
+				<a href="#{analyticController.getLink(item.name)}"><span class="typcn typcn-zoom-outline" /></a>
+			</h:panelGroup>
+
+
+		</div>
+
+	</div>
+
+</ui:composition>

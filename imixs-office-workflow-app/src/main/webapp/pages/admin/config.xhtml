@@ -1,130 +1,138 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
-	template="/layout/template.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough" template="/layout/template.xhtml">
 
 	<ui:define name="content">
 		<f:view>
 
 			<h:form id="news_form_id">
-
-
 				<div class="imixs-form">
 					<div class="imixs-header">
 						<h1>#{message['config.title']}</h1>
-
 					</div>
 
 					<div class="imixs-body">
+						<div class="imixs-tabs">
+							<ul>
+								<li><a href="#tab-0">General</a></li>
+								<li><a href="#tab-1">Layout</a></li>
+							</ul>
 
-						<div class="imixs-form-panel row">
-							<h1>#{message['config.views']}</h1>
-							<!-- **** Worklist / View  info ***** -->
-							<div class="col-6 nested">
-								<div class="imixs-form-section-2">
-									<dl>
-										<dt>#{message['config.sortby']}</dt>
-										<dd>
-											<h:selectOneMenu required="true"
-												value="#{setupController.workitem.item['sortby']}">
-												<f:selectItem itemValue="$lasteventdate" itemLabel="modified" />
-												<f:selectItem itemValue="$created" itemLabel="created" />
-											</h:selectOneMenu>
-										</dd>
-									</dl>
-									<dl>
-										<dt>#{message['config.sortorder']}</dt>
-										<dd>
-											<h:selectOneMenu required="true"
-												value="#{setupController.workitem.item['sortorder']}">
-												<f:selectItem itemValue="0" itemLabel="Descanding" />
-												<f:selectItem itemValue="1" itemLabel="Ascending" />
+							<!-- general -->
+							<div id="tab-0">
 
+								<div class="imixs-form-panel">
+									<h2>#{message['config.workflow']}</h2>
 
-											</h:selectOneMenu>
-										</dd>
-									</dl>
+									<div class="imixs-form-section-2">
+										<dl>
+											<dt>#{message['config.sequencenumbers']}</dt>
+											<dd>
+												<h:inputTextarea required="false" converter="org.imixs.VectorConverter"
+													style="height: 8em;" styleClass="imixs-properties"
+													a:spellCheck="false" a:autoComplete="off" a:autoCorrect="off"
+													a:autoCapitalize="off" a:data-gramm="false"
+													value="#{setupController.workitem.itemList['sequencenumbers']}">
+												</h:inputTextarea>
+											</dd>
 
+										</dl>
+									</div>
+								</div>
+
+								<div class="imixs-form-panel">
+									<h2>#{message['config.additionalproperties']}</h2>
+									<div class="imixs-form-section">
+										<h:inputTextarea required="false" converter="org.imixs.VectorConverter"
+											styleClass="imixs-properties" a:spellCheck="false" a:autoComplete="off"
+											a:autoCorrect="off" a:autoCapitalize="off" a:data-gramm="false"
+											value="#{setupController.workitem.itemList['properties']}">
+										</h:inputTextarea>
+									</div>
+								</div>
+
+								<div class="imixs-form-panel">
+									<h2>#{message['config.security']}</h2>
+									<div class="imixs-form-section-2">
+										<dl>
+											<dt>
+												<h:selectBooleanCheckbox
+													value="#{setupController.workitem.item['keyEnableUserDB']}" />
+												<h:outputLabel value="#{message['config.enable_database_realm']}" />
+											</dt>
+											<dd></dd>
+										</dl>
+
+									</div>
 								</div>
 							</div>
-							<div class="col-6 nested">
-								<div class=" imixs-form-section-2">
-								<dl>
-										<dt>#{message['config.portlet.viewcount']}</dt>
-										<dd>
-											<h:inputText value="#{setupController.workitem.item['portletViewCount']}"/>
-										</dd>
-									</dl>
+
+
+							<!-- layout -->
+							<div id="tab-1">
+								<div class="imixs-form-panel">
+									<h2>#{message['config.views']}</h2>
+									<!-- **** Worklist / View  info ***** -->
+
+									<div class="imixs-form-section-3">
+										<dl>
+											<dt>#{message['config.sortby']}</dt>
+											<dd>
+												<h:selectOneMenu required="true"
+													value="#{setupController.workitem.item['sortby']}">
+													<f:selectItem itemValue="$lasteventdate" itemLabel="modified" />
+													<f:selectItem itemValue="$created" itemLabel="created" />
+												</h:selectOneMenu>
+											</dd>
+										</dl>
+										<dl>
+											<dt>#{message['config.sortorder']}</dt>
+											<dd>
+												<h:selectOneMenu required="true"
+													value="#{setupController.workitem.item['sortorder']}">
+													<f:selectItem itemValue="0" itemLabel="Descanding" />
+													<f:selectItem itemValue="1" itemLabel="Ascending" />
+
+
+												</h:selectOneMenu>
+											</dd>
+										</dl>
+
+
+										<dl>
+											<dt>#{message['config.portlet.viewcount']}</dt>
+											<dd>
+												<h:inputText
+													value="#{setupController.workitem.item['portletViewCount']}" />
+											</dd>
+										</dl>
+									</div>
 								</div>
-							</div>
 
 
-						</div>
-						<div class="imixs-form-panel">
-							<h1>#{message['config.workflow']}</h1>
 
-							<div class="imixs-form-section-2">
-								<dl>
-									<dt>#{message['config.sequencenumbers']}</dt>
-									<dd>
-										<h:inputTextarea required="false"
-											converter="org.imixs.VectorConverter" style="height: 8em;"
-											value="#{setupController.workitem.itemList['sequencenumbers']}">
+								<div class="imixs-form-panel">
+									<h2>Dashboard Layout</h2>
+									<div class="imixs-form-section">
+										<h:inputTextarea required="false" styleClass="imixs-properties"
+											a:spellCheck="false" a:autoComplete="off" a:autoCorrect="off"
+											a:autoCapitalize="off" a:data-gramm="false"
+											value="#{setupController.workitem.item['dashboard.form']}">
 										</h:inputTextarea>
-									</dd>
-
-								</dl>
-							</div>
-						</div>
-						
-						<div class="imixs-form-panel">
-							<h1>#{message['config.additionalproperties']}</h1>
-							<h:inputTextarea required="false"
-								converter="org.imixs.VectorConverter"
-								style="height: 16em; width: 100%;"
-								value="#{setupController.workitem.itemList['properties']}">
-							</h:inputTextarea>
-						</div>
-						
-						<div class="imixs-form-panel">
-							<h1>#{message['config.security']}</h1>
-							<div class="imixs-form-section-2">
-								<dl>
-									<dt>
-										<h:selectBooleanCheckbox
-											value="#{setupController.workitem.item['keyEnableUserDB']}" />
-										<h:outputLabel
-											value="#{message['config.enable_database_realm']}" />
-									</dt>
-									<dd></dd>
-								</dl>
-								
-								<!--  Usergroups are no longer used in version 4.5.1  - see SetupControler.getUserGrups() 
-								<dl>
-									<dt>#{message['config.usergroups']}</dt>
-									<dd>
-										<h:inputTextarea required="false"
-											converter="org.imixs.VectorConverter"
-											style="height: 8em; width: 16em;"
-											value="#{setupController.workitem.itemList['usergroups']}">
-										</h:inputTextarea>
-									</dd>
-								</dl>
-								-->
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="imixs-footer">
 						<h:inputHidden value="#{setupController.workitem.item['$version']}" />
 						<!-- **** save ***** -->
-						<h:commandButton action="/pages/notes"
-							actionListener="#{setupController.save()}"
+						<h:commandButton action="/pages/notes" actionListener="#{setupController.save()}"
 							value="#{message.save}" />
 						<h:commandButton value="#{message.close}" action="home" />
 					</div>
+
 				</div>
 			</h:form>
 		</f:view>
@@ -133,4 +141,3 @@
 
 
 </ui:composition>
-

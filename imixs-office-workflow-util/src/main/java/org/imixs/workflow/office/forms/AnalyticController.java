@@ -1,9 +1,12 @@
 package org.imixs.workflow.office.forms;
 
 import java.io.Serializable;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.imixs.workflow.ItemCollection;
@@ -13,6 +16,11 @@ import jakarta.enterprise.context.ConversationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonString;
+import jakarta.json.JsonValue;
 
 /**
  * The AnalyticController is a conversationScoped controller that provides
@@ -41,6 +49,8 @@ public class AnalyticController implements Serializable {
 
 	@Inject
 	protected WorkflowController workflowController;
+
+	private Map<String, Map<String, String>> optionsCache = new HashMap<>();
 
 	/**
 	 * Returns a analytic value as a String for a given key.
@@ -114,11 +124,10 @@ public class AnalyticController implements Serializable {
 	}
 
 	/**
-	 * Computes an analytic value. The method cache the value in the
-	 * item key.
+	 * Computes an analytic value.
 	 * 
-	 * An observer controller is responsible to cache or reset the cached values if
-	 * needed.
+	 * Note: An observer controller is responsible to cache or reset the cached
+	 * values if needed.
 	 * 
 	 * @param key
 	 * @return
@@ -177,6 +186,92 @@ public class AnalyticController implements Serializable {
 		dummy.setItemValue("description", "No data available");
 
 		return dummy;
+	}
+
+	/**
+	 * This helper method returns an optional JSON value from the 'options'
+	 * attriubte
+	 * 
+	 * @param key
+	 * @param optionName
+	 * @param jsonOptions
+	 * @param defaultValue
+	 * @return
+	 */
+	public String getOption(String key, String optionName, String jsonOptions, String defaultValue) {
+		Map<String, String> options = getOptions(key, jsonOptions);
+		return options.getOrDefault(optionName, defaultValue);
+	}
+
+	/**
+	 * Helper method to parse the json options for a specific key
+	 * 
+	 * @param key         - name of the analytic key
+	 * @param jsonOptions - a json string to be parsed
+	 * @return a key value map
+	 */
+	private Map<String, String> getOptions(String key, String jsonOptions) {
+		if (!optionsCache.containsKey(key)) {
+
+			Map<String, String> optionsMap = parseJsonOptions(jsonOptions);
+			optionsCache.put(key, optionsMap);
+		}
+		return optionsCache.get(key);
+	}
+
+	/**
+	 * Parse JSON options using Jakarta EE JSON-P API
+	 * 
+	 * @param jsonString - JSON string to parse
+	 * @return Map with parsed key-value pairs
+	 */
+	private Map<String, String> parseJsonOptions(String jsonString) {
+		Map<String, String> options = new HashMap<>();
+
+		if (jsonString != null && !jsonString.isEmpty()) {
+			try (JsonReader jsonReader = Json.createReader(new StringReader(jsonString))) {
+				JsonObject jsonObject = jsonReader.readObject();
+
+				// Convert JsonObject to Map<String, String>
+				for (Map.Entry<String, JsonValue> entry : jsonObject.entrySet()) {
+					String key = entry.getKey();
+					JsonValue value = entry.getValue();
+
+					// Convert JsonValue to String based on type
+					String stringValue = convertJsonValueToString(value);
+					options.put(key, stringValue);
+				}
+
+			} catch (Exception e) {
+				logger.log(Level.WARNING, "Failed to parse card options JSON: " + jsonString, e);
+			}
+		}
+
+		return options;
+	}
+
+	/**
+	 * Convert JsonValue to String representation
+	 * 
+	 * @param jsonValue - the JsonValue to convert
+	 * @return String representation of the value
+	 */
+	private String convertJsonValueToString(JsonValue jsonValue) {
+		switch (jsonValue.getValueType()) {
+			case STRING:
+				return ((JsonString) jsonValue).getString();
+			case NUMBER:
+				return jsonValue.toString();
+			case TRUE:
+				return "true";
+			case FALSE:
+				return "false";
+			case NULL:
+				return null;
+			default:
+				// For arrays or objects, return the JSON representation
+				return jsonValue.toString();
+		}
 	}
 
 }
