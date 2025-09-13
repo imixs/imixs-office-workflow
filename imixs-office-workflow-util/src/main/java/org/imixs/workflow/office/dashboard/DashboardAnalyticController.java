@@ -68,8 +68,6 @@ public class DashboardAnalyticController implements Serializable {
     int countNeedsAttention = 0; // Needs attention (3-7 days) - Orange
     int countUrgent = 0; // Urgent tasks (7+ days) - Red
 
-    String lastCommand = "init";
-
     @Inject
     CustomFormController customFormController;
 
@@ -146,14 +144,6 @@ public class DashboardAnalyticController implements Serializable {
         }
     }
 
-    public String getLastCommand() {
-        return lastCommand;
-    }
-
-    public void setLastCommand(String lastCommand) {
-        this.lastCommand = lastCommand;
-    }
-
     public void onEvent(@Observes AnalyticEvent event) {
 
         // Recompute only if last dbtr.number has changed or no values yet computed
@@ -165,7 +155,7 @@ public class DashboardAnalyticController implements Serializable {
             return;
         }
 
-        logger.info("onEvent - calculateStats.... key=" + event.getKey());
+        logger.fine("onEvent - calculateStats.... key=" + event.getKey());
         calculateStats(event);
 
         if ("dashboard.worklist.count.all".equals(event.getKey())) {
@@ -243,11 +233,11 @@ public class DashboardAnalyticController implements Serializable {
                     + "\") AND ($lasteventdate:[19700101 TO " + oneWeekAgoMinus1 + "])";
             countUrgent = documentService.count(searchTerm);
 
-            logger.info(" ├──Query ranges:");
-            logger.info("   Fresh: [" + threeDaysAgoStr + " TO " + todayStr + "]");
-            logger.info("   Attention: [" + oneWeekAgoStr + " TO " + threeDaysAgoMinus1 + "]");
-            logger.info("   Urgent: [19700101 TO " + oneWeekAgoMinus1 + "]");
-            logger.info(" ├──Results: Fresh=" + countFresh + ", Attention=" + countNeedsAttention + ", Urgent="
+            logger.fine(" ├──Query ranges:");
+            logger.fine("   Fresh: [" + threeDaysAgoStr + " TO " + todayStr + "]");
+            logger.fine("   Attention: [" + oneWeekAgoStr + " TO " + threeDaysAgoMinus1 + "]");
+            logger.fine("   Urgent: [19700101 TO " + oneWeekAgoMinus1 + "]");
+            logger.fine(" ├──Results: Fresh=" + countFresh + ", Attention=" + countNeedsAttention + ", Urgent="
                     + countUrgent + ", Total=" + countAll);
 
         } catch (QueryException e) {
@@ -280,62 +270,39 @@ public class DashboardAnalyticController implements Serializable {
 
             String query = "(type:\"workitem\" AND $owner:\"" + loginController.getRemoteUser() + "\")";
             DashboardDataSet dataSet = new DashboardDataSet(key, query, setupController.getPortletSize());
+            loadData(dataSet);
+            // try {
 
-            try {
-                dataSet.setData(
-                        documentService.findStubs(dataSet.getQuery(), dataSet.getPageSize(), dataSet.getPageIndex(),
-                                "$modified", true));
-            } catch (QueryException e) {
-                logger.warning("Failed to compute dataset: " + e.getMessage());
-                dataSet.setData(new ArrayList<>());
-            }
+            // dataSet.setData(
+            // documentService.findStubs(dataSet.getQuery(), dataSet.getPageSize(),
+            // dataSet.getPageIndex(),
+            // "$modified", true));
+            // } catch (QueryException e) {
+            // logger.warning("Failed to compute dataset: " + e.getMessage());
+            // dataSet.setData(new ArrayList<>());
+            // }
             this.dataSets.put(key, dataSet);
             return dataSet;
 
         }
         if ("dashboard.worklist.creator".equals(key)) {
-
             String query = "(type:\"workitem\" AND $creator:\"" + loginController.getRemoteUser() + "\")";
             DashboardDataSet dataSet = new DashboardDataSet(key, query, setupController.getPortletSize());
-            try {
-                dataSet.setData(
-                        documentService.findStubs(dataSet.getQuery(), dataSet.getPageSize(), dataSet.getPageIndex(),
-                                "$modified", true));
-            } catch (QueryException e) {
-                logger.warning("Failed to compute dataset: " + e.getMessage());
-                dataSet.setData(new ArrayList<>());
-            }
+            // try {
+            loadData(dataSet);
+            // dataSet.setData(
+            // documentService.findStubs(dataSet.getQuery(), dataSet.getPageSize(),
+            // dataSet.getPageIndex(),
+            // "$modified", true));
+            // } catch (QueryException e) {
+            // logger.warning("Failed to compute dataset: " + e.getMessage());
+            // dataSet.setData(new ArrayList<>());
+            // }
             this.dataSets.put(key, dataSet);
             return dataSet;
         }
         // not define - return empty data set
         return new DashboardDataSet("none", "", 0);
-
-    }
-
-    public void ping() {
-        logger.info(" ich pinge...");
-    }
-
-    public void executeCommand(String command) {
-        logger.info(" ich copmande..." + command);
-        lastCommand = command + " - " + System.currentTimeMillis();
-
-        logger.info(" ich copmande..." + lastCommand);
-    }
-
-    public void nextOwner(String key) {
-        logger.info("ich navigier nach vorn: " + key);
-        DashboardDataSet dataSet = getDataSet(key);
-        try {
-            dataSet.setPageIndex(dataSet.getPageIndex() + 1);
-            dataSet.setData(
-                    documentService.findStubs(dataSet.getQuery(), dataSet.getPageSize(), dataSet.getPageIndex(),
-                            "$modified", true));
-        } catch (QueryException e) {
-            logger.warning("Failed to compute dataset: " + e.getMessage());
-            dataSet.setData(new ArrayList<>());
-        }
 
     }
 
@@ -346,16 +313,17 @@ public class DashboardAnalyticController implements Serializable {
      */
     public void next(DashboardDataSet dataSet) {
         if (dataSet != null) {
-            try {
-                logger.info("navigate next " + dataSet.getName() + "...");
-                dataSet.setPageIndex(dataSet.getPageIndex() + 1);
-                dataSet.setData(
-                        documentService.findStubs(dataSet.getQuery(), dataSet.getPageSize(), dataSet.getPageIndex(),
-                                "$modified", true));
-            } catch (QueryException e) {
-                logger.warning("Failed to compute dataset: " + e.getMessage());
-                dataSet.setData(new ArrayList<>());
-            }
+            // try {
+            dataSet.setPageIndex(dataSet.getPageIndex() + 1);
+            // dataSet.setData(
+            // documentService.findStubs(dataSet.getQuery(), dataSet.getPageSize(),
+            // dataSet.getPageIndex(),
+            // "$modified", true));
+            // } catch (QueryException e) {
+            // logger.warning("Failed to compute dataset: " + e.getMessage());
+            // dataSet.setData(new ArrayList<>());
+            // }
+            loadData(dataSet);
         }
 
     }
@@ -367,12 +335,44 @@ public class DashboardAnalyticController implements Serializable {
      */
     public void prev(DashboardDataSet dataSet) {
         if (dataSet != null) {
+            // try {
+            dataSet.setPageIndex(dataSet.getPageIndex() - 1);
+            // dataSet.setData(
+            // documentService.findStubs(dataSet.getQuery(), dataSet.getPageSize(),
+            // dataSet.getPageIndex(),
+            // "$modified", true));
+            loadData(dataSet);
+            // } catch (QueryException e) {
+            // logger.warning("Failed to compute dataset: " + e.getMessage());
+            // dataSet.setData(new ArrayList<>());
+            // }
+        }
+
+    }
+
+    private void loadData(DashboardDataSet dataSet) {
+        if (dataSet != null) {
             try {
-                logger.fine("navigate prev " + dataSet.getName() + "...");
-                dataSet.setPageIndex(dataSet.getPageIndex() - 1);
                 dataSet.setData(
                         documentService.findStubs(dataSet.getQuery(), dataSet.getPageSize(), dataSet.getPageIndex(),
                                 "$modified", true));
+
+                // The end of a list is reached when the size is below or equal the
+                // pageSize. See issue #287
+                dataSet.setTotalCount(documentService.count(dataSet.getQuery()));
+                dataSet.setTotalPages((int) Math.ceil((double) dataSet.getTotalCount() / dataSet.getPageSize()));
+                if (dataSet.getData().size() < dataSet.getPageSize()) {
+                    dataSet.setEndOfList(true);
+                } else {
+                    // look ahead if we have more entries...
+                    int iAhead = (dataSet.getPageSize() * dataSet.getPageIndex() + 1) + 1;
+                    if (dataSet.getTotalCount() < iAhead) {
+                        // there is no more data
+                        dataSet.setEndOfList(true);
+                    } else {
+                        dataSet.setEndOfList(false);
+                    }
+                }
             } catch (QueryException e) {
                 logger.warning("Failed to compute dataset: " + e.getMessage());
                 dataSet.setData(new ArrayList<>());

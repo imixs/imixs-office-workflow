@@ -48,6 +48,9 @@ public class DashboardDataSet implements Serializable {
     private String query;
     private int pageIndex;
     private int pageSize;
+    private boolean endOfList;
+    private int totalCount;
+    private int totalPages;
 
     public DashboardDataSet(String name, String query, int pageSize) {
         this.name = name;
@@ -100,4 +103,27 @@ public class DashboardDataSet implements Serializable {
         this.pageSize = pageSize;
     }
 
+    public boolean isEndOfList() {
+        return endOfList;
+    }
+
+    public void setEndOfList(boolean endOfList) {
+        this.endOfList = endOfList;
+    }
+
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
 }

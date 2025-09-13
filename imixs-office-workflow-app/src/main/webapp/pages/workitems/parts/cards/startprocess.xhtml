@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+
+	<ui:param name="process" value="#{teamController.getProcessByName(item.name)}" />
+	<div class="dashboard-card #{analyticController.getOption(item.name, 'class', options, '')}">
+		<div class="dashboard-card-header" style="width: 100%;">
+			<!-- board -->
+			<h:link outcome="/pages/notes_board?processref=#{process.item['$uniqueId']}" style="margin-right:10px;">
+				<span class="typcn typcn-th-large-outline" style="margin-right:8px;"></span>
+				<h:outputText value="#{process.item['name']}" />
+			</h:link>
+			<span class="pull-right">
+				<!-- extended search -->
+				<h:link outcome="/pages/workitems/worklist?processref=#{process.item['$uniqueId']}"
+					title="#{message['nav.search_extended']}"><span class="typcn typcn-zoom-outline"
+						style="margin-left:8px;"></span></h:link>
+				<!-- archive search -->
+				<h:link outcome="/pages/workitems/worklist?processref=#{process.item['$uniqueId']}&amp;archive=true"
+					title="#{message['nav.search_archive']}"><span class="typcn typcn-archive" style=""></span>
+				</h:link>
+				<!-- reports -->
+				<h:link
+					rendered="#{process.item['isManager'] or loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')}"
+					outcome="/pages/monitoring_board?processref=#{process.item['$uniqueId']}" title="Monitoring">
+					<span class="typcn typcn-chart-pie-outline"></span>
+				</h:link>
+			</span>
+			<p style="font-size:0.7em;font-weight: normal;margin:0;">
+				<h:outputText value="#{process.item['txtdescription']}" escape="false" />
+			</p>
+		</div>
+		<div class="dashboard-card-content">
+			<!-- *** WorkflowGroup List if user is member*** -->
+			<ui:param name="isWorkflowCreator"
+				value="#{!(loginController.isUserInRole('org.imixs.ACCESSLEVEL.READERACCESS') or (loginController.isUserInRole('org.imixs.ACCESSLEVEL.NOACCESS') eq true)) }" />
+			<h:panelGroup rendered="#{isWorkflowCreator and !empty process.itemList['txtWorkflowList']}">
+				<ul style="margin: 5px 0;">
+					<ui:repeat value="#{process.itemList['txtWorkflowList']}" var="group">
+						<li>
+							<!-- get first task by group -->
+							<ui:param name="version" value="#{modelController.getVersionByGroup(group)}" />
+							<ui:param name="startTasks"
+								value="#{modelController.findAllStartTasksByGroup(version,group)}" />
+							<h:panelGroup rendered="#{! empty startTasks}">
+								<ui:param name="initialTask" value="#{startTasks.get(0)}" />
+								<ui:param name="taskDescription"
+									value="#{modelController.getProcessDescriptionByInitialTask(initialTask,version,group)}" />
+								<h:commandLink title=" " styleClass="action-create"
+									actionListener="#{workflowController.create(version,initialTask.item['taskid'],process.item['$uniqueid'])}"
+									action="/pages/workitems/workitem?faces-redirect=true">
+									<span class="typcn typcn-folder-add" style="margin-right: 10px;"></span>
+									<h:outputText value="#{group}" />
+								</h:commandLink>
+								<h:panelGroup rendered="#{!empty taskDescription}" styleClass="imixs-tooltip"
+									style="position: relative;top: 140px;">
+									<h:outputText value="#{taskDescription}" escape="false" />
+								</h:panelGroup>
+							</h:panelGroup>
+							<h:outputText style="color:red" rendered="#{empty startTasks}"
+								value="	Missing Model Definition: #{group}"></h:outputText>
+						</li>
+					</ui:repeat>
+				</ul>
+			</h:panelGroup>
+
+			<!-- DataViews -->
+			<ui:param name="dataViews"
+				value="#{dataViewDefinitionController.findDefinitionByProcessRef(process.item['$uniqueId'])}" />
+			<h:panelGroup rendered="#{!empty dataViews}">
+
+				<ul style="margin: 5px 0;">
+					<ui:repeat value="#{dataViews}" var="dataview">
+						<ui:param name="dataViewDescription" value="#{dataview.item['description']}" />
+						<li>
+							<h:outputLink title=""
+								value="#{facesContext.externalContext.requestContextPath}#{dataViewDefinitionController.getViewURI(dataview)}"
+								target="dataview"><span class="typcn typcn-th-menu"
+									style="font-size: 1.2rem;margin-right:10px;"></span>
+								<h:outputText value="#{dataview.item['name']}" />
+							</h:outputLink>
+							<h:panelGroup rendered="#{!empty dataViewDescription}" styleClass="imixs-tooltip"
+								style="position: relative;top: 140px;">
+								<h:outputText value="#{dataViewDescription}" escape="false" />
+							</h:panelGroup>
+						</li>
+					</ui:repeat>
+				</ul>
+			</h:panelGroup>
+		</div>
+		<div class="dashboard-card-footer">
+			<span>#{analyticController.getOption(item.name, 'description', options, '')}</span>
+			<h:panelGroup styleClass="dashboard-card-link"
+				rendered="#{!empty analyticController.getLink(workitem,item.name)}">
+				<a href="#{analyticController.getLink(workitem,item.name)}"><span
+						class="typcn typcn-zoom-outline" /></a>
+			</h:panelGroup>
+		</div>
+	</div>
+
+</ui:composition>

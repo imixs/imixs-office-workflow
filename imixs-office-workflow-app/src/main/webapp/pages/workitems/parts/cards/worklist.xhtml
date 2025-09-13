@@ -7,7 +7,7 @@
 
 
 		<div class="dashboard-card-header">
-			#{message['worklist.owner']}
+			<h:outputText value=" #{analyticController.getOption(item.name, 'label', options, 'Aufgaben')}" />
 		</div>
 		<div class="dashboard-card-content">
 
@@ -23,15 +23,26 @@
 		</div>
 
 		<div class="dashboard-card-footer">
-			<!-- navigation -->
-			<h:commandLink value="Prev" action="#{dashboardAnalyticController.prev(dataset)}">
-				<f:ajax render="#{component.parent.parent.clientId}"
-					onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
-			</h:commandLink>
-			<h:commandLink value="Next " action="#{dashboardAnalyticController.next(dataset)}">
-				<f:ajax render="#{component.parent.parent.clientId}"
-					onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
-			</h:commandLink>
+			<span>
+				<h:outputText value=" #{analyticController.getOption(item.name, 'description', options, '')}" />
+			</span>
+			<span class="pull-right">
+				<h:outputText value=" #{(dataset.pageIndex+1)} / #{dataset.totalPages}" />
+				<!-- navigation -->
+				<h:commandLink value="" action="#{dashboardAnalyticController.prev(dataset)}">
+					<f:ajax render="#{component.parent.parent.clientId}"
+						onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+					<span
+						class="typcn #{(dataset.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
+
+				</h:commandLink>
+				<h:commandLink value="" action="#{dashboardAnalyticController.next(dataset)}">
+					<f:ajax render="#{component.parent.parent.clientId}"
+						onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+					<span
+						class="typcn #{(dataset.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
+				</h:commandLink>
+			</span>
 		</div>
 
 
