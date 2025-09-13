@@ -10,20 +10,26 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.imixs.marty.profile.UserController;
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.engine.DocumentEvent;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.WorkflowService;
+import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.util.LoginController;
 import org.imixs.workflow.office.config.SetupController;
 import org.imixs.workflow.office.forms.AnalyticEvent;
+import org.imixs.workflow.office.forms.CustomFormController;
 
-import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.Conversation;
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.enterprise.event.Observes;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Der DashboardAnalyticController computes the core analytic data for the
@@ -50,12 +56,11 @@ public class DashboardAnalyticController implements Serializable {
 
     @Inject
     WorkflowService workflowService;
-
     @Inject
     SetupController setupController;
 
     @Inject
-    DashboardController dashboardController;
+    private Conversation conversation;
 
     List<ItemCollection> invoices = null;
     int countAll = 0;
@@ -63,15 +68,82 @@ public class DashboardAnalyticController implements Serializable {
     int countNeedsAttention = 0; // Needs attention (3-7 days) - Orange
     int countUrgent = 0; // Urgent tasks (7+ days) - Red
 
-    String chartData = "";
-
     String lastCommand = "init";
 
-    protected Map<String, DashboardDataSet> dataSets = null;
+    @Inject
+    CustomFormController customFormController;
 
-    @PostConstruct
-    public void init() {
+    @Inject
+    UserController userController;
+
+    protected Map<String, DashboardDataSet> dataSets = null;
+    private ItemCollection workitem = new ItemCollection();
+    private String setupConfigUniqueID = null;
+
+    /**
+     * This method loads the dashboard form information
+     */
+    public void initLayout() {
         dataSets = new HashMap<>();
+
+        try {
+            String content = setupController.getWorkitem().getItemValueString("dashboard.form");
+            setupConfigUniqueID = setupController.getWorkitem().getUniqueID();
+            workitem.setItemValue(CustomFormController.ITEM_CUSTOM_FORM, content);
+            customFormController.computeFieldDefinition(workitem);
+        } catch (ModelException e) {
+            logger.warning("Failed to compute custom form sections: " + e.getMessage());
+        }
+
+    }
+
+    /**
+     * This method starts a new conversation scope, reset the data sets and loads
+     * the dashboard.
+     * This method is usually called in the dashboard.xhtml page
+     */
+    public void onLoad() {
+        dataSets = new HashMap<>();
+        startConversation();
+        initLayout();
+    }
+
+    public ItemCollection getWorkitem() {
+        return workitem;
+    }
+
+    public void setWorkitem(ItemCollection dashboardData) {
+        this.workitem = dashboardData;
+    }
+
+    /**
+     * Reacts on ON_DOCUMENT_SAVE of the config item and reloads the layout
+     * 
+     * @see DocumentEvent
+     * @param documentEvent
+     */
+    public void onDocumentEvent(@Observes DocumentEvent documentEvent) {
+
+        if (setupConfigUniqueID != null
+                && documentEvent.getEventType() == DocumentEvent.ON_DOCUMENT_SAVE
+                && setupConfigUniqueID.equals(documentEvent.getDocument().getUniqueID())) {
+            logger.info("reload dashboard layout...");
+            initLayout();
+        }
+
+    }
+
+    /**
+     * Starts a new conversation
+     */
+    protected void startConversation() {
+        if (conversation.isTransient()) {
+            conversation.setTimeout(
+                    ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+                            .getSession().getMaxInactiveInterval() * 1000);
+            conversation.begin();
+            logger.log(Level.FINEST, "......start new conversation, id={0}", conversation.getId());
+        }
     }
 
     public String getLastCommand() {
@@ -207,7 +279,7 @@ public class DashboardAnalyticController implements Serializable {
         if ("dashboard.worklist.owner".equals(key)) {
 
             String query = "(type:\"workitem\" AND $owner:\"" + loginController.getRemoteUser() + "\")";
-            DashboardDataSet dataSet = new DashboardDataSet(query, setupController.getPortletSize());
+            DashboardDataSet dataSet = new DashboardDataSet(key, query, setupController.getPortletSize());
 
             try {
                 dataSet.setData(
@@ -224,7 +296,7 @@ public class DashboardAnalyticController implements Serializable {
         if ("dashboard.worklist.creator".equals(key)) {
 
             String query = "(type:\"workitem\" AND $creator:\"" + loginController.getRemoteUser() + "\")";
-            DashboardDataSet dataSet = new DashboardDataSet(query, setupController.getPortletSize());
+            DashboardDataSet dataSet = new DashboardDataSet(key, query, setupController.getPortletSize());
             try {
                 dataSet.setData(
                         documentService.findStubs(dataSet.getQuery(), dataSet.getPageSize(), dataSet.getPageIndex(),
@@ -237,7 +309,7 @@ public class DashboardAnalyticController implements Serializable {
             return dataSet;
         }
         // not define - return empty data set
-        return new DashboardDataSet("", 0);
+        return new DashboardDataSet("none", "", 0);
 
     }
 
@@ -252,9 +324,9 @@ public class DashboardAnalyticController implements Serializable {
         logger.info(" ich copmande..." + lastCommand);
     }
 
-    public void nextOwner() {
-        logger.info("ich navigier nach vorn");
-        DashboardDataSet dataSet = getDataSet("dashboard.worklist.owner");
+    public void nextOwner(String key) {
+        logger.info("ich navigier nach vorn: " + key);
+        DashboardDataSet dataSet = getDataSet(key);
         try {
             dataSet.setPageIndex(dataSet.getPageIndex() + 1);
             dataSet.setData(
@@ -263,6 +335,48 @@ public class DashboardAnalyticController implements Serializable {
         } catch (QueryException e) {
             logger.warning("Failed to compute dataset: " + e.getMessage());
             dataSet.setData(new ArrayList<>());
+        }
+
+    }
+
+    /**
+     * Navigate in a data set to the next page by increasing the page index
+     * 
+     * @param key
+     */
+    public void next(DashboardDataSet dataSet) {
+        if (dataSet != null) {
+            try {
+                logger.info("navigate next " + dataSet.getName() + "...");
+                dataSet.setPageIndex(dataSet.getPageIndex() + 1);
+                dataSet.setData(
+                        documentService.findStubs(dataSet.getQuery(), dataSet.getPageSize(), dataSet.getPageIndex(),
+                                "$modified", true));
+            } catch (QueryException e) {
+                logger.warning("Failed to compute dataset: " + e.getMessage());
+                dataSet.setData(new ArrayList<>());
+            }
+        }
+
+    }
+
+    /**
+     * Navigate in a data set to the previous page by increasing the page index
+     * 
+     * @param key
+     */
+    public void prev(DashboardDataSet dataSet) {
+        if (dataSet != null) {
+            try {
+                logger.fine("navigate prev " + dataSet.getName() + "...");
+                dataSet.setPageIndex(dataSet.getPageIndex() - 1);
+                dataSet.setData(
+                        documentService.findStubs(dataSet.getQuery(), dataSet.getPageSize(), dataSet.getPageIndex(),
+                                "$modified", true));
+            } catch (QueryException e) {
+                logger.warning("Failed to compute dataset: " + e.getMessage());
+                dataSet.setData(new ArrayList<>());
+            }
         }
 
     }

@@ -43,16 +43,26 @@ public class DashboardDataSet implements Serializable {
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(DashboardDataSet.class.getName());
 
+    private String name = null;
     private List<ItemCollection> data = null;
     private String query;
     private int pageIndex;
     private int pageSize;
 
-    public DashboardDataSet(String query, int pageSize) {
+    public DashboardDataSet(String name, String query, int pageSize) {
+        this.name = name;
         this.query = query;
         this.pageSize = pageSize;
         pageIndex = 0;
 
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<ItemCollection> getData() {

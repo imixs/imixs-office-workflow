@@ -4,15 +4,16 @@
 
 
 	<h:panelGroup id="portlet_worklist" layout="block" class="dashboard-card dashboard-card-view">
-		last commadn= #{dashboardAnalyticController.lastCommand}"
+
+
 		<div class="dashboard-card-header">
 			#{message['worklist.owner']}
 		</div>
 		<div class="dashboard-card-content">
 
 			<!-- **** Workitems ***** -->
-			<ui:param name="worklist" value="#{dashboardAnalyticController.getDataSet(item.name).getData()}" />
-			<ui:repeat var="viewentry" value="#{worklist}">
+			<ui:param name="dataset" value="#{dashboardAnalyticController.getDataSet(item.name)}" />
+			<ui:repeat var="viewentry" value="#{dataset.getData()}">
 				<!-- Image block -->
 				<ui:include src="worklist_viewentry.xhtml">
 					<ui:param name="viewentry" value="#{viewentry}" />
@@ -22,25 +23,18 @@
 		</div>
 
 		<div class="dashboard-card-footer">
-			comid= #{formComponents.clientId} <!-- navigation -->
-			<a href="#" onclick="dashboardCommand('ho');return false;">Next</a>
-
-			<h:selectOneMenu value="#{workflowController.workitem.item['space.ref']}">
-				<f:selectItem itemLabel="a"></f:selectItem>
-				<f:selectItem itemLabel="b"></f:selectItem>
-				<f:selectItem itemLabel="c"></f:selectItem>
-
-				<!-- trigger refresh over all components -->
-				<f:ajax render="#{formComponents.clientId}" />
-
-			</h:selectOneMenu>
+			<!-- navigation -->
+			<h:commandLink value="Prev" action="#{dashboardAnalyticController.prev(dataset)}">
+				<f:ajax render="#{component.parent.parent.clientId}"
+					onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+			</h:commandLink>
+			<h:commandLink value="Next " action="#{dashboardAnalyticController.next(dataset)}">
+				<f:ajax render="#{component.parent.parent.clientId}"
+					onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, '#{component.parent.parent.clientId}') }" />
+			</h:commandLink>
 		</div>
 
 
-		<h:commandButton value="ping test" action="#{dashboardAnalyticController.nextOwner()}">
-			<f:ajax render="portlet_worklist" />
-
-		</h:commandButton>
 
 		<!-- JavaScript for command execution -->
 		<script type="text/javascript">
@@ -49,4 +43,5 @@
 			/*]]>*/
 		</script>
 	</h:panelGroup>
+
 </ui:composition>
