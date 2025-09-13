@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.office.config.SetupController;
 import org.imixs.workflow.office.forms.CustomFormController;
 
@@ -55,15 +56,15 @@ public class DashboardController implements Serializable {
     @Inject
     SetupController setupController;
 
+    @Inject
+    protected DocumentService documentService;
+
     private String setupConfigUniqueID = null;
 
-    private ItemCollection dashboardData = new ItemCollection();
+    private ItemCollection workitem = new ItemCollection();
 
     /**
-     * This method loads the dashboard form information and prefetches the data
-     */
-    /**
-     * This method load the config entity after postContstruct. If no Entity
+     * This method load the config entity after postConstruct. If no Entity
      * exists than the ConfigService EJB creates a new config entity.
      * 
      */
@@ -71,7 +72,8 @@ public class DashboardController implements Serializable {
     public void init() {
         String content = setupController.getWorkitem().getItemValueString("dashboard.form");
         setupConfigUniqueID = setupController.getWorkitem().getUniqueID();
-        dashboardData.setItemValue(CustomFormController.ITEM_CUSTOM_FORM, content);
+        workitem.setItemValue(CustomFormController.ITEM_CUSTOM_FORM, content);
+
     }
 
     public String getDashboardForm() {
@@ -79,12 +81,12 @@ public class DashboardController implements Serializable {
         return content;
     }
 
-    public ItemCollection getDashboardData() {
-        return dashboardData;
+    public ItemCollection getWorkitem() {
+        return workitem;
     }
 
-    public void setDashboardData(ItemCollection dashboardData) {
-        this.dashboardData = dashboardData;
+    public void setWorkitem(ItemCollection dashboardData) {
+        this.workitem = dashboardData;
     }
 
     public String getSetupConfigUniqueID() {

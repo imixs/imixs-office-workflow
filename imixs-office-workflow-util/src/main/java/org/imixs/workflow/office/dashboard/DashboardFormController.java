@@ -24,18 +24,21 @@
 package org.imixs.workflow.office.dashboard;
 
 import java.io.Serializable;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.imixs.marty.profile.UserController;
 import org.imixs.workflow.engine.DocumentEvent;
 import org.imixs.workflow.exceptions.ModelException;
-import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.office.forms.CustomFormController;
 
+import jakarta.enterprise.context.Conversation;
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.enterprise.event.Observes;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * The DataViewFormController updates the
@@ -66,19 +69,36 @@ public class DashboardFormController implements Serializable {
     UserController userController;
 
     @Inject
-    WorkflowController workflowController;
+    private Conversation conversation;
 
     /**
-     * This method loads the dashboard form information and prefetches the data
+     * This method loads the dashboard form information and starts a new conversion
+     * The method also call teh dashboardController init method to initialize the
+     * custom forms
      */
     public void onLoad() {
+        startConversation();
         try {
-            workflowController.setWorkitem(userController.getWorkitem());
-            customFormController.computeFieldDefinition(dashboardController.getDashboardData());
+            // workflowController.setWorkitem(userController.getWorkitem());
+            customFormController.computeFieldDefinition(dashboardController.getWorkitem());
+            dashboardController.init();
         } catch (ModelException e) {
             logger.warning("Failed to compute custom form sections: " + e.getMessage());
         }
 
+    }
+
+    /**
+     * Starts a new conversation
+     */
+    protected void startConversation() {
+        if (conversation.isTransient()) {
+            conversation.setTimeout(
+                    ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+                            .getSession().getMaxInactiveInterval() * 1000);
+            conversation.begin();
+            logger.log(Level.FINEST, "......start new conversation, id={0}", conversation.getId());
+        }
     }
 
     /**

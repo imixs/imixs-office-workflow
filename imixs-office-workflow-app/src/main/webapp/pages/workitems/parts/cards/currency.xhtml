@@ -4,20 +4,22 @@
 
 	<div class="dashboard-card">
 		<div class="dashboard-card-header">
-			<h:outputText value="#{analyticController.getAsDouble(item.name)}">
+			<h:outputText value="#{analyticController.getValueAsDouble(workitem,item.name)}">
 				<f:convertNumber minFractionDigits="2" locale="de" />
 			</h:outputText>
 		</div>
 
 
-		<div class="dashboard-card-content">#{analyticController.getLabel(item.name)}</div>
+		<div class="dashboard-card-content">#{analyticController.getLabel(workitem,item.name)}</div>
 
 
 		<div class="dashboard-card-footer">
-			<span>#{analyticController.getDescription(item.name)}</span>
+			<span>#{analyticController.getDescription(workitem,item.name)}</span>
 
-			<h:panelGroup styleClass="dashboard-card-link" rendered="#{!empty analyticController.getLink(item.name)}">
-				<a href="#{analyticController.getLink(item.name)}"><span class="typcn typcn-zoom-outline" /></a>
+			<h:panelGroup styleClass="dashboard-card-link"
+				rendered="#{!empty analyticController.getLink(workitem,item.name)}">
+				<a href="#{analyticController.getLink(workitem,item.name)}"><span
+						class="typcn typcn-zoom-outline" /></a>
 			</h:panelGroup>
 
 

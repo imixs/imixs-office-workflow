@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.faces.data.WorkflowController;
 
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.enterprise.event.Event;
@@ -47,9 +46,6 @@ public class AnalyticController implements Serializable {
 	@Inject
 	protected Event<AnalyticEvent> analyticEvents;
 
-	@Inject
-	protected WorkflowController workflowController;
-
 	private Map<String, Map<String, String>> optionsCache = new HashMap<>();
 
 	/**
@@ -58,8 +54,8 @@ public class AnalyticController implements Serializable {
 	 * @param key
 	 * @return
 	 */
-	public String getAsString(String key) {
-		ItemCollection analyticData = computeValue(key);
+	public String getValueAsString(ItemCollection workitem, String key) {
+		ItemCollection analyticData = computeValue(workitem, key);
 		return analyticData.getItemValueString("value");
 	}
 
@@ -69,8 +65,8 @@ public class AnalyticController implements Serializable {
 	 * @param key
 	 * @return
 	 */
-	public String getAsJson(String key) {
-		ItemCollection analyticData = computeValue(key);
+	public String getValueAsJson(ItemCollection workitem, String key) {
+		ItemCollection analyticData = computeValue(workitem, key);
 		String jsonval = analyticData.getItemValueString("value");
 		if (jsonval == null || jsonval.isEmpty()) {
 			return "null";
@@ -85,10 +81,22 @@ public class AnalyticController implements Serializable {
 	 * @param key
 	 * @return
 	 */
-	public double getAsDouble(String key) {
-		ItemCollection analyticData = computeValue(key);
+	public double getValueAsDouble(ItemCollection workitem, String key) {
+		ItemCollection analyticData = computeValue(workitem, key);
 		return analyticData.getItemValueDouble("value");
 	}
+
+	/**
+	 * Returns a analytic value as a List of ItemCollection objects for a given key.
+	 * 
+	 * @param key
+	 * @return
+	 */
+	// @SuppressWarnings("unchecked")
+	// public List<ItemCollection> getAsWorklist(String key) {
+	// ItemCollection analyticData = computeValue(key);
+	// return analyticData.getItemValue("value");
+	// }
 
 	/**
 	 * Returns the analytic label for a given key
@@ -96,8 +104,8 @@ public class AnalyticController implements Serializable {
 	 * @param key
 	 * @return
 	 */
-	public String getLabel(String key) {
-		ItemCollection analyticData = computeValue(key);
+	public String getLabel(ItemCollection workitem, String key) {
+		ItemCollection analyticData = computeValue(workitem, key);
 		return analyticData.getItemValueString("label");
 	}
 
@@ -107,8 +115,8 @@ public class AnalyticController implements Serializable {
 	 * @param key
 	 * @return
 	 */
-	public String getLink(String key) {
-		ItemCollection analyticData = computeValue(key);
+	public String getLink(ItemCollection workitem, String key) {
+		ItemCollection analyticData = computeValue(workitem, key);
 		return analyticData.getItemValueString("link");
 	}
 
@@ -118,8 +126,8 @@ public class AnalyticController implements Serializable {
 	 * @param key
 	 * @return
 	 */
-	public String getDescription(String key) {
-		ItemCollection analyticData = computeValue(key);
+	public String getDescription(ItemCollection workitem, String key) {
+		ItemCollection analyticData = computeValue(workitem, key);
 		return analyticData.getItemValueString("description");
 	}
 
@@ -132,11 +140,12 @@ public class AnalyticController implements Serializable {
 	 * @param key
 	 * @return
 	 */
-	protected ItemCollection computeValue(String key) {
-		if (workflowController.getWorkitem() != null) {
+	protected ItemCollection computeValue(ItemCollection workitem, String key) {
+
+		if (workitem != null) {
 			logger.fine("fire analytic event for key '" + key + "'");
 			// Fire the Analytics Event for this key
-			AnalyticEvent event = new AnalyticEvent(key, workflowController.getWorkitem());
+			AnalyticEvent event = new AnalyticEvent(key, workitem);
 			if (analyticEvents != null) {
 				analyticEvents.fire(event);
 				if (event.getValue() != null) {
@@ -146,13 +155,13 @@ public class AnalyticController implements Serializable {
 					details.setItemValue("description", event.getDescription());
 					details.setItemValue("link", event.getLink());
 					// cache result
-					implodeDetails(key, details);
+					implodeDetails(workitem, key, details);
 				}
 			}
 		}
 
 		// analytic value is now already cached!
-		return explodeDetails(key);
+		return explodeDetails(workitem, key);
 	}
 
 	/**
@@ -161,20 +170,20 @@ public class AnalyticController implements Serializable {
 	 * @param workitem
 	 */
 	@SuppressWarnings({ "rawtypes" })
-	private void implodeDetails(String key, ItemCollection details) {
+	private void implodeDetails(ItemCollection workitem, String key, ItemCollection details) {
 		// convert the child ItemCollection elements into a List of Map
 		List<Map> detailsList = new ArrayList<Map>();
 		detailsList.add(details.getAllItems());
-		workflowController.getWorkitem().replaceItemValue(key, detailsList);
+		workitem.replaceItemValue(key, detailsList);
 	}
 
 	/**
 	 * converts the Map List of a workitem into a List of ItemCollectons
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private ItemCollection explodeDetails(String key) {
+	private ItemCollection explodeDetails(ItemCollection workitem, String key) {
 		// convert current list of childItems into ItemCollection elements
-		List<Object> mapOrderItems = workflowController.getWorkitem().getItemValue(key);
+		List<Object> mapOrderItems = workitem.getItemValue(key);
 		if (mapOrderItems != null && mapOrderItems.size() > 0) {
 			ItemCollection itemCol = new ItemCollection((Map) mapOrderItems.get(0));
 			return itemCol;

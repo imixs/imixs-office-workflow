@@ -1,27 +1,25 @@
 package org.imixs.workflow.office.dashboard;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.imixs.marty.team.TeamService;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.WorkflowService;
 import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.util.LoginController;
+import org.imixs.workflow.office.config.SetupController;
 import org.imixs.workflow.office.forms.AnalyticEvent;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
@@ -54,7 +52,10 @@ public class DashboardAnalyticController implements Serializable {
     WorkflowService workflowService;
 
     @Inject
-    TeamService teamService;
+    SetupController setupController;
+
+    @Inject
+    DashboardController dashboardController;
 
     List<ItemCollection> invoices = null;
     int countAll = 0;
@@ -62,22 +63,24 @@ public class DashboardAnalyticController implements Serializable {
     int countNeedsAttention = 0; // Needs attention (3-7 days) - Orange
     int countUrgent = 0; // Urgent tasks (7+ days) - Red
 
-    double totalAllCurrency1 = 0;
-    double totalAllCurrency2 = 0;
-
-    double totalOpenCurrency1 = 0;
-    double totalOpenCurrency2 = 0;
-
-    double totalDueCurrency1 = 0;
-    double totalDueCurrency2 = 0;
-
-    double totalDunningCurrency1 = 0;
-    double totalDunningCurrency2 = 0;
-
-    double averagePaymentDue = 0;
-    double averagePaymentDays = 0;
-
     String chartData = "";
+
+    String lastCommand = "init";
+
+    protected Map<String, DashboardDataSet> dataSets = null;
+
+    @PostConstruct
+    public void init() {
+        dataSets = new HashMap<>();
+    }
+
+    public String getLastCommand() {
+        return lastCommand;
+    }
+
+    public void setLastCommand(String lastCommand) {
+        this.lastCommand = lastCommand;
+    }
 
     public void onEvent(@Observes AnalyticEvent event) {
 
@@ -85,35 +88,35 @@ public class DashboardAnalyticController implements Serializable {
 
         // use cache?
         if (event.getWorkitem().hasItem(event.getKey())) {
-            // logger.info(" use cache for " + event.getKey());
+            logger.fine(" use cache for " + event.getKey());
             // no op
             return;
         }
 
-        logger.info("eventkey=" + event.getKey());
+        logger.info("onEvent - calculateStats.... key=" + event.getKey());
         calculateStats(event);
 
-        if ("dashboard.workitems.count.all".equals(event.getKey())) {
+        if ("dashboard.worklist.count.all".equals(event.getKey())) {
             event.setValue("" + countAll);
             // event.setLabel("offene Aufgaben");
             event.setDescription("Meine offenen Aufgaben");
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
         }
-        if ("dashboard.workitems.count.fresh".equals(event.getKey())) {
+        if ("dashboard.worklist.count.fresh".equals(event.getKey())) {
             event.setValue("" + countFresh);
             // event.setLabel("neue Aufgaben");
             event.setDescription("Meine offenen Aufgaben");
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
         }
 
-        if ("dashboard.workitems.count.attention".equals(event.getKey())) {
+        if ("dashboard.worklist.count.attention".equals(event.getKey())) {
             event.setValue("" + countNeedsAttention);
             // event.setLabel("Zu Beachten");
             event.setDescription("Aufgaben seit mehr als 3 Tagen offen");
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
         }
 
-        if ("dashboard.workitems.count.urgent".equals(event.getKey())) {
+        if ("dashboard.worklist.count.urgent".equals(event.getKey())) {
             event.setValue("" + countUrgent);
             // event.setLabel("Dringende Aufgaben");
             event.setDescription("Aufgaben seit mehr als 1 Woche offen");
@@ -188,146 +191,79 @@ public class DashboardAnalyticController implements Serializable {
     private void resetStats(AnalyticEvent event) {
         logger.info("	├──reset stats....");
 
-        totalAllCurrency1 = 0;
-        totalAllCurrency2 = 0;
-        totalOpenCurrency1 = 0;
-        totalOpenCurrency2 = 0;
-        totalDueCurrency1 = 0;
-        totalDueCurrency2 = 0;
-        totalDunningCurrency1 = 0;
-        totalDunningCurrency2 = 0;
-
-        // chartData = null;
-        chartData = "{}";
-
-        averagePaymentDue = 0;
-        averagePaymentDays = 0;
-
-        event.getWorkitem().removeItem("analytic.invoices.count.all");
-        event.getWorkitem().removeItem("analytic.invoices.count.open");
-        event.getWorkitem().removeItem("analytic.invoices.count.due");
-        event.getWorkitem().removeItem("analytic.invoices.count.dunning");
-
-        event.getWorkitem().removeItem("analytic.payment.avg.due");
-        event.getWorkitem().removeItem("analytic.payment.avg.days");
-        event.getWorkitem().removeItem("analytic.invoices.trend");
-
     }
 
-    private String formatCurrency(Double value) {
-
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
-        symbols.setGroupingSeparator('.');
-        symbols.setDecimalSeparator(',');
-        DecimalFormat formatter = new DecimalFormat("#,##0.00", symbols);
-
-        return formatter.format(value);
-    }
-
-    /**
-     * Hilfsmethode die auch alte Rechnungen ohne D/K findet
-     * 
-     * @return
-     */
-    private String getDbtNrQuery() {
-        String dbtNr = workflowController.getWorkitem().getItemValueString("dbtr.number");
-        String shortDbtNr = dbtNr.substring(1);
-        String query = " (dbtr.number:" + dbtNr + " OR dbtr.number:" + shortDbtNr + ") ";
-        return query;
-    }
-
-    private String getCdtrNrQuery() {
-        String cdtrNr = workflowController.getWorkitem().getItemValueString("cdtr.number");
-        String shortCdtrNr = cdtrNr.substring(1);
-        String query = " (cdtr.number:" + cdtrNr + " OR cdtr.number:" + shortCdtrNr + ") ";
-        return query;
-    }
-
-    /**
-     * Finds the payment.date for a invoice.
-     *
-     * Wir suchen alle zugeordneten Zahlungseingägne und nehmen den letzten.
-     *
-     * WICHTIG: Es muss ggf. der index neu aufgebaut werden, da payment.date nun ein
-     * index feld ist
-     *
-     * @param invoice
-     * @return
-     * @throws ParseException
-     */
-    public Date findPaymentDateByWorkitem(ItemCollection invoice) throws ParseException {
-
-        // Wir selektieren alle Zahlungseingänge interessieren uns aber nur für den
-        // letzten
-        String sQuery = " (type:\"workitem\" OR type:\"workitemarchive\") " + //
-                " AND ($modelversion:zahlungseingang-*) AND ($workitemref:\"" + invoice.getUniqueID() + "\" )";
-
-        List<ItemCollection> workitems = null;
-
-        try {
-            workitems = documentService.findStubs(sQuery, 99, 0, "payment.date", true);
-            if (workitems.size() > 0) {
-                return workitems.get(0).getItemValueDate("payment.date");
-            }
-        } catch (QueryException e) {
-
-            e.printStackTrace();
+    public DashboardDataSet getDataSet(String key) {
+        DashboardDataSet result = null;
+        result = dataSets.get(key);
+        if (result == null) {
+            result = calculateDataView(key);
         }
+        return result;
+    }
 
-        // no date found!
-        return null;
+    private DashboardDataSet calculateDataView(String key) {
+        // Data Views
+        if ("dashboard.worklist.owner".equals(key)) {
+
+            String query = "(type:\"workitem\" AND $owner:\"" + loginController.getRemoteUser() + "\")";
+            DashboardDataSet dataSet = new DashboardDataSet(query, setupController.getPortletSize());
+
+            try {
+                dataSet.setData(
+                        documentService.findStubs(dataSet.getQuery(), dataSet.getPageSize(), dataSet.getPageIndex(),
+                                "$modified", true));
+            } catch (QueryException e) {
+                logger.warning("Failed to compute dataset: " + e.getMessage());
+                dataSet.setData(new ArrayList<>());
+            }
+            this.dataSets.put(key, dataSet);
+            return dataSet;
+
+        }
+        if ("dashboard.worklist.creator".equals(key)) {
+
+            String query = "(type:\"workitem\" AND $creator:\"" + loginController.getRemoteUser() + "\")";
+            DashboardDataSet dataSet = new DashboardDataSet(query, setupController.getPortletSize());
+            try {
+                dataSet.setData(
+                        documentService.findStubs(dataSet.getQuery(), dataSet.getPageSize(), dataSet.getPageIndex(),
+                                "$modified", true));
+            } catch (QueryException e) {
+                logger.warning("Failed to compute dataset: " + e.getMessage());
+                dataSet.setData(new ArrayList<>());
+            }
+            this.dataSets.put(key, dataSet);
+            return dataSet;
+        }
+        // not define - return empty data set
+        return new DashboardDataSet("", 0);
 
     }
 
-    /**
-     * Diese Methode baut die Datenstruktur für das Chart Diagram zusammen
-     *
-     *
-     * <pre>
-    	{
-    	 labels: ["January", "February", "March", "April", "May", "June", "July"],
-    	 datasets: [{
-    		label: 'Dataset 1',
-    		//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
-    		//borderColor: window.chartColors.red,
-    		borderWidth: 1,
-    		data: [
-    			70, 70, 70, 70, 79, 50, 50
-    		]
-    	}, {
-    		label: 'Dataset 2',
-    		//backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-    		//borderColor: window.chartColors.blue,
-    		borderWidth: 1,
-    		data: [
-    			70, 70, 170, 7, 79, 50, 50
-    		]
-    	}]
-       }
-     * </pre>
-     *
-     * @return
-     */
+    public void ping() {
+        logger.info(" ich pinge...");
+    }
 
-    /**
-     * returns
-     *
-     * 202304 from a given date
-     */
-    public String getYearMonth(Date date) {
+    public void executeCommand(String command) {
+        logger.info(" ich copmande..." + command);
+        lastCommand = command + " - " + System.currentTimeMillis();
 
-        // Create a Calendar instance and set the date
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
+        logger.info(" ich copmande..." + lastCommand);
+    }
 
-        // Get the year from the Calendar object
-        int year = calendar.get(Calendar.YEAR);
-        // Get the month from the Calendar object
-        int month = calendar.get(Calendar.MONTH);
-        // Increment the month by 1 since Calendar months are zero-based
-        month++;
-        // Convert the month to a String with leading "0" if necessary
-        return "" + year + (month < 10 ? "0" + month : "" + month);
+    public void nextOwner() {
+        logger.info("ich navigier nach vorn");
+        DashboardDataSet dataSet = getDataSet("dashboard.worklist.owner");
+        try {
+            dataSet.setPageIndex(dataSet.getPageIndex() + 1);
+            dataSet.setData(
+                    documentService.findStubs(dataSet.getQuery(), dataSet.getPageSize(), dataSet.getPageIndex(),
+                            "$modified", true));
+        } catch (QueryException e) {
+            logger.warning("Failed to compute dataset: " + e.getMessage());
+            dataSet.setData(new ArrayList<>());
+        }
 
     }
 

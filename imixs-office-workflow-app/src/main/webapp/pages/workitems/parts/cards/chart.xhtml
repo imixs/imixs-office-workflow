@@ -17,7 +17,7 @@
 	<script type="text/javascript">
 		/*<![CDATA[*/
 		var ctx = document.getElementById("dashboard_canvas_#{item.name}").getContext("2d");
-		var chartData = #{ analyticController.getAsJson(item.name)};
+		var chartData = #{ analyticController.getValueAsJson(workitem, item.name)};
 		new Chart(ctx, chartData);
 		/*]]>*/
 	</script>

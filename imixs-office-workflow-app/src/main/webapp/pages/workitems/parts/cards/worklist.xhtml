@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+
+	<h:panelGroup id="portlet_worklist" layout="block" class="dashboard-card dashboard-card-view">
+		last commadn= #{dashboardAnalyticController.lastCommand}"
+		<div class="dashboard-card-header">
+			#{message['worklist.owner']}
+		</div>
+		<div class="dashboard-card-content">
+
+			<!-- **** Workitems ***** -->
+			<ui:param name="worklist" value="#{dashboardAnalyticController.getDataSet(item.name).getData()}" />
+			<ui:repeat var="viewentry" value="#{worklist}">
+				<!-- Image block -->
+				<ui:include src="worklist_viewentry.xhtml">
+					<ui:param name="viewentry" value="#{viewentry}" />
+				</ui:include>
+			</ui:repeat>
+
+		</div>
+
+		<div class="dashboard-card-footer">
+			comid= #{formComponents.clientId} <!-- navigation -->
+			<a href="#" onclick="dashboardCommand('ho');return false;">Next</a>
+
+			<h:selectOneMenu value="#{workflowController.workitem.item['space.ref']}">
+				<f:selectItem itemLabel="a"></f:selectItem>
+				<f:selectItem itemLabel="b"></f:selectItem>
+				<f:selectItem itemLabel="c"></f:selectItem>
+
+				<!-- trigger refresh over all components -->
+				<f:ajax render="#{formComponents.clientId}" />
+
+			</h:selectOneMenu>
+		</div>
+
+
+		<h:commandButton value="ping test" action="#{dashboardAnalyticController.nextOwner()}">
+			<f:ajax render="portlet_worklist" />
+
+		</h:commandButton>
+
+		<!-- JavaScript for command execution -->
+		<script type="text/javascript">
+			/*<![CDATA[*/
+
+			/*]]>*/
+		</script>
+	</h:panelGroup>
+</ui:composition>

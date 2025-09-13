@@ -5,30 +5,30 @@
 	xmlns:a="http://xmlns.jcp.org/jsf/passthrough" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	template="/layout/template.xhtml">
 
-	<f:metadata>
-		<f:viewAction action="#{dashboardFormController.onLoad()}" />
-	</f:metadata>
+	<h:head>
+		<f:metadata>
+			<f:viewAction action="#{dashboardFormController.onLoad()}" />
+		</f:metadata>
+	</h:head>
 	<ui:define name="content">
 		<f:view>
-			<script type="text/javascript">
-				/*<![CDATA[*/ 
 
-				/*]]>*/
-			</script>
-			<h:form>
 
-					<h:panelGroup styleClass="imixs-form-panel imixs-view" layout="block" id="dataview_form_id">
-						<div class=" imixs-form-section">
+
+			<h:form id="dashboard_form">
+
+				<h:panelGroup styleClass="imixs-form-panel imixs-view" layout="block" id="dashboard_form_id"
+					binding="#{formComponents}">
+					<div class=" imixs-form-section">
+						<h:panelGroup id="custom_subview_id" binding="#{customFormComponents}">
 							<ui:include src="/pages/workitems/forms/custom_sections.xhtml">
 								<ui:param name="customFormSections" value="#{customFormController.sections}" />
-								<ui:param name="workitem" value="#{dashboardFormController.dashboardData}" />
+								<ui:param name="workitem" value="#{dashboardController.workitem}" />
 								<ui:param name="readonly" value="#{section.readonly}" />
 							</ui:include>
-						</div>
-					</h:panelGroup>
-
-
-
+						</h:panelGroup>
+					</div>
+				</h:panelGroup>
 
 			</h:form>
 		</f:view>

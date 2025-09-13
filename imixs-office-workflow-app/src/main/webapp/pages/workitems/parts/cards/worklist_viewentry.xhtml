@@ -1,0 +1,47 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
+	<div class="imixs-viewentry">
+
+		<!-- image block  -->
+		<div class="image-block">
+			<ui:include src="/layout/workitem_marker.xhtml">
+				<ui:param name="workitem" value="#{viewentry}" />
+			</ui:include>
+		</div>
+
+
+
+
+		<!-- content-block -->
+		<div class="content-block">
+			<h:link outcome="/pages/workitems/workitem">
+				<!-- summary empty ? -->
+				<h:panelGroup styleClass="imixs-viewentry-title" rendered="#{empty viewentry.item['$WorkflowSummary']}">
+					<h:outputText value="#{viewentry.item['$lasteventdate']}">
+						<f:convertDateTime timeZone="#{message.timeZone}" pattern="#{message.dateTimePattern}" />
+					</h:outputText>
+				</h:panelGroup>
+				<h:outputText styleClass="imixs-viewentry-title" escape="false"
+					value="#{viewentry.item['$WorkflowSummary']}" />
+				<f:param name="id" value="#{viewentry.item['$uniqueid']}" />
+			</h:link>
+			<br />
+			<!-- Status -->
+			<strong>
+				<h:outputText value="#{viewentry.item['$workflowgroup']}" />
+			</strong>
+			<h:outputText value=" » #{viewentry.item['$workflowstatus']}" />
+			<h:outputText value=" (#{viewentry.item['Process.Name']})" />
+		</div>
+		<div class="date-time">
+			<h:outputText value="#{viewentry.item['$lasteventdate']}" style="font-weight: normal;">
+				<f:convertDateTime timeZone="#{message.timeZone}" pattern="#{message.dateTimePattern}" />
+			</h:outputText>
+
+		</div>
+
+	</div>
+</f:subview>
