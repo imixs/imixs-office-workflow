@@ -1412,7 +1412,21 @@ input:disabled.imixs-date   {
 .dataview td   {
   padding: 5px 10px !important;
 }
-  /* Dashboard Cards */
+
+
+ /* Dashboard */
+.dashboard-main {
+    flex: 1;
+}
+
+.dashboard-admin-panel {
+  width: 0;
+  overflow: hidden;
+}
+.dashboard-admin-panel.open {
+  width: 20%;
+}
+
 .dashboard-card   {
   display: flex;
   flex-direction: column;
@@ -1420,7 +1434,6 @@ input:disabled.imixs-date   {
   min-height: 200px;
   padding: 20px;
   background-color: #f4f4f4;
-  ;
   border-radius: 5px;
   -webkit-box-shadow: 0 0 5px 0 rgba(43, 43, 43, .1), 0 11px 6px -7px rgba(43, 43, 43, .1);
   box-shadow: 0 0 5px 0 rgba(43, 43, 43, .1), 0 11px 6px -7px rgba(43, 43, 43, .1);
@@ -1429,8 +1442,12 @@ input:disabled.imixs-date   {
   transition: all .3s ease-in-out;
   font-size: 20px;
   font-weight: bold;
+  color: #5f5f5f;
 }
 .dashboard-card.info   {
+  color: #428bca;
+}
+.dashboard-card.success   {
   color: #28a745;
 }
 .dashboard-card.warning   {
@@ -1441,18 +1458,16 @@ input:disabled.imixs-date   {
 }
 .dashboard-card-header   {
   flex: 0 0 auto;
-  /* Nimmt nur so viel Platz wie nötig */
 }
 .dashboard-card-content   {
   flex: 1;
-  /* Nimmt den gesamten restlichen Platz */
   font-size: 20px;
 }
 .dashboard-card-footer   {
   flex-basis: 100%;
   font-size: 12px;
   font-weight: normal;
-  color: #333;
+  color: #5f5f5f;
   line-height: 2em;
 }
 .dashboard-card-link   {
@@ -1463,12 +1478,12 @@ input:disabled.imixs-date   {
 .dashboard-card.lead   {
   font-size: 60px;
   font-weight: bold;
-  color: #4398f3;
+  color: #428bca;
   margin-bottom: 0;
 }
 .dashboard-card.small .dashboard-card-content    {
   margin-top: 0px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: normal;
 }
   /* Spezielle Regel für Lead Cards */

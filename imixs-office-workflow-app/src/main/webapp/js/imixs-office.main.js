@@ -28,7 +28,22 @@ $(document).ready(function() {
 	    	return false;
 	    }
 	});
-	
+
+	// check if we have a dashboard with an open admin panel
+	const dashboardPanel = document.querySelector('.dashboard-admin-panel');
+	if (dashboardPanel) {
+		const cookieValue = imixsOfficeMain.getCookie('imixs.office.dashboard.admin');
+		// Remove 'open' class first
+		dashboardPanel.classList.remove('open');
+		// Add 'open' class only if cookie is 'true'
+		if (cookieValue === 'true') {
+			dashboardPanel.classList.add('open');
+		}
+		// Enable transitions after initial setup
+		setTimeout(() => {
+			dashboardPanel.style.transition = 'width 0.2s ease';
+		}, 100);
+    }
 });
 
 
@@ -262,6 +277,21 @@ IMIXS.org.imixs.workflow.office = (function() {
 	  var expires = "expires="+d.toUTCString();
 	  document.cookie = cname + "=" + cvalue + ";" + expires + ";SameSite=strict;path=/";
 	},
+
+	getCookie = function(name) {
+		const value = `; ${document.cookie}`;
+		const parts = value.split(`; ${name}=`);
+		if (parts.length === 2) return parts.pop().split(';').shift();
+		return null;
+    },
+
+	toggleDashboardPanel = function () {
+		const panel = document.querySelector('.dashboard-admin-panel');
+		panel.classList.toggle('open');
+		// Set cookie based on whether panel has 'open' class
+		const isOpen = panel.classList.contains('open');
+		setCookie('imixs.office.dashboard.admin', isOpen, 14);
+	},
 	
 	// redirect to a given workitem uid
 	openWorkitemByID = function(uid) {
@@ -274,7 +304,9 @@ IMIXS.org.imixs.workflow.office = (function() {
 		initLayout : initLayout,
 		openWorkitemByID : openWorkitemByID,
 		layoutOfficeEditor : layoutOfficeEditor,
-		setCookie : setCookie
+		setCookie : setCookie,
+		getCookie : getCookie,
+		toggleDashboardPanel: toggleDashboardPanel
 	};
 
 }());
