@@ -1,17 +1,10 @@
 @charset "UTF-8";
-/**
- * Imixs-Responsive is an CSS framework for responsive websites and applications. 
- * https://github.com/imixs/imixs-responsive
- *
- * It is licensed under a Creative Commons Share Alike 4.0 International license.
- * http://creativecommons.org/licenses/by-sa/4.0/
- * 
- **/
 
-/* RESET */
+/* CSS Reset */
 html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center, dl, dt, dd, ol, ul, li,fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary, time, mark, audio, video,header, #header, footer#footer, aside,.aside, nav, .nav, menu, main, section, details, hr, input, select, textarea, button 
 {margin: 0; 	padding: 0; border: 0; font-size: 100%;font: inherit; vertical-align: baseline;}
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {display: block;}
 body {line-height: 1;}
@@ -23,32 +16,96 @@ img {-ms-interpolation-mode: bicubic;}
 svg:not(:root) { overflow: hidden;}
 table {border-collapse: collapse; border-spacing: 0;}
 
-/* RESET Normalize */
+/* Normalize Reset */
 audio,canvas,video { display: inline-block; display: inline; zoom: 1;}
 audio:not([controls]) { display: none;height: 0;}
 [hidden] {display: none;}
 html {background: #fff; color: #000; font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;}
 html, button, input, select, textarea { font-family: sans-serif;}
 
-/* RESET Groundwork */
 *, :after, :before {-moz-box-sizing: border-box; box-sizing: border-box;}
 header, footer, aside, menu, nav, section, article, details, #header, #footer, .aside,.menu, .nav, .section, 
 .article, .details { display: block;} 
- button, input{display: inline-block;width: auto;}
+button, input{display: inline-block;width: auto;}
 img, a img {border: 0 none; max-width: 100%;}
-/* End RESETs */
 
-/* GENERAL SETTINGS and GRID */
-html, body {font-size: 101%;}
-.row, .article {clear: both;width: 100%;} 
+html, body {
+    font-size: 101%;
+    color: #414141;
+    font-family: 'Open Sans', sans-serif !important;
+    font-weight: 400;
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important; 
+    line-height: 1.5; 
+    background: none repeat scroll 0 0 #fff; 
+    min-height: 100%; 
+    width: 100% !important;
+}
+
+/* Typography */
+p, ul, ol, dl {line-height: 1.5; margin: 0 0 0.6em 0;}
+menu, ol, ul {padding-left: 20px;}
+
+h1, h2, h3, h4, h5, h6 {line-height: 1.3; margin-bottom: 0.4em;}
+h1 {font-size: 2.33333rem;}
+h2 {font-size: 2.0rem;}
+h3 {font-size: 1.5rem;}
+h4 {font-size: 1.2rem; margin-bottom: 0.5em;}
+h5 {font-size: 1rem; margin-bottom: 0.6em; line-height: 1.3;}
+h6 {font-size: 0.8rem; margin-bottom: 0.8em; line-height: 1.3;}
+
+/* Links */
+a {color: #428bca; text-decoration: none;}
+a:hover,a:focus {color: #2a6496; text-decoration: underline; outline: 0;}
+a:focus {outline: thin dotted; outline: 5px auto -webkit-focus-ring-color; outline-offset: -2px;}
+
+/* Text formatting */
+.lead {margin-bottom: 1.1em; line-height: 1.4em;}
+.pull-right {float: right;}
+@media screen and (min-width: 768px) {.lead {font-size: 1.3em;}}
+
+small, .small {font-size: 65%;}
+@media screen and (min-width: 768px) {small, .small {font-size: 85%;}}
+
+b, strong {font-weight: 600;}
+i, em {font-style: italic;}
+hr {border-color: #808080 #808080 #ddd; border-style: none none solid; border-width: 0 0 1px; clear: both; margin: 10px auto;}
+acronym, abbr, abbr[title] {border-bottom: 1px dotted #666666; cursor: help;}
+dfn {font-style: italic;}
+mark {background: #ff0; color: #000;}
+sub,sup {font-size: 75%; line-height: 0; position: relative;}
+sup {top: -0.5em;}
+sub {bottom: -0.25em;}
+blockquote, q, cite {font-style: italic;}
+blockquote {margin-bottom: 1.71429rem; padding: 1.71429rem;}
+code {background-color: #31708f; color: #fff; font-size: 90%; padding: 2px 4px; font-family: 'Courier', monospace, serif; padding: 1px 5px; margin: 4px;}
+
+/* Utility classes */
+.text-left {text-align: left;}
+.text-center {text-align: center;}
+.text-right {text-align: right;}
+.img-responsive {display: block; max-width: 100%; height: auto;}
+.img-rounded {border-radius: 6px;}
+.img-circle {border-radius: 50%;}
+.border-r {border-right: 1px solid #ddd;}
+.border-l {border-left: 1px solid #ddd;}
+
+/* ========================================
+   GRID SYSTEM
+   ======================================== */
+
+.row, .article {clear: both; width: 100%;} 
 .row:after, .article:after {clear: both; content: " "; display: block; font-size: 0; height: 0; visibility: hidden;}
 
 #container {margin: 0 auto; max-width: 1200px; background-color: #fff;}
-#header {display: inline-block;width: auto;}
-#footer {margin-top: 10px}
+#header {display: inline-block; width: auto; min-height: 50px; padding: 10px; width: 100%;}
+header {min-height: 50px; padding: 10px; width: 100%;}
+#footer {margin-top: 10px;}
+#footer1, #footer2 {min-height: 50px; padding: 10px; width: 100%;}
 
+/* Grid columns */
 .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12
-{display: inline-block;float: left; min-height: 1px; position: relative; padding: 10px;} 
+{display: inline-block; float: left; min-height: 1px; position: relative; padding: 10px;} 
 
 .col-1 {width: 8.3333%;}
 .col-2 {width: 16.6666%;}
@@ -63,71 +120,131 @@ html, body {font-size: 101%;}
 .col-11 {width: 91.3333%;} 
 .col-12 {width: 99.9999%;}
 
-.left-1 {left: 8.3333%;}
-.left-2 {left: 16.6666%;}
-.left-3 {left: 25%;}
-.left-4 {left: 33.3333%;}
-.left-5 {left: 41.6666%;}
-.left-6 {left: 50%;}
-.left-7 {left: 58.3333%;} 
-.left-8 {left: 66.6666%;} 
-.left-9 {left: 75%;} 
-.left-10 {left: 83.3333%;} 
-.left-11 {left: 91.3333%;} 
 
-.right-1 {right: 8.3333%;}
-.right-2 {right: 16.6666%;}
-.right-3 {right: 25%;}
-.right-4 {right: 33.3333%;}
-.right-5 {right: 41.6666%;}
-.right-6 {right: 50%;}
-.right-7 {right: 58.3333%;} 
-.right-8 {right: 66.6666%;} 
-.right-9 {right: 75%;} 
-.right-10 {right: 83.3333%;} 
-.right-11 {right: 91.3333%;} 
+/* Nested grid styles */
 
-/* Style for nested elements */
-.nested {padding: 0;} 
-.nested .col-1:FIRST-CHILD {padding-left:0;}
-.nested .col-1:LAST-CHILD {padding-right:0;}
-.nested .col-2:FIRST-CHILD {padding-left:0;}
-.nested .col-2:LAST-CHILD {padding-right:0;}
-.nested .col-3:FIRST-CHILD {padding-left:0;}
-.nested .col-3:LAST-CHILD {padding-right:0;}
-.nested .col-4:FIRST-CHILD {padding-left:0;}
-.nested .col-4:LAST-CHILD {padding-right:0;}
-.nested .col-5:FIRST-CHILD {padding-left:0;}
-.nested .col-5:LAST-CHILD {padding-right:0;}
-.nested .col-6:FIRST-CHILD {padding-left:0;}
-.nested .col-6:LAST-CHILD {padding-right:0;}
-.nested .col-7:FIRST-CHILD {padding-left:0;}
-.nested .col-7:LAST-CHILD {padding-right:0;}
-.nested .col-8:FIRST-CHILD {padding-left:0;}
-.nested .col-8:LAST-CHILD {padding-right:0;}
-.nested .col-9:FIRST-CHILD {padding-left:0;}
-.nested .col-9:LAST-CHILD {padding-right:0;}
-.nested .col-10:FIRST-CHILD {padding-left:0;}
-.nested .col-10:LAST-CHILD {padding-right:0;}
-.nested .col-11:FIRST-CHILD {padding-left:0;}
-.nested .col-11:LAST-CHILD {padding-right:0;}
-.nested .col-12 {padding-left:0;padding-right:0;}
- 
-/* RESPONSIVE BEHAVIOUR */
+
+/* ========================================
+   FORM ELEMENTS
+   ======================================== */
+
+button, input, textarea, .button, a.button, select {
+    color: #666; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    height: auto; 
+    width: auto; 
+    line-height: 1.5em; 
+    padding: 0.25em 0.25em; 
+    text-decoration: none;
+}
+
+button, input[type="button"], input[type="submit"], .button, a.button { 
+    padding: 0.45em 0.75em;
+    cursor: pointer; 
+    text-align: center; 
+    font-weight: 700;
+    -webkit-appearance: button;
+    *overflow: visible;
+}
+
+button[disabled], html input[disabled] {cursor: default;}
+input[type="checkbox"], input[type="radio"] {box-sizing: border-box; padding: 0; margin-right: .5em;}
+input[type="search"] {-webkit-appearance: textfield; -moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box;}
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {-webkit-appearance: none;}
+button::-moz-focus-inner, input::-moz-focus-inner {border: 0; padding: 0;}
+textarea {overflow: auto; vertical-align: top;}
+select {background-color: transparent; padding: 0.4em 0.15em;}
+fieldset {border: 1px solid #ddd; margin-bottom: 1em; padding: 0.35em 0.625em 0.75em;}
+
+/* Table elements */
+table, td, th {border: 1px solid #ddd; padding: 4px;}
+legend, th {color: #888;} 
+
+/* Definition lists */
+dl {margin: 0; vertical-align: top;}
+dl dd input[type="text"], dd input[type="password"], dd select {width: 100%;}
+dl dd textarea {width: 100%; height: 5em;}
+
+.form-section dl dd textarea {width: 100%; height: 5em;}
+
+.imixs-form-section dd,.imixs-form-section-1 dd,.imixs-form-section-2 dd,.imixs-form-section-3 dd {margin-left: 0px;}
+
+/* Form sections */
+.imixs-form-section,.imixs-form-section-1,.imixs-form-section-2,.imixs-form-section-3 {clear: both; width: 100%;}
+
+.imixs-form-section:after,.imixs-form-section-1:after,.imixs-form-section-2:after,.imixs-form-section-3:after {
+	content: ".";
+	display: block;
+	clear: left;
+	height: 0;
+	visibility: hidden;
+}
+
+/* Form section layouts */
+.imixs-form-section dl,.imixs-form-section-1 dl {
+	clear: both;
+	width: 100%;
+	display: inline-block;
+	float: none;
+	min-height: 1px;
+	position: relative;
+	left: 0;
+	padding: 0 0 10px 0;
+}
+
+.imixs-form-section-2 dl {
+	margin: 0;
+	width: 49%;
+	display: inline-block;
+	min-height: 1px;
+	position: relative;
+	padding: 0 10px 10px 0;
+}
+
+.imixs-form-section-3 dl {
+	margin: 0;
+	width: 33.3333%;
+	display: inline-block;
+	float: left;
+	min-height: 1px;
+	position: relative;
+	padding: 0 10px 10px 0;
+}
+
 @media screen and (max-width: 768px) { 
 	.stretch,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-10,.col-11,.col-12
-{clear: both; float: none; width: 100% !important; left: 0; text-align: left;}
+    {clear: both; float: none; width: 100% !important; left: 0; text-align: left;}
 	.right-1, .right-2, .right-3, .right-4, .right-5, .right-6, .right-7, 
 	.right-8, .right-9, .right-10, .right-11 {right: 0;} 
 	.align-right {text-align: left;}
-	.col-3 {float: left;width: 100% !important;	}
- }
+	.col-3 {float: left; width: 100% !important;}
+	
+	/* Form sections responsive */
+	.imixs-form-section-2 dl {
+		clear: both;
+		float: none;
+		width: 100% !important;
+		max-width: 738px !important;
+		left: 0;
+		text-align: left;
+	}
+	
+	.imixs-form-section-3 dl {
+		clear: both;
+		float: none;
+		width: 100% !important;
+		max-width: 738px !important;
+		left: 0;
+		text-align: left;
+	}
+}
  
-@media screen and (max-width: 480px) { .col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-10,.col-11,.col-12, 	
- 	.stretch  {clear: both; float: none; width: 100% !important;
-max-width: 450px !important; left: 0; text-align: left;} 
- 	.col-2{ width: 50% !important; left: 0; text-align: left;}
+@media screen and (max-width: 480px) { 
+    .col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-10,.col-11,.col-12, 	
+ 	.stretch {clear: both; float: none; width: 100% !important; max-width: 450px !important; left: 0; text-align: left;} 
+ 	.col-2 {width: 50% !important; left: 0; text-align: left;}
  	.col-1 {width: 25% !important; left: 0; text-align: left;}
-	.col-4>div.article>p, .col-4>div.article>img {clear: both!important;float: none !important;width: 100% !important;}
-	.col-6>div.article>p, .col-6>div.article>img {clear: both!important;float: none !important;width: 100% !important;}
+	.col-4>div.article>p, .col-4>div.article>img {clear: both!important; float: none !important; width: 100% !important;}
+	.col-6>div.article>p, .col-6>div.article>img {clear: both!important; float: none !important; width: 100% !important;}
 }
