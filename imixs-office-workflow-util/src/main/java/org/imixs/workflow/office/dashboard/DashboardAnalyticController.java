@@ -1,8 +1,10 @@
 package org.imixs.workflow.office.dashboard;
 
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,9 +66,11 @@ public class DashboardAnalyticController implements Serializable {
 
     List<ItemCollection> invoices = null;
     int countAll = 0;
-    int countFresh = 0; // Fresh tasks (0-3 days) - Blue
-    int countNeedsAttention = 0; // Needs attention (3-7 days) - Orange
+    int countToday = 0; // Fresh tasks today
+    int countThisWeek = 0; // Needs attention (since Monday) - Orange
+    int countOneWeek = 0; // Needs attention (since 1 week) - Orange
     int countUrgent = 0; // Urgent tasks (7+ days) - Red
+    boolean calculatedStats = false;
 
     @Inject
     CustomFormController customFormController;
@@ -156,7 +160,10 @@ public class DashboardAnalyticController implements Serializable {
         }
 
         logger.fine("onEvent - calculateStats.... key=" + event.getKey());
-        calculateStats(event);
+
+        if (!calculatedStats) {
+            calculateStats(event);
+        }
 
         if ("dashboard.worklist.count.all".equals(event.getKey())) {
             event.setValue("" + countAll);
@@ -164,15 +171,22 @@ public class DashboardAnalyticController implements Serializable {
             event.setDescription("Meine offenen Aufgaben");
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
         }
-        if ("dashboard.worklist.count.fresh".equals(event.getKey())) {
-            event.setValue("" + countFresh);
+        if ("dashboard.worklist.count.today".equals(event.getKey())) {
+            event.setValue("" + countToday);
             // event.setLabel("neue Aufgaben");
             event.setDescription("Meine offenen Aufgaben");
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
         }
 
-        if ("dashboard.worklist.count.attention".equals(event.getKey())) {
-            event.setValue("" + countNeedsAttention);
+        if ("dashboard.worklist.count.thisweek".equals(event.getKey())) {
+            event.setValue("" + countThisWeek);
+            // event.setLabel("Zu Beachten");
+            event.setDescription("Aufgaben seit mehr als 3 Tagen offen");
+            event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
+        }
+
+        if ("dashboard.worklist.count.oneweek".equals(event.getKey())) {
+            event.setValue("" + countOneWeek);
             // event.setLabel("Zu Beachten");
             event.setDescription("Aufgaben seit mehr als 3 Tagen offen");
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
@@ -192,8 +206,8 @@ public class DashboardAnalyticController implements Serializable {
      */
     private void calculateStats(AnalyticEvent event) {
         countAll = 0;
-        countFresh = 0; // Fresh tasks (0-3 days) - Blue
-        countNeedsAttention = 0; // Needs attention (3-7 days) - Orange
+        countToday = 0; // Fresh tasks (0-3 days) - Blue
+        countThisWeek = 0; // Needs attention (3-7 days) - Orange
         countUrgent = 0; // Urgent tasks (7+ days) - Red
         logger.info("	├──calculate stats for " + loginController.getUserPrincipal() + "....");
 
@@ -207,44 +221,69 @@ public class DashboardAnalyticController implements Serializable {
 
             // Calculate threshold dates
             LocalDate today = LocalDate.now();
-            LocalDate threeDaysAgo = today.minusDays(3);
+            LocalDate yesterday = today.minusDays(1);
             LocalDate oneWeekAgo = today.minusWeeks(1);
+            LocalDate startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
 
             String todayStr = today.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-            String threeDaysAgoStr = threeDaysAgo.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            String yesterdayStr = yesterday.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            // String threeDaysAgoStr =
+            // threeDaysAgo.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
             String oneWeekAgoStr = oneWeekAgo.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            String startOfWeekStr = startOfWeek.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
-            // Fresh tasks (last 3 days) - from threeDaysAgo TO today
-            searchTerm = "(type:workitem) AND ($owner:\"" + loginController.getUserPrincipal()
-                    + "\") AND ($lasteventdate:["
-                    + threeDaysAgoStr + " TO " + todayStr + "])";
-            countFresh = documentService.count(searchTerm);
+            logger.info(" ├──Query ranges:");
 
-            // Tasks needing attention (3-7 days) - from oneWeekAgo TO threeDaysAgo-1
-            String threeDaysAgoMinus1 = threeDaysAgo.minusDays(1).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-            searchTerm = "(type:workitem) AND ($owner:\"" + loginController.getUserPrincipal()
-                    + "\") AND ($lasteventdate:["
-                    + oneWeekAgoStr + " TO " + threeDaysAgoMinus1 + "])";
-            countNeedsAttention = documentService.count(searchTerm);
+            // Fresh tasks (today)
+            String from = todayStr + "000000";
+            String to = todayStr + "235959";
+            countToday = countTasks(from, to);
+            logger.info("   Today: [" + from + " TO " + to + "]");
 
-            // Urgent tasks (older than 7 days) - from start TO oneWeekAgo-1
-            String oneWeekAgoMinus1 = oneWeekAgo.minusDays(1).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-            searchTerm = "(type:workitem) AND ($owner:\"" + loginController.getUserPrincipal()
-                    + "\") AND ($lasteventdate:[19700101 TO " + oneWeekAgoMinus1 + "])";
-            countUrgent = documentService.count(searchTerm);
+            // Tasks needing attention (This week)
+            from = startOfWeekStr + "000000";
+            to = yesterdayStr + "235959";
+            countThisWeek = countTasks(from, to);
+            logger.info("   ThisWeek: [" + from + " TO " + to + "]");
 
-            logger.fine(" ├──Query ranges:");
-            logger.fine("   Fresh: [" + threeDaysAgoStr + " TO " + todayStr + "]");
-            logger.fine("   Attention: [" + oneWeekAgoStr + " TO " + threeDaysAgoMinus1 + "]");
-            logger.fine("   Urgent: [19700101 TO " + oneWeekAgoMinus1 + "]");
-            logger.fine(" ├──Results: Fresh=" + countFresh + ", Attention=" + countNeedsAttention + ", Urgent="
+            // Tasks needing attention (one week)
+            from = oneWeekAgoStr + "000000";
+            to = yesterdayStr + "235959";
+            countOneWeek = countTasks(from, to);
+            logger.info("   OneWeek: [" + from + " TO " + to + "]");
+
+            // Urgent tasks (older than 1 Week) - from start TO oneWeekAgo-1
+            from = "19700101000000";
+            to = oneWeekAgoStr + "235959";
+            countUrgent = countTasks(from, to);
+            logger.info("   Urgent: [" + from + " TO " + to + "]");
+
+            logger.info(" ├──Results: Today=" + countToday
+                    + ", This Week=" + countThisWeek
+                    + ", One Week=" + countOneWeek
+                    + ", Urgent="
                     + countUrgent + ", Total=" + countAll);
 
+            calculatedStats = true;
         } catch (QueryException e) {
             logger.log(Level.SEVERE, "getWorkListByOwner - invalid param: {0}", e.getMessage());
 
         }
 
+    }
+
+    /**
+     * Helper method to count tasks by date range
+     * 
+     * @param from
+     * @param to
+     * @return
+     * @throws QueryException
+     */
+    private int countTasks(String from, String to) throws QueryException {
+        String searchTerm = "(type:workitem) AND ($owner:\"" + loginController.getUserPrincipal()
+                + "\") AND ($lasteventdate:[" + from + " TO " + to + "])";
+        return documentService.count(searchTerm);
     }
 
     /**
