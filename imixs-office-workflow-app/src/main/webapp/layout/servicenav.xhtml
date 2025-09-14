@@ -1,11 +1,7 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 	<f:view>
 
@@ -23,43 +19,35 @@
 			<h:form>
 				<!-- Branding -->
 				<div class="toolbar branding">
-					<h:commandLink actionListener="#{workflowController.close}"
-						immediate="true" title="home"
-						action="/pages/notes?faces-redirect=true">
-						<ui:param name="title" value="#{propertyController.getProperty('application.title')}"></ui:param>
+					<h:link outcome="/index.html" title="#{propertyController.getProperty('application.title')}">
 						<span>
-							<h:outputText rendered="#{empty title}" value="#{resourceBundleHandler.findMessage('application_title')}" />
+							<h:outputText rendered="#{empty title}"
+								value="#{resourceBundleHandler.findMessage('application_title')}" />
 							<h:outputText rendered="#{!empty title}" value="#{title}" />
 						</span>
-						<f:actionListener binding="#{searchController.reset()}" />
-					</h:commandLink>
+					</h:link>
 				</div>
-				<!-- settings -->
+				<!-- home -->
 				<h:panelGroup layout="block" styleClass="toolbar settings">
-					<h:commandLink actionListener="#{workflowController.close}"
-						immediate="true" title="home"
-						action="/pages/notes?faces-redirect=true">
+					<h:link outcome="/index.html" title="#{propertyController.getProperty('application.title')}">
 						<span class="typcn typcn-home"></span>
-						<f:actionListener binding="#{searchController.reset()}" />
-					</h:commandLink>
+					</h:link>
 				</h:panelGroup>
 
 
 				<!-- Login -->
 				<h:panelGroup layout="block" styleClass="toolbar login">
-					<span class="login-name"> <h:outputText
-							value="#{message.signed_in}: " /> <h:outputText
-							rendered="#{! empty userController.workitem.item['txtUserName']}"
-							value="#{userController.workitem.item['txtUserName']}" /> <h:outputText
-							rendered="#{empty userController.workitem.item['txtUserName']}"
+					<span class="login-name">
+						<h:outputText value="#{message.signed_in}: " />
+						<h:outputText rendered="#{! empty userController.workitem.item['txtUserName']}"
+							value="#{userController.workitem.item['txtUserName']}" />
+						<h:outputText rendered="#{empty userController.workitem.item['txtUserName']}"
 							value="#{userController.workitem.item['txtName']}" />
 					</span>
-					<h:link outcome="/pages/profile/settings"
-						title="#{message['nav.my_settings']}">
+					<h:link outcome="/pages/profile/settings" title="#{message['nav.my_settings']}">
 						<span class="typcn typcn-cog"></span>
 					</h:link>
-					<h:commandLink action="logout" immediate="true"
-						title="#{message['nav.logout']}"
+					<h:commandLink action="logout" immediate="true" title="#{message['nav.logout']}"
 						actionListener="#{loginController.doLogout}"><span class="typcn typcn-power"></span>
 					</h:commandLink>
 				</h:panelGroup>
@@ -67,33 +55,29 @@
 
 				<!-- Search -->
 				<div class="toolbar search">
-					<h:inputText a:data-id="nav_input_phrase"
-						style="margin-right: 10px;" a:placeholder="#{message.search}..."
-						value="#{searchController.searchFilter.item['phrase']}" />
-					<h:commandLink action="#{searchController.resetFilter()}"
-						a:data-id="nav_search_link"><span class="typcn typcn-zoom-outline"></span>
+					<h:inputText a:data-id="nav_input_phrase" style="margin-right: 10px;"
+						a:placeholder="#{message.search}..." value="#{searchController.searchFilter.item['phrase']}" />
+					<h:commandLink action="#{searchController.resetFilter()}" a:data-id="nav_search_link"><span
+							class="typcn typcn-zoom-outline"></span>
 					</h:commandLink>
 				</div>
 
 
-			
+
 
 				<!-- DMS Search -->
 				<h:panelGroup layout="block" styleClass="toolbar"
 					rendered="#{propertyController.getProperty('dms.search') eq 'true'}">
-					<h:link outcome="/pages/workitems/dms_search"
-						title="#{message['nav.search_documents']}">
+					<h:link outcome="/pages/workitems/dms_search" title="#{message['nav.search_documents']}">
 						<span class="typcn typcn-book"></span>
 					</h:link>
 				</h:panelGroup>
-				
+
 				<!-- Reporting POI integration (optional) if imixs-adpaters-poi module is available -->
 				<h:panelGroup rendered="#{poiController!=null}" layout="block" styleClass="toolbar">
-					<h:commandLink
-							action="/pages/spredsheetexport?faces-redirect=true"
-							title="Excel Export">
-							<span class="typcn typcn-vendor-microsoft"></span>
-						</h:commandLink>
+					<h:commandLink action="/pages/spredsheetexport?faces-redirect=true" title="Excel Export">
+						<span class="typcn typcn-vendor-microsoft"></span>
+					</h:commandLink>
 				</h:panelGroup>
 
 				<!-- Custom Section -->
@@ -108,5 +92,3 @@
 	</f:view>
 
 </ui:composition>
-
-
