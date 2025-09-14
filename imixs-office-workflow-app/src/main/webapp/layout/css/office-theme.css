@@ -299,15 +299,6 @@ dl dt input[type="text"]:hover {
 	font-size: 0.9rem;
 }
 
-#imixs-historynav {
-	display: flex;
-	flex-wrap: nowrap;
-	flex-direction: row;
-	overflow: auto;
-	scrollbar-width: thin;
-	height: 60px;
-	background-color: #fff;
-}
 
 #process-menu {
 	padding: 10px 0;
@@ -368,11 +359,38 @@ dl dt input[type="text"]:hover {
 	border-radius: 4px;
 }
 
-/* f4f4f4 145267  */
-.imixs-historyentry {
+#imixs-historynav { 
 	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	gap: 0 2px;
+	 overflow-x: auto; /* Nur horizontal scrollen */
+    overflow-y: hidden; /* Verhindert vertikales Scrollen */
+	  scroll-behavior: smooth; /* Sanftes Scrollen */
+    -webkit-overflow-scrolling: touch; /* Besseres Scrolling auf iOS */
+	height: 60px;
+	background-color: #fff;
+}
+#imixs-historynav::-webkit-scrollbar {
+    height: 8px;
+}
+#imixs-historynav::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+#imixs-historynav::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+#imixs-historynav::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+.imixs-historyentry { 
+	display: flex;
+	flex: 0 0 calc(20% - 2px); 
+	flex-shrink: 0;
 	overflow: hidden;
-	min-width: 280px;
 	background-color: #f4f4f4;
 	color: #666;
 	padding: 5px;
@@ -381,10 +399,6 @@ dl dt input[type="text"]:hover {
 	border-bottom: 4px solid #f4f4f4;
 }
 
-.imixs-historyentry-fill {
-	flex: 1;
-	border-bottom: 2px solid #f4f4f4;
-}
 
 .imixs-historyentry:hover {
 	background-color: #f4f4f4;
@@ -397,32 +411,26 @@ dl dt input[type="text"]:hover {
 	text-decoration: none;
 }
 
-.imixs-historyentry .image-block .imixs-typicon {
-	color: #333;
-}
-
-.imixs-historyentry .image-block .imixs-typicon {
-	color: #888;
-}
-
 /* 145267  faa732 */
 .imixs-historyentry.active {
 	background-color: #fefefe;
 	border-bottom: 4px solid #faa732;
 	color: #2a6496;
-	;
 }
 
-.imixs-historyentry.active .image-block .imixs-typicon {
-	color: #333;
-}
-
-.imixs-historyentry .image-block {
+.imixs-historyentry-icon {
 	min-height: 10px;
 }
 
-.imixs-historyentry .close {
+.imixs-historyentry-content {
+	flex: 1
+}
+
+.imixs-historyentry-close {
 	font-size: 1.3rem;
+}
+.imixs-historyentry-close .typcn {
+	color: #bbb;
 }
 
 .content-block {
@@ -833,9 +841,11 @@ th {
 /* --- Imixs-Portlet ---------------------------------- */
 .imixs-portlet {
 	padding: 10px;
-	border-right: 2px solid #ddd;
+	border: none;
 	margin-bottom: 30px;
 	grid-column-start: span 3;
+	xbackground-color: #f3f3f3;
+	border-radius: 5px;
 }
 
 .imixs-portlet.imixs-portlet-worklist {
@@ -862,7 +872,7 @@ th {
 }
 
 .imixs-portlet .imixs-header {
-	background-color: #fff;
+	xxxbackground-color: #fff;
 	font-size: 1.3rem;
 	color: #666;
 	border-bottom: 1px solid #CCC;
@@ -1776,12 +1786,11 @@ input:disabled.imixs-date {
 .dashboard-card {
 	display: flex;
 	flex-direction: column;
-    xxxflex-wrap: wrap;
 	justify-content: flex-start;
 
 	min-height: 200px;
 	padding: 20px;
-	background-color: #f3f3f3;
+	background-color: #f4f4f4;;
 	border-radius: 5px;
 	-webkit-box-shadow: 0 0 5px 0 rgba(43, 43, 43, .1), 0 11px 6px -7px rgba(43, 43, 43, .1);
 	box-shadow: 0 0 5px 0 rgba(43, 43, 43, .1), 0 11px 6px -7px rgba(43, 43, 43, .1);
@@ -1894,7 +1903,7 @@ input:disabled.imixs-date {
 	padding: 10px 20px;
 }
 .dashboard-card-view .dashboard-card-header {
-	font-size:0.25em;
+	font-size:1em;
 	margin: 0 0 5px 0;
 }
 .dashboard-card-view .dashboard-card-footer {

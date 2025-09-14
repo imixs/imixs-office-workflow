@@ -1,59 +1,50 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
-	<ui:param name="isactive"
-		value="#{historyController.currentId eq workitem.item['$uniqueID']}"></ui:param>
-	
-		<div class="imixs-historyentry #{isactive ? 'active' : ''}"  >
-	
-			<!-- *** Image *** -->
-			<div class="" style="width:50px;">
-				<ui:include src="/layout/workitem_icon.xhtml">
-					<ui:param name="workitem" value="#{workitem}" />
-					<ui:param name="hidetooltip" value="#{isactive}" />
-					<ui:param name="showlink" value="#{true}" />
-				</ui:include>
-			</div>
+	<ui:param name="isactive" value="#{historyController.currentId eq workitem.item['$uniqueID']}"></ui:param>
 
+	<div class="imixs-historyentry #{isactive ? 'active' : ''}">
 
-			<!-- *** Standard Info *** -->
-			<div class="" onclick="imixsOfficeMain.openWorkitemByID('#{workitem.item['$uniqueID']}');">
-				<span> 
-						<!-- summary empty ? -->
-						<h:panelGroup
-							rendered="#{empty workitem.item['$WorkflowSummary']}">
-							<h:outputText value="#{workitem.item['$lasteventdate']}">
-								<f:convertDateTime timeZone="#{message.timeZone}"
-									pattern="#{message.dateTimePattern}" />
-							</h:outputText>
-							<h:outputText value=" #{workitem.item['_subject']}" />
-						</h:panelGroup>
-						<h:outputText escape="false"
-							value="#{workitem.item['$WorkflowSummary']}" />
-				</span> <br />
-				<!-- Status -->
-				<h:outputText value="#{workitem.item['$workflowgroup']} » " />
-				<h:outputText value="#{workitem.item['$workflowstatus']}" />
-			</div>
-
-			<!-- *** close action *** -->
-			<div>
-				<h:commandLink styleClass="close"
-					action="#{historyController.removeWorkitem(workitem.item['$uniqueID'])}">
-					<span class="typcn typcn-times-outline"></span>
-				</h:commandLink>
-			</div>
-
+		<!-- *** Image *** -->
+		<div class="imixs-historyentry-icon" style="width:50px;">
+			<ui:include src="/layout/workitem_icon.xhtml">
+				<ui:param name="workitem" value="#{workitem}" />
+				<ui:param name="hidetooltip" value="#{isactive}" />
+				<ui:param name="showlink" value="#{true}" />
+			</ui:include>
 		</div>
+
+
+		<!-- *** Standard Info *** -->
+		<div class="imixs-historyentry-content"
+			onclick="imixsOfficeMain.openWorkitemByID('#{workitem.item['$uniqueID']}');">
+			<span>
+				<!-- summary empty ? -->
+				<h:panelGroup rendered="#{empty workitem.item['$WorkflowSummary']}">
+					<h:outputText value="#{workitem.item['$lasteventdate']}">
+						<f:convertDateTime timeZone="#{message.timeZone}" pattern="#{message.dateTimePattern}" />
+					</h:outputText>
+					<h:outputText value=" #{workitem.item['_subject']}" />
+				</h:panelGroup>
+				<h:outputText escape="false" value="#{workitem.item['$WorkflowSummary']}" />
+			</span> <br />
+			<!-- Status -->
+			<h:outputText value="#{workitem.item['$workflowgroup']} » " />
+			<h:outputText value="#{workitem.item['$workflowstatus']}" />
+		</div>
+
+		<!-- *** close action *** -->
+		<div class="imixs-historyentry-close">
+			<h:commandLink styleClass="close" action="#{historyController.removeWorkitem(workitem.item['$uniqueID'])}">
+				<span class="typcn typcn-times"></span>
+			</h:commandLink>
+		</div>
+
+	</div>
 
 
 
 
 </ui:composition>
-
