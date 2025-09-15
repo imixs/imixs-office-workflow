@@ -1440,7 +1440,7 @@ input:disabled.imixs-date   {
   border: none;
   -webkit-transition: all .3s ease-in-out;
   transition: all .3s ease-in-out;
-  font-size: 20px;
+  font-size: 1rem;
   font-weight: bold;
   color: #5f5f5f;
 }
@@ -1457,15 +1457,15 @@ input:disabled.imixs-date   {
   color: #dc3545;
 }
 .dashboard-card-header   {
-  flex: 0 0 auto;
+  font-size: 1.2rem;
 }
 .dashboard-card-content   {
   flex: 1;
-  font-size: 20px;
+  line-height: 1em;
 }
 .dashboard-card-footer   {
   flex-basis: 100%;
-  font-size: 12px;
+  font-size: 0.7rem;
   font-weight: normal;
   color: #5f5f5f;
   line-height: 2em;
@@ -1475,41 +1475,50 @@ input:disabled.imixs-date   {
   font-size: 18px;
   margin-left: 20px;
 }
-.dashboard-card.lead   {
-  font-size: 60px;
+.dashboard-card.lead {
+  font-size: 2rem;
   font-weight: bold;
   color: #428bca;
   margin-bottom: 0;
 }
-.dashboard-card.small .dashboard-card-content    {
-  margin-top: 0px;
+
+.dashboard-card.lead .dashboard-card-header {
+   font-size: 3rem;
+}
+.dashboard-card.lead .dashboard-card-content {
+   font-size: 1.4rem;
+   margin: 20px 0;
+}
+
+.dashboard-card.small {
   font-size: 1rem;
   font-weight: normal;
 }
-  /* Spezielle Regel für Lead Cards */
-  .dashboard-card.lead .dashboard-card-header,
-  .dashboard-card.lead .dashboard-card-content,
-.dashboard-card.lead .dashboard-card-footer   {
-  flex-basis: 100%;
-  /* Jedes Element nimmt die ganze Breite */
+.dashboard-card.small .dashboard-card-header    {
+  margin-top: 0px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  
 }
+
   /* Flat Card Design */
 .dashboard-card.flat    {
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
   min-height: 50px;
-  font-size: 30px;
   gap: 0 16px;
   padding: 5px 20px;
+  font-size: 2rem;
+}
+.dashboard-card.flat .dashboard-card-header    {
+    font-size: 2rem;
 }
 .dashboard-card.flat .dashboard-card-content    {
-  margin-top: 15px;
-  font-size: 16px;
+  margin-top: 20px;
+  font-size: 1.2rem;
 }
-  /* Small Card Desgin */
-.dashboard-card.small .dashboard-card-header    {
-}
+
 .dashboard-card-chart   {
   min-height: 200px;
   padding: 20px;
@@ -1520,7 +1529,7 @@ input:disabled.imixs-date   {
   border: none;
   -webkit-transition: all .3s ease-in-out;
   transition: all .3s ease-in-out;
-  font-size: 40px;
+  font-size: 1rem;
   font-weight: bold;
   color: #4398f3;
 }
@@ -1534,7 +1543,7 @@ input:disabled.imixs-date   {
   padding: 10px 20px;
 }
 .dashboard-card-view .dashboard-card-header   {
-  font-size:1em;
+  font-size:1rem;
   margin: 0 0 5px 0;
 }
 .dashboard-card-view .dashboard-card-footer   {
@@ -1548,26 +1557,40 @@ input:disabled.imixs-date   {
   flex-wrap: wrap;
   font-weight: normal;
   margin: 0;
-  min-height: 25px;
+  min-height: 50px;
   padding-right: 10px;
   background-color: #fff;
   font-size: 0.85rem;
 }
 .dashboard-card .imixs-viewentry .image-block   {
-  min-width: 10px;
+  min-width: 20px;
+  margin: 0;
+  font-size: 2rem;
 }
 .dashboard-card .imixs-viewentry .content-block   {
   margin: 0 0 0.40em 0;
   flex: 1;
 }
 .dashboard-card .imixs-viewentry .imixs-typicon   {
-  font-size: 22px;
+  font-size: 1.2rem;
+}
+.dashboard-card .imixs-viewentry .imixs-typicon .icon-sub   {
+  width: 10px;
+  height: 10px;;
 }
 .dashboard-card .imixs-viewentry .imixs-favorite   {
-  font-size: 18px;
-  margin-left: 2px;
+  font-size: 1.2rem;
+  margin-left: 1px;
   top: auto;
 }
+.imixs-viewentry .imixs-viewentry-title {
+  font-size: 0.9rem;
+  line-height: 1.5rem;
+}
+
+
+
+
   /* Roles And Rights */
 .roles-and-rights th   {
   height: 140px;

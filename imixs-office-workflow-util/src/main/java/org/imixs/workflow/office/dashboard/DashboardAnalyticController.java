@@ -197,7 +197,7 @@ public class DashboardAnalyticController implements Serializable {
         countToday = 0; // Fresh tasks (0-3 days) - Blue
         countThisWeek = 0; // Needs attention (3-7 days) - Orange
         countUrgent = 0; // Urgent tasks (7+ days) - Red
-        logger.info("	├──calculate stats for " + loginController.getUserPrincipal() + "....");
+        logger.info("├──calculate stats for " + loginController.getUserPrincipal() + "....");
 
         // count tasks
         String searchTerm = "";
@@ -219,7 +219,7 @@ public class DashboardAnalyticController implements Serializable {
             String oneWeekAgoStr = oneWeekAgo.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
             String startOfWeekStr = startOfWeek.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
-            logger.info(" ├──Query ranges:");
+            logger.info("├──Query ranges:");
 
             // Fresh tasks (today)
             String from = todayStr + "000000";
@@ -245,7 +245,7 @@ public class DashboardAnalyticController implements Serializable {
             countUrgent = countTasks(from, to);
             logger.info("   Urgent: [" + from + " TO " + to + "]");
 
-            logger.info(" ├──Results: Today=" + countToday
+            logger.info("├── Results: Today=" + countToday
                     + ", This Week=" + countThisWeek
                     + ", One Week=" + countOneWeek
                     + ", Urgent="

@@ -521,13 +521,18 @@ public class CustomFormController implements Serializable {
      */
     @SuppressWarnings("unchecked")
     private String fetchFormDefinitionFromModel(ItemCollection workitem) {
+
+        // return if no modelversion is defined
+        if (workitem == null || workitem.getModelVersion().isBlank()) {
+            return "";
+        }
         ItemCollection task;
         try {
             BPMNModel model = modelManager.getModelByWorkitem(workitem);
             task = modelManager.loadTask(workitem, model);
 
         } catch (ModelException e) {
-            logger.warning("unable to parse data object in model: " + e.getMessage());
+            logger.fine("unable to parse data object in model: " + e.getMessage());
             return "";
         }
 

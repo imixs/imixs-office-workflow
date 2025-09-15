@@ -6,18 +6,14 @@
 	<!-- Chart Diagramm -->
 	<div class="dashboard-card-chart">
 		<div class="dashboard-card-chart-detail">
-			<canvas id="dashboard#{item.name}" style=""></canvas>
+			<canvas id="dashboard_canvas_#{item.name}" style=""></canvas>
 		</div>
 	</div>
-
-
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/chartjs/chart.min.js?build=#{app.application_build_timestamp}"></script>
 
 	<script type="text/javascript">
 		/*<![CDATA[*/
 		var ctx = document.getElementById("dashboard_canvas_#{item.name}").getContext("2d");
-		var chartData = #{ analyticController.getValueAsJson(workitem, item.name)};
+		var chartData = #{ analyticController.getValueAsJson(workitem, item.name, item.options)};
 		new Chart(ctx, chartData);
 		/*]]>*/
 	</script>

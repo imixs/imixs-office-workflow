@@ -4,18 +4,20 @@
 
 	<div class="dashboard-card #{analyticController.getOption(item.name, 'class', options, '')}">
 		<div class="dashboard-card-header">
-			<h:outputText value="#{analyticController.getValueAsString(workitem,item.name)}" style="color: #4398f3;" />
+			<h:outputText value="#{analyticController.getValueAsString(workitem,item.name, item.options)}"
+				style="color: #4398f3;" />
 		</div>
 		<div class="dashboard-card-content">
-			<h:outputText escape="false" value="#{analyticController.getLabel(workitem, item.name)}" />
-			<i class="fas #{analyticController.getOption(item.name, 'icon', options, 'fa-info')}" />
-			<h:outputText value=" #{analyticController.getOption(item.name, 'label', options, 'Aufgaben')}" />
+			<h:outputText escape="false" value="#{analyticController.getLabel(workitem, item.name, item.options)}" />
+			<i class="fas #{analyticController.getOption(item.name, 'icon', options, '')}" />
+			<h:outputText value=" #{analyticController.getOption(item.name, 'label', options, '')}" />
 		</div>
 		<div class="dashboard-card-footer">
-			<span>#{analyticController.getOption(item.name, 'description', options, 'Offene Aufgaben')}</span>
+			<span>#{analyticController.getOption(item.name, 'description', options,
+				analyticController.getDescription(workitem,item.name, item.options))}</span>
 			<h:panelGroup styleClass="dashboard-card-link"
-				rendered="#{!empty analyticController.getLink(workitem,item.name)}">
-				<a href="#{analyticController.getLink(workitem,item.name)}"><span
+				rendered="#{!empty analyticController.getLink(workitem,item.name, item.options)}">
+				<a href="#{analyticController.getLink(workitem,item.name, item.options)}"><span
 						class="typcn typcn-zoom-outline" /></a>
 			</h:panelGroup>
 		</div>

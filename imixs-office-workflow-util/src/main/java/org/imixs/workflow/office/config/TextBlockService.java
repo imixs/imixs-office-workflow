@@ -33,6 +33,16 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
+import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.engine.DocumentEvent;
+import org.imixs.workflow.engine.DocumentService;
+import org.imixs.workflow.engine.TextEvent;
+import org.imixs.workflow.engine.WorkflowService;
+import org.imixs.workflow.exceptions.AccessDeniedException;
+import org.imixs.workflow.exceptions.PluginException;
+import org.imixs.workflow.exceptions.QueryException;
+import org.imixs.workflow.util.XMLParser;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Priority;
 import jakarta.annotation.Resource;
@@ -45,16 +55,6 @@ import jakarta.ejb.SessionContext;
 import jakarta.ejb.Singleton;
 import jakarta.enterprise.event.Observes;
 import jakarta.interceptor.Interceptor;
-
-import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.engine.DocumentEvent;
-import org.imixs.workflow.engine.DocumentService;
-import org.imixs.workflow.engine.TextEvent;
-import org.imixs.workflow.engine.WorkflowService;
-import org.imixs.workflow.exceptions.AccessDeniedException;
-import org.imixs.workflow.exceptions.PluginException;
-import org.imixs.workflow.exceptions.QueryException;
-import org.imixs.workflow.util.XMLParser;
 
 /**
  * The TextBlockService is an EJB handling documents containing textual
@@ -174,7 +174,7 @@ public class TextBlockService {
                     if (col.size() > 0) {
                         textBlockItemCollection = col.iterator().next();
                     } else {
-                        logger.warning("Missing text-block : '" + name + "'");
+                        logger.fine("Missing text-block : '" + name + "'");
                     }
                 } catch (QueryException e) {
                     logger.warning("getTextBlock - invalid query: " + e.getMessage());

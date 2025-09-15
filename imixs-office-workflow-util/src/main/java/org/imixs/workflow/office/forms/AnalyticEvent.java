@@ -9,14 +9,16 @@ public class AnalyticEvent {
 
     private String key;
     private Object value = null;
+    private String options = null;
     private String label = "";
     private String description = "";
     private String link = "";
     private ItemCollection workitem = null;
 
-    public AnalyticEvent(String key, ItemCollection workitem) {
+    public AnalyticEvent(String key, ItemCollection workitem, String options) {
         this.key = key;
         this.workitem = workitem;
+        this.options = options;
     }
 
     public String getKey() {
@@ -27,16 +29,28 @@ public class AnalyticEvent {
         this.key = key;
     }
 
+    public String getOptions() {
+        return options;
+    }
+
+    public void setOptions(String options) {
+        this.options = options;
+    }
+
+    public ItemCollection getWorkitem() {
+        return workitem;
+    }
+
+    public void setWorkitem(ItemCollection workitem) {
+        this.workitem = workitem;
+    }
+
     public String getLink() {
         return link;
     }
 
     public void setLink(String link) {
         this.link = link;
-    }
-
-    public ItemCollection getWorkitem() {
-        return workitem;
     }
 
     public Object getValue() {

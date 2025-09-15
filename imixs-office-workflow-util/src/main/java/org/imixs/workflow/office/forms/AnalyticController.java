@@ -54,9 +54,13 @@ public class AnalyticController implements Serializable {
 	 * @param key
 	 * @return
 	 */
-	public String getValueAsString(ItemCollection workitem, String key) {
-		ItemCollection analyticData = computeValue(workitem, key);
+	public String getValueAsString(ItemCollection workitem, String key, String options) {
+		ItemCollection analyticData = computeValue(workitem, key, options);
 		return analyticData.getItemValueString("value");
+	}
+
+	public String getValueAsString(ItemCollection workitem, String key) {
+		return this.getValueAsString(workitem, key, null);
 	}
 
 	/**
@@ -65,8 +69,8 @@ public class AnalyticController implements Serializable {
 	 * @param key
 	 * @return
 	 */
-	public String getValueAsJson(ItemCollection workitem, String key) {
-		ItemCollection analyticData = computeValue(workitem, key);
+	public String getValueAsJson(ItemCollection workitem, String key, String options) {
+		ItemCollection analyticData = computeValue(workitem, key, options);
 		String jsonval = analyticData.getItemValueString("value");
 		if (jsonval == null || jsonval.isEmpty()) {
 			return "null";
@@ -75,28 +79,24 @@ public class AnalyticController implements Serializable {
 		}
 	}
 
+	public String getValueAsJson(ItemCollection workitem, String key) {
+		return getValueAsJson(workitem, key, null);
+	}
+
 	/**
 	 * Returns a analytic value as a Double for a given key.
 	 * 
 	 * @param key
 	 * @return
 	 */
-	public double getValueAsDouble(ItemCollection workitem, String key) {
-		ItemCollection analyticData = computeValue(workitem, key);
+	public double getValueAsDouble(ItemCollection workitem, String key, String options) {
+		ItemCollection analyticData = computeValue(workitem, key, options);
 		return analyticData.getItemValueDouble("value");
 	}
 
-	/**
-	 * Returns a analytic value as a List of ItemCollection objects for a given key.
-	 * 
-	 * @param key
-	 * @return
-	 */
-	// @SuppressWarnings("unchecked")
-	// public List<ItemCollection> getAsWorklist(String key) {
-	// ItemCollection analyticData = computeValue(key);
-	// return analyticData.getItemValue("value");
-	// }
+	public double getValueAsDouble(ItemCollection workitem, String key) {
+		return getValueAsDouble(workitem, key, null);
+	}
 
 	/**
 	 * Returns the analytic label for a given key
@@ -104,9 +104,13 @@ public class AnalyticController implements Serializable {
 	 * @param key
 	 * @return
 	 */
-	public String getLabel(ItemCollection workitem, String key) {
-		ItemCollection analyticData = computeValue(workitem, key);
+	public String getLabel(ItemCollection workitem, String key, String options) {
+		ItemCollection analyticData = computeValue(workitem, key, options);
 		return analyticData.getItemValueString("label");
+	}
+
+	public String getLabel(ItemCollection workitem, String key) {
+		return this.getLabel(workitem, key, null);
 	}
 
 	/**
@@ -115,9 +119,13 @@ public class AnalyticController implements Serializable {
 	 * @param key
 	 * @return
 	 */
-	public String getLink(ItemCollection workitem, String key) {
-		ItemCollection analyticData = computeValue(workitem, key);
+	public String getLink(ItemCollection workitem, String key, String options) {
+		ItemCollection analyticData = computeValue(workitem, key, options);
 		return analyticData.getItemValueString("link");
+	}
+
+	public String getLink(ItemCollection workitem, String key) {
+		return this.getLink(workitem, key, null);
 	}
 
 	/**
@@ -126,9 +134,13 @@ public class AnalyticController implements Serializable {
 	 * @param key
 	 * @return
 	 */
-	public String getDescription(ItemCollection workitem, String key) {
-		ItemCollection analyticData = computeValue(workitem, key);
+	public String getDescription(ItemCollection workitem, String key, String options) {
+		ItemCollection analyticData = computeValue(workitem, key, options);
 		return analyticData.getItemValueString("description");
+	}
+
+	public String getDescription(ItemCollection workitem, String key) {
+		return this.getDescription(workitem, key, null);
 	}
 
 	/**
@@ -140,12 +152,12 @@ public class AnalyticController implements Serializable {
 	 * @param key
 	 * @return
 	 */
-	protected ItemCollection computeValue(ItemCollection workitem, String key) {
+	protected ItemCollection computeValue(ItemCollection workitem, String key, String options) {
 
-		if (workitem != null) {
-			logger.fine("fire analytic event for key '" + key + "'");
+		if (workitem != null && !workitem.hasItem(key)) {
+			logger.info("fire analytic event for key '" + key + "'");
 			// Fire the Analytics Event for this key
-			AnalyticEvent event = new AnalyticEvent(key, workitem);
+			AnalyticEvent event = new AnalyticEvent(key, workitem, options);
 			if (analyticEvents != null) {
 				analyticEvents.fire(event);
 				if (event.getValue() != null) {
@@ -178,7 +190,7 @@ public class AnalyticController implements Serializable {
 	}
 
 	/**
-	 * converts the Map List of a workitem into a List of ItemCollectons
+	 * converts the Map List of a workitem into a List of ItemCollections
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private ItemCollection explodeDetails(ItemCollection workitem, String key) {
