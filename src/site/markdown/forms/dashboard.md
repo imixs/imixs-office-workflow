@@ -11,35 +11,30 @@ To define a new dashboard you simply add a dashboard definition into the layout 
 
 ```xml
 <imixs-form>
-<imixs-form-section columns="4" label="My Dashboard">
+  <imixs-form-section columns="4" label="">
      <item name="dashboard.worklist.count.today" type="custom" path="cards/plain"  label=""
-           options='{"class":"flat info", "icon":"fa-inbox", "label":"Neue Aufgaben", "description":"Neue Aufgaben seit Heute"}'   />
-     <item name="dashboard.worklist.count.thisweek" type="custom" path="cards/plain"  label=""
-           options='{"class":"flat info", "icon":"fa-inbox", "label":"Neue Aufgaben", "description":"Neue Aufgaben seit Montag"}'   />
+           options='{"class":"flat success", "icon":"fa-inbox", "label":"Neue Aufgaben", "description":"Neue Aufgaben seit Heute"}'   />
      <item name="dashboard.worklist.count.oneweek" type="custom" path="cards/plain"  label=""
            options='{"class":"flat warning", "icon":"fa-exclamation-triangle", "label":"Zu Beachten", "description":"Aufgaben seit einer Woche offen"}'    />
      <item name="dashboard.worklist.count.urgent" type="custom" path="cards/plain"  label=""
            options='{"class":"flat error", "icon":"fa-fire", "label":"Dringend", "description":"Aufgaben seit mehr als 1 Woche offen"}'    />
+     <item name="dashboard.worklist.count.all" type="custom" path="cards/plain" label=""
+           options='{"class":"flat", "icon":"fa-tasks", "label":"Alle Aufgaben", "description":"Meine offenen Aufgaben"}' />
    </imixs-form-section>
-
-  <imixs-form-section columns="2">
-   <item name="dashboard.worklist.owner" type="custom" path="cards/worklist"
+   <imixs-form-section columns="2">
+     <item name="dashboard.worklist.owner" type="custom" path="cards/worklist"
          options='{ "label":"Meine Aufgaben", "description":"Aufgaben die offen sind"}'/>
-   <item name="dashboard.worklist.creator" type="custom" path="cards/worklist"
+     <item name="dashboard.worklist.creator" type="custom" path="cards/worklist"
          options='{ "label":"Meine Vorgänge", "description":""}'/>
-  </imixs-form-section>
-
-  <imixs-form-section columns="4" label="">
-     <item name="Beschaffung" type="custom" path="cards/startprocess"
-           options='{"class":"small", "icon":"fa-inbox"}'   />
-     <item name="Controlling" type="custom" path="cards/startprocess"
-           options='{"class":"small", "icon":"fa-exclamation-triangle"}'  />
-     <item name="Empfang" type="custom" path="cards/startprocess"
-           options='{"class":"small", "icon":"fa-fire" }'    />
-     <item name="Vertrieb" type="custom" path="cards/startprocess"
-           options='{"class":"small", "icon":"fa-tasks"}' />
    </imixs-form-section>
-
+   <imixs-form-section columns="3" label="">
+      <item name="worklist.stats.count.beschaffung" type="custom" path="cards/plain"
+            options='{"class":"lead", "key":"process", "value":"Beschaffung"}'   />
+      <item name="worklist.stats.chart.beschaffung" type="custom" path="cards/chart"
+            options='{"key":"process", "value":"Beschaffung"}'   />
+      <item name="worklist.stats.chart.rechnungseingang" type="custom" path="cards/chart"
+            options='{"key":"$workflowgroup", "value":"Rechnungseingang"}'   />
+   </imixs-form-section>
 </imixs-form>
 ```
 
@@ -66,6 +61,7 @@ Each card can display information provided by the `DashboardAnalyticController` 
 | **Views**                         |         |              |                                                                                 |
 | dashboard.worklist.owner          | view    | worklist     | Shows a view with all tasks for the current user                                |
 | dashboard.worklist.creator        | view    | worklist     | Shows a view with all tasks created by the current user                         |
+| dashboard.worklist.participant    | view    | worklist     | Shows a view with all tasks the current user is a participant                   |
 | dashboard.worklist.favorite       | view    | worklist     | Shows a view with all favorites tasks marked by the current user                |
 | **Information**                   |         |              |                                                                                 |
 | [PROCESS NAME]                    | counter | startprocess | Shows information about a process                                               |

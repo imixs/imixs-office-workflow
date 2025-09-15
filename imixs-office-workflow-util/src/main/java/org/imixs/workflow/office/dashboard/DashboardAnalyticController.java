@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.util.LoginController;
 import org.imixs.workflow.office.config.SetupController;
+import org.imixs.workflow.office.forms.AnalyticController;
 import org.imixs.workflow.office.forms.AnalyticEvent;
 import org.imixs.workflow.office.forms.CustomFormController;
 
@@ -56,6 +58,7 @@ public class DashboardAnalyticController implements Serializable {
     private ItemCollection workitem = new ItemCollection();
 
     private static final int PORTLET_SIZE = 5;
+    public static final String LINK_PROPERTY = "$workitemref";
 
     @Inject
     CustomFormController customFormController;
@@ -83,6 +86,9 @@ public class DashboardAnalyticController implements Serializable {
 
     @Inject
     DashboardController dashboardController;
+
+    @Inject
+    protected AnalyticController analyticController;
 
     /**
      * This method loads the dashboard form information
@@ -146,6 +152,9 @@ public class DashboardAnalyticController implements Serializable {
             // no op
             return;
         }
+        if (!loginController.isAuthenticated()) {
+            return;
+        }
 
         logger.fine("onEvent - calculateStats.... key=" + event.getKey());
 
@@ -200,11 +209,9 @@ public class DashboardAnalyticController implements Serializable {
         logger.info("├──calculate stats for " + loginController.getUserPrincipal() + "....");
 
         // count tasks
-        String searchTerm = "";
-
         try {
-            searchTerm = "(type:workitem) AND ($owner:\"" + loginController.getUserPrincipal() + "\")";
-            countAll = documentService.count(searchTerm);
+            countAll = documentService.count("(type:workitem) AND ($owner:\"" +
+                    loginController.getUserPrincipal() + "\")");
 
             // Calculate threshold dates
             LocalDate today = LocalDate.now();
@@ -273,20 +280,41 @@ public class DashboardAnalyticController implements Serializable {
         return documentService.count(searchTerm);
     }
 
-    public DashboardDataSet getDataSet(String key) {
+    public DashboardDataSet getDataSet(String key, String options) {
+        // Test if we have options with a pageSize
+        int pageSize = PORTLET_SIZE;
+        if (options != null && !options.isBlank()) {
+            try {
+                String _pageSize = analyticController.getOption(key, "pagesize", options, "" + PORTLET_SIZE);
+                if (_pageSize != null) {
+                    pageSize = Integer.parseInt(_pageSize);
+                }
+            } catch (NumberFormatException e) {
+                pageSize = PORTLET_SIZE;
+            }
+        }
         DashboardDataSet result = null;
         result = dataSets.get(key);
         if (result == null) {
-            result = calculateDataView(key);
+            // Initialize a new DashboardDataSet
+            result = initDashboardDataSet(key, pageSize);
         }
         return result;
     }
 
-    private DashboardDataSet calculateDataView(String key) {
+    /**
+     * Initializes a Dataset for a given key. The parameter pageSize can be set.
+     * 
+     * @param key
+     * @param pageSize
+     * @return
+     */
+    private DashboardDataSet initDashboardDataSet(String key, int pageSize) {
+        logger.info("├── init worklist: " + key);
         // Data Views
         if ("dashboard.worklist.owner".equals(key)) {
             String query = "(type:\"workitem\" AND $owner:\"" + loginController.getRemoteUser() + "\")";
-            DashboardDataSet dataSet = new DashboardDataSet(key, query, PORTLET_SIZE);
+            DashboardDataSet dataSet = new DashboardDataSet(key, query, pageSize);
             loadData(dataSet);
             this.dataSets.put(key, dataSet);
             return dataSet;
@@ -294,11 +322,40 @@ public class DashboardAnalyticController implements Serializable {
         }
         if ("dashboard.worklist.creator".equals(key)) {
             String query = "(type:\"workitem\" AND $creator:\"" + loginController.getRemoteUser() + "\")";
-            DashboardDataSet dataSet = new DashboardDataSet(key, query, PORTLET_SIZE);
+            DashboardDataSet dataSet = new DashboardDataSet(key, query, pageSize);
             loadData(dataSet);
             this.dataSets.put(key, dataSet);
             return dataSet;
         }
+        if ("dashboard.worklist.participant".equals(key)) {
+            String query = "(type:\"workitem\" AND $participants:\"" + loginController.getRemoteUser() + "\")";
+            DashboardDataSet dataSet = new DashboardDataSet(key, query, pageSize);
+            loadData(dataSet);
+            this.dataSets.put(key, dataSet);
+            return dataSet;
+        }
+
+        if ("dashboard.worklist.favorite".equals(key)) {
+            List<String> favorites = userController.getWorkitem().getItemValue(LINK_PROPERTY);
+            if (favorites.size() == 0) {
+                favorites.add("NONE"); // dummy entry
+            }
+            String query = "(type:\"workitem\" OR type:\"workitemarchive\") AND ";
+            // create IN list
+            query += " ( ";
+            for (String aID : favorites) {
+                query += "$uniqueid:\"" + aID + "\" OR ";
+            }
+            // cut last ,
+            query = query.substring(0, query.length() - 3);
+            query += ")";
+
+            DashboardDataSet dataSet = new DashboardDataSet(key, query, pageSize);
+            loadData(dataSet);
+            this.dataSets.put(key, dataSet);
+            return dataSet;
+        }
+
         // not define - return empty data set
         return new DashboardDataSet("none", "", 0);
 

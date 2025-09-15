@@ -12,9 +12,8 @@
 		<div class="dashboard-card-content">
 
 			<!-- **** Workitems ***** -->
-			<ui:param name="dataset" value="#{dashboardAnalyticController.getDataSet(item.name)}" />
+			<ui:param name="dataset" value="#{dashboardAnalyticController.getDataSet(item.name,options)}" />
 			<ui:repeat var="viewentry" value="#{dataset.getData()}">
-				<!-- Image block -->
 				<ui:include src="worklist_viewentry.xhtml">
 					<ui:param name="viewentry" value="#{viewentry}" />
 				</ui:include>
