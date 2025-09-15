@@ -155,7 +155,7 @@ public class AnalyticController implements Serializable {
 	protected ItemCollection computeValue(ItemCollection workitem, String key, String options) {
 
 		if (workitem != null && !workitem.hasItem(key)) {
-			logger.info("fire analytic event for key '" + key + "'");
+			logger.fine("fire analytic event for key '" + key + "'");
 			// Fire the Analytics Event for this key
 			AnalyticEvent event = new AnalyticEvent(key, workitem, options);
 			if (analyticEvents != null) {
