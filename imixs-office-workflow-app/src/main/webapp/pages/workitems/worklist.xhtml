@@ -57,7 +57,7 @@
 					<div class="imixs-body">
 						<!-- *** Header **** -->
 						<ui:fragment rendered="#{empty searchController.defaultQuery}">
-							<div class="imixs-header" style="">
+							<div class="imixs-header">
 								<!-- *** Header **** -->
 								<ui:include src="/pages/workitems/worklist_header.xhtml" />
 							</div>
@@ -66,7 +66,6 @@
 
 						<div class="imixs-view-submit-panel">
 							<!-- Search Button and Search Order -->
-
 
 							<h:commandButton value="#{message.search}" action="#{searchController.refreshSearch()}">
 								<f:ajax render="@form" execute="@form" onevent="updateSearchForm" />
@@ -92,8 +91,7 @@
 										<f:selectItem itemValue="2"
 											itemLabel="#{message['worklist.sortorder_oldest']}" />
 
-										<f:ajax event="change" render="@form"
-											listener="#{viewHandler.init()}"
+										<f:ajax event="change" render="@form" listener="#{viewHandler.init()}"
 											onevent="imixsOfficeMain.layoutAjaxEvent" />
 									</h:selectOneMenu>
 									<span>
@@ -118,9 +116,6 @@
 							</div>
 
 						</div>
-
-
-
 
 						<ui:fragment rendered="#{!noresult}">
 							<h:panelGroup layout="block" id="worklist-body">

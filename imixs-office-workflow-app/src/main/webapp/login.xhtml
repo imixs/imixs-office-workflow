@@ -10,14 +10,14 @@
 			window.onload = function () {
 				var mode = "#{propertyController.getProperty('security.userid.input.mode')}";
 				var j_username = document.getElementsByName('j_username')[0];
-				j_username.focus();					
+				j_username.focus();
 				if (!mode || mode === "" || mode === "LOWERCASE") {
-					j_username.addEventListener('keyup', function() {
+					j_username.addEventListener('keyup', function () {
 						this.value = this.value.toLowerCase();
 					});
 				} else {
 					if (mode.indexOf("UPPERCASE") == 0) {
-						j_username.addEventListener('keyup', function() {
+						j_username.addEventListener('keyup', function () {
 							this.value = this.value.toUpperCase();
 						});
 					}
@@ -33,23 +33,19 @@
 				</div>
 				<div class="imixs-body">
 					<div class="imixs-form-panel">
-						<div class="imixs-form-section">
-							<dl>
+						<div class="imixs-form-section-flex">
+							<dl style="grid-column-start: span 3;">
 								<dt>#{message['login.username']}</dt>
 								<dd>
-									<input type="text" name="j_username" style="width:200px;" />
+									<input type="text" name="j_username" />
 								</dd>
 								<dt>#{message['login.password']}</dt>
 								<dd>
-									<input type="password" name="j_password" style="width:200px;" />
-								</dd>
-							</dl>
-							<dl>
-								<dd>
-									<input type="submit" value="#{message['login.login']}" />
+									<input type="password" name="j_password" />
 								</dd>
 							</dl>
 						</div>
+						<input type="submit" value="#{message['login.login']}" />
 					</div>
 				</div>
 			</div>

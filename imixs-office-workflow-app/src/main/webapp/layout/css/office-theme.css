@@ -100,7 +100,7 @@ body.loading .imixs-wait   {
   display: inline;
   margin: 0em 0em 0em 2em;
 }
-  #footer1,
+#footer1,
 #footer2   {
   color: #888;
 }
@@ -806,18 +806,12 @@ th   {
   color: #666;
 }
 .imixs-search .imixs-viewentry   {
-  display: flex;
-  width: 100%;
+
 }
 .imixs-search .imixs-viewentry .image-block   {
  
 }
-.imixs-search .imixs-viewentry .content-block   {
-  flex: 7;
-  /* Ratio of 80 */
-  padding: 0 20px 0 0;
-  margin-left: 5px;
-}
+
 .imixs-search .imixs-viewentry .owner-block   {
   flex: 3;
   /* Ratio of 20 */
@@ -1819,8 +1813,12 @@ h3.imixs-form-section-header   {
   margin-top: 0.7em;
 }
   /* Input-Elemente */
-  .imixs-form-section-flex input,
-  .imixs-form-section-flex textarea,
+.imixs-form input[type="text"],
+.imixs-form input[type="password"],
+.imixs-form textarea,
+.imixs-form select,
+.imixs-form-section-flex input,
+.imixs-form-section-flex textarea,
 .imixs-form-section-flex select   {
   padding: 0.25rem 0 0.25rem 0.25rem;
   background-color: transparent;
@@ -1828,35 +1826,45 @@ h3.imixs-form-section-header   {
   box-shadow: none;
   transition: all var(--transition-time);
 }
-  .imixs-form-section-flex input:focus,
-  .imixs-form-section-flex textarea:focus,
+
+.imixs-form input[type="text"]:focus,
+.imixs-form input[type="password"]:focus,
+.imixs-form textarea:focus,
+.imixs-form select:focus,
+.imixs-form-section-flex input:focus,
+.imixs-form-section-flex textarea:focus,
 .imixs-form-section-flex select:focus   {
   outline: none;
   border: none;
   box-shadow: none;
 }
   /* Standard dd-Elemente */
-.imixs-form-section-flex dd   {
+.imixs-form-section-flex dd,
+.imixs-form dd   {
   border: none;
   min-height: 1.9rem;
   border-bottom: 1px solid var(--input-border);
 }
-.imixs-form-section-flex dl dd:hover   {
+.imixs-form-section-flex dl dd:hover,
+.imixs-form dl dd:hover   {
   border-bottom: 1px solid var(--input-border-hover) !important;
   background-color: var(--input-background-focus) !important;
 }
   /* Focus-States */
-  .imixs-form-section-flex dl:focus-within dt,
-.imixs-form-section-flex dl:focus-within dd   {
+.imixs-form-section-flex dl:focus-within dt,
+.imixs-form-section-flex dl:focus-within dd,
+.imixs-form dl:focus-within dt,
+.imixs-form dl:focus-within dd  {
   color: var(--input-focus-color) !important;
   transition: color var(--transition-time);
 }
-.imixs-form-section-flex dl:focus-within dd   {
+.imixs-form-section-flex dl:focus-within dd,
+.imixs-form dl:focus-within dd   {
   border-bottom: 1px solid var(--input-focus-color) !important;
   background-color: var(--input-background-focus) !important;
 }
-  /* Spezielle Elemente */
-  .imixs-required,
+/* Spezielle Elemente */
+.imixs-required,
 dl:focus-within .imixs-required   {
   color: var(--required-color) !important;
 }
