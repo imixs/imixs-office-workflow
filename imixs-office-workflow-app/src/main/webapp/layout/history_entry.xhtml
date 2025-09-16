@@ -5,21 +5,17 @@
 
 	<ui:param name="isactive" value="#{historyController.currentId eq workitem.item['$uniqueID']}"></ui:param>
 
-	<div class="imixs-historyentry #{isactive ? 'active' : ''}">
+	<div class="imixs-viewentry #{isactive ? 'active' : ''}">
 
-		<!-- *** Image *** -->
-		<div class="imixs-historyentry-icon" style="width:50px;">
-			<ui:include src="/layout/workitem_icon.xhtml">
-				<ui:param name="workitem" value="#{workitem}" />
-				<ui:param name="hidetooltip" value="#{isactive}" />
-				<ui:param name="showlink" value="#{true}" />
-			</ui:include>
-		</div>
+		<!-- image block  -->
+		<ui:include src="/layout/workitem_marker.xhtml">
+			<ui:param name="workitem" value="#{workitem}" />
+		</ui:include>
+
 
 
 		<!-- *** Standard Info *** -->
-		<div class="imixs-historyentry-content"
-			onclick="imixsOfficeMain.openWorkitemByID('#{workitem.item['$uniqueID']}');">
+		<div class="content-block" onclick="imixsOfficeMain.openWorkitemByID('#{workitem.item['$uniqueID']}');">
 			<span>
 				<!-- summary empty ? -->
 				<h:panelGroup rendered="#{empty workitem.item['$WorkflowSummary']}">
@@ -36,7 +32,7 @@
 		</div>
 
 		<!-- *** close action *** -->
-		<div class="imixs-historyentry-close">
+		<div class="imixs-viewentry-close">
 			<h:commandLink styleClass="close" action="#{historyController.removeWorkitem(workitem.item['$uniqueID'])}">
 				<span class="typcn typcn-times"></span>
 			</h:commandLink>

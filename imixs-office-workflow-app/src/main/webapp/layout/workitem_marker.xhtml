@@ -1,14 +1,10 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
-	
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
 	<!-- *** Image *** -->
-	<h:panelGroup layout="block" styleClass="image-block">
+	<h:panelGroup styleClass="image-block">
 		<!--  view icon  -->
 		<ui:include src="/layout/workitem_icon.xhtml">
 			<ui:param name="workitem" value="#{workitem}" />
@@ -16,23 +12,20 @@
 		</ui:include>
 
 		<!-- favorite marker -->
-		<h:panelGroup id="marked_id" layout="block" rendered="#{! hidefavorite}"
-			styleClass="imixs-favorite">
+		<h:panelGroup id="marked_id" rendered="#{! hidefavorite}" styleClass="imixs-favorite">
 			<h:commandLink title="#{message['worklist.favorite.help']}"
 				rendered="#{!userController.isFavorite(workitem.item['$uniqueid'])}"
 				actionListener="#{userController.addFavorite(workitem.item['$uniqueid'])}">
 				<span class="typcn typcn-star-outline"></span>
 				<f:ajax render="marked_id :notes_form:portlet_mytasks:portlet_worklist"
-				onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, 'notes_form:portlet_mytasks:portlet_worklist') }"
-				 />
-			
+					onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, 'notes_form:portlet_mytasks:portlet_worklist') }" />
 			</h:commandLink>
 			<h:commandLink title="#{message['worklist.favorite.help']}"
 				rendered="#{userController.isFavorite(workitem.item['$uniqueid'])}"
 				actionListener="#{userController.removeFavorite(workitem.item['$uniqueid'])}">
 				<span class="typcn typcn-star imixs-info"></span>
 				<f:ajax render="marked_id :notes_form:portlet_mytasks:portlet_worklist"
-				onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, 'notes_form:portlet_mytasks:portlet_worklist') }" />
+					onevent="function(data) { imixsOfficeMain.layoutAjaxEvent(data, 'notes_form:portlet_mytasks:portlet_worklist') }" />
 			</h:commandLink>
 		</h:panelGroup>
 
