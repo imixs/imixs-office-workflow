@@ -424,6 +424,8 @@ public class BoardController implements Serializable {
             if (getProcessRef().isEmpty()) {
                 if ("worklist.creator".equals(view)) {
                     searchController.getSearchFilter().setItemValue("usermode", "creator");
+                } else if ("worklist.participant".equals(view)) {
+                    searchController.getSearchFilter().setItemValue("usermode", "participant");
                 } else {
                     searchController.getSearchFilter().setItemValue("usermode", "owner");
                 }

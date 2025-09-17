@@ -47,11 +47,13 @@ public class DashboardAnalyticController implements Serializable {
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(DashboardAnalyticController.class.getName());
 
-    int countAll = 0;
-    int countToday = 0; // Fresh tasks today
-    int countThisWeek = 0; // Needs attention (since Monday) - Orange
+    int countAllByOwner = 0;
+    int countAllByParticipant = 0;
+    int countAllByCreator = 0;
+    int countTodayByOwner = 0; // Fresh tasks today
+    int countThisWeekByOwner = 0; // Needs attention (since Monday) - Orange
     int countOneWeek = 0; // Needs attention (since 1 week) - Orange
-    int countUrgent = 0; // Urgent tasks (7+ days) - Red
+    int countUrgentByOwner = 0; // Urgent tasks (7+ days) - Red
     boolean calculatedStats = false;
 
     protected Map<String, DashboardDataSet> dataSets = null;
@@ -112,8 +114,7 @@ public class DashboardAnalyticController implements Serializable {
 
     /**
      * This method starts a new conversation scope, reset the data sets and loads
-     * the dashboard.
-     * This method is usually called in the dashboard.xhtml page
+     * the dashboard. This method is usually called in the dashboard.xhtml page
      */
     public void onLoad() {
         dataSets = new HashMap<>();
@@ -162,35 +163,45 @@ public class DashboardAnalyticController implements Serializable {
             calculateStats(event);
         }
 
-        if ("dashboard.worklist.count.all".equals(event.getKey())) {
-            event.setValue("" + countAll);
-            // event.setLabel("offene Aufgaben");
-            event.setDescription("Meine offenen Aufgaben");
+        if ("dashboard.worklist.owner.count.all".equals(event.getKey())) {
+            event.setValue("" + countAllByOwner);
+            event.setDescription("Meine Aufgaben");
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
         }
-        if ("dashboard.worklist.count.today".equals(event.getKey())) {
-            event.setValue("" + countToday);
+        if ("dashboard.worklist.creator.count.all".equals(event.getKey())) {
+            event.setValue("" + countAllByOwner);
+            event.setDescription("Meine Vorgänge");
+            event.setLink("/pages/notes_board.xhtml?viewType=worklist.creator");
+        }
+        if ("dashboard.worklist.participant.count.all".equals(event.getKey())) {
+            event.setValue("" + countAllByParticipant);
+            event.setDescription("Meine Vorgänge");
+            event.setLink("/pages/notes_board.xhtml?viewType=worklist.participant");
+        }
+
+        if ("dashboard.worklist.owner.count.today".equals(event.getKey())) {
+            event.setValue("" + countTodayByOwner);
             // event.setLabel("neue Aufgaben");
             event.setDescription("Meine offenen Aufgaben");
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
         }
 
-        if ("dashboard.worklist.count.thisweek".equals(event.getKey())) {
-            event.setValue("" + countThisWeek);
+        if ("dashboard.worklist.owner.count.thisweek".equals(event.getKey())) {
+            event.setValue("" + countThisWeekByOwner);
             // event.setLabel("Zu Beachten");
             event.setDescription("Aufgaben seit mehr als 3 Tagen offen");
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
         }
 
-        if ("dashboard.worklist.count.oneweek".equals(event.getKey())) {
+        if ("dashboard.worklist.owner.count.oneweek".equals(event.getKey())) {
             event.setValue("" + countOneWeek);
             // event.setLabel("Zu Beachten");
             event.setDescription("Aufgaben seit mehr als 3 Tagen offen");
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
         }
 
-        if ("dashboard.worklist.count.urgent".equals(event.getKey())) {
-            event.setValue("" + countUrgent);
+        if ("dashboard.worklist.owner.count.urgent".equals(event.getKey())) {
+            event.setValue("" + countUrgentByOwner);
             // event.setLabel("Dringende Aufgaben");
             event.setDescription("Aufgaben seit mehr als 1 Woche offen");
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
@@ -202,15 +213,21 @@ public class DashboardAnalyticController implements Serializable {
      * Läd die statistik daten zu einem debitor aus den aktuellen Rechnungen
      */
     private void calculateStats(AnalyticEvent event) {
-        countAll = 0;
-        countToday = 0; // Fresh tasks (0-3 days) - Blue
-        countThisWeek = 0; // Needs attention (3-7 days) - Orange
-        countUrgent = 0; // Urgent tasks (7+ days) - Red
+        countAllByOwner = 0;
+        countAllByCreator = 0;
+        countAllByParticipant = 0;
+        countTodayByOwner = 0; // Fresh tasks (0-3 days) - Blue
+        countThisWeekByOwner = 0; // Needs attention (3-7 days) - Orange
+        countUrgentByOwner = 0; // Urgent tasks (7+ days) - Red
         logger.info("├──calculate stats for " + loginController.getUserPrincipal() + "....");
 
         // count tasks
         try {
-            countAll = documentService.count("(type:workitem) AND ($owner:\"" +
+            countAllByOwner = documentService.count("(type:workitem) AND ($owner:\"" +
+                    loginController.getUserPrincipal() + "\")");
+            countAllByCreator = documentService.count("(type:workitem) AND ($creator:\"" +
+                    loginController.getUserPrincipal() + "\")");
+            countAllByParticipant = documentService.count("(type:workitem) AND ($participants:\"" +
                     loginController.getUserPrincipal() + "\")");
 
             // Calculate threshold dates
@@ -231,13 +248,13 @@ public class DashboardAnalyticController implements Serializable {
             // Fresh tasks (today)
             String from = todayStr + "000000";
             String to = todayStr + "235959";
-            countToday = countTasks(from, to);
+            countTodayByOwner = countTasks(from, to);
             logger.info("   Today: [" + from + " TO " + to + "]");
 
             // Tasks needing attention (This week)
             from = startOfWeekStr + "000000";
             to = yesterdayStr + "235959";
-            countThisWeek = countTasks(from, to);
+            countThisWeekByOwner = countTasks(from, to);
             logger.info("   ThisWeek: [" + from + " TO " + to + "]");
 
             // Tasks needing attention (one week)
@@ -249,14 +266,14 @@ public class DashboardAnalyticController implements Serializable {
             // Urgent tasks (older than 1 Week) - from start TO oneWeekAgo-1
             from = "19700101000000";
             to = oneWeekAgoStr + "235959";
-            countUrgent = countTasks(from, to);
+            countUrgentByOwner = countTasks(from, to);
             logger.info("   Urgent: [" + from + " TO " + to + "]");
 
-            logger.info("├── Results: Today=" + countToday
-                    + ", This Week=" + countThisWeek
+            logger.info("├── Results: Today=" + countTodayByOwner
+                    + ", This Week=" + countThisWeekByOwner
                     + ", One Week=" + countOneWeek
                     + ", Urgent="
-                    + countUrgent + ", Total=" + countAll);
+                    + countUrgentByOwner + ", Total=" + countAllByOwner);
 
             calculatedStats = true;
         } catch (QueryException e) {

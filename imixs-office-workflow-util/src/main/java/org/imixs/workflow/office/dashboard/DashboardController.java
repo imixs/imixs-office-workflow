@@ -27,6 +27,35 @@ public class DashboardController implements Serializable {
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(DashboardAnalyticController.class.getName());
 
+    public static String DASHBOARD_DEFAULT_DEFINITION = "<imixs-form>\n" + //
+            "  <imixs-form-section columns=\"4\" label=\"\">\n" + //
+            "     <item name=\"dashboard.worklist.owner.count.today\" type=\"custom\" path=\"cards/plain\"  label=\"\"\n"
+            + //
+            "           options='{\"class\":\"flat success\", \"icon\":\"fa-inbox\", \"label\":\"Neue Aufgaben\", \"description\":\"Neue Aufgaben seit Heute\"}'   />\n"
+            + //
+            "     <item name=\"dashboard.worklist.owner.count.oneweek\" type=\"custom\" path=\"cards/plain\"  label=\"\"\n"
+            + //
+            "           options='{\"class\":\"flat warning\", \"icon\":\"fa-exclamation-triangle\", \"label\":\"Zu Beachten\", \"description\":\"Aufgaben seit einer Woche offen\"}'    />\n"
+            + //
+            "     <item name=\"dashboard.worklist.owner.count.urgent\" type=\"custom\" path=\"cards/plain\"  label=\"\"\n"
+            + //
+            "           options='{\"class\":\"flat error\", \"icon\":\"fa-fire\", \"label\":\"Dringend\", \"description\":\"Aufgaben seit mehr als 1 Woche offen\"}'    />\n"
+            + //
+            "    <item name=\"dashboard.worklist.participant.count.all\" type=\"custom\" path=\"cards/plain\" label=\"\"\n"
+            + //
+            "           options='{\"class\":\"flat\", \"icon\":\"fa-tasks\", \"label\":\"Meine Vorgänge\", \"description\":\"Offene Vorgänge mit Ihrer Beteiligung.\"}' />\n"
+            + //
+            "   </imixs-form-section>\n" + //
+            "  <imixs-form-section columns=\"2\">\n" + //
+            "    <item name=\"dashboard.worklist.owner\" type=\"custom\" path=\"cards/worklist\"\n" + //
+            "         options='{ \"label\":\"Meine Aufgaben\", \"description\":\"Aufgaben, die Ihrer Bearbeitung bedürfen.\", \"pagesize\":\"10\"}'/>\n"
+            + //
+            "    <item name=\"dashboard.worklist.favorite\" type=\"custom\" path=\"cards/worklist\"\n" + //
+            "         options='{ \"label\":\"Meine Favoriten\", \"description\":\"Mit Stern markierte Aufgaben, die Sie im Blick behalten möchten.\", \"pagesize\":\"10\"}'/>\n"
+            + //
+            "  </imixs-form-section>\n" + //
+            "</imixs-form> ";
+
     ItemCollection configItemCollection;
     private String setupConfigUniqueID = null;
 
@@ -52,12 +81,14 @@ public class DashboardController implements Serializable {
             }
         }
 
-        return configItemCollection;
-    }
+        // Test if a 'dashboard.from' is defined. If not, we set the default from here.
+        if (configItemCollection.getItemValueString("dashboard.form").isBlank()) {
+            // set default form
+            logger.info("Set DASHBOARD_DEFAULT_DEFINITION...");
+            configItemCollection.setItemValue("dashboard.form", DASHBOARD_DEFAULT_DEFINITION);
+        }
 
-    public boolean hasDashboard() {
-        configItemCollection = getConfiguration();
-        return !configItemCollection.getItemValueString("dashboard.form").isBlank();
+        return configItemCollection;
     }
 
     /**

@@ -2,18 +2,37 @@
     <imixs-form-section columns="4" label="">
         <item name="dashboard.worklist.count.today" type="custom" path="cards/plain" label=""
             options='{"class":"flat success", "icon":"fa-inbox", "label":"Neue Aufgaben", "description":"Neue Aufgaben seit Heute"}' />
+        <!--   <item name="dashboard.worklist.count.thisweek" type="custom" path="cards/plain"
+        label=""
+           options='{"class":"flat info", "icon":"fa-inbox", "label":"Neue Aufgaben", "description":"Neue
+        Aufgaben seit Montag"}'   />
+-->
         <item name="dashboard.worklist.count.oneweek" type="custom" path="cards/plain" label=""
             options='{"class":"flat warning", "icon":"fa-exclamation-triangle", "label":"Zu Beachten", "description":"Aufgaben seit einer Woche offen"}' />
         <item name="dashboard.worklist.count.urgent" type="custom" path="cards/plain" label=""
             options='{"class":"flat error", "icon":"fa-fire", "label":"Dringend", "description":"Aufgaben seit mehr als 1 Woche offen"}' />
         <item name="dashboard.worklist.count.all" type="custom" path="cards/plain" label=""
             options='{"class":"flat", "icon":"fa-tasks", "label":"Alle Aufgaben", "description":"Meine offenen Aufgaben"}' />
+
     </imixs-form-section>
+
 
     <imixs-form-section columns="2">
         <item name="dashboard.worklist.owner" type="custom" path="cards/worklist"
             options='{ "label":"Meine Aufgaben", "description":"Aufgaben die offen sind", "pagesize":"10"}' />
+        <!-- <item name="dashboard.worklist.participant" type="custom" path="cards/worklist"
+         options='{ "label":"Meine Aufgaben", "description":"", "pagesize":"10"}'/> -->
         <item name="dashboard.worklist.favorite" type="custom" path="cards/worklist"
             options='{ "label":"Meine Favoriten", "description":"", "pagesize":"10"}' />
     </imixs-form-section>
+
+    <imixs-form-section columns="3" label="">
+        <item name="worklist.stats.count.beschaffung" type="custom" path="cards/plain"
+            options='{"class":"lead", "key":"process", "value":"Beschaffung"}' />
+        <item name="worklist.stats.chart.beschaffung" type="custom" path="cards/chart"
+            options='{"key":"process", "value":"Beschaffung"}' />
+        <item name="worklist.stats.chart.rechnungseingang" type="custom" path="cards/chart"
+            options='{"key":"$workflowgroup", "value":"Rechnungseingang"}' />
+    </imixs-form-section>
+
 </imixs-form> 

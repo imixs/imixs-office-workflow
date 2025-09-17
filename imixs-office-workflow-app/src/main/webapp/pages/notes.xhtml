@@ -2,24 +2,51 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	template="/layout/template.xhtml">
 
 	<h:head>
-		<c:choose>
-			<c:when test="#{! empty workitem}">
-				<meta http-equiv="refresh"
-					content="0; URL=#{facesContext.externalContext.requestContextPath}/pages/workitems/workitem.xhtml?workitem=#{workitem}" />
-			</c:when>
-			<c:when test="#{loginController.authenticated and dashboardController.hasDashboard()}">
-				<meta http-equiv="refresh"
-					content="0; URL=#{facesContext.externalContext.requestContextPath}/pages/dashboard.xhtml" />
-			</c:when>
-			<c:otherwise>
-				<meta http-equiv="refresh"
-					content="0; URL=#{facesContext.externalContext.requestContextPath}/pages/notes_tasks.xhtml" />
-			</c:otherwise>
-		</c:choose>
+		<f:metadata>
+			<f:viewAction action="#{dashboardAnalyticController.onLoad()}" />
+		</f:metadata>
 	</h:head>
+	<ui:define name="content">
+		<f:view>
+			<h:form id="dashboard_form">
+				<h:panelGroup styleClass="imixs-form-panel imixs-view" layout="block" id="dashboard_form_id"
+					binding="#{formComponents}">
+					<div class="imixs-header">
+						<h1>#{message['worklist.owner']}
+							<a href="javascript:void(0)" class="pull-right menu-toggle" style="margin-right: 20px;"
+								onclick="imixsOfficeMain.toggleDashboardPanel()" title="#{app['portlet_process']}">
+								<span style="font-size: 0.75em;"></span> <i class="fas fa-bars"></i>
+							</a>
+						</h1>
+					</div>
 
+					<!-- Dashboard -->
+					<div class="imixs-body" style="display: flex;">
+						<!-- Main Panel -->
+						<div class="dashboard-main">
 
+							<h:panelGroup id="custom_subview_id" binding="#{customFormComponents}">
+								<ui:include src="/pages/workitems/forms/custom_sections.xhtml">
+									<ui:param name="customFormSections" value="#{customFormController.sections}" />
+									<ui:param name="workitem" value="#{dashboardAnalyticController.workitem}" />
+									<ui:param name="readonly" value="#{section.readonly}" />
+								</ui:include>
+							</h:panelGroup>
+
+						</div>
+
+						<!-- Admin Panel -->
+						<div class="dashboard-admin-panel" id="adminPanel">
+							<ui:include src="/pages/dashboard_admin.xhtml" />
+						</div>
+					</div>
+				</h:panelGroup>
+
+			</h:form>
+		</f:view>
+	</ui:define>
 </ui:composition>
