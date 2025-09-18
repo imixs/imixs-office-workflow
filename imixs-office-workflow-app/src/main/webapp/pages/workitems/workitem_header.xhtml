@@ -4,7 +4,7 @@
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 	<div style="display: flex;">
-		<div>
+		<div style="flex:1;">
 			<h1>
 				<h:outputText value="#{workflowController.workitem.item['$workflowgroup']}" />
 				»
@@ -16,47 +16,54 @@
 
 
 			<!-- Workitem Info Header -->
-			<!-- *** Image *** -->
-			<div class="image-block">
-				<ui:include src="/layout/workitem_icon.xhtml">
-					<ui:param name="workitem" value="#{workflowController.workitem}" />
-					<ui:param name="hidetooltip" value="#{true}" />
-				</ui:include>
+			<div class="imixs-form-header">
+				<!-- *** Image *** -->
+				<div class="image-block">
+					<ui:include src="/layout/workitem_icon.xhtml">
+						<ui:param name="workitem" value="#{workflowController.workitem}" />
+						<ui:param name="hidetooltip" value="#{true}" />
+					</ui:include>
+				</div>
+
+				<ui:remove><!-- *** Standard Info *** --></ui:remove>
+				<div class="content-block">
+					<h2>
+						<h:outputText escape="false"
+							rendered="#{empty workflowController.workitem.item['$WorkflowSummary']}"
+							value="#{message.new_workitem}" />
+						<h:outputText escape="false"
+							rendered="#{!empty workflowController.workitem.item['$WorkflowSummary']}"
+							value="#{workflowController.workitem.item['$WorkflowSummary']}" />
+					</h2>
+					<h:outputLabel value="#{message['process.title']}: " />
+					<h:link outcome="/pages/notes_board?processref=#{workflowController.workitem.item['process.Ref']}">
+						<h:outputText value="#{workflowController.workitem.item['Process.Name']}" />
+					</h:link>
+
+					<ui:remove><!-- *** Owners *** --></ui:remove>
+					<h:panelGroup styleClass="imixs-no-print" layout="block">
+						<ui:repeat value="#{workflowController.workitem.itemList['$owner']}" var="name">
+
+							<ui:param name="profile" value="#{userController.getProfile(name)}"></ui:param>
+							<ui:fragment rendered="#{! empty profile}">
+								<h:graphicImage styleClass="imixs-workitem-chronicle-usericon"
+									title="#{profile.item['txtusername']}"
+									rendered="#{! empty profile.item['txtusericon']}"
+									value="/api/snapshot/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
+								</h:graphicImage>
+
+								<!-- optional - user initials -->
+								<h:panelGroup layout="block" rendered="#{empty profile.item['txtusericon']}">
+									<h:outputText styleClass="imixs-workitem-chronicle-usericon"
+										title="#{profile.item['txtusername']}" value="#{profile.item['txtinitials']}" />
+								</h:panelGroup>
+							</ui:fragment>
+						</ui:repeat>
+					</h:panelGroup>
+				</div>
+
 			</div>
 
-			<ui:remove><!-- *** Standard Info *** --></ui:remove>
-			<div class="content-block">
-				<h2>
-					<h:outputText escape="false"
-						rendered="#{empty workflowController.workitem.item['$WorkflowSummary']}"
-						value="#{message.new_workitem}" />
-					<h:outputText escape="false"
-						rendered="#{!empty workflowController.workitem.item['$WorkflowSummary']}"
-						value="#{workflowController.workitem.item['$WorkflowSummary']}" />
-				</h2>
-				<h:outputLabel value="#{message['process.title']}: " />
-				<h:link outcome="/pages/notes_board?processref=#{workflowController.workitem.item['process.Ref']}">
-					<h:outputText value="#{workflowController.workitem.item['Process.Name']}" />
-				</h:link>
-			</div>
-			<h:panelGroup styleClass="imixs-no-print">
-				<ui:repeat value="#{workflowController.workitem.itemList['$owner']}" var="name">
-
-					<ui:param name="profile" value="#{userController.getProfile(name)}"></ui:param>
-					<ui:fragment rendered="#{! empty profile}">
-						<h:graphicImage styleClass="imixs-workitem-chronicle-usericon"
-							title="#{profile.item['txtusername']}" rendered="#{! empty profile.item['txtusericon']}"
-							value="/api/snapshot/#{profile.item['$uniqueid']}/file/#{profile.item['txtusericon']}">
-						</h:graphicImage>
-
-						<!-- optional - user initials -->
-						<h:panelGroup layout="block" rendered="#{empty profile.item['txtusericon']}">
-							<h:outputText styleClass="imixs-workitem-chronicle-usericon"
-								title="#{profile.item['txtusername']}" value="#{profile.item['txtinitials']}" />
-						</h:panelGroup>
-					</ui:fragment>
-				</ui:repeat>
-			</h:panelGroup>
 		</div>
 
 

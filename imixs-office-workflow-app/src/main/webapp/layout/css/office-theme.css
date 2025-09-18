@@ -305,10 +305,28 @@ dl dt input[type="text"]:hover   {
 }
 .imixs-form .imixs-header   {
   padding: 0px 10px 10px 10px;
-  margin-bottom: 5px;
-  border-bottom: 2px solid #ddd;
 }
-  .imixs-form .imixs-header label,
+
+/* Form header */
+.imixs-header .imixs-form-header   {
+  display: flex;
+  gap: 10px;
+  border-bottom: none;
+  padding: 10px 0px;
+  background: #f4f4f4;
+  border-radius: 5px;
+}
+
+/* f4f4f4  ECF3F8 */
+.imixs-form-header, .imixs-view-header   {
+  padding: 5px 10px 5px;
+}
+
+.imixs-header .imixs-form-header .content-block h2   {
+  margin: 0;
+}
+
+.imixs-form .imixs-header label,
 .imixs-form .imixs-footer label   {
   font-weight: bold;
 }
@@ -881,6 +899,8 @@ th   {
   color: #bbb;
 }
 
+
+
   /*
   * Reports
   */
@@ -899,39 +919,10 @@ th   {
   border: none;
 }
 
-.imixs-form-header, .imixs-view-header   {
-  background: #ECF3F8;
-  padding: 5px 10px 5px;
-  margin-bottom: 20px;
-  -webkit-border-radius: 10px;
-  -khtml-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-}
-.imixs-form-footer, .imixs-view-footer   {
-  background: #ECF3F8;
-  padding: 10px 10px;
-  margin-bottom: 20px;
-  -webkit-border-radius: 10px;
-  -khtml-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-}
-.imixs-form-footer   {
-  background: #FFDF89;
-}
-.imixs-subform-body   {
-  background: #83C6EA;
-  border: 2px solid #83C6EA;
-  -webkit-border-radius: 10px;
-  -khtml-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  padding: 10px 10px;
-  margin: 10px 0;
-}
+
+
   /* --- Imixs Attachments ------------------------------ */
-  .imixs-form-panel-documentviewer .imixs-form-attachments .col-6,
+.imixs-form-panel-documentviewer .imixs-form-attachments .col-6,
 .imixs-form-tab-documentviewer .imixs-form-attachments .col-6   {
   clear: both;
   float: none;
@@ -1042,7 +1033,6 @@ th   {
   padding-left: 22px !important;
 }
 .imixs-date   {
-  width: 110px !important;
   background: url(./calendar_14.png) no-repeat scroll left center white !important;
   background-position: 4px 6px, center !important;
   padding-left: 22px !important;
@@ -1053,7 +1043,7 @@ th   {
   background-position: 4px 6px, center !important;
   padding-left: 22px !important;
 }
-  .imixs-username,
+.imixs-username,
 .imixs-usergroup   {
   width: 100% !important;
   background: url(./group_16.png) no-repeat scroll left center white !important;
@@ -1092,8 +1082,8 @@ dl dd .imixs-datetime-picker select   {
   border-left: 4px solid #206B87;
   border-bottom: 1px solid #206B87;
 }
-  .imixs-form .imixsdatatable td,
-th   {
+.imixs-form .imixsdatatable td,
+th {
   padding: 5px;
 }
 .imixsdatatable .DataTables_sort_icon   {
@@ -1811,21 +1801,21 @@ h3.imixs-form-section-header   {
 }
 .imixs-form-section-flex dl:not(.imixs-readonly) dd:hover,
 .imixs-form dl:not(.imixs-readonly) dd:hover   {
-  border-bottom: 1px solid var(--input-border-hover) !important;
-  background-color: var(--input-background-hover) !important;
+  border-bottom: 1px solid var(--input-border-hover) ;
+  background-color: var(--input-background-hover)
 }
   /* Focus-States */
 .imixs-form-section-flex dl:focus-within dt,
 .imixs-form-section-flex dl:focus-within dd,
 .imixs-form dl:focus-within dt,
 .imixs-form dl:focus-within dd  {
-  color: var(--input-focus-color) !important;
+  color: var(--input-focus-color) ;
   transition: color var(--transition-time);
 }
-.imixs-form-section-flex dl:focus-within dd,
-.imixs-form dl:focus-within dd   {
-  border-bottom: 1px solid var(--input-focus-color) !important;
-  background-color: var(--input-background-focus) !important;
+.imixs-form-section-flex dl:not(.imixs-readonly):focus-within dd,
+.imixs-form dl:not(.imixs-readonly):focus-within dd   {
+  border-bottom: 1px solid var(--input-focus-color) ;
+  background-color: var(--input-background-focus);
 }
 /* Spezielle Elemente */
 .imixs-required,

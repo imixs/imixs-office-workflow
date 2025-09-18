@@ -8,7 +8,7 @@
 		value="#{modelController.getProcessDescription(workflowController.workitem.item['$taskid'],workflowController.workitem.item['$ModelVersion'],workflowController.workitem)}">
 	</ui:param>
 
-	<h:panelGroup layout="block" styleClass="imixs-instruction" rendered="#{! empty instruction}">
+	<h:panelGroup layout="block" styleClass="imixs-instruction imixs-no-print" rendered="#{! empty instruction}">
 		<h:outputText escape="false" value="#{instruction}" />
 	</h:panelGroup>
 
