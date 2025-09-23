@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
+import org.imixs.ai.workflow.OpenAIAPIConnector;
 import org.imixs.ai.workflow.OpenAIAPIService;
 import org.imixs.marty.profile.UserController;
 import org.imixs.workflow.FileData;
@@ -101,6 +102,12 @@ public class AIController implements Serializable {
 
 	@Inject
 	OpenAIAPIService openAIAPIService;
+
+	@Inject
+	OpenAIAPIConnector openAIAPIConnector;
+
+	@Inject
+	AIService aiService;
 
 	private CompletableFuture<Void> streamingFuture;
 
@@ -171,8 +178,9 @@ public class AIController implements Serializable {
 	 */
 	private void streamPromptCompletion(JsonObject jsonPromptObject) throws PluginException {
 		try {
-
-			HttpURLConnection conn = openAIAPIService.createHttpConnection(null);
+			HttpURLConnection conn = openAIAPIConnector.createHttpConnection(aiService.getServiceEndpoint(),
+					OpenAIAPIConnector.ENDPOINT_URI_COMPLETIONS);
+			// HttpURLConnection conn = openAIAPIService..createHttpConnection(null);
 			conn.setRequestProperty("Accept", "text/event-stream");
 
 			// Write the JSON object to the output stream
