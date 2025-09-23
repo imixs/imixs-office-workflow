@@ -1099,22 +1099,26 @@ th {
   border: 1px solid #ddd;
 }
 .imixsdatatable tbody tr:HOVER td   {
-  background: #e4f5fb;
-  background-color: #e4f5fb;
+  background: var(--input-background-hover);
+  background-color: var(--input-background-hover);
   color: #222;
 }
-.imixsdatatable tbody tr:HOVER a   {
+.imixsdatatable tbody tr:HOVER td a  {
   color: #428bca;
 }
-.imixsdatatable tbody tr:hover   {
-  border-left: 4px solid #428bca;
+.imixsdatatable tbody tr:focus-within dd  {
+  border-bottom: 1px solid var(--input-focus-color) ;
+  background-color: var(--input-background-focus);
 }
-.imixsdatatable tbody tr td:first-child   {
-  padding-left: 4px;
+.imixsdatatable tbody tr:focus-within td {
+    background: var(--input-background-focus) !important;
+    color: #222;
 }
-.imixsdatatable tbody tr:hover td:first-child   {
-  padding-left: 4px;
+.imixsdatatable td:focus-within {
+    border-bottom: 1px solid var(--input-focus-color) !important;
 }
+
+
 .imixs-label   {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
