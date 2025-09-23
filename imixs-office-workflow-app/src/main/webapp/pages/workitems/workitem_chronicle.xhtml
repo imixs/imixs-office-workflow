@@ -16,15 +16,17 @@
 				<dd>
 					<h:inputTextarea value="#{workflowController.workitem.item['txtComment']}" />
 				</dd>
-
+			</dl>
+			<dl class="imixsWidgetAddNewLabel imixs-no-print">
 				<dt>#{message.documents}:</dt>
 				<dd>
-					<i:imixsFileUploadAjax id="file_upload_id" labelButton="#{message.documents_upload}" labelHelp="#{message.documents_upload_help}"/>
+					<i:imixsFileUploadAjax id="file_upload_id" labelButton="#{message.documents_upload}"
+						labelHelp="#{message.documents_upload_help}" />
 				</dd>
 
 			</dl>
 		</div>
-		
+
 	</div>
 
 	<ui:param name="newWorkitem" value="#{workflowController.isNewWorkitem()}" />
@@ -34,7 +36,7 @@
 				<li class="active"><a href="#" onclick="imixsOfficeWorkitem.toggleChronicleHistory();return false;"
 						class="chronicle-tab-history"><span class="typcn typcn-rss"></span> #{message.history}</a></li>
 			</ui:fragment>
-			
+
 
 			<ui:fragment rendered="#{propertyController.getProperty('feature.imixs_ai')}">
 				<li class=""><a href="#" onclick="imixsOfficeWorkitem.toggleChronicleAI();return false;"
@@ -49,7 +51,7 @@
 		<div id="imixs-workitem-chronicle-tab-history" class="entries">
 			<ui:include src="/pages/workitems/workitem_chronicle_entries.xhtml" />
 		</div>
-		
+
 
 		<div id="imixs-workitem-chronicle-tab-ai" style="display:none;" class="documents imixs-no-print">
 			<ui:include src="/pages/workitems/workitem_ai.xhtml" />
