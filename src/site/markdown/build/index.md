@@ -1,103 +1,109 @@
-# How to create a custom build from Imixs Office Workflow
+# How to Build your Custom Version of Imixs Office Workflow
 
-There a different ways how you can build and customize Imixs Office Workfow. One possibility is to check out the Imixs Office Project source and build it from source. After that you can customize each element of your build.
-If you just want to run the latest version of Imixs-Office-Workflow see the [Quick Start Guide](../install/quick_install.html).
-
-## Build from Source
-
-This way is typical used if you plan to test, customize and contribute you changes
-directly to this open source project. The disadvantage of this strategy is that you run out
-of sync and create a lot of merge conflicts if you work on the trunk version of Imixs Office
-Workflow.
+Imixs-Office-Workflow is a powerful and highly customizable workflow application platform. Although Imixs-Office-Workflow can be used out of the box as a [standard application](../install/quick_install.html), it is also possible to create a so-called custom build. A custom build inherits all the functionality of the Imixs-Office-Workflow but also provides the ability to add or customize new features.
 
 ## Create a custom build from the Imixs Office Archetype
 
-The recommended way to create a custom build from Imixs Office Workflow is using the
-imixs-office-archetype. In this scenario you create you own custom build based on the
-latest version of Imixs Office Workflow. You can change the behaviour and layout of your
-custom build without conflicting with any updates made by the Imixs Marty project. Also
-you can easily upgrade to any new version of imixs worklow or imixs marty.
+Imixs-Office-Workflow is a Java Enterprise Application. You don't have to be a Java EE developer, however, it is useful to be familiar with the concepts of Java and Java EE. Imixs-Office-Workflow itself is running on an application server. With the help of Docker a manual installation of a Java EE application server is not required. If you go through this tutorial, the application will be deployed into a docker container. This Docker image can also be used in production environment, though, a custom configuration is recommended for most cases.
+Maven 3.x & Docker
 
-## Creating a custom build using Eclipse
+Imixs-Office-Workflow is build on [maven](https://maven.apache.org/) build tool for Java projects. It is recommended that you have installed Apache Maven 3.0 or higher. Also you should be familiar with the build concept of maven. To run you application we use Docker. Make sure you have installed the Docker runtime before you start.
+Let's get Started!
 
-To create a new maven project from an archetype you can use the Eclipse IDE with the
-Maven Plugin (m2e). This Eclipse plugin provides an easy wizard to create a new maven
-project based on an archetype.
+When you met the prerequisites, then you can start with your custom build. As Imixs-Office-Workflow is based on Maven even the custom build is created by a Maven Archetype.
 
-- 1.) From the main menue choose 'File -> New -> other'
+You can change the behavior and layout of your custom build without conflicting with any updates made by the Imixs-Office-Workflow project. Also you can easily upgrade to any new version.
+Creating a custom build using Eclipse
 
-- 2.) Select 'Maven -> Maven Project' and click next
+To create a new maven project from an archetype you can use the maven commandline tool:
 
-- 3.) Leave the default creation setup and click next again
+```bash
+$ mvn archetype:generate\
+    -DarchetypeGroupId=org.imixs.workflow\
+    -DarchetypeArtifactId=imixs-office-archetype\
+    -DarchetypeVersion=5.1.0
+```
 
-- 4.) Now search for the Imixs archetype by entering 'com.imixs.workflow'. Eclipse will search the repository for the latest archetype
+you will be asked for a groupId and an artefactId of your new project:
 
-<img src="build/maven001.png" />
+```bash
+...
+Define value for property 'groupId': foo.my-app
+Define value for property 'artifactId': office-custom-app
+Define value for property 'version' 1.0-SNAPSHOT:
+Define value for property 'package' foo.my-app:
+Confirm properties configuration:
+groupId: foo.my-app
+artifactId: office-my-app
+version: 1.0.0
+package: foo.my-app
+ Y: Y
+```
 
-- 5.) Click next to setup your project, choose a groupid and artefact id
+The result will be created in a directory structure like this:
 
-- 6.) click finish to create the project
+```
+my-office-app/
+├── devi
+├── pom.xml
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── (optional new java classes)
+│       └── webapp/
+│           ├── WEB-INF/
+│           │   └── (optional new configuration settings)
+│           └── (new pages)
+└── target/
+```
 
-## Create a custom build using maven comandline tool
+The directory contains already a bash script to build and start the environment. Change the execution flag if necessary (Linux)
 
-These are the steps to create you own new custom build using the maven command line:
+```bash
+$ chmod u+x devi
+```
 
-    mvn archetype:generate -Dfilter=imixs-office
+You can setup the environment with:
 
-# How to build Imixs-Office-Workflow
+```bash
+$ ./devi setup
+```
 
-Imixs Office Workflow is based on the Imixs Workflow project and the subproject 'marty'. Both projects are open source.
-All artifacts are based on maven so it is quite simple to build the imixs-office-workflow manually form sources.
+To start the docker environment run:
 
-## Build latest devevelopment release
+```bash
+$ ./devi start
+```
 
-To build the latest development release of Imixs-Office-Workflow follow these steps:
+To build the application run:
 
-### Build the Imixs-Marty modules
+```bash
+$ ./devi build
+```
 
-First you need to checkout the marty project from GitHub and build the marty components:
+After you have startet you application follow the [Quick-Start Guide](../quickstart.html) to setup you new custom instance of Imixs-Office-Workflow
 
-    git clone https://github.com/imixs/imixs-marty.git
-    cd imixs-marty
-    mvn install
+## Mount Points
 
-### Build Imixs-Office-Workflow
+The default configuration sets a local mount point for a hot deployment and the import of data files:
 
-Next you can checkout the Imixs-Office-Workflow project from GitHub and build the EAR file:
+```
+....
+    volumes:
+      - ./docker/deployments:/opt/jboss/wildfly/standalone/deployments/
+      - ./import_examples:/opt/jboss/import_examples/
+...
+```
 
-    git clone https://github.com/imixs/imixs-office-workflow.git
-    cd imixs-office-workflow
-    mvn install
+## Upgrade Versions
 
-After a successful build the WAR file is located under the target/ folder.
+You can change the version to upgrade your application to the latest Build of Imixs-Office-Workflow and Imixs-Workflow.
+Open the pom.xml file and change the version in the sections `properties`. After that you can rebuild you application with `$ ./devi setup`.
 
-Per default the build is created for Wildfly Application Server. You can also build the project for different platforms:
+## Customization
 
-    mvn install -Ppayara-micro
+To customize the layout of your application you can edit the file `src/main/webapp/layout/css/custom.css`.
 
-## Snapshot Release
+You can also add new pages, custom form parts and sections. Just add the new files into `/src/main/webapp`.
 
-The required artifacts from the Imixs Workflow project are hosted by the maven centrale repository. So there is no need to checkout and build these artifacts manually. If you are working with the latest snapshot releases please make sure that the sonatype
-maven snapshot repository is listed in your maven ./m2/settings.xml file:
-
-    ....
-    <repositories>
-    ....
-    <!-- Sonatype Snapshot repository -->
-    <repository>
-    <id>sonatype-snaptshots</id>
-    <name>Sonatype Snapshot repository</name>
-    <url>http://oss.sonatype.org/content/repositories/snapshots </url>
-    </repository>
-    </repositories>
-    ....
-
-## Configuration
-
-After the maven build process was successful you can install the war file into your application server. The WAR artefact expects the following configurations:
-
-- a jndi database pool named 'jdbc/imixs_office'
-
-- a jaas security realm named 'imixsrealm' with at least one user assigned to the group 'IMIXS-WORKFLOW-Manager'
-
-A detailed description of the install process on wildfly can be found [here](../install/wildfly.html).
+Also you can implement your own CDI Beans and Services under `/src/main/java`.
