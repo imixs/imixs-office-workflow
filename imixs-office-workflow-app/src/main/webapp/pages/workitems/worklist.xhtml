@@ -57,7 +57,7 @@
 					<div class="imixs-body">
 						<!-- *** Header **** -->
 						<ui:fragment rendered="#{empty searchController.defaultQuery}">
-							<div class="imixs-header" style="">
+							<div class="imixs-header">
 								<!-- *** Header **** -->
 								<ui:include src="/pages/workitems/worklist_header.xhtml" />
 							</div>
@@ -66,7 +66,6 @@
 
 						<div class="imixs-view-submit-panel">
 							<!-- Search Button and Search Order -->
-
 
 							<h:commandButton value="#{message.search}" action="#{searchController.refreshSearch()}">
 								<f:ajax render="@form" execute="@form" onevent="updateSearchForm" />
@@ -83,19 +82,16 @@
 										value="#{message['worklist.sortorder']}: " />
 									<h:selectOneMenu style="background:#fff;"
 										value="#{searchController.searchFilter.item['sortorder']}">
-										<f:selectItem itemValue=""
+										<f:selectItem itemValue="0"
 											itemLabel="#{message['worklist.sortorder_relevance']}" />
 										<f:selectItem itemValue="3"
 											itemLabel="#{message['worklist.sortorder_lastupdate']}" />
-
 										<f:selectItem itemValue="1"
 											itemLabel="#{message['worklist.sortorder_newest']}" />
 										<f:selectItem itemValue="2"
 											itemLabel="#{message['worklist.sortorder_oldest']}" />
 
-
-										<f:ajax event="change" render="@form"
-											listener="#{searchController.refreshSearch}"
+										<f:ajax event="change" render="@form" listener="#{viewHandler.init()}"
 											onevent="imixsOfficeMain.layoutAjaxEvent" />
 									</h:selectOneMenu>
 									<span>
@@ -120,9 +116,6 @@
 							</div>
 
 						</div>
-
-
-
 
 						<ui:fragment rendered="#{!noresult}">
 							<h:panelGroup layout="block" id="worklist-body">
