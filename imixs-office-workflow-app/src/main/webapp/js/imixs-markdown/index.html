@@ -8,14 +8,21 @@
     <link href="../../layout/css/fontawesome/css/all.min.css" charset="UTF-8" type="text/css" rel="stylesheet" />
 
 
-    <link rel="stylesheet" href="imixs-markdown.css">
+    <link rel="stylesheet" href="../../layout/css/office-theme-markdown.css">
 
     <!-- Your script loading order here -->
     <script src="../marked.min.js"></script>
-    <script src="turndown.js"></script>
-    <script src="turndown-plugin-gfm.js"></script>
-    <script src="imixs-markdown-converter.js"></script>
-    <script src="imixs-markdown-editor.js"></script>
+    <script src="../turndown.js"></script>
+    <script src="../turndown-plugin-gfm.js"></script>
+    <script src="../imixs-core.js"></script>
+    <script src="../imixs-office.markdowneditor.js"></script>
+
+    <script type="text/javascript">
+        // define script name spaces
+        var imixs = IMIXS.org.imixs.core;
+    </script>
+
+
 </head>
 
 <body>
@@ -29,22 +36,24 @@
     <div class="editor-header">
         <span class="editor-title"></span>
         <div class="editor-toolbar">
-            <div class="toolbar-icon active" onclick="switchToEditor()" id="editorToggle" title="WYSIWYG Editor">
+            <div class="toolbar-icon active" onclick="imixsMarkdownEditor.switchToEditor()" id="editorToggle"
+                title="WYSIWYG Editor">
                 <i class="fas fa-edit"></i>
             </div>
-            <div class="toolbar-icon" onclick="switchToSource()" id="sourceToggle" title="Markdown Source">
+            <div class="toolbar-icon" onclick="imixsMarkdownEditor.switchToSource()" id="sourceToggle"
+                title="Markdown Source">
                 <i class="fas fa-code"></i>
             </div>
             <div class="toolbar-separator"></div>
-            <div class="toolbar-icon" onclick="saveContent()" title="Save Content">
+            <div class="toolbar-icon" onclick="imixsMarkdownEditor.saveContent()" title="Save Content">
                 <i class="fas fa-save"></i>
             </div>
-            <div class="toolbar-icon" onclick="clearContent()" title="Clear All">
+            <div class="toolbar-icon" onclick="imixsMarkdownEditor.clearContent()" title="Clear All">
                 <i class="fas fa-trash"></i>
             </div>
             <div class="toolbar-separator"></div>
 
-            <div class="toolbar-icon help-tooltip" onclick="toggleHelp()" title="Markdown Help">
+            <div class="toolbar-icon help-tooltip" onclick="imixsMarkdownEditor.toggleHelp()" title="Markdown Help">
                 <i class="fas fa-question-circle"></i>
                 <div class="help-tooltip-content" id="helpTooltip">
                     <h2>Keyboard Shortcuts</h2>

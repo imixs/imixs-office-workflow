@@ -1,0 +1,139 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+	<ui:fragment rendered="#{!readonly}">
+		<!-- Editor Header with Toolbar -->
+		<div class="editor-header">
+			<span class="editor-title"></span>
+			<div class="editor-toolbar">
+				<div class="toolbar-icon active" onclick="imixsMarkdownEditor.switchToEditor()" id="editorToggle"
+					title="WYSIWYG Editor">
+					<i class="fas fa-edit"></i>
+				</div>
+				<div class="toolbar-icon" onclick="imixsMarkdownEditor.switchToSource()" id="sourceToggle"
+					title="Markdown Source">
+					<i class="fas fa-code"></i>
+				</div>
+				<div class="toolbar-separator"></div>
+				<div class="toolbar-icon" onclick="imixsMarkdownEditor.saveContent()" title="Save Content">
+					<i class="fas fa-save"></i>
+				</div>
+				<div class="toolbar-icon" onclick="imixsMarkdownEditor.clearContent()" title="Clear All">
+					<i class="fas fa-trash"></i>
+				</div>
+				<div class="toolbar-separator"></div>
+
+				<div class="toolbar-icon help-tooltip" onclick="imixsMarkdownEditor.toggleHelp()" title="Markdown Help">
+					<i class="fas fa-question-circle"></i>
+					<div class="help-tooltip-content" id="helpTooltip">
+						<h2>Keyboard Shortcuts</h2>
+						<table>
+							<thead>
+								<tr>
+									<th>Shortcut</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><code>Ctrl + B</code></td>
+									<td>Bold selected text</td>
+								</tr>
+								<tr>
+									<td><code>Ctrl + I</code></td>
+									<td>Italic selected text</td>
+								</tr>
+								<tr>
+									<td><code>Ctrl + S</code></td>
+									<td>Save content</td>
+								</tr>
+								<tr>
+									<td><code>Ctrl + L</code></td>
+									<td>Load content</td>
+								</tr>
+							</tbody>
+						</table>
+						<h2>Supported Markdown Elements</h2>
+						<table>
+							<thead>
+								<tr>
+									<th>Element</th>
+									<th>Syntax</th>
+									<th>Features</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Headers</td>
+									<td><code># H1</code> to <code>###### H6</code></td>
+									<td>Instant conversion after space</td>
+								</tr>
+								<tr>
+									<td>Bold</td>
+									<td><code>**bold**</code></td>
+									<td>Real-time conversion after closing <code>*</code></td>
+								</tr>
+								<tr>
+									<td>Italic</td>
+									<td><code>*italic*</code></td>
+									<td>Real-time conversion after closing <code>*</code></td>
+								</tr>
+								<tr>
+									<td>Code</td>
+									<td><code>`code`</code></td>
+									<td>Inline and block code support</td>
+								</tr>
+								<tr>
+									<td>Lists</td>
+									<td><code>* item</code>, <code>1. item</code></td>
+									<td>Instant conversion, nested support</td>
+								</tr>
+								<tr>
+									<td>Tables</td>
+									<td><code>| col | col |</code></td>
+									<td>Full GFM table support</td>
+								</tr>
+								<tr>
+									<td>Links</td>
+									<td><code>[text](url)</code></td>
+									<td>Auto-detection on paste</td>
+								</tr>
+								<tr>
+									<td>Images</td>
+									<td><code>![alt](url)</code></td>
+									<td>Drag &amp; drop support</td>
+								</tr>
+								<tr>
+									<td>Blockquotes</td>
+									<td><code>&gt; quote</code></td>
+									<td>Instant conversion after space</td>
+								</tr>
+								<tr>
+									<td>Strikethrough</td>
+									<td><code>~~text~~</code></td>
+									<td>GFM extension support</td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Editor Container -->
+		<div class="editor-container">
+			<!-- WYSIWYG Editor -->
+			<div id="editorjs" class="markdown-editor"></div>
+			<h:inputTextarea value="#{workitem.item[item.name]}" style="min-height: 25em;" pt:data-item="#{item.name}"
+				pt:data-id="markdown_data" required="#{item.required?validationController.required:false}"
+				rendered="#{!item.readonly}" disabled="#{item.disabled}" />
+
+		</div>
+	</ui:fragment>
+	<ui:fragment rendered="#{readonly}">
+		<h:inputHidden pt:data-id="markdown_hidden_input" value="#{workitem.item[item.name]}" />
+		<div class="imixs-markdown-output"></div>
+	</ui:fragment>
+
+</ui:composition>

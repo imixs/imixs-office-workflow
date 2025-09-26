@@ -48,8 +48,6 @@
 	<link href="#{request.contextPath}/layout/css/office-theme.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
-
-
 	<!-- Chronicle Feature css -->
 	<link href="#{request.contextPath}/layout/css/office-theme-chronicle.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
@@ -60,8 +58,12 @@
 		href="#{request.contextPath}/layout/css/office-theme-suggestinput.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
-	<!-- ML Feature css -->
+	<!-- Imixs-AI Feature css -->
 	<link href="#{request.contextPath}/layout/css/office-theme-ai.css?build=#{app.application_build_timestamp}"
+		charset="UTF-8" type="text/css" rel="stylesheet" />
+
+	<!-- Markdown Feature css -->
+	<link href="#{request.contextPath}/layout/css/office-theme-markdown.css?build=#{app.application_build_timestamp}"
 		charset="UTF-8" type="text/css" rel="stylesheet" />
 
 	<!-- custom css -->
@@ -94,9 +96,6 @@
 	<script type="text/javascript"
 		src="#{request.contextPath}/js/jquery.dataTables.min.js?build=#{app.application_build_timestamp}"></script>
 
-	<!-- Load showdown (markup to html https://marked.js.org/)  -->
-	<script type="text/javascript"
-		src="#{request.contextPath}/js/marked.min.js?build=#{app.application_build_timestamp}"></script>
 
 
 	<!-- Imixs-Office-Workflow  -->
@@ -116,6 +115,16 @@
 
 	<script type="text/javascript"
 		src="#{facesContext.externalContext.requestContextPath}/js/chartjs/chart.min.js?build=#{app.application_build_timestamp}"></script>
+
+	<!-- Load Imixs-Markdown editor -->
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/marked.min.js?build=#{app.application_build_timestamp}"></script>
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/turndown.js?build=#{app.application_build_timestamp}"></script>
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/turndown-plugin-gfm.js?build=#{app.application_build_timestamp}"></script>
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/imixs-office.markdowneditor.js?build=#{app.application_build_timestamp}"></script>
 
 
 	<script type="text/javascript">

@@ -8,9 +8,8 @@ The Imixs Markdown Editor provides a modern editing experience with instant mark
 
 ### Core Components
 
-- **imixs-markdown-editor.js** - Main editor with toggle functionality and instant conversion
-- **imixs-markdown-converter.js** - Enhanced converter using Marked.js + Turndown.js
-- **markdown-editor.css** - Professional styling with toolbar integration
+- **imixs-office-markdowneditor.js** - Main editor with toggle functionality and instant conversion
+- **imixs-theme-markdown.css** - Professional styling with toolbar integration
 
 ## Key Features
 
@@ -69,9 +68,8 @@ The Imixs Markdown Editor provides a modern editing experience with instant mark
   />
 
   <!-- Imixs Markdown Editor -->
-  <link rel="stylesheet" href="markdown-editor.css" />
-  <script src="imixs-markdown-converter.js"></script>
-  <script src="imixs-markdown-editor.js"></script>
+  <link rel="stylesheet" href="office-theme-markdown.css" />
+  <script src="imixs-office-.markdownediotr.js"></script>
 </head>
 ```
 
