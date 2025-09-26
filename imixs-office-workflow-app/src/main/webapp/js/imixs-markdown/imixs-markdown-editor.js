@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeEditor();
 });
 
+
 /**
  * Initialize the contenteditable editor
  */
@@ -75,7 +76,7 @@ function clearPlaceholderOnFocus() {
  * Load markdown from textarea and convert to HTML in editor
  */
 function loadMarkdown() {
-    const textarea = document.querySelector('textarea[data-id="markdown_hidden_input"]');
+    const textarea = document.querySelector('textarea[data-id="markdown_data"]');
     if (!textarea || !editor) return;
     
     const markdownText = textarea.value.trim();
@@ -99,7 +100,7 @@ function loadMarkdown() {
 function saveMarkdown() {
     if (!editor) return;
     
-    const textarea = document.querySelector('textarea[data-id="markdown_hidden_input"]');
+    const textarea = document.querySelector('textarea[data-id="markdown_data"]');
     if (!textarea) return;
     
     // Convert HTML back to markdown using Turndown.js
