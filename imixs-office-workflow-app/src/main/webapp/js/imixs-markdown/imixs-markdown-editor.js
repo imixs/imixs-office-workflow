@@ -1,6 +1,7 @@
 /**
- * Imixs Markdown Editor
+ * Imixs Markdown Editor - Optimized Version
  * WYSIWYG editor functionality for markdown content
+ * Uses marked.js + ImixsMarkdownConverter (Turndown.js)
  */
 
 // Global editor instance
@@ -11,7 +12,7 @@ let editor = null;
  */
 document.addEventListener('DOMContentLoaded', function() {
     initializeEditor();
-}); 
+});
 
 /**
  * Initialize the contenteditable editor
@@ -19,6 +20,17 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeEditor() {
     editor = document.getElementById('editorjs');
     if (!editor) return;
+
+    // Verify required libraries
+    if (typeof marked === 'undefined') {
+        console.error('Missing library marked.js - make sure library is loaded on startup!');
+        return;
+    }
+    
+    if (typeof ImixsMarkdownConverter === 'undefined') {
+        console.error('Missing ImixsMarkdownConverter - make sure library is loaded on startup!');
+        return;
+    }
     
     // Make the editor contenteditable
     editor.contentEditable = true;
@@ -31,22 +43,33 @@ function initializeEditor() {
     }
     
     // Clear placeholder on focus
-    editor.addEventListener('focus', function() {
-        if (editor.style.color === 'rgb(153, 153, 153)') {
-            editor.innerHTML = '';
-            editor.style.color = '#000';
-        }
-    });
+    editor.addEventListener('focus', clearPlaceholderOnFocus);
     
     // Handle keyboard shortcuts
     editor.addEventListener('keydown', handleKeyboardShortcuts);
     
-    // Handle live markdown conversion
-    editor.addEventListener('keydown', handleLiveMarkdownConversion);
-    editor.addEventListener('input', handleInlineMarkdownConversion);
+    // Handle instant markdown conversion
+    editor.addEventListener('input', handleInstantMarkdownConversion);
     
-    console.log('Imixs Markdown Editor initialized');
+    // Handle paste events for markdown conversion
+    editor.addEventListener('paste', handlePasteMarkdown);
+    
+    console.log('Imixs Markdown Editor initialized (optimized version)');
 }
+
+/**
+ * Clear placeholder when editor gets focus
+ */
+function clearPlaceholderOnFocus() {
+    if (editor.style.color === 'rgb(153, 153, 153)') {
+        editor.innerHTML = '';
+        editor.style.color = '#000';
+    }
+}
+
+// =============================================================================
+// CORE FUNCTIONS
+// =============================================================================
 
 /**
  * Load markdown from textarea and convert to HTML in editor
@@ -62,14 +85,8 @@ function loadMarkdown() {
         return;
     }
     
-    // Check if converter is available
-    if (typeof ImixsMarkdownConverter === 'undefined') {
-        console.error('ImixsMarkdownConverter not found! Please include imixs-markdown-converter.js');
-        return;
-    }
-    
-    // Convert markdown to HTML
-    const htmlContent = ImixsMarkdownConverter.markdownToHtml(markdownText);
+    // Convert markdown to HTML using marked.js
+    const htmlContent = marked.parse(markdownText);
     editor.innerHTML = htmlContent;
     editor.style.color = '#000';
     
@@ -85,13 +102,7 @@ function saveMarkdown() {
     const textarea = document.querySelector('textarea[data-id="markdown_hidden_input"]');
     if (!textarea) return;
     
-    // Check if converter is available
-    if (typeof ImixsMarkdownConverter === 'undefined') {
-        console.error('ImixsMarkdownConverter not found! Please include imixs-markdown-converter.js');
-        return;
-    }
-    
-    // Convert HTML back to markdown
+    // Convert HTML back to markdown using Turndown.js
     const markdownText = ImixsMarkdownConverter.htmlToMarkdown(editor.innerHTML);
     textarea.value = markdownText;
     
@@ -142,77 +153,156 @@ function hasEditorContent() {
     return content && !isPlaceholder;
 }
 
+// =============================================================================
+// KEYBOARD SHORTCUTS
+// =============================================================================
+
 /**
  * Handle keyboard shortcuts in the editor
  * @param {KeyboardEvent} e - The keyboard event
  */
 function handleKeyboardShortcuts(e) {
-    // Ctrl+B for bold
-    if (e.ctrlKey && e.key === 'b') {
-        e.preventDefault();
-        document.execCommand('bold', false, null);
-    }
+    if (!e.ctrlKey) return;
     
-    // Ctrl+I for italic
-    if (e.ctrlKey && e.key === 'i') {
-        e.preventDefault();
-        document.execCommand('italic', false, null);
-    }
-    
-    // Ctrl+S for save
-    if (e.ctrlKey && e.key === 's') {
-        e.preventDefault();
-        saveMarkdown();
-    }
-    
-    // Ctrl+L for load
-    if (e.ctrlKey && e.key === 'l') {
-        e.preventDefault();
-        loadMarkdown();
+    switch(e.key) {
+        case 'b':
+            e.preventDefault();
+            document.execCommand('bold', false, null);
+            break;
+        case 'i':
+            e.preventDefault();
+            document.execCommand('italic', false, null);
+            break;
+        case 's':
+            e.preventDefault();
+            saveMarkdown();
+            break;
+        case 'l':
+            e.preventDefault();
+            loadMarkdown();
+            break;
     }
 }
 
+// =============================================================================
+// PASTE HANDLING
+// =============================================================================
+
 /**
- * Handle live markdown conversion on Enter key
- * @param {KeyboardEvent} e - The keyboard event
+ * Handle paste events and convert markdown if detected
+ * @param {ClipboardEvent} e - The paste event
  */
-function handleLiveMarkdownConversion(e) {
-    if (e.key === 'Enter') {
-        const selection = window.getSelection();
-        if (selection.rangeCount === 0) return;
-        
-        const range = selection.getRangeAt(0);
-        const currentElement = range.startContainer.nodeType === Node.TEXT_NODE 
-            ? range.startContainer.parentElement 
-            : range.startContainer;
-        
-        // Get current line text
-        const currentText = getCurrentLineText();
-        if (!currentText) return;
-        
-        // Check for markdown patterns
-        const headerMatch = currentText.match(/^(#{1,6})\s+(.+)$/);
-        const listMatch = currentText.match(/^(\*|\-|\d+\.)\s+(.+)$/);
-        const blockquoteMatch = currentText.match(/^>\s+(.+)$/);
-        
-        if (headerMatch) {
-            e.preventDefault();
-            convertToHeader(headerMatch[1].length, headerMatch[2]);
-        } else if (listMatch) {
-            e.preventDefault();
-            convertToListItem(listMatch[1], listMatch[2]);
-        } else if (blockquoteMatch) {
-            e.preventDefault();
-            convertToBlockquote(blockquoteMatch[1]);
-        }
+function handlePasteMarkdown(e) {
+    e.preventDefault();
+    
+    const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+    if (!pastedText) return;
+    
+    // Clear placeholder if present
+    if (editor.style.color === 'rgb(153, 153, 153)') {
+        editor.innerHTML = '';
+        editor.style.color = '#000';
+    }
+    
+    // Check if the pasted content contains markdown syntax
+    if (ImixsMarkdownConverter.hasMarkdownSyntax(pastedText)) {
+        const htmlContent = marked.parse(pastedText);
+        insertConvertedMarkdown(htmlContent);
+        console.log('Pasted content converted from markdown to HTML');
+    } else {
+        insertPlainTextPaste(pastedText);
+        console.log('Pasted plain text content');
     }
 }
 
 /**
- * Handle inline markdown conversion for bold, italic, code and immediate header conversion
+ * Insert converted markdown HTML at cursor position
+ * @param {string} htmlContent - The converted HTML content
+ */
+function insertConvertedMarkdown(htmlContent) {
+    const selection = window.getSelection();
+    
+    // If no selection or editor is empty, replace entire content
+    if (selection.rangeCount === 0 || !editor.textContent.trim()) {
+        editor.innerHTML = htmlContent;
+        setCursorAtEnd();
+        return;
+    }
+    
+    // Insert at current cursor position
+    const range = selection.getRangeAt(0);
+    range.deleteContents();
+    
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlContent;
+    
+    const fragment = document.createDocumentFragment();
+    while (tempDiv.firstChild) {
+        fragment.appendChild(tempDiv.firstChild);
+    }
+    
+    range.insertNode(fragment);
+    range.collapse(false);
+    selection.removeAllRanges();
+    selection.addRange(range);
+}
+
+/**
+ * Insert plain text with proper formatting
+ * @param {string} text - Plain text to insert
+ */
+function insertPlainTextPaste(text) {
+    const selection = window.getSelection();
+    
+    // If editor is empty, wrap in paragraph
+    if (!editor.textContent.trim() || selection.rangeCount === 0) {
+        const p = document.createElement('p');
+        p.textContent = text;
+        editor.innerHTML = '';
+        editor.appendChild(p);
+        setCursorAtEndOfElement(p);
+        return;
+    }
+    
+    // Insert at cursor position
+    const range = selection.getRangeAt(0);
+    range.deleteContents();
+    
+    const lines = text.split('\n');
+    if (lines.length === 1) {
+        const textNode = document.createTextNode(text);
+        range.insertNode(textNode);
+        range.setStartAfter(textNode);
+    } else {
+        const fragment = document.createDocumentFragment();
+        
+        lines.forEach((line, index) => {
+            if (index === 0) {
+                fragment.appendChild(document.createTextNode(line));
+            } else {
+                const p = document.createElement('p');
+                p.textContent = line || '\u00A0';
+                fragment.appendChild(p);
+            }
+        });
+        
+        range.insertNode(fragment);
+    }
+    
+    range.collapse(false);
+    selection.removeAllRanges();
+    selection.addRange(range);
+}
+
+// =============================================================================
+// INSTANT MARKDOWN CONVERSION
+// =============================================================================
+
+/**
+ * Enhanced input handler for instant markdown conversion
  * @param {InputEvent} e - The input event
  */
-function handleInlineMarkdownConversion(e) {
+function handleInstantMarkdownConversion(e) {
     const selection = window.getSelection();
     if (selection.rangeCount === 0) return;
     
@@ -224,377 +314,233 @@ function handleInlineMarkdownConversion(e) {
     const text = textNode.textContent;
     const cursorPos = range.startOffset;
     
-    // Check for immediate header conversion when space is typed
+    // Handle space-triggered conversions
     if (e.data === ' ') {
-        const currentLineText = getCurrentLineTextFromNode(textNode, cursorPos);
-        const headerMatch = currentLineText.match(/^(#{1,6})$/);
-        
-        if (headerMatch) {
-            e.preventDefault ? e.preventDefault() : (e.returnValue = false);
-            convertToHeaderImmediate(headerMatch[1].length);
+        handleSpaceTriggeredConversions(textNode, text, cursorPos, e);
+    }
+    
+    // Handle closing character conversions (bold, italic, code)
+    if (e.data === '*' || e.data === '`') {
+        handleClosingCharacterConversions(textNode, text, cursorPos);
+    }
+}
+
+/**
+ * Handle conversions triggered by space character
+ */
+function handleSpaceTriggeredConversions(textNode, text, cursorPos, e) {
+    const currentLineText = getCurrentLineTextFromNodeToPosition(textNode, cursorPos);
+    
+    // Header detection
+    const headerMatch = currentLineText.match(/^(#{1,6})\s$/);
+    if (headerMatch) {
+        e.preventDefault();
+        convertToHeaderInstantly(headerMatch[1].length, textNode);
+        return;
+    }
+    
+    // Unordered list detection
+    const unorderedListMatch = currentLineText.match(/^(\*|\-)\s$/);
+    if (unorderedListMatch) {
+        e.preventDefault();
+        convertToListInstantly('ul', textNode);
+        return;
+    }
+    
+    // Ordered list detection
+    const orderedListMatch = currentLineText.match(/^(\d+\.)\s$/);
+    if (orderedListMatch) {
+        e.preventDefault();
+        convertToListInstantly('ol', textNode);
+        return;
+    }
+    
+    // Blockquote detection
+    const blockquoteMatch = currentLineText.match(/^>\s$/);
+    if (blockquoteMatch) {
+        e.preventDefault();
+        convertToBlockquoteInstantly(textNode);
+        return;
+    }
+    
+    // Code block detection
+    const codeBlockMatch = currentLineText.match(/^```\s$/);
+    if (codeBlockMatch) {
+        e.preventDefault();
+        convertToCodeBlockInstantly(textNode);
+        return;
+    }
+}
+
+/**
+ * Handle conversions triggered by closing characters
+ */
+function handleClosingCharacterConversions(textNode, text, cursorPos) {
+    const beforeCursor = text.substring(0, cursorPos);
+    const lastChar = text.charAt(cursorPos - 1);
+    
+    if (lastChar === '*') {
+        // Check for bold: **text**
+        const boldMatch = beforeCursor.match(/\*\*([^*]+)\*\*$/);
+        if (boldMatch) {
+            const matchStart = cursorPos - boldMatch[0].length;
+            replaceTextRangeWithElement(textNode, matchStart, cursorPos, 'strong', boldMatch[1]);
             return;
         }
         
-        // Check for list markers
-        const listMatch = currentLineText.match(/^(\*|\-|\d+\.)$/);
-        if (listMatch) {
-            e.preventDefault ? e.preventDefault() : (e.returnValue = false);
-            convertToListImmediate(listMatch[1]);
-            return;
-        }
-        
-        // Check for blockquote
-        if (currentLineText === '>') {
-            e.preventDefault ? e.preventDefault() : (e.returnValue = false);
-            convertToBlockquoteImmediate();
+        // Check for italic: *text*
+        const italicMatch = beforeCursor.match(/(?<!\*)\*([^*\s][^*]*[^*\s]|\S)\*$/);
+        if (italicMatch) {
+            const matchStart = cursorPos - italicMatch[0].length;
+            replaceTextRangeWithElement(textNode, matchStart, cursorPos, 'em', italicMatch[1]);
             return;
         }
     }
     
-    // Check for completed markdown patterns before cursor
-    checkAndConvertInlineMarkdown(textNode, text, cursorPos);
+    if (lastChar === '`') {
+        // Check for inline code: `code`
+        const codeMatch = beforeCursor.match(/`([^`]+)`$/);
+        if (codeMatch) {
+            const matchStart = cursorPos - codeMatch[0].length;
+            replaceTextRangeWithElement(textNode, matchStart, cursorPos, 'code', codeMatch[1]);
+            return;
+        }
+    }
+}
+
+// =============================================================================
+// INSTANT CONVERSION FUNCTIONS
+// =============================================================================
+
+/**
+ * Convert to header instantly when space is typed after #
+ */
+function convertToHeaderInstantly(level, textNode) {
+    const headerElement = document.createElement(`h${level}`);
+    headerElement.appendChild(document.createTextNode(''));
+    
+    const parentElement = findOrCreateBlockParent(textNode);
+    parentElement.parentNode.insertBefore(headerElement, parentElement);
+    parentElement.remove();
+    
+    setCursorAtEndOfElement(headerElement);
 }
 
 /**
- * Get current line text from text node up to cursor position
- * @param {Text} textNode - The text node
- * @param {number} cursorPos - Current cursor position
- * @returns {string} - The current line text before cursor
+ * Convert to list instantly
  */
-function getCurrentLineTextFromNode(textNode, cursorPos) {
-    const text = textNode.textContent;
+function convertToListInstantly(listType, textNode) {
+    const parentElement = findOrCreateBlockParent(textNode);
     
-    // Find the start of current line
+    // Check if we're already in a list of the same type
+    const existingList = parentElement.closest(listType);
+    let listElement;
+    
+    if (existingList) {
+        listElement = existingList;
+        parentElement.remove();
+    } else {
+        listElement = document.createElement(listType);
+        parentElement.parentNode.insertBefore(listElement, parentElement);
+        parentElement.remove();
+    }
+    
+    const listItem = document.createElement('li');
+    listItem.appendChild(document.createTextNode(''));
+    listElement.appendChild(listItem);
+    
+    setCursorAtEndOfElement(listItem);
+}
+
+/**
+ * Convert to blockquote instantly
+ */
+function convertToBlockquoteInstantly(textNode) {
+    const blockquote = document.createElement('blockquote');
+    blockquote.appendChild(document.createTextNode(''));
+    
+    const parentElement = findOrCreateBlockParent(textNode);
+    parentElement.parentNode.insertBefore(blockquote, parentElement);
+    parentElement.remove();
+    
+    setCursorAtEndOfElement(blockquote);
+}
+
+/**
+ * Convert to code block instantly
+ */
+function convertToCodeBlockInstantly(textNode) {
+    const preElement = document.createElement('pre');
+    const codeElement = document.createElement('code');
+    codeElement.appendChild(document.createTextNode(''));
+    preElement.appendChild(codeElement);
+    
+    const parentElement = findOrCreateBlockParent(textNode);
+    parentElement.parentNode.insertBefore(preElement, parentElement);
+    parentElement.remove();
+    
+    setCursorAtEndOfElement(codeElement);
+}
+
+// =============================================================================
+// UTILITY FUNCTIONS
+// =============================================================================
+
+/**
+ * Find or create a block parent element for a text node
+ */
+function findOrCreateBlockParent(textNode) {
+    let parentElement = textNode.parentElement;
+    
+    while (parentElement && !isBlockElement(parentElement)) {
+        parentElement = parentElement.parentElement;
+    }
+    
+    if (!parentElement || parentElement === editor) {
+        parentElement = document.createElement('p');
+        textNode.parentNode.insertBefore(parentElement, textNode);
+        parentElement.appendChild(textNode);
+    }
+    
+    return parentElement;
+}
+
+/**
+ * Get current line text from text node up to specific position
+ */
+function getCurrentLineTextFromNodeToPosition(textNode, endPos) {
+    const text = textNode.textContent;
     let lineStart = 0;
-    for (let i = cursorPos - 1; i >= 0; i--) {
+    
+    for (let i = endPos - 1; i >= 0; i--) {
         if (text[i] === '\n') {
             lineStart = i + 1;
             break;
         }
     }
     
-    // Get text from line start to cursor
-    return text.substring(lineStart, cursorPos);
+    return text.substring(lineStart, endPos);
 }
 
 /**
- * Convert to header immediately when space is typed after #
- * @param {number} level - Header level (1-6)
+ * Check if element is a block-level element
  */
-function convertToHeaderImmediate(level) {
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
-    let currentElement = range.startContainer;
-    
-    // Navigate to parent element
-    while (currentElement && currentElement.nodeType === Node.TEXT_NODE) {
-        currentElement = currentElement.parentElement;
-    }
-    
-    if (!currentElement || currentElement === editor) {
-        currentElement = document.createElement('p');
-        editor.appendChild(currentElement);
-    }
-    
-    // Create new header element
-    const headerElement = document.createElement(`h${level}`);
-    headerElement.textContent = ''; // Start empty for user to type
-    
-    // Replace current element
-    currentElement.parentNode.replaceChild(headerElement, currentElement);
-    
-    // Set cursor in header for immediate typing
-    setCursorAtEnd(headerElement);
-}
-
-/**
- * Convert to list immediately when space is typed after marker
- * @param {string} marker - List marker (* - or 1.)
- */
-function convertToListImmediate(marker) {
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
-    let currentElement = range.startContainer;
-    
-    while (currentElement && currentElement.nodeType === Node.TEXT_NODE) {
-        currentElement = currentElement.parentElement;
-    }
-    
-    if (!currentElement || currentElement === editor) {
-        currentElement = document.createElement('p');
-        editor.appendChild(currentElement);
-    }
-    
-    // Determine list type
-    const isOrdered = /^\d+\./.test(marker);
-    const listType = isOrdered ? 'ol' : 'ul';
-    
-    // Check if we're already in a list
-    const parentList = currentElement.closest('ul, ol');
-    let listElement;
-    
-    if (parentList && parentList.tagName.toLowerCase() === listType) {
-        listElement = parentList;
-        // Remove current element and add new list item
-        currentElement.remove();
-    } else {
-        // Create new list
-        listElement = document.createElement(listType);
-        currentElement.parentNode.replaceChild(listElement, currentElement);
-    }
-    
-    // Create list item
-    const listItem = document.createElement('li');
-    listItem.textContent = ''; // Start empty
-    listElement.appendChild(listItem);
-    
-    setCursorAtEnd(listItem);
-}
-
-/**
- * Convert to blockquote immediately when space is typed after >
- */
-function convertToBlockquoteImmediate() {
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
-    let currentElement = range.startContainer;
-    
-    while (currentElement && currentElement.nodeType === Node.TEXT_NODE) {
-        currentElement = currentElement.parentElement;
-    }
-    
-    if (!currentElement || currentElement === editor) {
-        currentElement = document.createElement('p');
-        editor.appendChild(currentElement);
-    }
-    
-    // Create blockquote
-    const blockquote = document.createElement('blockquote');
-    blockquote.textContent = ''; // Start empty
-    
-    currentElement.parentNode.replaceChild(blockquote, currentElement);
-    
-    setCursorAtEnd(blockquote);
-}
-
-/**
- * Set cursor at the end of an element
- * @param {Element} element - The target element
- */
-function setCursorAtEnd(element) {
-    const range = document.createRange();
-    const selection = window.getSelection();
-    
-    // If element is empty, add a text node
-    if (element.childNodes.length === 0) {
-        element.appendChild(document.createTextNode(''));
-    }
-    
-    range.selectNodeContents(element);
-    range.collapse(false); // Collapse to end
-    selection.removeAllRanges();
-    selection.addRange(range);
-    
-    element.focus();
-}
-
-/**
- * Get current line text where cursor is positioned
- * @returns {string} - The current line text
- */
-function getCurrentLineText() {
-    const selection = window.getSelection();
-    if (selection.rangeCount === 0) return '';
-    
-    const range = selection.getRangeAt(0);
-    let currentElement = range.startContainer;
-    
-    // Navigate to the containing element
-    while (currentElement && currentElement.nodeType === Node.TEXT_NODE) {
-        currentElement = currentElement.parentElement;
-    }
-    
-    if (!currentElement) return '';
-    
-    // Get text content of current block element
-    const text = currentElement.textContent || currentElement.innerText || '';
-    return text.trim();
-}
-
-/**
- * Convert current line to header
- * @param {number} level - Header level (1-6)
- * @param {string} text - Header text
- */
-function convertToHeader(level, text) {
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
-    let currentElement = range.startContainer;
-    
-    // Find the parent element to replace
-    while (currentElement && currentElement.nodeType === Node.TEXT_NODE) {
-        currentElement = currentElement.parentElement;
-    }
-    
-    if (!currentElement || currentElement === editor) {
-        currentElement = document.createElement('p');
-        currentElement.textContent = `${'#'.repeat(level)} ${text}`;
-        editor.appendChild(currentElement);
-    }
-    
-    // Create new header element
-    const headerElement = document.createElement(`h${level}`);
-    headerElement.textContent = text;
-    
-    // Replace current element
-    currentElement.parentNode.replaceChild(headerElement, currentElement);
-    
-    // Create new paragraph for continuation
-    const newParagraph = document.createElement('p');
-    newParagraph.innerHTML = '<br>';
-    headerElement.parentNode.insertBefore(newParagraph, headerElement.nextSibling);
-    
-    // Set cursor in new paragraph
-    setCursorAtStart(newParagraph);
-}
-
-/**
- * Convert current line to list item
- * @param {string} marker - List marker (* - or 1.)
- * @param {string} text - List item text
- */
-function convertToListItem(marker, text) {
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
-    let currentElement = range.startContainer;
-    
-    while (currentElement && currentElement.nodeType === Node.TEXT_NODE) {
-        currentElement = currentElement.parentElement;
-    }
-    
-    if (!currentElement || currentElement === editor) {
-        currentElement = document.createElement('p');
-        editor.appendChild(currentElement);
-    }
-    
-    // Determine list type
-    const isOrdered = /^\d+\./.test(marker);
-    const listType = isOrdered ? 'ol' : 'ul';
-    
-    // Check if we're already in a list
-    const parentList = currentElement.closest('ul, ol');
-    let listElement;
-    
-    if (parentList && parentList.tagName.toLowerCase() === listType) {
-        listElement = parentList;
-    } else {
-        // Create new list
-        listElement = document.createElement(listType);
-        currentElement.parentNode.replaceChild(listElement, currentElement);
-    }
-    
-    // Create list item
-    const listItem = document.createElement('li');
-    listItem.textContent = text;
-    listElement.appendChild(listItem);
-    
-    // Create new list item for continuation
-    const newListItem = document.createElement('li');
-    newListItem.innerHTML = '<br>';
-    listElement.appendChild(newListItem);
-    
-    setCursorAtStart(newListItem);
-}
-
-/**
- * Convert current line to blockquote
- * @param {string} text - Blockquote text
- */
-function convertToBlockquote(text) {
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
-    let currentElement = range.startContainer;
-    
-    while (currentElement && currentElement.nodeType === Node.TEXT_NODE) {
-        currentElement = currentElement.parentElement;
-    }
-    
-    if (!currentElement || currentElement === editor) {
-        currentElement = document.createElement('p');
-        editor.appendChild(currentElement);
-    }
-    
-    // Create blockquote
-    const blockquote = document.createElement('blockquote');
-    blockquote.textContent = text;
-    
-    currentElement.parentNode.replaceChild(blockquote, currentElement);
-    
-    // Create new paragraph
-    const newParagraph = document.createElement('p');
-    newParagraph.innerHTML = '<br>';
-    blockquote.parentNode.insertBefore(newParagraph, blockquote.nextSibling);
-    
-    setCursorAtStart(newParagraph);
-}
-
-/**
- * Check and convert inline markdown patterns
- * @param {Text} textNode - The text node
- * @param {string} text - The text content
- * @param {number} cursorPos - Current cursor position
- */
-function checkAndConvertInlineMarkdown(textNode, text, cursorPos) {
-    // Bold pattern **text**
-    const boldPattern = /\*\*([^*]+)\*\*(\s|$)/g;
-    let match;
-    
-    while ((match = boldPattern.exec(text)) !== null) {
-        const matchEnd = match.index + match[0].length;
-        if (matchEnd <= cursorPos) {
-            replaceTextWithElement(textNode, match.index, matchEnd, 'strong', match[1]);
-            return; // Process one at a time
-        }
-    }
-    
-    // Italic pattern *text*
-    const italicPattern = /(?<!\*)\*([^*\s][^*]*[^*\s]|\S)\*(?!\*)/g;
-    while ((match = italicPattern.exec(text)) !== null) {
-        const matchEnd = match.index + match[0].length;
-        if (matchEnd <= cursorPos) {
-            replaceTextWithElement(textNode, match.index, matchEnd, 'em', match[1]);
-            return;
-        }
-    }
-    
-    // Inline code pattern `code`
-    const codePattern = /`([^`]+)`(\s|$)/g;
-    while ((match = codePattern.exec(text)) !== null) {
-        const matchEnd = match.index + match[0].length;
-        if (matchEnd <= cursorPos) {
-            replaceTextWithElement(textNode, match.index, matchEnd, 'code', match[1]);
-            return;
-        }
-    }
+function isBlockElement(element) {
+    const blockElements = ['P', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 
+                          'UL', 'OL', 'LI', 'BLOCKQUOTE', 'PRE', 'HR'];
+    return blockElements.includes(element.tagName);
 }
 
 /**
  * Replace text range with HTML element
- * @param {Text} textNode - The text node
- * @param {number} start - Start position
- * @param {number} end - End position
- * @param {string} tagName - HTML tag name
- * @param {string} content - Element content
  */
-function replaceTextWithElement(textNode, start, end, tagName, content) {
+function replaceTextRangeWithElement(textNode, start, end, tagName, content) {
     const parent = textNode.parentElement;
     const text = textNode.textContent;
     
-    // Split text into parts
     const beforeText = text.substring(0, start);
     const afterText = text.substring(end);
     
-    // Create new elements
     const fragment = document.createDocumentFragment();
     
     if (beforeText) {
@@ -609,30 +555,47 @@ function replaceTextWithElement(textNode, start, end, tagName, content) {
         fragment.appendChild(document.createTextNode(afterText));
     }
     
-    // Replace the text node
     parent.replaceChild(fragment, textNode);
     
-    // Set cursor after the new element
+    // Position cursor after the new element
     const range = document.createRange();
-    const selection = window.getSelection();
     range.setStartAfter(element);
     range.collapse(true);
+    
+    const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
 }
 
 /**
- * Set cursor at the start of an element
- * @param {Element} element - The target element
+ * Set cursor at end of element
  */
-function setCursorAtStart(element) {
+function setCursorAtEndOfElement(element) {
     const range = document.createRange();
     const selection = window.getSelection();
     
-    range.setStart(element, 0);
-    range.collapse(true);
+    if (element.childNodes.length === 0) {
+        element.appendChild(document.createTextNode(''));
+    }
+    
+    range.selectNodeContents(element);
+    range.collapse(false);
+    
     selection.removeAllRanges();
     selection.addRange(range);
     
     element.focus();
+}
+
+/**
+ * Set cursor at end of editor
+ */
+function setCursorAtEnd() {
+    const range = document.createRange();
+    range.selectNodeContents(editor);
+    range.collapse(false);
+    
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
 }
