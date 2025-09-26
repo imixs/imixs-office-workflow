@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #editorjs {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 400px;
+            margin: 20px 0;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #f5f5f5;
+        }
+
+        .primary {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .primary:hover {
+            background: #0056b3;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+
+
+    <!-- Zuerst den Converter laden -->
+    <script src="imixs-markdown-converter.js"></script>
+    <!-- Dann den Editor -->
+    <script src="imixs-markdown-editor.js"></script>
+
+</head>
+
+<body>
+    <h1>📝 Editor.js Markdown Editor</h1>
+
+    <div class="info-box">
+        <h3>🎯 Easy Imixs markdown editor:</h3>
+    </div>
+
+    <h3>Markdown (später Hidden Field):</h3>
+    <textarea data-id="markdown_hidden_input" placeholder="Markdown wird hier geladen/gespeichert...">
+# LLM Email Vorschlag
+
+Sehr geehrte Damen und Herren,
+
+vielen Dank für Ihre **Anfrage** vom 20.03.2024.
+
+Mit freundlichen Grüßen
+    </textarea>
+
+    <div class="controls">
+        <button onclick="loadMarkdown()" class="primary">📥 Markdown → Editor</button>
+        <button onclick="saveMarkdown()" class="primary">📤 Editor → Markdown</button>
+        <button onclick="clearEditor()">🗑️ Leeren</button>
+    </div>
+
+    <div id="editorjs"></div>
+
+
+</body>
+
+</html>
