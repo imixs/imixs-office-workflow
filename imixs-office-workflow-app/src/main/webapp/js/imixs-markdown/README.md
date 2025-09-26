@@ -1,49 +1,76 @@
 # Imixs Markdown Editor
 
-A lightweight WYSIWYG markdown editor for web applications that provides seamless conversion between Markdown and HTML with real-time editing capabilities.
+A professional WYSIWYG markdown editor for Jakarta EE web applications with seamless toggle functionality between visual editing and source code view.
 
 ## Overview
 
-The Imixs Markdown Editor consists of two main components:
+The Imixs Markdown Editor provides a modern editing experience with instant markdown conversion, table support, and production-ready integration for business applications.
 
-- **imixs-markdown-editor.js** - The main editor functionality
-- **imixs-markdown-converter.js** - The markdown/HTML conversion engine
+### Core Components
 
-## Features
+- **imixs-markdown-editor.js** - Main editor with toggle functionality and instant conversion
+- **imixs-markdown-converter.js** - Enhanced converter using Marked.js + Turndown.js
+- **markdown-editor.css** - Professional styling with toolbar integration
 
-### ✨ Core Features
+## Key Features
 
-- **WYSIWYG Editing** - Edit markdown content visually as HTML
-- **Bidirectional Conversion** - Convert between Markdown ↔ HTML seamlessly
-- **Real-time Preview** - See formatted content while editing
-- **Keyboard Shortcuts** - Quick formatting with standard shortcuts
-- **Modular Design** - Separate editor and converter for flexibility
+### Instant Conversion System
 
-### 📝 Supported Markdown Elements
+- **Space-triggered conversion**: Type `# ` for headers, `* ` for lists
+- **Real-time formatting**: Bold, italic, and code conversion while typing
+- **Block elements**: Headers, lists, blockquotes, code blocks
 
-| Element          | Markdown Syntax       | HTML Output      |
-| ---------------- | --------------------- | ---------------- |
-| Headers          | `# H1` to `###### H6` | `<h1>` to `<h6>` |
-| Bold             | `**bold**`            | `<strong>`       |
-| Italic           | `*italic*`            | `<em>`           |
-| Strikethrough    | `~~deleted~~`         | `<del>`          |
-| Inline Code      | `` `code` ``          | `<code>`         |
-| Code Blocks      | ` `code` `            | `<pre><code>`    |
-| Links            | `[text](url)`         | `<a href="">`    |
-| Images           | `![alt](url)`         | `<img>`          |
-| Lists            | `* item` or `1. item` | `<ul>` / `<ol>`  |
-| Blockquotes      | `> quote`             | `<blockquote>`   |
-| Horizontal Rules | `---` or `***`        | `<hr>`           |
+### Toggle Interface
+
+- **WYSIWYG Mode**: Visual editing with rich formatting
+- **Source Mode**: Direct markdown editing with syntax highlighting
+- **Auto-sync**: Content automatically synchronized between modes
+- **Toolbar Integration**: Professional FontAwesome icon controls
+
+### Enhanced Markdown Support
+
+- **GitHub Flavored Markdown**: Tables, strikethrough, task lists
+- **Robust Conversion**: Powered by Marked.js and Turndown.js
+- **Smart Paste**: Automatic detection and conversion of pasted markdown
+- **Extended Syntax**: All CommonMark features plus GFM extensions
+
+## Dependencies
+
+### Required Libraries
+
+```html
+<!-- Markdown processing -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<!-- HTML to Markdown conversion -->
+<script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+<script src="https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js"></script>
+
+<!-- FontAwesome for toolbar icons -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+```
 
 ## Installation
 
-### 1. Include JavaScript Files
+### 1. Include Required Files
 
 ```html
 <head>
-  <!-- Load converter first -->
+  <!-- Dependencies (load first) -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+  <script src="https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+
+  <!-- Imixs Markdown Editor -->
+  <link rel="stylesheet" href="markdown-editor.css" />
   <script src="imixs-markdown-converter.js"></script>
-  <!-- Then load editor -->
   <script src="imixs-markdown-editor.js"></script>
 </head>
 ```
@@ -52,266 +79,223 @@ The Imixs Markdown Editor consists of two main components:
 
 ```html
 <body>
-  <!-- Hidden textarea for markdown storage -->
-  <textarea data-id="markdown_hidden_input" style="display: none;">
-        # Your Markdown Content
-        This will be converted to **WYSIWYG** format.
-    </textarea
-  >
-
-  <!-- Control buttons -->
-  <div class="controls">
-    <button onclick="loadMarkdown()" class="primary">
-      📥 Markdown → Editor
-    </button>
-    <button onclick="saveMarkdown()" class="primary">
-      📤 Editor → Markdown
-    </button>
-    <button onclick="clearEditor()">🗑️ Clear</button>
+  <!-- Editor Header with Toolbar -->
+  <div class="editor-header">
+    <span class="editor-title">Content Editor</span>
+    <div class="editor-toolbar">
+      <div
+        class="toolbar-icon active"
+        onclick="switchToEditor()"
+        id="editorToggle"
+        title="WYSIWYG Editor"
+      >
+        <i class="fas fa-edit"></i>
+      </div>
+      <div
+        class="toolbar-icon"
+        onclick="switchToSource()"
+        id="sourceToggle"
+        title="Markdown Source"
+      >
+        <i class="fas fa-code"></i>
+      </div>
+      <div class="toolbar-separator"></div>
+      <div class="toolbar-icon" onclick="saveContent()" title="Save Content">
+        <i class="fas fa-save"></i>
+      </div>
+      <div class="toolbar-icon" onclick="clearContent()" title="Clear All">
+        <i class="fas fa-trash"></i>
+      </div>
+    </div>
   </div>
 
-  <!-- Editor container -->
-  <div id="editorjs"></div>
+  <!-- Editor Container -->
+  <div class="editor-container">
+    <div id="editorjs"></div>
+    <textarea
+      data-id="markdown_data"
+      placeholder="Enter your markdown here..."
+    ></textarea>
+  </div>
 </body>
 ```
 
-## Usage
-
-### Basic Workflow
-
-1. **Load Markdown**: Click "📥 Markdown → Editor" to load markdown from textarea into WYSIWYG editor
-2. **Edit Content**: Use the visual editor to modify content with rich formatting
-3. **Save Changes**: Click "📤 Editor → Markdown" to convert back to markdown format
-4. **Clear Editor**: Use "🗑️ Clear" to empty the editor
-
-### Keyboard Shortcuts
-
-| Shortcut   | Action                          |
-| ---------- | ------------------------------- |
-| `Ctrl + B` | **Bold** selected text          |
-| `Ctrl + I` | _Italic_ selected text          |
-| `Ctrl + S` | Save editor content to markdown |
-| `Ctrl + L` | Load markdown into editor       |
-
 ## API Reference
 
-### Editor Functions
+### Toggle Functions
 
-#### `loadMarkdown()`
+#### `switchToEditor()`
 
-Converts markdown from textarea to HTML in the editor.
+Switches to WYSIWYG editor mode and syncs content from textarea.
 
-#### `saveMarkdown()`
+#### `switchToSource()`
 
-Converts editor HTML content back to markdown in textarea.
+Switches to markdown source mode and syncs content from editor.
 
-#### `clearEditor()`
+#### `saveContent()`
 
-Clears the editor content and shows placeholder.
+Saves current content and triggers 'imixs-markdown-saved' event.
 
-#### `getEditorHtml()`
+#### `clearContent()`
 
-Returns the current HTML content of the editor.
+Clears both editor and textarea content.
 
-```javascript
-const htmlContent = getEditorHtml();
-```
+#### `getCurrentMode()`
 
-#### `setEditorHtml(html)`
+Returns current mode: 'editor' or 'source'.
 
-Sets the editor content with provided HTML.
+#### `getEditorHtml()` / `setEditorHtml(html)`
 
-```javascript
-setEditorHtml("<h1>New Content</h1><p>Updated text</p>");
-```
+Get/set editor HTML content directly.
 
-#### `hasEditorContent()`
-
-Checks if editor has actual content (not placeholder).
-
-```javascript
-if (hasEditorContent()) {
-  console.log("Editor has content");
-}
-```
-
-### Converter Functions
+### Converter API
 
 #### `ImixsMarkdownConverter.markdownToHtml(markdown)`
 
-Converts markdown string to HTML.
-
-```javascript
-const html = ImixsMarkdownConverter.markdownToHtml("# Hello **World**");
-// Returns: '<h1>Hello <strong>World</strong></h1>'
-```
+Converts markdown to HTML using Marked.js with GFM support.
 
 #### `ImixsMarkdownConverter.htmlToMarkdown(html)`
 
-Converts HTML string to markdown.
+Converts HTML to markdown using Turndown.js with table support.
 
-```javascript
-const markdown = ImixsMarkdownConverter.htmlToMarkdown(
-  "<h1>Hello <strong>World</strong></h1>"
-);
-// Returns: '# Hello **World**'
+## Supported Markdown Elements
+
+| Element       | Syntax                | Features                               |
+| ------------- | --------------------- | -------------------------------------- |
+| Headers       | `# H1` to `###### H6` | Instant conversion after space         |
+| Bold          | `**bold**`            | Real-time conversion after closing `*` |
+| Italic        | `*italic*`            | Real-time conversion after closing `*` |
+| Code          | `` `code` ``          | Inline and block code support          |
+| Lists         | `* item`, `1. item`   | Instant conversion, nested support     |
+| Tables        | `\| col \| col \|`    | Full GFM table support                 |
+| Links         | `[text](url)`         | Auto-detection on paste                |
+| Images        | `![alt](url)`         | Drag & drop support                    |
+| Blockquotes   | `> quote`             | Instant conversion after space         |
+| Strikethrough | `~~text~~`            | GFM extension support                  |
+
+## Jakarta EE Integration
+
+### JSF Form Integration
+
+```html
+<!-- JSF Form -->
+<h:form id="contentForm">
+  <!-- Editor HTML structure here -->
+
+  <h:inputTextarea
+    id="markdownContent"
+    value="#{contentBean.markdownText}"
+    data-id="markdown_data"
+    style="display: none;"
+  />
+
+  <h:commandButton
+    value="Save Content"
+    action="#{contentBean.saveContent}"
+    onclick="saveContent(); return true;"
+  />
+</h:form>
 ```
 
-#### `ImixsMarkdownConverter.escapeMarkdown(text)`
-
-Escapes special markdown characters in text.
-
-```javascript
-const escaped = ImixsMarkdownConverter.escapeMarkdown(
-  "Text with * special chars"
-);
-// Returns: 'Text with \\* special chars'
-```
-
-#### `ImixsMarkdownConverter.hasMarkdownSyntax(text)`
-
-Checks if text contains markdown syntax.
-
-```javascript
-const hasMarkdown = ImixsMarkdownConverter.hasMarkdownSyntax("# Title");
-// Returns: true
-```
-
-## Integration Examples
-
-### Jakarta EE Integration
+### Bean Integration
 
 ```java
-// In your Jakarta EE servlet/controller
-@RequestMapping("/markdown-editor")
-public String showEditor(Model model) {
-    String markdownContent = loadMarkdownFromDatabase();
-    model.addAttribute("markdownContent", markdownContent);
-    return "markdown-editor";
+@Named
+@ViewScoped
+public class ContentBean implements Serializable {
+
+    private String markdownText;
+
+    public void saveContent() {
+        // markdownText automatically updated via form submission
+        // Process the markdown content
+        processMarkdown(markdownText);
+    }
+
+    // Getters and setters
 }
 ```
 
-```html
-<!-- In your JSP/Thymeleaf template -->
-<textarea
-  data-id="markdown_hidden_input"
-  th:text="${markdownContent}"
-></textarea>
-```
+## Keyboard Shortcuts
 
-### Form Submission
+| Shortcut   | Action               |
+| ---------- | -------------------- |
+| `Ctrl + B` | Bold selected text   |
+| `Ctrl + I` | Italic selected text |
+| `Ctrl + S` | Save content         |
+| `Ctrl + L` | Load content         |
 
-```html
-<form action="/save-markdown" method="post">
-  <textarea
-    name="markdownContent"
-    data-id="markdown_hidden_input"
-    style="display: none;"
-  >
-  </textarea>
+## Events
 
-  <button type="button" onclick="saveMarkdown()">Update Textarea</button>
-  <button type="submit">Submit Form</button>
-</form>
-```
-
-## Browser Compatibility
-
-- ✅ Chrome 60+
-- ✅ Firefox 55+
-- ✅ Safari 12+
-- ✅ Edge 79+
-
-## Styling
-
-The editor uses a `contenteditable` div with ID `editorjs`. You can style it with CSS:
-
-```css
-#editorjs {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  min-height: 400px;
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-}
-
-#editorjs:focus {
-  outline: 2px solid #007bff;
-  outline-offset: -2px;
-}
-```
-
-## Best Practices
-
-### 1. Always Load Converter First
-
-```html
-<script src="imixs-markdown-converter.js"></script>
-<script src="imixs-markdown-editor.js"></script>
-```
-
-### 2. Use Data Attributes for Textarea
-
-```html
-<textarea data-id="markdown_hidden_input">
-```
-
-### 3. Handle Form Submissions Properly
+### Custom Events
 
 ```javascript
-document.getElementById("myForm").addEventListener("submit", function (e) {
-  // Ensure markdown is saved before submission
-  saveMarkdown();
+// Listen for save events
+document.addEventListener("imixs-markdown-saved", function (e) {
+  console.log("Content saved in mode:", e.detail.mode);
+});
+
+// Listen for clear events
+document.addEventListener("imixs-markdown-cleared", function (e) {
+  console.log("Content cleared");
 });
 ```
 
-### 4. Validate Content Before Processing
+## Configuration
 
-```javascript
-if (hasEditorContent()) {
-  saveMarkdown();
-} else {
-  alert("Editor is empty!");
-}
-```
+### Data Attribute
+
+The editor looks for a textarea with `data-id="markdown_data"`. This can be customized by modifying the selector in the JavaScript files.
+
+### Auto-initialization
+
+The editor automatically:
+
+1. Initializes on DOM ready
+2. Loads content from textarea
+3. Starts in WYSIWYG mode
+4. Enables auto-sync between modes
+
+## Browser Support
+
+- Chrome 60+
+- Firefox 55+
+- Safari 12+
+- Edge 79+
 
 ## Troubleshooting
 
 ### Common Issues
 
-**Q: Editor doesn't initialize**
+**Editor not initializing**
 
-- Ensure both JS files are loaded in correct order
-- Check browser console for errors
-- Verify `id="editorjs"` element exists
+- Check console for missing dependencies
+- Verify script loading order
+- Ensure `id="editorjs"` element exists
 
-**Q: Markdown conversion fails**
+**Toggle not working**
 
-- Ensure `ImixsMarkdownConverter` is available
-- Check if textarea has `data-id="markdown_hidden_input"`
-- Verify markdown syntax is supported
+- Verify toolbar HTML structure
+- Check for `data-id="markdown_data"` on textarea
+- Ensure FontAwesome is loaded
 
-**Q: Keyboard shortcuts don't work**
+**Content not syncing**
 
-- Ensure editor has focus
-- Check if other scripts override key events
-- Test in different browsers
+- Check browser console for JavaScript errors
+- Verify ImixsMarkdownConverter is available
+- Test auto-sync by switching modes
 
 ## License
 
-This project is open source and available under the MIT License.
+MIT License - Open source and free for commercial use.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit pull requests or open issues for bugs and feature requests.
+This editor was developed through iterative refinement focusing on:
 
-## Changelog
+- Professional UX for business applications
+- Robust markdown processing with table support
+- Clean, maintainable code architecture
+- Jakarta EE integration patterns
 
-### Version 1.0.0
-
-- Initial release
-- Basic markdown/HTML conversion
-- WYSIWYG editing capabilities
-- Keyboard shortcuts support
-- Modular architecture
+Contributions welcome for additional features or improvements.

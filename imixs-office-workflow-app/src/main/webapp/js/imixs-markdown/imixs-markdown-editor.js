@@ -6,6 +6,7 @@
 
 // Global editor instance
 let editor = null;
+let currentMode = 'editor'; // 'editor' or 'source'
 
 /**
  * Initialize the editor when DOM is loaded
@@ -13,7 +14,6 @@ let editor = null;
 document.addEventListener('DOMContentLoaded', function() {
     initializeEditor();
 });
-
 
 /**
  * Initialize the contenteditable editor
@@ -55,7 +55,29 @@ function initializeEditor() {
     // Handle paste events for markdown conversion
     editor.addEventListener('paste', handlePasteMarkdown);
     
+    // Initialize toggle system
+    initializeToggleSystem();
+
+    // Close on outside click
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.help-tooltip')) {
+            document.getElementById('helpTooltip').style.display = 'none';
+        }
+    });
+    
     console.log('Imixs Markdown Editor initialized (optimized version)');
+}
+
+/**
+ * Initialize the toggle system and auto-load content
+ */
+function initializeToggleSystem() {
+    // Auto-load content from textarea on initialization
+    setTimeout(() => {
+        loadMarkdownToEditor();
+        enableAutoSync();
+        console.log('Toggle system initialized and content auto-loaded');
+    }, 100);
 }
 
 /**
@@ -73,15 +95,15 @@ function clearPlaceholderOnFocus() {
 // =============================================================================
 
 /**
- * Load markdown from textarea and convert to HTML in editor
+ * Load markdown from textarea into editor (internal function)
  */
-function loadMarkdown() {
+function loadMarkdownToEditor() {
     const textarea = document.querySelector('textarea[data-id="markdown_data"]');
     if (!textarea || !editor) return;
     
     const markdownText = textarea.value.trim();
     if (!markdownText) {
-        editor.innerHTML = '<p>Kein Markdown-Inhalt gefunden...</p>';
+        editor.innerHTML = '<p>Start typing or switch to source mode...</p>';
         editor.style.color = '#999';
         return;
     }
@@ -91,13 +113,13 @@ function loadMarkdown() {
     editor.innerHTML = htmlContent;
     editor.style.color = '#000';
     
-    console.log('Markdown loaded and converted to HTML');
+    console.log('Content loaded from textarea to editor');
 }
 
 /**
- * Save editor content back to markdown in textarea
+ * Save editor content to textarea as markdown (internal function)
  */
-function saveMarkdown() {
+function saveEditorToMarkdown() {
     if (!editor) return;
     
     const textarea = document.querySelector('textarea[data-id="markdown_data"]');
@@ -107,7 +129,7 @@ function saveMarkdown() {
     const markdownText = ImixsMarkdownConverter.htmlToMarkdown(editor.innerHTML);
     textarea.value = markdownText;
     
-    console.log('Editor content saved as markdown');
+    console.log('Content saved from editor to textarea');
 }
 
 /**
@@ -120,6 +142,132 @@ function clearEditor() {
     editor.style.color = '#999';
     
     console.log('Editor cleared');
+}
+
+// =============================================================================
+// TOGGLE SYSTEM FUNCTIONS  
+// =============================================================================
+
+/**
+ * Switch to WYSIWYG Editor mode
+ */
+function switchToEditor() {
+    if (currentMode === 'editor') return;
+
+    // Sync content from textarea to editor first
+    loadMarkdownToEditor();
+
+    // Show editor, hide textarea
+    document.getElementById('editorjs').style.display = 'block';
+    const textarea = document.querySelector('textarea[data-id="markdown_data"]');
+    if (textarea) textarea.style.display = 'none';
+
+    // Update toggle buttons if they exist
+    const editorToggle = document.getElementById('editorToggle');
+    const sourceToggle = document.getElementById('sourceToggle');
+    if (editorToggle) editorToggle.classList.add('active');
+    if (sourceToggle) sourceToggle.classList.remove('active');
+
+    currentMode = 'editor';
+    console.log('Switched to Editor mode');
+}
+
+/**
+ * Switch to Markdown Source mode
+ */
+function switchToSource() {
+    if (currentMode === 'source') return;
+
+    // Sync content from editor to textarea first
+    saveEditorToMarkdown();
+
+    // Hide editor, show textarea
+    document.getElementById('editorjs').style.display = 'none';
+    const textarea = document.querySelector('textarea[data-id="markdown_data"]');
+    if (textarea) textarea.style.display = 'block';
+
+    // Update toggle buttons if they exist
+    const editorToggle = document.getElementById('editorToggle');
+    const sourceToggle = document.getElementById('sourceToggle');
+    if (sourceToggle) sourceToggle.classList.add('active');
+    if (editorToggle) editorToggle.classList.remove('active');
+
+    currentMode = 'source';
+    console.log('Switched to Source mode');
+}
+
+/**
+ * Save content (triggered by save button or external calls)
+ */
+function saveContent() {
+    if (currentMode === 'editor') {
+        saveEditorToMarkdown();
+    }
+    // In source mode, content is already in textarea
+
+    console.log('Content saved');
+    
+    // Optional: Show user feedback
+    const event = new CustomEvent('imixs-markdown-saved', { 
+        detail: { mode: currentMode } 
+    });
+    document.dispatchEvent(event);
+}
+
+/**
+ * Clear all content
+ */
+function clearContent() {
+    // Clear both editor and textarea
+    if (editor) {
+        editor.innerHTML = '<p>Content cleared...</p>';
+        editor.style.color = '#999';
+    }
+    
+    const textarea = document.querySelector('textarea[data-id="markdown_data"]');
+    if (textarea) {
+        textarea.value = '';
+    }
+
+    console.log('All content cleared');
+    
+    // Optional: Show user feedback
+    const event = new CustomEvent('imixs-markdown-cleared');
+    document.dispatchEvent(event);
+}
+
+/**
+ * Get current editor mode
+ * @returns {string} - Current mode ('editor' or 'source')
+ */
+function getCurrentMode() {
+    return currentMode;
+}
+
+/**
+ * Enable auto-sync content when switching modes
+ */
+function enableAutoSync() {
+    // Sync when editor loses focus (if in editor mode)
+    if (editor) {
+        editor.addEventListener('blur', function() {
+            if (currentMode === 'editor') {
+                saveEditorToMarkdown();
+            }
+        });
+    }
+
+    // Sync when textarea loses focus (if in source mode)
+    const textarea = document.querySelector('textarea[data-id="markdown_data"]');
+    if (textarea) {
+        textarea.addEventListener('blur', function() {
+            if (currentMode === 'source') {
+                console.log('Textarea content updated');
+            }
+        });
+    }
+
+    console.log('Auto-sync enabled');
 }
 
 /**
@@ -176,11 +324,11 @@ function handleKeyboardShortcuts(e) {
             break;
         case 's':
             e.preventDefault();
-            saveMarkdown();
+            saveContent();
             break;
         case 'l':
             e.preventDefault();
-            loadMarkdown();
+            switchToEditor();
             break;
     }
 }
@@ -599,4 +747,9 @@ function setCursorAtEnd() {
     const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
+}
+
+function toggleHelp() {
+    const tooltip = document.getElementById('helpTooltip');
+    tooltip.style.display = tooltip.style.display === 'block' ? 'none' : 'block';
 }
