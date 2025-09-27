@@ -32,13 +32,13 @@ import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
+import org.imixs.ai.ImixsAIContextHandler;
 import org.imixs.ai.workflow.OpenAIAPIConnector;
 import org.imixs.ai.workflow.OpenAIAPIService;
 import org.imixs.marty.profile.UserController;
@@ -55,7 +55,10 @@ import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonException;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 
 /**
  * The AIController integrates the imixs-ai module providing a AI Chat history.
@@ -83,9 +86,9 @@ public class AIController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(AIController.class.getName());
 
-	List<ItemCollection> chatHistory;
+	// List<ItemCollection> chatHistory;
 	String currentStreamResult = "";
-	String question = null;
+	// String question = null;
 	String answer = null;
 
 	@Inject
@@ -106,6 +109,8 @@ public class AIController implements Serializable {
 	@Inject
 	OpenAIAPIConnector openAIAPIConnector;
 
+	private ImixsAIContextHandler aiMessageHandler = null;
+
 	@Inject
 	AIService aiService;
 
@@ -117,12 +122,10 @@ public class AIController implements Serializable {
 	 * @return
 	 */
 	public List<ItemCollection> getChatHistory() {
-		if (chatHistory == null) {
-			chatHistory = new ArrayList<>();
+		if (aiMessageHandler == null) {
+			aiMessageHandler = new ImixsAIContextHandler(workflowController.getWorkitem(), AI_CHAT_HISTORY);
 		}
-		List<ItemCollection> reversedList = new ArrayList<>(chatHistory);
-		Collections.reverse(reversedList);
-		return reversedList;
+		return aiMessageHandler.getContext();
 	}
 
 	/**
@@ -140,7 +143,7 @@ public class AIController implements Serializable {
 		if (WorkflowEvent.WORKITEM_CREATED == workflowEvent.getEventType()
 				|| WorkflowEvent.WORKITEM_CHANGED == workflowEvent.getEventType()) {
 			// read current imixs.ai.chat.history...
-			chatHistory = ChildItemController.explodeChildList(workflowController.getWorkitem(), AI_CHAT_HISTORY);
+			aiMessageHandler = new ImixsAIContextHandler(workflowController.getWorkitem(), AI_CHAT_HISTORY);
 		}
 
 	}
@@ -153,77 +156,135 @@ public class AIController implements Serializable {
 	 */
 	public void sendAsync() throws PluginException {
 		ItemCollection workitem = workflowController.getWorkitem();
-		question = workitem.getItemValueString("ai.chat.prompt").trim();
-
+		String question = workitem.getItemValueString("ai.chat.prompt").trim();
 		if (question.isEmpty()) {
 			// no op
 			return;
 		}
 		logger.fine("question: " + question);
-		String prompt = buildContextPrompt(question);
-		JsonObject jsonPrompt = openAIAPIService.buildJsonPromptObject(prompt, true, null);
+
+		// build context?
+		if (aiMessageHandler.getContext().size() == 0) {
+			String context = buildContextPrompt();
+			aiMessageHandler.addSystemMessage(context);
+		}
+		aiMessageHandler.addQuestion(question, loginController.getUserPrincipal(), new Date())
+				.setOption("stream", true);
+
 		// starting async http request...
 		streamingFuture = CompletableFuture.runAsync(() -> {
 			try {
-				streamPromptCompletion(jsonPrompt);
+				streamPromptCompletion();
 			} catch (PluginException e) {
 				logger.severe("Error during streaming: " + e.getMessage());
 			}
 		});
+		// clear input
+		workflowController.getWorkitem().setItemValue("ai.chat.prompt", "");
 	}
 
 	/**
 	 * Stream a prompt....
 	 * 
 	 */
-	private void streamPromptCompletion(JsonObject jsonPromptObject) throws PluginException {
+	private void streamPromptCompletion() throws PluginException {
 		try {
 			HttpURLConnection conn = openAIAPIConnector.createHttpConnection(aiService.getServiceEndpoint(),
 					OpenAIAPIConnector.ENDPOINT_URI_COMPLETIONS);
-			// HttpURLConnection conn = openAIAPIService..createHttpConnection(null);
 			conn.setRequestProperty("Accept", "text/event-stream");
 
 			// Write the JSON object to the output stream
-			String jsonString = jsonPromptObject.toString();
-			logger.fine("JSON Object=" + jsonString);
+			String jsonString = aiMessageHandler.toString();
+			logger.info("JSON Object=" + jsonString);
 
 			try (OutputStream os = conn.getOutputStream()) {
 				byte[] input = jsonString.getBytes(StandardCharsets.UTF_8);
 				os.write(input, 0, input.length);
 			}
+
 			currentStreamResult = "";
+
 			// Reading the response
 			int responseCode = conn.getResponseCode();
-			logger.fine("POST Response Code: " + responseCode);
+			logger.info("POST Response Code: " + responseCode);
+
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				try (BufferedReader br = new BufferedReader(
 						new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
 					String line;
-					// StringBuilder fullResponse = new StringBuilder();
-					while ((line = br.readLine()) != null) {
-						if (line.startsWith("data: ")) {
-							String jsonData = line.substring(6);
-							JsonObject responseObject = Json.createReader(new StringReader(jsonData)).readObject();
-							String content = responseObject.getString("content");
-							boolean stop = responseObject.getBoolean("stop", false);
-							currentStreamResult = currentStreamResult + content;
-							logger.fine("FullResponse: " + currentStreamResult);
-							if (stop) {
-								logger.fine("request completed - adding answer....");
-								answer = currentStreamResult.trim();
 
-								// reset stream result!
-								currentStreamResult = AI_STREAM_EOS;
+					while ((line = br.readLine()) != null) {
+						// Check for server-sent event data lines
+						if (line.startsWith("data: ")) {
+							String jsonData = line.substring(6).trim();
+
+							// Skip the [DONE] marker that indicates end of stream
+							// This mark is deprecated but may be send from some LLMs.
+							if ("[DONE]".equals(jsonData)) {
+								logger.info("Stream completed - [DONE] received");
 								break;
 							}
+
+							try {
+								// Parse the JSON chunk
+								JsonObject responseObject = Json.createReader(new StringReader(jsonData)).readObject();
+
+								// Extract choices array
+								JsonArray choices = responseObject.getJsonArray("choices");
+								if (choices != null && choices.size() > 0) {
+									JsonObject choice = choices.getJsonObject(0);
+
+									// Check if this chunk contains content in delta
+									if (choice.containsKey("delta")) {
+										JsonObject delta = choice.getJsonObject("delta");
+
+										// Extract content from delta if present
+										if (delta.containsKey("content")) {
+											String content = delta.getString("content");
+											currentStreamResult = currentStreamResult + content;
+											logger.fine("Received content: " + content);
+											logger.fine("Full response so far: " + currentStreamResult);
+										}
+									}
+
+									// Check for finish_reason to determine if stream is complete
+									if (choice.containsKey("finish_reason") &&
+											choice.get("finish_reason") != JsonValue.NULL) {
+										String finishReason = choice.getString("finish_reason");
+										logger.info("Stream finished with reason: " + finishReason);
+										break;
+									}
+								}
+
+							} catch (JsonException e) {
+								logger.warning("Failed to parse JSON chunk: " + jsonData + " - " + e.getMessage());
+								// Continue processing other chunks even if one fails
+							}
+						}
+						// Handle empty lines or other SSE format lines
+						else if (line.trim().isEmpty() || line.startsWith(":")) {
+							// Ignore empty lines and comments in SSE format
+							continue;
 						}
 					}
+
+					// Set final answer after stream completion
+					answer = currentStreamResult.trim();
+					logger.info("Final answer: " + answer);
+					aiMessageHandler.addAnswer(answer);
+					// workflowController.getWorkitem().setItemValue("ai.chat.prompt", "");
+
+					// Reset stream result
+					currentStreamResult = AI_STREAM_EOS;
+
 				}
 			} else {
 				throw new PluginException(AIController.class.getSimpleName(),
 						ERROR_PROMPT_INFERENCE, "Error during POST prompt: HTTP Result " + responseCode);
 			}
+
 			conn.disconnect();
+
 		} catch (IOException e) {
 			logger.severe(e.getMessage());
 			throw new PluginException(AIController.class.getSimpleName(), ERROR_PROMPT_TEMPLATE,
@@ -237,25 +298,11 @@ public class AIController implements Serializable {
 
 	public String getStreamResult() {
 		if (AI_STREAM_EOS.equals(currentStreamResult)) {
-			updateChatHistory();
+			if (aiMessageHandler != null) {
+				aiMessageHandler.storeContext();
+			}
 		}
 		return currentStreamResult;
-
-	}
-
-	/**
-	 * Helper method to update the ai.chat.history
-	 */
-	private void updateChatHistory() {
-		ItemCollection chatEntry = new ItemCollection();
-		chatEntry.setItemValue("question", question);
-		chatEntry.setItemValue("answer", answer);
-		chatEntry.setItemValue("date", new Date());
-		chatEntry.setItemValue("user", loginController.getUserPrincipal());
-		chatHistory.add(chatEntry);
-		// persist new imixs.ai.chat.history
-		ChildItemController.implodeChildList(workflowController.getWorkitem(), chatHistory, AI_CHAT_HISTORY);
-		workflowController.getWorkitem().removeItem("ai.chat.prompt");
 	}
 
 	/**
@@ -266,19 +313,19 @@ public class AIController implements Serializable {
 	 * @param question
 	 * @return
 	 */
-	private String buildContextPrompt(String question) {
+	private String buildContextPrompt() {
 
 		ItemCollection workitem = workflowController.getWorkitem();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
 		// String prompt = "[INST]";
-		String prompt = "<s>";
+		// String prompt = "<s>";
+		String prompt = "";
 
 		prompt += "Geschäftsprozess: " + workitem.getWorkflowGroup() + "\n";
 		prompt += "Erstellt: " + dateFormat.format(workitem.getItemValueDate(WorkflowKernel.CREATED)) + " von "
 				+ userController.getUserName(workitem.getItemValueString("$creator")) + " \n";
 		prompt += "Aktueller Status: " + workitem.getItemValueString(WorkflowKernel.WORKFLOWSTATUS) + "\n";
-
 		prompt += "\nVerlauf an Aktivitäten in diesem Geschäftsprozess: \n\n";
 
 		// chronical
@@ -327,9 +374,6 @@ public class AIController implements Serializable {
 				}
 			}
 		}
-
-		// prompt += "[/INST]</s>\n[INST] " + question + "[/INST]";
-		prompt += "</s>\n[INST] " + question + "[/INST]";
 
 		System.out.println(prompt);
 		return prompt;

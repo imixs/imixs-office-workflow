@@ -480,6 +480,9 @@ public class ChronicleController implements Serializable {
 	private void addChronicleEntry(List<ChronicleEntity> chronicleList, ItemCollection entry) {
 		String user = entry.getItemValueString("user");
 		Date date = entry.getItemValueDate("date");
+		if (date == null) {
+			return;
+		}
 		LocalDateTime localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 		// set second to 00
 		localDate = localDate.truncatedTo(ChronoUnit.MINUTES);

@@ -3,62 +3,87 @@
 	xmlns:a="http://xmlns.jcp.org/jsf/passthrough" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
-	<!-- Integration of Imixs-AI		
-	 -->
-	<dl>
-		<dd>
-			<h:inputTextarea required="false" value="#{workflowController.workitem.item['ai.chat.prompt']}"
-				a:placeholder="#{message['ai.prompt']}" id="promptInput" style="height: 5em; width: 95%">
-			</h:inputTextarea>
-			<h:commandButton value="#{message['ai.ask_question']}" actionListener="#{aiController.sendAsync}">
-				<f:ajax execute="promptInput" render="@none" onevent="handleSendEvent" />
-			</h:commandButton>
-		</dd>
-	</dl>
-
-	<!-- Imixs AI Life-Answering Block -->
-	<h:panelGroup layout="block" id="imixs_ai_life_stream" styleClass="imixs-ai-chat-history"
-		style="display:none;margin-top:5px;">
-
-		<div class="imixs-ai-chat-entry">
-			<div class="imixs-ai-chat-header">
-				<div class="imixs-ai-loader"></div>
-				<span>#{message.ai}</span>
-			</div>
-			<div class="imixs-ai-chat-content">
-				<div class="imixs-ai-answer"></div>
-				<pre
-					style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">...<h:outputText id="aiResultStream" value="#{aiController.streamResult}" escape="false" /></pre>
-			</div>
-		</div>
-	</h:panelGroup>
+	<!-- Integration of Imixs-AI -->
 
 	<!-- Imixs AI Chat history-->
-
-	<hr />
 	<h:panelGroup layout="block" id="imixs_ai_chatlist" styleClass="imixs-ai-chat-history">
 		<ui:repeat var="aiChatHistoryEntry" value="#{aiController.chatHistory}">
-			<div class="imixs-ai-chat-entry">
+			<!-- Question -->
+			<ui:fragment rendered="#{'user' eq aiChatHistoryEntry.item['chat.role']}">
+				<div class="imixs-ai-chat-entry">
+					<div class="imixs-ai-chat-header">
+						<h:outputText value="#{aiChatHistoryEntry.item['chat.date']}"
+							rendered="#{! empty aiChatHistoryEntry.item['chat.date']}">
+							<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
+								type="date" />
+						</h:outputText>
+						<span>#{userController.getUserName(aiChatHistoryEntry.item['chat.userid'])}</span>
+					</div>
+					<div class="imixs-ai-chat-content">
+						<div class="imixs-ai-question">
+
+							<div class="imixs-ai-message">#{aiChatHistoryEntry.item['chat.message']}</div>
+						</div>
+					</div>
+				</div>
+			</ui:fragment>
+			<!-- Answer -->
+			<ui:fragment rendered="#{'assistant' eq aiChatHistoryEntry.item['chat.role']}">
+				<div class="imixs-ai-chat-entry">
+					<div class="imixs-ai-chat-header">
+						<span>Assistant</span>
+					</div>
+					<div class="imixs-ai-chat-content">
+
+						<div class="imixs-ai-answer">
+
+							<div class="imixs-ai-message">#{aiChatHistoryEntry.item['chat.message']}</div>
+						</div>
+					</div>
+				</div>
+			</ui:fragment>
+		</ui:repeat>
+
+		<!-- Imixs AI Question Block -->
+		<div class="imixs-form-section-flex imixs-form imixs-ai-chat-entry" style="padding:0;row-gap: 0px;">
+			<div class="imixs-ai-chat-header">
+				<span>#{message['ai.question']}:</span>
+			</div>
+			<dl style="grid-column-start: span 12;" class="imixs-edit">
+				<dt></dt>
+				<dd>
+					<h:inputTextarea required="false" value="#{workflowController.workitem.item['ai.chat.prompt']}"
+						a:placeholder="#{message['ai.prompt']}" a:data-item="ai-question-input" id="promptInput"
+						style="padding: 20px;">
+					</h:inputTextarea>
+
+				</dd>
+			</dl>
+			<h:commandButton value="#{message['ai.ask_question']}" a:data-item="ai-question-action"
+				actionListener="#{aiController.sendAsync}"
+				styleClass="imixs-workflow-action ui-button ui-corner-all ui-widget">
+				<f:ajax execute=" promptInput" render="@none" onevent="handleSendEvent" />
+			</h:commandButton>
+		</div>
+		<!-- Imixs AI Life-Answering Block -->
+		<h:panelGroup layout="block" id="imixs_ai_life_stream" styleClass="imixs-ai-chat-history"
+			style="display:none;margin-top:5px;width: 100%;margin-bottom: 100px;">
+			<div class="imixs-ai-chat-entry" style="border: 1px solid var(--input-focus-color);">
 				<div class="imixs-ai-chat-header">
-					<h:outputText value="#{aiChatHistoryEntry.item['date']}">
-						<f:convertDateTime pattern="#{message.dateTimePatternLong}" timeZone="#{message.timeZone}"
-							type="date" />
-					</h:outputText>
-					<span>#{userController.getUserName(aiChatHistoryEntry.item['user'])}</span>
+					<div class="imixs-ai-loader"></div>
+					<span>#{message.ai}</span>
 				</div>
 				<div class="imixs-ai-chat-content">
-					<div class="imixs-ai-question">
-						<span class="imixs-ai-label">#{message['ai.question']}:</span>
-						<div class="imixs-ai-message">#{aiChatHistoryEntry.item['question']}</div>
-					</div>
-					<div class="imixs-ai-answer">
-						<span class="imixs-ai-label">#{message['ai.answer']}:</span>
-						<div class="imixs-ai-message">#{aiChatHistoryEntry.item['answer']}</div>
-					</div>
+					<div class="imixs-ai-answer"></div>
+					<pre
+						style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">...<h:outputText id="aiResultStream" value="#{aiController.streamResult}" escape="false" /></pre>
 				</div>
 			</div>
-		</ui:repeat>
+		</h:panelGroup>
 	</h:panelGroup>
+
+
+
 
 	<h:commandScript name="refreshAILifeResult" render="aiResultStream" onevent="handleRefreshEvent" />
 	<h:commandScript name="refreshAIChatHistory" render="imixs_ai_chatlist promptInput" />
@@ -68,11 +93,21 @@
 		function handleSendEvent(data) {
 			if (data.status === "begin") {
 				//console.log('streaming started....');
+
 				startRefreshing();
 			}
 		}
 		function handleRefreshEvent(data) {
+
 			if (data.status === 'success') {
+				// auto scroll down...
+				const scrollContainer = document.querySelector('.imixs-workitem-chronicle-content');
+				scrollContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+				setTimeout(() => {
+					scrollContainer.scrollTop = scrollContainer.scrollHeight;
+					window.scrollTo(0, document.body.scrollHeight);
+				}, 200);
+
 				//console.log('handle refreshEvent: ' + data.responseText);
 				if (data.responseText && data.responseText.indexOf('imixs.ai.stream.completed') > -1) {
 					stopRefreshing();
@@ -80,7 +115,14 @@
 			}
 		}
 		function startRefreshing() {
-			//console.log('Start Refreshing...');
+			// console.log('Start Refreshing...');
+			// disable input element
+			const questionButton = document.querySelector('input[type="submit"][data-item="ai-question-action"]');
+			if (questionButton) {
+				questionButton.style.display = 'none';
+				const textarea = document.querySelector('textarea[data-item="ai-question-input"]');
+				textarea.disabled = true;
+			}
 			refreshInterval = setInterval(refreshAILifeResult, 100);
 			// show imixs_ai_life_stream
 			lifeStreamBlock = document.querySelector('[id$=":imixs_ai_life_stream"]');
@@ -98,7 +140,10 @@
 			if (lifeStreamBlock) {
 				lifeStreamBlock.style.display = 'none';
 			}
+
 		}
+
+
 		/*]]>*/
 	</script>
 
