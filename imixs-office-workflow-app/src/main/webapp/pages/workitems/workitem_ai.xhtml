@@ -100,13 +100,9 @@
 		function handleRefreshEvent(data) {
 
 			if (data.status === 'success') {
-				// auto scroll down...
+				// auto scroll...
 				const scrollContainer = document.querySelector('.imixs-workitem-chronicle-content');
-				scrollContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
-				setTimeout(() => {
-					scrollContainer.scrollTop = scrollContainer.scrollHeight;
-					window.scrollTo(0, document.body.scrollHeight);
-				}, 200);
+				scrollContainer.scrollTop = scrollContainer.scrollHeight;
 
 				//console.log('handle refreshEvent: ' + data.responseText);
 				if (data.responseText && data.responseText.indexOf('imixs.ai.stream.completed') > -1) {
