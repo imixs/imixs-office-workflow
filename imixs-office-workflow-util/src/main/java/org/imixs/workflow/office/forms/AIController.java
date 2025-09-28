@@ -109,7 +109,8 @@ public class AIController implements Serializable {
 	@Inject
 	OpenAIAPIConnector openAIAPIConnector;
 
-	private ImixsAIContextHandler aiMessageHandler = null;
+	@Inject
+	private ImixsAIContextHandler aiMessageHandler;
 
 	@Inject
 	AIService aiService;
@@ -122,8 +123,8 @@ public class AIController implements Serializable {
 	 * @return
 	 */
 	public List<ItemCollection> getChatHistory() {
-		if (aiMessageHandler == null) {
-			aiMessageHandler = new ImixsAIContextHandler(workflowController.getWorkitem(), AI_CHAT_HISTORY);
+		if (aiMessageHandler.getContext() == null) {
+			aiMessageHandler.importContext(workflowController.getWorkitem(), AI_CHAT_HISTORY);
 		}
 		return aiMessageHandler.getContext();
 	}
@@ -143,7 +144,7 @@ public class AIController implements Serializable {
 		if (WorkflowEvent.WORKITEM_CREATED == workflowEvent.getEventType()
 				|| WorkflowEvent.WORKITEM_CHANGED == workflowEvent.getEventType()) {
 			// read current imixs.ai.chat.history...
-			aiMessageHandler = new ImixsAIContextHandler(workflowController.getWorkitem(), AI_CHAT_HISTORY);
+			aiMessageHandler.importContext(workflowController.getWorkitem(), AI_CHAT_HISTORY);
 		}
 
 	}
