@@ -1,13 +1,8 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
 	template="/layout/template.xhtml">
-
 
 	<f:metadata>
 		<f:viewAction action="#{workflowController.onLoad()}" />
@@ -15,23 +10,23 @@
 
 	<ui:define name="content">
 		<script type="text/javascript">
-		/*<![CDATA[*/
-			$(document).ready(function() {
+			/*<![CDATA[*/
+			$(document).ready(function () {
 				// set default role IMIXS-WORKFLOW-Author if no role is yet set...
 				// test if we have already values for display name
-				var dispn=$("input[id$='displayname_id']").val();
-				if (!dispn || dispn=="") {
+				var dispn = $("input[id$='displayname_id']").val();
+				if (!dispn || dispn == "") {
 					// seems to be a new profile, we set author access...
 					$("input[id$='user_groups:2']").prop('checked', true);
 				}
 			});
-		/*]]>*/
+			/*]]>*/
 		</script>
-		
+
 		<f:view>
-			<h:form pt:autocomplete="on"  enctype="multipart/form-data">
+			<h:form pt:autocomplete="on" enctype="multipart/form-data">
 				<marty:userSearch />
-			
+
 				<div class="imixs-form">
 					<div class="imixs-header">
 						<h1>
@@ -45,20 +40,17 @@
 						<div class="imixs-tabs">
 							<ul>
 								<li><a href="#tab-1">#{message['profile.sub_title_general']}</a></li>
+								<li><a href="#tab-4">Dashboard</a></li>
 								<li><a href="#tab-2">#{message['profile.sub_title_settings']}</a></li>
-								<ui:fragment
-									rendered="#{propertyController.getProperty('profile.x509') eq 'true'}">
+								<ui:fragment rendered="#{propertyController.getProperty('profile.x509') eq 'true'}">
 									<li><a href="#tab-3">X509</a></li>
 								</ui:fragment>
 							</ul>
 
 							<div id="tab-1">
-
-
 								<div class="imixs-form-panel imixs-form-section-2">
 									<!-- Enable local database security? -->
-									<h:panelGroup
-										rendered="#{setupController.workitem.item['keyEnableUserDB']}">
+									<h:panelGroup rendered="#{setupController.workitem.item['keyEnableUserDB']}">
 
 										<dl>
 											<dt>
@@ -97,7 +89,7 @@
 
 										</dd>
 									</dl>
-																		
+
 									<dl>
 										<dt>
 											<h:outputLabel value="#{message['profile.initials']}">
@@ -116,24 +108,21 @@
 
 									<dl>
 										<dt>
-											<h:outputLabel for="email_id"
-												value="#{message['profile.email']}">
+											<h:outputLabel for="email_id" value="#{message['profile.email']}">
 
 											</h:outputLabel>
 											<span class="imixs-required">*</span>
 										</dt>
 										<dd>
 											<h:inputText required="true"
-												value="#{workflowController.workitem.item['txtEmail']}"
-												id="email_id">
+												value="#{workflowController.workitem.item['txtEmail']}" id="email_id">
 											</h:inputText>
 										</dd>
 									</dl>
 									<dl>
 										<dt>#{message['profile.deputy']}</dt>
 										<dd>
-											<marty:userInput
-												value="#{workflowController.workitem.item['namDeputy']}"
+											<marty:userInput value="#{workflowController.workitem.item['namDeputy']}"
 												editmode="true" />
 										</dd>
 									</dl>
@@ -142,8 +131,7 @@
 
 								<!-- custom panel -->
 								<ui:include src="/pages/profile/sub_profile_custom.xhtml">
-									<ui:param name="workitem"
-										value="#{workflowController.workitem}" />
+									<ui:param name="workitem" value="#{workflowController.workitem}" />
 								</ui:include>
 
 
@@ -152,42 +140,55 @@
 
 									<h2>User Icon</h2>
 
-									
-										<h:panelGroup layout="block" id="usericonpanel"
-											style="float: left; margin-right: 20px;">
-											<h:graphicImage styleClass="imixs-user-icon"
-												rendered="#{! empty workflowController.workitem.item['txtusericon']}"
-												value="/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{workflowController.workitem.item['txtusericon']}">
-											</h:graphicImage>
-										</h:panelGroup>
-										<h:panelGroup layout="block" styleClass="imixs-form-section"
-											style="clear: none; width:80%;">
 
-											<i:imixsFileUpload id="file_upload_id"
-												workitem="#{workflowController.workitem}"
-												context_url="#{facesContext.externalContext.requestContextPath}/api/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}"
-												hideattachments="true" />
+									<h:panelGroup layout="block" id="usericonpanel"
+										style="float: left; margin-right: 20px;">
+										<h:graphicImage styleClass="imixs-user-icon"
+											rendered="#{! empty workflowController.workitem.item['txtusericon']}"
+											value="/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{workflowController.workitem.item['txtusericon']}">
+										</h:graphicImage>
+									</h:panelGroup>
+									<h:panelGroup layout="block" styleClass="imixs-form-section"
+										style="clear: none; width:80%;">
 
-											<div style="clear: left;" />
+										<i:imixsFileUpload id="file_upload_id" workitem="#{workflowController.workitem}"
+											context_url="#{facesContext.externalContext.requestContextPath}/api/workflow/workitem/#{workflowController.workitem.item['$uniqueid']}"
+											hideattachments="true" />
 
-											<h:commandButton value="#{message.remove}"
-												rendered="#{! empty workflowController.workitem.item['txtusericon']}"
-												actionListener="#{userController.removeUserIcon()}">
-												<f:ajax render="usericonpanel"></f:ajax>
-											</h:commandButton>
+										<div style="clear: left;" />
 
-										</h:panelGroup>
-									
+										<h:commandButton value="#{message.remove}"
+											rendered="#{! empty workflowController.workitem.item['txtusericon']}"
+											actionListener="#{userController.removeUserIcon()}">
+											<f:ajax render="usericonpanel"></f:ajax>
+										</h:commandButton>
+
+									</h:panelGroup>
+
 								</div>
 							</div>
 
+
+							<!-- My Dashboard -->
+							<div id="tab-4">
+
+								<div class="imixs-form-panel">
+									<h2>Dashboard Layout</h2>
+									<div class="imixs-form-section">
+										<h:inputTextarea required="false" styleClass="imixs-properties"
+											style="height: 600px;" pt:spellCheck="false" pt:autoComplete="off"
+											pt:autoCorrect="off" pt:autoCapitalize="off" pt:data-gramm="false"
+											value="#{workflowController.workitem.item['dashboard.form']}">
+										</h:inputTextarea>
+									</div>
+								</div>
+							</div>
 
 							<!-- Security Groups -->
 							<div id="tab-2">
 								<div class="imixs-form-panel imixs-form-section-2">
 									<!-- Enable local database security? -->
-									<h:panelGroup
-										rendered="#{setupController.workitem.item['keyEnableUserDB']}">
+									<h:panelGroup rendered="#{setupController.workitem.item['keyEnableUserDB']}">
 										<dl>
 											<dt>
 												<h:outputLabel value="#{message['profile.groups']}" />
@@ -195,10 +196,9 @@
 											<dd>
 												<h:selectOneRadio layout="pageDirection" id="user_groups"
 													value="#{accessRoleController.userRole}">
-													<c:forEach
-														items="#{accessRoleController.accessRoles}"
-														var="group">
-														<f:selectItem itemLabel="#{group}" itemValue="#{group}"></f:selectItem>
+													<c:forEach items="#{accessRoleController.accessRoles}" var="group">
+														<f:selectItem itemLabel="#{group}" itemValue="#{group}">
+														</f:selectItem>
 													</c:forEach>
 												</h:selectOneRadio>
 											</dd>
@@ -231,30 +231,28 @@
 							</div>
 
 							<!-- X509 -->
-							<ui:fragment
-								rendered="#{propertyController.getProperty('profile.x509') eq 'true'}">
+							<ui:fragment rendered="#{propertyController.getProperty('profile.x509') eq 'true'}">
 								<div id="tab-3">
 									<div class="imixs-form-panel imixs-form-section-2">
 
 										<dl>
 											<dt>Organisation</dt>
 											<dd>
-												<h:inputText
-													value="#{workflowController.workitem.item['x509.o']}" />
+												<h:inputText value="#{workflowController.workitem.item['x509.o']}" />
 											</dd>
 										</dl>
-										
+
 										<dl>
 											<dt>Org Units</dt>
 											<dd>
-												<h:inputTextarea required="false"
-													converter="org.imixs.VectorConverter" style="height: 4em;"
+												<h:inputTextarea required="false" converter="org.imixs.VectorConverter"
+													style="height: 4em;"
 													value="#{workflowController.workitem.itemList['x509.ou']}">
 												</h:inputTextarea>
 
 											</dd>
 										</dl>
-									
+
 										<dl>
 											<dt>Country</dt>
 											<dd>
@@ -265,12 +263,11 @@
 										<dl>
 											<dt>City</dt>
 											<dd>
-												<h:inputText
-													value="#{workflowController.workitem.item['x509.city']}" />
+												<h:inputText value="#{workflowController.workitem.item['x509.city']}" />
 											</dd>
 										</dl>
-									
-										
+
+
 										<dl>
 											<dt>State</dt>
 											<dd>
@@ -278,8 +275,8 @@
 													value="#{workflowController.workitem.item['x509.state']}" />
 											</dd>
 										</dl>
-										
-									</div>	
+
+									</div>
 									<div class="imixs-form-panel imixs-form-section-2">
 										<dl>
 											<dt>Signature</dt>
@@ -288,7 +285,7 @@
 													<h:graphicImage style="max-width:200px;"
 														rendered="#{! empty workflowController.workitem.item['signature.image']}"
 														value="/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{workflowController.workitem.item['signature.image']}">
-													</h:graphicImage>												
+													</h:graphicImage>
 													<br />
 													<h:commandButton value="#{message.remove}"
 														rendered="#{! empty workflowController.workitem.item['signature.image']}"
@@ -316,4 +313,3 @@
 
 
 </ui:composition>
-

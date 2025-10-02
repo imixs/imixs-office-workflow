@@ -93,15 +93,30 @@ public class DashboardAnalyticController implements Serializable {
     protected AnalyticController analyticController;
 
     /**
-     * This method loads the dashboard form information
+     * This method loads the dashboard layout information and stores the layout in
+     * the item 'txtWorkflowEditorCustomForm'.
+     * <p>
+     * The dashboard layout can be stored in the global settings as also in the user
+     * UserProfile. This mechanism allows to configure custom dashboards for each
+     * user.
      */
     public void initLayout() {
         dataSets = new HashMap<>();
         ItemCollection configItemCollection = dashboardController.getConfiguration();
         if (configItemCollection != null) {
             try {
-                String content = configItemCollection.getItemValueString("dashboard.form");
-
+                // test if we have a custom dashboard stored in the current user profile.
+                String content = userController.getWorkitem().getItemValueString("dashboard.form");
+                if (content.isBlank()) {
+                    // load global dashboard layout
+                    content = configItemCollection.getItemValueString("dashboard.form");
+                }
+                // validate layout ....
+                if (!content.trim().startsWith("<imixs-form")) {
+                    logger.warning("Invalid Dashboard Layout!");
+                    content = DashboardController.DASHBOARD_DEFAULT_DEFINITION;
+                }
+                // set custom form layout
                 workitem.setItemValue(CustomFormController.ITEM_CUSTOM_FORM, content);
                 customFormController.computeFieldDefinition(workitem);
             } catch (ModelException e) {
