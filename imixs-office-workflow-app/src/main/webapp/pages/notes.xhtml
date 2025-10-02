@@ -12,6 +12,21 @@
 	</h:head>
 	<ui:define name="content">
 		<f:view>
+			<script type="text/javascript">
+				/*<![CDATA[*/
+				$(document)
+					.ready(
+						function () {
+							// set navigation cookie
+							document.cookie = "imixs.office.navigation=/pages/notes.jsf;path=#{facesContext.externalContext.requestContextPath}/";
+							// refresh portlets every 5 minutes
+							setInterval(function () {
+								$(".imixs-portlet-refresh").click()
+							}, 300000);
+						});
+
+				/*]]>*/
+			</script>
 			<h:form id="dashboard_form">
 				<h:panelGroup styleClass="imixs-form-panel imixs-view" layout="block" id="dashboard_form_id"
 					binding="#{formComponents}">
