@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -136,17 +137,24 @@ public class ModelController implements Serializable {
 	 * Returns a String list of all WorkflowGroup names.
 	 * 
 	 * Workflow groups of the system model will be skipped.
-	 * 
-	 * A workflowGroup with a '~' in its name will be skipped. This indicates a
-	 * child process.
-	 * 
 	 * The worflowGroup list is used to assign a workflow Group to a core process.
 	 * 
 	 * @return list of workflow groups
 	 * @throws ModelException
 	 */
 	public List<String> getWorkflowGroups() {
-		return modelService.findAllWorkflowGroups();
+		List<String> result = new ArrayList<String>();
+		List<String> allGroups = modelService.findAllWorkflowGroups();
+		for (String group : allGroups) {
+			String version = getVersionByGroup(group);
+			if (version.startsWith("system-")) {
+				continue;
+			}
+			result.add(group);
+		}
+		// sort result
+		Collections.sort(result);
+		return result;
 	}
 
 	/**
