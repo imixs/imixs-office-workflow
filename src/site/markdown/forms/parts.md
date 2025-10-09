@@ -16,8 +16,7 @@ The various input item definitions are called 'input parts':
 ### Text Input
 
 ```xml
-    <item name="description" type="text"
-            label="Topic" />
+    <item name="description" type="text" label="Topic" />
 ```
 
 ### Textlist
@@ -25,52 +24,46 @@ The various input item definitions are called 'input parts':
 A textlist is displayed as a input textarea. The entries of separate lines are stored as multiple values in an Item List. This input type can be useful e.g. for lists of E-Mail addresses or a list of order-numbers.
 
 ```xml
-    <item name="references" type="textlist"
-            label="Order References" />
+    <item name="references" type="textlist" label="Order References" />
 ```
 
 ### Textarea Input
 
 ```xml
-    <item name="description" type="textarea"
-            label="Description" />
+    <item name="description" type="textarea" options="height: 15em;" label="Description" />
 ```
+
+The parameter 'options' is optional and can be used for css styles only.
 
 ### HTML/RichText Input
 
 ```xml
-    <item name="description" type="html"
-            label="Description" />
+    <item name="description" type="html" label="Description" />
 ```
 
 ### Date Input
 
 ```xml
-    <item name="invoice.date" type="date"
-            label="Date" />
+    <item name="invoice.date" type="date" label="Date" />
 ```
 
 ### HTML5 Date Input
 
 ```xml
-    <item name="invoice.date" type="html5date"
-            label="Date" />
+    <item name="invoice.date" type="html5date" label="Date" />
 ```
 
 ### Currency Input
 
 ```xml
-    <item name="invoice.amount" type="currency"
-            label="Amount" />
+    <item name="invoice.amount" type="currency" label="Amount" />
 ```
 
 ### IBAN / BIC Input
 
 ```xml
-    <item name="dbtr.iban" type="iban"
-            label="IBAN" />
-    <item name="dbtr.bic" type="bic"
-            label="BIC" />
+    <item name="dbtr.iban" type="iban" label="IBAN" />
+    <item name="dbtr.bic" type="bic"  label="BIC" />
 ```
 
 Supports a IBAN/BIC Input validation.
@@ -102,4 +95,12 @@ You can also add a mapping of the name displayed in the select box and an option
 ```xml
     <item name"myfield" type="selectOneMenu" required="true" label="Your Choice"
       options="management.it|Option A;management.backoffice|Option B" />
+```
+
+### Markup
+
+With the Markup Editor you can provide a WYSIWYG Editor for Markup Text
+
+```xml
+  <item name="request.response.text" type="custom" path="markdowneditor" />
 ```

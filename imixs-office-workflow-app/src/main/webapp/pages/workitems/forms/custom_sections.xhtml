@@ -115,6 +115,7 @@
 								<ui:remove><!-- text area --></ui:remove>
 								<c:if test="#{item.type eq 'textarea'}">
 									<h:inputTextarea value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
+										style="#{item.options}"
 										required="#{item.required?validationController.required:false}"
 										rendered="#{!item.readonly}" disabled="#{item.disabled}" />
 									<h:outputText escape="true" value="#{workitem.item[item.name]}"
