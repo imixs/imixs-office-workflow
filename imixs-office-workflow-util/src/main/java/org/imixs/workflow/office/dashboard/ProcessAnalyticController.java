@@ -90,7 +90,6 @@ public class ProcessAnalyticController implements Serializable {
 
 			// do we have a process key?
 			if ("process".equals(key)) {
-
 				// lookup process
 				ItemCollection process = teamService.getProcessByName(value);
 				if (process == null) {
@@ -106,8 +105,7 @@ public class ProcessAnalyticController implements Serializable {
 
 			// Count....
 			if (event.getKey().startsWith("worklist.stats.count.")) {
-
-				String query = "(type:workitem) AND (" + key + ":" + value + ")";
+				String query = "(type:workitem) AND (" + key + ":\"" + value + "\")";
 				long count;
 
 				count = documentService.count(query);
@@ -184,8 +182,8 @@ public class ProcessAnalyticController implements Serializable {
 	}
 
 	/**
-	 * computes the count of workitems per months by a given key.
-	 * Possible keys are 'process.ref', '$workflowgroup'
+	 * computes the count of workitems per months by a given key. Possible keys are
+	 * 'process.ref', '$workflowgroup'
 	 * 
 	 * @return
 	 */
