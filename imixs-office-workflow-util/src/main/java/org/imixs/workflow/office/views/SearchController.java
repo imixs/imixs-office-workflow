@@ -231,9 +231,7 @@ public class SearchController extends ViewController implements Serializable {
     }
 
     /**
-     * 3 = by last update
-     * 1 = by created
-     * 2 = by created
+     * 3 = by last update 1 = by created 2 = by created
      */
     @Override
     public String getSortBy() {
@@ -290,43 +288,39 @@ public class SearchController extends ViewController implements Serializable {
     public void reset() {
         defaultQuery = null;
         title = null;
-
-        String processref = "";
-        if (searchFilter != null) {
-            // restore the old processref
-            processref = searchFilter.getItemValueString("processref");
-        }
-
         searchFilter = new ItemCollection();
         searchFilter.replaceItemValue("type", "workitem");
-        // set default user mode
         searchFilter.replaceItemValue("usermode", "owner");
-        searchFilter.replaceItemValue("processref", processref);
         this.setPageIndex(0);
         super.reset();
     }
 
     /**
-     * Resets the search filter but not the search phrase (phrase) The method reset
-     * the current result.
+     * Resets the search filter but not the current search phrase (phrase) and the
+     * process reference. The method refreshes also the current result.
      * 
      * @param event
      */
     public String resetFilter() {
+        String processref = searchFilter.getItemValueString("processref");
         String searchPhrase = searchFilter.getItemValueString("phrase");
         reset();
+        // restore the old phrase and processref
         searchFilter.replaceItemValue("phrase", searchPhrase);
+        searchFilter.replaceItemValue("processref", processref);
         return refreshSearch();
     }
 
     /**
-     * This method reset the search filter and the search pageIndex and creates a
-     * new bookmarkable search link to the worklist including the current search
-     * phrase.
+     * This method reset the search filter but not the phrase. The search pageIndex
+     * is set to 0 and a new bookmarkable search link to the worklist including the
+     * current search phrase is returned.
      * 
      */
     public String resetSearch() {
+        String searchPhrase = searchFilter.getItemValueString("phrase");
         reset();
+        searchFilter.replaceItemValue("phrase", searchPhrase);
         return refreshSearch();
     }
 
