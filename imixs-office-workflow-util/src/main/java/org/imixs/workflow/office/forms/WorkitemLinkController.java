@@ -215,18 +215,38 @@ public class WorkitemLinkController implements Serializable {
     }
 
     /**
-     * This method returns a list of all ItemCollections referred by the current
-     * workItem (txtWorkitemRef).
+     * Deprecated - use getReferencesInbound
      * 
      * @return - list of ItemCollection
      */
+    @Deprecated
     public List<ItemCollection> getReferences() {
         return getReferences("");
     }
 
     /**
-     * This method returns a list of ItemCollections referred by the current
-     * workItem ($WorkitemRef).
+     * Deprecated - use getReferencesInbound
+     * 
+     * @return - list of ItemCollection with matches the current filter
+     */
+    @Deprecated
+    public List<ItemCollection> getReferences(String filter) {
+        return getReferencesInbound(filter);
+    }
+
+    /**
+     * This method returns a list of all ItemCollections referred by the item
+     * '$WorkitemRef'.
+     *
+     * @return - list of ItemCollection
+     */
+    public List<ItemCollection> getReferencesInbound() {
+        return getReferencesInbound("");
+    }
+
+    /**
+     * This method returns a list of ItemCollections referred by the item
+     * '$WorkitemRef'.
      * <p>
      * The filter will be applied to the result list. So each WorkItem will be
      * tested if it matches the filter expression.
@@ -236,7 +256,7 @@ public class WorkitemLinkController implements Serializable {
      * @return - list of ItemCollection with matches the current filter
      */
     @SuppressWarnings("unchecked")
-    public List<ItemCollection> getReferences(String filter) {
+    public List<ItemCollection> getReferencesInbound(String filter) {
 
         long l = System.currentTimeMillis();
         List<ItemCollection> result = new ArrayList<ItemCollection>();
@@ -316,19 +336,25 @@ public class WorkitemLinkController implements Serializable {
     }
 
     /**
-     * This method returns a list of ItemCollections referred by list of IDs.
+     * Deprecated - use getReferencesOutbound instead
      * 
-     * @return - list of ItemCollection with matches the given ids
+     * @return
      */
-    public List<ItemCollection> getReferencesByIdList(List<String> ids) {
-        List<ItemCollection> result = new ArrayList<ItemCollection>();
-        for (String id : ids) {
-            ItemCollection refItemCol = workflowService.getWorkItem(id);
-            if (refItemCol != null) {
-                result.add(refItemCol);
-            }
-        }
-        return result;
+    @Deprecated
+    public List<ItemCollection> getExternalReference() {
+        return getReferencesOutbound("");
+    }
+
+    /**
+     * Deprecated - use getReferencesOutbound
+     * 
+     * @return
+     * @param filter
+     * @throws NamingException
+     */
+    @Deprecated
+    public List<ItemCollection> getExternalReferences(String filter) {
+        return getReferencesOutbound(filter);
     }
 
     /**
@@ -337,7 +363,7 @@ public class WorkitemLinkController implements Serializable {
      * @return
      * @throws NamingException
      */
-    public List<ItemCollection> getExternalReferences() {
+    public List<ItemCollection> getReferencesOutbound() {
         return getExternalReferences("");
     }
 
@@ -349,7 +375,7 @@ public class WorkitemLinkController implements Serializable {
      * @param filter
      * @throws NamingException
      */
-    public List<ItemCollection> getExternalReferences(String filter) {
+    public List<ItemCollection> getReferencesOutbound(String filter) {
         List<ItemCollection> result = new ArrayList<ItemCollection>();
 
         if (workflowController.getWorkitem() == null) {
@@ -358,7 +384,7 @@ public class WorkitemLinkController implements Serializable {
 
         String uniqueid = workflowController.getWorkitem().getUniqueID();
 
-        // return an empty list if still no $uniqueid is defined for the
+        // return an empty list if still no $uniqueId is defined for the
         // current workitem
         if ("".equals(uniqueid)) {
             return result;
@@ -402,6 +428,22 @@ public class WorkitemLinkController implements Serializable {
         externalReferencesCache.put(searchHash, result);
         return result;
 
+    }
+
+    /**
+     * This method returns a list of ItemCollections referred by list of IDs.
+     * 
+     * @return - list of ItemCollection with matches the given ids
+     */
+    public List<ItemCollection> getReferencesOutboundByIds(List<String> ids) {
+        List<ItemCollection> result = new ArrayList<ItemCollection>();
+        for (String id : ids) {
+            ItemCollection refItemCol = workflowService.getWorkItem(id);
+            if (refItemCol != null) {
+                result.add(refItemCol);
+            }
+        }
+        return result;
     }
 
     /**

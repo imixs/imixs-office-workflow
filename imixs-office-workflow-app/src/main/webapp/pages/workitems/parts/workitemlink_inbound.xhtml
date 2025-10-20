@@ -3,8 +3,6 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 
-
-
 	<ui:remove>
 		<!-- WorkitemLink Component
 	
@@ -15,18 +13,11 @@
 	</ui:remove>
 
 	<f:subview id="workitemlink-view">
-		<h:inputText styleClass="workitemlink-input" rendered="#{!readonly}" pt:data-options="#{options}">
-			<f:ajax render="datalist" execute=":#{workitemlinkcollector.clientId} refItemAreaID @this"></f:ajax>
-		</h:inputText>
-		<h:inputTextarea style="display:none;" pt:data-item="#{item.name}" value="#{workitem.itemList[item.name]}"
-			id="refItemAreaID" converter="org.imixs.VectorConverter" />
 
 		<!-- workitem link data table -->
 		<h:panelGroup id="datalist" class="workitemlink-refs">
 			<table class="workitemlinktable">
-				<!-- Use Fallback for worktiemlink parts without an item name -->
-				<ui:param name="referredWorkitems"
-					value="#{(empty item.name)?workitemLinkController.getReferencesOutbound(options):workitemLinkController.getReferencesOutboundByIds(workitem.itemList[item.name])}" />
+				<ui:param name="referredWorkitems" value="#{workitemLinkController.getReferencesInbound(options)}" />
 				<ui:repeat var="workitem_ref" value="#{referredWorkitems}">
 					<tr>
 						<td style="width: 100%;">
@@ -44,18 +35,9 @@
 								<h:outputText value="#{workitem_ref.item['$workflowstatus']}" />
 							</span>
 						</td>
-						<!-- Delete member (edito mode only) -->
-						<ui:fragment rendered="#{!readonly}">
-							<td><a href="javascript:void(0);" onclick="imixsOfficeWorkitem.deleteWorkitemRef(this)"
-									tabindex="-1" data-workitemref="#{workitem_ref.item['$uniqueid']}"
-									class="imixs-no-print" style="margin-left: 5px;"> <span
-										class="typcn typcn-times"></span>
-								</a></td>
-						</ui:fragment>
 					</tr>
 				</ui:repeat>
 			</table>
-
 		</h:panelGroup>
 	</f:subview>
 

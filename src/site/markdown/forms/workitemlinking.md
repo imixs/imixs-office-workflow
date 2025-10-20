@@ -1,88 +1,72 @@
 # Workitem Linking
 
-Imixs-Office-Workflow provides a way to link workitems together:
+Imixs-Office-Workflow provides a way to link workitems together. This means a workitem can point to another workitem which may have a different workflow. The link is defined by the linked `$uniqueId` and is stored in the item `$workitemref`.
+The list of linked workitems is defined by the following Lucene Query:
 
-    <item name="project.ref"
-          type="custom"
-          path="workitemlink"
-          options="$workflowgroup:Projekt"
-          label="Project:" />
-
-With the `options` tag you can specify the search filter to lookup for workitems.
-
-Independent from the property
-"$UnqiueIDRef". The uniqueIDs from workitems linked to the current workitem are stored in
-the property "txtWorkitemRef".
-
-The custom ui widget 'workitemlink' can be used to link a workitem with other workitems. The widget is provided as a custom ui component and can be added into a jsf page using the marty component library. See the following example:
-
-    	<f:subview id="order">
-    		<ui:include src="/pages/workitems/parts/workitemlink.xhtml">
-    			<ui:param name="options" value="$workflowgroup:Order" />
-    		</ui:include>
-    	</f:subview>
-
-The custom tag 'workitemlink' provides the following attributes:
-
-- workitem : defines the workitem the references should be added to
-
-- filter : a custom filter for the lucene search and display existing references (reg expressions are supported here)
-
-- hidereferences : default = false - true hides the reference list from the widget.
-
-Note: the references displayed by the widget are bound directly to the workitem managed by
-the workflowController bean. This is independet from the property 'workitem'
-
-## Display references
-
-It is also possible to display linked workitems in a form.
-
-<img src="workitemref_01.png" />
-
-Because a linked work item can be linked directly from the current workitem or indirectly, two differnt types of lookups are supported.
-
-To show direct referred workitems use the part `workitemref` :
-
-```xml
-    <item name="payment.ref"
-      type="custom"
-      path="workitemref"
-      options="($workflowgroup:Payment) "
-      label="Payments" />
+```SQL
+  (type:"workitem") AND ($workitemref: "<$UNIQUEID>")
 ```
 
-To display external workitems holding a link to the current workitem part `workitemref_external` can be used:
+To set a new linked workitem in a form you can use the custom formpart 'workitemlink'. See the following example:
 
 ```xml
-    <item name="payment.ref"
+<item name="project.ref"
       type="custom"
-      path="workitemref_external"
-      options="($workflowgroup:Payment) "
-      label="Payments" />
+      path="workitemlink"
+      readonly="false"
+      options="$workflowgroup:Projekt"
+      label="Project:" />
 ```
+
+<img src="workitemlink_01.png" />
+
+The user can enter a search phrase to search for a workitem within the index. With the attribute `options` an optional search filter can be specified. The tag `name` is used to hold a list of linked workitems of this type.
+
+If you set `readonly="true"` the formpart shows only a list of linked workitems.
+
+<img src="workitemlink_02.png" />
+
+The workitems linked directyl for the current workitem are also called 'outbound workitmes'
+
+## Display Inbound Workitem Links
+
+It is also possible to display a list of inbound linked workitems. These are workitems holding a reference to the current workitem instance.
+
+```xml
+<item name="project.ref"
+      type="custom"
+      path="workitemlink_inbound"
+      readonly="false"
+      options="$workflowgroup:Projekt"
+      label="Project:" />
+```
+
+<img src="workitemlink_02.png" />
+
+**Note:** The inbound linked workitems can only be refered by the item `$workitemref`. The attribute 'name' is in this case not relevant and will be ignored.
 
 ### Table Layout
 
 The linked workitems can also be displayed in a table layout:
 
- <img src="workitemref_02.png" />
+ <img src="workitemlink_03.png" />
 
 Use the part `workitemreftable` :
 
 ```xml
-    <item name="payment.ref"
+<item name="payment.ref"
       type="custom"
-      path="workitemreftable"
+      path="workitemlink_outbound_table"
       options="($workflowgroup:Payment) "
       label="Payments" />
 ```
 
-Or to display external workitems use `workitemreftable_external`:
+Or to display inbound linked workitems use:
 
 ```xml
-	<item name="payment.ref"
+<item name="payment.ref"
       type="custom"
-      path="workitemreftable_external"
+      path="workitemlink_inbound_table"
       options="($workflowgroup:Payment) "
       label="Payments" />
 ```
@@ -135,13 +119,8 @@ There are different CSS classes defined wthin the imixs-marty.css file. You can 
 the layout of the workitemlink widget.
 
 - marty-workitemlink - defines the main widget container
-
 - marty-workitemlink-referencebox - containing the reference workitem entries
-
 - marty-workitemlink-referencebox-entry - a single workitem entry
-
 - marty-workitemlink-inputbox - container with the input field
-
 - marty-workitemlink-resultlist - the container where the suggest result is presented
-
 - marty-workitemlink-resultlist-entry - a single workitem entry
