@@ -235,13 +235,15 @@ public class WorkitemLinkController implements Serializable {
     }
 
     /**
-     * This method returns a list of all ItemCollections referred by the item
+     * This method returns a list of ItemCollections referred by the item
      * '$WorkitemRef'.
      *
-     * @return - list of ItemCollection
+     * 
+     * @return
+     * @throws NamingException
      */
-    public List<ItemCollection> getReferencesInbound() {
-        return getReferencesInbound("");
+    public List<ItemCollection> getReferencesOutbound() {
+        return getReferencesOutbound("");
     }
 
     /**
@@ -256,7 +258,7 @@ public class WorkitemLinkController implements Serializable {
      * @return - list of ItemCollection with matches the current filter
      */
     @SuppressWarnings("unchecked")
-    public List<ItemCollection> getReferencesInbound(String filter) {
+    public List<ItemCollection> getReferencesOutbound(String filter) {
 
         long l = System.currentTimeMillis();
         List<ItemCollection> result = new ArrayList<ItemCollection>();
@@ -358,24 +360,25 @@ public class WorkitemLinkController implements Serializable {
     }
 
     /**
-     * Returns a list of all workItems holding a reference to the current workItem.
-     * 
-     * @return
-     * @throws NamingException
+     * This method returns a list of all workItems holding a reference to the
+     * current workItem.
+     *
+     * @return - list of ItemCollection
      */
-    public List<ItemCollection> getReferencesOutbound() {
-        return getExternalReferences("");
+    public List<ItemCollection> getReferencesInbound() {
+        return getReferencesInbound("");
     }
 
     /**
-     * returns a list of all workItems holding a reference to the current workItem.
+     * This method returns a list of all workItems holding a reference to the
+     * current workItem.
      * If the filter is set the processID will be tested for the filter regex
      * 
      * @return
      * @param filter
      * @throws NamingException
      */
-    public List<ItemCollection> getReferencesOutbound(String filter) {
+    public List<ItemCollection> getReferencesInbound(String filter) {
         List<ItemCollection> result = new ArrayList<ItemCollection>();
 
         if (workflowController.getWorkitem() == null) {
