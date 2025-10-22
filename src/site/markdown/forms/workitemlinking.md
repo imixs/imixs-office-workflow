@@ -1,13 +1,12 @@
 # Workitem Linking
 
-Imixs-Office-Workflow provides a way to link workitems together. This means a workitem can point to another workitem which may have a different workflow. The link is defined by the linked `$uniqueId` and is stored in the item `$workitemref`.
-The list of linked workitems is defined by the following Lucene Query:
+Imixs-Office-Workflow provides a way to link workitems together. This means a workitem can point to another workitem which may have a different workflow. The link is defined by the `$uniqueId` stored in the item `$workitemref`. A workitem can have one or many links.
 
-```SQL
-  (type:"workitem") AND ($workitemref: "<$UNIQUEID>")
-```
+The workitems linked from a workitem are called _outbound workitem links_.
 
-To set a new linked workitem in a form you can use the custom formpart 'workitemlink'. See the following example:
+## Form Part
+
+To set a new linked workitem in a form, you can use the custom formpart 'workitemlink'. See the following example:
 
 ```xml
 <item name="project.ref"
@@ -20,20 +19,55 @@ To set a new linked workitem in a form you can use the custom formpart 'workitem
 
 <img src="workitemlink_01.png" />
 
-The user can enter a search phrase to search for a workitem within the index. With the attribute `options` an optional search filter can be specified. The tag `name` is used to hold a list of linked workitems of this type.
+The user can enter a search phrase to search for a workitem within the index. With the attribute `options` an optional search filter can be applied. The tag `name` is used to hold a list of linked workitems of this type.
 
 If you set `readonly="true"` the formpart shows only a list of linked workitems.
 
 <img src="workitemlink_02.png" />
 
-The workitems linked directyl for the current workitem are also called 'outbound workitmes'
+### Layout and CSS
+
+There are different CSS classes defined wthin the imixs-marty.css file. You can overwrite
+the layout of the workitemlink widget.
+
+- marty-workitemlink - defines the main widget container
+- marty-workitemlink-referencebox - containing the reference workitem entries
+- marty-workitemlink-referencebox-entry - a single workitem entry
+- marty-workitemlink-inputbox - container with the input field
+- marty-workitemlink-resultlist - the container where the suggest result is presented
+- marty-workitemlink-resultlist-entry - a single workitem entry
+
+## Inbound Workitem Links
+
+While _outbound workitem links_ describe the workitems that a workitem points to, _inbound workitem links_ define the reverse relationship: They show all workitems that reference the current workitem.
+
+When Workitem A references Workitem B (through an entry in $workitemref of Workitem A), then:
+
+- Workitem A has an outbound link to Workitem B
+- Workitem B has an inbound link from Workitem A
+
+Inbound links are not stored explicitly but are determined dynamically via the index. To find all workitems that reference a specific workitem, use the following Lucene query:
+
+```sql
+(type:"workitem") AND ($workitemref: "<$UNIQUEID>")
+```
+
+Here, `<$UNIQUEID>` is replaced with the actual $uniqueId of the workitem for which you want to retrieve the inbound links.
+
+This query is particularly useful to:
+
+- Identify dependencies on a workitem
+- Check if a workitem is still referenced by others (e.g., before deletion)
+- Get an overview of all assigned or linked processes
+
+Unlike outbound links, which are actively maintained by the user, inbound links emerge automatically from the references of other workitems.
 
 ## Display Inbound Workitem Links
 
-It is also possible to display a list of inbound linked workitems. These are workitems holding a reference to the current workitem instance.
+To display a list of inbound linked workitems you can use the formpart `workitemlink_inbound`
 
 ```xml
-<item name="project.ref"
+<item
       type="custom"
       path="workitemlink_inbound"
       readonly="false"
@@ -43,7 +77,7 @@ It is also possible to display a list of inbound linked workitems. These are wor
 
 <img src="workitemlink_02.png" />
 
-**Note:** The inbound linked workitems can only be refered by the item `$workitemref`. The attribute 'name' is in this case not relevant and will be ignored.
+**Note:** The inbound linked workitems can only be referred by the item `$workitemref`. The attribute 'name' is in this case not relevant and will be ignored.
 
 ### Table Layout
 
@@ -51,7 +85,7 @@ The linked workitems can also be displayed in a table layout:
 
  <img src="workitemlink_03.png" />
 
-Use the part `workitemreftable` :
+Use the part `workitemlink_outbound_table` :
 
 ```xml
 <item name="payment.ref"
@@ -61,7 +95,7 @@ Use the part `workitemreftable` :
       label="Payments" />
 ```
 
-Or to display inbound linked workitems use:
+Or to display inbound linked workitems use `workitemlink_inbound_table`:
 
 ```xml
 <item name="payment.ref"
@@ -113,14 +147,8 @@ Note: In case of a regular expression you can not use item name mapping with the
 
 The option `<debug>true</debug>` prints details of the copy process into the server log
 
-## Layout and CSS
+## Data Groups & Split Workitems
 
-There are different CSS classes defined wthin the imixs-marty.css file. You can overwrite
-the layout of the workitemlink widget.
+With the sub project [Data Groups](https://github.com/imixs/imixs-data/tree/main/imixs-data-groups) you can create linked workitems by a Adapter Class
 
-- marty-workitemlink - defines the main widget container
-- marty-workitemlink-referencebox - containing the reference workitem entries
-- marty-workitemlink-referencebox-entry - a single workitem entry
-- marty-workitemlink-inputbox - container with the input field
-- marty-workitemlink-resultlist - the container where the suggest result is presented
-- marty-workitemlink-resultlist-entry - a single workitem entry
+Also the [Split and Join Plugin](https://www.imixs.org/doc/engine/plugins/splitandjoinplugin.html) provides a way to generate outgoing workitem links.
