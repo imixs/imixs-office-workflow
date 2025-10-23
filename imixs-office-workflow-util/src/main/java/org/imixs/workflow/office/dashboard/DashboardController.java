@@ -50,8 +50,8 @@ public class DashboardController implements Serializable {
             "    <item name=\"dashboard.worklist.owner\" type=\"custom\" path=\"cards/worklist\"\n" + //
             "         options='{ \"label\":\"Meine Aufgaben\", \"description\":\"Aufgaben, die Ihrer Bearbeitung bedürfen.\", \"pagesize\":\"10\"}'/>\n"
             + //
-            "    <item name=\"dashboard.worklist.favorite\" type=\"custom\" path=\"cards/worklist\"\n" + //
-            "         options='{ \"label\":\"Meine Favoriten\", \"description\":\"Mit Stern markierte Aufgaben, die Sie im Blick behalten möchten.\", \"pagesize\":\"10\"}'/>\n"
+            "    <item name=\"dashboard.worklist.creator\" type=\"custom\" path=\"cards/worklist\"\n" + //
+            "         options='{ \"label\":\"Meine Vorgänge\", \"description\":\"Aufgaben, die von Ihnen erstellt wurden.\", \"pagesize\":\"10\"}'/>\n"
             + //
             "  </imixs-form-section>\n" + //
             "</imixs-form> ";
