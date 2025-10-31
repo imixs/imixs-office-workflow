@@ -1,13 +1,12 @@
 package org.imixs.workflow.office.dashboard;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.DocumentEvent;
 import org.imixs.workflow.engine.DocumentService;
-import org.imixs.workflow.exceptions.QueryException;
+import org.imixs.workflow.office.config.SetupController;
 
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.enterprise.event.Observes;
@@ -26,6 +25,9 @@ public class DashboardController implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(DashboardAnalyticController.class.getName());
+
+    @Inject
+    SetupController configController;
 
     public static String DASHBOARD_DEFAULT_DEFINITION = "<imixs-form>\n" + //
             "  <imixs-form-section columns=\"4\" label=\"\">\n" + //
@@ -67,18 +69,7 @@ public class DashboardController implements Serializable {
      */
     public ItemCollection getConfiguration() {
         if (configItemCollection == null) {
-            List<ItemCollection> result;
-            try {
-                result = documentService.find("type:configuration AND txtname:BASIC", 1, 0, "$created", true);
-                if (result != null && result.size() > 0) {
-                    configItemCollection = result.get(0);
-                    if (configItemCollection != null) {
-                        setupConfigUniqueID = configItemCollection.getUniqueID();
-                    }
-                }
-            } catch (QueryException e) {
-                logger.warning("Failed to load BASIC configuration!");
-            }
+            configItemCollection = configController.getWorkitem();
         }
 
         // Test if a 'dashboard.from' is defined. If not, we set the default from here.
