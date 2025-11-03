@@ -45,11 +45,13 @@
 			<h3>
 				<h:outputText value="#{section.name}" />
 			</h3>
-			<f:subview>
-				<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
-					<ui:param name="workitem" value="#{workflowController.workitem}" />
-				</ui:include>
-			</f:subview>
+			<c:if test="#{'custom' ne section.path}">
+				<f:subview>
+					<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
+						<ui:param name="workitem" value="#{workflowController.workitem}" />
+					</ui:include>
+				</f:subview>
+			</c:if>
 		</div>
 	</c:forEach>
 

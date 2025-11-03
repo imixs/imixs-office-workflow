@@ -10,7 +10,7 @@
 
 		<ui:remove><!-- test if custom form section --></ui:remove>
 		<c:if test="#{! empty section.path}">
-			<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
+			<ui:include src="/pages/workitems/sections/#{section.path}.xhtml">
 				<ui:param name="workitem" value="#{workitem}" />
 				<ui:param name="readonly" value="#{section.readonly}" />
 				<ui:param name="options" value="#{section.options}" />
