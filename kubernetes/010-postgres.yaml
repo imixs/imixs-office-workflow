@@ -1,0 +1,85 @@
+---
+###################################################
+# Persistence Volume Claim for DB
+###################################################
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dbdata
+spec:
+  accessModes:
+    - ReadWriteOnce
+  # The default storageClassName is used here.
+  # You can overwrite the classname
+  # storageClassName: longhorn
+  resources:
+    requests:
+      storage: 2Gi
+
+---
+###################################################
+# Deployment PostgreSQL
+###################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  labels:
+    app: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: office
+            - name: POSTGRES_PASSWORD
+              value: adminadmin
+            - name: POSTGRES_USER
+              value: postgres
+          image: postgres:14.4
+          name: postgres
+          livenessProbe:
+            tcpSocket:
+              port: 5432
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: dbdata
+              subPath: postgres
+      restartPolicy: Always
+      volumes:
+        - name: dbdata
+          persistentVolumeClaim:
+            claimName: dbdata
+
+---
+###################################################
+# Service db
+#   - running with ClusterIP=None
+###################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  labels:
+    app: postgres
+spec:
+  clusterIP: None
+  ports:
+    - name: tcp
+      port: 5432
+  selector:
+    app: postgres
