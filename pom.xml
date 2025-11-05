@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.imixs.workflow</groupId>
 	<artifactId>imixs-office-workflow</artifactId>
@@ -80,36 +82,32 @@
 		<org.imixs.build.timestamp>${maven.build.timestamp}</org.imixs.build.timestamp>
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 
-		<!-- Dependency Versions -->
-		<jakarta.version>10.0.0</jakarta.version>
+		<!-- Imixs Dependency Versions -->
 		<org.imixs.workflow.version>6.2.4</org.imixs.workflow.version>
 		<org.imixs.archive.version>3.1.3</org.imixs.archive.version>
-		<org.imixs.data.version>1.0.1</org.imixs.data.version>
-		<org.imixs.adapters.version>3.2.1</org.imixs.adapters.version>
+		<org.imixs.data.version>1.0.2-SNAPSHOT</org.imixs.data.version>
+		<org.imixs.adapters.version>3.2.2-SNAPSHOT</org.imixs.adapters.version>
 		<org.imixs.ai.version>1.1.3</org.imixs.ai.version>
-		<org.imixs.office.version />
 		<org.imixs.marty.version>5.1.0</org.imixs.marty.version>
+
+		<!-- Jakarta EE and External Libraries -->
+		<jakarta.version>10.0.0</jakarta.version>
+		<microprofile.version>6.0</microprofile.version>
+		<net.sf.saxon.version>9.9.1-4</net.sf.saxon.version>
+
 		<!-- Test dependencies -->
 		<org.imixs.mock.version>6.1.0</org.imixs.mock.version>
 		<mockito.version>5.8.0</mockito.version>
 
-		<!-- 2.2 -->
-		<microprofile.version>6.0</microprofile.version>
-		<net.sf.saxon.version>9.9.1-4</net.sf.saxon.version>
-		<custom.webResources>src/main/webapp</custom.webResources>
-		<imixs-office.applicationname>imixs-office-workflow</imixs-office.applicationname>
 
-		<!-- Environment Settings -->
+		<!-- Deployment Settings -->
 		<imixs-office.contextroot>/</imixs-office.contextroot>
 		<imixs-office.realm>imixsrealm</imixs-office.realm>
 		<imixs-office.jta-data-source>jdbc/office</imixs-office.jta-data-source>
 		<imixs-office.IndexDir>lucene/office-workflow-index</imixs-office.IndexDir>
-		<!-- jndi Mail res-ref name
-		java:/mail/org.imixs.workflow.mail	
-		 -->
 		<imixs-mail-res-ref-name>java:/mail/org.imixs.workflow.mail</imixs-mail-res-ref-name>
-
-		<!-- Wildfly unpack war -->
+		<custom.webResources>src/main/webapp</custom.webResources>
+		<imixs-office.applicationname>imixs-office-workflow</imixs-office.applicationname>
 		<custom.unpackTypes>war</custom.unpackTypes>
 		<jakarta.faces.project_stage>Production</jakarta.faces.project_stage>
 	</properties>
