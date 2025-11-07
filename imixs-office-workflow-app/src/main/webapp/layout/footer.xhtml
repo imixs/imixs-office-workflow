@@ -1,17 +1,13 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
 	<ul>
-		<li>#{resourceBundleHandler.findMessage('application_title')}-#{resourceBundleHandler.findMessage('application_build')}</li>
-		<li><h:link outcome="/contact">Help</h:link></li>
+		<li>#{buildInfo.name}-#{buildInfo.version}</li>
+		<li>
+			<h:link outcome="/contact">Help</h:link>
+		</li>
 		<li><a href="http://www.imixs.com/impressum" target="_blank">Impressum</a></li>
 	</ul>
 </ui:composition>
-
-
