@@ -78,12 +78,12 @@
 		<div
 			style="background-color: #f9f9f9; font-size:0.85rem; border-bottom: 1px solid var(--input-border);border-left: 1px solid var(--input-border);border-right: 1px solid var(--input-border); height: 30px; display: flex; justify-content: space-between; align-items: center;padding: 5px 10px;">
 			<span style="display: flex; align-items: center;gap: 10px;">
-				<h:commandLink title="Excel Export" actionListener="#{dataGroupController.export()}">
-					<f:ajax render="dataview_result_id" onevent="updateDataView" />
+				<h:commandLink title="Excel Export" rendered="false" actionListener="#{dataGroupController.export()}"
+					onclick="handleSubmit(this)">
 					<i class="fa-solid fa-file-csv"></i>
 				</h:commandLink>
-				<h:commandLink title="Excel Export" actionListener="#{dataGroupController.export()}">
-					<f:ajax render="dataview_result_id" onevent="updateDataView" />
+				<h:commandLink title="Excel Export" rendered="#{dataGroupController.hasPoiExport()}"
+					actionListener="#{dataGroupController.export()}" onclick="handleSubmit(this)">
 					<i class="fa-solid fa-file-excel"></i>
 				</h:commandLink>
 			</span>
@@ -100,42 +100,17 @@
 				</h:commandLink>
 			</span>
 		</div>
-
-
-
-
 	</h:panelGroup>
-
-
-
-
-
-
 
 
 	<script type="text/javascript">
 		/*<![CDATA[*/
-		$(document).ready(function () {
-
-		});
-
-		//ajax refresh...
-		function updateDataView(data, context) {
-			var viewBody = $("#dataview-controlls-id");
-			if (data.status === "begin") {
-				viewBody.addClass("loading");
-			} else if (data.status === "success") {
-				imixsOfficeMain.layoutAjaxEvent(data);
-			}
-		}
-
 		function handleSubmit(event) {
-			// remove ajax loader 5sec after trigger excel export 
+			// remove ajax loader 1sec after trigger excel export
 			setTimeout(function () {
 				document.body.classList.remove('loading');
-			}, 5000);
+			}, 1000);
 		}
-
 		/*]]>*/
 	</script>
 
