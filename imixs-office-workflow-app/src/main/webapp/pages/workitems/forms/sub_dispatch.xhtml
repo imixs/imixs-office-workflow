@@ -1,7 +1,5 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html">
 
 	<div class="imixs-form-section">
@@ -13,8 +11,7 @@
 					value="#{workflowController.workitem.item['Space.Ref']}">
 					<f:selectItem itemLabel=""></f:selectItem>
 					<c:forEach items="#{teamController.spaces}" var="space">
-						<f:selectItem itemLabel="#{space.item['name']}"
-							itemValue="#{space.item['$UniqueID']}">
+						<f:selectItem itemLabel="#{space.item['name']}" itemValue="#{space.item['$UniqueID']}">
 						</f:selectItem>
 					</c:forEach>
 				</h:selectOneMenu>
@@ -23,4 +20,3 @@
 	</div>
 
 </ui:composition>
-

@@ -20,7 +20,7 @@
 			<h3>
 				<h:outputText value="#{section.name}" />
 			</h3>
-			<c:if test="#{'custom' ne section.path}">
+			<c:if test="#{('custom_read' ne section.path) and ('custom' ne section.path)}">
 				<f:subview>
 					<ui:include src="/pages/workitems/forms/#{section.path}.xhtml">
 						<ui:param name="workitem" value="#{workflowController.workitem}" />
