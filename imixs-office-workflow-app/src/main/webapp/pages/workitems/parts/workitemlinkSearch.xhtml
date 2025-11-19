@@ -31,7 +31,8 @@
 		/*]]>*/
 	</script>
 	<h:inputTextarea binding="#{workitemlinkcollector}" style="display:none;" styleClass="workitemlink-textarea-input"
-		value="#{workflowController.workitem.itemList['$workitemref']}" converter="org.imixs.VectorConverter">
+		value="#{workflowController.workitem.itemList['$workitemref']}"
+		required="#{required?validationController.required:false}" converter="org.imixs.VectorConverter">
 	</h:inputTextarea>
 	<h:panelGroup id="autocomplete-resultlist" layout="block" class="autocomplete-resultlist">
 		<ui:repeat var="suggest" value="#{workitemLinkController.searchResult}">

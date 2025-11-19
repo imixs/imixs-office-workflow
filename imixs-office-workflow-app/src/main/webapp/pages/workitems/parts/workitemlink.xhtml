@@ -19,8 +19,8 @@
 			<f:ajax render="datalist" execute=":#{workitemlinkcollector.clientId} refItemAreaID @this"></f:ajax>
 		</h:inputText>
 		<h:inputTextarea style="display:none;" pt:data-item="#{item.name}" value="#{workitem.itemList[item.name]}"
-			id="refItemAreaID" converter="org.imixs.VectorConverter" />
-
+			id="refItemAreaID" required="#{required?validationController.required:false}"
+			converter="org.imixs.VectorConverter" />
 		<!-- workitem link data table -->
 		<h:panelGroup id="datalist" class="workitemlink-refs">
 			<table class="workitemlinktable">
