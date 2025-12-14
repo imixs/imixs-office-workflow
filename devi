@@ -119,7 +119,7 @@ fi
 
 if [[ "$(strip_dash $1)" == "start" ]]; then
     echo " Start Dev Environment..."
-    docker-compose -f ./docker/docker-compose-dev.yaml up
+    docker compose -f ./docker/docker-compose-dev.yaml up
 fi
 
 if [[ "$(strip_dash $1)" == "build" ]]; then
