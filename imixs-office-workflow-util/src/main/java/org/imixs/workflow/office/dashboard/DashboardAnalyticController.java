@@ -225,7 +225,7 @@ public class DashboardAnalyticController implements Serializable {
     }
 
     /**
-     * Läd die statistik daten zu einem debitor aus den aktuellen Rechnungen
+     * loads statistic data
      */
     private void calculateStats(AnalyticEvent event) {
         countAllByOwner = 0;

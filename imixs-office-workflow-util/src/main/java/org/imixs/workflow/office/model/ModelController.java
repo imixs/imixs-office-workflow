@@ -41,6 +41,7 @@ import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.imixs.marty.team.TeamController;
 import org.imixs.workflow.FileData;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ModelManager;
@@ -93,6 +94,9 @@ public class ModelController implements Serializable {
 
 	@Inject
 	protected WorkflowService workflowService;
+
+	@Inject
+	protected TeamController teamController;
 
 	@Inject
 	FileUploadController fileUploadController;
@@ -210,6 +214,26 @@ public class ModelController implements Serializable {
 					"Failed to find start tasks for workflow group '" + group + "' : " + e.getMessage());
 		}
 		return result;
+	}
+
+	/**
+	 * This helper method finds the process entity containing a specific workflow
+	 * group in the item 'txtworkflowlist'. The method returns null if no matching
+	 * workflow group was found
+	 * 
+	 * @param workflowgroup
+	 * @return
+	 */
+	public ItemCollection findProcessByWorkflowGroup(String workflowgroup) {
+		// use the TeamController to support caching!
+		List<ItemCollection> processList = teamController.getProcessList();
+		for (ItemCollection process : processList) {
+			if (process.getItemValue("txtworkflowlist", String.class).contains(workflowgroup)) {
+				// match!
+				return process;
+			}
+		}
+		return null;
 	}
 
 	/**

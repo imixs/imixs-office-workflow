@@ -14,6 +14,7 @@ import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.exceptions.QueryException;
 import org.imixs.workflow.office.forms.AnalyticController;
 import org.imixs.workflow.office.forms.AnalyticEvent;
+import org.imixs.workflow.office.model.ModelController;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.event.Observes;
@@ -46,6 +47,9 @@ public class ProcessAnalyticController implements Serializable {
 
 	@Inject
 	protected AnalyticController analyticController;
+
+	@Inject
+	protected ModelController modelController;
 
 	@Inject
 	TeamService teamService;
@@ -113,6 +117,12 @@ public class ProcessAnalyticController implements Serializable {
 				event.setValue(count);
 				event.setLabel(label);
 				event.setDescription(description);
+				// compute a search link if we are in a process / workflowgroup
+				ItemCollection process = modelController.findProcessByWorkflowGroup(value);
+				if (process != null) {
+					link = "/pages/workitems/worklist.xhtml?processref=" + process.getUniqueID() + "&workflowgroup="
+							+ value;
+				}
 				event.setLink(link);
 			}
 
