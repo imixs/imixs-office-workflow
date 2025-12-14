@@ -225,12 +225,15 @@ public class ModelController implements Serializable {
 	 * @return
 	 */
 	public ItemCollection findProcessByWorkflowGroup(String workflowgroup) {
-		// use the TeamController to support caching!
-		List<ItemCollection> processList = teamController.getProcessList();
-		for (ItemCollection process : processList) {
-			if (process.getItemValue("txtworkflowlist", String.class).contains(workflowgroup)) {
-				// match!
-				return process;
+		if (workflowgroup != null) {
+			// use the TeamController to support caching!
+			List<ItemCollection> processList = teamController.getProcessList();
+			for (ItemCollection process : processList) {
+				List<String> workflowList = process.getItemValueList("txtworkflowlist", String.class);
+				if (workflowList != null && workflowList.contains(workflowgroup)) {
+					// match!
+					return process;
+				}
 			}
 		}
 		return null;
