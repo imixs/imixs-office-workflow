@@ -1,11 +1,7 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	template="/layout/template.xhtml">
 
 	<ui:define name="content">
@@ -14,14 +10,14 @@
 				listener="#{workflowController.load(userController.workitem.item['$uniqueid'])}" />
 
 			<script type="text/javascript">
-			/*<![CDATA[*/
+				/*<![CDATA[*/
 				function passwordCheck() {
-					var dbEnabled=#{setupController.workitem.item['keyEnableUserDB']};
+					var dbEnabled =#{ setupController.workitem.item['keyEnableUserDB']};
 					if (!dbEnabled)
 						return true;
-					var password1=$(':password[id$=password1]').val();
-					var password2=$(':password[id$=password2]').val();
-					if (password1!=password2) {
+					var password1 = $(':password[id$=password1]').val();
+					var password2 = $(':password[id$=password2]').val();
+					if (password1 != password2) {
 						alert("#{message['profile.passworderror']}");
 						return false;
 					} else
@@ -32,11 +28,14 @@
 			</script>
 
 
-			<h:form pt:autocomplete="on"  enctype="multipart/form-data">
-			
+			<h:form pt:autocomplete="off" enctype="multipart/form-data">
+				<!-- hidden Dummy-fields to avoid browser Autofill (dirty workaround) -->
+				<input type="text" name="prevent_autofill_1" style="display:none;" />
+				<input type="password" name="prevent_autofill_2" style="display:none;" />
+
 				<!-- Marty User Search Integration -->
 				<marty:userSearch />
-			
+
 				<div class="imixs-form profile-settings">
 					<div class="imixs-header">
 						<h1>#{message['myprofile.title']}</h1>
@@ -51,30 +50,24 @@
 										<h:outputLabel value="#{message['profile.displayname']}" />
 									</dt>
 									<dd>
-										<h:outputText
-											value="#{workflowController.workitem.item['txtUserName']}" />
+										<h:outputText value="#{workflowController.workitem.item['txtUserName']}" />
 									</dd>
 								</dl>
-
 								<dl>
 									<dt>
 										<h:outputLabel value="#{message['profile.email']}" />
 									</dt>
 									<dd>
-										<h:outputText
-											value="#{workflowController.workitem.item['txtEmail']}" />
+										<h:outputText value="#{workflowController.workitem.item['txtEmail']}" />
 									</dd>
 								</dl>
-
-
 							</div>
 							<div class="imixs-form-section-2 deputy">
 
 								<dl>
 									<dt>#{message['profile.deputy']}</dt>
 									<dd>
-										<marty:userInput
-											value="#{workflowController.workitem.item['namDeputy']}"
+										<marty:userInput value="#{workflowController.workitem.item['namDeputy']}"
 											editmode="true" />
 									</dd>
 								</dl>
@@ -101,7 +94,7 @@
 										<h:outputLabel value="#{message['profile.newpassword']}" />
 									</dt>
 									<dd>
-										<h:inputSecret id="password1"
+										<h:inputSecret id="password1" pt:autocomplete="new-password"
 											value="#{workflowController.workitem.item['txtpassword']}" />
 									</dd>
 								</dl>
@@ -110,7 +103,7 @@
 										<h:outputLabel value="#{message['profile.repeatpassword']}" />
 									</dt>
 									<dd>
-										<h:inputSecret id="password2"
+										<h:inputSecret id="password2" pt:autocomplete="new-password"
 											value="#{workflowController.workitem.item['txtpassword2']}" />
 									</dd>
 								</dl>
@@ -125,8 +118,7 @@
 						<!-- User Icon -->
 						<div class="imixs-form-panel user-icon" style="width: 50%;">
 							<h2>User Icon</h2>
-							<h:panelGroup layout="block" id="usericonpanel"
-								style="float: left; margin-right: 20px;">
+							<h:panelGroup layout="block" id="usericonpanel" style="float: left; margin-right: 20px;">
 								<h:graphicImage styleClass="imixs-user-icon"
 									rendered="#{! empty workflowController.workitem.item['txtusericon']}"
 									value="/api/snapshot/#{workflowController.workitem.item['$uniqueid']}/file/#{workflowController.workitem.item['txtusericon']}">
@@ -137,7 +129,7 @@
 
 								<i:imixsFileUpload id="file_upload_id"
 									labelButton="#{message['form.attachments.fileupload.button']}"
-									labelHelp="#{message['form.attachments.fileupload.help']}"/>
+									labelHelp="#{message['form.attachments.fileupload.help']}" />
 								<div style="clear: left;" />
 
 								<h:commandButton value="#{message.remove}"
@@ -152,13 +144,10 @@
 						<div class="imixs-footer">
 
 							<!-- workflow save command -->
-							<h:commandButton action="home"
-								actionListener="#{workflowController.process(10)}"
-								onclick="return passwordCheck();" class="imixs-workflow-action"
-								value="#{message.save}">
+							<h:commandButton action="home" actionListener="#{workflowController.process(10)}"
+								onclick="return passwordCheck();" class="imixs-workflow-action" value="#{message.save}">
 							</h:commandButton>
-							<h:commandButton value="#{message.close}"
-								class="imixs-close-action" action="home" />
+							<h:commandButton value="#{message.close}" class="imixs-close-action" action="home" />
 
 						</div>
 					</div>
@@ -169,4 +158,3 @@
 
 
 </ui:composition>
-
