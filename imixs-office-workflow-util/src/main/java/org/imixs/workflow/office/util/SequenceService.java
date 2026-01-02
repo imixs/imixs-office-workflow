@@ -27,10 +27,19 @@
 
 package org.imixs.workflow.office.util;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.List;
 import java.util.logging.Logger;
+
+import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.WorkflowKernel;
+import org.imixs.workflow.engine.DocumentService;
+import org.imixs.workflow.exceptions.AccessDeniedException;
+import org.imixs.workflow.office.config.ConfigService;
+import org.imixs.workflow.util.XMLParser;
 
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
@@ -39,13 +48,6 @@ import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.TransactionAttribute;
 import jakarta.ejb.TransactionAttributeType;
-
-import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.WorkflowKernel;
-import org.imixs.workflow.engine.DocumentService;
-import org.imixs.workflow.exceptions.AccessDeniedException;
-import org.imixs.workflow.office.config.ConfigService;
-import org.imixs.workflow.util.XMLParser;
 
 /**
  * The SequcneceService is a singleton EJB which handles continuous
@@ -152,8 +154,7 @@ public class SequenceService {
                 documentContext.replaceItemValue(ITEM_SEQUENCENUMBER, seqn.nextSequenceNumber);
                 // support deprecated item name
                 documentContext.replaceItemValue(ITEM_SEQUENCENUMBER_DEPRECATED, seqn.nextSequenceNumber);
-                
-                
+
                 // update identifier....
                 for (int i = 0; i < vNumbers.size(); i++) {
                     if (vNumbers.get(i).startsWith(sWorkflowGroup + "=")) {
@@ -210,7 +211,7 @@ public class SequenceService {
         // no sequencenumer defined!
         return false;
     }
-  
+
     /**
      * A SequenceNumber is a internal object separating a fixed part form a number
      * part. It computes the next sequence number as also its new definition
@@ -235,9 +236,12 @@ public class SequenceService {
                 if (Character.isDigit(def.charAt(i))) {
                     digit = def.charAt(i) + digit;
                 } else {
-                	// no more number digits (see also issue #501)
-                	break;
+                    // no more number digits (see also issue #501)
+                    break;
                 }
+            }
+            if (digit.isBlank()) {
+                digit = "0";
             }
             prafix = def.substring(0, def.length() - digit.length());
 
@@ -251,18 +255,45 @@ public class SequenceService {
 
             nextDev = prafix + nextDigit;
 
-            // compute next sequecne number
+            // compute next sequence number with modern date API
             nextSequenceNumber = def;
-            // replace <date>...</date>
             List<String> dateTags = XMLParser.findTags(nextSequenceNumber, "date");
             for (String tag : dateTags) {
-                // extract the value with the formating information
                 String pattern = XMLParser.findTagValue(tag, "date");
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-                String dateValue = simpleDateFormat.format(new Date());
+
+                // Map legacy patterns to java.time patterns
+                String javaTimePattern = mapDatePattern(pattern);
+
+                DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                        .appendPattern(javaTimePattern)
+                        .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+                        .toFormatter();
+
+                String dateValue = LocalDate.now().format(formatter);
                 nextSequenceNumber = nextSequenceNumber.replace(tag, dateValue);
             }
 
+        }
+
+        /**
+         * Support 2 digit year format in java.time API
+         * 
+         * @param pattern
+         * @return
+         */
+        public static String mapDatePattern(String pattern) {
+            // Simple mapping - extend as needed
+            switch (pattern) {
+                case "YY":
+                case "yy":
+                    return "uu"; // 2-digit year in java.time
+                case "YYYY":
+                case "yyyy":
+                    return "uuuu"; // 4-digit year
+                default:
+                    // Try to use as-is, might need more complex mapping
+                    return pattern;
+            }
         }
 
         public String getDigit() {
