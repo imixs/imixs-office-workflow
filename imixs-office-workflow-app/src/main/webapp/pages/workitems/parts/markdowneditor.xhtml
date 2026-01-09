@@ -3,6 +3,7 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:h="http://xmlns.jcp.org/jsf/html">
 
 	<ui:fragment rendered="#{!readonly}">
+
 		<!-- Editor Header with Toolbar -->
 		<div class="editor-header">
 			<span class="editor-title"></span>
@@ -125,15 +126,16 @@
 		<div class="editor-container">
 			<!-- WYSIWYG Editor -->
 			<div id="editorjs" class="markdown-editor"></div>
-			<h:inputTextarea value="#{workitem.item[item.name]}" style="min-height: 25em;" pt:data-item="#{item.name}"
-				pt:data-id="markdown_data" required="#{item.required?validationController.required:false}"
-				rendered="#{!item.readonly}" disabled="#{item.disabled}" />
+			<h:inputTextarea value="#{workitem.item[name]}" style="min-height: 25em;" pt:data-item="#{name}"
+				pt:data-id="markdown_data" required="#{required?validationController.required:false}"
+				rendered="#{!readonly}" disabled="#{disabled}" />
 
 		</div>
 	</ui:fragment>
 	<ui:fragment rendered="#{readonly}">
-		<h:inputHidden pt:data-id="markdown_hidden_input" value="#{workitem.item[item.name]}" />
+		<h:inputHidden pt:data-id="markdown_hidden_input" value="#{workitem.item[name]}" />
 		<div class="imixs-markdown-output"></div>
 	</ui:fragment>
+
 
 </ui:composition>
