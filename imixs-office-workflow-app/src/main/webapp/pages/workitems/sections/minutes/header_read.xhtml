@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	<!--  Init script -->
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		$(document).ready(function() {
+
+		});
+
+		/*]]>*/
+	</script>
+	
+	<div class="imixs-form-section">
+		<dl>
+			<dt>
+				#{message['form.minutes.subject']}<span class="imixs-required"> * <h:message for="_subject" /></span>
+			</dt>
+			<dd>
+				<h:outputText title="#{message['form.minutes.help_subject']}" value="#{workitem.item['_subject']}" />
+			</dd>
+		</dl>
+
+
+	</div>
+	<div class="imixs-form-section-2">
+		<dl>
+			<dt>#{message['form.minutes.team']}:</dt>
+			<dd>
+				<marty:userListInput value="#{workitem.itemList['_Team']}" 
+				     editmode="#{false}" />
+			</dd>
+
+		</dl>
+
+
+		<dl>
+			<dt>#{message['form.minutes.present']}:</dt>
+			<dd>
+				<h:panelGroup>
+					<ui:param name="profilelist" value="#{userInputController.getSortedProfilelist(workitem.itemList['_Team'])}" />
+					<h:selectManyCheckbox layout="pageDirection" enabledClass="imixs-normal" disabled="true"
+						value="#{workitem.itemListArray['_present']}">
+						<c:forEach var="user" items="#{profilelist}">
+
+							<f:selectItem itemLabel="#{user.item['txtuserName']}" 
+								itemValue="#{user.item['txtname']}"></f:selectItem>
+						</c:forEach>
+
+					</h:selectManyCheckbox>
+				</h:panelGroup>
+			</dd>
+		</dl>
+
+
+		<dl>
+			<dt>#{message['form.minutes.date']}:</dt>
+			<dd>
+				<h:outputText value="#{workitem.item['datdate']}">
+					<f:convertDateTime pattern="#{message.datePatternShort}"
+						timeZone="#{message.timeZone}" />
+				</h:outputText>
+				
+			
+			</dd>
+		</dl>
+
+	</div>
+	<div class="imixs-form-section">
+		<dl>
+			<dt>#{message['form.description']}</dt>
+			<dd>
+				<h:outputText value="#{workitem.item['_description']}" />
+			</dd>
+		</dl>
+	</div>
+
+
+
+
+</ui:composition>

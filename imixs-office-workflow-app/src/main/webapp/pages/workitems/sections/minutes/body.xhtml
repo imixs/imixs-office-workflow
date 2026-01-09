@@ -1,0 +1,132 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+	<h:panelGroup layout="block" styleClass="imixs-form-section" id="menuitemlist" binding="#{minutelistContainer}">
+		<ui:repeat var="minuteitem" value="#{childItemController.childItems}">
+
+			<!-- Minute Block -->
+			<h:panelGroup layout="block" styleClass="imixs-viewentry" style="gap:0;">
+				<div class="minute-number" style="margin-top: 10px;">
+					<h2>#{minuteitem.item['numpos']}.</h2>
+				</div>
+				<div class="minute-info imixs-form-section">
+
+					<!-- Edit Mode? -->
+					<h:panelGroup rendered="#{minuteitem.item['numpos'] eq minuteController.selectedMinute}">
+						<div class="imixs-form-section" style="margin:0;">
+							<dl>
+								<dd>
+									<h:inputText title="#{message['form.minutes.help_subject']}" required="false"
+										value="#{minuteitem.item['minute.subject']}"
+										style="font-size: 1.5em;line-height: 0;" />
+								</dd>
+							</dl>
+							<dl>
+								<dd>
+									<ui:include src="/pages/workitems/parts/markdowneditor.xhtml">
+										<ui:param name="workitem" value="#{minuteitem}" />
+										<ui:param name="readonly" value="#{false}" />
+										<ui:param name="name" value="minute.description" />
+									</ui:include>
+								</dd>
+								<dt>
+									<h:selectOneRadio value="#{minuteitem.item['minute.type']}">
+										<f:selectItem itemLabel="#{app.minutes_status_decision}" itemValue="decision" />
+										<f:selectItem itemLabel="#{app.minutes_status_task}" itemValue="task" />
+										<f:selectItem itemLabel="#{app.minutes_status_completed}"
+											itemValue="completed" />
+									</h:selectOneRadio>
+								</dt>
+							</dl>
+
+						</div>
+
+						<!-- close minute  -->
+						<h:commandButton value="#{message.close}"
+							actionListener="#{minuteController.toggleMinute(minuteitem.item['numpos'])}">
+							<f:ajax render="#{minutelistContainer.clientId}" immediate="true"
+								onevent="updateMinuteItems" execute="#{minutelistContainer.clientId}"></f:ajax>
+						</h:commandButton>
+					</h:panelGroup>
+
+					<!-- Read Mode -->
+
+					<h:panelGroup rendered="#{minuteitem.item['numpos'] ne minuteController.selectedMinute}">
+						<h:panelGroup styleClass="minute-summary">
+							<h2>
+								<h:commandLink value="#{minuteitem.item['minute.subject']}"
+									actionListener="#{minuteController.toggleMinute(minuteitem.item['numpos'])}">
+									<f:ajax render="#{minutelistContainer.clientId}" immediate="true"
+										onevent="updateMinuteItems" execute="#{minutelistContainer.clientId}"></f:ajax>
+									<h:outputText style="margin-left:10px;font-size:0.7rem;"
+										value="[#{message.edit}]" />
+								</h:commandLink>
+
+							</h2>
+						</h:panelGroup>
+						<div class="imixs-form-section">
+							<dl>
+								<dt class="minute-summary-status">
+									<h:outputText rendered="#{minuteitem.item['minute.type'] eq 'decision'}"
+										value="#{app.minutes_status_decision}" />
+									<h:outputText rendered="#{minuteitem.item['minute.type'] eq 'task'}"
+										value="#{app.minutes_status_task}" />
+									<h:outputText rendered="#{minuteitem.item['minute.type'] eq 'completed'}"
+										value="#{app.minutes_status_completed}" />
+								</dt>
+								<dd>
+									<h:inputHidden a:data-id="markdown_hidden_input"
+										value="#{minuteitem.item['minute.description']}" />
+									<div class="imixs-markdown-output"></div>
+
+								</dd>
+							</dl>
+
+						</div>
+					</h:panelGroup>
+				</div>
+
+			</h:panelGroup>
+		</ui:repeat>
+
+		<!-- add new minute button -->
+		<h:commandButton value="#{message.add}" a:data-id="addposbutton_id" actionListener="#{minuteController.add}">
+			<f:ajax render="#{minutelistContainer.clientId}" immediate="true" onevent="updateMinuteItems"
+				execute="#{minutelistContainer.clientId}"></f:ajax>
+		</h:commandButton>
+
+	</h:panelGroup>
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+		// display summary
+		$(document).ready(function () {
+			// erste Zeile hinzufügen, falls tabelle noch leer ist
+			var posTableEmpty =#{ empty childItemController.childItems };
+			if (posTableEmpty) {
+				// click on add button
+				posButton = $("[data-id='addposbutton_id']");
+				if (posButton) {
+					$(posButton).click();
+				}
+			}
+
+
+		});
+
+		// This method refreshs the layout 
+		function updateMinuteItems(data) {
+			if (data.status === 'success') {
+				$('[id$=menuitemlist]').imixsLayout();
+				imixsMarkdownEditor.init();
+
+				imixsOfficeWorkitem.initMarkdownItems();
+			}
+		}
+
+		/*]]>*/
+	</script>
+
+</ui:composition>

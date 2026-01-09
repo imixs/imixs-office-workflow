@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+	<div class="imixs-form-section">
+		<dl>
+			<dt>
+				#{message['form.minutes.subject']}<span class="imixs-required"> *
+					<h:message for="_subject" />
+				</span>
+			</dt>
+			<dd>
+				<h:inputText title="#{message['form.minutes.help_subject']}" id="_subject" required="true"
+					value="#{workitem.item['_subject']}" />
+			</dd>
+		</dl>
+
+
+	</div>
+	<div class="imixs-form-section-2">
+		<dl>
+			<dt>#{message['form.minutes.team']}:</dt>
+			<dd>
+				<marty:userListInput value="#{workitem.itemList['_Team']}" render="#{teilnehmer.clientId}" />
+			</dd>
+
+		</dl>
+
+
+		<dl>
+			<dt>#{message['form.minutes.present']}:</dt>
+			<dd>
+				<h:panelGroup id="teilnehmerid" binding="#{teilnehmer}">
+					<ui:param name="profilelist"
+						value="#{userInputController.getSortedProfilelist(workitem.itemList['_Team'])}" />
+
+					<h:selectManyCheckbox layout="pageDirection" enabledClass="imixs-normal"
+						value="#{workitem.itemListArray['_present']}">
+						<c:forEach var="user" items="#{profilelist}">
+							<f:selectItem itemLabel="#{user.item['txtuserName']}" itemValue="#{user.item['txtname']}">
+							</f:selectItem>
+						</c:forEach>
+
+					</h:selectManyCheckbox>
+				</h:panelGroup>
+			</dd>
+		</dl>
+
+
+		<dl>
+			<dt>#{message['form.minutes.date']}:</dt>
+			<dd>
+				<h:inputText value="#{workitem.item['datdate']}" required="false"
+					title="#{message['form.minutes.help_datdate']}" class="imixs-date">
+					<f:convertDateTime pattern="#{message.datePatternShort}" timeZone="#{message.timeZone}" />
+				</h:inputText>
+
+
+			</dd>
+		</dl>
+
+	</div>
+	<div class="imixs-form-section">
+		<dl>
+			<dt>#{message['form.description']}</dt>
+			<dd>
+				<h:inputTextarea value="#{workitem.item['_description']}" />
+			</dd>
+		</dl>
+	</div>
+
+
+
+
+</ui:composition>

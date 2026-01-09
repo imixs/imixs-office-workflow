@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+
+
+	<h:panelGroup layout="block" styleClass="imixs-form-section" id="menuitemlist" binding="#{minutelistContainer}">
+		<ui:repeat var="minuteitem" value="#{childItemController.childItems}">
+
+			<!-- Minute Block -->
+			<h:panelGroup layout="block" styleClass="imixs-viewentry">
+				<div class="minute-number">
+					<h2>#{minuteitem.item['numpos']}.</h2>
+				</div>
+				<div class="minute-info">
+
+					<h:panelGroup rendered="#{minuteitem.item['numpos'] ne minuteController.selectedMinute}">
+						<h:panelGroup styleClass="minute-summary">
+							<h2>
+								<h:outputText value="#{minuteitem.item['minute.subject']}" />
+							</h2>
+						</h:panelGroup>
+						<div class="imixs-form-section">
+							<dl>
+								<dt class="minute-summary-status">
+									<h:outputText rendered="#{minuteitem.item['minute.type'] eq 'decision'}"
+										value="#{app.minutes_status_decision}" />
+									<h:outputText rendered="#{minuteitem.item['minute.type'] eq 'task'}"
+										value="#{app.minutes_status_task}" />
+									<h:outputText rendered="#{minuteitem.item['minute.type'] eq 'completed'}"
+										value="#{app.minutes_status_completed}" />
+								</dt>
+								<dd>
+									<h:outputText escape="false" value="#{minuteitem.item['minute.description']}" />
+								</dd>
+							</dl>
+						</div>
+					</h:panelGroup>
+				</div>
+
+			</h:panelGroup>
+		</ui:repeat>
+
+
+	</h:panelGroup>
+</ui:composition>
