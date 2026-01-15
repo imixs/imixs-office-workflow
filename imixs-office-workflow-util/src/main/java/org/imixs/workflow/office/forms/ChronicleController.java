@@ -237,7 +237,7 @@ public class ChronicleController implements Serializable {
 		 * We look for direct references and external references. The method uniques the
 		 * list so that a reference can only occur once.
 		 */
-		List<ItemCollection> references = workitemLinkController.getReferences();
+		List<ItemCollection> references = workitemLinkController.getReferencesOutbound();
 
 		// Disabled External References - Issue #653
 		// List<ItemCollection> externalReferences =
