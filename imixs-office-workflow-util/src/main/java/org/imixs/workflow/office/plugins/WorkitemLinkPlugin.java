@@ -146,14 +146,14 @@ public class WorkitemLinkPlugin extends AbstractPlugin {
                     // copy items
                     // now clone the field list...
                     copyItemList(processData.getItemValueString("items"), refWorkitem, workitem, debug);
-                    logger.info("├── ✅ copyData successful");
-                    return;
                 } else {
                     logger.warning("├── ⚠️ Ref Workitem not found!");
                 }
 
             }
         }
+        logger.info("├── ✅ copyData successful");
+        return;
 
     }
 
