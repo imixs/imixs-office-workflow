@@ -163,9 +163,28 @@ public class AnalyticController implements Serializable {
 				if (event.getValue() != null) {
 					ItemCollection details = new ItemCollection();
 					details.setItemValue("value", event.getValue());
-					details.setItemValue("label", event.getLabel());
-					details.setItemValue("description", event.getDescription());
-					details.setItemValue("link", event.getLink());
+
+					if (!event.getLabel().isEmpty()) {
+						details.setItemValue("label", event.getLabel());
+					} else {
+						// if we do not have a label we try to resolve it from the options..
+						details.setItemValue("label", getOption(key, "label", options, ""));
+					}
+
+					if (!event.getDescription().isEmpty()) {
+						details.setItemValue("description", event.getDescription());
+					} else {
+						// if we do not have a description we try to resolve it from the options..
+						details.setItemValue("description", getOption(key, "description", options, ""));
+					}
+
+					if (!event.getLink().isEmpty()) {
+						details.setItemValue("link", event.getLink());
+					} else {
+						// if we do not have a link we try to resolve it from the options..
+						details.setItemValue("descrlinkiption", getOption(key, "link", options, ""));
+					}
+
 					// cache result
 					implodeDetails(workitem, key, details);
 				}
@@ -250,7 +269,9 @@ public class AnalyticController implements Serializable {
 		Map<String, String> options = new HashMap<>();
 
 		if (jsonString != null && !jsonString.isEmpty()) {
-			try (JsonReader jsonReader = Json.createReader(new StringReader(jsonString))) {
+			// Convert single quotes to double quotes for JSON compatibility
+			String normalizedJson = jsonString.replace("'", "\"");
+			try (JsonReader jsonReader = Json.createReader(new StringReader(normalizedJson))) {
 				JsonObject jsonObject = jsonReader.readObject();
 
 				// Convert JsonObject to Map<String, String>

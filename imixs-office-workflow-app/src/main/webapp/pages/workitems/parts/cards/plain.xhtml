@@ -13,8 +13,7 @@
 			<h:outputText escape="false" value="#{analyticController.getLabel(workitem, item.name, item.options)}" />
 		</div>
 		<div class="dashboard-card-footer">
-			<span>#{analyticController.getOption(item.name, 'description', options,
-				analyticController.getDescription(workitem,item.name, item.options))}</span>
+			<span>#{analyticController.getDescription(workitem,item.name, item.options)}</span>
 			<h:panelGroup styleClass="dashboard-card-link"
 				rendered="#{!empty analyticController.getLink(workitem,item.name, item.options)}">
 				<a href="#{analyticController.getLink(workitem,item.name, item.options)}"><span
