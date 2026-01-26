@@ -7,9 +7,10 @@
 			<h:outputText value="#{analyticController.getValueAsString(workitem,item.name, item.options)}" />
 		</div>
 		<div class="dashboard-card-content">
+			<ui:fragment rendered="#{not empty analyticController.getOption(item.name, 'icon', options, '')}">
+				<i class="fas #{analyticController.getOption(item.name, 'icon', options, '')}" /><span> </span>
+			</ui:fragment>
 			<h:outputText escape="false" value="#{analyticController.getLabel(workitem, item.name, item.options)}" />
-			<i class="fas #{analyticController.getOption(item.name, 'icon', options, '')}" />
-			<h:outputText value=" #{analyticController.getOption(item.name, 'label', options, '')}" />
 		</div>
 		<div class="dashboard-card-footer">
 			<span>#{analyticController.getOption(item.name, 'description', options,

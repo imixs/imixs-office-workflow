@@ -29,8 +29,6 @@ import jakarta.json.JsonObjectBuilder;
  * The ProcessAnalyticController provides generic char data for a process. A
  * process can be defined by the options parameter 'process=<PROCESSNAME>'
  *
- * 
- * 
  * @author rsoika
  *
  */
@@ -90,7 +88,8 @@ public class ProcessAnalyticController implements Serializable {
 			logger.info("├── Analyse worklist by key " + key + ":" + value);
 			String description = "";
 			String link = "";
-			String label = value;
+			// do we have a lable defined in the options?
+			String label = analyticController.getOption(event.getKey(), "label", options, value);
 
 			// do we have a process key?
 			if ("process".equals(key)) {

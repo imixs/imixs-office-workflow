@@ -34,9 +34,10 @@ import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * Der DashboardAnalyticController computes the core analytic data for the
- * current user
- *
+ * The DashboardAnalyticController computes the core analytic data for the
+ * current user.
+ * 
+ * 
  * @author rsoika
  *
  */
@@ -87,10 +88,39 @@ public class DashboardAnalyticController implements Serializable {
     private Conversation conversation;
 
     @Inject
-    DashboardController dashboardController;
+    SetupController configController;
 
     @Inject
     protected AnalyticController analyticController;
+
+    public static String DASHBOARD_DEFAULT_DEFINITION = "<imixs-form>\n" + //
+            "  <imixs-form-section columns=\"4\" label=\"\">\n" + //
+            "     <item name=\"dashboard.worklist.owner.count.today\" type=\"custom\" path=\"cards/plain\"  label=\"\"\n"
+            + //
+            "           options='{\"class\":\"flat success\", \"icon\":\"fa-inbox\", \"label\":\"Neue Aufgaben\", \"description\":\"Neue Aufgaben seit Heute\"}'   />\n"
+            + //
+            "     <item name=\"dashboard.worklist.owner.count.oneweek\" type=\"custom\" path=\"cards/plain\"  label=\"\"\n"
+            + //
+            "           options='{\"class\":\"flat warning\", \"icon\":\"fa-exclamation-triangle\", \"label\":\"Zu Beachten\", \"description\":\"Aufgaben seit einer Woche offen\"}'    />\n"
+            + //
+            "     <item name=\"dashboard.worklist.owner.count.urgent\" type=\"custom\" path=\"cards/plain\"  label=\"\"\n"
+            + //
+            "           options='{\"class\":\"flat error\", \"icon\":\"fa-fire\", \"label\":\"Dringend\", \"description\":\"Aufgaben seit mehr als 1 Woche offen\"}'    />\n"
+            + //
+            "    <item name=\"dashboard.worklist.participant.count.all\" type=\"custom\" path=\"cards/plain\" label=\"\"\n"
+            + //
+            "           options='{\"class\":\"flat\", \"icon\":\"fa-tasks\", \"label\":\"Meine Vorgänge\", \"description\":\"Offene Vorgänge mit Ihrer Beteiligung.\"}' />\n"
+            + //
+            "   </imixs-form-section>\n" + //
+            "  <imixs-form-section columns=\"2\">\n" + //
+            "    <item name=\"dashboard.worklist.owner\" type=\"custom\" path=\"cards/worklist\"\n" + //
+            "         options='{ \"label\":\"Meine Aufgaben\", \"description\":\"Aufgaben, die Ihrer Bearbeitung bedürfen.\", \"pagesize\":\"10\"}'/>\n"
+            + //
+            "    <item name=\"dashboard.worklist.creator\" type=\"custom\" path=\"cards/worklist\"\n" + //
+            "         options='{ \"label\":\"Meine Vorgänge\", \"description\":\"Aufgaben, die von Ihnen erstellt wurden.\", \"pagesize\":\"10\"}'/>\n"
+            + //
+            "  </imixs-form-section>\n" + //
+            "</imixs-form> ";
 
     /**
      * This method loads the dashboard layout information and stores the layout in
@@ -102,29 +132,34 @@ public class DashboardAnalyticController implements Serializable {
      */
     public void initLayout() {
         dataSets = new HashMap<>();
-        ItemCollection configItemCollection = dashboardController.getConfiguration();
-        if (configItemCollection != null) {
-            try {
-                // test if we have a custom dashboard stored in the current user profile.
-                String content = userController.getWorkitem().getItemValueString("dashboard.form");
-                if (content.isBlank()) {
-                    // load global dashboard layout
-                    content = configItemCollection.getItemValueString("dashboard.form");
-                }
-                // validate layout ....
-                if (!content.trim().startsWith("<imixs-form")) {
-                    logger.warning("Invalid Dashboard Layout!");
-                    content = DashboardController.DASHBOARD_DEFAULT_DEFINITION;
-                }
-                // set custom form layout
-                workitem.setItemValue(CustomFormController.ITEM_CUSTOM_FORM, content);
-                customFormController.computeFieldDefinition(workitem);
-            } catch (ModelException e) {
-                logger.warning("Failed to compute custom form sections: " + e.getMessage());
-            }
-        } else {
-            logger.warning("Failed to load BASIC configuration!");
+        // first test if the user profile has a dashboard.form defined
+        String content = userController.getWorkitem().getItemValueString("dashboard.form");
+        if (content.isBlank() || !content.trim().startsWith("<imixs-form")) {
+            // no user layout defined, so we load the default layout
+            content = loadDefaultLayoutConfiguration();
         }
+
+        try {
+            // set custom form layout
+            workitem.setItemValue(CustomFormController.ITEM_CUSTOM_FORM, content);
+            customFormController.computeFieldDefinition(workitem);
+        } catch (ModelException e) {
+            logger.warning("Failed to compute custom form sections: " + e.getMessage());
+        }
+
+    }
+
+    /**
+     * This method loads the default layout from the BASIC configuration
+     */
+    private String loadDefaultLayoutConfiguration() {
+        ItemCollection configItemCollection = configController.getWorkitem();
+        // Test if a 'dashboard.from' is defined. If not, we set the default from here.
+        if (configItemCollection.getItemValueString("dashboard.form").isBlank()) {
+            // set default form
+            return DASHBOARD_DEFAULT_DEFINITION;
+        }
+        return configItemCollection.getItemValueString("dashboard.form");
     }
 
     /**
@@ -160,7 +195,10 @@ public class DashboardAnalyticController implements Serializable {
 
     public void onEvent(@Observes AnalyticEvent event) {
 
-        // Recompute only if last dbtr.number has changed or no values yet computed
+        // Run only for dashboard keys
+        if (!event.getKey().startsWith("dashboard.")) {
+            return;
+        }
 
         // use cache?
         if (event.getWorkitem().hasItem(event.getKey())) {
@@ -178,47 +216,67 @@ public class DashboardAnalyticController implements Serializable {
             calculateStats(event);
         }
 
+        // read options
+        String options = event.getOptions();
+        if (options == null || options.isBlank()) {
+            logger.warning("Missing options for analytic part '" + event.getKey() + "' ");
+            options = "{}";
+        }
+
         if ("dashboard.worklist.owner.count.all".equals(event.getKey())) {
             event.setValue("" + countAllByOwner);
-            event.setDescription("Meine Aufgaben");
+            event.setLabel(analyticController.getOption(event.getKey(), "label", options, "Neue Aufgaben"));
+            event.setDescription(
+                    analyticController.getOption(event.getKey(), "description", options, ""));
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
         }
         if ("dashboard.worklist.creator.count.all".equals(event.getKey())) {
             event.setValue("" + countAllByOwner);
-            event.setDescription("Meine Vorgänge");
+            event.setLabel(analyticController.getOption(event.getKey(), "label", options, "Meine Vorgänge"));
+            event.setDescription(
+                    analyticController.getOption(event.getKey(), "description", options, "Meine Vorgänge"));
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.creator");
         }
         if ("dashboard.worklist.participant.count.all".equals(event.getKey())) {
             event.setValue("" + countAllByParticipant);
-            event.setDescription("Meine Vorgänge");
+            event.setLabel(analyticController.getOption(event.getKey(), "label", options, "Meine Vorgänge"));
+            event.setDescription(
+                    analyticController.getOption(event.getKey(), "description", options, "Meine Vorgänge"));
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.participant");
         }
 
         if ("dashboard.worklist.owner.count.today".equals(event.getKey())) {
             event.setValue("" + countTodayByOwner);
-            // event.setLabel("neue Aufgaben");
-            event.setDescription("Meine offenen Aufgaben");
+            event.setLabel(analyticController.getOption(event.getKey(), "label", options, "Meine Vorgänge"));
+            event.setDescription(
+                    analyticController.getOption(event.getKey(), "description", options, "Meine offenen Aufgaben"));
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
         }
 
         if ("dashboard.worklist.owner.count.thisweek".equals(event.getKey())) {
             event.setValue("" + countThisWeekByOwner);
-            // event.setLabel("Zu Beachten");
-            event.setDescription("Aufgaben seit mehr als 3 Tagen offen");
+            event.setLabel(analyticController.getOption(event.getKey(), "label", options, "Zu Beachten"));
+            event.setDescription(
+                    analyticController.getOption(event.getKey(), "description", options,
+                            "Aufgaben seit mehr als 3 Tagen offen"));
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
         }
 
         if ("dashboard.worklist.owner.count.oneweek".equals(event.getKey())) {
             event.setValue("" + countOneWeek);
-            // event.setLabel("Zu Beachten");
-            event.setDescription("Aufgaben seit mehr als 3 Tagen offen");
+            event.setLabel(analyticController.getOption(event.getKey(), "label", options, "Zu Beachten"));
+            event.setDescription(
+                    analyticController.getOption(event.getKey(), "description", options,
+                            "Aufgaben seit mehr als 3 Tagen offen"));
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
         }
 
         if ("dashboard.worklist.owner.count.urgent".equals(event.getKey())) {
             event.setValue("" + countUrgentByOwner);
-            // event.setLabel("Dringende Aufgaben");
-            event.setDescription("Aufgaben seit mehr als 1 Woche offen");
+            event.setLabel(analyticController.getOption(event.getKey(), "label", options, "Dringende Aufgaben"));
+            event.setDescription(
+                    analyticController.getOption(event.getKey(), "description", options,
+                            "Aufgaben seit mehr als 1 Woche offen"));
             event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
         }
 
