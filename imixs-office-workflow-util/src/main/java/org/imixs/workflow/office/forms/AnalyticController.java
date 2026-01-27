@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.exceptions.PluginException;
 
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.enterprise.event.Event;
@@ -53,13 +54,14 @@ public class AnalyticController implements Serializable {
 	 * 
 	 * @param key
 	 * @return
+	 * @throws PluginException
 	 */
-	public String getValueAsString(ItemCollection workitem, String key, String options) {
+	public String getValueAsString(ItemCollection workitem, String key, String options) throws PluginException {
 		ItemCollection analyticData = computeValue(workitem, key, options);
 		return analyticData.getItemValueString("value");
 	}
 
-	public String getValueAsString(ItemCollection workitem, String key) {
+	public String getValueAsString(ItemCollection workitem, String key) throws PluginException {
 		return this.getValueAsString(workitem, key, null);
 	}
 
@@ -68,8 +70,9 @@ public class AnalyticController implements Serializable {
 	 * 
 	 * @param key
 	 * @return
+	 * @throws PluginException
 	 */
-	public String getValueAsJson(ItemCollection workitem, String key, String options) {
+	public String getValueAsJson(ItemCollection workitem, String key, String options) throws PluginException {
 		ItemCollection analyticData = computeValue(workitem, key, options);
 		String jsonval = analyticData.getItemValueString("value");
 		if (jsonval == null || jsonval.isEmpty()) {
@@ -79,7 +82,7 @@ public class AnalyticController implements Serializable {
 		}
 	}
 
-	public String getValueAsJson(ItemCollection workitem, String key) {
+	public String getValueAsJson(ItemCollection workitem, String key) throws PluginException {
 		return getValueAsJson(workitem, key, null);
 	}
 
@@ -88,13 +91,14 @@ public class AnalyticController implements Serializable {
 	 * 
 	 * @param key
 	 * @return
+	 * @throws PluginException
 	 */
-	public double getValueAsDouble(ItemCollection workitem, String key, String options) {
+	public double getValueAsDouble(ItemCollection workitem, String key, String options) throws PluginException {
 		ItemCollection analyticData = computeValue(workitem, key, options);
 		return analyticData.getItemValueDouble("value");
 	}
 
-	public double getValueAsDouble(ItemCollection workitem, String key) {
+	public double getValueAsDouble(ItemCollection workitem, String key) throws PluginException {
 		return getValueAsDouble(workitem, key, null);
 	}
 
@@ -103,13 +107,14 @@ public class AnalyticController implements Serializable {
 	 * 
 	 * @param key
 	 * @return
+	 * @throws PluginException
 	 */
-	public String getLabel(ItemCollection workitem, String key, String options) {
+	public String getLabel(ItemCollection workitem, String key, String options) throws PluginException {
 		ItemCollection analyticData = computeValue(workitem, key, options);
 		return analyticData.getItemValueString("label");
 	}
 
-	public String getLabel(ItemCollection workitem, String key) {
+	public String getLabel(ItemCollection workitem, String key) throws PluginException {
 		return this.getLabel(workitem, key, null);
 	}
 
@@ -119,12 +124,12 @@ public class AnalyticController implements Serializable {
 	 * @param key
 	 * @return
 	 */
-	public String getLink(ItemCollection workitem, String key, String options) {
+	public String getLink(ItemCollection workitem, String key, String options) throws PluginException {
 		ItemCollection analyticData = computeValue(workitem, key, options);
 		return analyticData.getItemValueString("link");
 	}
 
-	public String getLink(ItemCollection workitem, String key) {
+	public String getLink(ItemCollection workitem, String key) throws PluginException {
 		return this.getLink(workitem, key, null);
 	}
 
@@ -134,27 +139,39 @@ public class AnalyticController implements Serializable {
 	 * @param key
 	 * @return
 	 */
-	public String getDescription(ItemCollection workitem, String key, String options) {
+	public String getDescription(ItemCollection workitem, String key, String options) throws PluginException {
 		ItemCollection analyticData = computeValue(workitem, key, options);
 		return analyticData.getItemValueString("description");
 	}
 
-	public String getDescription(ItemCollection workitem, String key) {
+	public String getDescription(ItemCollection workitem, String key) throws PluginException {
 		return this.getDescription(workitem, key, null);
 	}
 
 	/**
 	 * Computes an analytic value.
-	 * 
+	 * <p>
 	 * Note: An observer controller is responsible to cache or reset the cached
 	 * values if needed.
+	 * <p>
+	 * The value is computed in case it does not exist or if the option "cache" is
+	 * NOT true
+	 * 
+	 * @TODO verify cache mechansim
 	 * 
 	 * @param key
 	 * @return
+	 * @throws PluginException
 	 */
-	protected ItemCollection computeValue(ItemCollection workitem, String key, String options) {
+	protected ItemCollection computeValue(ItemCollection workitem, String key, String options) throws PluginException {
 
-		if (workitem != null && !workitem.hasItem(key)) {
+		if (workitem == null) {
+			throw new PluginException(AIController.class.getSimpleName(),
+					"ERROR", "Analytic Value can not be computed - workitem is null");
+		}
+		String cache = getOption(key, "cache", options, "false");
+
+		if ("false".equals(cache) || !workitem.hasItem(key)) {
 			logger.fine("fire analytic event for key '" + key + "'");
 			// Fire the Analytics Event for this key
 			AnalyticEvent event = new AnalyticEvent(key, workitem, options);
@@ -182,7 +199,7 @@ public class AnalyticController implements Serializable {
 						details.setItemValue("link", event.getLink());
 					} else {
 						// if we do not have a link we try to resolve it from the options..
-						details.setItemValue("descrlinkiption", getOption(key, "link", options, ""));
+						details.setItemValue("link", getOption(key, "link", options, ""));
 					}
 
 					// cache result
