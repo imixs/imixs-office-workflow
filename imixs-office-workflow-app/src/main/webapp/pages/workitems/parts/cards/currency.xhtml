@@ -2,9 +2,10 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html">
 
+	<ui:param name="data" value="#{analyticController.getData(workitem,item.name)}"></ui:param>
 	<div class="dashboard-card">
 		<div class="dashboard-card-header">
-			<h:outputText value="#{analyticController.getValueAsDouble(workitem,item.name)}">
+			<h:outputText value="#{data.item['value']}">
 				<f:convertNumber minFractionDigits="2" locale="de" />
 			</h:outputText>
 		</div>
@@ -14,12 +15,10 @@
 
 
 		<div class="dashboard-card-footer">
-			<span>#{analyticController.getDescription(workitem,item.name)}</span>
+			<span>#{data.item['description']}</span>
 
-			<h:panelGroup styleClass="dashboard-card-link"
-				rendered="#{!empty analyticController.getLink(workitem,item.name)}">
-				<a href="#{analyticController.getLink(workitem,item.name)}"><span
-						class="typcn typcn-zoom-outline" /></a>
+			<h:panelGroup styleClass="dashboard-card-link" rendered="#{!empty data.item['link']}">
+				<a href="#{data.item['link']}"><span class="typcn typcn-zoom-outline" /></a>
 			</h:panelGroup>
 
 

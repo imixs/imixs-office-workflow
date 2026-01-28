@@ -224,60 +224,86 @@ public class DashboardAnalyticController implements Serializable {
         }
 
         if ("dashboard.worklist.owner.count.all".equals(event.getKey())) {
-            event.setValue("" + countAllByOwner);
-            event.setLabel(analyticController.getOption(event.getKey(), "label", options, "Neue Aufgaben"));
-            event.setDescription(
-                    analyticController.getOption(event.getKey(), "description", options, ""));
-            event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
+            event.setData(new ItemCollection()
+                    .setItemValue("value", countAllByOwner)
+                    .setItemValue("label",
+                            analyticController.getOption(event.getKey(), "label", options, "Neue Aufgaben"))
+                    .setItemValue("description",
+                            analyticController.getOption(event.getKey(), "description", options, ""))
+                    .setItemValue("link", "/pages/notes_board.xhtml?viewType=worklist.owner"));
+
         }
         if ("dashboard.worklist.creator.count.all".equals(event.getKey())) {
-            event.setValue("" + countAllByOwner);
-            event.setLabel(analyticController.getOption(event.getKey(), "label", options, "Meine Vorgänge"));
-            event.setDescription(
-                    analyticController.getOption(event.getKey(), "description", options, "Meine Vorgänge"));
-            event.setLink("/pages/notes_board.xhtml?viewType=worklist.creator");
+
+            event.setData(new ItemCollection()
+                    .setItemValue("value", countAllByOwner)
+                    .setItemValue("label",
+                            analyticController.getOption(event.getKey(), "label", options, "Meine Vorgänge"))
+                    .setItemValue("description",
+                            analyticController.getOption(event.getKey(), "description", options, "Meine Vorgänge"))
+                    .setItemValue("link", "/pages/notes_board.xhtml?viewType=worklist.creator"));
+
         }
+
         if ("dashboard.worklist.participant.count.all".equals(event.getKey())) {
-            event.setValue("" + countAllByParticipant);
-            event.setLabel(analyticController.getOption(event.getKey(), "label", options, "Meine Vorgänge"));
-            event.setDescription(
-                    analyticController.getOption(event.getKey(), "description", options, "Meine Vorgänge"));
-            event.setLink("/pages/notes_board.xhtml?viewType=worklist.participant");
+            event.setData(new ItemCollection()
+                    .setItemValue("value", countAllByParticipant)
+                    .setItemValue("label",
+                            analyticController.getOption(event.getKey(), "label", options, "Meine Vorgänge"))
+                    .setItemValue("description",
+                            analyticController.getOption(event.getKey(), "description", options, "Meine Vorgänge"))
+                    .setItemValue("link", "/pages/notes_board.xhtml?viewType=worklist.participant"));
         }
 
         if ("dashboard.worklist.owner.count.today".equals(event.getKey())) {
-            event.setValue("" + countTodayByOwner);
-            event.setLabel(analyticController.getOption(event.getKey(), "label", options, "Meine Vorgänge"));
-            event.setDescription(
-                    analyticController.getOption(event.getKey(), "description", options, "Meine offenen Aufgaben"));
-            event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
+
+            event.setData(new ItemCollection()
+                    .setItemValue("value", countTodayByOwner)
+                    .setItemValue("label",
+                            analyticController.getOption(event.getKey(), "label", options, "Meine Vorgänge"))
+                    .setItemValue("description",
+                            analyticController.getOption(event.getKey(), "description", options,
+                                    "Meine offenen Aufgaben"))
+                    .setItemValue("link", "/pages/notes_board.xhtml?viewType=worklist.owner"));
+
         }
 
         if ("dashboard.worklist.owner.count.thisweek".equals(event.getKey())) {
-            event.setValue("" + countThisWeekByOwner);
-            event.setLabel(analyticController.getOption(event.getKey(), "label", options, "Zu Beachten"));
-            event.setDescription(
-                    analyticController.getOption(event.getKey(), "description", options,
-                            "Aufgaben seit mehr als 3 Tagen offen"));
-            event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
+
+            event.setData(new ItemCollection()
+                    .setItemValue("value", countThisWeekByOwner)
+                    .setItemValue("label",
+                            analyticController.getOption(event.getKey(), "label", options, "Zu Beachten"))
+                    .setItemValue("description",
+                            analyticController.getOption(event.getKey(), "description", options,
+                                    "Aufgaben seit mehr als 3 Tagen offen"))
+                    .setItemValue("link", "/pages/notes_board.xhtml?viewType=worklist.owner"));
+
         }
 
         if ("dashboard.worklist.owner.count.oneweek".equals(event.getKey())) {
-            event.setValue("" + countOneWeek);
-            event.setLabel(analyticController.getOption(event.getKey(), "label", options, "Zu Beachten"));
-            event.setDescription(
-                    analyticController.getOption(event.getKey(), "description", options,
-                            "Aufgaben seit mehr als 3 Tagen offen"));
-            event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
+            event.setData(new ItemCollection()
+                    .setItemValue("value", countOneWeek)
+                    .setItemValue("label",
+                            analyticController.getOption(event.getKey(), "label", options, "Zu Beachten"))
+                    .setItemValue("description",
+                            analyticController.getOption(event.getKey(), "description", options,
+                                    "Aufgaben seit mehr als 3 Tagen offen"))
+                    .setItemValue("link", "/pages/notes_board.xhtml?viewType=worklist.owner"));
+
         }
 
         if ("dashboard.worklist.owner.count.urgent".equals(event.getKey())) {
-            event.setValue("" + countUrgentByOwner);
-            event.setLabel(analyticController.getOption(event.getKey(), "label", options, "Dringende Aufgaben"));
-            event.setDescription(
-                    analyticController.getOption(event.getKey(), "description", options,
-                            "Aufgaben seit mehr als 1 Woche offen"));
-            event.setLink("/pages/notes_board.xhtml?viewType=worklist.owner");
+
+            event.setData(new ItemCollection()
+                    .setItemValue("value", countUrgentByOwner)
+                    .setItemValue("label",
+                            analyticController.getOption(event.getKey(), "label", options, "Dringende Aufgaben"))
+                    .setItemValue("description",
+                            analyticController.getOption(event.getKey(), "description", options,
+                                    "Aufgaben seit mehr als 1 Woche offen"))
+                    .setItemValue("link", "/pages/notes_board.xhtml?viewType=worklist.owner"));
+
         }
 
     }

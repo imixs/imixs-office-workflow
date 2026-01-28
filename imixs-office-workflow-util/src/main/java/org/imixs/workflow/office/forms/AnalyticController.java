@@ -2,9 +2,7 @@ package org.imixs.workflow.office.forms;
 
 import java.io.Serializable;
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,167 +47,205 @@ public class AnalyticController implements Serializable {
 
 	private Map<String, Map<String, String>> optionsCache = new HashMap<>();
 
+	private Map<String, ItemCollection> dataCache = new HashMap<>();
+
 	/**
-	 * Returns a analytic value as a String for a given key.
+	 * Returns a analytic data object for a given key.
 	 * 
 	 * @param key
 	 * @return
 	 * @throws PluginException
 	 */
-	public String getValueAsString(ItemCollection workitem, String key, String options) throws PluginException {
-		ItemCollection analyticData = computeValue(workitem, key, options);
-		return analyticData.getItemValueString("value");
+	public ItemCollection getData(ItemCollection workitem, String key) throws PluginException {
+		return getData(workitem, key, null);
+
 	}
 
-	public String getValueAsString(ItemCollection workitem, String key) throws PluginException {
-		return this.getValueAsString(workitem, key, null);
+	public ItemCollection getData(ItemCollection workitem, String key, String options) throws PluginException {
+		return computeData(workitem, key, options);
 	}
+
+	// public String getValueAsString(ItemCollection workitem, String key) throws
+	// PluginException {
+	// return this.getValueAsString(workitem, key, null);
+	// }
+
+	// /**
+	// * Returns a analytic value as a Json String for a given key.
+	// *
+	// * @param key
+	// * @return
+	// * @throws PluginException
+	// */
+	// public String getValueAsJson(ItemCollection workitem, String key, String
+	// options) throws PluginException {
+	// ItemCollection analyticData = computeValue(workitem, key, options);
+	// String jsonval = analyticData.getItemValueString("value");
+	// if (jsonval == null || jsonval.isEmpty()) {
+	// return "null";
+	// } else {
+	// return jsonval;
+	// }
+	// }
+
+	// public String getValueAsJson(ItemCollection workitem, String key) throws
+	// PluginException {
+	// return getValueAsJson(workitem, key, null);
+	// }
+
+	// /**
+	// * Returns a analytic value as a Double for a given key.
+	// *
+	// * @param key
+	// * @return
+	// * @throws PluginException
+	// */
+	// public double getValueAsDouble(ItemCollection workitem, String key, String
+	// options) throws PluginException {
+	// ItemCollection analyticData = computeValue(workitem, key, options);
+	// return analyticData.getItemValueDouble("value");
+	// }
+
+	// public double getValueAsDouble(ItemCollection workitem, String key) throws
+	// PluginException {
+	// return getValueAsDouble(workitem, key, null);
+	// }
+
+	// /**
+	// * Returns the analytic label for a given key
+	// *
+	// * @param key
+	// * @return
+	// * @throws PluginException
+	// */
+	// public String getLabel(ItemCollection workitem, String key, String options)
+	// throws PluginException {
+	// ItemCollection analyticData = computeValue(workitem, key, options);
+	// return analyticData.getItemValueString("label");
+	// }
+
+	// public String getLabel(ItemCollection workitem, String key) throws
+	// PluginException {
+	// return this.getLabel(workitem, key, null);
+	// }
+
+	// /**
+	// * Returns the analytic optional link for a given key
+	// *
+	// * @param key
+	// * @return
+	// */
+	// public String getLink(ItemCollection workitem, String key, String options)
+	// throws PluginException {
+	// ItemCollection analyticData = computeValue(workitem, key, options);
+	// return analyticData.getItemValueString("link");
+	// }
+
+	// public String getLink(ItemCollection workitem, String key) throws
+	// PluginException {
+	// return this.getLink(workitem, key, null);
+	// }
+
+	// /**
+	// * Returns the analytic description for a given key
+	// *
+	// * @param key
+	// * @return
+	// */
+	// public String getDescription(ItemCollection workitem, String key, String
+	// options) throws PluginException {
+	// ItemCollection analyticData = computeValue(workitem, key, options);
+	// return analyticData.getItemValueString("description");
+	// }
+
+	// public String getDescription(ItemCollection workitem, String key) throws
+	// PluginException {
+	// return this.getDescription(workitem, key, null);
+	// }
 
 	/**
-	 * Returns a analytic value as a Json String for a given key.
-	 * 
-	 * @param key
-	 * @return
-	 * @throws PluginException
-	 */
-	public String getValueAsJson(ItemCollection workitem, String key, String options) throws PluginException {
-		ItemCollection analyticData = computeValue(workitem, key, options);
-		String jsonval = analyticData.getItemValueString("value");
-		if (jsonval == null || jsonval.isEmpty()) {
-			return "null";
-		} else {
-			return jsonval;
-		}
-	}
-
-	public String getValueAsJson(ItemCollection workitem, String key) throws PluginException {
-		return getValueAsJson(workitem, key, null);
-	}
-
-	/**
-	 * Returns a analytic value as a Double for a given key.
-	 * 
-	 * @param key
-	 * @return
-	 * @throws PluginException
-	 */
-	public double getValueAsDouble(ItemCollection workitem, String key, String options) throws PluginException {
-		ItemCollection analyticData = computeValue(workitem, key, options);
-		return analyticData.getItemValueDouble("value");
-	}
-
-	public double getValueAsDouble(ItemCollection workitem, String key) throws PluginException {
-		return getValueAsDouble(workitem, key, null);
-	}
-
-	/**
-	 * Returns the analytic label for a given key
-	 * 
-	 * @param key
-	 * @return
-	 * @throws PluginException
-	 */
-	public String getLabel(ItemCollection workitem, String key, String options) throws PluginException {
-		ItemCollection analyticData = computeValue(workitem, key, options);
-		return analyticData.getItemValueString("label");
-	}
-
-	public String getLabel(ItemCollection workitem, String key) throws PluginException {
-		return this.getLabel(workitem, key, null);
-	}
-
-	/**
-	 * Returns the analytic optional link for a given key
-	 * 
-	 * @param key
-	 * @return
-	 */
-	public String getLink(ItemCollection workitem, String key, String options) throws PluginException {
-		ItemCollection analyticData = computeValue(workitem, key, options);
-		return analyticData.getItemValueString("link");
-	}
-
-	public String getLink(ItemCollection workitem, String key) throws PluginException {
-		return this.getLink(workitem, key, null);
-	}
-
-	/**
-	 * Returns the analytic description for a given key
-	 * 
-	 * @param key
-	 * @return
-	 */
-	public String getDescription(ItemCollection workitem, String key, String options) throws PluginException {
-		ItemCollection analyticData = computeValue(workitem, key, options);
-		return analyticData.getItemValueString("description");
-	}
-
-	public String getDescription(ItemCollection workitem, String key) throws PluginException {
-		return this.getDescription(workitem, key, null);
-	}
-
-	/**
-	 * Computes an analytic value.
+	 * Computes an analytic data value. The method sends CDI events of the type
+	 * 'AnalyticEvent'.
 	 * <p>
-	 * Note: An observer controller is responsible to cache or reset the cached
-	 * values if needed.
+	 * Note: An observer CDI bean is responsible to cache or reset the data values
+	 * if needed.
 	 * <p>
-	 * The value is computed in case it does not exist or if the option "cache" is
-	 * NOT true
-	 * 
-	 * @TODO verify cache mechansim
-	 * 
+	 *
 	 * @param key
 	 * @return
 	 * @throws PluginException
 	 */
-	protected ItemCollection computeValue(ItemCollection workitem, String key, String options) throws PluginException {
+	protected ItemCollection computeData(ItemCollection workitem, String key, String options) throws PluginException {
 
 		if (workitem == null) {
 			throw new PluginException(AIController.class.getSimpleName(),
 					"ERROR", "Analytic Value can not be computed - workitem is null");
 		}
-		String cache = getOption(key, "cache", options, "false");
 
-		if ("false".equals(cache) || !workitem.hasItem(key)) {
-			logger.fine("fire analytic event for key '" + key + "'");
+		ItemCollection data = dataCache.get(key);
+
+		if (data == null) {
+			// compute data...
+
+			logger.info("fire analytic event for key '" + key + "'");
 			// Fire the Analytics Event for this key
 			AnalyticEvent event = new AnalyticEvent(key, workitem, options);
 			if (analyticEvents != null) {
 				analyticEvents.fire(event);
-				if (event.getValue() != null) {
-					ItemCollection details = new ItemCollection();
-					details.setItemValue("value", event.getValue());
 
-					if (!event.getLabel().isEmpty()) {
-						details.setItemValue("label", event.getLabel());
-					} else {
-						// if we do not have a label we try to resolve it from the options..
-						details.setItemValue("label", getOption(key, "label", options, ""));
-					}
-
-					if (!event.getDescription().isEmpty()) {
-						details.setItemValue("description", event.getDescription());
-					} else {
-						// if we do not have a description we try to resolve it from the options..
-						details.setItemValue("description", getOption(key, "description", options, ""));
-					}
-
-					if (!event.getLink().isEmpty()) {
-						details.setItemValue("link", event.getLink());
-					} else {
-						// if we do not have a link we try to resolve it from the options..
-						details.setItemValue("link", getOption(key, "link", options, ""));
-					}
-
-					// cache result
-					implodeDetails(workitem, key, details);
+				data = event.getData();
+				if (data == null) {
+					logger.severe("Data Object is null!");
+					data = new ItemCollection();
 				}
+
+				if (options != null) {
+					logger.info("options=" + options);
+					Map<String, String> optionValues = parseJsonOptions(options);
+					for (Map.Entry<String, String> i : optionValues.entrySet()) {
+						if (!"value".equals(i.getKey())) {
+							data.setItemValue(i.getKey(), i.getValue());
+						}
+					}
+				}
+
+				dataCache.put(key, data);
+				// if (event.getValue() != null) {
+				// ItemCollection details = new ItemCollection();
+				// details.setItemValue("value", event.getValue());
+
+				// if (!event.getLabel().isEmpty()) {
+				// details.setItemValue("label", event.getLabel());
+				// } else {
+				// // if we do not have a label we try to resolve it from the options..
+				// details.setItemValue("label", getOption(key, "label", options, ""));
+				// }
+
+				// if (!event.getDescription().isEmpty()) {
+				// details.setItemValue("description", event.getDescription());
+				// } else {
+				// // if we do not have a description we try to resolve it from the options..
+				// details.setItemValue("description", getOption(key, "description", options,
+				// ""));
+				// }
+
+				// if (!event.getLink().isEmpty()) {
+				// details.setItemValue("link", event.getLink());
+				// } else {
+				// // if we do not have a link we try to resolve it from the options..
+				// details.setItemValue("link", getOption(key, "link", options, ""));
+				// }
+
+				// // cache result
+				// implodeDetails(workitem, key, details);
+				// }
 			}
 		}
 
 		// analytic value is now already cached!
-		return explodeDetails(workitem, key);
+		// return explodeDetails(workitem, key);
+		return data;
+
 	}
 
 	/**
@@ -217,33 +253,34 @@ public class AnalyticController implements Serializable {
 	 * 
 	 * @param workitem
 	 */
-	@SuppressWarnings({ "rawtypes" })
-	private void implodeDetails(ItemCollection workitem, String key, ItemCollection details) {
-		// convert the child ItemCollection elements into a List of Map
-		List<Map> detailsList = new ArrayList<Map>();
-		detailsList.add(details.getAllItems());
-		workitem.replaceItemValue(key, detailsList);
-	}
+	// @SuppressWarnings({ "rawtypes" })
+	// private void implodeDetails(ItemCollection workitem, String key,
+	// ItemCollection details) {
+	// // convert the child ItemCollection elements into a List of Map
+	// List<Map> detailsList = new ArrayList<Map>();
+	// detailsList.add(details.getAllItems());
+	// workitem.replaceItemValue(key, detailsList);
+	// }
 
-	/**
-	 * converts the Map List of a workitem into a List of ItemCollections
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private ItemCollection explodeDetails(ItemCollection workitem, String key) {
-		// convert current list of childItems into ItemCollection elements
-		List<Object> mapOrderItems = workitem.getItemValue(key);
-		if (mapOrderItems != null && mapOrderItems.size() > 0) {
-			ItemCollection itemCol = new ItemCollection((Map) mapOrderItems.get(0));
-			return itemCol;
-		}
-		// return empty collection
-		ItemCollection dummy = new ItemCollection();
-		dummy.setItemValue("value", "");
-		dummy.setItemValue("label", "");
-		dummy.setItemValue("description", "No data available");
+	// /**
+	// * converts the Map List of a workitem into a List of ItemCollections
+	// */
+	// @SuppressWarnings({ "rawtypes", "unchecked" })
+	// private ItemCollection explodeDetails(ItemCollection workitem, String key) {
+	// // convert current list of childItems into ItemCollection elements
+	// List<Object> mapOrderItems = workitem.getItemValue(key);
+	// if (mapOrderItems != null && mapOrderItems.size() > 0) {
+	// ItemCollection itemCol = new ItemCollection((Map) mapOrderItems.get(0));
+	// return itemCol;
+	// }
+	// // return empty collection
+	// ItemCollection dummy = new ItemCollection();
+	// dummy.setItemValue("value", "");
+	// dummy.setItemValue("label", "");
+	// dummy.setItemValue("description", "No data available");
 
-		return dummy;
-	}
+	// return dummy;
+	// }
 
 	/**
 	 * This helper method returns an optional JSON value from the 'options'

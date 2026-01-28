@@ -26,7 +26,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
 /**
- * The ProcessAnalyticController provides generic char data for a process. A
+ * The ProcessAnalyticHandler provides generic chart data for a process. A
  * process can be defined by the options parameter 'process=<PROCESSNAME>'
  *
  * @author rsoika
@@ -34,10 +34,10 @@ import jakarta.json.JsonObjectBuilder;
  */
 @Named
 @RequestScoped
-public class ProcessAnalyticController implements Serializable {
+public class ProcessAnalyticHandler implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(ProcessAnalyticController.class.getName());
+	private static Logger logger = Logger.getLogger(ProcessAnalyticHandler.class.getName());
 	public static final String CHILD_ITEM_PROPERTY = "_ChildItems";
 
 	@Inject
@@ -113,24 +113,29 @@ public class ProcessAnalyticController implements Serializable {
 
 				count = documentService.count(query);
 				logger.info("│   ├── count=" + count);
-				event.setValue(count);
-				event.setLabel(label);
-				event.setDescription(description);
+				ItemCollection data = new ItemCollection();
+				data.setItemValue("value", count)
+						.setItemValue("label", label)
+						.setItemValue("description", description);
+
 				// compute a search link if we are in a process / workflowgroup
 				ItemCollection process = modelController.findProcessByWorkflowGroup(value);
 				if (process != null) {
 					link = "/pages/workitems/worklist.xhtml?processref=" + process.getUniqueID() + "&workflowgroup="
 							+ value;
+					data.setItemValue("link", link);
 				}
-				event.setLink(link);
+				event.setData(data);
 			}
 
 			// Chart....
 			if (event.getKey().startsWith("worklist.stats.chart.")) {
 				// generate chart...
-				event.setValue(buildWorkitemsChart(key, value, label + " / requests by month"));
-				event.setLabel(label);
-				event.setDescription(description);
+				ItemCollection data = new ItemCollection();
+				data.setItemValue("value", buildWorkitemsChart(key, value, label + " / requests by month"))
+						.setItemValue("label", label)
+						.setItemValue("description", description);
+				event.setData(data);
 			}
 
 		} catch (QueryException e) {

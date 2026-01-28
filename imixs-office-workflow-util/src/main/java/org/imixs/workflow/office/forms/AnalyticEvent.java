@@ -8,12 +8,13 @@ import org.imixs.workflow.ItemCollection;
 public class AnalyticEvent {
 
     private String key;
-    private Object value = null;
+    // private Object value = null;
     private String options = null;
-    private String label = "";
-    private String description = "";
-    private String link = "";
+    // private String label = "";
+    // private String description = "";
+    // private String link = "";
     private ItemCollection workitem = null;
+    private ItemCollection data = null;
 
     public AnalyticEvent(String key, ItemCollection workitem, String options) {
         this.key = key;
@@ -45,36 +46,40 @@ public class AnalyticEvent {
         this.workitem = workitem;
     }
 
-    public String getLink() {
-        return link;
+    public ItemCollection getData() {
+        return data;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setData(ItemCollection data) {
+        this.data = data;
     }
 
-    public Object getValue() {
-        return value;
-    }
+    // public void setLink(String link) {
+    // this.link = link;
+    // }
 
-    public void setValue(Object value) {
-        this.value = value;
-    }
+    // public Object getValue() {
+    // return value;
+    // }
 
-    public String getLabel() {
-        return label;
-    }
+    // public void setValue(Object value) {
+    // this.value = value;
+    // }
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
+    // public String getLabel() {
+    // return label;
+    // }
 
-    public String getDescription() {
-        return description;
-    }
+    // public void setLabel(String label) {
+    // this.label = label;
+    // }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    // public String getDescription() {
+    // return description;
+    // }
+
+    // public void setDescription(String description) {
+    // this.description = description;
+    // }
 
 }
