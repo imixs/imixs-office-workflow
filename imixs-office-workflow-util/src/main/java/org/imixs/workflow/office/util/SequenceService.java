@@ -276,24 +276,26 @@ public class SequenceService {
         }
 
         /**
-         * Support 2 digit year format in java.time API
+         * Maps legacy date patterns to java.time patterns.
+         * Handles both standalone patterns (e.g., "YY") and combined patterns (e.g.,
+         * "DDMMYYYY").
          * 
-         * @param pattern
-         * @return
+         * @param pattern the input date pattern
+         * @return the mapped java.time compatible pattern
          */
         public static String mapDatePattern(String pattern) {
-            // Simple mapping - extend as needed
-            switch (pattern) {
-                case "YY":
-                case "yy":
-                    return "uu"; // 2-digit year in java.time
-                case "YYYY":
-                case "yyyy":
-                    return "uuuu"; // 4-digit year
-                default:
-                    // Try to use as-is, might need more complex mapping
-                    return pattern;
-            }
+            String result = pattern;
+
+            // Order matters: replace longer patterns first to avoid partial replacements
+            result = result.replace("YYYY", "uuuu");
+            result = result.replace("yyyy", "uuuu");
+            result = result.replace("YY", "uu");
+            result = result.replace("yy", "uu");
+            result = result.replace("DD", "dd");
+            result = result.replace("D", "d");
+            // MM stays MM - already correct for java.time
+
+            return result;
         }
 
         public String getDigit() {
