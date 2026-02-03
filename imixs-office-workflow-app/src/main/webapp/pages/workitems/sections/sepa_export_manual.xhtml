@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+
+
+	<div class="imixs-form-section-2">
+
+		<h3>#{workitem.item['name']}</h3>
+
+
+		
+			<dl>
+				<dt>Dbtr IBAN</dt>
+				<dd>
+					<h:outputText value="#{workitem.item['dbtr.iban']}" />
+				</dd>
+			</dl>
+			<dl>
+				<dt>Dbtr BIC</dt>
+				<dd>
+					<h:outputText value="#{workitem.item['dbtr.bic']}" />
+				</dd>
+
+			</dl>
+		
+	</div>
+
+
+
+	<div class="imixs-form-section">
+		<h3>Zahlungen</h3>
+		<table class="" style="width:100%;">
+			<tr>
+				<th style=""></th>
+				<th style="">Zahlbar bis</th>
+				<th style="">IBAN</th>
+				<th style="">BIC</th>
+				<th style="">Betrag EUR</th>
+				<th style=""></th>
+			</tr>
+			<c:forEach items="#{workitem.itemList['$workitemref']}" var="id">
+			
+				<!--  load inovice data by documentController:   #{documentController.load(id)} -->
+				<ui:param name="invoice" value="#{documentController.getDocument()}"></ui:param>
+				
+				<tr>
+					<td><h:link outcome="/pages/workitems/workitem">
+					         #{invoice.item['$workflowsummary']}
+					         <f:param name="id" value="#{invoice.item['$uniqueid']}" />
+						</h:link> 
+					</td>
+					<td>
+						<h:outputText
+							value="#{invoice.item['payment.date']}">
+						 <f:convertDateTime pattern="#{message.datePatternShort}"
+						timeZone="#{message.timeZone}" />
+					a</h:outputText>
+
+					</td>
+
+					<td>#{invoice.item['cdtr.iban']}</td>
+					<td>#{invoice.item['cdtr.bic']}</td>
+					
+				
+					<td style="text-align: right;"><h:outputText
+							value="#{invoice.item['payment.total']}">
+							<f:convertNumber minFractionDigits="2" locale="de" />
+						</h:outputText></td>
+
+				</tr>
+			</c:forEach>
+
+			<tr style="border-top: 1px solid #ccc;">
+				<td />
+				<td />
+				<td />
+				<td><strong>Summary</strong></td>
+				<td style="text-align: right;"><strong><h:outputText
+							value="#{sepaController.calculateSum(workitem.itemList['$workitemref'], 'payment.total')}">
+							<f:convertNumber minFractionDigits="2" locale="de" />
+						</h:outputText></strong></td>
+				
+				<td />
+				<td />
+			</tr>
+		</table>
+	</div>
+
+
+</ui:composition>
+

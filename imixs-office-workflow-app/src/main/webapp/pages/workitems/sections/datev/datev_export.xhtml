@@ -1,0 +1,109 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://java.sun.com/jsf/composite/imixs"
+	xmlns:marty="http://java.sun.com/jsf/composite/marty">
+
+
+	<div class="imixs-form-section-3">
+		<dl>
+			<dt>DATEV Berater-Nr.</dt>
+			<dd>
+				<h:outputText value="#{workitem.item['datev.client.name']}" />
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>DATEV Mandanten-nr.</dt>
+			<dd>
+				<h:outputText value="#{workitem.item['datev.client.id']}" />
+			</dd>
+		</dl>
+		
+		<dl>
+			<dt>Buchungsperiode</dt>
+			<dd>
+				<h:outputText value="#{workitem.item['datev.booking_period']}" />
+			</dd>
+
+		</dl>
+	</div>
+
+	<h:panelGroup styleClass="imixs-form-section">
+
+		<h3>Belegübersicht</h3>
+
+		<table class="" style="width:100%">
+			<tr>
+				<th style="text-align: right;">Betrag</th>			
+				<th style="text-align: center;">S/H</th>
+				<th style="text-align: center;">Gegenkonto</th>
+				<th style="text-align: center;">Belegdatum</th>
+				<th style="text-align: center;">Belegfeld 1</th>		
+				<th style="text-align: left;">Beschreibung</th>			
+			</tr>
+			
+				<c:forEach items="#{datevController.getBuchungsexportByBelegdatum(workitem)}" var="beleg">	
+					
+					<tr>
+
+
+						<td style="text-align: right;"><h:outputText
+							value="#{beleg.item['datev.betrag']}">
+							<f:convertNumber minFractionDigits="2" locale="de" />
+						</h:outputText></td>
+						<td style="text-align: center;">
+							#{beleg.item['datev.shkennzeichen']}
+						</td>
+
+
+					
+
+						<td style="text-align: center;">
+							#{beleg.item['datev.gegenkonto']}
+						</td>
+
+						
+						
+						<td style="text-align: center;"><h:outputText value="#{beleg.item['datev.belegdatum']}">
+							<f:convertDateTime pattern="#{message.datePatternShort}"
+								timeZone="#{message.timeZone}" />
+						</h:outputText></td>
+						
+						<td style="text-align: center;">
+							
+							#{beleg.item['datev.belegfeld1']}
+							
+				   		</td>
+
+						<td  style="text-align: left;">
+							<h:link outcome="/pages/workitems/workitem">#{beleg.item['$workflowgroup']} - #{beleg.item['$workflowsummary']}
+							<f:param name="id" value="#{beleg.item['$uniqueid']}" />
+							</h:link> 
+						</td>
+						
+				   
+						
+
+					</tr>
+				</c:forEach>
+		</table>
+		
+	</h:panelGroup>
+	<script type="text/javascript">
+		/*<![CDATA[*/
+		// This method refreshs the layout 
+		function updateItems(data) {
+			if (data.status === 'success') {
+				$('form').imixsLayout();		
+			}
+		}
+
+		/*]]>*/
+	</script>
+
+
+</ui:composition>
+

@@ -1,0 +1,176 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	template="/layout/template.xhtml">
+
+	<ui:define name="scripts">
+		
+		<style>
+		
+			.wiki-part-chapter {
+			   font-weight: bold;
+			}
+			.wiki-part-body {
+			   margin-left:30px;
+			   width: 50%;
+			}
+		</style>
+	</ui:define>
+	
+
+	<!-- This board view shows the aeo catalog data -->
+	<ui:define name="content">
+	
+		<f:view>
+			<script type="text/javascript">
+				/*<![CDATA[*/
+				$(document)
+						.ready(
+								function() {
+									// set navigation cookie
+									//document.cookie = "imixs.office.navigation=/pages/workitems/forms/wiki/parts_overview.jsf?processref=#{boardController.processRef}&page=#{boardController.pageIndex}&phrase=#{boardController.phraseEncoded};path=#{facesContext.externalContext.requestContextPath}/";
+									// refresh portlets every 5 minutes
+									setInterval(function() {
+										$(".imixs-portlet-refresh").click()
+									}, 300000);
+
+									$("input.search_input")
+											.on(
+													'keypress',
+													function(e) {
+														if (e.which == 13) {
+															e.preventDefault(); //stop event
+															// simulate click on search_action
+															$(
+																	"[data-id='search_action']")
+																	.click();
+														}
+													});
+								});
+
+				/*]]>*/
+			</script>
+			<h:form>
+
+				<h:panelGroup styleClass="imixs-board" layout="block"
+					id="portlet_board">
+
+					<div class="imixs-header">
+						<h1>
+							<!-- notes -->
+							<h:link outcome="/pages/notes">
+								<span class="typcn typcn-home-outline"></span>
+							</h:link>
+							#{boardController.title}
+							<!-- Search box -->
+							<h:panelGroup styleClass="search" id="search_box">
+								<h:inputText a:data-id="input_phrase"
+									pt:placeholder="#{message.search}..." styleClass="search_input"
+									value="#{searchController.searchFilter.item['phrase']}" />
+								<h:commandLink a:data-id="search_action"
+									action="#{boardController.refreshSearch()}">
+									<f:ajax render="@form" execute="@form" />
+									<span class="typcn typcn-zoom" style="margin-left: 4px;"></span>
+								</h:commandLink>
+								<span class="extended-search"> <h:link
+										outcome="/pages/workitems/worklist?processref=#{boardController.processRef}">#{message['nav.search_extended']}<span
+											class="typcn typcn-zoom-in" style="margin-left: 4px;"></span>
+									</h:link>
+								</span>
+							</h:panelGroup>
+
+
+							<!-- navigation -->
+							<h:panelGroup layout="" styleClass="pull-right"
+								id="portlet_worklist_nav">
+
+
+								<!-- prev -->
+								<h:commandLink disabled="#{boardController.pageIndex == 0}"
+									action="#{catalogController.getPrev()}">
+									<f:ajax render="@form" execute="@form" />
+									<span
+										class="typcn #{(catalogController.pageIndex == 0)?'typcn-media-rewind-outline':'typcn-media-rewind'}"></span>
+								</h:commandLink>
+								<!-- show page numbers... -->
+								<c:forEach begin="0" end="#{catalogController.pageMax-1}"
+									varStatus="loop">
+									<h:commandLink
+										rendered="#{loop.index ne catalogController.pageIndex}"
+										action="#{catalogController.getPage(loop.index)}">
+										<f:ajax render="@form" execute="@form" />
+										<span style="margin: 0 4px 0 4px; font-size: 0.65em;">#{loop.index+1}</span>
+									</h:commandLink>
+									<h:outputText
+										style="margin:0 4px 0 4px;font-size:0.75em;font-weight:bold;"
+										rendered="#{loop.index eq catalogController.pageIndex}"
+										value="#{loop.index+1}" />
+								</c:forEach>
+								<!-- next -->
+								<h:commandLink disabled="#{catalogController.endOfList}"
+									action="#{catalogController.getNext()}">
+									<f:ajax render="@form" execute="@form" />
+									<span
+										class="typcn #{(catalogController.endOfList)?'typcn-media-fast-forward-outline':'typcn-media-fast-forward'}"></span>
+								</h:commandLink>
+							</h:panelGroup>
+						</h1>
+
+					</div>
+
+
+
+
+					<div class="imixs-body">
+
+
+						<!-- **** Workitems ***** -->
+						<ui:repeat var="workitem" value="#{wikiController.documentPage}">
+
+
+
+							<ui:include src="document_part.xhtml">
+								<ui:param name="workitem" value="#{workitem}" />
+							</ui:include>
+
+
+
+
+
+
+
+						</ui:repeat>
+						<div />
+
+					</div>
+
+
+					<div class="imixs-footer ">
+						<!-- ** Print  ** -->
+						<input type="button" value="#{message.print}"
+							class="imixs-print-action" onclick="openPrintWikiDocument();" />
+						<script type="text/javascript">
+							function openPrintWikiDocument() {
+								fenster = window
+										.open(
+												"#{facesContext.externalContext.requestContextPath}/pages/workitems/forms/wiki/document_print.jsf?processref=#{boardController.processRef}",
+												"",
+												"width=1100,height=700,status=no,scrollbars=yes,resizable=yes");
+								fenster.focus();
+							}
+						</script>
+					</div>
+
+				</h:panelGroup>
+
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>

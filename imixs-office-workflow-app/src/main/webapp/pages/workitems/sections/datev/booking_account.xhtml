@@ -1,0 +1,279 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+
+	<h:panelGroup layout="block" styleClass="imixs-form-section" style="position: relative;"
+		id="bookinglist" binding="#{bookinglistContainer}">	
+	
+
+		<ui:param name="hasKostenstelle1" value="#{!empty datevController.kostenstelle1}"></ui:param>
+		<ui:param name="hasKostenstelle2" value="#{!empty datevController.kostenstelle2}"></ui:param>
+
+		<ui:fragment rendered="#{!readonly}">
+			<h:commandScript name="sachkontoSearch" action="#{datevSearchController.searchSachkonto()}"
+				render="autocomplete-resultlist-datev-sachkonto" onevent="autocompleteShowResult" />
+			<table class="imixsdatatable imixs-bookingitems"> 
+				<tr>
+					<th style="width: 200px;">Buchungskonto</th>
+					<!-- -->
+					<ui:fragment rendered="#{hasKostenstelle1}">
+						<th style="width: 140px;">Kostenstelle I.</th>
+					</ui:fragment>
+					<ui:fragment rendered="#{hasKostenstelle2}">
+						<th style="width: 140px;">Kostenstelle  II.</th>
+					</ui:fragment>
+					<th style="width: 170px;">BU Schlüssel</th>
+					<th style="min-width: 120px;">Betrag</th>
+					<th style="width: 10px;">
+						<!-- delete -->
+					</th>
+				</tr>
+				<ui:repeat var="bookingItem"
+					value="#{datevBookingController.bookingList}">
+					<tr>
+						<td class="konto-input">
+							<!-- Input Field -->						
+							<h:panelGroup id="konto_input_box"
+								layout="block" class="marty-userinput-inputbox"
+								style="height:inherit;">
+								<h:inputText style="width:100%;" id="konto-input-id" 
+								value="#{bookingItem.item['datev.konto']}" pt:data-item="datev.sachkonto"  />
+								<h:inputHidden value="#{bookingItem.item['datev.kontobeschriftung']}" pt:data-item="datev.kontobeschriftung" />
+								<br />
+								<span id='sachkontodtr-name-id' class='small'>#{bookingItem.item['datev.kontobeschriftung']}</span>
+							</h:panelGroup>
+
+						</td>
+
+						<!-- Kostenstelle -->
+						<ui:fragment rendered="#{!empty datevController.kostenstelle1}">
+							<td><h:selectOneMenu style="width:100%;"
+									value="#{bookingItem.item['datev.kostenstelle1']}">
+									<f:selectItem itemLabel="" itemValue="" />
+									<f:selectItems value="#{datevController.kostenstelle1}"></f:selectItems>
+								</h:selectOneMenu></td>
+						</ui:fragment>
+						<ui:fragment rendered="#{!empty datevController.kostenstelle2}">
+							<td><h:selectOneMenu style="width:100%;"
+									value="#{bookingItem.item['datev.kostenstelle2']}">
+									<f:selectItem itemLabel="" itemValue="" />
+									<f:selectItems value="#{datevController.kostenstelle2}"></f:selectItems>
+								</h:selectOneMenu></td>
+						</ui:fragment>
+
+
+						<td><h:selectOneMenu  style="width:100%;" 
+								value="#{bookingItem.item['datev.buschluessel']}">
+								<f:selectItems
+									value="#{datevController.buSchluesel}"></f:selectItems>
+								<f:selectItem itemLabel="" itemValue=""></f:selectItem>
+							</h:selectOneMenu></td>
+
+						<td style="text-align: right;"><h:inputText
+								value="#{bookingItem.item['datev.betrag']}" id="bookingitem_amount"
+								style="text-align: right;width: 100%;border: inherit;"
+								onchange="calculateSummary()">
+								<f:convertNumber minFractionDigits="2" locale="de" />
+							</h:inputText></td>
+
+						<td><h:commandLink
+								actionListener="#{datevBookingController.remove(bookingItem.item['numpos'])}">
+								<span class="typcn typcn-trash imixs-state-info"></span>
+								<f:ajax render="#{bookinglistContainer.clientId}"  execute="#{bookinglistContainer.clientId}" 
+									onevent="initDatevTable" />
+							</h:commandLink></td>
+
+					</tr>
+
+				</ui:repeat>
+
+				<!-- summary -->
+				<tr>
+					<td />
+					<ui:fragment rendered="#{hasKostenstelle1}">
+						<td />
+					</ui:fragment>
+					<ui:fragment rendered="#{hasKostenstelle2}">
+						<td />
+					</ui:fragment>
+					
+					<td class="bookinglist-sum"
+						style="text-align: right; font-weight: bold;">Summe:</td>
+					<td class="bookinglist-sum bookinglist_summary"
+						style="text-align: right; font-weight: bold;"></td>
+					<td />
+				</tr>
+			</table>
+
+			<!-- total summary -->
+			<h:inputHidden value="#{workitem.item['_capacity']}"
+				id="bookingitems_capacity" />
+			<h:inputHidden value="#{workitem.item['_capacity_dsp']}"
+				id="bookingitems_capacity_dsp" />
+
+			<h:commandButton value="#{message.add}" id="addposbutton_id"
+				actionListener="#{datevBookingController.add}">
+				<f:ajax render="#{bookinglistContainer.clientId}"  execute="#{bookinglistContainer.clientId}" 
+					onevent="initDatevTable" />
+			</h:commandButton>
+
+			<!-- datev creditor suggest list -->
+			<h:panelGroup id="autocomplete-resultlist-datev-sachkonto" layout="block" class="autocomplete-resultlist autocomplete-resultlist-sachkonto">
+				<ui:repeat var="suggest" value="#{datevSearchController.searchResult}">
+					<div class="autocomplete-resultlist-element" onclick="autocompleteSelectElement('#{suggest.data}')">
+						<a href="#" style="color: #777;">
+							<h:outputText value="#{suggest.display}" escape="false" />
+						</a>
+					</div>
+				</ui:repeat>
+			</h:panelGroup>
+	
+
+			<script type="text/javascript">
+				/*<![CDATA[*/
+
+				// display summary
+				$(document).ready(
+					function() {		
+						calculateSummary();
+						initDatevTable();
+				});
+				
+				// Hier bekommen wir die JSON Struktur mit allen Daten.
+				// diese Daten werden auf die einzelnen Felder verteilt.
+				function selectSachkontoCallback(selection,inputElementKonto) {
+					const sachkontoData = JSON.parse(selection);
+					inputElementKonto.val(sachkontoData.konto);
+					// finde das nächste hidden Feld...
+					var inputElementBeschriftung=$(inputElementKonto).siblings( "input" );
+					inputElementBeschriftung.val(sachkontoData.name);
+					// remove old cdtr.name
+					$(inputElementKonto).siblings( "span" ).remove();
+					// append span with cdtr.name....
+					inputElementKonto.after("<span id='sachkonto-name-id' class='small'>" + sachkontoData.name + "</span>");
+				}
+			
+
+				/* initialisiert die suchfunktion in der Tabelle */
+				function initDatevTable(data) {
+					if (!data || data.status === 'success') {
+						// add autocomplete feature ..
+						var sachkontoInput = $("input[data-item='datev.sachkonto']");
+						$(sachkontoInput).each(function () {
+							$(this).addClass("imixs-ml");
+							autocompleteInitInput(this, sachkontoSearch, 'autocomplete-resultlist-datev-sachkonto', selectSachkontoCallback);
+						});
+						$('[id$=bookinglist]').imixsLayout();
+					}
+				} 
+
+
+				//Rechnet die Preise zusammen
+				function calculateSummary() {
+					var price = 0, amount = 0, sum = 0, total = 0;
+					var summaryItems = $("[id$=bookingitem_amount]");
+					$(summaryItems).each(function(index, value) {
+
+						var amount = convertToNumber($(this).val());
+						if (!isNaN(amount)) {
+							amount = amount * 1; // convert to number
+							total = total + amount;
+							total = Math.round(total * 100) / 100;
+						}
+					});
+
+					// update total _capacity
+					// update bookinglist_summary
+					$("[id$=bookingitems_capacity]").val(total);
+					$("[id$=bookingitems_capacity_dsp]").val(convertToCurrency(total));
+					$(".bookinglist_summary", ".imixs-bookingitems").empty();
+					$(".bookinglist_summary", ".imixs-bookingitems").append(
+							convertToCurrency(total));
+
+				}
+
+				/* format 1.000,00 to 1000.00 */
+				function convertToNumber(currency) {
+					currency = currency.replace(/\./g, '');
+					currency = currency.replace(/\,/g, '.');
+					return currency;
+				}
+				/* format 1000 into 1.000,00 */ 
+				function convertToCurrency(number) {
+					var splitNum;
+					//number = Math.abs(number);
+					number = number.toFixed(2);
+					splitNum = number.split('.');
+					splitNum[0] = splitNum[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+					return splitNum.join(",");
+				}
+						
+				/*]]>*/
+			</script>
+		</ui:fragment>
+
+		<ui:fragment rendered="#{readonly}">
+			<table class="imixsdatatable imixs-bookingitems">
+				<tr>
+					<th style="width: 300px;">Buchungskonto</th>
+					<!-- -->
+					<ui:fragment rendered="#{hasKostenstelle1}">
+						<th style="width: 140px;">Kostenstelle I.</th>
+					</ui:fragment>
+					<ui:fragment rendered="#{hasKostenstelle2}">
+						<th style="width: 140px;">Kostenstelle  II.</th>
+					</ui:fragment>
+					<th style="width: 70px;">BU Schlüssel</th>
+					<th style="width: 50px;">Betrag</th>
+				</tr>
+
+				<ui:repeat var="bookingItem"
+					value="#{datevBookingController.bookingList}">
+					<tr>
+						<td class="konto-input"><h:outputText
+								value="#{bookingItem.item['datev.konto']}"></h:outputText>
+								<h:outputText
+								value=" #{bookingItem.item['datev.kontobeschriftung']}"></h:outputText>
+						</td>
+ 
+
+
+						<!-- Kostenstelle -->
+						<ui:fragment rendered="#{!empty datevController.kostenstelle1}">
+							<td><h:outputText value="#{bookingItem.item['datev.kostenstelle1']}"></h:outputText></td>
+						</ui:fragment>
+						<ui:fragment rendered="#{!empty datevController.kostenstelle2}">
+							<td><h:outputText value="#{bookingItem.item['datev.kostenstelle2']}"></h:outputText></td>
+						</ui:fragment>
+						<td style="text-align: right;">
+							<h:outputText value="#{bookingItem.item['datev.buschluessel']}"></h:outputText>
+						</td>
+
+						<td style="text-align: right;"><h:outputText
+								value="#{bookingItem.item['datev.betrag']}"></h:outputText></td>
+					</tr>
+				</ui:repeat>
+				<!-- summary -->
+				<tr>
+
+					<td />
+					<ui:fragment rendered="#{hasKostenstelle1}">
+						<td />
+					</ui:fragment>
+					<ui:fragment rendered="#{hasKostenstelle2}">
+						<td />
+					</ui:fragment>
+					<td class="bookinglist-sum"
+						style="text-align: right; font-weight: bold;">Summe:</td>
+					<td class="bookinglist-sum bookinglist_summary"
+						style="text-align: right; font-weight: bold;">#{workitem.item['_capacity_dsp']}</td>
+				</tr>
+			</table>
+		</ui:fragment>
+	</h:panelGroup>
+
+</ui:composition>

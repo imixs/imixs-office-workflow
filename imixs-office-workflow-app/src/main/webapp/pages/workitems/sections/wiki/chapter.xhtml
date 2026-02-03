@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	
+
+
+	<!-- catalog link -->
+	<h:panelGroup styleClass="">
+		<h:outputLink value="/pages/workitems/forms/wiki/document.xhtml?processref=#{workitem.item['process.ref']}">
+		#{workitem.item['process.name']}-<span class="typcn typcn-th-list-outline"></span>
+		</h:outputLink>
+	</h:panelGroup>
+	<!-- chapter Form --> 
+	<div class="imixs-form-section-3">
+		<dl>
+		
+			<dd>
+				<h:selectOneMenu value="#{workitem.item['chapter.parent']}" style="width:inherit;">
+					<f:selectItem itemLabel="" itemValue="-"></f:selectItem>
+					<f:selectItems value="#{wikiController.getMainChapters(workitem.item['process.ref'])}" />
+				</h:selectOneMenu>
+				.
+				<h:inputText style="width:50px;"
+					value="#{workitem.item['chapter.number']}" />
+			</dd>
+		</dl>
+		
+	</div>
+
+</ui:composition>
