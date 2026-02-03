@@ -8,11 +8,7 @@ import org.imixs.workflow.ItemCollection;
 public class AnalyticEvent {
 
     private String key;
-    // private Object value = null;
     private String options = null;
-    // private String label = "";
-    // private String description = "";
-    // private String link = "";
     private ItemCollection workitem = null;
     private ItemCollection data = null;
 
@@ -47,39 +43,14 @@ public class AnalyticEvent {
     }
 
     public ItemCollection getData() {
+        if (data == null) {
+            data = new ItemCollection();
+        }
         return data;
     }
 
     public void setData(ItemCollection data) {
         this.data = data;
     }
-
-    // public void setLink(String link) {
-    // this.link = link;
-    // }
-
-    // public Object getValue() {
-    // return value;
-    // }
-
-    // public void setValue(Object value) {
-    // this.value = value;
-    // }
-
-    // public String getLabel() {
-    // return label;
-    // }
-
-    // public void setLabel(String label) {
-    // this.label = label;
-    // }
-
-    // public String getDescription() {
-    // return description;
-    // }
-
-    // public void setDescription(String description) {
-    // this.description = description;
-    // }
 
 }
