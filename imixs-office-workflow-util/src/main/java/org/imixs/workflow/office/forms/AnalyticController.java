@@ -187,7 +187,7 @@ public class AnalyticController implements Serializable {
 		if (data == null) {
 			// compute data...
 
-			logger.info("fire analytic event for key '" + key + "'");
+			logger.fine("fire analytic event for key '" + key + "'");
 			// Fire the Analytics Event for this key
 			AnalyticEvent event = new AnalyticEvent(key, workitem, options);
 			if (analyticEvents != null) {
@@ -200,7 +200,7 @@ public class AnalyticController implements Serializable {
 				}
 
 				if (options != null) {
-					logger.info("options=" + options);
+					logger.fine("options=" + options);
 					Map<String, String> optionValues = parseJsonOptions(options);
 					for (Map.Entry<String, String> i : optionValues.entrySet()) {
 						if (!"value".equals(i.getKey())) {

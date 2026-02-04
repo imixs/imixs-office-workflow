@@ -41,6 +41,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.marty.team.TeamController;
+import org.imixs.marty.team.TeamService;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.ModelService;
@@ -115,6 +116,9 @@ public class SearchController extends ViewController implements Serializable {
     DocumentService documentService;
 
     @Inject
+    TeamService teamService;
+
+    @Inject
     protected Event<SearchEvent> searchEvents;
 
     @Inject
@@ -153,6 +157,15 @@ public class SearchController extends ViewController implements Serializable {
         // process Ref?
         String processRef = paramMap.get("processref");
         if (processRef != null && !processRef.isEmpty()) {
+            ItemCollection _process = documentService.load(processRef);
+            // test if the processRef is a uniqueid or if we have a name of a process
+            if (_process == null) {
+                // try to resolve the processRef by name...
+                _process = teamService.getProcessByName(processRef);
+                if (_process != null) {
+                    processRef = _process.getUniqueID();
+                }
+            }
             searchFilter.replaceItemValue("processref", processRef);
         }
 

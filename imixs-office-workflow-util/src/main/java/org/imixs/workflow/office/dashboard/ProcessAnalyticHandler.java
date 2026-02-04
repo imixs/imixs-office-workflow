@@ -76,6 +76,11 @@ public class ProcessAnalyticHandler implements Serializable {
 		try {
 			String key = analyticController.getOption(event.getKey(), "key", options, null);
 			String value = analyticController.getOption(event.getKey(), "value", options, null);
+			String processName = analyticController.getOption(event.getKey(), "process", options, null);
+			String link = analyticController.getOption(event.getKey(), "link", options, "");
+			String label = analyticController.getOption(event.getKey(), "label", options, value);
+			String description = analyticController.getOption(event.getKey(), "description", options, value);
+
 			if (key == null || key.isBlank()) {
 				logger.warning("Missing option 'key' ");
 				return;
@@ -85,11 +90,8 @@ public class ProcessAnalyticHandler implements Serializable {
 				return;
 			}
 
-			logger.info("├── Analyse worklist by key " + key + ":" + value);
-			String description = "";
-			String link = "";
-			// do we have a lable defined in the options?
-			String label = analyticController.getOption(event.getKey(), "label", options, value);
+			logger.fine("├── Analyse worklist by key " + key + ":" + value);
+			ItemCollection data = new ItemCollection();
 
 			// do we have a process key?
 			if ("process".equals(key)) {
@@ -101,43 +103,52 @@ public class ProcessAnalyticHandler implements Serializable {
 				}
 				key = "process.ref";
 				value = process.getUniqueID();
-				description = process.getItemValueString("txtdescription");
-				link = "/pages/workitems/worklist.xhtml?processref=" + process.getUniqueID();
-				label = process.getItemValueString("name");
+				if (description.isBlank()) {
+					description = process.getItemValueString("txtdescription");
+				}
+				if (link.isBlank()) {
+					link = "/pages/workitems/worklist.xhtml?processref=" + process.getUniqueID();
+				}
+				if (label.isBlank()) {
+					label = process.getItemValueString("name");
+				}
 			}
 
 			// Count....
 			if (event.getKey().startsWith("worklist.stats.count.")) {
 				String query = "(type:workitem) AND (" + key + ":\"" + value + "\")";
 				long count;
-
+				ItemCollection process = null;
 				count = documentService.count(query);
-				logger.info("│   ├── count=" + count);
-				ItemCollection data = new ItemCollection();
-				data.setItemValue("value", count)
-						.setItemValue("label", label)
-						.setItemValue("description", description);
+				logger.fine("│   ├── count=" + count);
+				data.setItemValue("value", count);
 
-				// compute a search link if we are in a process / workflowgroup
-				ItemCollection process = modelController.findProcessByWorkflowGroup(value);
-				if (process != null) {
+				// compute a search link if we can identify the process
+				// first test if we got a process name in the options
+				if (processName != null && !processName.isBlank()) {
+					process = teamService.getProcessByName(processName);
+				} else {
+					// try to resolve the process by the given workflowGroup...
+					process = modelController.findProcessByWorkflowGroup(value);
+				}
+				if (process != null && link.isBlank()) {
 					link = "/pages/workitems/worklist.xhtml?processref=" + process.getUniqueID() + "&workflowgroup="
 							+ value;
-					data.setItemValue("link", link);
 				}
-				event.setData(data);
+
 			}
 
 			// Chart....
 			if (event.getKey().startsWith("worklist.stats.chart.")) {
 				// generate chart...
-				ItemCollection data = new ItemCollection();
-				data.setItemValue("value", buildWorkitemsChart(key, value, label + " / requests by month"))
-						.setItemValue("label", label)
-						.setItemValue("description", description);
-				event.setData(data);
+				data.setItemValue("value", buildWorkitemsChart(key, value, label + " / requests by month"));
 			}
 
+			// set label, description and link
+			data.setItemValue("label", label)
+					.setItemValue("link", link)
+					.setItemValue("description", description);
+			event.setData(data);
 		} catch (QueryException e) {
 			logger.severe("Failed to compute stats: " + e.getMessage());
 		}

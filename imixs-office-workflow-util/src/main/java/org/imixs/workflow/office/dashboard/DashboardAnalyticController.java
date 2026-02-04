@@ -318,7 +318,7 @@ public class DashboardAnalyticController implements Serializable {
         countTodayByOwner = 0; // Fresh tasks (0-3 days) - Blue
         countThisWeekByOwner = 0; // Needs attention (3-7 days) - Orange
         countUrgentByOwner = 0; // Urgent tasks (7+ days) - Red
-        logger.info("├──calculate stats for " + loginController.getUserPrincipal() + "....");
+        long l = System.currentTimeMillis();
 
         // count tasks
         try {
@@ -342,39 +342,42 @@ public class DashboardAnalyticController implements Serializable {
             String oneWeekAgoStr = oneWeekAgo.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
             String startOfWeekStr = startOfWeek.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
-            logger.info("├──Query ranges:");
+            logger.fine("├──Query ranges:");
 
             // Fresh tasks (today)
             String from = todayStr + "000000";
             String to = todayStr + "235959";
             countTodayByOwner = countTasks(from, to);
-            logger.info("   Today: [" + from + " TO " + to + "]");
+            logger.fine("   Today: [" + from + " TO " + to + "]");
 
             // Tasks needing attention (This week)
             from = startOfWeekStr + "000000";
             to = yesterdayStr + "235959";
             countThisWeekByOwner = countTasks(from, to);
-            logger.info("   ThisWeek: [" + from + " TO " + to + "]");
+            logger.fine("   ThisWeek: [" + from + " TO " + to + "]");
 
             // Tasks needing attention (one week)
             from = oneWeekAgoStr + "000000";
             to = yesterdayStr + "235959";
             countOneWeek = countTasks(from, to);
-            logger.info("   OneWeek: [" + from + " TO " + to + "]");
+            logger.fine("   OneWeek: [" + from + " TO " + to + "]");
 
             // Urgent tasks (older than 1 Week) - from start TO oneWeekAgo-1
             from = "19700101000000";
             to = oneWeekAgoStr + "235959";
             countUrgentByOwner = countTasks(from, to);
-            logger.info("   Urgent: [" + from + " TO " + to + "]");
+            logger.fine("   Urgent: [" + from + " TO " + to + "]");
 
-            logger.info("├── Results: Today=" + countTodayByOwner
+            logger.fine("├── Results: Today=" + countTodayByOwner
                     + ", This Week=" + countThisWeekByOwner
                     + ", One Week=" + countOneWeek
                     + ", Urgent="
                     + countUrgentByOwner + ", Total=" + countAllByOwner);
 
             calculatedStats = true;
+
+            logger.info("├── calculated stats for " + loginController.getUserPrincipal() + " in "
+                    + (System.currentTimeMillis() - l) + " ms");
         } catch (QueryException e) {
             logger.log(Level.SEVERE, "getWorkListByOwner - invalid param: {0}", e.getMessage());
 
@@ -426,7 +429,7 @@ public class DashboardAnalyticController implements Serializable {
      * @return
      */
     private DashboardDataSet initDashboardDataSet(String key, int pageSize) {
-        logger.info("├── init worklist: " + key);
+        logger.fine("├── init worklist: " + key);
         // Data Views
         if ("dashboard.worklist.owner".equals(key)) {
             String query = "(type:\"workitem\" AND $owner:\"" + loginController.getRemoteUser() + "\")";
