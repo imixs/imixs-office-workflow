@@ -99,15 +99,15 @@
 
 								<ui:remove><!-- html5-datetime --></ui:remove>
 								<c:if test="#{item.type eq 'html5datetime'}">
-									<h:inputText value="#{workitem.item[item.name]}" pt:type="datetime"
+									<h:inputText value="#{workitem.item[item.name]}" pt:type="datetime-local"
 										pt:data-item="#{item.name}"
 										required="#{item.required?validationController.required:false}"
 										styleClass="imixs-html5date" rendered="#{!item.readonly}"
 										disabled="#{item.disabled}">
-										<f:converter converterId="imixsHTML5DateConverter" />
+										<f:converter converterId="imixsHTML5DateTimeConverter" />
 									</h:inputText>
 									<h:outputText value="#{workitem.item[item.name]}" rendered="#{item.readonly}">
-										<f:convertDateTime pattern="#{message.datePatternShort}"
+										<f:convertDateTime pattern="#{message.dateTimePatternShort}"
 											timeZone="#{message.timeZone}" />
 									</h:outputText>
 								</c:if>

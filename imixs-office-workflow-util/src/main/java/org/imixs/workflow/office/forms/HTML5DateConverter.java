@@ -5,6 +5,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.TimeZone;
 
 import jakarta.faces.component.UIComponent;
@@ -35,7 +37,7 @@ public class HTML5DateConverter implements Converter, Serializable {
 
             String timezone = (String) component.getAttributes().get("org.imixs.date.timeZone");
             if (timezone == null || timezone.isEmpty()) {
-                timezone = DEFAULT_TIME_ZONE;
+                timezone = getTimeZoneFromBundle(context);
             }
             DateFormat dateFormat = new SimpleDateFormat(pattern);
             dateFormat.setTimeZone(TimeZone.getTimeZone(timezone));
@@ -55,7 +57,7 @@ public class HTML5DateConverter implements Converter, Serializable {
             String pattern = HTML5_DATE_FORMAT_PATTERN;
             String timezone = (String) component.getAttributes().get("org.imixs.date.timeZone");
             if (timezone == null || timezone.isEmpty()) {
-                timezone = DEFAULT_TIME_ZONE;
+                timezone = getTimeZoneFromBundle(context);
             }
 
             DateFormat dateFormat = new SimpleDateFormat(pattern);
@@ -63,5 +65,17 @@ public class HTML5DateConverter implements Converter, Serializable {
             return dateFormat.format((Date) value);
         }
         return value.toString();
+    }
+
+    private String getTimeZoneFromBundle(FacesContext context) {
+        // Load the timezone from the message bundle
+        ResourceBundle bundle = context.getApplication()
+                .getResourceBundle(context, "message");
+
+        try {
+            return bundle.getString("timeZone");
+        } catch (MissingResourceException e) {
+            return DEFAULT_TIME_ZONE; // fallback to UTC
+        }
     }
 }

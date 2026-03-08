@@ -53,6 +53,12 @@ The parameter 'options' is optional and can be used for css styles only.
     <item name="invoice.date" type="html5date" label="Date" />
 ```
 
+### HTML5 Date Time Input
+
+```xml
+    <item name="invoice.date" type="html5datetime" label="Date/Time" />
+```
+
 ### Currency Input
 
 ```xml
