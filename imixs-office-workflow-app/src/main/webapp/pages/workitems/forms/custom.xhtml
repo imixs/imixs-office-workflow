@@ -5,6 +5,15 @@
 
 	<h:panelGroup id="custom_subview_id" binding="#{customFormComponents}">
 
+
+		<c:if test="#{! empty customFormController.errorMessage}">
+			<div
+				style="background: #FFE6E6; padding: 10px; margin: 10px 0; border: 1px solid #FF9999; border-radius: 4px;">
+				<strong>Error: #{errorHelperBean.rootCauseType}</strong>
+				<p style="color: #666;margin: 0.2em 0 0.4em 0;">#{customFormController.errorMessage}</p>
+			</div>
+		</c:if>
+
 		<!-- test if sub-forms are defined -->
 		<c:if test="#{! empty customFormController.subforms}">
 			<div class="imixs-tabs">
