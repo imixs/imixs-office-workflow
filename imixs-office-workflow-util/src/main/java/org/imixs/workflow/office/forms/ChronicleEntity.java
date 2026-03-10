@@ -15,24 +15,21 @@ public class ChronicleEntity {
 	String user;
 	List<ItemCollection> entries;
 
+	/**
+	 * Creates a new ChronicleEntity for the given user and date.
+	 * The date is normalized to minute precision via {@link #setDate(Date)},
+	 * ensuring consistent behaviour regardless of the call site.
+	 *
+	 * @param user the user name; defaults to empty string if {@code null}
+	 * @param date the timestamp; defaults to current time if {@code null}
+	 */
 	public ChronicleEntity(String user, Date date) {
-		super();
-		if (date == null) {
-			// should not happen
-			date = new Date();
-		}
 		if (user == null) {
 			// should not happen
 			user = "";
 		}
 		this.user = user;
-
-		// cut milis and seconds..
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		cal.set(Calendar.MILLISECOND, 0);
-		//cal.set(Calendar.SECOND, 0);
-		this.date = cal.getTime();
+		setDate(date);
 		entries = new ArrayList<ItemCollection>();
 	}
 
@@ -40,8 +37,20 @@ public class ChronicleEntity {
 		return date;
 	}
 
+	/**
+	 * Sets the date of this chronicle entry.<br>
+	 * The value is normalized to minute precision (seconds and milliseconds
+	 * are truncated) so that {@link #equals(Object)} and {@link #hashCode()}
+	 * remain consistent regardless of the date source.
+	 *
+	 * @param date the timestamp; defaults to current time if {@code null}
+	 */
 	public void setDate(Date date) {
-		this.date = date;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date == null ? new Date() : date);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		this.date = cal.getTime();
 	}
 
 	public String getUser() {
@@ -67,7 +76,7 @@ public class ChronicleEntity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime * result + date.hashCode();
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
@@ -81,10 +90,7 @@ public class ChronicleEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		ChronicleEntity other = (ChronicleEntity) obj;
-		if (date == null) {
-			if (other.date != null)
-				return false;
-		} else if (!date.equals(other.date))
+		if (!date.equals(other.date))
 			return false;
 		if (user == null) {
 			if (other.user != null)
