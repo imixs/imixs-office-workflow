@@ -138,24 +138,20 @@ public class ChronicleController implements Serializable {
 				&& workflowController.getWorkitem().hasItem("txtworkflowhistory")) {
 			// migrate deprecated field name
 			history = workflowController.getWorkitem().getItemValue("txtworkflowhistory");
-			// in old workitems, the workflow history may not be ordered chronological.
-			// We re-sort the order here
-			// Sort the list by date in descending order
+			// in old workitems, the workflow history may not be ordered chronologically.
+			// re-sort in descending order directly
 			Collections.sort(history, new Comparator<List<?>>() {
 				@Override
 				public int compare(List<?> entry1, List<?> entry2) {
 					Date date1 = (Date) entry1.get(0);
 					Date date2 = (Date) entry2.get(0);
-					// Compare in descending order
-					return date1.compareTo(date2);
+					return date2.compareTo(date1);
 				}
 			});
 		} else {
 			history = workflowController.getWorkitem().getItemValue(HistoryPlugin.ITEM_HISTORY_LOG);
 		}
 
-		// change order
-		Collections.reverse(history);
 		// do we have real history entries?
 		if (history.size() > 0 && history.get(0) instanceof List) {
 			for (List<?> entries : history) {
