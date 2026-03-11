@@ -437,21 +437,18 @@ public class ChronicleController implements Serializable {
 		}
 
 		/*
-		 * Collect all references. We look for direct references and external
-		 * references. The method uniques the list so that a reference can only occur
-		 * once.
+		 * Collect all inbound references - this is a list of workitems referring to
+		 * this workitem
+		 * 
+		 * This call is restricted to a maximum of 30 entries because in some cases the
+		 * inbound references can be a large list. e.g. many Invoices -> one
+		 * BusinessPartner
+		 * 
+		 * The call getReferencesOutbound does NOT make sense here because the workitem
+		 * typically show these references in a Item 'workitemlink'
 		 */
-		List<ItemCollection> references = workitemLinkController.getReferencesOutbound();
-
 		// Disabled External References - Issue #653
-		// List<ItemCollection> externalReferences =
-		// workitemLinkController.getExternalReferences();
-		// // unique list... (references can be occur twice)
-		// for (ItemCollection _workitem : externalReferences) {
-		// if (!containsUniqueID(references, _workitem.getUniqueID())) {
-		// references.add(_workitem);
-		// }
-		// }
+		List<ItemCollection> references = workitemLinkController.getReferencesInbound();
 
 		for (ItemCollection reference : references) {
 			Date date = reference.getItemValueDate(WorkflowKernel.CREATED);
