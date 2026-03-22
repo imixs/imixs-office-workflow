@@ -1,18 +1,16 @@
 # Forms
 
-<p class="lead">
-With Imixs-Office-Workflow you can create forms completely model-based. No programming knowledge in HTML or Java Script is required. 
-Imixs-Office-Workflow implements the <a href="https://www.imixs.org/doc/forms/index.html" target="_blank">Imixs Form Specification</a>
+Imixs-Office-Workflow implements the [Imixs Form Specification](https://www.imixs.org/doc/forms/index.html) —
 a standard for describing business forms declaratively inside a BPMN model.
-Forms are defined directly in the BPMN modeler and rendered automatically at runtime.
-</p>
+No programming knowledge in HTML or JavaScript is required. Forms are defined directly
+in the BPMN modeler and rendered automatically at runtime.
 
 ## The Concept
 
 A form definition is stored as XML inside a BPMN **Data Object** and linked to a **Task**
 via a BPMN **Association**:
 
-<img class="screenshot" src="imixs-bpmn-custom-forms.png" />
+![](https://doc.office-workflow.com/forms/imixs-bpmn-custom-forms.png)
 
 When a workflow instance reaches that task, Imixs-Office-Workflow reads the Data Object,
 parses the XML, and renders the form — dynamically, without redeployment.
@@ -22,63 +20,17 @@ A minimal form definition looks like this:
 ```xml
 <?xml version="1.0"?>
 <imixs-form>
-  <imixs-form-section label="Order Details" columns="2">
-    <item name="order.number" type="text"     label="Order Number:" />
-    <item name="order.date"   type="date"     label="Order Date:" />
-    <item name="order.notes"  type="textarea" label="Notes:" span="12" />
+  <imixs-form-section label="Order Details">
+    <item name="order.number" type="text"     label="Order Number:" span="6" />
+    <item name="order.date"   type="date"     label="Order Date:"   span="6" />
+    <item name="order.notes"  type="textarea" label="Notes:" />
   </imixs-form-section>
 </imixs-form>
 ```
 
-Within an `<imixs-form-section>` you define input fields as `<item>` elements. Each item maps its value directly to the corresponding workitem:
-
-```xml
-<item name="customer.name" type="text" label="Name:" />
-```
-
-Each item has the following properties:
-
-| Property   |  Type   | Mandatory | Description                                    |
-| ---------- | :-----: | :-------: | ---------------------------------------------- |
-| `name`     |  text   |     ✓     | Name of the item                               |
-| `type`     |  text   |     ✓     | Item type (e.g. `text`, `currency`, `date`, …) |
-| `label`    |  text   |           | Optional label for the input field             |
-| `required` | boolean |           | Marks the input field as mandatory             |
-| `readonly` | boolean |           | Marks the input field as read-only             |
-
-### Form Layout
-
-Each section uses a 12-column grid layout. Items within a section are arranged in rows according to their span values.
-The `columns` attribute provides a convenient shorthand for evenly distributing items. For example, `columns="3"` automatically splits the section into three equal columns, so every item takes up one third of the row.
-With the `span` setting in a item tag you can change the width of the item individually.
-
-<img class="screenshot" src="custom-grid-layout.png" />
-
-In this example the zip item takes only 2 grid columns, the city 6 and the country 4. It is important to ensure that a custom layout is always based on 12 columns:
-
-For the full specification of the XML format, the 12-column grid layout, all standard input types, and default values, refer to the
+For the full specification of the XML format, the 12-column grid layout, standard input types,
+and default values, refer to the
 **[Imixs Form Specification](https://www.imixs.org/doc/forms/index.html)** on imixs.org.
-
-### Form Tabs
-
-You can also define additional Tabs that group Sections horizontal. For this you define a tag named `imixs-subform` to separate a group of sections
-
-```xml
-<imixs-form>
-  <imixs-subform label="Basic Information">
-	<imixs-form-section label="Address:">
-		<item name="debug.zip" type="text"  label="ZIP:" span="2" />
-		<item name="debug.city" type="text"  label="City:" span="6" />
-		<item name="debug.country" type="text"  label="Country:" span="4" />
-	</imixs-form-section>
-  </imixs-subform>
-  <imixs-subform label="Advanced Information">
-	 ...
-  </imixs-subform>
-</imixs-form>
-```
-
-<img class="screenshot" src="custom_forms_02.png" />
 
 ---
 
@@ -91,7 +43,7 @@ across your business process architecture.
 For application-specific item names the **dot.case** format is recommended:
 
 | Item             | Type  | Description                                 |
-| ---------------- | :---: | ------------------------------------------- |
+| ---------------- | ----- | ------------------------------------------- |
 | **Order**        |       |                                             |
 | order.name       | text  | Order name                                  |
 | order.number     | text  | Order number                                |
@@ -138,7 +90,7 @@ to **override** this default behaviour — for example to load a completely cust
 hand-crafted form instead. This can be useful for specialised use cases such as mobile
 applications or highly tailored UI layouts that go beyond what the form specification supports.
 
-![](forms/custom_forms_01.png)
+![](https://doc.office-workflow.com/forms/custom_forms_01.png)
 
 To disable the Forms Specification for a specific task and load a custom form instead,
 enter the name of your custom form template in the _Application → Input Form_ field.
@@ -161,15 +113,17 @@ seamlessly with the standard form layout:
 
 The following sections describe all available components in detail:
 
-- **[Input Parts](parts.html)** — all standard and extended input types
+- **[Form Layout](https://doc.office-workflow.com/forms/layout.html)** — columns, span, section options
+- **[Input Parts](https://doc.office-workflow.com/forms/parts.html)** — all standard and extended input types
+- **[Custom Parts](https://doc.office-workflow.com/forms/parts-custom.html)** — how to build your own components
 - **[User Input](https://doc.office-workflow.com/forms/userinput.html)** — user and team selection fields
-- **[Workitem Linking](workitemlinking.html)** — linking related process instances
-- **[Organization Uinits (Spaces)](spaces.html)** — advanced section layouts
-- **[Country Codes](countrycodes.html)** — country selection
-- **[Analytic Parts](analyticparts.html)** — charts and KPI widgets
-- **[Validation](validation.html)** — input validation rules
-- **[Custom Parts](parts-custom.html)** — how to build your own components
-- **[Autocomplete](autocomplete.html)** — autocomplete fields
-- **[Date Converter](dateConverter.html)** — date format conversion
-- **[Form Expressions](expressions.html)** — dynamic field visibility and values
-- **[Dashboard](dashboard.html)** — dashboard widgets
+- **[Workitem Linking](https://doc.office-workflow.com/forms/workitemlinking.html)** — linking related process instances
+- **[Sections](https://doc.office-workflow.com/forms/spaces.html)** — advanced section layouts
+- **[Markdown](https://doc.office-workflow.com/forms/markdown.html)** — markdown editor component
+- **[Country Codes](https://doc.office-workflow.com/forms/countrycodes.html)** — country selection
+- **[Analytic Parts](https://doc.office-workflow.com/forms/analyticparts.html)** — charts and KPI widgets
+- **[Validation](https://doc.office-workflow.com/forms/validation.html)** — input validation rules
+- **[Autocomplete](https://doc.office-workflow.com/forms/autocomplete.html)** — autocomplete fields
+- **[Date Converter](https://doc.office-workflow.com/forms/dateConverter.html)** — date format conversion
+- **[Form Expressions](https://doc.office-workflow.com/forms/expressions.html)** — dynamic field visibility and values
+- **[Dashboard](https://doc.office-workflow.com/forms/dashboard.html)** — dashboard widgets

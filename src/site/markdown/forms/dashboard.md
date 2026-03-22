@@ -1,8 +1,9 @@
 # Dashboard
 
+<p class="lead">
 The Dashboard feature gives you a great opportunity to display open task, stats and important information to users or user groups.
 Dashboards can be configured individual simmilar like custom forms.
-
+</p>
 <img class="screenshot" src="dashboard-001.png" />
 
 ## Setup & Layout

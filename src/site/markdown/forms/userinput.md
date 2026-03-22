@@ -1,6 +1,8 @@
 # User Input Part
 
+<p class="lead">
 Imixs-Office-Workflow provides a set of custom input parts to enter usernames or select usernames from a organization unit.
+</p>
 
 ## The User Input
 
@@ -13,7 +15,7 @@ The item part `userinput` can be used to edit a single user name. The part provi
           label="User:" />
 ```
 
-<img class="screenshot" src="userinput-01.png" />
+<img class="screenshot" src="item-userinput.png" />
 
 ## The User-List Input
 
@@ -25,6 +27,8 @@ Optional the User-List-Input allows to enter a list of user names. The part prov
           path="userinput"
           label="User:" />
 ```
+
+<img class="screenshot" src="item-userlistinput.png" />
 
 ## User Input by Space
 
@@ -41,3 +45,5 @@ For example you can define to display only Managers from the Space 'Auditoren':
       options="Auditoren;space.manager"
       label="Auditor:" />
 ```
+
+<img class="screenshot" src="item-userinputbyspace.png" />

@@ -1,10 +1,10 @@
 # Workitem Linking
 
-Imixs-Office-Workflow provides a way to link workitems together. This means a workitem can point to another workitem which may have a different workflow. The link is defined by the `$uniqueId` stored in the item `$workitemref`. A workitem can have one or many links.
+<p class="lead">
+Imixs-Office-Workflow provides a way to link workitems together. This means a workitem can point to another workitem which may have a different workflow. The link is defined by the <code>$uniqueId</code> stored in the item <code>$workitemref</code>. A workitem can have one or many links.
+</p>
 
-The workitems linked from a workitem are called _outbound workitem links_.
-
-## Form Part
+## Outbound Workitem Links
 
 To set a new linked workitem in a form, you can use the custom formpart 'workitemlink'. See the following example:
 
@@ -24,6 +24,8 @@ The user can enter a search phrase to search for a workitem within the index. Wi
 If you set `readonly="true"` the formpart shows only a list of linked workitems.
 
 <img src="workitemlink_02.png" />
+
+The workitems linked from a workitem are called _outbound workitem links_.
 
 ### Layout and CSS
 

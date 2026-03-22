@@ -1,11 +1,12 @@
-# Sections
+# Organization Units - Spaces
 
-Imixs-Office-Workflow provides a set of custom input parts to assign a workitem to a section (space). 
-
+<p class="lead">
+Imixs-Office-Workflow provides a set of custom input parts to assign a workitem to a organization unit (space).
+</p>
 
 ## The spaceref Input
 
-The item part `spaceref` can be used to select a section from the organization matrix. 
+The item part `spaceref` can be used to select a section from the organization matrix.
 
 ```xml
     <item type="custom"
@@ -22,9 +23,9 @@ The item part `spaceref` can be used to select a section from the organization m
 The component can also be displayed in read mode:
 
 ```xml
-      <item type="custom" 
-            path="spaceref"  
-            label="Department:" 
+      <item type="custom"
+            path="spaceref"
+            label="Department:"
             readonly="true" />
 ```
 
@@ -45,7 +46,6 @@ To allow only the selection of a subset of sections, assigned to the current pro
 
 The selection of sections can be restricted in addition by a regular expression with the option `regex=...`
 
-
 ```xml
     <item type="custom"
           path="spaceref"
@@ -55,22 +55,21 @@ The selection of sections can be restricted in addition by a regular expression 
 
 This example will filter all sections starting with the String 'Production'.
 
-**Note:** The `regex` option can be combined with the option `byprocess=true;`.  See the full list of options below.
+**Note:** The `regex` option can be combined with the option `byprocess=true;`. See the full list of options below.
 
 ### Default Selection
 
 It is also possible to pre-select a default value for this component. In this case the first section where the current user is member of will be assigned.
-The feature can be activated by the option  `default-selection=[member|manager|team|assist];`. 
+The feature can be activated by the option `default-selection=[member|manager|team|assist];`.
 
 Possible member options are:
 
- - member - Current user must be a member of one of the section roles
- - manager - Current user must be manager of the section 
- - team - Current user must be team member of the section 
- - assist - Current user must be assist of the section 
- 
+- member - Current user must be a member of one of the section roles
+- manager - Current user must be manager of the section
+- team - Current user must be team member of the section
+- assist - Current user must be assist of the section
 
- Example:
+Example:
 
 ```xml
     <item type="custom"
@@ -81,20 +80,17 @@ Possible member options are:
 
 This will set the default selection to the first section where the current user is a team member.
 
-
-**Note:** The default selection also depends on the options `byprocess=true` and `regex=`.  See the full list of options below.
-
+**Note:** The default selection also depends on the options `byprocess=true` and `regex=`. See the full list of options below.
 
 ## Options
 
 The following options are supported by this component.
 
-
-| Option                    | Description                                                                                 |
-| ------------------------- | ------------------------------------------------------------------------------------------- |
-| byprocess=true            | Selection only shows sections assigned to the current  process                 |
-| regex=....;               | Selection only shows sections  matching the given regular expression  (section name)          |
-| default-selection=member  | The first section, the current user is member of will be pre-selected.  |
-| default-selection=team    | The first section, the current user is team member of will be pre-selected.  |
-| default-selection=manager | The first section, the current user is manager of will be pre-selected.   |
-| default-selection=assist  | The first section, the current user is assist of will be pre-selected.   |
+| Option                    | Description                                                                        |
+| ------------------------- | ---------------------------------------------------------------------------------- |
+| byprocess=true            | Selection only shows sections assigned to the current process                      |
+| regex=....;               | Selection only shows sections matching the given regular expression (section name) |
+| default-selection=member  | The first section, the current user is member of will be pre-selected.             |
+| default-selection=team    | The first section, the current user is team member of will be pre-selected.        |
+| default-selection=manager | The first section, the current user is manager of will be pre-selected.            |
+| default-selection=assist  | The first section, the current user is assist of will be pre-selected.             |

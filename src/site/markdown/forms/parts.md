@@ -19,6 +19,8 @@ The various input item definitions are called 'input parts':
     <item name="description" type="text" label="Topic" />
 ```
 
+<img class="screenshot" src="item-text.png" />
+
 ### Textlist
 
 A textlist is displayed as a input textarea. The entries of separate lines are stored as multiple values in an Item List. This input type can be useful e.g. for lists of E-Mail addresses or a list of order-numbers.
@@ -27,11 +29,15 @@ A textlist is displayed as a input textarea. The entries of separate lines are s
     <item name="references" type="textlist" label="Order References" />
 ```
 
+<img class="screenshot" src="item-textlist.png" />
+
 ### Textarea Input
 
 ```xml
     <item name="description" type="textarea" options="height: 15em;" label="Description" />
 ```
+
+<img class="screenshot" src="item-textarea.png" />
 
 The parameter 'options' is optional and can be used for css styles only.
 
@@ -47,11 +53,15 @@ The parameter 'options' is optional and can be used for css styles only.
     <item name="invoice.date" type="date" label="Date" />
 ```
 
+<img class="screenshot" src="item-date.png" />
+
 ### HTML5 Date Input
 
 ```xml
     <item name="invoice.date" type="html5date" label="Date" />
 ```
+
+<img class="screenshot" src="item-html5date.png" />
 
 ### HTML5 Date Time Input
 
@@ -59,11 +69,15 @@ The parameter 'options' is optional and can be used for css styles only.
     <item name="invoice.date" type="html5datetime" label="Date/Time" />
 ```
 
+<img class="screenshot" src="item-html5datetime.png" />
+
 ### Currency Input
 
 ```xml
     <item name="invoice.amount" type="currency" label="Amount" />
 ```
+
+<img class="screenshot" src="item-currency.png" />
 
 ### IBAN / BIC Input
 
@@ -71,6 +85,8 @@ The parameter 'options' is optional and can be used for css styles only.
     <item name="dbtr.iban" type="iban" label="IBAN" />
     <item name="dbtr.bic" type="bic"  label="BIC" />
 ```
+
+<img class="screenshot" src="item-ibanbic.png" />
 
 Supports a IBAN/BIC Input validation.
 
@@ -83,6 +99,8 @@ You can also create different type of select boxes with predefined values:
     	label="Currency:"
     	options="EUR;CHF;SEK;NOK;GBP;USD" />
 ```
+
+<img class="screenshot" src="item-select.png" />
 
 You can choose one of the following types for select boxes:
 
@@ -110,3 +128,5 @@ With the Markup Editor you can provide a WYSIWYG Editor for Markup Text
 ```xml
   <item name="request.response.text" type="custom" path="markdowneditor" />
 ```
+
+<img class="screenshot" src="item-markdown.png" />
