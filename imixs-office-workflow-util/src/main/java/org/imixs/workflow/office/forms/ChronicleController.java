@@ -445,10 +445,27 @@ public class ChronicleController implements Serializable {
 		 * BusinessPartner
 		 * 
 		 * The call getReferencesOutbound does NOT make sense here because the workitem
-		 * typically show these references in a Item 'workitemlink'
+		 * typically show these references in a Item '$workitemref'
 		 */
 		// Disabled External References - Issue #653
-		List<ItemCollection> references = workitemLinkController.getReferencesInbound();
+		// List<ItemCollection> references =
+		// workitemLinkController.getReferencesInbound();
+
+		/**
+		 * Collect all outbound references - this is a list of workItems the current
+		 * workitem holds a link.
+		 * 
+		 * E.g. Invoice: -> Customer, Payment
+		 * 
+		 * The customer does not know the invoices and payments. The customer shows no
+		 * workitems in the chronicle.
+		 * 
+		 * 
+		 * If the Inbound Workitems are needed, a form should use a DataView
+		 * 
+		 * 
+		 */
+		List<ItemCollection> references = workitemLinkController.getReferencesOutbound();
 
 		for (ItemCollection reference : references) {
 			Date date = reference.getItemValueDate(WorkflowKernel.CREATED);
