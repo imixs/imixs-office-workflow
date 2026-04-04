@@ -87,7 +87,7 @@
 		<jakarta.version>10.0.0</jakarta.version>
 		<org.imixs.workflow.version>6.0.9</org.imixs.workflow.version>
 		<org.imixs.archive.version>3.0.2</org.imixs.archive.version>
-		<org.imixs.data.version>1.0.0-SNAPSHOT</org.imixs.data.version>
+		<org.imixs.data.version>1.0.0</org.imixs.data.version>
 		<org.imixs.office.version />
 		<org.imixs.marty.version>5.0.1</org.imixs.marty.version>
 		<org.imixs.mock.version>6.0.0</org.imixs.mock.version>
@@ -115,8 +115,12 @@
 
 	<repositories>
 		<repository>
-			<id>oss-snapshots</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<id>central-portal-snapshots</id>
+			<name>Central Portal Snapshots</name>
+			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
@@ -179,25 +183,32 @@
 					<goals>deploy</goals>
 				</configuration>
 			</plugin>
-			<!-- release to Maven central -->
+
 			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.13</version>
-				<extensions>true</extensions>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.12.1</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>3.1.0</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.2.0</version>
 				<configuration>
-					<serverId>ossrh</serverId>
-					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-					<autoReleaseAfterClose>true</autoReleaseAfterClose>
-					<stagingProgressTimeoutMinutes>15</stagingProgressTimeoutMinutes>
+					<additionalOptions>-Xdoclint:none</additionalOptions>
 				</configuration>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.9.0</version>
-
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>3.0.0</version>
 			</plugin>
 
 		</plugins>
