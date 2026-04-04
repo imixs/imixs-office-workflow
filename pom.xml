@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.imixs.workflow</groupId>
 	<artifactId>imixs-office-workflow</artifactId>
@@ -56,7 +58,7 @@
 	</scm>
 
 	<issueManagement>
-     	<system>GitHub</system>
+		<system>GitHub</system>
 		<url>https://github.com/imixs/imixs-office-workflow/issues</url>
 	</issueManagement>
 
@@ -73,6 +75,20 @@
 		</license>
 	</licenses>
 
+	<repositories>
+		<repository>
+			<id>central-portal-snapshots</id>
+			<name>Central Portal Snapshots</name>
+			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<properties>
 		<java.source>11</java.source>
 		<java.target>11</java.target>
@@ -85,7 +101,7 @@
 		<org.imixs.archive.version>2.2.12</org.imixs.archive.version>
 		<org.imixs.office.version />
 		<org.imixs.marty.version>4.2.3</org.imixs.marty.version>
-		
+
 		<!-- 2.2 -->
 		<microprofile.version>3.3</microprofile.version>
 		<net.sf.saxon.version>9.9.1-4</net.sf.saxon.version>
@@ -102,9 +118,9 @@
 		java:/mail/org.imixs.workflow.mail	
 		 -->
 		<imixs-mail-res-ref-name>java:/mail/org.imixs.workflow.mail</imixs-mail-res-ref-name>
-		
+
 		<!-- Wildfly unpack war -->
-		<custom.unpackTypes>war</custom.unpackTypes>		
+		<custom.unpackTypes>war</custom.unpackTypes>
 		<javax.faces.project_stage>Production</javax.faces.project_stage>
 	</properties>
 
@@ -126,7 +142,7 @@
 					<source>${java.source}</source>
 					<target>${java.target}</target>
 				</configuration>
-			</plugin>		
+			</plugin>
 			<!-- release management -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -141,50 +157,56 @@
 			</plugin>
 			<!-- release to Maven central -->
 			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.13</version>
-				<extensions>true</extensions>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.12.1</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>3.1.0</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.2.0</version>
 				<configuration>
-					<serverId>ossrh</serverId>
-					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-					<autoReleaseAfterClose>true</autoReleaseAfterClose>
-					<stagingProgressTimeoutMinutes>15</stagingProgressTimeoutMinutes>
+					<additionalOptions>-Xdoclint:none</additionalOptions>
 				</configuration>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.9.0</version>
-			   
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>3.0.0</version>
 			</plugin>
 
 		</plugins>
-		
+
 		<finalName>imixs-office-workflow</finalName>
 	</build>
-	
-	
+
 	<reporting>
-	     <plugins>
-	         <plugin>
-	             <groupId>org.apache.maven.plugins</groupId>
-	             <artifactId>maven-project-info-reports-plugin</artifactId>
-	             <version>3.4.0</version>
-	             <reportSets>
-	                 <reportSet>
-	                     <configuration>
-	                         <!-- Just disable the generation of default files like index.html -->
-	                         <skip>true</skip>
-	                     </configuration>
-	                 </reportSet>
-	             </reportSets>
-	         </plugin>
-	     </plugins>
-	 </reporting>
- 
- 
+		<plugins>
+			<!-- java doc -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<additionalOptions>-Xdoclint:none</additionalOptions>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>3.0.0</version>
+			</plugin>
+		</plugins>
+	</reporting>
+
 	<profiles>
 		<!-- Activate using the release property -->
 		<profile>
@@ -240,7 +262,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 
 		<profile>
 			<id>docker</id>
@@ -270,7 +292,7 @@
 			<id>docker-payara</id>
 			<!-- build and payara-micro image -->
 		</profile>
-				
+
 		<profile>
 			<id>docker-build-openliberty</id>
 			<properties>
@@ -278,8 +300,8 @@
 			</properties>
 		</profile>
 	</profiles>
-	
-		
+
+
 	<dependencyManagement>
 		<dependencies>
 			<!-- Imixs Workflow -->
@@ -315,14 +337,14 @@
 				<artifactId>imixs-workflow-index-solr</artifactId>
 				<version>${org.imixs.workflow.version}</version>
 			</dependency>
-			
+
 			<!-- Marty -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
 				<artifactId>imixs-marty</artifactId>
 				<version>${org.imixs.marty.version}</version>
 			</dependency>
-			
+
 			<!-- Imixs Melman -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
@@ -330,7 +352,7 @@
 				<version>1.0.20</version>
 				<scope>provided</scope>
 			</dependency>
-			
+
 			<!-- Imixs-Archive -->
 			<dependency>
 				<groupId>org.imixs.workflow</groupId>
@@ -346,7 +368,7 @@
 				<version>${org.imixs.archive.version}</version>
 				<scope>provided</scope>
 			</dependency>
-			
+
 
 		</dependencies>
 	</dependencyManagement>
@@ -360,12 +382,12 @@
 		</dependency>
 		<!-- JDK 11 - XML Bind -->
 		<dependency>
-		    <groupId>jakarta.xml.bind</groupId>
-		    <artifactId>jakarta.xml.bind-api</artifactId>
-		    <version>2.3.3</version>
-		    <scope>provided</scope>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>2.3.3</version>
+			<scope>provided</scope>
 		</dependency>
-		
+
 		<!-- Microprofile -->
 		<dependency>
 			<groupId>org.eclipse.microprofile</groupId>
@@ -410,18 +432,16 @@
 
 	</dependencies>
 
-
-	
-	<!-- Distributen Management oss.sonatype.org -->
+	<!-- Distribution Management central.sonatype.org -->
 	<distributionManagement>
 		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<id>central</id>
+			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
 		</snapshotRepository>
 		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<id>central</id>
+			<url>https://central.sonatype.com</url>
 		</repository>
-	</distributionManagement>	
-	
+	</distributionManagement>
+
 </project>
