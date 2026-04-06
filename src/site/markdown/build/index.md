@@ -102,8 +102,8 @@ Open the pom.xml file and change the version in the sections `properties`. After
 
 ## Customization
 
-To customize the layout of your application you can edit the file `src/main/webapp/layout/css/custom.css`.
+To customize the layout of your application see the [layout section](./layout.html) you can edit the file `src/main/webapp/layout/css/custom.css`.
 
-You can also add new pages, custom form parts and sections. Just add the new files into `/src/main/webapp`.
+To customize pages just add the new files into `/src/main/webapp`. Also you can add you own form parts and sections. Find more in the [section forms](../forms/index.html)
 
 Also you can implement your own CDI Beans and Services under `/src/main/java`.

@@ -3,17 +3,42 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
 
-	<!-- main section -->
+
+	<!-- workflow section -->
+	<summary style="cursor: pointer; font-weight: bold;">
+		<i class="fas fa-diagram-project"></i> #{message['nav.admin_section_model']}
+	</summary>
+	<ul>
+		<li>
+			<h:commandLink action="/pages/admin/modellist?faces-redirect=true" value="#{message['nav.admin_model']}">
+			</h:commandLink>
+		</li>
+		<li>
+			<h:commandLink action="/pages/admin/processlist?faces-redirect=true"
+				actionListener="#{workflowController.reset}" value="#{message['nav.admin_processlist']}">
+			</h:commandLink>
+		</li>
+	</ul>
+
+
+	<!-- user section -->
+	<summary style="cursor: pointer; font-weight: bold;">
+		<i class="fas fa-users"></i> #{message['nav.admin_section_user']}
+	</summary>
 	<ul>
 		<li>
 			<h:commandLink action="/pages/admin/profilelist?faces-redirect=true"
 				actionListener="#{workflowController.reset}" value="#{message['nav.admin_profiles']}">
 			</h:commandLink>
 		</li>
-
 		<li>
 			<h:commandLink action="/pages/admin/organisation?faces-redirect=true"
 				actionListener="#{workflowController.reset}" value="#{message['organigram.title']}">
+			</h:commandLink>
+		</li>
+		<li>
+			<h:commandLink action="/pages/admin/spaces?faces-redirect=true" actionListener="#{workflowController.reset}"
+				value="#{message['nav.admin_spaces']}">
 			</h:commandLink>
 		</li>
 		<li>
@@ -21,33 +46,31 @@
 				actionListener="#{workflowController.reset}" value="#{message['roles_and_rights.title']}">
 			</h:commandLink>
 		</li>
+	</ul>
 
-		<li>
-			<h:commandLink action="/pages/admin/processlist?faces-redirect=true"
-				actionListener="#{workflowController.reset}" value="#{message['nav.admin_processlist']}">
-			</h:commandLink>
-		</li>
+	<!-- data section -->
 
-		<li>
-			<h:commandLink action="/pages/admin/spaces?faces-redirect=true" actionListener="#{workflowController.reset}"
-				value="#{message['nav.admin_spaces']}">
-			</h:commandLink>
-		</li>
-
-		<li>
-			<h:link outcome="/pages/admin/dataViewDefinitions">Data Views</h:link>
-		</li>
+	<summary style="cursor: pointer; font-weight: bold;">
+		<i class="fas fa-database"></i> #{message['nav.admin_section_data']}
+	</summary>
+	<ul>
 		<li>
 			<h:link outcome="/pages/admin/document_import">Dokument Import</h:link>
 		</li>
 		<li>
-			<h:commandLink action="/pages/admin/reports?faces-redirect=true" value="#{message['nav.admin_reporting']}">
+			<h:link outcome="/pages/admin/dataViewDefinitions">Data Views</h:link>
+		</li>
+		<li>
+			<h:commandLink value="#{message['nav.admin_textblocks']}"
+				action="/pages/admin/textblocklist?faces-redirect=true">
 			</h:commandLink>
 		</li>
-
 	</ul>
 
-	<!-- config section -->
+	<!-- system section -->
+	<summary style="cursor: pointer; font-weight: bold;">
+		<i class="fas fa-screwdriver-wrench"></i> #{message['nav.admin_section_system']}
+	</summary>
 	<ul>
 		<li>
 			<h:commandLink value="#{message['nav.admin_config']}"
@@ -56,33 +79,17 @@
 			</h:commandLink>
 		</li>
 
-
-		<li>
-			<h:commandLink value="#{message['nav.admin_textblocks']}"
-				action="/pages/admin/textblocklist?faces-redirect=true">
-			</h:commandLink>
-		</li>
-
-
-		<li>
-			<h:commandLink action="/pages/admin/modellist?faces-redirect=true" value="#{message['nav.admin_model']}">
-			</h:commandLink>
-		</li>
-
-	</ul>
-
-	<!-- admin section -->
-	<ul>
-		<li>
-			<h:commandLink actionListener="#{setupController.reset()}" action="/pages/admin/systemcheck"
-				value="#{message['nav.admin_init']}">
-			</h:commandLink>
-		</li>
 		<li>
 			<h:commandLink action="/pages/admin/workflowscheduler?faces-redirect=true"
 				value="#{message['nav.admin_workflow_scheduler']}">
 			</h:commandLink>
 		</li>
+		<li>
+			<h:commandLink actionListener="#{setupController.reset()}" action="/pages/admin/systemcheck"
+				value="#{message['nav.admin_init']}">
+			</h:commandLink>
+		</li>
 	</ul>
+
 
 </ui:composition>
