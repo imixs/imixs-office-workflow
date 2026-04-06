@@ -141,18 +141,10 @@ public class CustomFormController implements Serializable {
         if (workflowEvent == null)
             return;
 
-        // skip if not a workItem...
-        if (workflowEvent.getWorkitem() != null
-                && !workflowEvent.getWorkitem().getItemValueString("type").startsWith("workitem")) {
-            return;
-        }
-
         int eventType = workflowEvent.getEventType();
         if (WorkflowEvent.WORKITEM_CHANGED == eventType
                 || WorkflowEvent.WORKITEM_CREATED == eventType
                 || WorkflowEvent.WORKITEM_AFTER_PROCESS == eventType) {
-            // parse form definition
-            loadCustomFormExpressions();
             computeFieldDefinition(workflowEvent.getWorkitem());
         }
 
@@ -165,6 +157,8 @@ public class CustomFormController implements Serializable {
      * custom definition. If not the method checks the workitem field
      * txtWorkflowEditorCustomForm which holds the last parsed custom form
      * definition
+     * <p>
+     * If no form definition exists the method die not compute no form.
      * 
      * @return
      * @throws ModelException
@@ -174,6 +168,7 @@ public class CustomFormController implements Serializable {
         String content = updateCustomFieldDefinition(workitem);
         sections = new ArrayList<CustomFormSection>();
         if (!content.isEmpty()) {
+            loadCustomFormExpressions();
             // start parsing....
             logger.finest("......start parsing custom form definition");
             try {
