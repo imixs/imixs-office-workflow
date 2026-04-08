@@ -63,7 +63,8 @@ public class ProcessAnalyticHandler implements Serializable {
 	 */
 	public void onEvent(@Observes AnalyticEvent event) {
 
-		if (!event.getKey().startsWith("worklist.stats.")) {
+		if (!event.getKey().startsWith("worklist.stats.")
+				&& !event.getKey().startsWith("query.stats.")) {
 			return;
 		}
 		// read options
@@ -76,65 +77,87 @@ public class ProcessAnalyticHandler implements Serializable {
 		try {
 			String key = analyticController.getOption(event.getKey(), "key", options, null);
 			String value = analyticController.getOption(event.getKey(), "value", options, null);
-			String processName = analyticController.getOption(event.getKey(), "process", options, null);
+
+			String workflowgroup = analyticController.getOption(event.getKey(), "workflowgroup", options, null);
+			String process = analyticController.getOption(event.getKey(), "process", options, null);
+			String taskID = analyticController.getOption(event.getKey(), "taskid", options, null);
+			String query = analyticController.getOption(event.getKey(), "query", options, null);
 			String link = analyticController.getOption(event.getKey(), "link", options, "");
 			String label = analyticController.getOption(event.getKey(), "label", options, value);
 			String description = analyticController.getOption(event.getKey(), "description", options, value);
 
-			if (key == null || key.isBlank()) {
-				logger.warning("Missing option 'key' ");
-				return;
-			}
-			if (value == null || value.isBlank()) {
-				logger.warning("Missing option 'value' ");
-				return;
-			}
+			logger.info("├── Analyse worklist by key: " + key);
 
-			logger.fine("├── Analyse worklist by key " + key + ":" + value);
+			logger.info("│   ├── workflowgroup: " + workflowgroup);
+			logger.info("│   ├── process: " + process);
+			logger.info("│   ├── taskid: " + taskID);
+
 			ItemCollection data = new ItemCollection();
 
-			// do we have a process key?
-			if ("process".equals(key)) {
-				// lookup process
-				ItemCollection process = teamService.getProcessByName(value);
-				if (process == null) {
-					logger.warning("Cant resolve process by name '" + value + "'");
-					return;
-				}
-				key = "process.ref";
-				value = process.getUniqueID();
+			// do we have a process name key?
+			ItemCollection processItemCol = teamService.getProcessByName(process);
+			if (processItemCol == null) {
+				// try to resolve the process by the given workflowGroup...
+				processItemCol = modelController.findProcessByWorkflowGroup(workflowgroup);
+			}
+
+			// construct link
+			if (processItemCol != null) {
+
+				// key = "process.ref";
+				// value = process.getUniqueID();
 				if (description.isBlank()) {
-					description = process.getItemValueString("txtdescription");
-				}
-				if (link.isBlank()) {
-					link = "/pages/workitems/worklist.xhtml?processref=" + process.getUniqueID();
+					description = processItemCol.getItemValueString("txtdescription");
 				}
 				if (label.isBlank()) {
-					label = process.getItemValueString("name");
+					label = processItemCol.getItemValueString("name");
 				}
+
+				if (link.isBlank()) {
+					link = "/pages/workitems/worklist.xhtml?processref=" + processItemCol.getUniqueID();
+
+					if (workflowgroup != null && !workflowgroup.isBlank()) {
+						link = link + "&workflowgroup=" + workflowgroup;
+					}
+					if (taskID != null && !taskID.isBlank()) {
+						link = link + "&task=" + taskID;
+					}
+				}
+
 			}
 
 			// Count....
 			if (event.getKey().startsWith("worklist.stats.count.")) {
-				String query = "(type:workitem) AND (" + key + ":\"" + value + "\")";
+
+				String _query = "(type:workitem) AND ($workflowgroup:\"" + workflowgroup + "\")";
+
+				if (taskID != null && !taskID.isBlank()) {
+					_query = _query + " AND ($taskid:" + taskID + ")";
+				}
+
+				logger.info("│   ├── query: " + _query);
+
 				long count;
-				ItemCollection process = null;
-				count = documentService.count(query);
+				// ItemCollection process = null;
+				count = documentService.count(_query);
 				logger.fine("│   ├── count=" + count);
 				data.setItemValue("value", count);
 
-				// compute a search link if we can identify the process
-				// first test if we got a process name in the options
-				if (processName != null && !processName.isBlank()) {
-					process = teamService.getProcessByName(processName);
-				} else {
-					// try to resolve the process by the given workflowGroup...
-					process = modelController.findProcessByWorkflowGroup(value);
+			}
+
+			// Lucene Search Query....
+			if (event.getKey().startsWith("query.stats.count.")) {
+
+				if (query == null || query.isBlank()) {
+					logger.warning("Missing option 'query' for analytic " + event.getKey());
+					return;
 				}
-				if (process != null && link.isBlank()) {
-					link = "/pages/workitems/worklist.xhtml?processref=" + process.getUniqueID() + "&workflowgroup="
-							+ value;
-				}
+
+				long count;
+				// ItemCollection process = null;
+				count = documentService.count(query);
+				logger.fine("│   ├── count=" + count);
+				data.setItemValue("value", count);
 
 			}
 
@@ -149,7 +172,9 @@ public class ProcessAnalyticHandler implements Serializable {
 					.setItemValue("link", link)
 					.setItemValue("description", description);
 			event.setData(data);
-		} catch (QueryException e) {
+		} catch (
+
+		QueryException e) {
 			logger.severe("Failed to compute stats: " + e.getMessage());
 		}
 
