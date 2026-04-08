@@ -48,6 +48,18 @@
 			<file-size-threshold>1048576</file-size-threshold>
 		</multipart-config>
 	</servlet>
+
+	<!-- Imixs AjaxFileUpload -->
+	<servlet>
+		<servlet-name>AjaxFileUploadServlet</servlet-name>
+		<servlet-class>org.imixs.workflow.faces.fileupload.AjaxFileUploadServlet</servlet-class>
+		<multipart-config>
+			<max-file-size>20971520</max-file-size>
+			<max-request-size>52428800</max-request-size>
+			<file-size-threshold>1048576</file-size-threshold>
+		</multipart-config>
+	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
@@ -57,6 +69,15 @@
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 
+	<!-- Imixs AjaxFileUpload ! -->
+	<servlet-mapping>
+		<servlet-name>AjaxFileUploadServlet</servlet-name>
+		<url-pattern>/fileupload/*</url-pattern>
+	</servlet-mapping>
+	<context-param>
+		<param-name>imixs.fileupload.maxFileSize</param-name>
+		<param-value>20971520</param-value>  <!-- read by our error message -->
+	</context-param>
 
 	<!-- Error handling -->
 	<error-page>
