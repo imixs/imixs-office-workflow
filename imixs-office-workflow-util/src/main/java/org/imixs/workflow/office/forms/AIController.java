@@ -39,8 +39,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
 import org.imixs.ai.ImixsAIContextHandler;
-import org.imixs.ai.workflow.OpenAIAPIConnector;
-import org.imixs.ai.workflow.OpenAIAPIService;
+import org.imixs.ai.api.OpenAIAPIConnector;
+import org.imixs.ai.api.OpenAIAPIService;
 import org.imixs.marty.profile.UserController;
 import org.imixs.workflow.FileData;
 import org.imixs.workflow.ItemCollection;

@@ -31,7 +31,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.imixs.ai.workflow.OpenAIAPIConnector;
+import org.imixs.ai.api.OpenAIAPIConnector;
 
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
@@ -48,7 +48,7 @@ import jakarta.inject.Inject;
 public class AIService extends WorkitemService {
 
 	@Inject
-	@ConfigProperty(name = OpenAIAPIConnector.ENV_LLM_SERVICE_ENDPOINT)
+	@ConfigProperty(name = OpenAIAPIConnector.ENDPOINT_URI_COMPLETIONS)
 	Optional<String> serviceEndpoint;
 
 	private static Logger logger = Logger.getLogger(AIService.class
