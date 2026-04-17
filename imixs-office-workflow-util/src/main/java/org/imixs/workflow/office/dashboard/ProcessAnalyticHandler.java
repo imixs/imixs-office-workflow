@@ -83,8 +83,8 @@ public class ProcessAnalyticHandler implements Serializable {
 			String taskID = analyticController.getOption(event.getKey(), "taskid", options, null);
 			String query = analyticController.getOption(event.getKey(), "query", options, null);
 			String link = analyticController.getOption(event.getKey(), "link", options, "");
-			String label = analyticController.getOption(event.getKey(), "label", options, value);
-			String description = analyticController.getOption(event.getKey(), "description", options, value);
+			String label = analyticController.getOption(event.getKey(), "label", options, "");
+			String description = analyticController.getOption(event.getKey(), "description", options, "");
 
 			logger.info("├── Analyse worklist by key: " + key);
 
@@ -202,6 +202,9 @@ public class ProcessAnalyticHandler implements Serializable {
 	 */
 	private String buildWorkitemsChart(String key, String value, String label) {
 
+		if (value == null || key == null) {
+			return "";
+		}
 		countWorkitemsByKey(key, value);
 
 		// Step 2: Prepare the JSON structure and ensure we have all weeks from earliest
