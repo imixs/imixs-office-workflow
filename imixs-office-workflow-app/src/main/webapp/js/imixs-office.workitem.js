@@ -83,6 +83,11 @@ $(document).ready(function () {
 	// Markdown Form Fields
 	imixsOfficeWorkitem.initMarkdownItems();
 
+	// Workitem link
+	document.querySelectorAll('.workitemlink-input').forEach(function (inputEl) {
+		imixsOfficeWorkitem.toggleWorkitemRef(inputEl);
+	});
+
 	// Signature Pad
 	imixsOfficeWorkitem.initSignaturePad();
 
@@ -484,6 +489,28 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 		},
 
 
+
+		/*
+		* Toggles the visibility of the workitemlink input field.
+		* The input is hidden when the datalist already contains entries,
+		* since only one linked workitem is allowed (single mode).
+		*/
+		toggleWorkitemRef = function (inputEl) {
+			if (!inputEl) return;
+			var container = inputEl.closest('[id$="workitem-link-datawidget"]');
+			if (!container) {
+				console.warn('[WorkitemLink] container not found for input:', inputEl.id);
+				return;
+			}
+			var rows = container.querySelectorAll('.workitemlinktable tr');
+			inputEl.style.display = (rows.length > 0) ? 'none' : '';
+		},
+
+		onEventWorkitemRef = function (data) {
+			if (data.status !== 'success') return;
+			toggleWorkitemRef(data.source);
+		},
+
 		/**
 		 * Callback method for workiemLink Autocomplete feature
 		 */
@@ -675,6 +702,8 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 		workitemRefInitInput: workitemRefInitInput,
 		addWorkitemRef: addWorkitemRef,
 		deleteWorkitemRef: deleteWorkitemRef,
+		toggleWorkitemRef: toggleWorkitemRef,
+		onEventWorkitemRef: onEventWorkitemRef,
 		initMarkdownItems: initMarkdownItems,
 		formatIBAN: formatIBAN,
 		updateLLMSuggestions: updateLLMSuggestions
