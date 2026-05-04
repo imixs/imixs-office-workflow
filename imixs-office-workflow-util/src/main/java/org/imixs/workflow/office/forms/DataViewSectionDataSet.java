@@ -59,6 +59,20 @@ public class DataViewSectionDataSet implements Serializable {
         loadData();
     }
 
+    public void forward() {
+        if (!isEndOfList()) {
+            pageIndex++;
+            loadData();
+        }
+    }
+
+    public void back() {
+        if (pageIndex > 0) {
+            pageIndex--;
+            loadData();
+        }
+    }
+
     /**
      * load current page
      */

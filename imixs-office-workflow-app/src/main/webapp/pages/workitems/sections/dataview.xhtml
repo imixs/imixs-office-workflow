@@ -10,7 +10,6 @@
 		<ui:param name="dataViewDataSet" value="#{dataViewSectionController.loadDataSet(options)}" />
 		<ui:param name="searchPage"
 			value="#{(dataViewDataSet.getPageIndex()+1)}/#{(dataViewDataSet.getTotalPages())}" />
-
 		<table class="imixsdatatable imixs-orderitems">
 			<tr>
 				<ui:repeat value="#{dataViewDataSet.getViewItemDefinitions()}" var="columnDef">
@@ -82,11 +81,11 @@
 			<span style="display: flex; align-items: center; gap: 10px;">
 				<h:outputText value=" #{(dataViewDataSet.pageIndex+1)} / #{dataViewDataSet.totalPages}" />
 				<h:commandLink value="" action="#{dataViewDataSet.back()}">
-					<f:ajax render="dataview_result_id" onevent="updateDataView" />
+					<f:ajax render="dataview_result_id" />
 					<i class="fa-solid fa-backward" style=" #{(dataViewDataSet.pageIndex == 0)?'opacity:0.5':''}"></i>
 				</h:commandLink>
 				<h:commandLink value="" action="#{dataViewDataSet.forward()}">
-					<f:ajax render="dataview_result_id" onevent="updateDataView" />
+					<f:ajax render="dataview_result_id" />
 					<i class="fa-solid fa-forward" style=" #{(dataViewDataSet.endOfList)?'opacity:0.5':''}"></i>
 				</h:commandLink>
 			</span>
