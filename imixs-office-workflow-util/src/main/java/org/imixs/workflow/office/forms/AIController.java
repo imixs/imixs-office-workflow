@@ -169,8 +169,9 @@ public class AIController implements Serializable {
 			String context = buildContextPrompt();
 			aiMessageHandler.addSystemMessage(context);
 		}
+
 		aiMessageHandler.addQuestion(question, loginController.getUserPrincipal(), new Date())
-				.setOption("stream", true);
+				.addOptions("{\"stream\":true}");
 
 		// starting async http request...
 		streamingFuture = CompletableFuture.runAsync(() -> {
