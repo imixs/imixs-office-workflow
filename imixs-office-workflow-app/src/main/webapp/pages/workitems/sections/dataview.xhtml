@@ -6,7 +6,10 @@
 	<!-- preload view options -->
 
 
-	<h:panelGroup styleClass="imixs-view imixs-search" layout="block" id="dataview_result_id">
+
+
+	<h:panelGroup styleClass="imixs-view imixs-search" layout="block" id="dataview_result_id"
+		rendered="#{dataViewSectionController.hasDataSet(options)}">
 		<ui:param name="dataViewDataSet" value="#{dataViewSectionController.loadDataSet(options)}" />
 		<ui:param name="searchPage"
 			value="#{(dataViewDataSet.getPageIndex()+1)}/#{(dataViewDataSet.getTotalPages())}" />
@@ -89,6 +92,16 @@
 					<i class="fa-solid fa-forward" style=" #{(dataViewDataSet.endOfList)?'opacity:0.5':''}"></i>
 				</h:commandLink>
 			</span>
+		</div>
+	</h:panelGroup>
+
+	<!-- Missing Data View -->
+	<h:panelGroup styleClass="ui-widget" rendered="#{!dataViewSectionController.hasDataSet(options)}">
+		<div class="" style="padding: .7em; margin-bottom: .7em; border: solid 1px #ccc;">
+			<p style="font-size: 1.1em; font-weight: bold"> <span class="typcn typcn-cog-outline"
+					style="margin-right:5px;"></span>Model
+				error in #{workitem.modelVersion}:</p>
+			Data View not defined: #{options}
 		</div>
 	</h:panelGroup>
 	<script type="text/javascript">

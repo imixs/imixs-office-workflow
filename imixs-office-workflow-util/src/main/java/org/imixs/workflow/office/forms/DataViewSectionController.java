@@ -153,4 +153,20 @@ public class DataViewSectionController implements Serializable {
         return dataSet;
     }
 
+    public boolean hasDataSet(String options) {
+        DataViewSectionDataSet dataSet = dataSets.get(options);
+        // Extract and set dataViewName from options
+        if (dataSet != null) {
+            return true;
+        }
+
+        // test if view exists..
+        String _dataViewName = getOptionValue(options, "name");
+        if (dataViewService.loadDataViewDefinition(_dataViewName) != null) {
+            return true;
+        }
+
+        return false;
+    }
+
 }
