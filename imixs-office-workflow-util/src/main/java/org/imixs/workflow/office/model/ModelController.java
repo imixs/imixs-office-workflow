@@ -110,6 +110,10 @@ public class ModelController implements Serializable {
 		modelManager = new ModelManager(workflowService);
 	}
 
+	public ModelManager getModelManager() {
+		return modelManager;
+	}
+
 	public ItemCollection getModelUploads() {
 		return modelUploads;
 	}
@@ -140,8 +144,8 @@ public class ModelController implements Serializable {
 	/**
 	 * Returns a String list of all WorkflowGroup names.
 	 * 
-	 * Workflow groups of the system model will be skipped.
-	 * The worflowGroup list is used to assign a workflow Group to a core process.
+	 * Workflow groups of the system model will be skipped. The worflowGroup list is
+	 * used to assign a workflow Group to a core process.
 	 * 
 	 * @return list of workflow groups
 	 * @throws ModelException
@@ -331,10 +335,8 @@ public class ModelController implements Serializable {
 	 * entity exists.
 	 * 
 	 * 
-	 * @param modelVersion
-	 *                     - version for the model to search the process entity
-	 * @param processid
-	 *                     - id of the process entity
+	 * @param modelVersion - version for the model to search the process entity
+	 * @param processid    - id of the process entity
 	 * @return an instance of the matching process entity
 	 * @throws ModelException
 	 */
