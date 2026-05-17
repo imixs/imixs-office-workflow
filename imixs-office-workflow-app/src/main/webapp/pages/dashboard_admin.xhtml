@@ -112,7 +112,7 @@
 		<ui:fragment rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')
 						or ( (fn:indexOf(loginController.userNameList,'{space:manager}') gt -1)
 						  or (fn:indexOf(loginController.userNameList,'{process:manager}') gt -1)) }">
-			<dl style="grid-column-start: span 12;">
+			<div class="imixs-admin-panel" style="grid-column-start: span 12;">
 				<dt></dt>
 				<dd>
 					<div class="dashboard-card small warning" style="font-size: 0.85rem;">
@@ -168,7 +168,7 @@
 
 					</div>
 				</dd>
-			</dl>
+			</div>
 		</ui:fragment>
 	</div>
 </ui:composition>
