@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.ai.ImixsAIContextHandler;
 import org.imixs.ai.api.OpenAIAPIConnector;
 import org.imixs.ai.api.OpenAIAPIService;
@@ -50,6 +51,8 @@ import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.data.WorkflowEvent;
 import org.imixs.workflow.faces.util.LoginController;
 
+import jakarta.annotation.Resource;
+import jakarta.enterprise.concurrent.ManagedExecutorService;
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
@@ -64,8 +67,8 @@ import jakarta.json.JsonValue;
  * The AIController integrates the imixs-ai module providing a AI Chat history.
  * The method 'sendAsync' can be used to stream a prompt. This feature is used
  * by the front end component 'workitem.ai.xhtml' to display the life-answering.
- * After the answer was received completely the method automatically updates
- * the workitem ''
+ * After the answer was received completely the method automatically updates the
+ * workitem ''
  * 
  * The method buildContextPrompt creates a complex prompt based on a given
  * question and the workflow information stored in the current workitem.
@@ -112,8 +115,14 @@ public class AIController implements Serializable {
 	@Inject
 	private ImixsAIContextHandler aiMessageHandler;
 
+	public static final String ENV_BPM_AGENT_LLM_ENDPOINT = "bpm.agent.llm.endpoint";
+
 	@Inject
-	AIService aiService;
+	@ConfigProperty(name = ENV_BPM_AGENT_LLM_ENDPOINT, defaultValue = "")
+	String agentLLMEndpoint;
+
+	@Resource
+	private ManagedExecutorService managedExecutor;
 
 	private CompletableFuture<Void> streamingFuture;
 
@@ -173,14 +182,15 @@ public class AIController implements Serializable {
 		aiMessageHandler.addQuestion(question, loginController.getUserPrincipal(), new Date())
 				.addOptions("{\"stream\":true}");
 
-		// starting async http request...
-		streamingFuture = CompletableFuture.runAsync(() -> {
+		// Use ManagedExecutorService to propagate security context to the async thread
+		streamingFuture = managedExecutor.runAsync(() -> {
 			try {
 				streamPromptCompletion();
 			} catch (PluginException e) {
 				logger.severe("Error during streaming: " + e.getMessage());
 			}
 		});
+
 		// clear input
 		workflowController.getWorkitem().setItemValue("ai.chat.prompt", "");
 	}
@@ -191,12 +201,13 @@ public class AIController implements Serializable {
 	 */
 	private void streamPromptCompletion() throws PluginException {
 		try {
-			HttpURLConnection conn = openAIAPIConnector.createHttpConnection(aiService.getServiceEndpoint(),
+			HttpURLConnection conn = openAIAPIConnector.createHttpConnection(agentLLMEndpoint,
 					OpenAIAPIConnector.ENDPOINT_URI_COMPLETIONS);
 			conn.setRequestProperty("Accept", "text/event-stream");
 
 			// Write the JSON object to the output stream
 			String jsonString = aiMessageHandler.toString();
+
 			logger.info("JSON Object=" + jsonString);
 
 			try (OutputStream os = conn.getOutputStream()) {
@@ -239,9 +250,11 @@ public class AIController implements Serializable {
 									// Check if this chunk contains content in delta
 									if (choice.containsKey("delta")) {
 										JsonObject delta = choice.getJsonObject("delta");
+										// logger.fine(delta.toString());
 
 										// Extract content from delta if present
-										if (delta.containsKey("content")) {
+										if (delta.containsKey("content") &&
+												delta.get("content").getValueType() == JsonValue.ValueType.STRING) {
 											String content = delta.getString("content");
 											currentStreamResult = currentStreamResult + content;
 											logger.fine("Received content: " + content);
@@ -377,7 +390,6 @@ public class AIController implements Serializable {
 			}
 		}
 
-		System.out.println(prompt);
 		return prompt;
 	}
 
