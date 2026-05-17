@@ -178,7 +178,7 @@ public class AnalyticController implements Serializable {
 	protected ItemCollection computeData(ItemCollection workitem, String key, String options) throws PluginException {
 
 		if (workitem == null) {
-			throw new PluginException(AIController.class.getSimpleName(),
+			throw new PluginException(AnalyticController.class.getSimpleName(),
 					"ERROR", "Analytic Value can not be computed - workitem is null");
 		}
 
@@ -354,19 +354,19 @@ public class AnalyticController implements Serializable {
 	 */
 	private String convertJsonValueToString(JsonValue jsonValue) {
 		switch (jsonValue.getValueType()) {
-			case STRING:
-				return ((JsonString) jsonValue).getString();
-			case NUMBER:
-				return jsonValue.toString();
-			case TRUE:
-				return "true";
-			case FALSE:
-				return "false";
-			case NULL:
-				return null;
-			default:
-				// For arrays or objects, return the JSON representation
-				return jsonValue.toString();
+		case STRING:
+			return ((JsonString) jsonValue).getString();
+		case NUMBER:
+			return jsonValue.toString();
+		case TRUE:
+			return "true";
+		case FALSE:
+			return "false";
+		case NULL:
+			return null;
+		default:
+			// For arrays or objects, return the JSON representation
+			return jsonValue.toString();
 		}
 	}
 
