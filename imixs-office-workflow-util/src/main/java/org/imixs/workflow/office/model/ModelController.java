@@ -225,9 +225,10 @@ public class ModelController implements Serializable {
 							"Invalid initial task in model='" + version + "' workflowGroup='" + group + "' task="
 									+ task.getItemValueString("numProcessID") + " type='" + type
 									+ "' => expected: '" + WorkflowController.DEFAULT_TYPE + "'");
-				} else {
-					result.add(task);
+					// silent fix...
+					task.setItemValue("txttype", WorkflowController.DEFAULT_TYPE);
 				}
+				result.add(task);
 			}
 
 		} catch (ModelException e) {
