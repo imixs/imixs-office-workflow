@@ -53,6 +53,7 @@ import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.InvalidAccessException;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
+import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.fileupload.FileUploadController;
 import org.openbpmn.bpmn.BPMNModel;
 import org.openbpmn.bpmn.exceptions.BPMNModelException;
@@ -206,13 +207,29 @@ public class ModelController implements Serializable {
 	/**
 	 * Returns a list of all Imixs Start Tasks for a given group
 	 * 
+	 * The method also validates the structure of the initial task
+	 * 
 	 * @return
 	 */
 	public List<ItemCollection> findAllStartTasksByGroup(String version, String group) {
 		List<ItemCollection> result = new ArrayList<>();
 		try {
 			BPMNModel model = modelManager.getModel(version);
-			return modelManager.findStartTasks(model, group);
+			List<ItemCollection> _result = modelManager.findStartTasks(model, group);
+
+			// now validate the each initial task (e.g. type is a mandatory field)
+			for (ItemCollection task : _result) {
+				String type = task.getItemValueString("txttype");
+				if (!type.isEmpty() && !WorkflowController.DEFAULT_TYPE.equals(type)) {
+					logger.warning(
+							"Invalid initial task in model='" + version + "' workflowGroup='" + group + "' task="
+									+ task.getItemValueString("numProcessID") + " type='" + type
+									+ "' => expected: '" + WorkflowController.DEFAULT_TYPE + "'");
+				} else {
+					result.add(task);
+				}
+			}
+
 		} catch (ModelException e) {
 			logger.severe(
 					"Failed to find start tasks for workflow group '" + group + "' : " + e.getMessage());
