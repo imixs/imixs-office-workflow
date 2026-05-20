@@ -224,7 +224,7 @@ public class ModelController implements Serializable {
 				if (!type.isEmpty() && !WorkflowController.DEFAULT_TYPE.equals(type)) {
 					String msg = "Invalid initial task in model='" + version + "' workflowGroup='"
 							+ group + "' task=" + task.getItemValueString("numProcessID")
-							+ " type='" + type + "'";
+							+ " wrong type='" + type + "' -> expected: '" + WorkflowController.DEFAULT_TYPE + "'";
 					logger.warning(msg);
 					sharedModelManager.addModelWarning(msg);
 					continue;
