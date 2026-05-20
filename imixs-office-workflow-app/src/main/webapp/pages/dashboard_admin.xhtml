@@ -108,6 +108,8 @@
 			</dl>
 		</ui:repeat>
 
+
+
 		<!-- Admin panel -->
 		<ui:fragment rendered="#{loginController.isUserInRole('org.imixs.ACCESSLEVEL.MANAGERACCESS')
 						or ( (fn:indexOf(loginController.userNameList,'{space:manager}') gt -1)
@@ -116,6 +118,20 @@
 				<dt></dt>
 				<dd>
 					<div class="dashboard-card small warning" style="font-size: 0.85rem;">
+
+						<!-- Model Error message -->
+						<ui:fragment rendered="#{!empty modelController.modelWarnings}">
+
+							<div class="dashboard-card-header" style="width: 100%;margin-bottom:10px;">&#9888; Model
+								Errors: </div>
+							<div class="dashboard-card-content"
+								style="margin-bottom: 20px; font-size:0.85em; font-family: monospace;">
+								<ui:repeat value="#{modelController.modelWarnings}" var="warning">
+									<h:outputText value="#{warning}" />
+									<br />
+								</ui:repeat>
+							</div>
+						</ui:fragment>
 
 						<div class="dashboard-card-header" style="width: 100%;margin-bottom:10px;">
 							<h:outputText value=" #{message.administration}" />
