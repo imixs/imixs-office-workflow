@@ -80,13 +80,15 @@ import jakarta.json.JsonValue;
 @Named("aiController")
 @ConversationScoped
 public class AIController implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	public static final String ERROR_PROMPT_TEMPLATE = "ERROR_PROMPT_TEMPLATE";
 	public static final String ERROR_PROMPT_INFERENCE = "ERROR_PROMPT_INFERENCE";
 	public static final String AI_CHAT_HISTORY = "ai.chat.history";
 
 	public static final String AI_STREAM_EOS = "<!-- imixs.ai.stream.completed -->";
 
-	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(AIController.class.getName());
 
 	// List<ItemCollection> chatHistory;
@@ -118,8 +120,8 @@ public class AIController implements Serializable {
 	public static final String ENV_BPM_AGENT_LLM_ENDPOINT = "bpm.agent.llm.endpoint";
 
 	@Inject
-	@ConfigProperty(name = ENV_BPM_AGENT_LLM_ENDPOINT, defaultValue = "")
-	String agentLLMEndpoint;
+	@ConfigProperty(name = ENV_BPM_AGENT_LLM_ENDPOINT, defaultValue = "none")
+	transient String agentLLMEndpoint;
 
 	@Resource
 	private ManagedExecutorService managedExecutor;
