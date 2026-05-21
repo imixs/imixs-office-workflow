@@ -28,7 +28,7 @@ public class BICValidator implements Validator<String> {
         if (value != null && !value.isEmpty()) {
 
             try {
-                Bic.of(value.replaceAll("\\s+", ""));
+                Bic.validate(value.replaceAll("\\s+", ""));
             } catch (InvalidBicException ex) {
                 throw new ValidatorException(new FacesMessage(ex.getMessage()), ex);
             }
