@@ -17,7 +17,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # because of outdated nodejs version in maintainer script
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
