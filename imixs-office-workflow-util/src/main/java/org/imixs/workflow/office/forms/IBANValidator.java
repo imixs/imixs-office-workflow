@@ -28,7 +28,7 @@ public class IBANValidator implements Validator<String> {
         if (value != null && !value.isEmpty()) {
 
             try {
-                Iban.of(value);
+                Iban.validate(value);
             } catch (InvalidIbanException ex) {
                 throw new ValidatorException(new FacesMessage(ex.getMessage()), ex);
             }
