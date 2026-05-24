@@ -150,10 +150,7 @@ public class SequenceService {
             if (groupIdentifier != null) {
                 // compute the next number....
                 SequenceNumber seqn = new SequenceNumber(groupIdentifier.substring(groupIdentifier.indexOf('=') + 1));
-
                 documentContext.replaceItemValue(ITEM_SEQUENCENUMBER, seqn.nextSequenceNumber);
-                // support deprecated item name
-                documentContext.replaceItemValue(ITEM_SEQUENCENUMBER_DEPRECATED, seqn.nextSequenceNumber);
 
                 // update identifier....
                 for (int i = 0; i < vNumbers.size(); i++) {
@@ -276,9 +273,8 @@ public class SequenceService {
         }
 
         /**
-         * Maps legacy date patterns to java.time patterns.
-         * Handles both standalone patterns (e.g., "YY") and combined patterns (e.g.,
-         * "DDMMYYYY").
+         * Maps legacy date patterns to java.time patterns. Handles both standalone
+         * patterns (e.g., "YY") and combined patterns (e.g., "DDMMYYYY").
          * 
          * @param pattern the input date pattern
          * @return the mapped java.time compatible pattern
