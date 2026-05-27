@@ -504,7 +504,7 @@ public class CustomFormController implements Serializable {
      */
     public String updateCustomFieldDefinition(ItemCollection workitem)
             throws ModelException {
-        String content = fetchFormDefinitionFromModel(workitem);
+        String content = fetchFormDefinitionByWorkitem(workitem);
         if (content.isEmpty()) {
             // take the existing one to be returned...
             content = workitem.getItemValueString(ITEM_CUSTOM_FORM);
@@ -515,17 +515,13 @@ public class CustomFormController implements Serializable {
     }
 
     /**
-     * Helper method that reads a form definition from an optional
-     * <code>bpmn:DataObject</code> associated with the current task element. A
-     * <code>bpmn:DataObject</code> must contain a `form-tag` containing the form
-     * definition. If not matching <code>bpmn:DataObject</code> is defined the
-     * method returns an empty string.
+     * Helper method that reads a form definition associated with the task the
+     * current workitem is associated to.
      * 
      * @param workitem
      * @return
      */
-    @SuppressWarnings("unchecked")
-    private String fetchFormDefinitionFromModel(ItemCollection workitem) {
+    public String fetchFormDefinitionByWorkitem(ItemCollection workitem) {
 
         // return if no modelversion is defined
         if (workitem == null || workitem.getModelVersion().isBlank()) {
@@ -538,6 +534,46 @@ public class CustomFormController implements Serializable {
 
         } catch (ModelException e) {
             logger.fine("unable to parse data object in model: " + e.getMessage());
+            return "";
+        }
+
+        return fetchFormDefinitionByTask(task);
+        // List<List<String>> dataObjects = task.getItemValue("dataObjects");
+        // for (List<String> dataObject : dataObjects) {
+        // // there can be more than one dataOjects be attached.
+        // // We need the one with the tag <imixs-form>
+        // String templateName = dataObject.get(0);
+        // String content = dataObject.get(1);
+        // // we expect that the content contains at least one occurrence of
+        // <imixs-form>
+        // if (content.contains("<imixs-form>")) {
+        // logger.finest("......DataObject name=" + templateName);
+        // logger.finest("......DataObject content=" + content);
+        // return content;
+        // } else {
+        // // seems not to be a imixs-form definition!
+        // }
+        // }
+        // // nothing found!
+        // return "";
+    }
+
+    /**
+     * Returns a BPMN form definition associated with a given task ItemCollection.
+     * 
+     * The form definition is read from an optional <code>bpmn:DataObject</code>
+     * associated with the current task element. A <code>bpmn:DataObject</code> must
+     * contain a `form-tag` containing the form definition. If not matching
+     * <code>bpmn:DataObject</code> is defined the method returns an empty string.
+     * 
+     * @param workitem
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public String fetchFormDefinitionByTask(ItemCollection task) {
+
+        // return if no modelversion is defined
+        if (task == null) {
             return "";
         }
 
@@ -559,4 +595,5 @@ public class CustomFormController implements Serializable {
         // nothing found!
         return "";
     }
+
 }
