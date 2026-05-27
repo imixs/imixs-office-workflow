@@ -43,8 +43,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * The DataViewFormSectionController provides methods to display a data view in
- * as a
- * custom form section
+ * a custom form section
  * 
  * @see pages/workitems/sections/dataview.xhtml
  * @author rsoika
@@ -147,6 +146,7 @@ public class DataViewSectionController implements Serializable {
             if (_dataViewName != null) {
                 logger.info("...build new dataSet by options: " + options);
                 dataSet = new DataViewSectionDataSet(_dataViewName, workflowController.getWorkitem(), dataViewService);
+
                 dataSets.put(options, dataSet);
             }
         }

@@ -55,6 +55,8 @@ public class DataViewSectionDataSet implements Serializable {
 
         // resove query by dataView
         query = this.dataViewService.parseQuery(dataViewDefinition, this.workitem);
+        sortBy = dataViewDefinition.getItemValueString("sort.by");
+        sortReverse = dataViewDefinition.getItemValueBoolean("sort.reverse");
 
         loadData();
     }
