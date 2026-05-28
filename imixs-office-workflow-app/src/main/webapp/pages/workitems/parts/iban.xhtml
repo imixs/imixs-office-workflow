@@ -1,18 +1,14 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs" xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
 
 	<ui:fragment rendered="#{!readonly}">
 		<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
 			required="#{required?validationController.required:false}" rendered="#{!readonly}"
-			onkeyup="imixsOfficeWorkitem.formatIBAN(this);"
-			disabled="#{disabled}">
+			onkeyup="imixsOfficeWorkitem.formatIBAN(this);" disabled="#{disabled}">
+			<f:validator validatorId="imixsIBANValidator" />
 		</h:inputText>
-
-
 	</ui:fragment>
 	<ui:fragment rendered="#{readonly}">
 		<h:outputText value="#{workitem.item[item.name]}"></h:outputText>
