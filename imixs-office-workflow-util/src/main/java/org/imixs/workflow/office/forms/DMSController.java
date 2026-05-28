@@ -225,15 +225,20 @@ public class DMSController implements Serializable {
 		_dmsList = new ArrayList<ItemCollection>();
 
 		ItemCollection _workitem = workitem;
-		// we need to load the full workitem, because we can not get the filedata from a
-		// stub
+		// we need to load the full workitem, because we can not get the fileData from a
+		// stub. If the workitem was not yet persisted return an empty list.
 		if (!_workitem.hasItem("$file")) {
 			_workitem = documentService.load(workitem.getUniqueID());
 			logger.finest("......loaded full data for " + workitem.getUniqueID());
 		}
+
+		// if workitem is not yet stored return an empty list
+		if (_workitem == null) {
+			return new ArrayList<ItemCollection>();
+		}
+
 		List<FileData> files = _workitem.getFileData();
 		for (FileData fileData : files) {
-
 			// Issue #509
 			// fix format of deprecated dms item
 			// in some cases we have no attributes (old workitems)
@@ -249,7 +254,6 @@ public class DMSController implements Serializable {
 			ItemCollection _dmsItemCol = new ItemCollection(fileData.getAttributes());
 			// add new item names (txtname will be deprecated)
 			_dmsItemCol.setItemValue("name", _dmsItemCol.getItemValueString("txtname"));
-
 			// add encoded filename
 			try {
 				String encodedName = URLEncoder.encode(_dmsItemCol.getItemValueString("name"), "UTF-8");
@@ -263,7 +267,6 @@ public class DMSController implements Serializable {
 
 		// sort list by $created
 		Collections.sort(_dmsList, new ItemCollectionComparator("$created", true));
-
 		dmsListCache.put(workitem.getUniqueID(), _dmsList);
 		return _dmsList;
 	}
