@@ -78,3 +78,34 @@ Using the [Imixs Rule Plugin](https://www.imixs.org/doc/engine/plugins/ruleplugi
         result.isValid=false;
         result.errorMessage='Please attache the Purchase Order Document!';
     }
+
+## Plugin Validation
+
+The plugin class `org.imixs.workflow.office.plugins.InputValidationPlugin` can be added into a BPMN Model to support extended validation.
+
+### Validate duplicated data input
+
+In the mode 'DUPLICATE' the InputValidationPlugin validates duplicated data inputs. The input item must be part of the lucene index and can be configured in the following way:
+
+| Property         |  Type   | Mandatory | Description                                                      |
+| ---------------- | :-----: | :-------: | ---------------------------------------------------------------- |
+| `input-item`     |  text   |     ✓     | Name of the item to be validated for duplicate values            |
+| `query`          |  text   |           | Optional query-filter (e.g. `($modelversion:approval*)`)         |
+| `error-message`  |  text   |     ✓     | Error message to be displayed in the UI (can include HTML)       |
+| `error-severity` |  text   |     ✓     | Marks the severity of the validation ('error', 'warning', 'info' |
+| `debug`          | boolean |           | Debug mode                                                       |
+
+Example:
+
+```
+ <imixs-validation name="DUPLICATE">
+   <input-item>invoice.number</input-item>
+   <query>"(type:workitem OR type:workitemarchive) AND ($modelversion:approval*)</query>
+   <error-message>The invoice number was already used!</error-message>
+   <error-severity>warning</error-severity>
+ </imixs-validation>
+```
+
+**error-severity**
+
+If the `error-severity` is set to 'error' the user input must be fixed. If the error mode is 'warning' or 'info' the error-message will be displayed but can be skipped by the user.
