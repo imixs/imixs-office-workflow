@@ -90,7 +90,7 @@ In the mode 'DUPLICATE' the InputValidationPlugin validates duplicated data inpu
 | Property         |  Type   | Mandatory | Description                                                      |
 | ---------------- | :-----: | :-------: | ---------------------------------------------------------------- |
 | `input-item`     |  text   |     ✓     | Name of the item to be validated for duplicate values            |
-| `query`          |  text   |           | Optional query-filter (e.g. `($modelversion:approval*)`)         |
+| `query-filter`   |  text   |           | Optional query-filter (e.g. `($modelversion:approval*)`)         |
 | `error-message`  |  text   |     ✓     | Error message to be displayed in the UI (can include HTML)       |
 | `error-severity` |  text   |     ✓     | Marks the severity of the validation ('error', 'warning', 'info' |
 | `debug`          | boolean |           | Debug mode                                                       |
@@ -100,9 +100,10 @@ Example:
 ```
  <imixs-validation name="DUPLICATE">
    <input-item>invoice.number</input-item>
-   <query>"(type:workitem OR type:workitemarchive) AND ($modelversion:approval*)</query>
+   <query-filter>(type:workitem OR type:workitemarchive) AND ($modelversion:approval*)</query-filter>
    <error-message>The invoice number was already used!</error-message>
    <error-severity>warning</error-severity>
+   <debug>false</debug>
  </imixs-validation>
 ```
 
