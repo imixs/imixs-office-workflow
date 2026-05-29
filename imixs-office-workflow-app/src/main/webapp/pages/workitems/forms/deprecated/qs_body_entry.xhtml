@@ -1,7 +1,5 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 
@@ -10,8 +8,7 @@
 		<div class="col-4">
 
 			<!-- the following code computes the txtworktow abstract from the current modelversion and processid  -->
-			<div class="ui-state-highlight ui-corner-all"
-				style="margin-bottom: 10px; padding: .5em;">
+			<div class="ui-state-highlight ui-corner-all" style="margin-bottom: 10px; padding: .5em;">
 				<p>
 					<strong>#{workitem.item['$workflowgroup']}</strong>
 				</p>
@@ -28,49 +25,17 @@
 
 
 		<div class="col-4">
-		
+
 			<c:if test="#{!empty workitem.item['txtWorkflowEditorid']}">
 				<ui:include src="/pages/workitems/forms/jkarat/#{workitem.item['txtWorkflowEditorid']}.xhtml">
-							<ui:param name="workitem" value="#{workitem}" />
+					<ui:param name="workitem" value="#{workitem}" />
 				</ui:include>
 			</c:if>
-			
+
 			<c:if test="#{empty workitem.item['txtWorkflowEditorid']}">
-				<h:inputTextarea value="#{workitem.item['_bemerkung']}"
-				style="width:100%;height:9em;" />
+				<h:inputTextarea value="#{workitem.item['_bemerkung']}" style="width:100%;height:9em;" />
 			</c:if>
-			<!-- 
-		Zeichnungsnummer: 
-		<h:inputText value="#{workitem.item['_zeichnung']}" style=""/>
-		
 
-			<h:panelGroup
-				rendered="#{! empty workitem.getItemValue('txtCommentLog')}">
-				<dl>
-					<dt>
-						<h:outputLabel value="#{message['form.comment.history']}:" />
-					</dt>
-					<dd>
-						<h:panelGrid columns="3" rowClasses="topAligned"
-							styleClass="imixs-commentlist">
-							<ui:repeat var="comment" value="#{workitem.getItemValue('txtCommentLog')}">
-									<h:outputText value="#{comment.datcomment}"
-										style="margin-right:10px;">
-										<f:convertDateTime timeZone="#{message.timeZone}" type="both"
-											pattern="#{message.dateTimePatternShort}" />
-									</h:outputText>
-
-									<h:outputText
-										value="#{userController.getUserName(comment.nameditor)}" />
-
-
-									<h:outputText value="#{comment.txtcomment}" /><br />
-							</ui:repeat>
-						</h:panelGrid>
-					</dd>
-				</dl>
-			</h:panelGroup>
-			 -->
 
 
 		</div>
@@ -88,16 +53,12 @@
 
 			<div class="imixs-subnav">
 				<!--  Workflow Events -->
-				<ui:repeat var="event"
-					value="#{subWorkitemController.getEvents(workitem.getUniqueID())}">
-					<h:commandButton action="#{subWorkitemController.process}"
-						class="imixs-workflow-action" title=""
+				<ui:repeat var="event" value="#{subWorkitemController.getEvents(workitem.getUniqueID())}">
+					<h:commandButton action="#{subWorkitemController.process}" class="imixs-workflow-action" title=""
 						value="#{event.item['txtname']}">
-						<f:setPropertyActionListener
-							target="#{subWorkitemController.workitem}" value="#{workitem}" />
+						<f:setPropertyActionListener target="#{subWorkitemController.workitem}" value="#{workitem}" />
 
-						<f:setPropertyActionListener
-							target="#{subWorkitemController.workitem.item['$ActivityID']}"
+						<f:setPropertyActionListener target="#{subWorkitemController.workitem.item['$ActivityID']}"
 							value="#{event.item['numactivityid']}" />
 					</h:commandButton>
 				</ui:repeat>
@@ -106,8 +67,7 @@
 
 			<!-- History -->
 			<ui:fragment rendered="#{!empty workitem.item['txtworkflowhistory']}">
-				<h:dataTable var="log"
-					value="#{workitem.itemListArray['txtworkflowhistory']}">
+				<h:dataTable var="log" value="#{workitem.itemListArray['txtworkflowhistory']}">
 					<h:column>
 						<h:outputText value="#{log[0]}">
 							<f:convertDateTime timeZone="#{message.timeZone}" type="both"
@@ -133,4 +93,3 @@
 
 
 </ui:composition>
-

@@ -1,21 +1,19 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
-	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 
 	<!-- 
 	 define query to select sub tasks
 	 -->
-    <ui:param name="query" value="(type:&quot;workitem&quot; OR type:&quot;workitemarchive&quot;) AND $uniqueidref:&quot;#{workitem.item['$uniqueid']}&quot;"></ui:param>
+	<ui:param name="query"
+		value="(type:&quot;workitem&quot; OR type:&quot;workitemarchive&quot;) AND $uniqueidref:&quot;#{workitem.item['$uniqueid']}&quot;">
+	</ui:param>
 	<div class="imixs-form-section">
 
-		<h:dataTable id="datatable" value="#{workflowController.getDocumentService().find(query, 999,0)}"
-			var="record" styleClass="imixsdatatable">
+		<h:dataTable id="datatable" value="#{workflowController.getDocumentService().find(query, 999,0)}" var="record"
+			styleClass="imixsdatatable">
 
 
 			<h:column pt:style="">
@@ -37,8 +35,7 @@
 						<h:outputText value="#{message['form.responsible']}" />
 					</h:panelGroup>
 				</f:facet>
-				<ui:repeat var="userid"
-					value="#{record.itemList['namowner']}">
+				<ui:repeat var="userid" value="#{record.itemList['namowner']}">
 					#{userController.getUserName(userid)}<br />
 				</ui:repeat>
 			</h:column>
@@ -63,21 +60,18 @@
 
 
 
-				<ui:repeat value="#{record.itemList['txtcommentlog']}" var="comment">
-					<h:panelGrid columns="3" rowClasses="topAligned"
-						styleClass="imixs-commentlist">
-						<ui:fragment
-							rendered="#{! empty comment}">
-							<h:outputText value="#{comment.datcomment}">
+				<ui:repeat value="#{record.itemList['comment.log']}" var="comment">
+					<h:panelGrid columns="3" rowClasses="topAligned" styleClass="imixs-commentlist">
+						<ui:fragment rendered="#{! empty comment}">
+							<h:outputText value="#{comment.date}">
 								<f:convertDateTime timeZone="#{message.timeZone}" type="both"
 									pattern="#{message.dateTimePatternShort}" />
 							</h:outputText>
 
-							<h:outputText
-								value="#{userController.getUserName(comment.nameditor)}" />
+							<h:outputText value="#{userController.getUserName(comment.user)}" />
 
 							<h:panelGroup styleClass="imixs-comments-entry">
-								<h:outputText value="#{comment.txtcomment}" />
+								<h:outputText value="#{comment.comment}" />
 							</h:panelGroup>
 						</ui:fragment>
 
@@ -113,4 +107,3 @@
 
 
 </ui:composition>
-

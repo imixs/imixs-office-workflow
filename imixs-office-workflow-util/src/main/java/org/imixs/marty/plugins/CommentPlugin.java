@@ -56,64 +56,62 @@ import org.imixs.workflow.exceptions.PluginException;
  * 
  */
 public class CommentPlugin extends AbstractPlugin {
-    ItemCollection documentContext;
 
     private static Logger logger = Logger.getLogger(CommentPlugin.class.getName());
 
     /**
-     * This method updates the comment list. There for the method copies the
-     * txtComment into the txtCommentList and clears the txtComment field
+     * This method updates the comment.log. There for the method copies the
+     * item 'comment.user' into the comment.log and clears the comment.user field
      * 
      * @param workflowEvent
      */
     @SuppressWarnings("unchecked")
     @Override
-    public ItemCollection run(ItemCollection adocumentContext, ItemCollection documentActivity) throws PluginException {
+    public ItemCollection run(ItemCollection workitem, ItemCollection event) throws PluginException {
 
-        documentContext = adocumentContext;
+        ItemCollection evalItemCollection = this.getWorkflowService().evalWorkflowResult(event, "item",
+                workitem);
 
-        ItemCollection evalItemCollection = this.getWorkflowService().evalWorkflowResult(documentActivity, "item",
-                adocumentContext);
-
-        // test if comment is defined in model
+        // test if comment is defined in model event
         if (evalItemCollection != null) {
             // test ignore
             if ("true".equals(evalItemCollection.getItemValueString("comment.ignore"))) {
-                logger.fine("ignore=true - skipping txtCommentLog");
+                logger.fine("ignore=true - skipping comment.log");
                 // save last comment in any case!
-                documentContext.replaceItemValue("txtLastComment", documentContext.getItemValueString("txtComment"));
-                return documentContext;
+                workitem.replaceItemValue("txtLastComment", workitem.getItemValueString("comment.user"));
+                workitem.replaceItemValue("comment.user.last",
+                        workitem.getItemValueString("comment.user"));
+                return workitem;
             }
         }
 
-        // create new Comment data - important: property names in lower
-        // case
-        List<Map<String, Object>> vCommentList = documentContext.getItemValue("txtCommentLog");
+        // create new Comment log entry
+        List<Map<String, Object>> vCommentList = workitem.getItemValue("comment.log");
         Map<String, Object> log = new HashMap<String, Object>();
         String remoteUser = this.getWorkflowService().getUserName();
-        log.put("datcomment", documentContext.getItemValueDate(WorkflowKernel.LASTEVENTDATE));
-        log.put("nameditor", remoteUser);
+        log.put("date", workitem.getItemValueDate(WorkflowKernel.LASTEVENTDATE));
+        log.put("user", remoteUser);
 
         // test for fixed comment
         String sComment = null;
         if (evalItemCollection != null && evalItemCollection.hasItem("comment")) {
             sComment = evalItemCollection.getItemValueString("comment");
         } else {
-            sComment = documentContext.getItemValueString("txtComment");
+            sComment = workitem.getItemValueString("comment.user");
             // clear comment
-            documentContext.replaceItemValue("txtComment", "");
+            workitem.replaceItemValue("comment.user", "");
         }
 
         if (sComment != null && !sComment.isEmpty()) {
-            log.put("txtcomment", sComment);
+            log.put("message", sComment);
             vCommentList.add(0, log);
-            documentContext.replaceItemValue("txtcommentLog", vCommentList);
-            documentContext.replaceItemValue("txtLastComment", sComment);
+            workitem.replaceItemValue("comment.log", vCommentList);
+            workitem.replaceItemValue("comment.user.last", sComment);
         }
 
-        documentContext.removeItem("comment");
-        documentContext.removeItem("comment.ignore");
-        return documentContext;
+        workitem.removeItem("comment.user");
+        workitem.removeItem("comment.ignore");
+        return workitem;
 
     }
 

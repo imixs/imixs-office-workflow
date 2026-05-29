@@ -373,14 +373,14 @@ public class ChronicleController implements Serializable {
 		}
 
 		/* collect comments */
-		List<Map<String, List<Object>>> comments = workflowController.getWorkitem().getItemValue("txtCommentLog");
+		List<Map<String, List<Object>>> comments = workflowController.getWorkitem().getItemValue("comment.log");
 		for (Map<String, List<Object>> comment : comments) {
 
 			ItemCollection itemCol = new ItemCollection(comment);
-			Date date = itemCol.getItemValueDate("datcomment");
+			Date date = itemCol.getItemValueDate("date");
 
-			String message = itemCol.getItemValueString("txtcomment");
-			String user = itemCol.getItemValueString("nameditor");
+			String message = itemCol.getItemValueString("message");
+			String user = itemCol.getItemValueString("user");
 
 			ItemCollection entry = new ItemCollection();
 			entry.replaceItemValue("date", date);
