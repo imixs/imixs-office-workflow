@@ -1,0 +1,135 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	template="/layout/template.xhtml">
+
+
+	<ui:define name="content">
+
+
+		<script type="text/javascript">
+			/*<![CDATA[*/
+			// The following code is used to layout the tables with the jquery datatable plugin.
+			$(document).ready(function () {
+				updateTableLayout();
+			});
+
+			function updateTable(e) {
+				if (e.status == 'success') {
+					$('.imixsdatatable').layoutImixsTable()
+				}
+			}
+
+			function updateTableLayout() {
+				$('[id$=skilltable]').each(function () {
+					// with the following line we test if the jsf datatable realy contains data 
+					// in cases with empty rows on default column is displayed.
+					//alert($('tbody tr:nth-child(1) td',adatatable).length);
+					if ($('tbody tr:nth-child(1) td', $(this)).length > 1)
+						$(this).dataTable({
+							"bRetrieve": true,
+							"iDisplayLength": #{ propertyController.getProperty('admin.view.table.displaylength', '30') },
+							"bLengthChange" : false,
+							"bSortable" : false,
+							"bJQueryUI" : true,
+							'aaSorting' : [] // no inital sorting 						
+						}
+				);
+			});
+			}
+			/*]]>*/
+		</script>
+
+		<f:view>
+			<h:form>
+				<div class="imixs-view">
+					<!-- *** Header **** -->
+					<div class="imixs-header">
+						<h1>
+							<h:outputText value="#{app['skill.view']}" />
+						</h1>
+					</div>
+
+					<div class="imixs-body">
+						<h:dataTable id="skilltable" value="#{viewHandler.getData(skillCardViewController)}"
+							var="record" styleClass="imixsdatatable">
+
+
+							<h:column>
+								<f:facet name="header">
+									<h:panelGroup>
+										<h:outputText value="#{message.name}" />
+									</h:panelGroup>
+								</f:facet>
+
+								<!-- Edit -->
+								<h:link outcome="/pages/workitems/workitem?faces-redirect=true"
+									styleClass="imixs-viewentry-main-link">
+									<h:outputText value="#{record.item['Name']}" />
+									<h:outputText rendered="#{empty record.item['Name']}" value=" - no name - " />
+									<f:param name="id" value="#{record.item['$uniqueid']}" />
+								</h:link>
+							</h:column>
+
+
+							<h:column>
+								<f:facet name="header">
+									<h:panelGroup>
+										<h:outputText value="#{message.modified}" />
+
+									</h:panelGroup>
+								</f:facet>
+
+								<!-- hidden sort field  -->
+								<h:outputText value="#{record.item['$modified']}" style="display:none">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both" pattern="yyyyMMdd" />
+								</h:outputText>
+
+								<h:outputText value="#{record.item['$modified']}">
+									<f:convertDateTime timeZone="#{message.timeZone}" type="both"
+										pattern="#{message.dateTimePattern}" />
+								</h:outputText>
+								<h:outputText
+									value=" #{message.by} #{userController.getUserName(record.item['$Editor'])}"
+									title="#{record.item['$Editor']}" />
+							</h:column>
+
+
+
+
+							<h:column>
+								<f:facet name="header">#{message.action}</f:facet>
+								<!-- Edit -->
+								<h:link outcome="/pages/workitems/workitem?faces-redirect=true"
+									styleClass="imixs-viewentry-main-link">
+
+									<span class="typcn typcn-pencil imixs-state-info"></span>
+									#{message.edit}
+									<f:param name="id" value="#{record.item['$uniqueid']}" />
+								</h:link>
+
+
+								<!-- Delete -->
+								<h:commandLink title="#{message.delete}"
+									action="/pages/admin/skillcardlist?faces-redirect=true"
+									actionListener="#{documentController.delete(record.item['$UniqueID'])}"
+									onclick="if (!confirm('#{message.help_delete}')) return false;">
+									<span class="typcn typcn-trash imixs-state-error"></span>#{message.delete}
+								</h:commandLink>
+							</h:column>
+						</h:dataTable>
+					</div>
+
+					<div class="imixs-footer">
+						<h:commandButton value="#{message.add}" action="/pages/workitems/workitem"
+							actionListener="#{workflowController.create(propertyController.getProperty('setup.system.model'), 400, null)}">
+						</h:commandButton>
+						<h:commandButton action="home" value="#{message.close}" />
+					</div>
+				</div>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>
