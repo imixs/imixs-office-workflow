@@ -36,14 +36,6 @@
 				<li class="active"><a href="#" onclick="imixsOfficeWorkitem.toggleChronicleHistory();return false;"
 						class="chronicle-tab-history"><span class="typcn typcn-rss"></span> #{message.history}</a></li>
 			</ui:fragment>
-
-
-			<ui:fragment rendered="#{propertyController.getProperty('feature.imixs_ai')}">
-				<li class=""><a href="#" onclick="imixsOfficeWorkitem.toggleChronicleAI();return false;"
-						class="chronicle-tab-ai"><span class="typcn typcn-lightbulb"></span> #{message.ai}
-						<h:panelGroup rendered="#{true}">*</h:panelGroup>
-					</a></li>
-			</ui:fragment>
 		</ul>
 	</div>
 
@@ -51,12 +43,6 @@
 		<div id="imixs-workitem-chronicle-tab-history" class="entries">
 			<ui:include src="/pages/workitems/workitem_chronicle_entries.xhtml" />
 		</div>
-
-
-		<div id="imixs-workitem-chronicle-tab-ai" style="display:none;" class="documents imixs-no-print">
-			<ui:include src="/pages/workitems/workitem_ai.xhtml" />
-		</div>
-
 	</div>
 
 </ui:composition>

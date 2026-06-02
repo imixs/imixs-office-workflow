@@ -391,27 +391,6 @@ public class ChronicleController implements Serializable {
 			addChronicleEntry(originChronicleList, entry);
 		}
 
-		/* collect Imixs-AI chat history */
-		if (workflowController.getWorkitem().hasItem(AIController.AI_CHAT_HISTORY)) {
-			// Work on a copy to avoid modifying the original list inside the workitem
-			List<ItemCollection> aiChatHistory = new ArrayList<>(
-					ChildItemController.explodeChildList(workflowController.getWorkitem(),
-							AIController.AI_CHAT_HISTORY));
-
-			// change order
-			Collections.reverse(aiChatHistory);
-			for (ItemCollection aiEntry : aiChatHistory) {
-				ItemCollection entry = new ItemCollection();
-				entry.replaceItemValue("date", aiEntry.getItemValueDate("date"));
-				entry.replaceItemValue("user", aiEntry.getItemValueString("user"));
-				String message = "Question: \n" + aiEntry.getItemValueString("question");
-				message += "\nAnswer: \n" + aiEntry.getItemValueString("answer");
-				entry.replaceItemValue("message", message);
-				entry.replaceItemValue("type", "imixs-ai");
-				addChronicleEntry(originChronicleList, entry);
-			}
-		}
-
 		/* collect Attachments */
 		List<ItemCollection> dmsList = dmsController.getDmsList();
 		for (ItemCollection dmsEntry : dmsList) {
