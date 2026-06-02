@@ -61,9 +61,9 @@
 							styleClass="typcn typcn-message"></h:panelGroup>
 					</div>
 					<div class="content-block">
-						<h:panelGroup styleClass="imixs-comments-entry">
-							<h:outputText value="#{entry.item['message']}" />
-						</h:panelGroup>
+						<h:inputHidden pt:data-id="markdown_hidden_input" value="#{entry.item['message']}" />
+						<h:panelGroup styleClass="imixs-comments-entry imixs-markdown-output"
+							style="margin:0; padding: 0;" />
 					</div>
 				</td>
 			</tr>
