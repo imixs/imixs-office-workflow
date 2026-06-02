@@ -25,7 +25,11 @@
  *  	Ralph Soika - Software Developer
  *******************************************************************************/
 
+<<<<<<< HEAD
 package org.imixs.workflow.office.ai;
+=======
+package ai.dynamixs.skills;
+>>>>>>> 586e0fc183a421570782c17d329beb0553d8c38b
 
 import java.util.Collection;
 import java.util.HashSet;

@@ -1,14 +1,25 @@
+<<<<<<< HEAD
 package org.imixs.workflow.office.ai;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.workflow.faces.data.ViewController;
 import org.imixs.workflow.faces.util.LoginController;
+=======
+package ai.dynamixs.skills;
+>>>>>>> 586e0fc183a421570782c17d329beb0553d8c38b
 
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+<<<<<<< HEAD
+=======
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.imixs.workflow.faces.data.ViewController;
+import org.imixs.workflow.faces.util.LoginController;
+
+>>>>>>> 586e0fc183a421570782c17d329beb0553d8c38b
 @Named
 @ViewScoped
 public class SkillCardViewController extends ViewController {
