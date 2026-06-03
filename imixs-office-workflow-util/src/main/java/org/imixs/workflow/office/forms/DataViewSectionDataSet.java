@@ -3,6 +3,7 @@ package org.imixs.workflow.office.forms;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.imixs.workflow.FileData;
@@ -34,6 +35,8 @@ public class DataViewSectionDataSet implements Serializable {
     private int pageSize = 10;
     private int pageIndex = 0;
 
+    private String viewId;
+
     private DataViewService dataViewService;
 
     private ItemCollection workitem;
@@ -42,6 +45,9 @@ public class DataViewSectionDataSet implements Serializable {
         this.dataViewName = dataViewName;
         this.workitem = workitem;
         this.dataViewService = dataViewService;
+
+        // Generate a unique view ID for JSF component identification
+        this.viewId = "dv_" + UUID.randomUUID().toString().replace("-", "");
 
         dataViewDefinition = dataViewService.loadDataViewDefinition(dataViewName);
 
@@ -59,6 +65,15 @@ public class DataViewSectionDataSet implements Serializable {
         sortReverse = dataViewDefinition.getItemValueBoolean("sort.reverse");
 
         loadData();
+    }
+
+    /**
+     * return unique data view id for jsf pages
+     * 
+     * @return
+     */
+    public String getViewId() {
+        return viewId;
     }
 
     public void forward() {
