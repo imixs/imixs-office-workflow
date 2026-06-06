@@ -58,8 +58,8 @@ public class CommentLogHandler implements Serializable {
 
 		// support old busienss rules
 		if (WorkflowEvent.WORKITEM_BEFORE_PROCESS == workflowEvent.getEventType()) {
-			if (!workflowEvent.getWorkitem().getItemValueString("comment.user").isBlank()) {
-				// set old value temporarily
+			if (workflowEvent.getWorkitem().hasItem("comment.user")) {
+				// support deprecated old value temporarily
 				workflowEvent.getWorkitem().setItemValue("txtcomment",
 						workflowEvent.getWorkitem().getItemValueString("comment.user"));
 			}

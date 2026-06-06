@@ -34,21 +34,28 @@ import java.util.logging.Logger;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
+import org.imixs.workflow.bpmn.BPMNUtil;
 import org.imixs.workflow.engine.plugins.AbstractPlugin;
 import org.imixs.workflow.exceptions.PluginException;
 
 /**
  * This plugin supports a comment feature. Comments entered by a user into the
- * field 'txtComment' are stored in the list property 'txtCommentList' which
+ * field 'comment.user' are stored in the list property 'comment.log' which
  * contains a map for each comment. The map stores the username, the timestamp
  * and the comment. The plugin also stores the last comment in the field
- * 'txtLastComment'. The comment can be also controlled by the corresponding
+ * 'comment.user.last'. The comment can be also controlled by the corresponding
  * workflow event:
  * 
- * <comment ignore="true" /> a new comment will not be added into the comment
- * list
  * 
- * <comment>xxx</comment> adds a fixed comment 'xxx' into the comment list
+ * <pre>
+ * {@code
+ * <comment>
+ *     <ignore>true</ignore>
+ *     <message>This is a system comment</message>
+ * </comment>
+ * }
+ * </pre>
+ *
  * 
  * 
  * @author rsoika
@@ -60,8 +67,8 @@ public class CommentPlugin extends AbstractPlugin {
     private static Logger logger = Logger.getLogger(CommentPlugin.class.getName());
 
     /**
-     * This method updates the comment.log. There for the method copies the
-     * item 'comment.user' into the comment.log and clears the comment.user field
+     * This method updates the comment.log. There for the method copies the item
+     * 'comment.user' into the comment.log and clears the comment.user field
      * 
      * @param workflowEvent
      */
@@ -69,48 +76,85 @@ public class CommentPlugin extends AbstractPlugin {
     @Override
     public ItemCollection run(ItemCollection workitem, ItemCollection event) throws PluginException {
 
+        boolean ignore = false;
+        String commentUser = workitem.getItemValueString("comment.user");
+        String commentStatic = "";
+
+        // Test Deprecated format first...
         ItemCollection evalItemCollection = this.getWorkflowService().evalWorkflowResult(event, "item",
                 workitem);
-
-        // test if comment is defined in model event
-        if (evalItemCollection != null) {
+        // test if comment is defined in model
+        if (evalItemCollection != null && evalItemCollection.hasItem("comment.ignore")) {
             // test ignore
             if ("true".equals(evalItemCollection.getItemValueString("comment.ignore"))) {
-                logger.fine("ignore=true - skipping comment.log");
-                // save last comment in any case!
-                workitem.replaceItemValue("txtLastComment", workitem.getItemValueString("comment.user"));
-                workitem.replaceItemValue("comment.user.last",
-                        workitem.getItemValueString("comment.user"));
+                ignore = true;
+            }
+            workitem.removeItem("comment.ignore");
+        } else {
+            // New XML Format
+            String workflowResult = event.getItemValueString(BPMNUtil.EVENT_ITEM_WORKFLOW_RESULT);
+            // Support deprecated item name
+            if (workflowResult.isEmpty()) {
+                workflowResult = event.getItemValueString("txtActivityResult");
+            }
+
+            List<ItemCollection> commentList = this.getWorkflowService().evalXMLExpressionList(workflowResult,
+                    "comment", "",
+                    workitem, true);
+
+            if (commentList == null || commentList.size() == 0) {
                 return workitem;
             }
+            if (commentList.size() > 1) {
+                throw new PluginException("CONFIG_ERROR", CommentPlugin.class.getSimpleName(),
+                        "Comment Tag is only allowed once in a BPMN workflow result!");
+            }
+
+            ItemCollection commentConfig = commentList.get(0);
+            ignore = commentConfig.getItemValueBoolean("ignore");
+            commentStatic = commentConfig.getItemValueString("message");
+        }
+
+        if (ignore) {
+            logger.fine("ignore=true - skipping txtCommentLog");
+            // save last comment in any case!
+            workitem.replaceItemValue("txtLastComment", commentUser);
+            workitem.replaceItemValue("comment.user.last", commentUser);
+            return workitem;
+        }
+
+        // if no comment is defined, return!
+        if (commentStatic.isBlank() && commentUser.isBlank()) {
+            return workitem;
         }
 
         // create new Comment log entry
         List<Map<String, Object>> vCommentList = workitem.getItemValue("comment.log");
-        Map<String, Object> log = new HashMap<String, Object>();
-        String remoteUser = this.getWorkflowService().getUserName();
-        log.put("date", workitem.getItemValueDate(WorkflowKernel.LASTEVENTDATE));
-        log.put("user", remoteUser);
 
-        // test for fixed comment
-        String sComment = null;
-        if (evalItemCollection != null && evalItemCollection.hasItem("comment")) {
-            sComment = evalItemCollection.getItemValueString("comment");
-        } else {
-            sComment = workitem.getItemValueString("comment.user");
-            // clear comment
-            workitem.replaceItemValue("comment.user", "");
-        }
+        String remoteUser = this.getWorkflowService()
+                .getUserName();
 
-        if (sComment != null && !sComment.isEmpty()) {
-            log.put("message", sComment);
+        if (!commentStatic.isBlank()) {
+            Map<String, Object> log = new HashMap<String, Object>();
+            log.put("date", workitem.getItemValueDate(WorkflowKernel.LASTEVENTDATE));
+            log.put("user", remoteUser);
+            log.put("message", commentStatic);
             vCommentList.add(0, log);
-            workitem.replaceItemValue("comment.log", vCommentList);
-            workitem.replaceItemValue("comment.user.last", sComment);
+
+        }
+        if (!commentUser.isBlank()) {
+            Map<String, Object> log = new HashMap<String, Object>();
+            log.put("date", workitem.getItemValueDate(WorkflowKernel.LASTEVENTDATE));
+            log.put("user", remoteUser);
+            log.put("message", commentUser);
+            vCommentList.add(0, log);
+            workitem.setItemValue("comment.user.last", commentUser);
+            workitem.replaceItemValue("txtLastComment", commentUser);
+            workitem.setItemValue("comment.user", "");
         }
 
-        workitem.removeItem("comment.user");
-        workitem.removeItem("comment.ignore");
+        workitem.setItemValue("comment.log", vCommentList);
+
         return workitem;
 
     }
