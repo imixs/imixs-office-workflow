@@ -34,7 +34,6 @@ import java.util.logging.Logger;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
-import org.imixs.workflow.bpmn.BPMNUtil;
 import org.imixs.workflow.engine.plugins.AbstractPlugin;
 import org.imixs.workflow.exceptions.PluginException;
 
@@ -92,25 +91,17 @@ public class CommentPlugin extends AbstractPlugin {
             workitem.removeItem("comment.ignore");
         } else {
             // New XML Format
-            String workflowResult = event.getItemValueString(BPMNUtil.EVENT_ITEM_WORKFLOW_RESULT);
-            // Support deprecated item name
-            if (workflowResult.isEmpty()) {
-                workflowResult = event.getItemValueString("txtActivityResult");
-            }
-
-            List<ItemCollection> commentList = this.getWorkflowService().evalXMLExpressionList(workflowResult,
-                    "comment", "",
-                    workitem, true);
-
-            if (commentList == null || commentList.size() == 0) {
+            List<ItemCollection> configList = this.getWorkflowService().evalWorkflowResultXML(
+                    event, "comment", "", workitem, true);
+            if (configList.size() == 0) {
                 return workitem;
             }
-            if (commentList.size() > 1) {
+            if (configList.size() > 1) {
                 throw new PluginException("CONFIG_ERROR", CommentPlugin.class.getSimpleName(),
                         "Comment Tag is only allowed once in a BPMN workflow result!");
             }
 
-            ItemCollection commentConfig = commentList.get(0);
+            ItemCollection commentConfig = configList.get(0);
             ignore = commentConfig.getItemValueBoolean("ignore");
             commentStatic = commentConfig.getItemValueString("message");
         }
