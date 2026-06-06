@@ -1,0 +1,224 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs">
+
+
+	<div style="display:flex; width:100%; height:100vh;">
+
+		<!-- left  column -->
+		<div style="width:25%;min-width:280px;  max-width:320px; padding:20px 20px 0 0; border-right:1px solid #ccc;">
+			<h3>AI Assistant</h3>
+			<p>
+				Hier finden Sie wichtige Hinweise zum aktuellen Prozessverlauf sowie Verweise auf verbundene Workflows
+				und Daten.
+			</p>
+			<div class="imixs-ai-protocol">
+
+				<!-- Header -->
+				<div class="imixs-ai-protocol-item">
+					<div class="imixs-ai-protocol-spacer"></div>
+					<div class="imixs-ai-protocol-row">
+						<div class="imixs-ai-protocol-icon">
+							<i class="fa-regular fa-comment-dots" style="color:#faa732;"></i>
+						</div>
+						<span
+							class="imixs-ai-protocol-entry imixs-ai-protocol-header"><strong>Protokoll:</strong></span>
+					</div>
+					<div class="imixs-ai-protocol-spacer">
+						<div class="imixs-ai-protocol-line"></div>
+					</div>
+				</div>
+
+				<!-- Dynamic tool call entries -->
+				<ui:repeat var="aiToolCallEntry" value="#{bpmnAgentController.toolCallHistory}">
+					<div class="imixs-ai-protocol-item">
+						<div class="imixs-ai-protocol-spacer">
+							<div class="imixs-ai-protocol-line"></div>
+						</div>
+						<div class="imixs-ai-protocol-row">
+							<div class="imixs-ai-protocol-icon">
+								<i class="fa-solid fa-gears"></i>
+							</div>
+							<span class="imixs-ai-protocol-entry">
+								#{aiToolCallEntry.item['chat.message']}
+							</span>
+						</div>
+						<div class="imixs-ai-protocol-spacer">
+							<div class="imixs-ai-protocol-line"></div>
+						</div>
+					</div>
+				</ui:repeat>
+
+				<ui:fragment rendered="#{! empty bpmnAgentController.toolCallHistory}">
+					<!-- Done -->
+					<div class="imixs-ai-protocol-item">
+						<div class="imixs-ai-protocol-spacer">
+							<div class="imixs-ai-protocol-line"></div>
+						</div>
+						<div class="imixs-ai-protocol-row">
+							<div class="imixs-ai-protocol-icon imixs-ai-protocol-icon--done">
+								<i class="fa-regular fa-circle-check"></i>
+							</div>
+							<span class="imixs-ai-protocol-entry imixs-ai-protocol-entry--done">Done</span>
+						</div>
+						<div class="imixs-ai-protocol-spacer"></div>
+					</div>
+				</ui:fragment>
+
+
+				<!-- operator workitems -->
+				<ui:fragment rendered="#{! empty bpmnAgentController.toolCallHistory}">
+					<!-- Header -->
+					<div class="imixs-ai-protocol-item">
+						<div class="imixs-ai-protocol-spacer"></div>
+						<div class="imixs-ai-protocol-row">
+							<div class="imixs-ai-protocol-icon">
+								<i class="fa-regular fa-folder-open" style="color:#faa732;"></i>
+
+							</div>
+							<span
+								class="imixs-ai-protocol-entry imixs-ai-protocol-header"><strong>References:</strong></span>
+						</div>
+						<div class="imixs-ai-protocol-spacer">
+							<div class="imixs-ai-protocol-line"></div>
+						</div>
+					</div>
+					<ui:repeat var="operatorWorkitem" value="#{bpmnAgentController.operatorWorkitems}">
+						<div class="imixs-ai-protocol-item">
+							<div class="imixs-ai-protocol-spacer">
+								<div class="imixs-ai-protocol-line"></div>
+							</div>
+							<div class="imixs-ai-protocol-row">
+								<div class="imixs-ai-protocol-icon">
+									<i class="fa-regular fa-file-lines"></i>
+								</div>
+								<span class="imixs-ai-protocol-entry">
+									<h:outputLink
+										value="#{facesContext.externalContext.requestContextPath}/pages/workitems/workitem.xhtml?id=#{operatorWorkitem.uniqueID}">
+										#{(!empty
+										operatorWorkitem.item['$workflowsummary'])?operatorWorkitem.item['$workflowsummary']:operatorWorkitem.uniqueID}
+									</h:outputLink>
+								</span>
+							</div>
+							<div class="imixs-ai-protocol-spacer">
+								<div class="imixs-ai-protocol-line"></div>
+							</div>
+						</div>
+					</ui:repeat>
+				</ui:fragment>
+
+
+
+			</div>
+		</div>
+
+		<!-- right column -->
+		<div style="flex:1; display:flex; flex-direction:column; padding:20px; gap:10px; min-height:0;">
+
+
+			<!-- Question -->
+			<div class="imixs-ai-chat-entry">
+
+				<div class="imixs-ai-chat-header">
+					<span>#{message['ai.question']}:</span>
+				</div>
+				<dl style="grid-column-start: span 12;" class="imixs-edit">
+
+					<dd>
+						<h:inputTextarea required="false"
+							value="#{workflowController.workitem.item['bpmn.agent.user.input']}"
+							a:placeholder="#{message['ai.prompt']}" style="padding: 20px;">
+						</h:inputTextarea>
+
+
+						#{workflowController.workitem.item['agent.result']}
+
+					</dd>
+				</dl>
+
+			</div>
+
+			<!--  Custom Form  -->
+			<div>
+				<f:subview>
+					<ui:include src="/pages/workitems/forms/custom.xhtml">
+						<ui:param name="workitem" value="#{workflowController.workitem}" />
+					</ui:include>
+				</f:subview>
+			</div>
+
+
+			<!-- Imixs AI Chat history-->
+			<div style="flex:1;overflow:auto; min-height:0;">
+
+				<!-- Angent History-->
+				<h:panelGroup layout="block" id="imixs_ai_chatlist" styleClass="imixs-ai-chat-history">
+					<ui:repeat var="aiChatHistoryEntry" value="#{bpmnAgentController.chatHistoryReverse}">
+						<!-- Question -->
+						<ui:fragment rendered="#{'user' eq aiChatHistoryEntry.item['chat.role']}">
+							<div class="imixs-ai-chat-entry">
+								<div class="imixs-ai-chat-header">
+									<span>#{message['ai.question']}:</span>
+								</div>
+								<div class="imixs-ai-chat-content">
+									<div class="imixs-ai-question">
+
+										<div class="imixs-ai-message">#{aiChatHistoryEntry.item['chat.message']}</div>
+									</div>
+								</div>
+							</div>
+						</ui:fragment>
+						<!-- Answer -->
+						<ui:fragment rendered="#{'assistant' eq aiChatHistoryEntry.item['chat.role']}">
+							<div class="imixs-ai-chat-entry">
+								<div class="imixs-ai-chat-header">
+									<span>Assistant</span>
+								</div>
+								<div class="imixs-ai-chat-content">
+
+									<div class="imixs-ai-answer">
+										<h:inputHidden a:data-id="markdown_hidden_input"
+											value="#{aiChatHistoryEntry.item['chat.message']}" />
+										<div class="imixs-markdown-output"></div>
+
+
+
+
+									</div>
+								</div>
+							</div>
+						</ui:fragment>
+					</ui:repeat>
+
+					<!-- Imixs AI Life-Answering Block -->
+					<h:panelGroup layout="block" id="imixs_ai_life_stream" styleClass="imixs-ai-chat-history"
+						style="display:none;margin-top:5px;width: 100%;margin-bottom: 100px;">
+						<div class="imixs-ai-chat-entry" style="border: 1px solid var(--input-focus-color);">
+							<div class="imixs-ai-chat-header">
+								<div class="imixs-ai-loader"></div>
+								<span>#{message.ai}</span>
+							</div>
+							<div class="imixs-ai-chat-content">
+								<div class="imixs-ai-answer"></div>
+								<pre
+									style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">...<h:outputText id="aiResultStream" value="#{aiController.streamResult}" escape="false" /></pre>
+							</div>
+						</div>
+					</h:panelGroup>
+				</h:panelGroup>
+			</div>
+
+		</div>
+
+	</div>
+
+	<script type="text/javascript">
+		/*<![CDATA[*/
+
+
+		/*]]>*/
+	</script>
+
+
+</ui:composition>

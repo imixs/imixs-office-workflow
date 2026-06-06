@@ -122,6 +122,11 @@ if [[ "$(strip_dash $1)" == "start" ]]; then
     docker compose -f ./docker/docker-compose-dev.yaml up
 fi
 
+if [[ "$(strip_dash $1)" == "start-ai" ]]; then
+    echo " Start AI Environment..."
+    docker compose -f ./docker/docker-compose-ai.yaml up
+fi
+
 if [[ "$(strip_dash $1)" == "build" ]]; then
     echo " Build and Autodeploy..."
     mvn clean install -DskipTests
@@ -146,7 +151,8 @@ if [[ $# -eq 0 ]]; then
 
     echo " Run with ./dev.sh -XXX"
     echo " "
-    echo "   -start                     : start Docker Containers"
+    echo "   -start                     : start Docker Containers in dev mode"
+    echo "   -start-ai                  : start Docker Containers in AI mode"
     echo "   -build                     : build application and redeploy"
     echo "   -docker {WILDFLY_VERISON}  : build the Docker image (27.0.1.Final-jdk17 | 29.0.1.Final-jdk17 | latest) debug (optional)"
     echo "   -hot                       : Manik Hotdeploy"

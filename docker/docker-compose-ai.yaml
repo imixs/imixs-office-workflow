@@ -21,41 +21,43 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "adminadmin"
       POSTGRES_CONNECTION: "jdbc:postgresql://db/office"
-      # PROFILE_LOGIN_EVENT: "10"
+
+      OCR_SERVICE_ENDPOINT: "http://tika:9998/tika"
+      # MODEL | AUTO
+      OCR_SERVICE_MODE: "MODEL"
+      #OCR_STRATEGY: "NO_OCR, OCR_ONLY, OCR_AND_TEXT_EXTRACTION, AUTO (default)"
+      OCR_STRATEGY: "NO_OCR"
+      OCR_FILEPATTERN: "(PDF|pdf)$"
+      OCR_MAXPDFPAGES: 10
 
       ASYNCEVENT_PROCESSOR_ENABLED: "true"
       ASYNCEVENT_PROCESSOR_INITIALDELAY: "5000"
+
+      # LLM Integration
+      LLM_CONFIG_FILE: /opt/jboss/imixs-llm.xml
+
     ports:
       - "8080:8080"
       - "9990:9990"
       - "8787:8787"
     volumes:
       - ./deployments:/opt/jboss/wildfly/standalone/deployments/
+      - ./keys/imixs-llm.xml:/opt/jboss/imixs-llm.xml
 
   imixsadmin:
     image: imixs/imixs-admin
     ports:
       - "8888:8080"
 
-  # imixsbackup:
-  #   image: imixs/imixs-archive-backup:latest
-  #   environment:
-  #     WILDFLY_PASS: adminadmin
-  #     DEBUG: "true"
-
-  #     # EXAMPLE SETUP
-  #     WORKFLOW_SERVICE_ENDPOINT: "http://app:8080/api"
-  #     WORKFLOW_SERVICE_USER: admin
-  #     WORKFLOW_SERVICE_PASSWORD: "adminadmin"
-  #     WORKFLOW_SERVICE_AUTHMETHOD: "form"
-
-  #     BACKUP_FTP_HOST: "ftp.storage.foo"
-  #     BACKUP_FTP_PATH: "/test/"
-  #     BACKUP_FTP_PORT: "21"
-  #     BACKUP_FTP_USER: ""
-  #     BACKUP_FTP_PASSWORD: ""
-  #   ports:
-  #     - "8081:8080"
+  #######################
+  # Tika OCR Service
+  #######################
+  tika:
+    image: apache/tika:3.2.0.0-full
+    environment:
+      TZ: "Europe/Berlin"
+    ports:
+      - "9998:9998"
 
 volumes:
   dbdata:
