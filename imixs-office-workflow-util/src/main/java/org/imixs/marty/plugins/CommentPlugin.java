@@ -93,17 +93,15 @@ public class CommentPlugin extends AbstractPlugin {
             // New XML Format
             List<ItemCollection> configList = this.getWorkflowService().evalWorkflowResultXML(
                     event, "comment", "", workitem, true);
-            if (configList.size() == 0) {
-                return workitem;
-            }
             if (configList.size() > 1) {
                 throw new PluginException("CONFIG_ERROR", CommentPlugin.class.getSimpleName(),
                         "Comment Tag is only allowed once in a BPMN workflow result!");
             }
-
-            ItemCollection commentConfig = configList.get(0);
-            ignore = commentConfig.getItemValueBoolean("ignore");
-            commentStatic = commentConfig.getItemValueString("message");
+            if (configList.size() == 1) {
+                ItemCollection commentConfig = configList.get(0);
+                ignore = commentConfig.getItemValueBoolean("ignore");
+                commentStatic = commentConfig.getItemValueString("message");
+            }
         }
 
         if (ignore) {
