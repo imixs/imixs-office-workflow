@@ -6,10 +6,9 @@ import java.util.logging.Logger;
 import org.imixs.melman.BasicAuthenticator;
 import org.imixs.melman.DocumentClient;
 import org.imixs.workflow.ItemCollection;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * This test generates random test data
@@ -29,17 +28,17 @@ public class GenerateTestData {
 	private final static Logger logger = Logger
 			.getLogger(GenerateTestData.class.getName());
 
-	@Before
+	@Disabled
 	public void setUp() throws Exception {
 		generator = new Random(19580427);
-		documentClient  = new DocumentClient(URI);
+		documentClient = new DocumentClient(URI);
 		BasicAuthenticator basicAuth = new BasicAuthenticator(USERID, PASSWORD);
 		// register the authenticator
 		documentClient.registerClientRequestFilter(basicAuth);
-		
+
 	}
 
-	@Ignore
+	@Disabled
 	@Test
 	public void generateRandomWorkitems() {
 
@@ -49,14 +48,14 @@ public class GenerateTestData {
 			ItemCollection workitem = createRandomWorkitem(i);
 
 			try {
-				ItemCollection doc=documentClient.saveDocument(workitem);
-				
-				Assert.assertNotNull(doc);
+				ItemCollection doc = documentClient.saveDocument(workitem);
+
+				Assertions.assertNotNull(doc);
 
 			} catch (Exception e) {
 
 				e.printStackTrace();
-				Assert.fail();
+				Assertions.fail();
 			}
 		}
 
@@ -72,7 +71,7 @@ public class GenerateTestData {
 
 		workitem.replaceItemValue("$uniqueidref", "14154510767-16938bd7");
 
-		workitem.replaceItemValue("_customer", "C" +i);
+		workitem.replaceItemValue("_customer", "C" + i);
 
 		workitem.replaceItemValue("_subject",
 				"sample record" + generator.nextInt());

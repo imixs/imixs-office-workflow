@@ -1,8 +1,8 @@
 package org.imixs.workflow.office.test;
 
 import org.imixs.workflow.office.forms.DMSController;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class DMSControllerTest {
 
@@ -14,13 +14,13 @@ public class DMSControllerTest {
 		String filename;
 
 		filename = "http://www.imixs.org";
-		Assert.assertTrue(filename.matches(DMSController.REGEX_URL_PATTERN));
+		Assertions.assertTrue(filename.matches(DMSController.REGEX_URL_PATTERN));
 
 		filename = "https://www.imixs.org";
-		Assert.assertTrue(filename.matches(DMSController.REGEX_URL_PATTERN));
+		Assertions.assertTrue(filename.matches(DMSController.REGEX_URL_PATTERN));
 
 		filename = "file://test.txt";
-		Assert.assertTrue(filename.matches(DMSController.REGEX_URL_PATTERN));
+		Assertions.assertTrue(filename.matches(DMSController.REGEX_URL_PATTERN));
 
 	}
 

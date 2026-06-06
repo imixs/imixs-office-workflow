@@ -4,8 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.imixs.workflow.exceptions.PluginException;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test regex from the ProfilePugin
@@ -26,10 +26,11 @@ public class TestRegex {
 		String sPid = "3120";
 
 		// test type pattern
-		Assert.assertFalse(typePattern != null && !"".equals(typePattern) && !type.matches(typePattern));
+		Assertions.assertFalse(typePattern != null && !"".equals(typePattern) && !type.matches(typePattern));
 
 		// test $processid pattern
-		Assert.assertFalse(processIDPattern != null && !"".equals(processIDPattern) && !sPid.matches(processIDPattern));
+		Assertions.assertFalse(
+				processIDPattern != null && !"".equals(processIDPattern) && !sPid.matches(processIDPattern));
 
 	}
 
@@ -47,11 +48,11 @@ public class TestRegex {
 
 		Pattern pattern = Pattern.compile(sFilePattern);
 
-		Assert.assertTrue(pattern.matcher("Workflow tool CR - include in migration to new platform.png").find());
+		Assertions.assertTrue(pattern.matcher("Workflow tool CR - include in migration to new platform.png").find());
 
-		Assert.assertFalse(pattern.matcher("Workflow tool CR - include in migration to new platform.pdf").find());
+		Assertions.assertFalse(pattern.matcher("Workflow tool CR - include in migration to new platform.pdf").find());
 
-		Assert.assertFalse(pattern.matcher("Workflow").find());
+		Assertions.assertFalse(pattern.matcher("Workflow").find());
 
 	}
 
@@ -67,8 +68,8 @@ public class TestRegex {
 		Pattern pattern = Pattern.compile(_regex);
 
 		// pattern.matcher(space.getItemValueString("name"))
-		Assert.assertFalse(pattern.matcher("Imixs GmbH").matches());
-		Assert.assertTrue(pattern.matcher("Imixs GmbH.London").matches());
+		Assertions.assertFalse(pattern.matcher("Imixs GmbH").matches());
+		Assertions.assertTrue(pattern.matcher("Imixs GmbH.London").matches());
 
 	}
 

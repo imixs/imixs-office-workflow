@@ -6,10 +6,9 @@ import org.imixs.melman.EventLogClient;
 import org.imixs.melman.FormAuthenticator;
 import org.imixs.melman.RestAPIException;
 import org.imixs.workflow.ItemCollection;
-import org.junit.Before;
-import org.junit.Test;
-
-import junit.framework.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * This test simmulates batch processing with high load
@@ -32,14 +31,14 @@ public class EventLogLoadRunner {
      * 
      * @throws Exception
      */
-    @Before
+    @BeforeEach
     public void setup() throws Exception {
         // Assumptions for integration tests
-        org.junit.Assume.assumeTrue(integrationTest.connected());
+        org.junit.jupiter.api.Assumptions.assumeTrue(integrationTest.connected());
 
         eventLogClient = new EventLogClient(BASE_URL);
         // create a default basic authenticator
-        FormAuthenticator formAuth = new FormAuthenticator(BASE_URL,USERID, PASSWORD);
+        FormAuthenticator formAuth = new FormAuthenticator(BASE_URL, USERID, PASSWORD);
         // register the authenticator
         eventLogClient.registerClientRequestFilter(formAuth);
 
@@ -62,7 +61,7 @@ public class EventLogLoadRunner {
             eventLogClient.setPageSize(100);
             List<ItemCollection> events = eventLogClient.searchEventLog("snapshot.add", "snapshot.remove");
 
-            Assert.assertNotNull(events);
+            Assertions.assertNotNull(events);
             count++;
         }
         long time = System.currentTimeMillis() - l;

@@ -10,9 +10,9 @@ import java.util.List;
 import org.imixs.workflow.office.util.SequenceService;
 import org.imixs.workflow.office.util.SequenceService.SequenceNumber;
 import org.imixs.workflow.util.XMLParser;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test different sequence number formats
@@ -22,7 +22,7 @@ import org.junit.Test;
 public class SequenceNumberTest {
 	SequenceService sequenceService = null;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		sequenceService = new SequenceService();
 	}
@@ -31,25 +31,25 @@ public class SequenceNumberTest {
 	public void testDigitsSimple() {
 		// test simple
 		SequenceNumber seqn = sequenceService.new SequenceNumber("2022001");
-		Assert.assertEquals("2022001", seqn.getDigit());
-		Assert.assertEquals("2022002", seqn.getNextDigit());
-		Assert.assertEquals("", seqn.getPrafix());
+		Assertions.assertEquals("2022001", seqn.getDigit());
+		Assertions.assertEquals("2022002", seqn.getNextDigit());
+		Assertions.assertEquals("", seqn.getPrafix());
 
-		Assert.assertEquals("2022001", seqn.getNextSequenceNumber());
-		Assert.assertEquals("2022002", seqn.getNextDev());
+		Assertions.assertEquals("2022001", seqn.getNextSequenceNumber());
+		Assertions.assertEquals("2022002", seqn.getNextDev());
 	}
 
 	@Test
 	public void testDigitsPraefix() {
 		// test without leading 0
 		SequenceNumber seqn = sequenceService.new SequenceNumber("R<date>YYYY</date>00001");
-		Assert.assertEquals("00001", seqn.getDigit());
-		Assert.assertEquals("00002", seqn.getNextDigit());
-		Assert.assertEquals("R<date>YYYY</date>", seqn.getPrafix());
+		Assertions.assertEquals("00001", seqn.getDigit());
+		Assertions.assertEquals("00002", seqn.getNextDigit());
+		Assertions.assertEquals("R<date>YYYY</date>", seqn.getPrafix());
 
 		Calendar cal = Calendar.getInstance();
-		Assert.assertEquals("R" + cal.get(Calendar.YEAR) + "00001", seqn.getNextSequenceNumber());
-		Assert.assertEquals("R<date>YYYY</date>00002", seqn.getNextDev());
+		Assertions.assertEquals("R" + cal.get(Calendar.YEAR) + "00001", seqn.getNextSequenceNumber());
+		Assertions.assertEquals("R<date>YYYY</date>00002", seqn.getNextDev());
 	}
 
 	@Test
@@ -57,21 +57,21 @@ public class SequenceNumberTest {
 
 		// test with prafix and leading 0
 		SequenceNumber seqn = sequenceService.new SequenceNumber("000001");
-		Assert.assertEquals("000001", seqn.getDigit());
-		Assert.assertEquals("000002", seqn.getNextDigit());
-		Assert.assertEquals("", seqn.getPrafix());
+		Assertions.assertEquals("000001", seqn.getDigit());
+		Assertions.assertEquals("000002", seqn.getNextDigit());
+		Assertions.assertEquals("", seqn.getPrafix());
 
-		Assert.assertEquals("000001", seqn.getNextSequenceNumber());
-		Assert.assertEquals("000002", seqn.getNextDev());
+		Assertions.assertEquals("000001", seqn.getNextSequenceNumber());
+		Assertions.assertEquals("000002", seqn.getNextDev());
 
 		// test with prafix and leading 0
 		seqn = sequenceService.new SequenceNumber("R000001");
-		Assert.assertEquals("000001", seqn.getDigit());
-		Assert.assertEquals("000002", seqn.getNextDigit());
-		Assert.assertEquals("R", seqn.getPrafix());
+		Assertions.assertEquals("000001", seqn.getDigit());
+		Assertions.assertEquals("000002", seqn.getNextDigit());
+		Assertions.assertEquals("R", seqn.getPrafix());
 
-		Assert.assertEquals("R000001", seqn.getNextSequenceNumber());
-		Assert.assertEquals("R000002", seqn.getNextDev());
+		Assertions.assertEquals("R000001", seqn.getNextSequenceNumber());
+		Assertions.assertEquals("R000002", seqn.getNextDev());
 	}
 
 	@Test
@@ -99,7 +99,7 @@ public class SequenceNumberTest {
 
 		System.out.println("Result=" + nextSequenceNumber);
 
-		Assert.assertEquals("202510547", nextSequenceNumber);
+		Assertions.assertEquals("202510547", nextSequenceNumber);
 	}
 
 	@Test
@@ -127,7 +127,7 @@ public class SequenceNumberTest {
 
 		System.out.println("Result=" + nextSequenceNumber);
 
-		Assert.assertEquals("202510547", nextSequenceNumber);
+		Assertions.assertEquals("202510547", nextSequenceNumber);
 	}
 
 	// =========== new tests for date formating ===========
@@ -141,7 +141,7 @@ public class SequenceNumberTest {
 		String currentYearLastTwoDigits = String.format("%02d", LocalDate.now().getYear() % 100);
 		String expected = "30" + currentYearLastTwoDigits + "10547";
 		System.out.println("Result=" + expected);
-		Assert.assertEquals(expected, seqn.getNextSequenceNumber());
+		Assertions.assertEquals(expected, seqn.getNextSequenceNumber());
 	}
 
 	@Test
@@ -153,7 +153,7 @@ public class SequenceNumberTest {
 		int currentYear = LocalDate.now().getYear();
 		String expected = "R" + currentYear + "001";
 		System.out.println("Result=" + expected);
-		Assert.assertEquals(expected, seqn.getNextSequenceNumber());
+		Assertions.assertEquals(expected, seqn.getNextSequenceNumber());
 	}
 
 	@Test
@@ -165,7 +165,7 @@ public class SequenceNumberTest {
 		String currentYearMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMM"));
 		String expected = "INV" + currentYearMonth + "001";
 		System.out.println("Result=" + expected);
-		Assert.assertEquals(expected, seqn.getNextSequenceNumber());
+		Assertions.assertEquals(expected, seqn.getNextSequenceNumber());
 	}
 
 	@Test
@@ -177,7 +177,7 @@ public class SequenceNumberTest {
 		String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("ddMMyyyy"));
 		String expected = "DOC" + currentDate + "001";
 		System.out.println("Result=" + expected);
-		Assert.assertEquals(expected, seqn.getNextSequenceNumber());
+		Assertions.assertEquals(expected, seqn.getNextSequenceNumber());
 	}
 
 	@Test
@@ -193,7 +193,7 @@ public class SequenceNumberTest {
 
 		String expected = yy + "-" + mm + "-" + dd + "-001";
 		System.out.println("Result=" + expected);
-		Assert.assertEquals(expected, seqn.getNextSequenceNumber());
+		Assertions.assertEquals(expected, seqn.getNextSequenceNumber());
 	}
 
 	@Test
@@ -205,8 +205,8 @@ public class SequenceNumberTest {
 		// Beide sollten das gleiche Ergebnis liefern (letzte 2 Ziffern)
 		String expected = "TEST" + String.format("%02d", LocalDate.now().getYear() % 100) + "001";
 		System.out.println("Result=" + expected);
-		Assert.assertEquals(expected, seqn1.getNextSequenceNumber());
-		Assert.assertEquals(expected, seqn2.getNextSequenceNumber());
+		Assertions.assertEquals(expected, seqn1.getNextSequenceNumber());
+		Assertions.assertEquals(expected, seqn2.getNextSequenceNumber());
 	}
 
 	@Test
@@ -221,7 +221,7 @@ public class SequenceNumberTest {
 				now.getMonthValue(),
 				now.getDayOfMonth());
 
-		Assert.assertEquals(expected, seqn.getNextSequenceNumber());
+		Assertions.assertEquals(expected, seqn.getNextSequenceNumber());
 	}
 
 	@Test
@@ -229,11 +229,11 @@ public class SequenceNumberTest {
 		// Test ohne Datums-Tag
 		SequenceNumber seqn = sequenceService.new SequenceNumber("FIXED-0001");
 
-		Assert.assertEquals("0001", seqn.getDigit());
-		Assert.assertEquals("0002", seqn.getNextDigit());
-		Assert.assertEquals("FIXED-", seqn.getPrafix());
-		Assert.assertEquals("FIXED-0001", seqn.getNextSequenceNumber());
-		Assert.assertEquals("FIXED-0002", seqn.getNextDev());
+		Assertions.assertEquals("0001", seqn.getDigit());
+		Assertions.assertEquals("0002", seqn.getNextDigit());
+		Assertions.assertEquals("FIXED-", seqn.getPrafix());
+		Assertions.assertEquals("FIXED-0001", seqn.getNextSequenceNumber());
+		Assertions.assertEquals("FIXED-0002", seqn.getNextDev());
 	}
 
 	@Test
@@ -248,7 +248,7 @@ public class SequenceNumberTest {
 
 		String expected = "INV_" + yy + "_" + mm + "_001";
 
-		Assert.assertEquals(expected, seqn.getNextSequenceNumber());
+		Assertions.assertEquals(expected, seqn.getNextSequenceNumber());
 	}
 
 	// =========== GRENZFALL-TESTS ===========
@@ -264,12 +264,12 @@ public class SequenceNumberTest {
 
 		// Erwartung: Immer die letzten 2 Ziffern des Kalenderjahres
 		String result = seqn.getNextSequenceNumber();
-		Assert.assertTrue("Ergebnis sollte mit '20' beginnen", result.startsWith("20"));
+		Assertions.assertTrue(result.startsWith("20"), "Ergebnis sollte mit '20' beginnen");
 
 		// Extrahiere die Jahresziffern
 		String yearDigits = result.substring(2, 4);
 		int currentYearLastTwo = LocalDate.now().getYear() % 100;
-		Assert.assertEquals(String.format("%02d", currentYearLastTwo), yearDigits);
+		Assertions.assertEquals(String.format("%02d", currentYearLastTwo), yearDigits);
 	}
 
 	@Test
@@ -284,7 +284,7 @@ public class SequenceNumberTest {
 				now.getMonthValue(),
 				now.getDayOfMonth());
 
-		Assert.assertEquals(expected, seqn.getNextSequenceNumber());
+		Assertions.assertEquals(expected, seqn.getNextSequenceNumber());
 	}
 
 	@Test
@@ -294,7 +294,7 @@ public class SequenceNumberTest {
 		SequenceNumber seqn = sequenceService.new SequenceNumber(pattern);
 
 		// Erwartung: Leeres Tag wird durch leeren String ersetzt
-		Assert.assertEquals("TEST001", seqn.getNextSequenceNumber());
+		Assertions.assertEquals("TEST001", seqn.getNextSequenceNumber());
 	}
 
 	@Test
@@ -306,9 +306,9 @@ public class SequenceNumberTest {
 		String yearDigits = String.format("%02d", LocalDate.now().getYear() % 100);
 		String expected = "ORD-" + yearDigits + "-00000000000000000001";
 
-		Assert.assertEquals(expected, seqn.getNextSequenceNumber());
-		Assert.assertEquals("00000000000000000001", seqn.getDigit());
-		Assert.assertEquals("00000000000000000002", seqn.getNextDigit());
+		Assertions.assertEquals(expected, seqn.getNextSequenceNumber());
+		Assertions.assertEquals("00000000000000000001", seqn.getDigit());
+		Assertions.assertEquals("00000000000000000002", seqn.getNextDigit());
 	}
 
 }
