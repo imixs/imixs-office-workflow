@@ -1220,16 +1220,15 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
         <imixs:item name="keypublicresult" type="xs:string">
           <imixs:value><![CDATA[1]]></imixs:value>
         </imixs:item>
-        <imixs:item name="$readaccess" type="xs:string"/>
-        <imixs:item name="txtactivityresult" type="CDATA">
-          <imixs:value><![CDATA[<item name="action">/pages/admin/organisation</item>]]></imixs:value>
+        <imixs:item name="txtactivityresult" type="xs:string">
+          <imixs:value><![CDATA[<item name="action">/pages/admin/skillcardlist</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="documentation_TyYZ0Q"/>
       <bpmn2:incoming>sequenceFlow_1JlWpw</bpmn2:incoming>
       <bpmn2:outgoing>sequenceFlow_PzyKzQ</bpmn2:outgoing>
     </bpmn2:intermediateCatchEvent>
-    <bpmn2:intermediateCatchEvent id="event_p5HLVw" imixs:activityid="10" name="Save">
+    <bpmn2:intermediateCatchEvent id="event_p5HLVw" imixs:activityid="10" name="Speichern">
       <bpmn2:extensionElements>
         <imixs:item name="keyarchive" type="xs:string">
           <imixs:value><![CDATA[0]]></imixs:value>
@@ -1268,7 +1267,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
           <imixs:value>false</imixs:value>
         </imixs:item>
         <imixs:item name="txtactivityresult" type="xs:string">
-          <imixs:value><![CDATA[<item name="action">home</item>]]></imixs:value>
+          <imixs:value><![CDATA[<item name="action">/pages/admin/skillcardlist</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="documentation_XkSRIw"/>
@@ -1341,15 +1340,14 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:documentation id="documentation_NtjVMA"/>
       <bpmn2:text id="text_Nl0Maw"><![CDATA[Dynamixs.AI Skill Card Workflow]]></bpmn2:text>
     </bpmn2:textAnnotation>
-    <bpmn2:dataObject id="dataObject_j5pEiQ" imixs:datatype="form-data" name="Data Object-1">
+    <bpmn2:dataObject id="dataObject_j5pEiQ" imixs:datatype="form-data" name="Form">
       <bpmn2:documentation id="documentation_lkoV0w"><![CDATA[<?xml version="1.0"?>
 <imixs-form>
-
     <imixs-form-section columns="1" >
       <item name="name" type="text"  label="ID:" required="true" /> 
-      <item name="content" type="textarea" label="Skill Description:" options="height: 30em;" /> 
+      <item name="description" type="textarea" label="Skill Description:" options="height: 10em;" /> 
+      <item name="content" type="custom" path="markdowneditor" label="Skill Description:"  /> 
     </imixs-form-section>
-
 </imixs-form>
 ]]></bpmn2:documentation>
     </bpmn2:dataObject>
@@ -1557,7 +1555,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmndi:BPMNShape bpmnElement="event_p5HLVw" id="BPMNShape_rBgGRw">
         <dc:Bounds height="36.0" width="36.0" x="307.0" y="2067.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_AufpgQ">
-          <dc:Bounds height="20.0" width="100.0" x="274.0" y="2104.0"/>
+          <dc:Bounds height="20.0" width="100.0" x="275.0" y="2106.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="event_idsFMg" id="BPMNShape_Ltc6Vg">
@@ -1887,8 +1885,8 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="association_n53Lxw" id="BPMNEdge_82wefg" sourceElement="BPMNShape_sXBTeg" targetElement="BPMNShape_58UMow">
         <di:waypoint x="235.0" y="1892.0"/>
-        <di:waypoint x="325.0" y="1892.0"/>
-        <di:waypoint x="325.0" y="1980.0"/>
+        <di:waypoint x="304.0" y="1892.0"/>
+        <di:waypoint x="304.0" y="1980.0"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
     <bpmndi:BPMNLabelStyle id="BPMNLabelStyle_1">

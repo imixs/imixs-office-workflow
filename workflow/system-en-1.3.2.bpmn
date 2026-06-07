@@ -1170,7 +1170,7 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:incoming>sequenceFlow_e08ERg</bpmn2:incoming>
       <bpmn2:outgoing>sequenceFlow_1JlWpw</bpmn2:outgoing>
     </bpmn2:task>
-    <bpmn2:task id="task_p1kQSA" imixs:processid="490" name="Archiviert">
+    <bpmn2:task id="task_p1kQSA" imixs:processid="490" name="Archived">
       <bpmn2:extensionElements>
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>true</imixs:value>
@@ -1220,9 +1220,8 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
         <imixs:item name="keypublicresult" type="xs:string">
           <imixs:value><![CDATA[1]]></imixs:value>
         </imixs:item>
-        <imixs:item name="$readaccess" type="xs:string"/>
-        <imixs:item name="txtactivityresult" type="CDATA">
-          <imixs:value><![CDATA[<item name="action">/pages/admin/organisation</item>]]></imixs:value>
+        <imixs:item name="txtactivityresult" type="xs:string">
+          <imixs:value><![CDATA[<item name="action">/pages/admin/skillcardlist</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="documentation_TyYZ0Q"/>
@@ -1267,8 +1266,8 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
         <imixs:item name="keyupdateacl" type="xs:boolean">
           <imixs:value>false</imixs:value>
         </imixs:item>
-        <imixs:item name="txtactivityresult" type="CDATA">
-          <imixs:value><![CDATA[<item name="action">/pages/admin/organisation</item>]]></imixs:value>
+        <imixs:item name="txtactivityresult" type="xs:string">
+          <imixs:value><![CDATA[<item name="action">/pages/admin/skillcardlist</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="documentation_XkSRIw"/>
@@ -1306,9 +1305,8 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
         <imixs:item name="keypublicresult" type="xs:string">
           <imixs:value><![CDATA[1]]></imixs:value>
         </imixs:item>
-        <imixs:item name="$readaccess" type="xs:string"/>
-        <imixs:item name="txtactivityresult" type="CDATA">
-          <imixs:value/>
+        <imixs:item name="txtactivityresult" type="xs:string">
+          <imixs:value><![CDATA[<item name="action">/pages/admin/skillcardlist</item>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="documentation_MzS6uA"><![CDATA[Daten wiederherstellen]]></bpmn2:documentation>
@@ -1341,26 +1339,14 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       <bpmn2:documentation id="documentation_NtjVMA"/>
       <bpmn2:text id="text_Nl0Maw"><![CDATA[Dynamixs.AI Skill Card Workflow]]></bpmn2:text>
     </bpmn2:textAnnotation>
-    <bpmn2:dataObject id="dataObject_iiau0Q" imixs:datatype="form-data" name="Data Object-1">
+    <bpmn2:dataObject id="dataObject_iiau0Q" imixs:datatype="form-data" name="Form">
       <bpmn2:documentation id="documentation_Wi0iKg"><![CDATA[<?xml version="1.0"?>
 <imixs-form>
- 
     <imixs-form-section columns="1" >
-      <item name="request.subject" type="text"  label="Firma:" required="true" />
-      <item name="request.description" type="textarea"  label="Anfrage:" /> 
- 
+      <item name="name" type="text"  label="ID:" required="true" /> 
+      <item name="description" type="textarea" label="Skill Description:" options="height: 10em;" /> 
+      <item name="content" type="custom" path="markdowneditor" label="Skill Description:"  /> 
     </imixs-form-section>
-    <imixs-form-section columns="2" label="">
-      <item name="customer.firstname" type="text"  label="Vorname:" />
-      <item name="customer.lastname" type="text"  label="Nachname:" />
-      <item name="customer.phone1" type="text"  label="Telefon:" />
-      <item name="customer.phone2" type="text"  label="Mobile:" />
-
-      <item name="customer.email" type="text"  label="E-Mail:" />
-      <item name="customer.internet" type="text"  label="Internet:" />
-    </imixs-form-section>
- 
-
 </imixs-form>
 ]]></bpmn2:documentation>
     </bpmn2:dataObject>
@@ -1898,9 +1884,8 @@ if (workitem.getTaskID()==220 && workitem.getEventID==10 && workitem.getItemValu
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="association_x12Q3g" id="BPMNEdge_UcMk3g" sourceElement="BPMNShape_fM5wkA" targetElement="BPMNShape_58UMow">
         <di:waypoint x="225.0" y="1895.0"/>
-        <di:waypoint x="246.0" y="1895.0"/>
-        <di:waypoint x="246.0" y="2005.0"/>
-        <di:waypoint x="270.0" y="2005.0"/>
+        <di:waypoint x="284.0" y="1895.0"/>
+        <di:waypoint x="284.0" y="1980.0"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
     <bpmndi:BPMNLabelStyle id="BPMNLabelStyle_1">

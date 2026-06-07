@@ -35,7 +35,7 @@
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.ApplicationPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.marty.profile.MailPlugin]]></imixs:value>
       <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.IntervalPlugin]]></imixs:value>
-      <imixs:value><![CDATA[org.imixs.workflow.engine.plugins.EventLogPlugin]]></imixs:value>
+      <imixs:value><![CDATA[org.imixs.ai.agent.AIAgentPlugin]]></imixs:value>
     </imixs:item>
     <open-bpmn:auto-align/>
   </bpmn2:extensionElements>
@@ -244,22 +244,12 @@ Bei Fragen wenden Sie sich bitte an info@imixs.com
         </imixs:item>
         <imixs:item name="txtactivityresult" type="xs:string">
           <imixs:value><![CDATA[<item name="action">home</item>
-<eventlog name="ai.agent.start">
-    <ref><itemvalue>$uniqueid</itemvalue></ref>
-    <document>
-        <agent.model>ai-agent-calculator-de-1.0</agent.model>
-        <agent.init.task>100</agent.init.task>
-        <agent.init.event>100</agent.init.event>
-        <agent.context.item>agent.context</agent.context.item>
-        <agent.user.item>bpmn.agent.user.input</agent.user.item>
-        <agent.endpoint>api.llama.cpp.imixs.com</agent.endpoint>
-        <agent.timeout>120000</agent.timeout>
-        <agent.max-iterations>10</agent.max-iterations>
-        <agent.event.next>100</agent.event.next>
-        <agent.event.success>200</agent.event.success>
-        <agent.event.error>300</agent.event.error>
-    </document>
-</eventlog>]]></imixs:value>
+<imixs-ai name="AGENT">
+  <debug>true</debug>  
+  <agent.model>ai-agent-calculator-de-1.0</agent.model>
+  <agent.init.task>100</agent.init.task>
+  <agent.init.event>100</agent.init.event>
+</imixs-ai>]]></imixs:value>
         </imixs:item>
         <imixs:item name="txtname" type="xs:string">
           <imixs:value><![CDATA[Akzeptieren]]></imixs:value>
@@ -546,7 +536,7 @@ Betrag: <itemvalue>_amount</itemvalue> (Brutto € <itemvalue>_amount_brutto</it
         <imixs:item name="txtbusinessrule" type="xs:string">
           <imixs:value><![CDATA[var result={};
 result.isValid=true;
-if (workitem.getItemValueString('comment.user')=='') {
+if (workitem.getItemValueString('txtcomment')=='') {
      result.isValid=false;
      result.errorMessage='Bitte geben Sie einen Kommentar ein.';
 }]]></imixs:value>
@@ -706,8 +696,7 @@ if (workitem.getItemValueString('comment.user')=='') {
           <imixs:value>false</imixs:value>
         </imixs:item>
         <imixs:item name="txtactivityresult" type="xs:string">
-          <imixs:value><![CDATA[<comment ignore="true" /> 
-<item name="comment" ignore="true"/>]]></imixs:value>
+          <imixs:value><![CDATA[<item name="comment" ignore="true"/>]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="Documentation_19"><![CDATA[Zwischenspeichern]]></bpmn2:documentation>

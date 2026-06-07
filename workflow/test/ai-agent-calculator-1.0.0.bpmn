@@ -109,21 +109,6 @@
         <imixs:item name="keypublicresult" type="xs:string">
           <imixs:value><![CDATA[1]]></imixs:value>
         </imixs:item>
-        <imixs:item name="txtactivityresult" type="xs:string">
-          <imixs:value><![CDATA[<eventlog name="ai.agent.process">
-    <ref><itemvalue>$uniqueid</itemvalue></ref>
-    <document>
-        <agent.context.item>bpmn.agent.context</agent.context.item>
-        <agent.user.item>bpmn.agent.user.input</agent.user.item>
-        <agent.endpoint>api.llama.cpp.imixs.com</agent.endpoint>
-        <agent.timeout>120000</agent.timeout>
-        <agent.max-iterations>10</agent.max-iterations>
-        <agent.event.next>100</agent.event.next>
-        <agent.event.success>200</agent.event.success>
-        <agent.event.error>300</agent.event.error>
-    </document>
-</eventlog>]]></imixs:value>
-        </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="documentation_lz2ljQ"/>
       <bpmn2:incoming>sequenceFlow_0AMIqg</bpmn2:incoming>
@@ -250,33 +235,56 @@
 <PromptDefinition>
     <prompt_options>{"n_predict": 4096, "temperature": 0}</prompt_options>
     <prompt role="system"><![CDATA[
-You are a workflow assistant.
+Du bist ein Kalkulationsassistent für die Herstellung von Spezialfolien.
 
-Follow these rules strictly:
+DEINE AUFGABE
+Klassifiziere das angefragte Material anhand der bereitgestellten 
+Skill Cards. Dein Ergebnis ist die Grundlage für eine Kalkulation.
 
-1. When a user wants to start a process, find a appropriate workflow and call create_workitem with the matching
-   modelversion, taskid and process.ref from the list below.
+VERHALTEN
+- Die relevante Skill Card ist bereits unter SKILLS bereitgestellt
+- Arbeite ausschließlich mit den dort enthaltenen Informationen
+- Triff keine Annahmen bei unklaren oder fehlenden Angaben
+- Frage lieber einmal mehr nach als eine falsche Klassifizierung zu liefern
 
-2. Immediately after create_workitem, call update_workitem with the $uniqueid
-   returned by create_workitem and all field values you already know from the
-   conversation.
+AUSGABEFORMAT
+Antworte ausschließlich im folgenden JSON Format - kein Freitext, 
+keine Erklärung außerhalb des JSON:
 
-3. If required form fields are still missing after update_workitem, ask the user
-   for exactly those missing values. Then call update_workitem again with the
-   new values.
+{
+  "klassifizierung": "EINFACH" | "MITTEL" | "KOMPLEX",
+  "begruendung": "Kurze Begründung der Klassifizierung",
+  "confidence": "HIGH" | "MEDIUM" | "LOW",
+  "offene_punkte": [
+    "Frage 1 an den Benutzer",
+    "Frage 2 an den Benutzer"
+  ],
+  "geladene_skill_cards": ["liste der verwendeten skill cards"]
+}
 
-4. Call submit_workitem with an appropriate workflow event.
-   - Do NOT call submit_workitem if required fields still missing.
+REGELN FÜR CONFIDENCE
+- HIGH: Alle relevanten Dimensionen sind klar spezifiziert
+- MEDIUM: Kleinere Unklarheiten die die Klassifizierung nicht 
+  grundlegend ändern würden
+- LOW: Wesentliche Angaben fehlen - offene_punkte müssen 
+  gefüllt sein
 
-5. After submit_workitem succeeds, write a friendly confirmation message 
-   in the user's language and embed the workitem path from the tool result 
-   as a Markdown link with the label "Antrag öffnen".
+REGELN FÜR OFFENE PUNKTE
+- Nur befüllen wenn confidence MEDIUM oder LOW
+- Maximal 3 gezielte Fragen
+- Jede Frage bezieht sich auf eine konkrete fehlende Information
+- Keine allgemeinen Fragen - immer spezifisch zur Anfrage
 
-6. Do NOT explain what you are doing. Just call the tools directly.
 
-<BPMNSKILLS/>
+SKILLS:
+
+<skillcard id="MATERIAL_CLASSIFICATION" />
 ]]]]><![CDATA[>
-    </prompt>
+  </prompt>
+  <prompt role="user"><![CDATA[
+      <filedata ref="agent.workitem.ref">\.pdf$</filedata>
+    ]]]]><![CDATA[> 
+  </prompt> 
 </PromptDefinition>]]></bpmn2:documentation>
     </bpmn2:dataObject>
     <bpmn2:association id="association_qQWVug" sourceRef="dataObject_a0nfhQ" targetRef="task_sz0cKg">
@@ -289,12 +297,26 @@ Follow these rules strictly:
         </imixs:item>
         <imixs:item name="txtactivityresult" type="xs:string">
           <imixs:value><![CDATA[<validation name="required">false</validation>
+<eventlog name="ai.agent.process">
+    <ref><itemvalue>$uniqueid</itemvalue></ref>
+    <document>
+        <agent.context.item>agent.context</agent.context.item>
+        <agent.user.item>bpmn.agent.user.input</agent.user.item>
+        <agent.endpoint>api.llama.cpp.imixs.com</agent.endpoint>
+        <agent.timeout>120000</agent.timeout>
+        <agent.max-iterations>10</agent.max-iterations>
+        <agent.event.next>20</agent.event.next>
+        <agent.event.success>200</agent.event.success>
+        <agent.event.error>300</agent.event.error>
+    </document>
+</eventlog>
 ]]></imixs:value>
         </imixs:item>
       </bpmn2:extensionElements>
       <bpmn2:documentation id="documentation_6jBc5g"/>
       <bpmn2:incoming>sequenceFlow_IPSgCg</bpmn2:incoming>
       <bpmn2:outgoing>sequenceFlow_3XSr8Q</bpmn2:outgoing>
+      <bpmn2:compensationEventDefinition id="compensationEventDefinition_s7ILbg"/>
     </bpmn2:intermediateCatchEvent>
     <bpmn2:sequenceFlow id="sequenceFlow_3XSr8Q" sourceRef="event_51ZFfg" targetRef="task_sz0cKg">
       <bpmn2:documentation id="documentation_B6lk6A"/>

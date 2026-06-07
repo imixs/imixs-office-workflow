@@ -26,7 +26,7 @@ public class SkillCardViewController extends ViewController {
 	@PostConstruct
 	public void init() {
 		super.init();
-		this.setQuery("(type:\"skill\")");
+		this.setQuery("(type:skill*)");
 		this.setSortBy("name");
 		this.setSortReverse(false);
 		this.setPageSize(adminViewPageSize);
