@@ -50,7 +50,9 @@ public class DataViewSectionDataSet implements Serializable {
         this.viewId = "dv_" + UUID.randomUUID().toString().replace("-", "");
 
         dataViewDefinition = dataViewService.loadDataViewDefinition(dataViewName);
-
+        if (dataViewDefinition == null) {
+            return;
+        }
         boolean debug = dataViewDefinition.getItemValueBoolean("debug");
         if (debug) {
             logger.info("resolve query by dataView '" + dataViewName + "'");
