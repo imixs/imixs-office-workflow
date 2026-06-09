@@ -15,42 +15,74 @@
 			</p>
 			<div class="imixs-ai-protocol">
 
-				<!-- Header -->
-				<div class="imixs-ai-protocol-item">
-					<div class="imixs-ai-protocol-spacer"></div>
-					<div class="imixs-ai-protocol-row">
-						<div class="imixs-ai-protocol-icon">
-							<i class="fa-regular fa-comment-dots" style="color:#faa732;"></i>
-						</div>
-						<span
-							class="imixs-ai-protocol-entry imixs-ai-protocol-header"><strong>Protokoll:</strong></span>
-					</div>
-					<div class="imixs-ai-protocol-spacer">
-						<div class="imixs-ai-protocol-line"></div>
-					</div>
-				</div>
-
-				<!-- Dynamic tool call entries -->
-				<ui:repeat var="aiToolCallEntry" value="#{bpmnAgentController.toolCallHistory}">
+				<h:commandButton id="agentStatusRefresh" style="display:none">
+					<f:ajax render="agent_status imixs_ai_protocol" onevent="checkAgentStatus" />
+				</h:commandButton>
+				<h:panelGroup layout="block" id="imixs_ai_protocol" styleClass="imixs-ai-protocol">
+					Status:
 					<div class="imixs-ai-protocol-item">
 						<div class="imixs-ai-protocol-spacer">
 							<div class="imixs-ai-protocol-line"></div>
 						</div>
 						<div class="imixs-ai-protocol-row">
-							<div class="imixs-ai-protocol-icon">
-								<i class="fa-solid fa-gears"></i>
-							</div>
-							<span class="imixs-ai-protocol-entry">
-								#{aiToolCallEntry.item['chat.message']}
+							<!-- waiting.... -->
+							<ui:fragment rendered="#{aiAgentController.agentStatus ne 'RUNNING'}">
+								<div class="imixs-ai-protocol-icon ">
+									<i class="fa-solid fa-person-running" style="color: #206B87;"></i>
+								</div>
+							</ui:fragment>
+							<span class="imixs-ai-protocol-entry imixs-ai-protocol-entry--done" style="flex:none;">
+								<h:outputText id="agent_status" value="#{aiAgentController.agentStatus}" />
 							</span>
+							<!-- thinking.... -->
+							<ui:fragment
+								rendered="#{aiAgentController.agentStatus eq 'PENDING' or aiAgentController.agentStatus eq 'RUNNING'}">
+								<div class="imixs-ai-loader"></div>
+							</ui:fragment>
+						</div>
+						<div class="imixs-ai-protocol-spacer"></div>
+					</div>
+
+					<!-- Header -->
+					<div class="imixs-ai-protocol-item">
+						<div class="imixs-ai-protocol-spacer"></div>
+						<div class="imixs-ai-protocol-row">
+							<div class="imixs-ai-protocol-icon">
+								<i class="fa-regular fa-comment-dots" style="color:#faa732;"></i>
+							</div>
+							<span
+								class="imixs-ai-protocol-entry imixs-ai-protocol-header"><strong>Protokoll:</strong></span>
 						</div>
 						<div class="imixs-ai-protocol-spacer">
 							<div class="imixs-ai-protocol-line"></div>
 						</div>
 					</div>
-				</ui:repeat>
 
-				<ui:fragment rendered="#{! empty bpmnAgentController.toolCallHistory}">
+					<!-- Dynamic tool call entries -->
+					<ui:repeat var="aiToolCallEntry" value="#{aiAgentController.toolCallHistory}">
+						<div class="imixs-ai-protocol-item">
+							<div class="imixs-ai-protocol-spacer">
+								<div class="imixs-ai-protocol-line"></div>
+							</div>
+							<div class="imixs-ai-protocol-row">
+								<div class="imixs-ai-protocol-icon">
+									<i class="fa-solid fa-gears"></i>
+								</div>
+								<span class="imixs-ai-protocol-entry">
+									#{aiToolCallEntry.item['chat.message']}
+								</span>
+							</div>
+							<div class="imixs-ai-protocol-spacer">
+								<div class="imixs-ai-protocol-line"></div>
+							</div>
+						</div>
+					</ui:repeat>
+				</h:panelGroup>
+
+
+
+
+				<ui:fragment rendered="#{aiAgentController.agentStatus eq 'DONE'}">
 					<!-- Done -->
 					<div class="imixs-ai-protocol-item">
 						<div class="imixs-ai-protocol-spacer">
@@ -60,7 +92,7 @@
 							<div class="imixs-ai-protocol-icon imixs-ai-protocol-icon--done">
 								<i class="fa-regular fa-circle-check"></i>
 							</div>
-							<span class="imixs-ai-protocol-entry imixs-ai-protocol-entry--done">Done</span>
+							<span class="imixs-ai-protocol-entry imixs-ai-protocol-entry--done">Completed</span>
 						</div>
 						<div class="imixs-ai-protocol-spacer"></div>
 					</div>
@@ -68,14 +100,13 @@
 
 
 				<!-- operator workitems -->
-				<ui:fragment rendered="#{! empty bpmnAgentController.toolCallHistory}">
+				<ui:fragment rendered="#{! empty aiAgentController.toolCallHistory}">
 					<!-- Header -->
 					<div class="imixs-ai-protocol-item">
 						<div class="imixs-ai-protocol-spacer"></div>
 						<div class="imixs-ai-protocol-row">
 							<div class="imixs-ai-protocol-icon">
 								<i class="fa-regular fa-folder-open" style="color:#faa732;"></i>
-
 							</div>
 							<span
 								class="imixs-ai-protocol-entry imixs-ai-protocol-header"><strong>References:</strong></span>
@@ -84,7 +115,7 @@
 							<div class="imixs-ai-protocol-line"></div>
 						</div>
 					</div>
-					<ui:repeat var="operatorWorkitem" value="#{bpmnAgentController.operatorWorkitems}">
+					<ui:repeat var="operatorWorkitem" value="#{aiAgentController.operatorWorkitems}">
 						<div class="imixs-ai-protocol-item">
 							<div class="imixs-ai-protocol-spacer">
 								<div class="imixs-ai-protocol-line"></div>
@@ -107,37 +138,44 @@
 						</div>
 					</ui:repeat>
 				</ui:fragment>
-
-
-
 			</div>
 		</div>
 
 		<!-- right column -->
 		<div style="flex:1; display:flex; flex-direction:column; padding:20px; gap:10px; min-height:0;">
 
-
-			<!-- Question -->
-			<div class="imixs-ai-chat-entry">
-
-				<div class="imixs-ai-chat-header">
-					<span>#{message['ai.question']}:</span>
+			<!-- Agent Result / Final Message -->
+			<ui:fragment rendered="#{! empty workflowController.workitem.item['agent.task.result']}">
+				<div class="imixs-ai-chat-entry">
+					<div class="imixs-ai-chat-header">
+						<span>Assistant</span>
+					</div>
+					<div class="imixs-ai-chat-content">
+						<div class="imixs-ai-answer">
+							<h:inputHidden a:data-id="markdown_hidden_input"
+								value="#{workflowController.workitem.item['agent.task.result']}" />
+							<div class="imixs-markdown-output"></div>
+						</div>
+					</div>
 				</div>
-				<dl style="grid-column-start: span 12;" class="imixs-edit">
+			</ui:fragment>
 
-					<dd>
-						<h:inputTextarea required="false"
-							value="#{workflowController.workitem.item['bpmn.agent.user.input']}"
-							a:placeholder="#{message['ai.prompt']}" style="padding: 20px;">
-						</h:inputTextarea>
-
-
-						#{workflowController.workitem.item['agent.result']}
-
-					</dd>
-				</dl>
-
-			</div>
+			<!-- Question Input - show only if no result -->
+			<ui:fragment rendered="#{empty workflowController.workitem.item['agent.task.result']}">
+				<div class="imixs-ai-chat-entry">
+					<div class="imixs-ai-chat-header">
+						<span>#{message['ai.question']}:</span>
+					</div>
+					<dl style="grid-column-start: span 12;" class="imixs-edit">
+						<dd>
+							<h:inputTextarea required="false"
+								value="#{workflowController.workitem.item['bpmn.agent.user.input']}"
+								a:placeholder="#{message['ai.prompt']}" style="padding: 20px;">
+							</h:inputTextarea>
+						</dd>
+					</dl>
+				</div>
+			</ui:fragment>
 
 			<!--  Custom Form  -->
 			<div>
@@ -148,13 +186,11 @@
 				</f:subview>
 			</div>
 
-
 			<!-- Imixs AI Chat history-->
 			<div style="flex:1;overflow:auto; min-height:0;">
-
-				<!-- Angent History-->
+				<!-- Agent History-->
 				<h:panelGroup layout="block" id="imixs_ai_chatlist" styleClass="imixs-ai-chat-history">
-					<ui:repeat var="aiChatHistoryEntry" value="#{bpmnAgentController.chatHistoryReverse}">
+					<ui:repeat var="aiChatHistoryEntry" value="#{aiAgentController.chatHistoryReverse}">
 						<!-- Question -->
 						<ui:fragment rendered="#{'user' eq aiChatHistoryEntry.item['chat.role']}">
 							<div class="imixs-ai-chat-entry">
@@ -176,15 +212,10 @@
 									<span>Assistant</span>
 								</div>
 								<div class="imixs-ai-chat-content">
-
 									<div class="imixs-ai-answer">
 										<h:inputHidden a:data-id="markdown_hidden_input"
 											value="#{aiChatHistoryEntry.item['chat.message']}" />
 										<div class="imixs-markdown-output"></div>
-
-
-
-
 									</div>
 								</div>
 							</div>
@@ -208,17 +239,44 @@
 					</h:panelGroup>
 				</h:panelGroup>
 			</div>
-
 		</div>
-
 	</div>
 
 	<script type="text/javascript">
 		/*<![CDATA[*/
+		var lastStatus = '';
+		(function () {
+			var el = document.getElementById('workitem_form:agent_status');
+			if (!el) return;
 
+			var status = el.textContent.trim();
+			if (status !== 'RUNNING' && status !== 'PENDING') return;
 
+			var agentPollInterval = setInterval(function () {
+				var btn = document.getElementById('workitem_form:agentStatusRefresh');
+				if (btn) btn.click();
+			}, 1000);
+
+			window.checkAgentStatus = function (data) {
+				if (data.status === 'success') {
+					var el = document.getElementById('workitem_form:agent_status');
+					if (el) {
+						var currentStatus = el.textContent.trim();
+						if (lastStatus == '') {
+							lastStatus = currentStatus;
+							return;
+						}
+						if (lastStatus != '' && currentStatus != lastStatus) {
+							clearInterval(agentPollInterval);
+							window.location.reload();
+						} else {
+							lastStatus = currentStatus;
+						}
+					}
+				}
+			};
+		})();
 		/*]]>*/
 	</script>
-
 
 </ui:composition>
