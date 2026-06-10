@@ -146,8 +146,9 @@ public class DataViewSectionController implements Serializable {
             if (_dataViewName != null) {
                 logger.info("...build new dataSet by options: " + options);
                 dataSet = new DataViewSectionDataSet(_dataViewName, workflowController.getWorkitem(), dataViewService);
-
-                dataSets.put(options, dataSet);
+                if (dataSet.getDataViewDefinition() != null) {
+                    dataSets.put(options, dataSet);
+                }
             }
         }
         return dataSet;
