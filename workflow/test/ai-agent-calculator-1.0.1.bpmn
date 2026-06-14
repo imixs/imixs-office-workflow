@@ -101,8 +101,8 @@
       <bpmn2:documentation id="documentation_pm2R1w"/>
       <bpmn2:incoming>sequenceFlow_02i9iQ</bpmn2:incoming>
       <bpmn2:incoming>sequenceFlow_3XSr8Q</bpmn2:incoming>
-      <bpmn2:incoming>sequenceFlow_U3ePkg</bpmn2:incoming>
       <bpmn2:outgoing>sequenceFlow_g8ItNw</bpmn2:outgoing>
+      <bpmn2:incoming>sequenceFlow_U3ePkg</bpmn2:incoming>
     </bpmn2:task>
     <bpmn2:intermediateCatchEvent id="event_FrL0EA" imixs:activityid="20" name="Ask User">
       <bpmn2:extensionElements>
@@ -325,16 +325,19 @@ REGELN FÜR CONFIDENCE
         <imixs:item name="keypublicresult" type="xs:string">
           <imixs:value><![CDATA[1]]></imixs:value>
         </imixs:item>
+        <imixs:item name="rtfresultlog" type="xs:string">
+          <imixs:value><![CDATA[Frage beantwortet]]></imixs:value>
+        </imixs:item>
         <imixs:item name="txtactivityresult" type="xs:string">
           <imixs:value><![CDATA[<eventlog name="ai.agent.process">
     <ref><itemvalue>$uniqueid</itemvalue></ref>
     <document>
-        <agent.context.item>bpmn.agent.context</agent.context.item>
+        <agent.context.item>agent.context</agent.context.item>
         <agent.user.item>bpmn.agent.user.input</agent.user.item>
         <agent.endpoint>api.llama.cpp.imixs.com</agent.endpoint>
         <agent.timeout>120000</agent.timeout>
         <agent.max-iterations>10</agent.max-iterations>
-        <agent.event.next>100</agent.event.next>
+        <agent.event.next>20</agent.event.next>
         <agent.event.success>200</agent.event.success>
         <agent.event.error>300</agent.event.error>
     </document>
