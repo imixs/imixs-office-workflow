@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+	<ui:remove>
+		<!-- Last AI assistant output
+			
+	-->
+	</ui:remove>
+
+
+	<div class="imixs-ai-chat-entry">
+		<div class="imixs-ai-chat-entry">
+			<h:inputHidden pt:data-id="markdown_hidden_input"
+				value="#{aiAgentController.lastAssistantMessage.item['chat.message']}" />
+			<div class="imixs-markdown-output"></div>
+
+		</div>
+
+	</div>
+
+
+</ui:composition>

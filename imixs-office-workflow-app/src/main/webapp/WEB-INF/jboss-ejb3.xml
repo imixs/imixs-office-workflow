@@ -2,21 +2,31 @@
 <jboss:ejb-jar xmlns:jboss="http://www.jboss.com/xml/ns/javaee"
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:s="urn:security:1.1"
-	xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee http://www.jboss.org/j2ee/schema/jboss-ejb3-2_0.xsd http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
+	xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee http://www.jboss.org/j2ee/schema/jboss-ejb3-2_0.xsd
+						http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
 	version="3.1" impl-version="2.0">
 
 	<assembly-descriptor>
 		<s:security>
-			<ejb-name>*</ejb-name>			
+			<ejb-name>*</ejb-name>
 			<!-- This configuration is necessary to enable @runAs for the AdminPService  -->
 			<s:missing-method-permissions-deny-access>false</s:missing-method-permissions-deny-access>
 			<!-- The following username can be set as a user profile to map an e-mail address -->
-			<s:run-as-principal>imixs-workflow-service</s:run-as-principal>			
+			<s:run-as-principal>imixs-workflow-service</s:run-as-principal>
 
 			<!-- Disable see: https://github.com/imixs/imixs-office-workflow/issues/544
 			<s:security-domain>${imixs-office.realm}</s:security-domain>	
-				-->	
+				-->
 		</s:security>
+
+
+		<!-- Override specifically for AIAgentOperator -->
+		<s:security>
+			<ejb-name>AIAgentOperator</ejb-name>
+			<s:missing-method-permissions-deny-access>false</s:missing-method-permissions-deny-access>
+			<s:run-as-principal>ai-agent</s:run-as-principal>
+		</s:security>
+
 	</assembly-descriptor>
 
 </jboss:ejb-jar>

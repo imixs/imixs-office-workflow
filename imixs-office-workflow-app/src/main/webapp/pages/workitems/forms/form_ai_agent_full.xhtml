@@ -143,6 +143,40 @@
 
 		<!-- right column -->
 		<div style="flex:1; display:flex; flex-direction:column; padding:20px; gap:10px; min-height:0;">
+
+			<!-- Agent Result / Final Message -->
+			<ui:fragment rendered="#{! empty workflowController.workitem.item['agent.task.result']}">
+				<div class="imixs-ai-chat-entry">
+					<div class="imixs-ai-chat-header">
+						<span>Assistant</span>
+					</div>
+					<div class="imixs-ai-chat-content">
+						<div class="imixs-ai-answer">
+							<h:inputHidden a:data-id="markdown_hidden_input"
+								value="#{workflowController.workitem.item['agent.task.result']}" />
+							<div class="imixs-markdown-output"></div>
+						</div>
+					</div>
+				</div>
+			</ui:fragment>
+
+			<!-- Question Input - show only if no result -->
+			<ui:fragment rendered="#{empty workflowController.workitem.item['agent.task.result']}">
+				<div class="imixs-ai-chat-entry">
+					<div class="imixs-ai-chat-header">
+						<span>#{message['ai.question']}:</span>
+					</div>
+					<dl style="grid-column-start: span 12;" class="imixs-edit">
+						<dd>
+							<h:inputTextarea required="false"
+								value="#{workflowController.workitem.item['bpmn.agent.user.input']}"
+								a:placeholder="#{message['ai.prompt']}" style="padding: 20px;">
+							</h:inputTextarea>
+						</dd>
+					</dl>
+				</div>
+			</ui:fragment>
+
 			<!--  Custom Form  -->
 			<div>
 				<f:subview>
@@ -150,6 +184,60 @@
 						<ui:param name="workitem" value="#{workflowController.workitem}" />
 					</ui:include>
 				</f:subview>
+			</div>
+
+			<!-- Imixs AI Chat history-->
+			<div style="flex:1;overflow:auto; min-height:0;">
+				<!-- Agent History-->
+				<h:panelGroup layout="block" id="imixs_ai_chatlist" styleClass="imixs-ai-chat-history">
+					<ui:repeat var="aiChatHistoryEntry" value="#{aiAgentController.chatHistoryReverse}">
+						<!-- Question -->
+						<ui:fragment rendered="#{'user' eq aiChatHistoryEntry.item['chat.role']}">
+							<div class="imixs-ai-chat-entry">
+								<div class="imixs-ai-chat-header">
+									<span>#{message['ai.question']}:</span>
+								</div>
+								<div class="imixs-ai-chat-content">
+									<div class="imixs-ai-question">
+
+										<div class="imixs-ai-message">#{aiChatHistoryEntry.item['chat.message']}</div>
+									</div>
+								</div>
+							</div>
+						</ui:fragment>
+						<!-- Answer -->
+						<ui:fragment rendered="#{'assistant' eq aiChatHistoryEntry.item['chat.role']}">
+							<div class="imixs-ai-chat-entry">
+								<div class="imixs-ai-chat-header">
+									<span>Assistant</span>
+								</div>
+								<div class="imixs-ai-chat-content">
+									<div class="imixs-ai-answer">
+										<h:inputHidden a:data-id="markdown_hidden_input"
+											value="#{aiChatHistoryEntry.item['chat.message']}" />
+										<div class="imixs-markdown-output"></div>
+									</div>
+								</div>
+							</div>
+						</ui:fragment>
+					</ui:repeat>
+
+					<!-- Imixs AI Life-Answering Block -->
+					<h:panelGroup layout="block" id="imixs_ai_life_stream" styleClass="imixs-ai-chat-history"
+						style="display:none;margin-top:5px;width: 100%;margin-bottom: 100px;">
+						<div class="imixs-ai-chat-entry" style="border: 1px solid var(--input-focus-color);">
+							<div class="imixs-ai-chat-header">
+								<div class="imixs-ai-loader"></div>
+								<span>#{message.ai}</span>
+							</div>
+							<div class="imixs-ai-chat-content">
+								<div class="imixs-ai-answer"></div>
+								<pre
+									style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">...<h:outputText id="aiResultStream" value="#{aiController.streamResult}" escape="false" /></pre>
+							</div>
+						</div>
+					</h:panelGroup>
+				</h:panelGroup>
 			</div>
 		</div>
 	</div>

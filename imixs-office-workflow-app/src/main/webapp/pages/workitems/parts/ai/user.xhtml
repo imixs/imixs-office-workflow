@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+	<ui:remove>
+		<!-- AI user input field 
+			
+	-->
+	</ui:remove>
+
+	<ui:fragment rendered="#{!readonly}">
+		<div class="imixs-ai-chat-entry">
+
+			<h:inputTextarea required="#{required?validationController.required:false}" disabled="#{item.disabled}"
+				value="#{workitem.item[item.name]}" pt:data-item="#{item.name}" pt:placeholder="#{message['ai.prompt']}"
+				style="padding: 20px; #{item.options}">
+			</h:inputTextarea>
+		</div>
+	</ui:fragment>
+	<ui:fragment rendered="#{readonly}">
+		<div class="imixs-ai-chat-entry">
+
+			<h:outputText value="#{workitem.item[item.name]}"></h:outputText>
+
+		</div>
+	</ui:fragment>
+
+</ui:composition>
