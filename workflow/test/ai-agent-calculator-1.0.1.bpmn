@@ -117,9 +117,12 @@
     <bpmn2:dataObject id="dataObject_0jfMhA" imixs:datatype="form-data" name="Form">
       <bpmn2:documentation id="documentation_KIcv5Q"><![CDATA[<?xml version="1.0"?>
 <imixs-form>
-  <imixs-form-section label="Vacation Date" columns="2">
-    <item name="vacation.date" type="date"  label="startdate :" required="true" span="6" />
-    <item name="vacation.enddate" type="date" label="end Date:" required="false"  span="6" />
+  <imixs-form-section label="Materialanalyse" columns="3">
+
+    <item name="agent.result.classification" type="text"  label="Klassifizierung :" readonly="true"/>
+    <item name="agent.result.confidence" type="text"  label="Statistische Sicherheit :" readonly="true"/>
+
+    <item name="agent.result.reason" type="text"  label="Begründung :" readonly="true" span="12" />
   </imixs-form-section>
 </imixs-form>
 ]]></bpmn2:documentation>
@@ -256,12 +259,14 @@ ENTSCHEIDUNG
 
 Kannst du das Material mit HIGH oder MEDIUM confidence klassifizieren?
 
-JA → Rufe task_complete auf mit folgendem JSON im result Parameter:
-{
-  "klassifizierung": "EINFACH" | "MITTEL" | "KOMPLEX",
-  "begruendung": "Kurze Begründung als einzelner Satz",
-  "confidence": "HIGH" | "MEDIUM"
-}
+JA → Rufe task_complete auf mit folgendem XML im result Parameter:
+
+<agent.result>
+  <agent.result.cassification>LOW | MEDIUM | COMPLEX</agent.result.cassification>
+  <agent.result.reason>Kurze Begründung als einzelner Satz</agent.result.reason> 
+  <agent.result.confidence>HIGHT | MEDIUM</agent.result.confidence> 
+</agent.result>
+
 
 NEIN (confidence wäre LOW) → Antworte mit Freitext.
 Stelle dem Mitarbeiter maximal 3 gezielte Fragen zu den
@@ -301,6 +306,8 @@ REGELN FÜR CONFIDENCE
         <agent.event.next>20</agent.event.next>
         <agent.event.success>200</agent.event.success>
         <agent.event.error>300</agent.event.error>
+        <agent.result.type>XML</agent.result.type>
+        <agent.debug>true</agent.debug>
     </document>
 </eventlog>
 ]]></imixs:value>
@@ -340,6 +347,8 @@ REGELN FÜR CONFIDENCE
         <agent.event.next>20</agent.event.next>
         <agent.event.success>200</agent.event.success>
         <agent.event.error>300</agent.event.error>
+        <agent.result.type>XML</agent.result.type>
+        <agent.debug>true</agent.debug>
     </document>
 </eventlog>]]></imixs:value>
         </imixs:item>
@@ -355,6 +364,12 @@ REGELN FÜR CONFIDENCE
     <bpmn2:sequenceFlow id="sequenceFlow_U3ePkg" sourceRef="event_0RSAkQ" targetRef="task_sz0cKg">
       <bpmn2:documentation id="documentation_6gWgjg"/>
     </bpmn2:sequenceFlow>
+    <bpmn2:association id="association_y5Fy5A" sourceRef="dataObject_0jfMhA" targetRef="task_LNlnPA">
+      <bpmn2:documentation id="documentation_31haJg"/>
+    </bpmn2:association>
+    <bpmn2:association id="association_bdl6Kw" sourceRef="dataObject_0jfMhA" targetRef="task_sz0cKg">
+      <bpmn2:documentation id="documentation_s0ABDA"/>
+    </bpmn2:association>
   </bpmn2:process>
   <bpmn2:signal id="signal_1" name="org.imixs.ai.workflow.ImixsAIAssistantAdapter"/>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1" name="OpenBPMN Diagram">
@@ -453,9 +468,9 @@ REGELN FÜR CONFIDENCE
         <di:waypoint x="635.0" y="343.0"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape bpmnElement="dataObject_0jfMhA" id="BPMNShape_sxOufg">
-        <dc:Bounds height="50.0" width="35.0" x="210.0" y="330.0"/>
+        <dc:Bounds height="50.0" width="35.0" x="720.0" y="330.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_Em4O4Q">
-          <dc:Bounds height="20.0" width="100.0" x="177.5" y="385.0"/>
+          <dc:Bounds height="20.0" width="100.0" x="687.5" y="385.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="sequenceFlow_P9WC8g" id="BPMNEdge_KvitjQ" sourceElement="BPMNShape_PHK7Kw" targetElement="BPMNShape_Tx6tQQ">
@@ -513,6 +528,17 @@ REGELN FÜR CONFIDENCE
         <di:waypoint x="1015.0" y="171.0"/>
         <di:waypoint x="485.0" y="171.0"/>
         <di:waypoint x="485.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="association_y5Fy5A" id="BPMNEdge_Fi563g" sourceElement="BPMNShape_sxOufg" targetElement="BPMNShape_lHAEqw">
+        <di:waypoint x="755.0" y="355.0"/>
+        <di:waypoint x="788.0" y="355.0"/>
+        <di:waypoint x="788.0" y="445.0"/>
+        <di:waypoint x="820.0" y="445.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="association_bdl6Kw" id="BPMNEdge_YyjfkA" sourceElement="BPMNShape_sxOufg" targetElement="BPMNShape_ZPpE9Q">
+        <di:waypoint x="720.0" y="355.0"/>
+        <di:waypoint x="523.0" y="355.0"/>
+        <di:waypoint x="523.0" y="420.0"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
