@@ -125,25 +125,6 @@ public class ChronicleController implements Serializable {
 		}
 	}
 
-	/*
-	 * Helper Method checks if a given UniqueID is part of a list of Workitems
-	 * 
-	 * @param list
-	 * 
-	 * @param uniqueID
-	 * 
-	 * @return
-	 */
-	private boolean containsUniqueID(List<ItemCollection> list, String uniqueID) {
-		for (ItemCollection workitem : list) {
-			if (workitem.getUniqueID().equals(uniqueID)) {
-				return true;
-			}
-		}
-		// no match
-		return false;
-	}
-
 	/**
 	 * Returns the current active filter or null if no filter is active.
 	 * 
@@ -154,11 +135,15 @@ public class ChronicleController implements Serializable {
 	}
 
 	public List<Integer> getYears() {
-		Set<Integer> result = yearsMonths.keySet();
-		List<Integer> sortedList = new ArrayList<>(result);
-		Collections.sort(sortedList);
-		Collections.reverse(sortedList);
-		return sortedList;
+		if (yearsMonths != null) {
+			Set<Integer> result = yearsMonths.keySet();
+			List<Integer> sortedList = new ArrayList<>(result);
+			Collections.sort(sortedList);
+			Collections.reverse(sortedList);
+			return sortedList;
+		}
+		// Return list with current year if yearsMonths is null
+		return new ArrayList<>(List.of(LocalDate.now().getYear()));
 	}
 
 	/**
@@ -168,18 +153,20 @@ public class ChronicleController implements Serializable {
 	 * @return
 	 */
 	public List<Integer> getMonths(int year) {
-		Set<Integer> result = yearsMonths.get(year);
+		if (yearsMonths != null) {
+			Set<Integer> result = yearsMonths.get(year);
+			if (result == null) {
+				// no entries
+				return new ArrayList<>();
+			}
+			List<Integer> sortedList = new ArrayList<>(result);
+			Collections.sort(sortedList);
+			Collections.reverse(sortedList);
 
-		if (result == null) {
-			// no entries
-			return new ArrayList<>();
+			return sortedList;
 		}
-
-		List<Integer> sortedList = new ArrayList<>(result);
-		Collections.sort(sortedList);
-		Collections.reverse(sortedList);
-
-		return sortedList;
+		// Return list with current month if yearsMonths is null
+		return new ArrayList<>(List.of(LocalDate.now().getMonthValue()));
 	}
 
 	/**
@@ -286,25 +273,20 @@ public class ChronicleController implements Serializable {
 	private void computeTimeData(List<ChronicleEntity> chronicleList) {
 		yearsMonths = new HashMap<Integer, Set<Integer>>();
 		for (ChronicleEntity chronicleEntity : chronicleList) {
-			// update years table
-			addTimeData(chronicleEntity.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+			// update months/years table
+			if (chronicleEntity.getDate() != null) {
+				LocalDate localDate = chronicleEntity.getDate().toInstant().atZone(ZoneId.systemDefault())
+						.toLocalDate();
+				int year = localDate.getYear();
+				int month = localDate.getMonthValue();
+				Set<Integer> mothsPerYear = yearsMonths.get(year);
+				if (mothsPerYear == null) {
+					mothsPerYear = new HashSet<Integer>();
+				}
+				mothsPerYear.add(month);
+				yearsMonths.put(year, mothsPerYear);
+			}
 		}
-
-	}
-
-	/**
-	 * Adds the month and year data as a category
-	 */
-	private void addTimeData(LocalDate localDate) {
-		int year = localDate.getYear();
-		int month = localDate.getMonthValue();
-		Set<Integer> mothsPerYear = yearsMonths.get(year);
-		if (mothsPerYear == null) {
-			mothsPerYear = new HashSet<Integer>();
-		}
-		mothsPerYear.add(month);
-		yearsMonths.put(year, mothsPerYear);
-
 	}
 
 	/**
@@ -315,8 +297,6 @@ public class ChronicleController implements Serializable {
 	protected void buildChronicle() {
 		long l = System.currentTimeMillis();
 		originChronicleList = new ArrayList<ChronicleEntity>();
-
-		yearsMonths = new HashMap<Integer, Set<Integer>>();
 
 		if (workflowController.getWorkitem() == null || FacesContext.getCurrentInstance() == null) {
 			return; // no op
@@ -414,21 +394,6 @@ public class ChronicleController implements Serializable {
 
 			addChronicleEntry(originChronicleList, entry);
 		}
-
-		/*
-		 * Collect all inbound references - this is a list of workitems referring to
-		 * this workitem
-		 * 
-		 * This call is restricted to a maximum of 30 entries because in some cases the
-		 * inbound references can be a large list. e.g. many Invoices -> one
-		 * BusinessPartner
-		 * 
-		 * The call getReferencesOutbound does NOT make sense here because the workitem
-		 * typically show these references in a Item '$workitemref'
-		 */
-		// Disabled External References - Issue #653
-		// List<ItemCollection> references =
-		// workitemLinkController.getReferencesInbound();
 
 		/**
 		 * Collect all outbound references - this is a list of workItems the current
