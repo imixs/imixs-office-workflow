@@ -11,7 +11,7 @@ import jakarta.inject.Named;
 
 @Named
 @ViewScoped
-public class SkillCardViewController extends ViewController {
+public class SkillViewController extends ViewController {
 
 	private static final long serialVersionUID = 1L;
 

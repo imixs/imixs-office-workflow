@@ -53,8 +53,8 @@ import jakarta.ejb.Singleton;
 import jakarta.enterprise.event.Observes;
 
 /**
- * The SkillCardService is an EJB handling kill documents containing markup text
- * for AI prompt definitions.
+ * The SkillService is an EJB handling kill documents containing markup text for
+ * AI prompt definitions.
  * <p>
  * A skill is identified by its 'name' attribute.
  * 
@@ -70,7 +70,7 @@ import jakarta.enterprise.event.Observes;
         "org.imixs.ACCESSLEVEL.MANAGERACCESS" })
 @Singleton
 @ConcurrencyManagement(ConcurrencyManagementType.BEAN)
-public class SkillCardService {
+public class SkillService {
 
     int DEFAULT_CACHE_SIZE = 30;
     public static final String PROMPT_ERROR = "PROMPT_ERROR";
@@ -83,7 +83,7 @@ public class SkillCardService {
 
     final String TYPE = "skill";
 
-    private static Logger logger = Logger.getLogger(SkillCardService.class.getName());
+    private static Logger logger = Logger.getLogger(SkillService.class.getName());
 
     /**
      * PostConstruct event - loads the imixs.properties.
@@ -185,13 +185,13 @@ public class SkillCardService {
 
             // Detect recursive reference
             if (visitedSkills.contains(skillName)) {
-                throw new AdapterException(SkillCardService.class.getSimpleName(), PROMPT_ERROR,
+                throw new AdapterException(SkillService.class.getSimpleName(), PROMPT_ERROR,
                         "Recursive skill reference detected: '" + skillName + "'");
             }
 
             ItemCollection skill = this.load(skillName);
             if (skill == null) {
-                throw new AdapterException(SkillCardService.class.getSimpleName(), PROMPT_ERROR,
+                throw new AdapterException(SkillService.class.getSimpleName(), PROMPT_ERROR,
                         "Skill '" + skillName + "' not found!");
             }
 

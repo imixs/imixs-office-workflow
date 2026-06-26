@@ -41,10 +41,10 @@ import jakarta.inject.Inject;
  * 
  * @author rsoika
  */
-public class SkillCardPromptHandler {
+public class SkillPromptHandler {
 
     public static final String PROMPT_ERROR = "PROMPT_ERROR";
-    private static final Logger logger = Logger.getLogger(SkillCardPromptHandler.class.getName());
+    private static final Logger logger = Logger.getLogger(SkillPromptHandler.class.getName());
 
     @Inject
     DocumentService documentService;
