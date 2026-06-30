@@ -1,14 +1,19 @@
 # How to Build your Custom Version of Imixs Office Workflow
 
-Imixs-Office-Workflow is a powerful and highly customizable workflow application platform. Although Imixs-Office-Workflow can be used out of the box as a [standard application](../install/quick_install.html), it is also possible to create a so-called custom build. A custom build inherits all the functionality of the Imixs-Office-Workflow but also provides the ability to add or customize new features.
+<p class="lead">
+<strong>Imixs-Office-Workflow</strong> is a powerful and highly customizable workflow application platform. Although Imixs-Office-Workflow can be used out of the box as a <a href="../install/quick_install.html">BPMN Workflow Management Suite</a>, it is also possible to create a so-called custom build. A custom build inherits all the functionality of the Imixs-Office-Workflow but also provides the ability to add or customize new features.
+</p>
 
 ## Create a custom build from the Imixs Office Archetype
 
 Imixs-Office-Workflow is a Java Enterprise Application. You don't have to be a Java EE developer, however, it is useful to be familiar with the concepts of Java and Java EE. Imixs-Office-Workflow itself is running on an application server. With the help of Docker a manual installation of a Java EE application server is not required. If you go through this tutorial, the application will be deployed into a docker container. This Docker image can also be used in production environment, though, a custom configuration is recommended for most cases.
-Maven 3.x & Docker
 
-Imixs-Office-Workflow is build on [maven](https://maven.apache.org/) build tool for Java projects. It is recommended that you have installed Apache Maven 3.0 or higher. Also you should be familiar with the build concept of maven. To run you application we use Docker. Make sure you have installed the Docker runtime before you start.
-Let's get Started!
+## Maven 3.x & Docker
+
+Imixs-Office-Workflow is build on [maven](https://maven.apache.org/) build tool for Java projects. It is recommended that you have installed Apache Maven 3.0 or higher. Also you should be familiar with the build concept of maven. To run you application we use Docker. Make sure you have installed the [Docker runtime](https://www.docker.com/) before you start.
+<strong>Let's get Started!</strong>
+
+## Setup You Project
 
 When you met the prerequisites, then you can start with your custom build. As Imixs-Office-Workflow is based on Maven even the custom build is created by a Maven Archetype.
 
