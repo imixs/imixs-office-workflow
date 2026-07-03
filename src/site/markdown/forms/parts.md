@@ -1,6 +1,6 @@
 # Form Input Parts
 
-Within a Imixs-Office-Workflow [Form Definition](index.html) you can define different type of input parts within a `imixs-form-section`:
+Within a [Form Definition](index.html) you can define different type of input parts within a `imixs-form-section`:
 
 ```xml
 <imixs-form-section label="Controlling">
@@ -9,11 +9,13 @@ Within a Imixs-Office-Workflow [Form Definition](index.html) you can define diff
 </imixs-form-section>
 ```
 
-## Input Parts
+Each section can has a label and can be displayed in edit mode (default) or in readonly mode (readonly="true"). If the readonly mode is `true` all input parts defined in this section will be displayed in readonly mode expect the input part overwrites the edit mode.
 
-The various input item definitions are called 'input parts':
+You can place various input parts within a form-section:
 
-### Text Input
+## Text Input
+
+A simple text input field.
 
 ```xml
     <item name="description" type="text" label="Topic" />
@@ -21,7 +23,7 @@ The various input item definitions are called 'input parts':
 
 <img class="screenshot" src="item-text.png" />
 
-### Textlist
+## Textlist
 
 A textlist is displayed as a input textarea. The entries of separate lines are stored as multiple values in an Item List. This input type can be useful e.g. for lists of E-Mail addresses or a list of order-numbers.
 
@@ -31,7 +33,9 @@ A textlist is displayed as a input textarea. The entries of separate lines are s
 
 <img class="screenshot" src="item-textlist.png" />
 
-### Textarea Input
+## Textarea Input
+
+A text area for longer text with multiple lines.
 
 ```xml
     <item name="description" type="textarea" options="height: 15em;" label="Description" />
@@ -41,13 +45,17 @@ A textlist is displayed as a input textarea. The entries of separate lines are s
 
 The parameter 'options' is optional and can be used for css styles only.
 
-### HTML/RichText Input
+## HTML/RichText Input
+
+A HTHML WYSIWYG Editor
 
 ```xml
     <item name="description" type="html" label="Description" />
 ```
 
-### Date Input
+## Date Input
+
+Date input part. The date format is aligned to the users locale.
 
 ```xml
     <item name="invoice.date" type="date" label="Date" />
@@ -55,7 +63,9 @@ The parameter 'options' is optional and can be used for css styles only.
 
 <img class="screenshot" src="item-date.png" />
 
-### HTML5 Date Input
+## HTML5 Date Input
+
+The default HTML 5 Date input provided by the web browser
 
 ```xml
     <item name="invoice.date" type="html5date" label="Date" />
@@ -63,7 +73,9 @@ The parameter 'options' is optional and can be used for css styles only.
 
 <img class="screenshot" src="item-html5date.png" />
 
-### HTML5 Date Time Input
+## HTML5 Date Time Input
+
+The default HTML 5 Date/Time input provided by the web browser
 
 ```xml
     <item name="invoice.date" type="html5datetime" label="Date/Time" />
@@ -71,7 +83,9 @@ The parameter 'options' is optional and can be used for css styles only.
 
 <img class="screenshot" src="item-html5datetime.png" />
 
-### Currency Input
+## Currency Input
+
+A currency input to enter monetary values.
 
 ```xml
     <item name="invoice.amount" type="currency" label="Amount" />
@@ -79,7 +93,9 @@ The parameter 'options' is optional and can be used for css styles only.
 
 <img class="screenshot" src="item-currency.png" />
 
-### IBAN / BIC Input
+## IBAN / BIC Input
+
+IBAN / BIC input with automatic validation.
 
 ```xml
     <item name="dbtr.iban" type="iban" label="IBAN" />
@@ -90,7 +106,7 @@ The parameter 'options' is optional and can be used for css styles only.
 
 Supports a IBAN/BIC Input validation.
 
-### Select Boxes
+## Select Boxes
 
 You can also create different type of select boxes with predefined values:
 
@@ -121,7 +137,7 @@ You can also add a mapping of the name displayed in the select box and an option
       options="management.it|Option A;management.backoffice|Option B" />
 ```
 
-### Markup
+## Markup
 
 With the Markup Editor you can provide a WYSIWYG Editor for Markup Text
 

@@ -1,29 +1,32 @@
 # Country Codes
 
-The Imixs-Office-Worklfow provides the CDI bean 'CountryController'. This bean contains methods to display a selection of all countries and also includes a text adater feature to convert a country code into a country display name.
-The bean uses the Java Locale util class to compute all countries.
+The Imixs-Office-Worklfow provides the CDI bean `CountryController`. providing methods to display a selection of all countries and country codes. The component also includes a text adapter feature to convert a country code into a country display name.
 
-## How to Integrate
+## Country Code Input
 
-To integrate a select box with all countries in JSF you can use the following example:
+To display a selection of a country you can use the custom input part `country`:
 
-	<h:selectOneMenu required="#{required}" value="#{workitem.item['company.country']}">
-		<f:selectItem itemLabel=""></f:selectItem>
-		<f:selectItems value="#{countryController.getCountriesSelectItems()}"></f:selectItems>
-	</h:selectOneMenu>
+```xml
+    <item name="contract.country" type="custom" path="country"
+	      required="true"  label="Country:" />
+```
 
-You can also use the form part *pages/workitems/parts/country.xhtml* 
-
-	 <item name="contract.country" type="custom"  path="country" required="true"   label="Membership Country:" />
-	 
-	
-	
+<img class="screenshot" src="item-country.png" />
 
 ## Country Name Text Adapter
 
 The country component typically stores only the ISO country code in a workitem (2 letters).
 To display the country name you can use the integrated text adapter feature:
 
-	<countryname locale="de_DE">company.country</countryname>
+    <countryname locale="de_DE">company.country</countryname>
 
-	
+## The CountryController CDI Bean
+
+The cdi bean `countryController` provides a Java Locale util class to compute all countries. You can use this bean also for custom implementations of country codes. See the following example how to integrate a select box with all countries in JSF you can use the following example:
+
+```xml
+<h:selectOneMenu required="#{required}" value="#{workitem.item['company.country']}">
+	<f:selectItem itemLabel=""></f:selectItem>
+	<f:selectItems value="#{countryController.getCountriesSelectItems()}"></f:selectItems>
+</h:selectOneMenu>
+```

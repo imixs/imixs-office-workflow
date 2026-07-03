@@ -1,12 +1,17 @@
-# Organization Units - Spaces
+# User Group Input - Organization Units
 
 <p class="lead">
-Imixs-Office-Workflow provides a set of custom input parts to assign a workitem to a organization unit (space).
+Imixs-Office-Workflow provides a set of custom input parts to assign a workitem to an organization unit (space) from the  organization tree.
+To define your individual organization tree open the editor in the Menu 'Administration -> Organization'
 </p>
+
+<img class="screenshot" src="../teams/organization-tree.png" />
+
+There custom input parts defined allowing to choose a organization unit or a member of organization unit out of your organization tree.
 
 ## The spaceref Input
 
-The item part `spaceref` can be used to select a section from the organization matrix.
+The item part `spaceref` can be used to select a single organization unit from the organization matrix.
 
 ```xml
     <item type="custom"
@@ -18,7 +23,7 @@ The item part `spaceref` can be used to select a section from the organization m
 
 **Note:** No `name` is required here, as a section is always bound to the item `space.ref`. This is an internal data item resolved by the [Team Controller](../teams/teams.html)
 
-## Read Mode
+**Read Mode**
 
 The component can also be displayed in read mode:
 
@@ -41,6 +46,8 @@ To allow only the selection of a subset of sections, assigned to the current pro
           options="byprocess=true;"
           label="Department:" />
 ```
+
+In this mode only sections assigned with the current process the workitem is assigned to will be displayed.
 
 ### Selection by Regular Expression
 
