@@ -148,6 +148,16 @@ public class CustomFormController implements Serializable {
             computeFieldDefinition(workflowEvent.getWorkitem());
         }
 
+        // implode childItems if defined in a section
+        if (WorkflowEvent.WORKITEM_BEFORE_PROCESS == workflowEvent.getEventType()) {
+            for (CustomFormSection section : sections) {
+                if (section.childItems != null && section.childItemName != null) {
+                    ChildItemController.implodeChildList(workflowEvent.getWorkitem(), section.childItems,
+                            section.childItemName);
+                }
+            }
+        }
+
     }
 
     /**
@@ -275,7 +285,7 @@ public class CustomFormController implements Serializable {
                         defaultReadOnly = Boolean.parseBoolean(sReadOnly);
                     }
                 }
-                CustomFormSection customSection = new CustomFormSection(
+                CustomFormSection customSection = new CustomFormSection(workitem,
                         eSectionElement.getAttribute("label"),
                         eSectionElement.getAttribute("columns"),
                         eSectionElement.getAttribute("path"),
@@ -538,24 +548,7 @@ public class CustomFormController implements Serializable {
         }
 
         return fetchFormDefinitionByTask(task);
-        // List<List<String>> dataObjects = task.getItemValue("dataObjects");
-        // for (List<String> dataObject : dataObjects) {
-        // // there can be more than one dataOjects be attached.
-        // // We need the one with the tag <imixs-form>
-        // String templateName = dataObject.get(0);
-        // String content = dataObject.get(1);
-        // // we expect that the content contains at least one occurrence of
-        // <imixs-form>
-        // if (content.contains("<imixs-form>")) {
-        // logger.finest("......DataObject name=" + templateName);
-        // logger.finest("......DataObject content=" + content);
-        // return content;
-        // } else {
-        // // seems not to be a imixs-form definition!
-        // }
-        // }
-        // // nothing found!
-        // return "";
+
     }
 
     /**

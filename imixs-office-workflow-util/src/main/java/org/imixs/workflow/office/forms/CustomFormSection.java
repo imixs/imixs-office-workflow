@@ -29,6 +29,8 @@ package org.imixs.workflow.office.forms;
 
 import java.util.List;
 
+import org.imixs.workflow.ItemCollection;
+
 /**
  * This CustomFormSection provides the information from a custom form
  * definition
@@ -45,15 +47,32 @@ public class CustomFormSection {
 	String options;
 	boolean readonly;
 	List<CustomFormItem> items;
+	String layout;
+	String childItemName;
+	List<ItemCollection> childItems = null;
+	ItemCollection workitem;
 
-	public CustomFormSection(String label, String columns, String path, boolean readonly, String options) {
+	public CustomFormSection(ItemCollection workitem, String label, String columns, String path, boolean readonly,
+			String options) {
 		super();
+		this.workitem = workitem;
 		this.label = label;
 		this.readonly = readonly;
 		this.columns = columns;
 		this.options = options;
 		if (path != null) {
 			this.path = path.trim();
+		}
+
+		// Default Group layout
+		layout = "group";
+		// test if we have a 'childItem' option
+		childItemName = getOptionValue("childitem");
+		if (childItemName != null && !childItemName.isEmpty()) {
+			childItems = ChildItemController.explodeChildList(workitem, childItemName);
+			if ("table".equals(getOptionValue("layout"))) {
+				layout = "table";
+			}
 		}
 	}
 
@@ -71,6 +90,20 @@ public class CustomFormSection {
 
 	public void setColumns(String columns) {
 		this.columns = columns;
+	}
+
+	/**
+	 * Section layout - default 'group'
+	 * Optional 'table'
+	 * 
+	 * @return
+	 */
+	public String getLayout() {
+		return layout;
+	}
+
+	public void setLayout(String layout) {
+		this.layout = layout;
 	}
 
 	public List<CustomFormItem> getItems() {
@@ -103,6 +136,71 @@ public class CustomFormSection {
 
 	public void setOptions(String options) {
 		this.options = options;
+	}
+
+	/**
+	 * Returns a single value from the Option key/value list
+	 * 
+	 * @param options - options
+	 * @param key     - option key
+	 * @return option value
+	 */
+	public String getOptionValue(String key) {
+		// Null checks
+		if (options == null || key == null || options.trim().isEmpty() || key.trim().isEmpty()) {
+			return null;
+		}
+
+		// Split options into key/value pairs (separated by semicolon)
+		String[] pairs = options.split(";");
+
+		for (String pair : pairs) {
+			// Split each pair into key and value (separated by equals sign)
+			String[] keyValue = pair.split("=", 2); // Limit to 2 in case value contains "="
+
+			if (keyValue.length == 2) {
+				String currentKey = keyValue[0].trim();
+				String currentValue = keyValue[1].trim();
+
+				// Check if the searched key was found
+				if (key.equals(currentKey)) {
+					return currentValue;
+				}
+			}
+		}
+
+		// Key not found
+		return null;
+	}
+
+	public ItemCollection getWorkitem() {
+		return workitem;
+	}
+
+	public void setWorkitem(ItemCollection workitem) {
+		this.workitem = workitem;
+	}
+
+	/**
+	 * Returns the optional childItem name if defined in the options (e.g.
+	 * options="childitem=bill")
+	 * 
+	 * @return
+	 */
+	public String getChildItemName() {
+		return childItemName;
+	}
+
+	public void setChildItemName(String childItemName) {
+		this.childItemName = childItemName;
+	}
+
+	public List<ItemCollection> getChildItems() {
+		return childItems;
+	}
+
+	public void setChildItems(List<ItemCollection> childItems) {
+		this.childItems = childItems;
 	}
 
 }
