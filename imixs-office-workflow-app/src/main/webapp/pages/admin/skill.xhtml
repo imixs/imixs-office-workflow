@@ -72,12 +72,23 @@
 
 									<dl class="columns-1">
 										<dt>
+											<h:outputLabel value="#{message.title}"></h:outputLabel>
+										</dt>
+										<dd>
+											<h:inputText required="false"
+												value="#{workflowController.workitem.item['topic']}">
+											</h:inputText>
+										</dd>
+									</dl>
+
+									<dl class="columns-1">
+										<dt>
 											<h:outputLabel value="#{message.description}"></h:outputLabel>
 										</dt>
 										<dd>
 											<h:inputTextarea required="false"
 												value="#{workflowController.workitem.item['description']}"
-												id="description_id" style="height: 5em; width: 95%">
+												id="description_id" style="height: 8em; width: 95%">
 											</h:inputTextarea>
 										</dd>
 									</dl>
@@ -117,17 +128,9 @@
 													editmode="true" />
 											</dd>
 										</dl>
-
-
-
 									</div>
-
 								</div>
-
 							</div>
-
-
-
 
 						</div>
 					</div>

@@ -7,10 +7,14 @@ IMIXS.namespace("org.imixs.workflow.skillcycle");
 var data = (typeof imixsSkillTreeData !== "undefined") ? imixsSkillTreeData : [];
 
 // layout configuration
-const BOX_W = 160, BOX_H = 64, GAP = 20;
+const BOX_W = 240, BOX_H = 100, GAP = 20;
+// const MAX_DEPTH_COLOR = 4;
+// const CENTER_W = 300, CENTER_H = 84;
+// const CENTER_GAP_H = 90, CENTER_GAP_V = 70;
+
 const MAX_DEPTH_COLOR = 4;
-const CENTER_W = 220, CENTER_H = 84;
-const CENTER_GAP_H = 90, CENTER_GAP_V = 70;
+const CENTER_W = 330, CENTER_H = 132;
+const CENTER_GAP_H = 135, CENTER_GAP_V = 110;
 
 // internal state, populated on DOMContentLoaded
 var root;
@@ -216,12 +220,17 @@ function renderChildBox(child, x, y) {
     box.className = 'radial-box radial-child-box ' + depthClass;
     box.style.left = x + 'px';
     box.style.top = y + 'px';
-    box.title = child.name;
+    box.title = child.topic;
 
     var title = document.createElement('span');
     title.className = 'radial-title';
-    title.textContent = child.name;
+    title.textContent = 'ID: '+child.name;
     box.appendChild(title);
+
+     var topic = document.createElement('span');
+    topic.className = 'radial-topic';
+    topic.textContent = child.topic;
+    box.appendChild(topic);
 
     var desc = document.createElement('span');
     desc.className = 'radial-desc';

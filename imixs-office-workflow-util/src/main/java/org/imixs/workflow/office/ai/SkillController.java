@@ -177,12 +177,14 @@ public class SkillController implements Serializable {
 			// 'skill.name' holds the short display name - used only as a JSON field
 			String shortName = skill.getItemValueString("skill.name");
 			String parentPath = skill.getItemValueString("skill.parent.name");
+			String topic = skill.getItemValueString("topic");
 			String description = skill.getItemValueString("description");
 			String id = skill.getUniqueID();
 
 			nodesByPath.put(path, Json.createObjectBuilder()
 					.add("name", shortName)
 					.add("path", path)
+					.add("topic", topic)
 					.add("description", description)
 					.add("id", id));
 
