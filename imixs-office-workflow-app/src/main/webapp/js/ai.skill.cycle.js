@@ -8,10 +8,6 @@ var data = (typeof imixsSkillTreeData !== "undefined") ? imixsSkillTreeData : []
 
 // layout configuration
 const BOX_W = 240, BOX_H = 100, GAP = 20;
-// const MAX_DEPTH_COLOR = 4;
-// const CENTER_W = 300, CENTER_H = 84;
-// const CENTER_GAP_H = 90, CENTER_GAP_V = 70;
-
 const MAX_DEPTH_COLOR = 4;
 const CENTER_W = 330, CENTER_H = 132;
 const CENTER_GAP_H = 135, CENTER_GAP_V = 110;
@@ -122,9 +118,7 @@ function updateCrumb() {
             });
         }
         crumbEl.appendChild(box);
-        // requestAnimationFrame(function () {
-        //     box.classList.add('shown');
-        // });
+
     });
 }
 
@@ -177,10 +171,10 @@ function renderCenterBox(focus, cx, cy) {
     box.style.left = cx + 'px';
     box.style.top = cy + 'px';
 
-    var title = document.createElement('span');
-    title.className = 'radial-title';
-    title.textContent = focus.name;
-    box.appendChild(title);
+    var topic = document.createElement('span');
+    topic.className = 'radial-topic';
+    topic.textContent = focus.topic || focus.name;
+    box.appendChild(topic);
 
     var desc = document.createElement('span');
     desc.className = 'radial-desc';
@@ -190,6 +184,13 @@ function renderCenterBox(focus, cx, cy) {
         desc.textContent = focus.description || '';
     }
     box.appendChild(desc);
+
+    if (focus !== root) {
+        var idLabel = document.createElement('span');
+        idLabel.className = 'radial-id';
+        idLabel.textContent = focus.name;
+        box.appendChild(idLabel);
+    }
 
     if (focus.id) {
         box.appendChild(makeActions(focus.id));
@@ -207,9 +208,7 @@ function renderCenterBox(focus, cx, cy) {
     });
 }
 
-/**
- * Renders a single clickable child box, including edit / add-sub-skill actions.
- */
+
 /**
  * Renders a single clickable child box, including title, description
  * and edit / add-sub-skill actions.
@@ -222,12 +221,7 @@ function renderChildBox(child, x, y) {
     box.style.top = y + 'px';
     box.title = child.topic;
 
-    var title = document.createElement('span');
-    title.className = 'radial-title';
-    title.textContent = 'ID: '+child.name;
-    box.appendChild(title);
-
-     var topic = document.createElement('span');
+    var topic = document.createElement('span');
     topic.className = 'radial-topic';
     topic.textContent = child.topic;
     box.appendChild(topic);
@@ -236,6 +230,11 @@ function renderChildBox(child, x, y) {
     desc.className = 'radial-desc';
     desc.textContent = child.description || '';
     box.appendChild(desc);
+
+    var idLabel = document.createElement('span');
+    idLabel.className = 'radial-id';
+    idLabel.textContent = 'Id: '+child.name;
+    box.appendChild(idLabel);
 
     if (child.id) {
         box.appendChild(makeActions(child.id));
