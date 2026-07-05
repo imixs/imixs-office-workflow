@@ -7,10 +7,10 @@ IMIXS.namespace("org.imixs.workflow.skillcycle");
 var data = (typeof imixsSkillTreeData !== "undefined") ? imixsSkillTreeData : [];
 
 // layout configuration
-const BOX_W = 140, BOX_H = 40, GAP = 18;
+const BOX_W = 160, BOX_H = 64, GAP = 20;
 const MAX_DEPTH_COLOR = 4;
 const CENTER_W = 220, CENTER_H = 84;
-const CENTER_GAP_H = 70, CENTER_GAP_V = 50;
+const CENTER_GAP_H = 90, CENTER_GAP_V = 70;
 
 // internal state, populated on DOMContentLoaded
 var root;
@@ -48,17 +48,6 @@ function prepare(node, parent, depth) {
     }
 }
 
-/**
- * Computes the ring radius so that adjacent boxes never overlap,
- * regardless of how many children the current node has.
- */
-// function ringRadius(n) {
-//     var minForCenterHoriz = CENTER_W / 2 + CENTER_GAP + BOX_W / 2;
-//     if (n <= 1) return Math.max(120, minForCenterHoriz);
-//     var circumference = n * (BOX_W + GAP);
-//     var r = circumference / (2 * Math.PI);
-//     return Math.max(130, minForCenterHoriz, r);
-// }
 
 /**
  * Computes horizontal and vertical ring radii separately, so the ring
@@ -84,16 +73,55 @@ function ringRadii(n) {
 
 
 /**
- * Updates the breadcrumb text above the diagram.
+ * Rebuilds the breadcrumb as a row of clickable boxes (title + description),
+ * one per ancestor from the root down to the currently focused node.
+ * Clicking any box except the last (active) one navigates directly there.
  */
 function updateCrumb() {
-    var names = [];
+    var chain = [];
     var n = current;
     while (n) {
-        names.unshift(n.name);
+        chain.unshift(n);
         n = n.parent;
     }
-    crumbEl.textContent = names.join(' > ');
+
+    crumbEl.innerHTML = '';
+    chain.forEach(function (node, i) {
+        if (i > 0) {
+            var sep = document.createElement('span');
+            sep.className = 'crumb-sep';
+            sep.textContent = '›';
+            crumbEl.appendChild(sep);
+        }
+
+        var isActive = (i === chain.length - 1);
+        var box = document.createElement('span');
+        box.className = 'crumb-box' + (isActive ? ' active' : '');
+       
+        var title = document.createElement('span');
+        title.className = 'radial-title';
+        title.textContent = node.name;
+        box.appendChild(title);
+
+        var desc = document.createElement('span');
+        desc.className = 'radial-desc';
+        if (node === root) {
+            desc.textContent = 'Skill Übersicht';
+        } else {
+            desc.textContent = node.description || '';
+        }
+        box.appendChild(desc);
+
+        if (!isActive) {
+            box.addEventListener('click', function () {
+                animateTo(node);
+            });
+        }
+        crumbEl.appendChild(box);
+        // requestAnimationFrame(function () {
+        //     box.classList.add('shown');
+        // });
+    });
 }
 
 /**
@@ -178,14 +206,28 @@ function renderCenterBox(focus, cx, cy) {
 /**
  * Renders a single clickable child box, including edit / add-sub-skill actions.
  */
+/**
+ * Renders a single clickable child box, including title, description
+ * and edit / add-sub-skill actions.
+ */
 function renderChildBox(child, x, y) {
     var depthClass = 'depth-' + Math.min(child.depth, MAX_DEPTH_COLOR);
     var box = document.createElement('div');
-    box.className = 'radial-box ' + depthClass;
+    box.className = 'radial-box radial-child-box ' + depthClass;
     box.style.left = x + 'px';
     box.style.top = y + 'px';
     box.title = child.name;
-    box.appendChild(makeLabel(child.name));
+
+    var title = document.createElement('span');
+    title.className = 'radial-title';
+    title.textContent = child.name;
+    box.appendChild(title);
+
+    var desc = document.createElement('span');
+    desc.className = 'radial-desc';
+    desc.textContent = child.description || '';
+    box.appendChild(desc);
+
     if (child.id) {
         box.appendChild(makeActions(child.id));
     }
@@ -198,14 +240,6 @@ function renderChildBox(child, x, y) {
     });
 }
 
-/**
- * Creates the text label element for a box.
- */
-function makeLabel(name) {
-    var label = document.createElement('span');
-    label.textContent = name;
-    return label;
-}
 
 /**
  * Creates the hover-revealed edit / add-sub-skill action row for a box.
