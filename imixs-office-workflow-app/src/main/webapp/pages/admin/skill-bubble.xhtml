@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
+	template="/layout/template.xhtml">
+
+	<h:head>
+
+	</h:head>
+
+	<ui:define name="scripts">
+		<h:outputScript>
+			var imixsSkillTreeData = #{skillController.skillTreeJson};
+		</h:outputScript>
+		<script type="text/javascript" src="#{request.contextPath}/js/ai.skill.bubble.js"></script>
+	</ui:define>
+
+	<ui:define name="content">
+		<link href="#{request.contextPath}/layout/css/ai.skill-bubble.css?build=#{app.application_build_timestamp}"
+			charset="UTF-8" type="text/css" rel="stylesheet" />
+		<f:view>
+			<h:form>
+				<div class="imixs-view">
+					<!-- *** Header **** -->
+					<div class="imixs-header">
+						<h1>
+							<h:outputText value="#{app['skill.view']}" />
+						</h1>
+					</div>
+
+					<div class="imixs-body">
+						<div id="pack-wrap">
+							<svg id="pack-svg" viewBox="0 0 640 640">
+								<rect class="pack-bg" x="0" y="0" width="640" height="640" fill="transparent"
+									onclick="zoomOut()"></rect>
+								<g id="zoomG"></g>
+							</svg>
+						</div>
+						<div id="pack-toolbar">
+							<span id="pack-path">Root</span>
+							<button type="button" onclick="resetPack()">Zurücksetzen</button>
+						</div>
+					</div>
+
+					<div class="imixs-footer">
+						<h:button outcome="/pages/admin/skill?id=" value="#{message.add}" />
+						<h:commandButton action="home" value="#{message.close}" />
+					</div>
+				</div>
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>

@@ -28,7 +28,9 @@
 package org.imixs.workflow.office.ai;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
@@ -37,9 +39,12 @@ import java.util.regex.Pattern;
 
 import org.imixs.ai.workflow.ImixsAIPromptEvent;
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.ItemCollectionComparator;
 import org.imixs.workflow.engine.DocumentEvent;
 import org.imixs.workflow.engine.DocumentService;
+import org.imixs.workflow.engine.WorkflowService;
 import org.imixs.workflow.exceptions.AdapterException;
+import org.imixs.workflow.exceptions.InvalidAccessException;
 import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.exceptions.QueryException;
 
@@ -246,4 +251,55 @@ public class SkillService {
         }
     }
 
+    /**
+     * Load the parent skill for a given space.
+     * If the space is a root space, the method returns null
+     * 
+     * @param skill
+     * @return parent space or null if the given space is a root space
+     */
+    public ItemCollection loadParentSkill(ItemCollection skill) {
+        String ref = skill.getItemValueString(WorkflowService.UNIQUEIDREF);
+        if (!ref.isEmpty()) {
+            // lookup parent...
+            return documentService.load(ref);
+        }
+        return null;
+    }
+
+    /**
+     * Helper method to find all sub-skills for a given uniqueID.
+     * 
+     * @param sIDRef
+     * @return
+     */
+    public List<ItemCollection> findAllSubSkills(String sIDRef, String... types) {
+        if (sIDRef == null) {
+            return null;
+        }
+        String sQuery = "(";
+        // query type...
+        if (types != null && types.length > 0) {
+            sQuery += "(";
+            for (int i = 0; i < types.length; i++) {
+                sQuery += " type:\"" + types[i] + "\"";
+                if ((i + 1) < types.length) {
+                    sQuery += " OR ";
+                }
+            }
+            sQuery += ") ";
+        }
+        sQuery += " AND $uniqueidref:\"" + sIDRef + "\")";
+
+        List<ItemCollection> subSkillList;
+        try {
+            subSkillList = documentService.find(sQuery, 9999, 0);
+        } catch (QueryException e) {
+            throw new InvalidAccessException(InvalidAccessException.INVALID_ID, e.getMessage(), e);
+        }
+
+        // sort by txtname
+        Collections.sort(subSkillList, new ItemCollectionComparator("name", true));
+        return subSkillList;
+    }
 }

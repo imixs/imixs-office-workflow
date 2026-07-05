@@ -63,7 +63,7 @@ public class SpaceController implements Serializable {
 	private static Logger logger = Logger.getLogger(SpaceController.class.getName());
 
 	/**
-	 * This method creates a space. The param 'parentID' is options. In case a
+	 * This method creates a space. The param 'parentID' is optional. In case a
 	 * parentID is provided, the method creates a sub-space. If no 'parentID' is
 	 * provided or the id is empty than a root space is created.
 	 * 

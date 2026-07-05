@@ -1,0 +1,102 @@
+/* Skill bubble diagram - layout */
+
+#pack-wrap {
+    border: 0.5px solid #d0d0d0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+#pack-svg {
+    display: block;
+    width: 100%;
+    height: 80vh;
+    min-height: 400px;
+    max-height: 1720px;
+}
+
+.pack-node {
+    cursor: pointer;
+}
+.pack-node circle {
+    transition: opacity 0.25s;
+}
+.pack-bg {
+    cursor: pointer;
+}
+#pack-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #666666;
+}
+#pack-path {
+    font-weight: 500;
+    color: #222222;
+}
+
+/* Skill bubble diagram - node fill colors per depth level */
+.pack-node.c-teal circle {
+    fill: #E1F5EE;
+    stroke: #0F6E56;
+}
+.pack-node.c-teal text {
+    fill: #085041;
+}
+
+.pack-node.c-purple circle {
+    fill: #EEEDFE;
+    stroke: #534AB7;
+}
+.pack-node.c-purple text {
+    fill: #3C3489;
+}
+
+.pack-node.c-coral circle {
+    fill: #FAECE7;
+    stroke: #993C1D;
+}
+.pack-node.c-coral text {
+    fill: #712B13;
+}
+
+.pack-node.c-amber circle {
+    fill: #FAEEDA;
+    stroke: #854F0B;
+}
+.pack-node.c-amber text {
+    fill: #633806;
+}
+
+.pack-node.c-pink circle {
+    fill: #FBEAF0;
+    stroke: #993556;
+}
+.pack-node.c-pink text {
+    fill: #72243E;
+}
+
+/* Text sizing */
+.pack-node text.t {
+    font-size: 12px;
+}
+.pack-node text.th {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.pack-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    font-size: 11px;
+}
+.pack-actions a {
+    color: #444444;
+    text-decoration: none;
+}
+.pack-actions a:hover {
+    color: #000000;
+}
