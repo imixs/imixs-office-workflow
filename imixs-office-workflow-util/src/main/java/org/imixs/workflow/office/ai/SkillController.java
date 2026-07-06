@@ -117,9 +117,9 @@ public class SkillController implements Serializable {
 	 * @param documentEvent
 	 */
 	public void onWorkflowEvent(@Observes WorkflowEvent documentEvent) {
-		if (documentEvent == null)
+		if (documentEvent == null) {
 			return;
-
+		}
 		if (WorkflowEvent.WORKITEM_BEFORE_PROCESS == documentEvent.getEventType()) {
 			if (documentEvent.getWorkitem().getType().startsWith("skill")) {
 				String idRef = workflowController.getWorkitem().getItemValueString(WorkflowService.UNIQUEIDREF);
@@ -135,7 +135,6 @@ public class SkillController implements Serializable {
 		if (WorkflowEvent.WORKITEM_AFTER_PROCESS == documentEvent.getEventType()) {
 			skills = null;
 		}
-
 	}
 
 	/**
@@ -166,7 +165,6 @@ public class SkillController implements Serializable {
 	 */
 	public String getSkillTreeJson() {
 		List<ItemCollection> skillList = getSkills();
-
 		Map<String, JsonObjectBuilder> nodesByPath = new HashMap<>();
 		Map<String, List<String>> childrenByParentPath = new HashMap<>();
 		List<String> rootPaths = new ArrayList<>();
@@ -177,8 +175,8 @@ public class SkillController implements Serializable {
 			// 'skill.name' holds the short display name - used only as a JSON field
 			String shortName = skill.getItemValueString("skill.name");
 			String parentPath = skill.getItemValueString("skill.parent.name");
-			String topic = skill.getItemValueString("topic");
-			String description = skill.getItemValueString("description");
+			String topic = skill.getItemValueString("skill.topic");
+			String description = skill.getItemValueString("skill.description");
 			String id = skill.getUniqueID();
 
 			nodesByPath.put(path, Json.createObjectBuilder()
@@ -199,7 +197,6 @@ public class SkillController implements Serializable {
 		for (String rootPath : rootPaths) {
 			rootArray.add(buildTreeNode(rootPath, nodesByPath, childrenByParentPath));
 		}
-
 		return rootArray.build().toString();
 	}
 
