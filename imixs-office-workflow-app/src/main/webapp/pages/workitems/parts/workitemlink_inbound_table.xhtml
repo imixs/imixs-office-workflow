@@ -28,7 +28,8 @@
 				<tr>
 					<td>
 						<h:link outcome="/pages/workitems/workitem">
-							#{refworkitem.item['$workflowsummary']}
+							<h:outputText
+								value="#{! empty refworkitem.item['$workflowsummary']?refworkitem.item['$workflowsummary']:'no workflow summary'}" />
 							<f:param name="id" value="#{refworkitem.item['$uniqueid']}" />
 						</h:link>
 					</td>
