@@ -376,7 +376,7 @@ public class DashboardAnalyticController implements Serializable {
 
             calculatedStats = true;
 
-            logger.info("├── calculated stats for " + loginController.getUserPrincipal() + " in "
+            logger.fine("├── calculated stats for " + loginController.getUserPrincipal() + " in "
                     + (System.currentTimeMillis() - l) + " ms");
         } catch (QueryException e) {
             logger.log(Level.SEVERE, "getWorkListByOwner - invalid param: {0}", e.getMessage());

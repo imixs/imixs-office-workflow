@@ -85,13 +85,15 @@ public class ProcessAnalyticHandler implements Serializable {
 			String link = analyticController.getOption(event.getKey(), "link", options, "");
 			String label = analyticController.getOption(event.getKey(), "label", options, "");
 			String description = analyticController.getOption(event.getKey(), "description", options, "");
+			boolean debug = Boolean
+					.parseBoolean(analyticController.getOption(event.getKey(), "debug", options, "false"));
+			if (debug) {
+				logger.info("├── Analyse worklist by key: " + key);
 
-			logger.info("├── Analyse worklist by key: " + key);
-
-			logger.info("│   ├── workflowgroup: " + workflowgroup);
-			logger.info("│   ├── process: " + process);
-			logger.info("│   ├── taskid: " + taskID);
-
+				logger.info("│   ├── workflowgroup: " + workflowgroup);
+				logger.info("│   ├── process: " + process);
+				logger.info("│   ├── taskid: " + taskID);
+			}
 			ItemCollection data = new ItemCollection();
 
 			// do we have a process name key?
@@ -135,8 +137,9 @@ public class ProcessAnalyticHandler implements Serializable {
 					_query = _query + " AND ($taskid:" + taskID + ")";
 				}
 
-				logger.info("│   ├── query: " + _query);
-
+				if (debug) {
+					logger.info("│   ├── query: " + _query);
+				}
 				long count;
 				// ItemCollection process = null;
 				count = documentService.count(_query);
@@ -242,7 +245,7 @@ public class ProcessAnalyticHandler implements Serializable {
 	 */
 	private void countWorkitemsByKey(String key, String value) {
 
-		logger.info("Accumulating last 6 months...");
+		logger.fine("Accumulating last 6 months...");
 
 		// Generate MonthStats for last 6 months
 		monthStatsList = generateLast6Months();
@@ -258,7 +261,7 @@ public class ProcessAnalyticHandler implements Serializable {
 
 				// Set count in MonthStats object
 				monthStats.setCount(count);
-				logger.info("Month " + monthStats.getMonthKey() +
+				logger.fine("Month " + monthStats.getMonthKey() +
 						" (" + monthStats.getStartDate() + " to " + monthStats.getEndDate() +
 						"): " + count + " workitems");
 			} catch (QueryException e) {
