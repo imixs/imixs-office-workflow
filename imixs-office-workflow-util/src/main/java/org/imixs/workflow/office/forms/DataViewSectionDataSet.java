@@ -2,6 +2,7 @@ package org.imixs.workflow.office.forms;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -61,8 +62,15 @@ public class DataViewSectionDataSet implements Serializable {
         // preload the viewItem definitions
         viewItemDefinitions = this.dataViewService.computeDataViewItemDefinitions(dataViewDefinition);
 
-        // resove query by dataView
-        query = this.dataViewService.parseQuery(dataViewDefinition, this.workitem);
+        // resolve query by dataView if workitem is already initalized
+        if (this.workitem.hasItem("$uniqueid")) {
+            query = this.dataViewService.parseQuery(dataViewDefinition, this.workitem);
+        } else {
+            // no valid data
+            data = new ArrayList<>();
+            totalCount = 0;
+            totalPages = 0;
+        }
         sortBy = dataViewDefinition.getItemValueString("sort.by");
         sortReverse = dataViewDefinition.getItemValueBoolean("sort.reverse");
 
@@ -119,6 +127,9 @@ public class DataViewSectionDataSet implements Serializable {
             }
         } catch (QueryException e) {
             logger.warning("Failed to load data: " + e.getMessage());
+            data = new ArrayList<>();
+            totalCount = 0;
+            totalPages = 0;
         }
     }
 
