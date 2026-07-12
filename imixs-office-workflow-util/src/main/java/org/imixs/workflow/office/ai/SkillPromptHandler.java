@@ -25,20 +25,21 @@ import jakarta.inject.Inject;
 
 /**
  * The SkillPromptHandler resolves <skill> tags in a prompt template.
- * 
+ *
  * Supported tag variants:
- * 
- * <skill id="SKILL_ID" /> Resolves a single skill by its exact name/ID.
- * 
- * <skill category="material" /> Resolves all skills matching the given category
- * and concatenates their content into labeled blocks.
- * 
- * <skill id="SKILL_ID" category="material" /> ID takes precedence. Category is
- * used as fallback if the ID is not found.
- * 
- * <skill category="material" separator="---" /> Optional separator attribute
- * controls the block header format. Defaults to "## Skill: " if not provided.
- * 
+ *
+ * <skill>material.plastic-polymere</skill>
+ * Resolves a single skill node by its exact computed name.
+ *
+ * <skill separator="\n\n">material.plastic-polymere.*</skill>
+ * Resolves all skills beneath the given path (recursive, whole subtree).
+ *
+ * <skill children="true" />material.plastic-polymere</skill>
+ * Resolves only the direct children of the given node via $uniqueidref.
+ *
+ * An optional separator attribute controls the block header format.
+ * Defaults to "## Skill: " if not provided.
+ *
  * @author rsoika
  */
 public class SkillPromptHandler {
@@ -60,24 +61,25 @@ public class SkillPromptHandler {
         try {
             List<XMLTag> xmlTagList = XMLParser.parseTagMatches(prompt, "skill");
             for (XMLTag xmlTag : xmlTagList) {
-                String id = xmlTag.getAttribute("id");
-                String category = xmlTag.getAttribute("category");
+                String skillPattern = xmlTag.getContent();
+                // String name = xmlTag.getAttribute("name");
                 String separator = xmlTag.getAttribute("separator");
                 String skillContent = null;
 
-                // Case 1: ID is provided - exact match lookup (existing behavior)
-                if (id != null && !id.isBlank()) {
-                    skillContent = resolveById(id);
-                    if (skillContent == null) {
-                        logger.warning("Failed to resolve skill id='" + id + "'");
-                    }
-                }
-
-                // Case 2: No ID or ID not found - fallback to category lookup
-                if (skillContent == null && category != null && !category.isBlank()) {
-                    skillContent = resolveByCategory(category, separator);
-                    if (skillContent == null) {
-                        logger.warning("Failed to resolve skill category='" + category + "'");
+                if (skillPattern != null && !skillPattern.isBlank()) {
+                    if (skillPattern.endsWith(".*")) {
+                        // Recursive subtree lookup
+                        String basePath = skillPattern.substring(0, skillPattern.length() - 2);
+                        skillContent = resolveBySubtree(basePath, separator);
+                        if (skillContent == null) {
+                            logger.warning("Failed to resolve skill subtree name='" + skillPattern + "'");
+                        }
+                    } else {
+                        // Exact node lookup
+                        skillContent = resolveByName(skillPattern, separator);
+                        if (skillContent == null) {
+                            logger.warning("Failed to resolve skill name='" + skillPattern + "'");
+                        }
                     }
                 }
 
@@ -93,45 +95,58 @@ public class SkillPromptHandler {
     }
 
     /**
-     * Resolves a single skill by its exact name/ID. Returns the skill content or
-     * null if not found.
+     * Resolves a single skill node by its exact computed name.
+     * Returns the formatted skill block or null if not found.
      */
-    private String resolveById(String id) throws QueryException {
-        String query = "(type:skill) AND (name:" + id + ")";
+    private String resolveByName(String name, String separator) throws QueryException {
+        String query = "(type:skill) AND (name:\"" + name + "\")";
         List<ItemCollection> result = documentService.find(query, 1, 0);
-        if (result.size() == 1) {
-            return result.get(0).getItemValueString("content");
+        if (result.isEmpty()) {
+            return null;
         }
-        return null;
+        return buildSkillBlock(result.get(0), separator);
     }
 
     /**
-     * Resolves all skills matching a given category and concatenates their content.
-     * Each skill block is prefixed with a separator line containing the skill ID
-     * and description. Uses "## Skill: " as default separator if none is provided.
-     * Returns null if no skills were found.
+     * Resolves all skill nodes beneath a given path using a Lucene wildcard query.
+     * Returns concatenated skill blocks or null if no skills were found.
+     *
+     * Example: basePath="material.plastic-polymere"
+     * Query: (type:skill) AND (name:material.plastic-polymere.*)
      */
-    private String resolveByCategory(String category, String separator) throws QueryException {
-        String query = "(type:skill) AND (category:" + category + ")";
+    private String resolveBySubtree(String basePath, String separator) throws QueryException {
+        String query = "(type:skill) AND (name:" + basePath + ".*)";
         List<ItemCollection> result = documentService.find(query, 100, 0);
         if (result.isEmpty()) {
             return null;
         }
+        StringBuilder sb = new StringBuilder();
+        for (ItemCollection skill : result) {
+            sb.append(buildSkillBlock(skill, separator));
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Builds a formatted skill block for inclusion in the prompt.
+     * Uses "## Skill: " as default separator if none is provided.
+     */
+    private String buildSkillBlock(ItemCollection skill, String separator) {
         if (separator == null || separator.isBlank()) {
             separator = "## Skill: ";
         }
-        StringBuilder sb = new StringBuilder();
-        for (ItemCollection skill : result) {
-            String skillId = skill.getItemValueString("name");
-            String skillDescription = skill.getItemValueString("description");
-            String skillContent = skill.getItemValueString("content");
+        String topic = skill.getItemValueString("topic");
+        String description = skill.getItemValueString("description");
+        String content = skill.getItemValueString("content");
 
-            sb.append(separator).append(skillId);
-            if (skillDescription != null && !skillDescription.isBlank()) {
-                sb.append(" — ").append(skillDescription);
-            }
-            sb.append("\n\n");
-            sb.append(skillContent);
+        StringBuilder sb = new StringBuilder();
+        sb.append(separator).append(topic);
+        if (description != null && !description.isBlank()) {
+            sb.append(" — ").append(description);
+        }
+        sb.append("\n\n");
+        if (content != null && !content.isBlank()) {
+            sb.append(content);
             sb.append("\n\n");
         }
         return sb.toString();
