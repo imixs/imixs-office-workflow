@@ -41,15 +41,12 @@ import org.imixs.marty.team.TeamController;
 import org.imixs.workflow.FileData;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ModelManager;
-import org.imixs.workflow.WorkflowKernel;
-import org.imixs.workflow.bpmn.BPMNUtil;
 import org.imixs.workflow.engine.ModelService;
 import org.imixs.workflow.engine.WorkflowService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.InvalidAccessException;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
-import org.imixs.workflow.faces.data.WorkflowController;
 import org.imixs.workflow.faces.fileupload.FileUploadController;
 import org.openbpmn.bpmn.BPMNModel;
 import org.openbpmn.bpmn.exceptions.BPMNModelException;
@@ -213,29 +210,7 @@ public class ModelController implements Serializable {
 	 * @return list of valid start task entities
 	 */
 	public List<ItemCollection> findAllStartTasksByGroup(String version, String group) {
-		List<ItemCollection> result = new ArrayList<>();
-		try {
-			BPMNModel model = getModelManager().getModel(version);
-			List<ItemCollection> _result = getModelManager().findStartTasks(model, group);
-
-			// Validate each start task - type is a mandatory field
-			for (ItemCollection task : _result) {
-				String type = task.getItemValueString("txttype");
-				if (!type.isEmpty() && !WorkflowController.DEFAULT_TYPE.equals(type)) {
-					String msg = "Invalid initial task in model='" + version + "' workflowGroup='"
-							+ group + "' task=" + task.getItemValueString("numProcessID")
-							+ " wrong type='" + type + "' -> expected: '" + WorkflowController.DEFAULT_TYPE + "'";
-					logger.warning(msg);
-					sharedModelManager.addModelWarning(msg);
-					continue;
-				}
-				result.add(task);
-			}
-		} catch (ModelException e) {
-			logger.severe(
-					"Failed to find start tasks for workflow group '" + group + "' : " + e.getMessage());
-		}
-		return result;
+		return sharedModelManager.findAllStartTasksByGroup(version, group);
 	}
 
 	/**
@@ -376,24 +351,7 @@ public class ModelController implements Serializable {
 	 * @return resolved description string, or empty string if not found
 	 */
 	public String getProcessDescription(int processid, String modelversion, ItemCollection documentContext) {
-		ItemCollection pe = null;
-		try {
-			BPMNModel model = getModelManager().getModel(modelversion);
-			pe = getModelManager().findTaskByID(model, processid);
-		} catch (ModelException | InvalidAccessException e1) {
-			logger.warning("Unable to load task " + processid + " in model version '" + modelversion + "' - "
-					+ e1.getMessage());
-		}
-		if (pe == null) {
-			return "";
-		}
-		String desc = pe.getItemValueString(BPMNUtil.TASK_ITEM_DOCUMENTATION);
-		try {
-			desc = workflowService.adaptText(desc, documentContext);
-		} catch (PluginException e) {
-			logger.warning("Unable to update processDescription: " + e.getMessage());
-		}
-		return desc;
+		return sharedModelManager.getProcessDescription(processid, modelversion, documentContext);
 	}
 
 	/**
@@ -409,15 +367,7 @@ public class ModelController implements Serializable {
 	 */
 	public String getProcessDescriptionByInitialTask(ItemCollection initialTask, String modelVersion,
 			String workflowGroup) {
-		String result = "";
-		if (initialTask != null) {
-			// Create a dummy workitem to resolve the correct textblock context
-			ItemCollection dummy = new ItemCollection();
-			dummy.setItemValue(WorkflowKernel.WORKFLOWSTATUS, initialTask.getItemValueString("name"));
-			dummy.setItemValue(WorkflowKernel.WORKFLOWGROUP, workflowGroup);
-			result = getProcessDescription(initialTask.getItemValueInteger("taskid"), modelVersion, dummy);
-		}
-		return result;
+		return sharedModelManager.getProcessDescriptionByInitialTask(initialTask, modelVersion, workflowGroup);
 	}
 
 	/**

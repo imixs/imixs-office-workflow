@@ -53,12 +53,12 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.imixs.workflow.ItemCollection;
-import org.imixs.workflow.ModelManager;
 import org.imixs.workflow.engine.WorkflowService;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.faces.data.WorkflowEvent;
+import org.imixs.workflow.office.model.SharedModelManager;
 import org.openbpmn.bpmn.BPMNModel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -66,7 +66,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.faces.application.Application;
@@ -94,7 +93,6 @@ public class CustomFormController implements Serializable {
     public static final String ITEM_CUSTOM_FORM = "txtWorkflowEditorCustomForm";
 
     private List<CustomSubForm> subforms = null;
-    private ModelManager modelManager = null;
     private List<CustomFormSection> sections;
     private String supportedExpressions = "";
     private String errorMessage = "";
@@ -102,16 +100,11 @@ public class CustomFormController implements Serializable {
     @Inject
     WorkflowService workflowService;
 
+    @Inject
+    SharedModelManager sharedModelManager;
+
     public CustomFormController() {
         super();
-    }
-
-    /**
-     * Initializes the ModelManger
-     */
-    @PostConstruct
-    public void init() {
-        modelManager = new ModelManager(workflowService);
     }
 
     public List<CustomSubForm> getSubforms() {
@@ -539,54 +532,17 @@ public class CustomFormController implements Serializable {
         }
         ItemCollection task;
         try {
-            BPMNModel model = modelManager.getModelByWorkitem(workitem);
-            task = modelManager.loadTask(workitem, model);
+
+            BPMNModel model = sharedModelManager.getModelManager().getModelByWorkitem(workitem);
+            task = sharedModelManager.getModelManager().loadTask(workitem, model);
 
         } catch (ModelException e) {
             logger.fine("unable to parse data object in model: " + e.getMessage());
             return "";
         }
 
-        return fetchFormDefinitionByTask(task);
+        return sharedModelManager.fetchFormDefinitionByTask(task);
 
-    }
-
-    /**
-     * Returns a BPMN form definition associated with a given task ItemCollection.
-     * 
-     * The form definition is read from an optional <code>bpmn:DataObject</code>
-     * associated with the current task element. A <code>bpmn:DataObject</code> must
-     * contain a `form-tag` containing the form definition. If not matching
-     * <code>bpmn:DataObject</code> is defined the method returns an empty string.
-     * 
-     * @param workitem
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public String fetchFormDefinitionByTask(ItemCollection task) {
-
-        // return if no modelversion is defined
-        if (task == null) {
-            return "";
-        }
-
-        List<List<String>> dataObjects = task.getItemValue("dataObjects");
-        for (List<String> dataObject : dataObjects) {
-            // there can be more than one dataOjects be attached.
-            // We need the one with the tag <imixs-form>
-            String templateName = dataObject.get(0);
-            String content = dataObject.get(1);
-            // we expect that the content contains at least one occurrence of <imixs-form>
-            if (content.contains("<imixs-form>")) {
-                logger.finest("......DataObject name=" + templateName);
-                logger.finest("......DataObject content=" + content);
-                return content;
-            } else {
-                // seems not to be a imixs-form definition!
-            }
-        }
-        // nothing found!
-        return "";
     }
 
 }
