@@ -3,8 +3,30 @@
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:i="http://java.sun.com/jsf/composite/imixs"
 	xmlns:marty="http://java.sun.com/jsf/composite/marty">
 
-
 	<style>
+		.imixs-ai-protocol {
+			margin-left: 10px;
+		}
+
+		.ai-status {
+			margin-bottom: 10px;
+		}
+
+		.ai-status-row {
+			display: flex;
+			flex-direction: row;
+			align-items: baseline;
+		}
+
+		.ai-status-label {
+			flex: 0 0 80px;
+			font-weight: bold;
+		}
+
+		.ai-status-value {
+			flex: 1;
+		}
+
 		.ai-progress {
 			width: 100%;
 			height: 6px;
@@ -32,36 +54,74 @@
 			}
 		}
 	</style>
-	<div class="imixs-ai-protocol">
 
-		<h:panelGroup layout="block" id="imixs_ai_protocol" styleClass="imixs-ai-protocol">
+	<h:panelGroup layout="block" id="imixs_ai_protocol" styleClass="imixs-ai-protocol">
+		<!-- Registers a JS function 'pollTaskId' that triggers an ajax request,
+         re-rendering only the taskid span -->
+		<h:commandScript name="pollTaskId" render="ai_status_panel" onevent="imixsAiPollHandler" />
+		<div class="ai-status">
 
-			<div class="imixs-ai-protocol-item">
-
-				<strong>Status:</strong> <i class="fa-solid fa-person-running" style="color: #206B87;"></i> RUNNING
-
-				<div class="imixs-ai-protocol-spacer"></div>
+			<div class="ai-status-row">
+				<span class="ai-status-label">Status:</span>
+				<span class="ai-status-value">
+					<i class="fa-solid fa-person-running" style="color: #206B87;"></i>
+					RUNNING
+				</span>
 			</div>
-			<div class="ai-progress">
-				<div class="ai-progress-indicator"></div>
-			</div>
-		</h:panelGroup>
-
-
-	</div>
-
-
+			<h:panelGroup layout="block" styleClass="ai-status-row" id="ai_status_panel">
+				<span class="ai-status-label">Task:</span>
+				<span><i class="fa-solid fa-atom" style="color: #aaa;"></i><span class="ai-status-value"
+						style="margin-left:5px;" id=" ai_status_panel_taskid">#{aIAgentStatusController.status}</span>
+				</span>
+			</h:panelGroup>
+		</div>
+		<div class="ai-progress">
+			<div class="ai-progress-indicator"></div>
+		</div>
+	</h:panelGroup>
 
 	<script type="text/javascript">
 		/*<![CDATA[*/
-
 		(function () {
 
+			// Find the taskid span regardless of the naming container prefix
+			function findTaskIdElement() {
+				return document.querySelector('[id$="ai_status_panel_taskid"]');
+			}
 
-			var agentPollInterval = setInterval(function () {
+			var currentTaskId = null;
+			var initialEl = findTaskIdElement();
+			if (initialEl) {
+				currentTaskId = initialEl.textContent.trim();
+			}
+
+			// Called by h:commandScript after each ajax cycle
+			window.imixsAiPollHandler = function (data) {
+
+				if (data.status === 'success') {
+					var el = findTaskIdElement();
+					if (el) {
+						var newTaskId = el.textContent.trim();
+						if (currentTaskId !== null && newTaskId !== currentTaskId) {
+							// Task changed on the backend -> full reload
+							// to refresh all form elements and action buttons
+							window.location.reload();
+						} else {
+							currentTaskId = newTaskId;
+						}
+					}
+				}
+			};
+
+			// Trigger the ajax poll every 4 seconds
+			var pollIntervalId = setInterval(function () {
+				pollTaskId();
+			}, 1000);
+
+			// Independent safety reload every 60 seconds
+			setInterval(function () {
 				window.location.reload();
-			}, 4000);
-
+			}, 60000);
 
 		})();
 		/*]]>*/
