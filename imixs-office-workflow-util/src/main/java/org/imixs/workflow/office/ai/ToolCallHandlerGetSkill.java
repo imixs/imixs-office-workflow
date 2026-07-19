@@ -13,17 +13,14 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.imixs.ai.ImixsAIContextHandler;
 import org.imixs.ai.tools.ImixsAIToolCallEvent;
-import org.imixs.ai.tools.ImixsAIToolRegistrationEvent;
 import org.imixs.ai.tools.ToolCallHandler;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.DocumentService;
 
-import jakarta.annotation.Priority;
-import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.interceptor.Interceptor;
 
 /**
  * Handles the "get_skill" tool call.
@@ -50,9 +47,9 @@ public class ToolCallHandlerGetSkill implements ToolCallHandler, Serializable {
      * Registers the get_skill function definition during the agent tool
      * registration phase.
      */
-    public void onToolRegistration(
-            @Observes @Priority(Interceptor.Priority.LIBRARY_BEFORE) ImixsAIToolRegistrationEvent event) {
-        event.addFunction(
+    @Override
+    public void register(ImixsAIContextHandler contextHandler) {
+        contextHandler.addFunction(
                 TOOL_GET_SKILL,
                 "Retrieves the full content of a skill by its uniqueid. "
                         + "The uniqueid is provided by a prior find_skill call. "
