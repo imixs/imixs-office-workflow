@@ -9,19 +9,20 @@
  ****************************************************************************/
 package org.imixs.workflow.office.ai;
 
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.imixs.ai.tools.ImixsAIToolCallEvent;
 import org.imixs.ai.tools.ImixsAIToolRegistrationEvent;
+import org.imixs.ai.tools.ToolCallHandler;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.DocumentService;
 
 import jakarta.annotation.Priority;
-import jakarta.ejb.LocalBean;
-import jakarta.ejb.Stateless;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.interceptor.Interceptor;
 
 /**
@@ -30,9 +31,8 @@ import jakarta.interceptor.Interceptor;
  * Loads the full content of a skill directly by its $uniqueid. The $uniqueid is
  * obtained from a prior find_skill call.
  */
-@Stateless
-@LocalBean
-public class ToolCallHandlerGetSkill {
+@Named
+public class ToolCallHandlerGetSkill implements ToolCallHandler, Serializable {
 
     public static final String TOOL_GET_SKILL = "get_skill";
 
@@ -40,6 +40,11 @@ public class ToolCallHandlerGetSkill {
 
     @Inject
     DocumentService documentService;
+
+    @Override
+    public String getToolName() {
+        return TOOL_GET_SKILL;
+    }
 
     /**
      * Registers the get_skill function definition during the agent tool
@@ -70,7 +75,8 @@ public class ToolCallHandlerGetSkill {
      * Handles the "get_skill" tool call. Loads the skill directly by its $uniqueid
      * and returns the content field.
      */
-    public void onToolCall(@Observes ImixsAIToolCallEvent event) {
+    @Override
+    public void handle(ImixsAIToolCallEvent event) {
         if (!TOOL_GET_SKILL.equals(event.getToolName())) {
             return;
         }

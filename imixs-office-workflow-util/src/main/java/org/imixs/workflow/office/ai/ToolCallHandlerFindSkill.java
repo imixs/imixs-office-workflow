@@ -9,21 +9,22 @@
  ****************************************************************************/
 package org.imixs.workflow.office.ai;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.imixs.ai.tools.ImixsAIToolCallEvent;
 import org.imixs.ai.tools.ImixsAIToolRegistrationEvent;
+import org.imixs.ai.tools.ToolCallHandler;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.exceptions.QueryException;
 
 import jakarta.annotation.Priority;
-import jakarta.ejb.LocalBean;
-import jakarta.ejb.Stateless;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.interceptor.Interceptor;
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
@@ -37,9 +38,8 @@ import jakarta.json.JsonObjectBuilder;
  * select the most appropriate skill, and passes the $uniqueid to get_skill to
  * retrieve the full content.
  */
-@Stateless
-@LocalBean
-public class ToolCallHandlerFindSkill {
+@Named
+public class ToolCallHandlerFindSkill implements ToolCallHandler, Serializable {
 
     public static final String TOOL_FIND_SKILL = "find_skill";
 
@@ -47,6 +47,11 @@ public class ToolCallHandlerFindSkill {
 
     @Inject
     DocumentService documentService;
+
+    @Override
+    public String getToolName() {
+        return TOOL_FIND_SKILL;
+    }
 
     /**
      * Registers the find_skill function definition during the agent tool
@@ -78,7 +83,8 @@ public class ToolCallHandlerFindSkill {
      * Handles the "find_skill" tool call. Queries all skills of the given category
      * and returns their name, description and $uniqueid as a JSON array.
      */
-    public void onToolCall(@Observes ImixsAIToolCallEvent event) {
+    @Override
+    public void handle(ImixsAIToolCallEvent event) {
         if (!TOOL_FIND_SKILL.equals(event.getToolName())) {
             return;
         }
