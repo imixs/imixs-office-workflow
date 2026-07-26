@@ -29,16 +29,17 @@ package org.imixs.marty.plugins;
 
 import java.util.logging.Logger;
 
-import jakarta.ejb.EJB;
-import jakarta.mail.internet.AddressException;
-
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
+import org.imixs.workflow.bpmn.BPMNUtil;
 import org.imixs.workflow.engine.plugins.AbstractPlugin;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.office.util.SequenceService;
+
+import jakarta.ejb.EJB;
+import jakarta.mail.internet.AddressException;
 
 /**
  * This Plugin handles a unique sequence number for a workItem. The current
@@ -105,20 +106,31 @@ public class SequenceNumberPlugin extends AbstractPlugin {
 
 		logger.fine("...calculating next sequencenumber: '" + documentContext.getUniqueID() + "'");
 		try {
-			// test if $WorkflowGorup is already available.....
+			// test if $WorkflowGroup is already available.....
 			if (documentContext.getItemValueString(WorkflowKernel.WORKFLOWGROUP).isEmpty()) {
+				// throw new PluginException(SequenceNumberPlugin.class.getSimpleName(),
+				// "PLUGIN_ERROR",
+				// "WorkflowGroup not yet set - calculation of sequenceNumber not possible");
 				// set temporary workflow group, will be updated by the WorkflowKernel later...
 				ItemCollection itemColNextTask = this.getWorkflowService().evalNextTask(documentContext);
 				if (itemColNextTask != null) {
 					documentContext.replaceItemValue(WorkflowKernel.WORKFLOWGROUP,
-							itemColNextTask.getItemValueString("txtworkflowgroup"));
+							itemColNextTask.getItemValueString(BPMNUtil.TASK_ITEM_NAME));
 				}
 			}
 			sequenceService.computeSequenceNumber(documentContext);
 		} catch (AccessDeniedException e) {
-			throw new PluginException(e.getErrorContext(), e.getErrorCode(), "calculating next sequencenumber failed: ", e);
+			throw new PluginException(e.getErrorContext(), e.getErrorCode(), "calculating next sequencenumber failed: ",
+					e);
+			// } catch (ModelException e) {
+			// throw new PluginException(e.getErrorContext(), e.getErrorCode(), "calculating
+			// next sequencenumber failed: ",
+			// e);
 		} catch (ModelException e) {
-			throw new PluginException(e.getErrorContext(), e.getErrorCode(), "calculating next sequencenumber failed: ", e);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new PluginException(e.getErrorContext(), e.getErrorCode(), "calculating next sequencenumber failed: ",
+					e);
 		}
 
 		return documentContext;
