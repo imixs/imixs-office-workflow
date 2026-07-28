@@ -29,23 +29,16 @@ package org.imixs.workflow.office.ai;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.imixs.ai.workflow.ImixsAIPromptEvent;
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.ItemCollectionComparator;
 import org.imixs.workflow.engine.DocumentEvent;
 import org.imixs.workflow.engine.DocumentService;
 import org.imixs.workflow.engine.WorkflowService;
-import org.imixs.workflow.exceptions.AdapterException;
 import org.imixs.workflow.exceptions.InvalidAccessException;
-import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.exceptions.QueryException;
 
 import jakarta.annotation.PostConstruct;
@@ -159,63 +152,67 @@ public class SkillService {
      * @throws PluginException
      * 
      */
-    public void onEvent(@Observes ImixsAIPromptEvent event) throws AdapterException {
-        if (event.getWorkitem() == null) {
-            return;
-        }
-        String prompt = event.getPromptTemplate();
-        // Resolve skill tags recursively, tracking visited skills to detect recursion
-        prompt = resolveSkillTags(prompt, new HashSet<>());
-        event.setPromptTemplate(prompt);
-    }
+    // public void onEvent(@Observes ImixsAIPromptEvent event) throws
+    // AdapterException {
+    // if (event.getWorkitem() == null) {
+    // return;
+    // }
+    // String prompt = event.getPromptTemplate();
+    // // Resolve skill tags recursively, tracking visited skills to detect
+    // recursion
+    // prompt = resolveSkillTags(prompt, new HashSet<>());
+    // event.setPromptTemplate(prompt);
+    // }
 
-    /**
-     * Recursively resolves <skill> tags in a prompt string. Tracks visited skill
-     * names to detect and prevent infinite recursion.
-     *
-     * @param prompt        - the prompt string to process
-     * @param visitedSkills - set of skill names already visited in this resolution
-     *                      chain
-     * @return the resolved prompt string
-     * @throws PluginException if a skill is not found or a recursive reference is
-     *                         detected
-     */
-    private String resolveSkillTags(String prompt, Set<String> visitedSkills) throws AdapterException {
-        Pattern pattern = Pattern.compile(SKILL_CONTENT_REGEX);
-        Matcher matcher = pattern.matcher(prompt);
-        StringBuffer result = new StringBuffer();
+    // /**
+    // * Recursively resolves <skill> tags in a prompt string. Tracks visited skill
+    // * names to detect and prevent infinite recursion.
+    // *
+    // * @param prompt - the prompt string to process
+    // * @param visitedSkills - set of skill names already visited in this
+    // resolution
+    // * chain
+    // * @return the resolved prompt string
+    // * @throws PluginException if a skill is not found or a recursive reference is
+    // * detected
+    // */
+    // private String resolveSkillTags(String prompt, Set<String> visitedSkills)
+    // throws AdapterException {
+    // Pattern pattern = Pattern.compile(SKILL_CONTENT_REGEX);
+    // Matcher matcher = pattern.matcher(prompt);
+    // StringBuffer result = new StringBuffer();
 
-        while (matcher.find()) {
-            String skillName = matcher.group(1).trim();
+    // while (matcher.find()) {
+    // String skillName = matcher.group(1).trim();
 
-            // Detect recursive reference
-            if (visitedSkills.contains(skillName)) {
-                throw new AdapterException(SkillService.class.getSimpleName(), PROMPT_ERROR,
-                        "Recursive skill reference detected: '" + skillName + "'");
-            }
+    // // Detect recursive reference
+    // if (visitedSkills.contains(skillName)) {
+    // throw new AdapterException(SkillService.class.getSimpleName(), PROMPT_ERROR,
+    // "Recursive skill reference detected: '" + skillName + "'");
+    // }
 
-            ItemCollection skill = this.load(skillName);
-            if (skill == null) {
-                throw new AdapterException(SkillService.class.getSimpleName(), PROMPT_ERROR,
-                        "Skill '" + skillName + "' not found!");
-            }
+    // ItemCollection skill = this.load(skillName);
+    // if (skill == null) {
+    // throw new AdapterException(SkillService.class.getSimpleName(), PROMPT_ERROR,
+    // "Skill '" + skillName + "' not found!");
+    // }
 
-            String skillContent = skill.getItemValueString("content");
+    // String skillContent = skill.getItemValueString("content");
 
-            // Track this skill before resolving its content
-            visitedSkills.add(skillName);
-            // Recursively resolve nested skill tags within this skill's content
-            skillContent = resolveSkillTags(skillContent, visitedSkills);
-            // Remove from visited after resolution to allow reuse in sibling branches
-            visitedSkills.remove(skillName);
+    // // Track this skill before resolving its content
+    // visitedSkills.add(skillName);
+    // // Recursively resolve nested skill tags within this skill's content
+    // skillContent = resolveSkillTags(skillContent, visitedSkills);
+    // // Remove from visited after resolution to allow reuse in sibling branches
+    // visitedSkills.remove(skillName);
 
-            matcher.appendReplacement(result, Matcher.quoteReplacement(skillContent));
-            logger.fine("Skill '" + skillName + "' resolved and inserted into prompt.");
-        }
+    // matcher.appendReplacement(result, Matcher.quoteReplacement(skillContent));
+    // logger.fine("Skill '" + skillName + "' resolved and inserted into prompt.");
+    // }
 
-        matcher.appendTail(result);
-        return result.toString();
-    }
+    // matcher.appendTail(result);
+    // return result.toString();
+    // }
 
     /**
      * This method refreshes the cache if a textblock was saved.
@@ -295,7 +292,8 @@ public class SkillService {
         try {
             subSkillList = documentService.find(sQuery, 9999, 0);
         } catch (QueryException e) {
-            throw new InvalidAccessException(InvalidAccessException.INVALID_ID, e.getMessage(), e);
+            throw new InvalidAccessException(InvalidAccessException.INVALID_ID,
+                    e.getMessage(), e);
         }
 
         // sort by txtname
