@@ -234,20 +234,6 @@
       <bpmn2:documentation id="documentation_NtjVMA"/>
       <bpmn2:text id="text_Nl0Maw"><![CDATA[Dynamixs.AI Skill Card Workflow]]></bpmn2:text>
     </bpmn2:textAnnotation>
-    <bpmn2:dataObject id="dataObject_iiau0Q" imixs:datatype="form-data" name="Form">
-      <bpmn2:documentation id="documentation_Wi0iKg"><![CDATA[<?xml version="1.0"?>
-<imixs-form>
-    <imixs-form-section columns="1" >
-      <item name="name" type="text"  label="ID:" required="true" /> 
-      <item name="description" type="textarea" label="Skill Description:" options="height: 10em;" /> 
-      <item name="content" type="custom" path="markdowneditor" label="Skill Description:"  /> 
-    </imixs-form-section>
-</imixs-form>
-]]></bpmn2:documentation>
-    </bpmn2:dataObject>
-    <bpmn2:association id="association_x12Q3g" sourceRef="dataObject_iiau0Q" targetRef="task_mVl0gw">
-      <bpmn2:documentation id="documentation_vRjuYg"/>
-    </bpmn2:association>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1" name="Default Collaboration Diagram">
     <bpmndi:BPMNPlane bpmnElement="Collaboration_1" id="BPMNPlane_1">
@@ -293,12 +279,6 @@
       <bpmndi:BPMNShape bpmnElement="textAnnotation_o9kpJw" id="BPMNShape_BYLf6w">
         <dc:Bounds height="186.0" width="552.0" x="920.0" y="210.0"/>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="dataObject_iiau0Q" id="BPMNShape_fM5wkA">
-        <dc:Bounds height="50.0" width="35.0" x="50.0" y="210.0"/>
-        <bpmndi:BPMNLabel id="BPMNLabel_YWxuGQ">
-          <dc:Bounds height="20.0" width="100.0" x="17.5" y="265.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="sequenceFlow_mM4Seg" id="BPMNEdge_Uw4REg" sourceElement="BPMNShape_jP1s7A" targetElement="BPMNShape_58UMow">
         <di:waypoint x="43.0" y="345.0"/>
         <di:waypoint x="130.0" y="345.0"/>
@@ -327,11 +307,6 @@
         <di:waypoint x="537.0" y="235.0"/>
         <di:waypoint x="184.0" y="235.0"/>
         <di:waypoint x="184.0" y="320.0"/>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="association_x12Q3g" id="BPMNEdge_UcMk3g" sourceElement="BPMNShape_fM5wkA" targetElement="BPMNShape_58UMow">
-        <di:waypoint x="85.0" y="235.0"/>
-        <di:waypoint x="144.0" y="235.0"/>
-        <di:waypoint x="144.0" y="320.0"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
     <bpmndi:BPMNLabelStyle id="BPMNLabelStyle_1">

@@ -135,9 +135,9 @@ public class SkillPromptHandler {
         if (separator == null || separator.isBlank()) {
             separator = "## Skill: ";
         }
-        String topic = skill.getItemValueString("topic");
-        String description = skill.getItemValueString("description");
-        String content = skill.getItemValueString("content");
+        String topic = skill.getItemValueString("skill.topic");
+        String description = skill.getItemValueString("skill.description");
+        String content = skill.getItemValueString("skill.content");
 
         StringBuilder sb = new StringBuilder();
         sb.append(separator).append(topic);
