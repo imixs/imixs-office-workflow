@@ -265,9 +265,9 @@ public class ModelController implements Serializable {
 	/**
 	 * Handles uploaded BPMN model files. Only .bpmn files are supported.
 	 * <p>
-	 * After a successful upload the {@link SharedModelManager} is reset to clear
-	 * all internal caches. This ensures that all active user sessions immediately
-	 * see the updated model data.
+	 * After a successful upload the {@link ModelService} and the
+	 * {@link SharedModelManager} are reset to clear all internal caches. This
+	 * ensures that all active user sessions immediately see the updated model data.
 	 *
 	 * @param event - the JSF ActionEvent
 	 * @throws ModelException if the model file cannot be read or saved
@@ -302,6 +302,7 @@ public class ModelController implements Serializable {
 
 		// Reset the shared ModelManager to clear all caches - affects all active
 		// sessions
+		modelService.initModels();
 		sharedModelManager.reset();
 		modelUploads = new ItemCollection();
 	}
