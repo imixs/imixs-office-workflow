@@ -11,7 +11,8 @@
 
 	<div class="imixs-ai-chat-entry">
 		<div class="imixs-ai-chat-entry">
-			<h:inputHidden pt:data-id="markdown_hidden_input" value="#{workitem.item[item.name]}" />
+			<ui:param name="answer" value="#{aiAgentContextController.loadLastAnswer(workitem,item.name)}" />
+			<input type="hidden" data-id="markdown_hidden_input" value="#{answer}" />
 			<div class="imixs-markdown-output"></div>
 
 		</div>
