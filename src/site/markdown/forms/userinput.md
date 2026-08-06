@@ -22,9 +22,9 @@ The item part `userinput` can be used to edit a single user name. The part provi
 Optional the User-List-Input allows to enter a list of user names. The part provides a lookup feature for profile names
 
 ```xml
-    <item name="userlist"
+    <item name="myteam"
           type="custom"
-          path="userinput"
+          path="userlistinput"
           label="User:" />
 ```
 
