@@ -71,9 +71,8 @@
 		<ui:param name="qrprafix" value="#{propertyController.getProperty('qr-code.url.prafix')}"></ui:param>
 		<ui:fragment
 			rendered="#{(! empty workflowController.workitem.uniqueID) and (!userController.mobileUser) and (!empty qrprafix)}">
-			<div style="flex-grow: 1;"></div>
-			<div>
-				<a href="#" onclick="imixsOfficeWorkitem.printQRCode();">
+			<div style="margin-top: 27px;">
+				<a href=" #" onclick="imixsOfficeWorkitem.printQRCode();">
 					<h:graphicImage styleClass="imixsQrCode"
 						url="/api/qr-code?size=130&amp;key=#{qrprafix}#{workflowController.workitem.uniqueID}">
 					</h:graphicImage>
