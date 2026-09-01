@@ -374,6 +374,11 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 			imixsOfficeWorkitem.updateFormWidth(newSize);
 		},
 
+		refreshChronicle = function(data) {
+			if (data.status === 'success') {
+				imixsOfficeWorkitem.initMarkdownItems();
+			}
+		},
 
 		/*
 		 * This method toggles into the chronicle documents view
@@ -694,6 +699,7 @@ IMIXS.org.imixs.workflow.workitem = (function () {
 		updateFormWidth: updateFormWidth,
 		expandChronicle: expandChronicle,
 		shrinkChronicle: shrinkChronicle,
+		refreshChronicle: refreshChronicle,
 		toggleChronicleHistory: toggleChronicleHistory,
 		toggleChronicleAI: toggleChronicleAI,
 		saveWorkitemHandler: saveWorkitemHandler,

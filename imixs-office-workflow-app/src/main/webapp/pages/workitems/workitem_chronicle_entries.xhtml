@@ -20,7 +20,7 @@
 					styleClass="#{'comment' eq chronicleController.filter?'active':!empty chronicleController.filter?'inactive':''}"
 					actionListener="#{chronicleController.toggleFilter('comment')}">
 					<span class="typcn typcn-messages" title="#{message.comments}"></span>
-					<f:ajax render="chronicle-main chronicle-nav" />
+					<f:ajax render="chronicle-main chronicle-nav" onevent="imixsOfficeWorkitem.refreshChronicle" />
 				</h:commandLink>
 			</li>
 
@@ -111,5 +111,10 @@
 		</table>
 		<!-- reinitialize attachment links for auto preview -->
 		<script>imixsOfficeWorkitem.initAttachmentLinks();</script>
+
+
+
+
+
 	</h:panelGroup>
 </ui:composition>

@@ -47,8 +47,7 @@ IMIXS.org.imixs.workflow.markdowneditor = (function () {
         initConverter();
         // Then initialize editor
         initEditor();
-        
-        console.log('Imixs Markdown Editor Module initialized');
+        // console.log('Imixs Markdown Editor Module initialized');
     },
     
     /**
