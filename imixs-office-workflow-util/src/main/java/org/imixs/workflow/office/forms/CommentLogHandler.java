@@ -11,9 +11,11 @@ import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.faces.data.WorkflowEvent;
 
+import jakarta.annotation.Priority;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Named;
+import jakarta.interceptor.Interceptor;
 
 /**
  * This CDI bean fixes corrupted data in the item txtcommentLog. Because of a
@@ -39,8 +41,8 @@ public class CommentLogHandler implements Serializable {
 	 * @param workflowEvent
 	 * @throws AccessDeniedException
 	 */
-	public void onWorkflowEvent(@Observes WorkflowEvent workflowEvent) throws AccessDeniedException {
-
+	public void onWorkflowEvent(@Observes @Priority(Interceptor.Priority.APPLICATION - 500) WorkflowEvent workflowEvent)
+			throws AccessDeniedException {
 		// Migrate deprecated item name
 		if (WorkflowEvent.WORKITEM_CHANGED == workflowEvent.getEventType()) {
 
@@ -151,7 +153,7 @@ public class CommentLogHandler implements Serializable {
 
 			Object text = comment.get("txtcomment");
 			if ((text instanceof List)) {
-				logger.warning("...Comment Log: nameditor object is of type: " + text.getClass().getName()
+				logger.warning("...Comment Log: txtcomment object is of type: " + text.getClass().getName()
 						+ " - data type will be fixed on next save event.");
 				// it is a list so we can hopefully replace it with the first entry
 				comment.put("txtcomment", ((List) text).get(0));
