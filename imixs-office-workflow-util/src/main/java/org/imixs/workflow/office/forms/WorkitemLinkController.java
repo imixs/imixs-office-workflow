@@ -285,6 +285,7 @@ public class WorkitemLinkController implements Serializable {
             refList = workflowController.getWorkitem().getItemValue(LINK_PROPERTY);
         }
 
+        List<ItemCollection> workitems = null;
         if (refList != null && !refList.isEmpty()) {
 
             logger.finest("... we have " + refList.size() + " references stored");
@@ -309,30 +310,32 @@ public class WorkitemLinkController implements Serializable {
             }
 
             sQuery = sQuery + ")";
-
-            if (filter != null && !"".equals(filter.trim())) {
-                String sNewFilter = filter.trim().replace(".", "?");
-                sQuery += " AND (" + sNewFilter + ") ";
-            }
             logger.finest("......query=" + sQuery);
-
-            List<ItemCollection> workitems = null;
 
             try {
                 workitems = workflowService.getDocumentService().findStubs(sQuery, MAX_SEARCH_RESULT, 0,
                         WorkflowKernel.CREATED, true);
             } catch (QueryException e) {
-
                 e.printStackTrace();
             }
-            // do we have a result?
-            if (workitems != null) {
+        }
+
+        result = new ArrayList<ItemCollection>();
+        if (workitems != null && workitems.size() > 0) {
+            // now test if filter matches, and clone the workItem
+            if (filter != null && !filter.isEmpty()) {
+                for (ItemCollection itemcol : workitems) {
+                    // test
+                    if (WorkitemHelper.matches(itemcol, filter)) {
+                        result.add(itemcol);
+                    }
+                }
+            } else {
                 result.addAll(workitems);
             }
         }
 
         logger.fine("...lookup references for: " + filter + " in " + (System.currentTimeMillis() - l) + "ms");
-
         referencesCache.put(searchHash, result);
         return result;
     }
@@ -403,18 +406,14 @@ public class WorkitemLinkController implements Serializable {
         String sQuery = "(";
         sQuery = " (type:\"workitem\" OR type:\"workitemarchive\") AND (" + LINK_PROPERTY + ":\"" + uniqueid + "\"  OR "
                 + LINK_PROPERTY_DEPRECATED + ":\"" + uniqueid + "\")";
-
         List<ItemCollection> workitems = null;
-
         try {
             workitems = workflowService.getDocumentService().findStubs(sQuery, MAX_SEARCH_RESULT, 0,
-                    WorkflowKernel.LASTEVENTDATE, true);
+                    WorkflowKernel.CREATED, true);
         } catch (QueryException e) {
 
             e.printStackTrace();
         }
-        // sort by modified
-        Collections.sort(workitems, new ItemCollectionComparator("$created", true));
         result = new ArrayList<ItemCollection>();
         // now test if filter matches, and clone the workItem
         if (filter != null && !filter.isEmpty()) {
