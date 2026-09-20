@@ -83,6 +83,16 @@ The default HTML 5 Date/Time input provided by the web browser
 
 <img class="screenshot" src="item-html5datetime.png" />
 
+## HTML5 Month Input
+
+Input Month/Year - based on the HTML 5 Date/Time input provided by the web browser
+
+```xml
+    <item name="invoice.period" type="html5month" label="Booking Period" />
+```
+
+<img class="screenshot" src="item-html5month.png" />
+
 ## Currency Input
 
 A currency input to enter monetary values.

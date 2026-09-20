@@ -116,6 +116,19 @@
 										</h:outputText>
 									</c:if>
 
+									<ui:remove><!-- html5-month --></ui:remove>
+									<c:if test="#{item.type eq 'html5month'}">
+										<h:inputText value="#{workitem.item[item.name]}" pt:type="month"
+											pt:data-item="#{item.name}"
+											required="#{item.required?validationController.required:false}"
+											styleClass="imixs-html5date" rendered="#{!item.readonly}"
+											disabled="#{item.disabled}">
+										</h:inputText>
+										<h:outputText value="#{workitem.item[item.name]}" rendered="#{item.readonly}">
+
+										</h:outputText>
+									</c:if>
+
 									<ui:remove><!-- text area --></ui:remove>
 									<c:if test="#{item.type eq 'textarea'}">
 										<h:inputTextarea value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
