@@ -44,7 +44,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -59,6 +58,7 @@ import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.faces.data.WorkflowEvent;
 import org.imixs.workflow.office.model.SharedModelManager;
+import org.imixs.workflow.util.XMLParser;
 import org.openbpmn.bpmn.BPMNModel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -175,8 +175,7 @@ public class CustomFormController implements Serializable {
             // start parsing....
             logger.finest("......start parsing custom form definition");
             try {
-                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder builder = factory.newDocumentBuilder();
+                DocumentBuilder builder = XMLParser.getSecureDocumentBuilder();
                 InputStream stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
                 Document doc = builder.parse(stream);
                 doc.getDocumentElement().normalize();
