@@ -2,7 +2,16 @@ package org.imixs.workflow.office.forms;
 
 import java.io.Serializable;
 import java.io.StringReader;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,103 +74,76 @@ public class AnalyticController implements Serializable {
 		return computeData(workitem, key, options);
 	}
 
-	// public String getValueAsString(ItemCollection workitem, String key) throws
-	// PluginException {
-	// return this.getValueAsString(workitem, key, null);
-	// }
+	/**
+	 * This helper method returns the value from the data object as a formatted
+	 * string.
+	 * The value is formated in case a format value exists depending on the object
+	 * type of the value
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public String getFormatedValue(ItemCollection data) {
+		List<Object> valueList = data.getItemValue("value");
+		String format = data.getItemValueString("format");
+		String result = "";
+		if (valueList.size() == 0) {
+			return "";
+		}
 
-	// /**
-	// * Returns a analytic value as a Json String for a given key.
-	// *
-	// * @param key
-	// * @return
-	// * @throws PluginException
-	// */
-	// public String getValueAsJson(ItemCollection workitem, String key, String
-	// options) throws PluginException {
-	// ItemCollection analyticData = computeValue(workitem, key, options);
-	// String jsonval = analyticData.getItemValueString("value");
-	// if (jsonval == null || jsonval.isEmpty()) {
-	// return "null";
-	// } else {
-	// return jsonval;
-	// }
-	// }
+		if (format.isBlank()) {
+			return valueList.get(0).toString();
+		}
 
-	// public String getValueAsJson(ItemCollection workitem, String key) throws
-	// PluginException {
-	// return getValueAsJson(workitem, key, null);
-	// }
+		// we have a format string and an object.
+		// format the object if it is double, float, integer, Date.
+		Object object = valueList.get(0);
+		if (object == null) {
+			return "";
+		}
+		Locale locale = resolveLocale(data.getItemValueString("locale"));
+		try {
+			if (object instanceof Number) {
+				DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance(locale);
+				DecimalFormat df = new DecimalFormat(format, symbols);
+				if (object instanceof Double || object instanceof Float) {
+					return df.format(((Number) object).doubleValue());
+				}
+				return df.format(((Number) object).longValue());
+			}
+			if (object instanceof Date) {
+				SimpleDateFormat sdf = new SimpleDateFormat(format, locale);
+				return sdf.format((Date) object);
+			}
+			if (object instanceof LocalDate) {
+				return ((LocalDate) object).format(DateTimeFormatter.ofPattern(format, locale));
+			}
+			if (object instanceof LocalDateTime) {
+				return ((LocalDateTime) object).format(DateTimeFormatter.ofPattern(format, locale));
+			}
+			return object.toString();
+		} catch (IllegalArgumentException e) {
+			// Ungültiges Pattern – Fallback auf toString
+			return object.toString();
+		}
 
-	// /**
-	// * Returns a analytic value as a Double for a given key.
-	// *
-	// * @param key
-	// * @return
-	// * @throws PluginException
-	// */
-	// public double getValueAsDouble(ItemCollection workitem, String key, String
-	// options) throws PluginException {
-	// ItemCollection analyticData = computeValue(workitem, key, options);
-	// return analyticData.getItemValueDouble("value");
-	// }
+	}
 
-	// public double getValueAsDouble(ItemCollection workitem, String key) throws
-	// PluginException {
-	// return getValueAsDouble(workitem, key, null);
-	// }
-
-	// /**
-	// * Returns the analytic label for a given key
-	// *
-	// * @param key
-	// * @return
-	// * @throws PluginException
-	// */
-	// public String getLabel(ItemCollection workitem, String key, String options)
-	// throws PluginException {
-	// ItemCollection analyticData = computeValue(workitem, key, options);
-	// return analyticData.getItemValueString("label");
-	// }
-
-	// public String getLabel(ItemCollection workitem, String key) throws
-	// PluginException {
-	// return this.getLabel(workitem, key, null);
-	// }
-
-	// /**
-	// * Returns the analytic optional link for a given key
-	// *
-	// * @param key
-	// * @return
-	// */
-	// public String getLink(ItemCollection workitem, String key, String options)
-	// throws PluginException {
-	// ItemCollection analyticData = computeValue(workitem, key, options);
-	// return analyticData.getItemValueString("link");
-	// }
-
-	// public String getLink(ItemCollection workitem, String key) throws
-	// PluginException {
-	// return this.getLink(workitem, key, null);
-	// }
-
-	// /**
-	// * Returns the analytic description for a given key
-	// *
-	// * @param key
-	// * @return
-	// */
-	// public String getDescription(ItemCollection workitem, String key, String
-	// options) throws PluginException {
-	// ItemCollection analyticData = computeValue(workitem, key, options);
-	// return analyticData.getItemValueString("description");
-	// }
-
-	// public String getDescription(ItemCollection workitem, String key) throws
-	// PluginException {
-	// return this.getDescription(workitem, key, null);
-	// }
+	/**
+	 * Parst das locale-Feld (BCP-47, z.B. "de-DE", "en-US", "de").
+	 * Fällt auf die JVM-Default-Locale zurück, wenn nichts Gescheites drinsteht.
+	 */
+	private Locale resolveLocale(String localeString) {
+		if (localeString == null || localeString.isBlank()) {
+			return Locale.getDefault();
+		}
+		Locale locale = Locale.forLanguageTag(localeString.replace('_', '-'));
+		// forLanguageTag liefert Locale.ROOT ("") wenn der Tag nicht parsebar ist
+		if (locale.getLanguage().isEmpty()) {
+			return Locale.getDefault();
+		}
+		return locale;
+	}
 
 	/**
 	 * Computes an analytic data value. The method sends CDI events of the type
@@ -183,10 +165,8 @@ public class AnalyticController implements Serializable {
 		}
 
 		ItemCollection data = dataCache.get(key);
-
 		if (data == null) {
 			// compute data...
-
 			logger.fine("fire analytic event for key '" + key + "'");
 			// Fire the Analytics Event for this key
 			AnalyticEvent event = new AnalyticEvent(key, workitem, options);
@@ -208,79 +188,14 @@ public class AnalyticController implements Serializable {
 						}
 					}
 				}
-
 				dataCache.put(key, data);
-				// if (event.getValue() != null) {
-				// ItemCollection details = new ItemCollection();
-				// details.setItemValue("value", event.getValue());
-
-				// if (!event.getLabel().isEmpty()) {
-				// details.setItemValue("label", event.getLabel());
-				// } else {
-				// // if we do not have a label we try to resolve it from the options..
-				// details.setItemValue("label", getOption(key, "label", options, ""));
-				// }
-
-				// if (!event.getDescription().isEmpty()) {
-				// details.setItemValue("description", event.getDescription());
-				// } else {
-				// // if we do not have a description we try to resolve it from the options..
-				// details.setItemValue("description", getOption(key, "description", options,
-				// ""));
-				// }
-
-				// if (!event.getLink().isEmpty()) {
-				// details.setItemValue("link", event.getLink());
-				// } else {
-				// // if we do not have a link we try to resolve it from the options..
-				// details.setItemValue("link", getOption(key, "link", options, ""));
-				// }
-
-				// // cache result
-				// implodeDetails(workitem, key, details);
-				// }
 			}
 		}
 
 		// analytic value is now already cached!
 		// return explodeDetails(workitem, key);
 		return data;
-
 	}
-
-	/**
-	 * Convert the List of ItemCollections back into a List of Map elements
-	 * 
-	 * @param workitem
-	 */
-	// @SuppressWarnings({ "rawtypes" })
-	// private void implodeDetails(ItemCollection workitem, String key,
-	// ItemCollection details) {
-	// // convert the child ItemCollection elements into a List of Map
-	// List<Map> detailsList = new ArrayList<Map>();
-	// detailsList.add(details.getAllItems());
-	// workitem.replaceItemValue(key, detailsList);
-	// }
-
-	// /**
-	// * converts the Map List of a workitem into a List of ItemCollections
-	// */
-	// @SuppressWarnings({ "rawtypes", "unchecked" })
-	// private ItemCollection explodeDetails(ItemCollection workitem, String key) {
-	// // convert current list of childItems into ItemCollection elements
-	// List<Object> mapOrderItems = workitem.getItemValue(key);
-	// if (mapOrderItems != null && mapOrderItems.size() > 0) {
-	// ItemCollection itemCol = new ItemCollection((Map) mapOrderItems.get(0));
-	// return itemCol;
-	// }
-	// // return empty collection
-	// ItemCollection dummy = new ItemCollection();
-	// dummy.setItemValue("value", "");
-	// dummy.setItemValue("label", "");
-	// dummy.setItemValue("description", "No data available");
-
-	// return dummy;
-	// }
 
 	/**
 	 * This helper method returns an optional JSON value from the 'options'
@@ -354,19 +269,19 @@ public class AnalyticController implements Serializable {
 	 */
 	private String convertJsonValueToString(JsonValue jsonValue) {
 		switch (jsonValue.getValueType()) {
-		case STRING:
-			return ((JsonString) jsonValue).getString();
-		case NUMBER:
-			return jsonValue.toString();
-		case TRUE:
-			return "true";
-		case FALSE:
-			return "false";
-		case NULL:
-			return null;
-		default:
-			// For arrays or objects, return the JSON representation
-			return jsonValue.toString();
+			case STRING:
+				return ((JsonString) jsonValue).getString();
+			case NUMBER:
+				return jsonValue.toString();
+			case TRUE:
+				return "true";
+			case FALSE:
+				return "false";
+			case NULL:
+				return null;
+			default:
+				// For arrays or objects, return the JSON representation
+				return jsonValue.toString();
 		}
 	}
 
