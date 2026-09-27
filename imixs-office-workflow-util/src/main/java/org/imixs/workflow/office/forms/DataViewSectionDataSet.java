@@ -247,7 +247,7 @@ public class DataViewSectionDataSet implements Serializable {
                     DataViewService.MAX_ROWS, 0, sortBy,
                     dataViewDefinition.getItemValueBoolean("sort.reverse"));
 
-            FileData fileDataExport = dataViewService.poiExport(workitems, dataViewDefinition, viewItemDefinitions);
+            FileData fileDataExport = dataViewService.exportPOI(workitems, dataViewDefinition, viewItemDefinitions);
 
             // create a temp event
             ItemCollection event = new ItemCollection().setItemValue("txtActivityResult",
