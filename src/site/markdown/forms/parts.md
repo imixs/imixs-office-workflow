@@ -103,6 +103,13 @@ A currency input to enter monetary values.
 
 <img class="screenshot" src="item-currency.png" />
 
+The currency input/output format is resolved by the user language settings. This language setting can be overwritten by using the option 'language'
+
+```xml
+   <item name="invoice.total" type="currency"  label="Ammount CHF:"
+         required="true" options="locale=de_CH" />
+```
+
 ## IBAN / BIC Input
 
 IBAN / BIC input with automatic validation.
