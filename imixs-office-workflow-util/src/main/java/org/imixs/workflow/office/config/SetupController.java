@@ -27,6 +27,8 @@
 
 package org.imixs.workflow.office.config;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -44,6 +46,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.model.SelectItem;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -185,6 +188,29 @@ public class SetupController extends ConfigController {
         } else {
             return false;
         }
+    }
+
+    /**
+     * This method returns a list of faces SelectItems containing the languages
+     * configuration If no languages configuration exists, the method returns
+     * Deutsch and Englich per default
+     * 
+     * @return
+     */
+    public List<SelectItem> getLanguages() {
+        List<SelectItem> result = null;
+        try {
+            result = this.getSelectItems("languages");
+        } catch (Exception e) {
+        }
+
+        if (result == null || result.isEmpty()) {
+            result = new ArrayList<>();
+            result.add(new SelectItem("de_DE", "Deutsch"));
+            result.add(new SelectItem("en_EN", "English"));
+        }
+
+        return result;
     }
 
     /**

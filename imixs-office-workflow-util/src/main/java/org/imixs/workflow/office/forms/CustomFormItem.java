@@ -59,7 +59,6 @@ public class CustomFormItem {
 
     private static Logger logger = Logger.getLogger(CustomFormItem.class.getName());
 
-
     public CustomFormItem(String name, String type, String label, boolean required, boolean readonly, boolean disabled,
             String options,
             String path, boolean hide, int span) {
@@ -72,9 +71,9 @@ public class CustomFormItem {
         this.disabled = disabled;
         this.hide = hide;
         this.options = options;
-        this.path=path;
-        if ("custom".equalsIgnoreCase(type) && (path ==null || path.isEmpty()) ) {
-        	logger.warning("Custom Form Item requires 'path' attribute - please check your BPMN model");
+        this.path = path;
+        if ("custom".equalsIgnoreCase(type) && (path == null || path.isEmpty())) {
+            logger.warning("Custom Form Item requires 'path' attribute - please check your BPMN model");
         }
         // default span = 12
         if (span <= 0 || span > 12) {
@@ -189,7 +188,6 @@ public class CustomFormItem {
         return selection;
     }
 
-    
     /**
      * Optional option string.
      * <p>
@@ -206,15 +204,51 @@ public class CustomFormItem {
     }
 
     /**
+     * Returns a single value from the Option key/value list
+     * 
+     * @param options - options
+     * @param key     - option key
+     * @return option value
+     */
+    public String getOptionValue(String key) {
+        // Null checks
+        if (options == null || key == null || options.trim().isEmpty() || key.trim().isEmpty()) {
+            return "";
+        }
+
+        // Split options into key/value pairs (separated by semicolon)
+        String[] pairs = options.split(";");
+
+        for (String pair : pairs) {
+            // Split each pair into key and value (separated by equals sign)
+            String[] keyValue = pair.split("=", 2); // Limit to 2 in case value contains "="
+
+            if (keyValue.length == 2) {
+                String currentKey = keyValue[0].trim();
+                String currentValue = keyValue[1].trim();
+
+                // Check if the searched key was found
+                if (key.equals(currentKey)) {
+                    return currentValue;
+                }
+            }
+        }
+
+        // Key not found
+        return "";
+    }
+
+    /**
      * optional path for custom items.
+     * 
      * @return
      */
-	public String getPath() {
-		return path;
-	}
+    public String getPath() {
+        return path;
+    }
 
-	public void setPath(String path) {
-		this.path = path;
-	}
-    
+    public void setPath(String path) {
+        this.path = path;
+    }
+
 }

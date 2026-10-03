@@ -56,15 +56,17 @@
 										</h:outputText>
 									</c:if>
 
-									<ui:remove><!-- currency --></ui:remove>
+									<ui:remove><!-- currency with optional locale format --></ui:remove>
 									<c:if test="#{item.type eq 'currency'}">
 										<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
 											required="#{item.required?validationController.required:false}"
 											rendered="#{!item.readonly}" disabled="#{item.disabled}">
-											<f:convertNumber minFractionDigits="2" locale="de" />
+											<f:convertNumber minFractionDigits="2"
+												locale="#{empty item.getOptionValue('locale') ? userController.locale : item.getOptionValue('locale')}" />
 										</h:inputText>
 										<h:outputText value="#{workitem.item[item.name]}" rendered="#{item.readonly}">
-											<f:convertNumber minFractionDigits="2" locale="de" />
+											<f:convertNumber minFractionDigits="2"
+												locale="#{empty item.getOptionValue('locale') ? userController.locale : item.getOptionValue('locale')}" />
 										</h:outputText>
 									</c:if>
 

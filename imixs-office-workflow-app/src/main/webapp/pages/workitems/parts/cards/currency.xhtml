@@ -3,16 +3,20 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html">
 
 	<ui:param name="data" value="#{analyticController.getData(workitem,item.name)}"></ui:param>
-	<div class="dashboard-card">
+	<div class="dashboard-card #{data.item['class']}">
 		<div class="dashboard-card-header">
-			<h:outputText value="#{data.item['value']}">
-				<f:convertNumber minFractionDigits="2" locale="de" />
-			</h:outputText>
+			<h:outputText value="#{analyticController.getFormatedValue(data)}" />
+
 		</div>
 
 
-		<div class="dashboard-card-content">#{analyticController.getLabel(workitem,item.name)}</div>
-
+		<div class="dashboard-card-content">
+			<ui:fragment rendered="#{not empty data.item['icon']}">
+				<i class="fas #{data.item['icon']}" />
+				<span></span>
+			</ui:fragment>
+			<h:outputText escape="false" value="#{data.item['label']}" />
+		</div>
 
 		<div class="dashboard-card-footer">
 			<span>#{data.item['description']}</span>

@@ -45,10 +45,10 @@
 								<h:inputText value="#{childitem.item[item.name]}" pt:data-item="#{item.name}"
 									required="#{item.required?validationController.required:false}"
 									rendered="#{!item.readonly}" disabled="#{item.disabled}" style="text-align: right;">
-									<f:convertNumber minFractionDigits="2" locale="de" />
+									<f:convertNumber minFractionDigits="2" />
 								</h:inputText>
 								<h:outputText value="#{childitem.item[item.name]}" rendered="#{item.readonly}">
-									<f:convertNumber minFractionDigits="2" locale="de" />
+									<f:convertNumber minFractionDigits="2" />
 								</h:outputText>
 							</c:if>
 
