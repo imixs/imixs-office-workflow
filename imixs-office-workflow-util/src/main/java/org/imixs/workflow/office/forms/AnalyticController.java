@@ -54,9 +54,12 @@ public class AnalyticController implements Serializable {
 	@Inject
 	protected Event<AnalyticEvent> analyticEvents;
 
+	@Inject
+	protected AnalyticCache analyticCache;
+
 	private Map<String, Map<String, String>> optionsCache = new HashMap<>();
 
-	private Map<String, ItemCollection> dataCache = new HashMap<>();
+	// private Map<String, ItemCollection> dataCache = new HashMap<>();
 
 	/**
 	 * Returns a analytic data object for a given key.
@@ -164,36 +167,39 @@ public class AnalyticController implements Serializable {
 					"ERROR", "Analytic Value can not be computed - workitem is null");
 		}
 
-		ItemCollection data = dataCache.get(key);
+		// The workitem id and the options are part of the key, because the cache is
+		// shared by all conversations (tabs) of the session
+		String cacheKey = workitem.getUniqueID() + "|" + key + "|" + (options == null ? 0 : options.hashCode());
+
+		ItemCollection data = analyticCache.get(cacheKey);
+		if (data != null) {
+			return data;
+		}
+
+		if (analyticEvents == null) {
+			return new ItemCollection();
+		}
+
+		logger.fine("fire analytic event for key '" + key + "'");
+		AnalyticEvent event = new AnalyticEvent(key, workitem, options);
+		analyticEvents.fire(event);
+
+		data = event.getData();
 		if (data == null) {
-			// compute data...
-			logger.fine("fire analytic event for key '" + key + "'");
-			// Fire the Analytics Event for this key
-			AnalyticEvent event = new AnalyticEvent(key, workitem, options);
-			if (analyticEvents != null) {
-				analyticEvents.fire(event);
+			logger.severe("Data Object is null!");
+			data = new ItemCollection();
+		}
 
-				data = event.getData();
-				if (data == null) {
-					logger.severe("Data Object is null!");
-					data = new ItemCollection();
+		if (options != null) {
+			Map<String, String> optionValues = parseJsonOptions(options);
+			for (Map.Entry<String, String> i : optionValues.entrySet()) {
+				if (!"value".equals(i.getKey())) {
+					data.setItemValue(i.getKey(), i.getValue());
 				}
-
-				if (options != null) {
-					logger.fine("options=" + options);
-					Map<String, String> optionValues = parseJsonOptions(options);
-					for (Map.Entry<String, String> i : optionValues.entrySet()) {
-						if (!"value".equals(i.getKey())) {
-							data.setItemValue(i.getKey(), i.getValue());
-						}
-					}
-				}
-				dataCache.put(key, data);
 			}
 		}
 
-		// analytic value is now already cached!
-		// return explodeDetails(workitem, key);
+		analyticCache.put(cacheKey, data);
 		return data;
 	}
 
