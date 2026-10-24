@@ -5,12 +5,16 @@
 	template="/layout/template.xhtml">
 
 
+	<ui:remove>
+		<!-- Provides a data view with excel export. 
+		 ID and optional filter is expected as a query param
+	    -->
+	</ui:remove>
 
 	<f:metadata>
 		<f:viewAction action="#{dataViewFormController.onLoad()}" />
 	</f:metadata>
-	<!-- Diese Form exportiert Ausgangsrechnungen nach Excel 
-	 -->
+
 	<ui:define name="scripts">
 		<script type="text/javascript">
 			/*<![CDATA[*/

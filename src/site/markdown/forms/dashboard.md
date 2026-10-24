@@ -84,3 +84,14 @@ The following shows a example section that displayes 2 Diagrams
 The first item shows a counter with all process instances in the process group 'Sales', the second one shows a chart diagram with all process instances of the workflow grup 'Outbound Invoice' created during the last 6 months.
 
 <img class="screenshot" src="dashboard-001.png" />
+
+## DataViewAnalyticHandler
+
+The DataViewAnalyticHandler can be used to compute the number of documents of a DataView.
+
+```xml
+ <item name="dataview.stats.products" type="custom" path="cards/plain"  options='{ "class":"lead", "label":"Products", "name":"products-view", "description":"All Products"}' />
+```
+
+The name must start with `dataview.stats.` followed by a unique identifier. The name of the DataView is defined by the option 'name'.
+The handler automatically computes the count of workitems and generates the link to the dataview

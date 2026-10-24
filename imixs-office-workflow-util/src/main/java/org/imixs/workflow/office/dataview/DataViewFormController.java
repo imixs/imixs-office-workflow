@@ -35,7 +35,12 @@ import jakarta.inject.Named;
 
 /**
  * The DataViewFormController extends the DataViewController and updates the
- * CustomFormController. This controller is used to display the filter form
+ * CustomFormController. This controller is used to display the result of a
+ * dataview
+ * <p>
+ * The dataview is identified by the parm id.
+ * The optional quey param 'filter' is used to refine the query defined by the
+ * dataview
  * <p>
  * Note: This bean is ConversationScoped, because it uses the
  * CustomFormController which expects conversion scope!

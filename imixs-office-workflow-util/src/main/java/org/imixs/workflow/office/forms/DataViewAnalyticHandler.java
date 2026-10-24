@@ -36,7 +36,7 @@ public class DataViewAnalyticHandler {
     private static final Logger logger = Logger.getLogger(DataViewAnalyticHandler.class.getName());
 
     public static final String KEY_PREFIX = "dataview.stats.";
-    public static final String LINK_PATTERN = "/pages/dataviews/data.xhtml?id=%s&faces-redirect=true";
+    public static final String LINK_PATTERN = "/pages/dataviews/data.xhtml?faces-redirect=true";
 
     @Inject
     protected DataViewService dataViewService;
@@ -64,6 +64,7 @@ public class DataViewAnalyticHandler {
             logger.warning("Missing option 'name' for analytic '" + event.getKey() + "'");
             return;
         }
+        String filter = analyticController.getOption(event.getKey(), "filter", options, null);
 
         ItemCollection dataViewDefinition = dataViewService.loadDataViewDefinition(dataViewName);
         if (dataViewDefinition == null) {
@@ -77,8 +78,15 @@ public class DataViewAnalyticHandler {
 
         boolean debug = dataViewDefinition.getItemValueBoolean("debug");
         try {
-            // Resolve the query without filter values. Placeholders are replaced by '*'
+            // Resolve the query. Placeholders are replaced by '*'
             String query = dataViewService.parseQuery(dataViewDefinition, new ItemCollection());
+            String link = LINK_PATTERN + "&id=" + dataViewDefinition.getUniqueID();
+
+            // add optional filter
+            if (filter != null && !filter.isBlank()) {
+                query = query + " AND " + filter;
+                link = link + "&filter=" + filter;
+            }
             if (debug) {
                 logger.info("├── count DataView '" + dataViewName + "' - query=" + query);
             }
@@ -89,7 +97,7 @@ public class DataViewAnalyticHandler {
                     .setItemValue("value", count)
                     .setItemValue("label", dataViewName)
                     .setItemValue("description", "")
-                    .setItemValue("link", String.format(LINK_PATTERN, dataViewDefinition.getUniqueID())));
+                    .setItemValue("link", link));
 
         } catch (QueryException e) {
             logger.warning("Failed to count DataView '" + dataViewName + "': " + e.getMessage());
