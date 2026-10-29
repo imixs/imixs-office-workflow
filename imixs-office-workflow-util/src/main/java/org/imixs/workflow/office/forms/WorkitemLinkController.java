@@ -68,8 +68,8 @@ import jakarta.inject.Named;
 @RequestScoped
 public class WorkitemLinkController implements Serializable {
 
-    public static final String LINK_PROPERTY = "$workitemref";
-    public static final String LINK_PROPERTY_DEPRECATED = "txtworkitemref";
+    public static final String LINK_PROPERTY = "$uniqueidref";
+    public static final String LINK_PROPERTY_DEPRECATED = "$workitemref";
     public static final int MAX_SEARCH_RESULT = 30;
     public static Logger logger = Logger.getLogger(WorkitemLinkController.class.getName());
 
