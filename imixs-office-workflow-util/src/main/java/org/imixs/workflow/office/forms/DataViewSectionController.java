@@ -26,6 +26,7 @@ package org.imixs.workflow.office.forms;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.OptionalInt;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -90,6 +91,54 @@ public class DataViewSectionController implements Serializable {
     }
 
     /**
+     * Initializes a new DataViewSectionDataSet based on the given options
+     * (parameter 'name').
+     * 
+     * The expected format of the options string is:
+     * <p>
+     * "name=DATAVIEWNAME"
+     * <p>
+     * The method loads the corresponding dataView definition immediately and stores
+     * the dataSet in a local cache.
+     * 
+     * @return view result
+     * @throws QueryException
+     */
+    public DataViewSectionDataSet loadDataSet(String options) throws QueryException {
+        DataViewSectionDataSet dataSet = dataSets.get(options);
+        // Extract and set dataViewName from options
+        if (dataSet == null) {
+            String _dataViewName = getOptionValue(options, "name");
+            if (_dataViewName != null) {
+                logger.info("...build new dataSet by options: " + options);
+                dataSet = new DataViewSectionDataSet(_dataViewName, workflowController.getWorkitem(), dataViewService);
+                if (dataSet.getDataViewDefinition() != null) {
+                    dataSets.put(options, dataSet);
+                }
+            }
+        }
+        // set optional page size
+        getIntOption(options, "pagesize").ifPresent(dataSet::setPageSize);
+        return dataSet;
+    }
+
+    public boolean hasDataSet(String options) {
+        DataViewSectionDataSet dataSet = dataSets.get(options);
+        // Extract and set dataViewName from options
+        if (dataSet != null) {
+            return true;
+        }
+
+        // test if view exists..
+        String _dataViewName = getOptionValue(options, "name");
+        if (dataViewService.loadDataViewDefinition(_dataViewName) != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Returns a single value from a Option key/value list
      * 
      * @param options - options
@@ -124,50 +173,15 @@ public class DataViewSectionController implements Serializable {
         return null;
     }
 
-    /**
-     * Initializes a new DataViewSectionDataSet based on the given options
-     * (parameter 'name').
-     * 
-     * The expected format of the options string is:
-     * <p>
-     * "name=DATAVIEWNAME"
-     * <p>
-     * The method loads the corresponding dataView definition immediately and stores
-     * the dataSet in a local cache.
-     * 
-     * @return view result
-     * @throws QueryException
-     */
-    public DataViewSectionDataSet loadDataSet(String options) throws QueryException {
-        DataViewSectionDataSet dataSet = dataSets.get(options);
-        // Extract and set dataViewName from options
-        if (dataSet == null) {
-            String _dataViewName = getOptionValue(options, "name");
-            if (_dataViewName != null) {
-                logger.info("...build new dataSet by options: " + options);
-                dataSet = new DataViewSectionDataSet(_dataViewName, workflowController.getWorkitem(), dataViewService);
-                if (dataSet.getDataViewDefinition() != null) {
-                    dataSets.put(options, dataSet);
-                }
-            }
+    private OptionalInt getIntOption(String options, String key) {
+        String value = getOptionValue(options, key);
+        if (value == null || value.isBlank())
+            return OptionalInt.empty();
+        try {
+            return OptionalInt.of(Integer.parseInt(value.trim()));
+        } catch (NumberFormatException e) {
+            logger.warning("Invalid integer option '" + key + "': " + value);
+            return OptionalInt.empty();
         }
-        return dataSet;
     }
-
-    public boolean hasDataSet(String options) {
-        DataViewSectionDataSet dataSet = dataSets.get(options);
-        // Extract and set dataViewName from options
-        if (dataSet != null) {
-            return true;
-        }
-
-        // test if view exists..
-        String _dataViewName = getOptionValue(options, "name");
-        if (dataViewService.loadDataViewDefinition(_dataViewName) != null) {
-            return true;
-        }
-
-        return false;
-    }
-
 }
