@@ -178,16 +178,17 @@ public class ChronicleController implements Serializable {
 	 */
 	public List<ChronicleEntity> getChroniclePerMonth(int year, int month) {
 		ArrayList<ChronicleEntity> result = new ArrayList<ChronicleEntity>();
-		for (ChronicleEntity entry : filteredChronicleList) {
-			Date date = entry.getDate();
+		if (filteredChronicleList != null) {
+			for (ChronicleEntity entry : filteredChronicleList) {
+				Date date = entry.getDate();
 
-			LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			if (month == localDate.getMonthValue() && year == localDate.getYear()) {
-				result.add(entry);
+				LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				if (month == localDate.getMonthValue() && year == localDate.getYear()) {
+					result.add(entry);
+				}
 			}
+			logger.finest("......getChroniclePerMonth - found " + result.size() + " chronicle entities");
 		}
-
-		logger.finest("......getChroniclePerMonth - found " + result.size() + " chronicle entities");
 		return result;
 	}
 
@@ -410,7 +411,6 @@ public class ChronicleController implements Serializable {
 		 * 
 		 */
 		List<ItemCollection> references = workitemLinkController.getReferencesOutbound();
-
 		for (ItemCollection reference : references) {
 			Date date = reference.getItemValueDate(WorkflowKernel.CREATED);
 			String message = reference.getItemValueString("$WorkflowSummary");

@@ -291,7 +291,7 @@ public class WorkitemLinkController implements Serializable {
             logger.finest("... we have " + refList.size() + " references stored");
 
             // select all references.....
-            String sQuery = "(";
+            String sQuery = "(type:workitem OR type:workitemarchive) AND (";
             for (String ref : refList) {
                 if (ref != null && !ref.trim().isEmpty()) {
                     sQuery = sQuery + "$uniqueid:\"" + ref + "\" OR ";
