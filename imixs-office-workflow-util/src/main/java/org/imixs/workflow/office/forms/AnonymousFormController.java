@@ -34,8 +34,11 @@ import java.util.logging.Logger;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
+import org.imixs.workflow.exceptions.ProcessingErrorException;
+import org.imixs.workflow.faces.util.ErrorHandler;
 
 import jakarta.annotation.security.RunAs;
 import jakarta.enterprise.context.Conversation;
@@ -68,7 +71,7 @@ public class AnonymousFormController implements Serializable {
     ItemCollection workitem = null;
 
     @Inject
-    @ConfigProperty(name = "ANONYMOUS_FORMS_ENABLED", defaultValue = "false")
+    @ConfigProperty(name = "anonymous.forms.enabled", defaultValue = "false")
     boolean enabled;
 
     @Inject
@@ -121,13 +124,28 @@ public class AnonymousFormController implements Serializable {
      * Wrapper method
      * 
      * @return
+     * @throws PluginException
+     * @throws ProcessingErrorException
+     * @throws AccessDeniedException
      * @throws ModelException
      */
-    public String process() throws PluginException, ModelException {
+    public String process() {
+        String actionResult = null;
         if (enabled) {
-            workitem = systemWorkitemService.processWorkItem(workitem);
+            try {
+                workitem = systemWorkitemService.processWorkItem(workitem);
+            } catch (PluginException pe) {
+                actionResult = null;
+                // add a new FacesMessage into the FacesContext
+                ErrorHandler.handlePluginException(pe);
+            } catch (ModelException me) {
+                actionResult = null;
+                // add a new FacesMessage into the FacesContext
+                ErrorHandler.handleModelException(me);
+            }
+
         }
-        return "";
+        return actionResult;
     }
 
     public ItemCollection getWorkitem() {
