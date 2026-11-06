@@ -33,6 +33,7 @@ import org.imixs.workflow.engine.WorkflowService;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.faces.data.WorkflowController;
+import org.imixs.workflow.faces.util.LoginController;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.ExternalContext;
@@ -82,9 +83,13 @@ public class ValidationController implements Serializable {
     @Inject
     WorkflowService workflowService;
 
+    @Inject
+    LoginController loginController;
+
     public boolean isRequired() throws PluginException, ModelException {
         required = false;
-        if (workflowController != null && workflowController.getWorkitem() != null) {
+        if (workflowController != null && workflowController.getWorkitem() != null
+                && loginController.isAuthenticated()) {
 
             FacesContext context = FacesContext.getCurrentInstance();
 
@@ -140,17 +145,19 @@ public class ValidationController implements Serializable {
      */
     public String getConfirmMessage(ItemCollection event) {
         ItemCollection evalItemCollection;
-        try {
-            evalItemCollection = workflowService.evalWorkflowResult(event, "validation",
-                    workflowController.getWorkitem());
-            if (evalItemCollection != null) {
-                logger.finest("......evaluate validation confirm message");
-                // evaluate the validation confirm message...
-                String message = evalItemCollection.getItemValueString("confirm");
-                return message;
+        if (loginController.isAuthenticated()) {
+            try {
+                evalItemCollection = workflowService.evalWorkflowResult(event, "validation",
+                        workflowController.getWorkitem());
+                if (evalItemCollection != null) {
+                    logger.finest("......evaluate validation confirm message");
+                    // evaluate the validation confirm message...
+                    String message = evalItemCollection.getItemValueString("confirm");
+                    return message;
+                }
+            } catch (PluginException e) {
+                logger.warning("Failed to evaluate the event confirm message: " + e.getMessage());
             }
-        } catch (PluginException e) {
-            logger.warning("Failed to evaluate the event confirm message: " + e.getMessage());
         }
         return null;
     }

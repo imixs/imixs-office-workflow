@@ -27,17 +27,20 @@
 
 package org.imixs.workflow.office.forms;
 
+import java.util.List;
 import java.util.logging.Logger;
-
-import jakarta.annotation.security.RunAs;
-import jakarta.ejb.LocalBean;
-import jakarta.ejb.Stateless;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
 import org.imixs.workflow.exceptions.ProcessingErrorException;
+import org.imixs.workflow.faces.data.WorkflowController;
+
+import jakarta.annotation.security.RunAs;
+import jakarta.ejb.LocalBean;
+import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 
 /**
  * This EJB provides a administrative access to the service layer. The bean can
@@ -68,6 +71,12 @@ public class SystemWorkitemService extends WorkitemService {
 	private static Logger logger = Logger.getLogger(SystemWorkitemService.class
 			.getName());
 
+	@Inject
+	CustomFormController customFormController;
+
+	@Inject
+	WorkflowController workflowController;
+
 	@Override
 	public ItemCollection processWorkItem(ItemCollection aworkitem)
 			throws AccessDeniedException, ProcessingErrorException,
@@ -76,7 +85,6 @@ public class SystemWorkitemService extends WorkitemService {
 		logger.fine("SystemWorkitemService - processWorkItem with org.imixs.ACCESSLEVEL.MANAGERACCESS");
 		return super.processWorkItem(aworkitem);
 	}
-
 
 	/**
 	 * The method saves an entity
@@ -93,4 +101,34 @@ public class SystemWorkitemService extends WorkitemService {
 		return workflowService.getDocumentService().save(entity);
 
 	}
+
+	/**
+	 * This method can be used to initialize a new workitem
+	 * 
+	 * model=xxx&task=xxx
+	 * 
+	 * @throws ModelException
+	 * 
+	 **/
+
+	public ItemCollection init(String modelversion, int taskid) throws ModelException {
+
+		logger.info(" Init new Workitem - model=" + modelversion + "  task=" + taskid);
+		ItemCollection workitem = new ItemCollection().model(modelversion).task(taskid);
+		customFormController.computeFieldDefinition(workitem);
+		workflowController.setWorkitem(workitem);
+		return workitem;
+	}
+
+	/**
+	 * Wrapper method
+	 * 
+	 * @return
+	 * @throws ModelException
+	 */
+	public List<ItemCollection> getEvents() throws ModelException {
+		// workflowController.setWorkitem(workitem);
+		return workflowController.getEvents();
+	}
+
 }
