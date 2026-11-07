@@ -27,6 +27,7 @@
 
 package org.imixs.workflow.office.forms;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,7 @@ import org.imixs.workflow.faces.util.ErrorHandler;
 import jakarta.annotation.security.RunAs;
 import jakarta.enterprise.context.Conversation;
 import jakarta.enterprise.context.ConversationScoped;
+import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -130,10 +132,19 @@ public class AnonymousFormController implements Serializable {
      * @throws ModelException
      */
     public String process() {
-        String actionResult = null;
+        String actionResult = "completed";
         if (enabled) {
             try {
                 workitem = systemWorkitemService.processWorkItem(workitem);
+                actionResult = workitem.getItemValueString("action");
+
+                // If no action was defined computed it from the current viewID...
+                if (actionResult == null || actionResult.isEmpty()) {
+                    FacesContext facesContext = FacesContext.getCurrentInstance();
+                    actionResult = facesContext.getViewRoot().getViewId();
+                    actionResult = actionResult + "?id=" + getWorkitem().getUniqueID() + "&faces-redirect=true";
+                }
+
             } catch (PluginException pe) {
                 actionResult = null;
                 // add a new FacesMessage into the FacesContext
@@ -143,8 +154,25 @@ public class AnonymousFormController implements Serializable {
                 // add a new FacesMessage into the FacesContext
                 ErrorHandler.handleModelException(me);
             }
-
         }
+
+        // test if the action result is an external URL. In this case initiate a
+        // redirect
+        if (actionResult != null && actionResult.startsWith("http")) {
+            // clear action result and start redirect
+            String externalURL = actionResult;
+            actionResult = "";
+            try {
+                ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+                externalContext.redirect(externalURL);
+            } catch (IOException e) {
+                logger.warning(
+                        "Failed to redirect action result: " + externalURL + "  - Error: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        logger.info("Result = " + actionResult);
         return actionResult;
     }
 
