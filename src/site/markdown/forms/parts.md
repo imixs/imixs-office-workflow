@@ -166,16 +166,20 @@ With the Markup Editor you can provide a WYSIWYG Editor for Markup Text
 
 ## Information
 
-Use the type `info` to output information text only. The text is part of the `description` attribute.
+Use the type `info` to output information text only.
+
+<img class="screenshot" src="item-info.png" />
+
+The text is part of the item content.
 
 ```xml
-  <item  type="info" description="Some important notes!" />
+  <item  type="info">Some important notes!"</item>
 ```
 
-To output HTML code you need to escape the information text:
+You can also output XHTML code as the information text:
 
 ```xml
-  <item  type="info" description="Hello &lt;a href='https://www.imixs.org'&gt;Imixs&lt;/a&gt;" />
+  <item  type="info">Find more information on <a href='https://www.imixs.org'>imixs.org</a>!</item>
 ```
 
 **Note:** Information text is not stored in the workitem.

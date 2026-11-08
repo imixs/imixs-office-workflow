@@ -335,6 +335,9 @@ public class CustomFormController implements Serializable {
                         // fallback default
                     }
                 }
+                String itemType = itemElement.getAttribute("type");
+                String itemLabel = itemElement.getAttribute("label");
+                String itemName = itemElement.getAttribute("name");
 
                 boolean defaultReadOnly = false;
                 if (readOnly == true) {
@@ -348,11 +351,11 @@ public class CustomFormController implements Serializable {
                 // test if we have a default value
                 String defaultValue = itemElement.getTextContent();
                 if (defaultValue != null && !defaultValue.isEmpty()) {
-                    // extract raw values
-                    String itemName = itemElement.getAttribute("name");
                     try {
+                        // extract raw values
                         defaultValue = getInnerXMLContent(itemElement);
-                        if (!workitem.hasItem(itemName)) {
+                        // Apply the item value - only applicable if not type=info!
+                        if (!workitem.hasItem(itemName) && !"info".equals(itemType)) {
                             // adapt text....
                             if (defaultValue.contains("$created")) {
                                 // special case - we resolve the manually here!
@@ -369,16 +372,24 @@ public class CustomFormController implements Serializable {
                     }
                 }
                 CustomFormItem customItem = new CustomFormItem(itemElement.getAttribute("name"),
-                        itemElement.getAttribute("type"), itemElement.getAttribute("label"),
+                        itemType, itemLabel,
                         evaluateBoolean(itemElement.getAttribute("required")),
                         defaultReadOnly,
                         evaluateBoolean(itemElement.getAttribute("disabled")), itemElement.getAttribute("options"),
                         itemElement.getAttribute("path"), evaluateBoolean(itemElement.getAttribute("hide")), span);
+
                 // do we have a description?
-                String description = itemElement.getAttribute("description");
-                if (!description.isBlank()) {
-                    customItem.setDescription(description);
+                if ("info".equals(itemType)) {
+                    // in case of a info we take the raw content and set it as the description text!
+                    customItem.setDescription(defaultValue);
+                } else {
+                    // default for all other input types
+                    String description = itemElement.getAttribute("description");
+                    if (description != null) {
+                        customItem.setDescription(description);
+                    }
                 }
+
                 result.add(customItem);
             }
         }
