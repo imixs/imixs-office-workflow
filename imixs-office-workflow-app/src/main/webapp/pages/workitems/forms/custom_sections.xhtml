@@ -243,6 +243,12 @@
 										</ui:fragment>
 									</c:if>
 
+									<ui:remove><!-- information (show description only) --></ui:remove>
+									<c:if test="#{item.type eq 'info'}">
+										<div class="imixs-description">
+											<h:outputText escape="false" value="#{item.description}" />
+										</div>
+									</c:if>
 
 									<ui:remove><!-- IBAN/BIC --></ui:remove>
 									<c:if test="#{item.type eq 'iban'}">

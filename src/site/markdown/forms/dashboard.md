@@ -95,3 +95,11 @@ The DataViewAnalyticHandler can be used to compute the number of documents of a 
 
 The name must start with `dataview.stats.` followed by a unique identifier. The name of the DataView is defined by the option 'name'.
 The handler automatically computes the count of workitems and generates the link to the dataview
+
+You can also add an additional filter to refine the DataView Query
+
+**Example:**
+
+```
+ "filter":"(type:workitem) AND ($taskid:5300)"
+```

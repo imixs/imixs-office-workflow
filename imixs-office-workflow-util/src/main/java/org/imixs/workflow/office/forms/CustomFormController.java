@@ -374,7 +374,11 @@ public class CustomFormController implements Serializable {
                         defaultReadOnly,
                         evaluateBoolean(itemElement.getAttribute("disabled")), itemElement.getAttribute("options"),
                         itemElement.getAttribute("path"), evaluateBoolean(itemElement.getAttribute("hide")), span);
-
+                // do we have a description?
+                String description = itemElement.getAttribute("description");
+                if (!description.isBlank()) {
+                    customItem.setDescription(description);
+                }
                 result.add(customItem);
             }
         }

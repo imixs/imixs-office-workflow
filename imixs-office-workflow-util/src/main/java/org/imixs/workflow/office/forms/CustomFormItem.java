@@ -49,6 +49,7 @@ public class CustomFormItem {
     String name;
     String type;
     String label;
+    String description;
     boolean required;
     boolean readonly;
     boolean disabled;
@@ -104,6 +105,14 @@ public class CustomFormItem {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isRequired() {
