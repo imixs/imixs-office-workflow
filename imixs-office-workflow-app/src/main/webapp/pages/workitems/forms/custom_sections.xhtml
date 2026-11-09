@@ -3,7 +3,7 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:i="http://xmlns.jcp.org/jsf/composite/imixs"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:marty="http://xmlns.jcp.org/jsf/composite/marty">
 
-	<c:forEach items="#{customFormSections}" var="section">
+	<c:forEach items="#{customFormSections}" var="section" varStatus="sectionStatus">
 		<c:if test="#{! empty section.label}">
 			<h3 class="imixs-form-section-header">#{section.label}</h3>
 		</c:if>
@@ -25,7 +25,8 @@
 
 				<div class="imixs-form-section-flex">
 
-					<c:forEach items="#{section.items}" var="item">
+					<c:forEach items="#{section.items}" var="item" varStatus="itemStatus">
+						<c:set var="fieldId" value="field_#{sectionStatus.index}_#{itemStatus.index}" />
 						<c:if test="#{!item.hide}">
 							<dl style="grid-column-start: span #{item.span};"
 								class="#{item.readonly?'imixs-readonly':'imixs-edit'}">
@@ -34,11 +35,24 @@
 									<c:if test="#{item.required}">
 										<span class="imixs-required"> *</span>
 									</c:if>
+
+									<c:if test="#{item.type ne 'custom'}">
+										<h:message for="#{fieldId}" styleClass="imixs-required-message" />
+									</c:if>
+									<c:if test="#{item.type eq 'custom'}">
+										<ui:repeat value="#{globalMessageController.getMessagesInside(fieldId)}"
+											var="msg">
+											<span class="imixs-required-message">#{msg.detail}</span>
+										</ui:repeat>
+									</c:if>
+
 								</dt>
 								<dd>
 									<ui:remove><!-- text --></ui:remove>
 									<c:if test="#{item.type eq 'text'}">
-										<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
+										<h:inputText id="#{fieldId}" value="#{workitem.item[item.name]}"
+											pt:data-item="#{item.name}"
+											label="#{empty item.label ? item.name : item.label}"
 											required="#{item.required?validationController.required:false}"
 											rendered="#{!item.readonly}" disabled="#{item.disabled}" />
 										<h:outputText value="#{workitem.item[item.name]}" rendered="#{item.readonly}" />
@@ -46,7 +60,9 @@
 
 									<ui:remove><!-- number --></ui:remove>
 									<c:if test="#{item.type eq 'number'}">
-										<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
+										<h:inputText id="#{fieldId}" value="#{workitem.item[item.name]}"
+											pt:data-item="#{item.name}"
+											label="#{empty item.label ? item.name : item.label}"
 											required="#{item.required?validationController.required:false}"
 											rendered="#{!item.readonly}" disabled="#{item.disabled}">
 											<f:convertNumber />
@@ -58,7 +74,9 @@
 
 									<ui:remove><!-- currency with optional locale format --></ui:remove>
 									<c:if test="#{item.type eq 'currency'}">
-										<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
+										<h:inputText id="#{fieldId}" value="#{workitem.item[item.name]}"
+											pt:data-item="#{item.name}"
+											label="#{empty item.label ? item.name : item.label}"
 											required="#{item.required?validationController.required:false}"
 											rendered="#{!item.readonly}" disabled="#{item.disabled}">
 											<f:convertNumber minFractionDigits="2"
@@ -72,7 +90,9 @@
 
 									<ui:remove><!-- date --></ui:remove>
 									<c:if test="#{item.type eq 'date'}">
-										<h:inputText value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
+										<h:inputText id="#{fieldId}" value="#{workitem.item[item.name]}"
+											pt:data-item="#{item.name}"
+											label="#{empty item.label ? item.name : item.label}"
 											required="#{item.required?validationController.required:false}"
 											styleClass="imixs-date" rendered="#{!item.readonly}"
 											disabled="#{item.disabled}">
@@ -89,7 +109,8 @@
 
 									<ui:remove><!-- html5-date --></ui:remove>
 									<c:if test="#{item.type eq 'html5date'}">
-										<h:inputText value="#{workitem.item[item.name]}" pt:type="date"
+										<h:inputText id="#{fieldId}" value="#{workitem.item[item.name]}" pt:type="date"
+											label="#{empty item.label ? item.name : item.label}"
 											pt:data-item="#{item.name}"
 											required="#{item.required?validationController.required:false}"
 											styleClass="imixs-html5date" rendered="#{!item.readonly}"
@@ -105,7 +126,9 @@
 
 									<ui:remove><!-- html5-datetime --></ui:remove>
 									<c:if test="#{item.type eq 'html5datetime'}">
-										<h:inputText value="#{workitem.item[item.name]}" pt:type="datetime-local"
+										<h:inputText id="#{fieldId}" value="#{workitem.item[item.name]}"
+											pt:type="datetime-local"
+											label="#{empty item.label ? item.name : item.label}"
 											pt:data-item="#{item.name}"
 											required="#{item.required?validationController.required:false}"
 											styleClass="imixs-html5date" rendered="#{!item.readonly}"
@@ -120,7 +143,8 @@
 
 									<ui:remove><!-- html5-month --></ui:remove>
 									<c:if test="#{item.type eq 'html5month'}">
-										<h:inputText value="#{workitem.item[item.name]}" pt:type="month"
+										<h:inputText id="#{fieldId}" value="#{workitem.item[item.name]}" pt:type="month"
+											label="#{empty item.label ? item.name : item.label}"
 											pt:data-item="#{item.name}"
 											required="#{item.required?validationController.required:false}"
 											styleClass="imixs-html5date" rendered="#{!item.readonly}"
@@ -133,8 +157,9 @@
 
 									<ui:remove><!-- text area --></ui:remove>
 									<c:if test="#{item.type eq 'textarea'}">
-										<h:inputTextarea value="#{workitem.item[item.name]}" pt:data-item="#{item.name}"
-											style="#{item.options}"
+										<h:inputTextarea id="#{fieldId}" value="#{workitem.item[item.name]}"
+											pt:data-item="#{item.name}"
+											label="#{empty item.label ? item.name : item.label}" style="#{item.options}"
 											required="#{item.required?validationController.required:false}"
 											rendered="#{!item.readonly}" disabled="#{item.disabled}" />
 										<h:outputText escape="true" value="#{workitem.item[item.name]}"
@@ -143,7 +168,8 @@
 
 									<ui:remove><!-- text list --></ui:remove>
 									<c:if test="#{item.type eq 'textlist'}">
-										<h:inputTextarea value="#{workitem.itemList[item.name]}"
+										<h:inputTextarea id="#{fieldId}" value="#{workitem.itemList[item.name]}"
+											label="#{empty item.label ? item.name : item.label}"
 											pt:data-item="#{item.name}"
 											required="#{item.required?validationController.required:false}"
 											rendered="#{!item.readonly}" disabled="#{item.disabled}"
@@ -193,14 +219,15 @@
 										</ui:fragment>
 										<ui:fragment rendered="#{!item.readonly}">
 											<c:if test="#{item.type eq 'selectBooleanCheckbox'}">
-												<h:selectBooleanCheckbox
+												<h:selectBooleanCheckbox id="#{fieldId}"
 													required="#{item.required?validationController.required:false}"
 													pt:data-item="#{item.name}" disabled="#{item.disabled}"
 													value="#{workitem.item[item.name]}">
 												</h:selectBooleanCheckbox>
 											</c:if>
 											<c:if test="#{item.type eq 'selectOneMenu'}">
-												<h:selectOneMenu
+												<h:selectOneMenu id="#{fieldId}"
+													label="#{empty item.label ? item.name : item.label}"
 													required="#{item.required?validationController.required:false}"
 													pt:data-item="#{item.name}" disabled="#{item.disabled}"
 													value="#{workitem.item[item.name]}">
@@ -208,7 +235,8 @@
 												</h:selectOneMenu>
 											</c:if>
 											<c:if test="#{item.type eq 'selectOneRadio'}">
-												<h:selectOneRadio
+												<h:selectOneRadio id="#{fieldId}"
+													label="#{empty item.label ? item.name : item.label}"
 													required="#{item.required?validationController.required:false}"
 													pt:data-item="#{item.name}" disabled="#{item.disabled}"
 													value="#{workitem.item[item.name]}">
@@ -216,7 +244,7 @@
 												</h:selectOneRadio>
 											</c:if>
 											<c:if test="#{item.type eq 'selectOneRadioPageDirection'}">
-												<h:selectOneRadio
+												<h:selectOneRadio id="#{fieldId}"
 													required="#{item.required?validationController.required:false}"
 													pt:data-item="#{item.name}" layout="pageDirection"
 													disabled="#{item.disabled}" value="#{workitem.item[item.name]}">
@@ -224,7 +252,8 @@
 												</h:selectOneRadio>
 											</c:if>
 											<c:if test="#{item.type eq 'selectManyCheckbox'}">
-												<h:selectManyCheckbox
+												<h:selectManyCheckbox id="#{fieldId}"
+													label="#{empty item.label ? item.name : item.label}"
 													required="#{item.required?validationController.required:false}"
 													pt:data-item="#{item.name}" disabled="#{item.disabled}"
 													value="#{workitem.itemListArray[item.name]}">
@@ -232,7 +261,8 @@
 												</h:selectManyCheckbox>
 											</c:if>
 											<c:if test="#{item.type eq 'selectManyCheckboxPageDirection'}">
-												<h:selectManyCheckbox
+												<h:selectManyCheckbox id="#{fieldId}"
+													label="#{empty item.label ? item.name : item.label}"
 													required="#{item.required?validationController.required:false}"
 													pt:data-item="#{item.name}" layout="pageDirection"
 													disabled="#{item.disabled}"
@@ -252,40 +282,37 @@
 
 									<ui:remove><!-- IBAN/BIC --></ui:remove>
 									<c:if test="#{item.type eq 'iban'}">
-										<h:inputText id="iban" value="#{workitem.item[item.name]}"
+										<h:inputText id="#{fieldId}" value="#{workitem.item[item.name]}"
 											pt:data-item="#{item.name}" onkeyup="imixsOfficeWorkitem.formatIBAN(this);"
 											required="#{item.required?validationController.required:false}"
 											rendered="#{!item.readonly}" disabled="#{item.disabled}">
 											<f:validator validatorId="imixsIBANValidator" />
 										</h:inputText>
-										<span class="imixs-required">
-											<h:message for="iban" />
-										</span>
 										<h:outputText value="#{workitem.item[item.name]}" rendered="#{item.readonly}" />
 									</c:if>
 									<c:if test="#{item.type eq 'bic'}">
-										<h:inputText id="bic" value="#{workitem.item[item.name]}"
+										<h:inputText id="#{fieldId}" value="#{workitem.item[item.name]}"
 											pt:data-item="#{item.name}"
 											required="#{item.required?validationController.required:false}"
 											rendered="#{!item.readonly}" disabled="#{item.disabled}">
 											<f:validator validatorId="imixsBICValidator" />
 										</h:inputText>
-										<span class="imixs-required">
-											<h:message for="bic" />
-										</span>
 										<h:outputText value="#{workitem.item[item.name]}" rendered="#{item.readonly}" />
 									</c:if>
 
 									<ui:remove><!-- custom subview --></ui:remove>
 									<c:if test="#{item.type eq 'custom'}">
-										<ui:include src="/pages/workitems/parts/#{item.path}.xhtml">
-											<ui:param name="workitem" value="#{workitem}" />
-											<ui:param name="required" value="#{item.required}" />
-											<ui:param name="readonly" value="#{item.readonly}" />
-											<ui:param name="name" value="#{item.name}" />
-											<ui:param name="options" value="#{item.options}" />
-											<ui:param name="rendered" value="#{true}" />
-										</ui:include>
+										<f:subview id="#{fieldId}">
+											<ui:include src="/pages/workitems/parts/#{item.path}.xhtml">
+												<ui:param name="workitem" value="#{workitem}" />
+												<ui:param name="required" value="#{item.required}" />
+												<ui:param name="readonly" value="#{item.readonly}" />
+												<ui:param name="name" value="#{item.name}" />
+												<ui:param name="options" value="#{item.options}" />
+												<ui:param name="rendered" value="#{true}" />
+												<ui:param name="disabled" value="#{item.disabled}" />
+											</ui:include>
+										</f:subview>
 									</c:if>
 								</dd>
 							</dl>

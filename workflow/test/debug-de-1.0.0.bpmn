@@ -610,7 +610,7 @@ if (workitem.getItemValueString('txtcomment')=='') {
 
     <imixs-subform label="Basic"  >
         <imixs-form-section columns="1" label="Formular">
-            <item name="debug.name" type="text"  label="Name:" />
+            <item name="debug.name" type="text" required="true" label="Name:" />
         </imixs-form-section>
 
         <imixs-form-section columns="2">
@@ -624,8 +624,10 @@ if (workitem.getItemValueString('txtcomment')=='') {
 
             <item name="debug.datehtml" type="html5date"  label="Date:" span="2" ><itemvalue>$created</itemvalue></item>
             <item name="debug.zip" type="text"  label="ZIP:" span="2" />
-            <item name="debug.city" type="text"  label="City:" span="6" />
+            <item name="debug.city" type="text"  label="City:" required="true" span="6" />
             <item name="debug.country" type="custom" path="country"  label="Country:" span="4" />
+            <item name="dbtr.iban" type="iban" label="IBAN" />
+            <item name="dbtr.bic" type="bic"  label="BIC" />
 
              <item  type="info">Find more information on <a href='https://www.imixs.org'>imixs.org</a>!</item>
 	   
@@ -640,6 +642,7 @@ if (workitem.getItemValueString('txtcomment')=='') {
         </imixs-form-section>
         <imixs-form-section columns="2">
             <item name="debug.number" type="date"  label="Termin:" />
+
         </imixs-form-section>
     </imixs-subform>
 
@@ -1983,7 +1986,6 @@ result.isValid=true;
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="Association_YAydqA" id="BPMNEdge_XbERKg" sourceElement="BPMNShape_uZZ83g" targetElement="BPMNShape_Task_1">
-        <di:waypoint x="435.0" y="878.0"/>
         <di:waypoint x="435.0" y="878.0"/>
         <di:waypoint x="435.0" y="917.0"/>
         <di:waypoint x="824.0" y="917.0"/>
