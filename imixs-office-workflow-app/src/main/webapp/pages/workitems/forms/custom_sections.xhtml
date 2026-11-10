@@ -36,15 +36,6 @@
 										<span class="imixs-required"> *</span>
 									</c:if>
 
-									<c:if test="#{item.type ne 'custom'}">
-										<h:message for="#{fieldId}" styleClass="imixs-required-message" />
-									</c:if>
-									<c:if test="#{item.type eq 'custom'}">
-										<ui:repeat value="#{globalMessageController.getMessagesInside(fieldId)}"
-											var="msg">
-											<span class="imixs-required-message">#{msg.detail}</span>
-										</ui:repeat>
-									</c:if>
 
 								</dt>
 								<dd>
@@ -314,6 +305,17 @@
 											</ui:include>
 										</f:subview>
 									</c:if>
+
+									<c:if test="#{item.type ne 'custom'}">
+										<h:message for="#{fieldId}" styleClass="imixs-required-message" />
+									</c:if>
+									<c:if test="#{item.type eq 'custom'}">
+										<ui:repeat value="#{globalMessageController.getMessagesInside(fieldId)}"
+											var="msg">
+											<span class="imixs-required-message">#{msg.detail}</span>
+										</ui:repeat>
+									</c:if>
+
 								</dd>
 							</dl>
 						</c:if>
