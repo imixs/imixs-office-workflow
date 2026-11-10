@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.imixs.workflow.ItemCollection;
+import org.imixs.workflow.WorkflowKernel;
 import org.imixs.workflow.exceptions.AccessDeniedException;
 import org.imixs.workflow.exceptions.ModelException;
 import org.imixs.workflow.exceptions.PluginException;
@@ -56,6 +57,10 @@ import jakarta.inject.Named;
  * The feature need to be activated by the env variable
  * ANONYMOUS_FORMS_ENABLED=true
  * 
+ * The method process validates that only a new created workitem within the same
+ * conversation is allowed to be processed. This avoids situations where other
+ * data can be manipulated.
+ * 
  * @author rsoika
  *
  */
@@ -71,10 +76,15 @@ public class AnonymousFormController implements Serializable {
 
     List<ItemCollection> events = null;
     ItemCollection workitem = null;
+    String currentUniqueID = null;
 
     @Inject
     @ConfigProperty(name = "anonymous.forms.enabled", defaultValue = "false")
     boolean enabled;
+
+    @Inject
+    @ConfigProperty(name = "anonymous.forms.models", defaultValue = "")
+    String models;
 
     @Inject
     SystemWorkitemService systemWorkitemService;
@@ -114,8 +124,22 @@ public class AnonymousFormController implements Serializable {
             String model = paramMap.get("model");
             String task = paramMap.get("task");
 
+            // if the model is not listed in modelversions we throw an exception
+            if (models == null || models.isBlank()) {
+                logger.warning("ANONYMOUS_FORMS_MODELS not defined!");
+                workitem = null;
+                return;
+            }
+            if (!models.contains(model)) {
+                logger.warning("Model '" + model + "' not defined by ANONYMOUS_FORMS_MODELS - verify configuration!");
+                workitem = null;
+                return;
+            }
+
             workitem = systemWorkitemService.init(model, Integer.parseInt(task));
-            // workflowController.setWorkitem(workitem);
+            // set initial uniqueid
+            currentUniqueID = WorkflowKernel.generateUniqueID();
+            workitem.setItemValue(WorkflowKernel.UNIQUEID, currentUniqueID);
             events = systemWorkitemService.getEvents();
         } else {
             logger.warning("ANONYMOUS_FORMS_ENABLED=false!");
@@ -134,6 +158,14 @@ public class AnonymousFormController implements Serializable {
     public String process() {
         String actionResult = "completed";
         if (enabled) {
+
+            // verify if we are still in same workitem
+            if (currentUniqueID == null || currentUniqueID.isBlank()
+                    || !currentUniqueID.equals(workitem.getUniqueID())) {
+                logger.warning("Failed to process - unknown uniqueid!");
+                return "";
+            }
+
             try {
                 workitem = systemWorkitemService.processWorkItem(workitem);
                 actionResult = workitem.getItemValueString("action");
