@@ -83,7 +83,7 @@ public class AnonymousFormController implements Serializable {
     boolean enabled;
 
     @Inject
-    @ConfigProperty(name = "anonymous.forms.models", defaultValue = "")
+    @ConfigProperty(name = "anonymous.forms.models", defaultValue = "- no models -")
     String models;
 
     @Inject
@@ -179,10 +179,12 @@ public class AnonymousFormController implements Serializable {
 
             } catch (PluginException pe) {
                 actionResult = null;
+                workitem.removeItem("action");
                 // add a new FacesMessage into the FacesContext
                 ErrorHandler.handlePluginException(pe);
             } catch (ModelException me) {
                 actionResult = null;
+                workitem.removeItem("action");
                 // add a new FacesMessage into the FacesContext
                 ErrorHandler.handleModelException(me);
             }
@@ -204,7 +206,7 @@ public class AnonymousFormController implements Serializable {
             }
         }
 
-        logger.info("Result = " + actionResult);
+        logger.info("Final Result = " + actionResult);
         return actionResult;
     }
 

@@ -88,41 +88,41 @@ public class ValidationController implements Serializable {
 
     public boolean isRequired() throws PluginException, ModelException {
         required = false;
-        if (workflowController != null && workflowController.getWorkitem() != null
-                && loginController.isAuthenticated()) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext ec = context.getExternalContext();
+        Map<String, String[]> paramValues = ec.getRequestParameterValuesMap();
 
-            FacesContext context = FacesContext.getCurrentInstance();
+        // test if we find a imixs_workflow_eventid_
+        for (String id : paramValues.keySet()) {
+            int eventPos = id.indexOf(":imixs_workflow_eventid_");
+            if (eventPos > -1) {
+                // we have an event triggered - so required defaults to 'true'
+                required = true;
 
-            ExternalContext ec = context.getExternalContext();
-            Map<String, String[]> paramValues = ec.getRequestParameterValuesMap();
+                // The model validation rules can only be evaluated for an authenticated
+                // user with a workitem managed by the WorkflowController. This is not the
+                // case for anonymous forms - here required stays 'true'.
+                if (workflowController == null || workflowController.getWorkitem() == null
+                        || !loginController.isAuthenticated()) {
+                    break;
+                }
 
-            // test if we find a imixs_workflow_eventid_
-            for (String id : paramValues.keySet()) {
-                int eventPos = id.indexOf(":imixs_workflow_eventid_");
-                if (eventPos > -1) {
-                    // we have an event triggered - so required defaults to 'true'
-                    required = true;
-                    // extract the event id from the h:commandButton id
-                    String eventid = id.substring(eventPos + 24);
-                    if (eventid != null && !eventid.isEmpty()) {
-                        // fetch model event.....
-                        List<ItemCollection> eventList = null;
-                        eventList = workflowController.getEvents();
-                        for (ItemCollection event : eventList) {
-                            if (eventid.equals(event.getItemValueString("numactivityid"))) {
-                                logger.finest("......evaluate validation rule for event " + eventid);
-                                // we found the corresponding event.
-                                // evaluate the workflow result....
-                                ItemCollection evalItemCollection = workflowService.evalWorkflowResult(event,
-                                        "validation", workflowController.getWorkitem());
-                                if (evalItemCollection != null) {
-                                    // evaluate the validation rules...
-                                    if (!evalItemCollection.getItemValueBoolean("required")) {
-                                        logger.finest("validation: event=" + eventid + " required=false");
-                                        required = false;
-                                        break;
-                                    }
-                                }
+                // extract the event id from the h:commandButton id
+                String eventid = id.substring(eventPos + 24);
+                if (eventid != null && !eventid.isEmpty()) {
+                    // fetch model event.....
+                    List<ItemCollection> eventList = workflowController.getEvents();
+                    for (ItemCollection event : eventList) {
+                        if (eventid.equals(event.getItemValueString("numactivityid"))) {
+                            logger.finest("......evaluate validation rule for event " + eventid);
+                            // we found the corresponding event - evaluate the workflow result....
+                            ItemCollection evalItemCollection = workflowService.evalWorkflowResult(event,
+                                    "validation", workflowController.getWorkitem());
+                            if (evalItemCollection != null
+                                    && !evalItemCollection.getItemValueBoolean("required")) {
+                                logger.finest("validation: event=" + eventid + " required=false");
+                                required = false;
+                                break;
                             }
                         }
                     }
