@@ -311,4 +311,93 @@ public class SequenceNumberTest {
 		Assertions.assertEquals("00000000000000000002", seqn.getNextDigit());
 	}
 
+	// =========== tests for counter in front of a date tag (bug: '</date1')
+	// ===========
+
+	@Test
+	public void testDateTagAtEnd() {
+		// Counter in front, date tag at the end - this pattern broke the date tag
+		// before
+		SequenceNumber seqn = sequenceService.new SequenceNumber("750-<date>YYYY</date>");
+
+		Assertions.assertEquals("750", seqn.getDigit());
+		Assertions.assertEquals("751", seqn.getNextDigit());
+		Assertions.assertEquals("", seqn.getPrafix());
+		Assertions.assertEquals("-<date>YYYY</date>", seqn.getSuffix());
+
+		int currentYear = LocalDate.now().getYear();
+		Assertions.assertEquals("750-" + currentYear, seqn.getNextSequenceNumber());
+		Assertions.assertEquals("751-<date>YYYY</date>", seqn.getNextDev());
+	}
+
+	@Test
+	public void testDateTagAtEndMultipleRuns() {
+		// Simulate several runs - the date tag must survive each iteration
+		String def = "750-<date>YYYY</date>";
+		int currentYear = LocalDate.now().getYear();
+
+		for (int i = 0; i < 3; i++) {
+			SequenceNumber seqn = sequenceService.new SequenceNumber(def);
+			Assertions.assertEquals((750 + i) + "-" + currentYear, seqn.getNextSequenceNumber());
+			def = seqn.getNextDev();
+		}
+		Assertions.assertEquals("753-<date>YYYY</date>", def);
+	}
+
+	@Test
+	public void testCounterBetweenDateTags() {
+		// Counter surrounded by date tags
+		SequenceNumber seqn = sequenceService.new SequenceNumber("<date>YYYY</date>-0001-<date>MM</date>");
+
+		Assertions.assertEquals("0001", seqn.getDigit());
+		Assertions.assertEquals("0002", seqn.getNextDigit());
+		Assertions.assertEquals("<date>YYYY</date>-", seqn.getPrafix());
+		Assertions.assertEquals("-<date>MM</date>", seqn.getSuffix());
+
+		LocalDate now = LocalDate.now();
+		String expected = String.format("%04d-0001-%02d", now.getYear(), now.getMonthValue());
+		Assertions.assertEquals(expected, seqn.getNextSequenceNumber());
+		Assertions.assertEquals("<date>YYYY</date>-0002-<date>MM</date>", seqn.getNextDev());
+	}
+
+	@Test
+	public void testDateTagAtEndLeadingZeros() {
+		// Leading zeros must be kept, overflow must extend the number
+		SequenceNumber seqn = sequenceService.new SequenceNumber("0099-<date>YY</date>");
+		Assertions.assertEquals("0100-<date>YY</date>", seqn.getNextDev());
+
+		seqn = sequenceService.new SequenceNumber("999-<date>YY</date>");
+		Assertions.assertEquals("1000-<date>YY</date>", seqn.getNextDev());
+	}
+
+	@Test
+	public void testDigitsInsideDateTagAreIgnored() {
+		// Digits in the date pattern must never be used as counter
+		SequenceNumber seqn = sequenceService.new SequenceNumber("A12<date>YYYY</date>");
+
+		Assertions.assertEquals("12", seqn.getDigit());
+		Assertions.assertEquals("A", seqn.getPrafix());
+		Assertions.assertEquals("<date>YYYY</date>", seqn.getSuffix());
+		Assertions.assertEquals("A13<date>YYYY</date>", seqn.getNextDev());
+	}
+
+	@Test
+	public void testNoCounterOnlyDateTag() {
+		// No counter at all - a new counter is appended, the date tag stays valid
+		SequenceNumber seqn = sequenceService.new SequenceNumber("INV-<date>YYYY</date>");
+
+		Assertions.assertEquals("", seqn.getDigit());
+		Assertions.assertEquals("1", seqn.getNextDigit());
+		Assertions.assertEquals("INV-" + LocalDate.now().getYear(), seqn.getNextSequenceNumber());
+		Assertions.assertEquals("INV-<date>YYYY</date>1", seqn.getNextDev());
+	}
+
+	@Test
+	public void testNoCounterPlainText() {
+		// Plain text without digits
+		SequenceNumber seqn = sequenceService.new SequenceNumber("INV-");
+
+		Assertions.assertEquals("INV-1", seqn.getNextDev());
+		Assertions.assertEquals("", seqn.getSuffix());
+	}
 }

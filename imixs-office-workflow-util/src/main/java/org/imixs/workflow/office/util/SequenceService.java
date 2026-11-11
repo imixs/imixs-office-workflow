@@ -31,8 +31,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.imixs.workflow.ItemCollection;
 import org.imixs.workflow.WorkflowKernel;
@@ -81,6 +84,8 @@ public class SequenceService {
 
     public static final String ITEM_SEQUENCENUMBER = "sequencenumber";
     public static final String ITEM_SEQUENCENUMBER_DEPRECATED = "numsequencenumber";
+    // Matches date tags like <date>YYYY</date>
+    private static final Pattern DATE_TAG_PATTERN = Pattern.compile("<date>.*?</date>");
 
     private static Logger logger = Logger.getLogger(SequenceService.class.getName());
 
@@ -220,6 +225,8 @@ public class SequenceService {
      */
     public class SequenceNumber {
 
+        private String suffix = "";
+
         private String digit = "";
         private String nextDigit = "";
         private String prafix = "";
@@ -228,29 +235,48 @@ public class SequenceService {
 
         public SequenceNumber(String def) {
             super();
-            // find the number part (we expect the number at the end
-            for (int i = def.length() - 1; i >= 0; i--) {
-                if (Character.isDigit(def.charAt(i))) {
-                    digit = def.charAt(i) + digit;
-                } else {
-                    // no more number digits (see also issue #501)
+
+            // Mask all date tags so that their content is never interpreted as the counter
+            // part
+            char[] masked = def.toCharArray();
+            Matcher matcher = DATE_TAG_PATTERN.matcher(def);
+            while (matcher.find()) {
+                Arrays.fill(masked, matcher.start(), matcher.end(), '#');
+            }
+
+            // Find the last block of digits outside of any date tag
+            int end = -1;
+            for (int i = masked.length - 1; i >= 0; i--) {
+                if (Character.isDigit(masked[i])) {
+                    end = i + 1;
                     break;
                 }
             }
-            if (digit.isBlank()) {
-                digit = "0";
-            }
-            prafix = def.substring(0, def.length() - digit.length());
 
-            // now we compute the next absolute number
-            long l = Long.parseLong(digit);
+            if (end > -1) {
+                int start = end;
+                while (start > 0 && Character.isDigit(masked[start - 1])) {
+                    start--;
+                }
+                prafix = def.substring(0, start);
+                digit = def.substring(start, end);
+                suffix = def.substring(end);
+            } else {
+                // No counter found - start with 1 and append it to the definition
+                prafix = def;
+                digit = "";
+                suffix = "";
+            }
+
+            // Compute the next absolute number
+            long l = digit.isEmpty() ? 0 : Long.parseLong(digit);
             nextDigit = "" + (l + 1);
-            // fill leading zeros..
+            // Fill leading zeros
             while (nextDigit.length() < digit.length()) {
                 nextDigit = "0" + nextDigit;
             }
 
-            nextDev = prafix + nextDigit;
+            nextDev = prafix + nextDigit + suffix;
 
             // compute next sequence number with modern date API
             nextSequenceNumber = def;
@@ -314,6 +340,9 @@ public class SequenceService {
             return nextDev;
         }
 
+        public String getSuffix() {
+            return suffix;
+        }
     }
 
 }
