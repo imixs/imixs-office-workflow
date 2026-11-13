@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright The WildFly Authors
+  ~ SPDX-License-Identifier: Apache-2.0
+  -->
+<!-- Represents the EclipseLink module  -->
+<module name="org.eclipse.persistence" xmlns="urn:jboss:module:1.9">
+    <properties>
+        <property name="jboss.api" value="public" />
+    </properties>
+
+    <resources>
+        <resource-root path="jipijapa-eclipselink-39.0.1.Final.jar" />
+        <!-- EclipseLink 4.0.x (Jakarta Persistence 3.1) -->
+        <resource-root path="eclipselink.jar" />
+    </resources>
+
+    <dependencies>
+        <!-- Additional modules required by EclipseLink -->
+        <module name="java.xml" />
+        <module name="java.rmi" />
+        <module name="java.desktop" />
+        <!-- Original WildFly dependencies -->
+        <module name="java.logging" />
+        <module name="java.management" />
+        <module name="java.naming" />
+        <module name="jakarta.annotation.api" />
+        <module name="jakarta.enterprise.api" />
+        <module name="jakarta.json.api" optional="true" />
+        <module name="jakarta.persistence.api" />
+        <module name="jakarta.transaction.api" />
+        <module name="jakarta.validation.api" />
+        <module name="jakarta.xml.bind.api" />
+        <module name="org.antlr" />
+        <module name="org.jboss.as.jpa.spi" />
+        <module name="org.jboss.logging" />
+        <module name="org.jboss.vfs" />
+    </dependencies>
+</module>

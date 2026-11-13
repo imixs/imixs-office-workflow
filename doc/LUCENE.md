@@ -4,11 +4,11 @@ Imixs-Office-Workflow uses the standard Lucene Search feature provided by Imixs-
 
 The configuration can be done by the following imixs.properties entries:
 
-    lucence.indexDir=${imixs-office.IndexDir}
-    index.fields=txtsearchstring,txtSubject,txtname,txtEmail,txtUserName,namCreator,txtworkflowgroup,txtworkflowstatus,txtWorkflowAbstract,txtWorkflowSummary,txtworkflowhistory,txtspacename,txtprocessname,_subject,_description,_name,_projectnumber,_projectname,_ordernumber,_contractnumber,datDueDate,txtcommentlog,comment.log,htmldescription,htmldocumentation,_childitems
-    index.fields.analyze=txtUsername
-    index.fields.noanalyze=type,$UniqueIDRef,$created,$modified,$ModelVersion,namCreator,$ProcessID,datDate,txtWorkflowGroup,txtemail, datdate, datfrom, datto, numsequencenumber
-    index.fields.store=process.name,txtProcessName,txtWorkflowImageURL
+    index.direictory=${imixs-office.IndexDir}
+    index.fields=project.name,project.description
+    index.fields.analyze=project.date
+    index.fields.noanalyze=project.id
+    index.fields.store=process.name
 
 ## office.search.noanalyze
 
