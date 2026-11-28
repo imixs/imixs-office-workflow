@@ -9,7 +9,6 @@
 		<f:viewAction action="#{workflowController.onLoad()}" if="#{not empty param.id}" />
 		<f:viewAction action="#{spaceController.create(param.parent)}" if="#{empty param.id}" />
 	</f:metadata>
-
 	<ui:define name="content">
 		<f:view>
 			<h:form id="space_form_id">
@@ -163,7 +162,7 @@
 					<!-- form-body end -->
 
 					<ui:include src="/pages/admin/sub_footer.xhtml">
-						<ui:param name="action" value="/pages/admin/organisation" />
+						<ui:param name="action" value="home" />
 					</ui:include>
 
 				</div>

@@ -9,6 +9,9 @@
 		<script type="text/javascript">
 			/*<![CDATA[*/
 
+			// set navigation cookie
+			document.cookie = "imixs.office.navigation=/pages/admin/spaces.xhtml;path=#{facesContext.externalContext.requestContextPath}/";
+
 			// The following code is used to layout the tables with the jquery datatable plugin.
 			$(document).ready(function () {
 				updateTableLayout();
@@ -21,7 +24,6 @@
 			}
 
 			function updateTableLayout() {
-
 				$('[id$=spacetable]').each(function () {
 					// with the following line we test if the jsf datatable realy contains data 
 					// in cases with empty rows on default column is displayed.
